@@ -403,6 +403,14 @@ export const getSearchJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchJob",
+  iam: {
+    actions: ["backup-search:GetSearchJob"],
+    resources: {
+      "backup-search:GetSearchJob": [
+        "arn:${Partition}:backup-search:${Region}:${Account}:search-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSearchJob",
 }));
@@ -427,6 +435,14 @@ export const getSearchResultExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchResultExportJob",
+  iam: {
+    actions: ["backup-search:GetSearchResultExportJob"],
+    resources: {
+      "backup-search:GetSearchResultExportJob": [
+        "arn:${Partition}:backup-search:${Region}:${Account}:search-export-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSearchResultExportJob",
 }));
@@ -458,6 +474,14 @@ export const listSearchJobBackups: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["backup-search:ListSearchJobBackups"],
+    resources: {
+      "backup-search:ListSearchJobBackups": [
+        "arn:${Partition}:backup-search:${Region}:${Account}:search-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSearchJobBackups",
 })) as any;
@@ -485,6 +509,14 @@ export const listSearchJobResults: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["backup-search:ListSearchJobResults"],
+    resources: {
+      "backup-search:ListSearchJobResults": [
+        "arn:${Partition}:backup-search:${Region}:${Account}:search-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSearchJobResults",
 })) as any;
@@ -512,6 +544,7 @@ export const listSearchJobs: API.PaginatedOperationMethod<
     items: "SearchJobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup-search:ListSearchJobs"] },
   telemetry: TELEMETRY,
   span: "ListSearchJobs",
 })) as any;
@@ -542,6 +575,7 @@ export const listSearchResultExportJobs: API.PaginatedOperationMethod<
     items: "ExportJobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup-search:ListSearchResultExportJobs"] },
   telemetry: TELEMETRY,
   span: "ListSearchResultExportJobs",
 })) as any;
@@ -562,6 +596,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["backup-search:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -588,6 +623,10 @@ export const startSearchJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchJob",
+  iam: {
+    actions: ["backup-search:StartSearchJob", "backup-search:TagResource"],
+    conditional: { "backup-search:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartSearchJob",
 }));
@@ -612,6 +651,20 @@ export const startSearchResultExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchResultExportJob",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "backup-search:StartSearchResultExportJob",
+      "backup-search:TagResource",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "backup-search:StartSearchResultExportJob": [
+        "arn:${Partition}:backup-search:${Region}:${Account}:search-job/${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleArn", "backup-search:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartSearchResultExportJob",
 }));
@@ -634,6 +687,14 @@ export const stopSearchJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSearchJob",
+  iam: {
+    actions: ["backup-search:StopSearchJob"],
+    resources: {
+      "backup-search:StopSearchJob": [
+        "arn:${Partition}:backup-search:${Region}:${Account}:search-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopSearchJob",
 }));
@@ -654,6 +715,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["backup-search:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -674,6 +736,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["backup-search:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

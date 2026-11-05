@@ -2504,6 +2504,14 @@ export const associateKmsKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateKmsKey",
+  iam: {
+    actions: ["logs:AssociateKmsKey"],
+    resources: {
+      "logs:AssociateKmsKey": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateKmsKey",
 }));
@@ -2538,6 +2546,7 @@ export const associateSourceToS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceToS3TableIntegration",
+  iam: { actions: ["logs:AssociateSourceToS3TableIntegration"] },
   telemetry: TELEMETRY,
   span: "AssociateSourceToS3TableIntegration",
 }));
@@ -2570,6 +2579,7 @@ export const cancelExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportTask",
+  iam: { actions: ["logs:CancelExportTask"] },
   telemetry: TELEMETRY,
   span: "CancelExportTask",
 }));
@@ -2602,6 +2612,7 @@ export const cancelImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImportTask",
+  iam: { actions: ["logs:CancelImportTask"] },
   telemetry: TELEMETRY,
   span: "CancelImportTask",
 }));
@@ -2667,6 +2678,17 @@ export const createDelivery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDelivery",
+  iam: {
+    actions: ["logs:CreateDelivery", "logs:TagResource"],
+    resources: {
+      "logs:CreateDelivery": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery:${DeliveryName}",
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-source:${DeliverySourceName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDelivery",
 }));
@@ -2728,6 +2750,14 @@ export const createExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExportTask",
+  iam: {
+    actions: ["logs:CreateExportTask"],
+    resources: {
+      "logs:CreateExportTask": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateExportTask",
 }));
@@ -2798,6 +2828,10 @@ export const createImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImportTask",
+  iam: {
+    actions: ["logs:CreateImportTask", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateImportTask",
 }));
@@ -2857,6 +2891,15 @@ export const createLogAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogAnomalyDetector",
+  iam: {
+    actions: ["logs:CreateLogAnomalyDetector", "logs:TagResource"],
+    resources: {
+      "logs:CreateLogAnomalyDetector": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLogAnomalyDetector",
 }));
@@ -2919,6 +2962,16 @@ export const createLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogGroup",
+  iam: {
+    actions: ["logs:CreateLogGroup", "logs:TagLogGroup", "logs:TagResource"],
+    resources: {
+      "logs:CreateLogGroup": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:TagLogGroup": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+    conditional: { "logs:TagLogGroup": "tags", "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLogGroup",
 }));
@@ -2963,6 +3016,14 @@ export const createLogStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogStream",
+  iam: {
+    actions: ["logs:CreateLogStream"],
+    resources: {
+      "logs:CreateLogStream": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLogStream",
 }));
@@ -3004,6 +3065,18 @@ export const createLookupTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLookupTable",
+  iam: {
+    actions: ["logs:CreateLookupTable", "logs:GetQueryResults", "logs:TagResource"],
+    resources: {
+      "logs:CreateLookupTable": [
+        "arn:${Partition}:logs:${Region}:${Account}:lookup-table:${LookupTableName}",
+      ],
+      "logs:GetQueryResults": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLookupTable",
 }));
@@ -3043,6 +3116,16 @@ export const createScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledQuery",
+  iam: {
+    actions: ["logs:CreateScheduledQuery", "iam:PassRole", "logs:TagResource"],
+    resources: {
+      "logs:CreateScheduledQuery": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateScheduledQuery",
 }));
@@ -3102,6 +3185,30 @@ export const deleteAccountPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountPolicy",
+  iam: {
+    actions: [
+      "logs:DeleteAccountPolicy",
+      "logs:DeleteDataProtectionPolicy",
+      "logs:DeleteIndexPolicy",
+      "logs:DeleteRetentionPolicy",
+      "logs:DeleteSubscriptionFilter",
+      "logs:DeleteTransformer",
+    ],
+    resources: {
+      "logs:DeleteDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:DeleteRetentionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:DeleteSubscriptionFilter": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:DeleteTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccountPolicy",
 }));
@@ -3134,6 +3241,14 @@ export const deleteDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataProtectionPolicy",
+  iam: {
+    actions: ["logs:DeleteDataProtectionPolicy"],
+    resources: {
+      "logs:DeleteDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataProtectionPolicy",
 }));
@@ -3172,6 +3287,14 @@ export const deleteDelivery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDelivery",
+  iam: {
+    actions: ["logs:DeleteDelivery"],
+    resources: {
+      "logs:DeleteDelivery": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery:${DeliveryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDelivery",
 }));
@@ -3212,6 +3335,14 @@ export const deleteDeliveryDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryDestination",
+  iam: {
+    actions: ["logs:DeleteDeliveryDestination"],
+    resources: {
+      "logs:DeleteDeliveryDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeliveryDestination",
 }));
@@ -3243,6 +3374,14 @@ export const deleteDeliveryDestinationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryDestinationPolicy",
+  iam: {
+    actions: ["logs:DeleteDeliveryDestinationPolicy"],
+    resources: {
+      "logs:DeleteDeliveryDestinationPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeliveryDestinationPolicy",
 }));
@@ -3283,6 +3422,14 @@ export const deleteDeliverySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliverySource",
+  iam: {
+    actions: ["logs:DeleteDeliverySource"],
+    resources: {
+      "logs:DeleteDeliverySource": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeliverySource",
 }));
@@ -3315,6 +3462,14 @@ export const deleteDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDestination",
+  iam: {
+    actions: ["logs:DeleteDestination"],
+    resources: {
+      "logs:DeleteDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:destination:${DestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDestination",
 }));
@@ -3361,6 +3516,7 @@ export const deleteIndexPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndexPolicy",
+  iam: { actions: ["logs:DeleteIndexPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteIndexPolicy",
 }));
@@ -3396,6 +3552,7 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  iam: { actions: ["logs:DeleteIntegration"] },
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
 }));
@@ -3426,6 +3583,14 @@ export const deleteLogAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogAnomalyDetector",
+  iam: {
+    actions: ["logs:DeleteLogAnomalyDetector"],
+    resources: {
+      "logs:DeleteLogAnomalyDetector": [
+        "arn:${Partition}:logs:${Region}:${Account}:anomaly-detector:${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLogAnomalyDetector",
 }));
@@ -3459,6 +3624,14 @@ export const deleteLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogGroup",
+  iam: {
+    actions: ["logs:DeleteLogGroup"],
+    resources: {
+      "logs:DeleteLogGroup": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLogGroup",
 }));
@@ -3492,6 +3665,14 @@ export const deleteLogStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogStream",
+  iam: {
+    actions: ["logs:DeleteLogStream"],
+    resources: {
+      "logs:DeleteLogStream": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLogStream",
 }));
@@ -3525,6 +3706,14 @@ export const deleteLookupTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLookupTable",
+  iam: {
+    actions: ["logs:DeleteLookupTable"],
+    resources: {
+      "logs:DeleteLookupTable": [
+        "arn:${Partition}:logs:${Region}:${Account}:lookup-table:${LookupTableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLookupTable",
 }));
@@ -3555,6 +3744,14 @@ export const deleteMetricFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricFilter",
+  iam: {
+    actions: ["logs:DeleteMetricFilter"],
+    resources: {
+      "logs:DeleteMetricFilter": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMetricFilter",
 }));
@@ -3585,6 +3782,7 @@ export const deleteQueryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueryDefinition",
+  iam: { actions: ["logs:DeleteQueryDefinition"] },
   telemetry: TELEMETRY,
   span: "DeleteQueryDefinition",
 }));
@@ -3616,6 +3814,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["logs:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -3649,6 +3848,14 @@ export const deleteRetentionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetentionPolicy",
+  iam: {
+    actions: ["logs:DeleteRetentionPolicy"],
+    resources: {
+      "logs:DeleteRetentionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRetentionPolicy",
 }));
@@ -3682,6 +3889,14 @@ export const deleteScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledQuery",
+  iam: {
+    actions: ["logs:DeleteScheduledQuery"],
+    resources: {
+      "logs:DeleteScheduledQuery": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteScheduledQuery",
 }));
@@ -3712,6 +3927,14 @@ export const deleteSubscriptionFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionFilter",
+  iam: {
+    actions: ["logs:DeleteSubscriptionFilter"],
+    resources: {
+      "logs:DeleteSubscriptionFilter": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSubscriptionFilter",
 }));
@@ -3749,6 +3972,14 @@ export const deleteSyslogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSyslogConfiguration",
+  iam: {
+    actions: ["logs:DeleteSyslogConfiguration"],
+    resources: {
+      "logs:DeleteSyslogConfiguration": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSyslogConfiguration",
 }));
@@ -3787,6 +4018,14 @@ export const deleteTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransformer",
+  iam: {
+    actions: ["logs:DeleteTransformer"],
+    resources: {
+      "logs:DeleteTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransformer",
 }));
@@ -3834,6 +4073,7 @@ export const describeAccountPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountPolicies",
+  iam: { actions: ["logs:DescribeAccountPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountPolicies",
 }));
@@ -3873,6 +4113,7 @@ export const describeConfigurationTemplates: API.PaginatedOperationMethod<
     items: "configurationTemplates",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeConfigurationTemplates"] },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationTemplates",
 })) as any;
@@ -3922,6 +4163,7 @@ export const describeDeliveries: API.PaginatedOperationMethod<
     items: "deliveries",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeDeliveries"] },
   telemetry: TELEMETRY,
   span: "DescribeDeliveries",
 })) as any;
@@ -3960,6 +4202,7 @@ export const describeDeliveryDestinations: API.PaginatedOperationMethod<
     items: "deliveryDestinations",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeDeliveryDestinations"] },
   telemetry: TELEMETRY,
   span: "DescribeDeliveryDestinations",
 })) as any;
@@ -3997,6 +4240,7 @@ export const describeDeliverySources: API.PaginatedOperationMethod<
     items: "deliverySources",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeDeliverySources"] },
   telemetry: TELEMETRY,
   span: "DescribeDeliverySources",
 })) as any;
@@ -4028,6 +4272,7 @@ export const describeDestinations: API.PaginatedOperationMethod<
     items: "destinations",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeDestinations"] },
   telemetry: TELEMETRY,
   span: "DescribeDestinations",
 })) as any;
@@ -4052,6 +4297,7 @@ export const describeExportTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExportTasks",
+  iam: { actions: ["logs:DescribeExportTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeExportTasks",
 }));
@@ -4088,6 +4334,7 @@ export const describeFieldIndexes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFieldIndexes",
+  iam: { actions: ["logs:DescribeFieldIndexes"] },
   telemetry: TELEMETRY,
   span: "DescribeFieldIndexes",
 }));
@@ -4121,6 +4368,7 @@ export const describeImportTaskBatches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImportTaskBatches",
+  iam: { actions: ["logs:DescribeImportTaskBatches"] },
   telemetry: TELEMETRY,
   span: "DescribeImportTaskBatches",
 }));
@@ -4153,6 +4401,7 @@ export const describeImportTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImportTasks",
+  iam: { actions: ["logs:DescribeImportTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeImportTasks",
 }));
@@ -4194,6 +4443,7 @@ export const describeIndexPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIndexPolicies",
+  iam: { actions: ["logs:DescribeIndexPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeIndexPolicies",
 }));
@@ -4240,6 +4490,7 @@ export const describeLogGroups: API.PaginatedOperationMethod<
     items: "logGroups",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeLogGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeLogGroups",
 })) as any;
@@ -4283,6 +4534,14 @@ export const describeLogStreams: API.PaginatedOperationMethod<
     items: "logStreams",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["logs:DescribeLogStreams"],
+    resources: {
+      "logs:DescribeLogStreams": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeLogStreams",
 })) as any;
@@ -4314,6 +4573,7 @@ export const describeLookupTables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLookupTables",
+  iam: { actions: ["logs:DescribeLookupTables"] },
   telemetry: TELEMETRY,
   span: "DescribeLookupTables",
 }));
@@ -4347,6 +4607,14 @@ export const describeMetricFilters: API.PaginatedOperationMethod<
     items: "metricFilters",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["logs:DescribeMetricFilters"],
+    resources: {
+      "logs:DescribeMetricFilters": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMetricFilters",
 })) as any;
@@ -4378,6 +4646,14 @@ export const describeQueries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQueries",
+  iam: {
+    actions: ["logs:DescribeQueries", "logs:FilterLogEvents"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeQueries",
 }));
@@ -4406,6 +4682,7 @@ export const describeQueryDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQueryDefinitions",
+  iam: { actions: ["logs:DescribeQueryDefinitions"] },
   telemetry: TELEMETRY,
   span: "DescribeQueryDefinitions",
 }));
@@ -4429,6 +4706,7 @@ export const describeResourcePolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicies",
+  iam: { actions: ["logs:DescribeResourcePolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeResourcePolicies",
 }));
@@ -4462,6 +4740,14 @@ export const describeSubscriptionFilters: API.PaginatedOperationMethod<
     items: "subscriptionFilters",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["logs:DescribeSubscriptionFilters"],
+    resources: {
+      "logs:DescribeSubscriptionFilters": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSubscriptionFilters",
 })) as any;
@@ -4512,6 +4798,14 @@ export const disassociateKmsKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateKmsKey",
+  iam: {
+    actions: ["logs:DisassociateKmsKey"],
+    resources: {
+      "logs:DisassociateKmsKey": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateKmsKey",
 }));
@@ -4545,6 +4839,7 @@ export const disassociateSourceFromS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceFromS3TableIntegration",
+  iam: { actions: ["logs:DisassociateSourceFromS3TableIntegration"] },
   telemetry: TELEMETRY,
   span: "DisassociateSourceFromS3TableIntegration",
 }));
@@ -4617,6 +4912,15 @@ export const filterLogEvents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "FilterLogEvents",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "limit" } as const,
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:Unmask"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "FilterLogEvents",
 })) as any;
@@ -4647,6 +4951,14 @@ export const getDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProtectionPolicy",
+  iam: {
+    actions: ["logs:GetDataProtectionPolicy"],
+    resources: {
+      "logs:GetDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataProtectionPolicy",
 }));
@@ -4693,6 +5005,12 @@ export const getDelivery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelivery",
+  iam: {
+    actions: ["logs:GetDelivery"],
+    resources: {
+      "logs:GetDelivery": ["arn:${Partition}:logs:${Region}:${Account}:delivery:${DeliveryName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDelivery",
 }));
@@ -4725,6 +5043,14 @@ export const getDeliveryDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeliveryDestination",
+  iam: {
+    actions: ["logs:GetDeliveryDestination"],
+    resources: {
+      "logs:GetDeliveryDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeliveryDestination",
 }));
@@ -4750,6 +5076,14 @@ export const getDeliveryDestinationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeliveryDestinationPolicy",
+  iam: {
+    actions: ["logs:GetDeliveryDestinationPolicy"],
+    resources: {
+      "logs:GetDeliveryDestinationPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeliveryDestinationPolicy",
 }));
@@ -4782,6 +5116,14 @@ export const getDeliverySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeliverySource",
+  iam: {
+    actions: ["logs:GetDeliverySource"],
+    resources: {
+      "logs:GetDeliverySource": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-source:${DeliverySourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeliverySource",
 }));
@@ -4806,6 +5148,7 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
+  iam: { actions: ["logs:GetIntegration"] },
   telemetry: TELEMETRY,
   span: "GetIntegration",
 }));
@@ -4836,6 +5179,14 @@ export const getLogAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogAnomalyDetector",
+  iam: {
+    actions: ["logs:GetLogAnomalyDetector"],
+    resources: {
+      "logs:GetLogAnomalyDetector": [
+        "arn:${Partition}:logs:${Region}:${Account}:anomaly-detector:${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLogAnomalyDetector",
 }));
@@ -4899,6 +5250,15 @@ export const getLogEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["logs:GetLogEvents", "logs:Unmask"],
+    resources: {
+      "logs:GetLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}",
+      ],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLogEvents",
 })) as any;
@@ -4930,6 +5290,7 @@ export const getLogFields: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogFields",
+  iam: { actions: ["logs:GetLogFields"] },
   telemetry: TELEMETRY,
   span: "GetLogFields",
 }));
@@ -4981,6 +5342,17 @@ export const getLogGroupFields: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogGroupFields",
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:GetLogGroupFields"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:GetLogGroupFields": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLogGroupFields",
 }));
@@ -5063,6 +5435,16 @@ export const getLogRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogRecord",
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:GetLogRecord", "logs:Unmask"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:GetLogRecord": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLogRecord",
 }));
@@ -5093,6 +5475,14 @@ export const getLookupTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLookupTable",
+  iam: {
+    actions: ["logs:GetLookupTable"],
+    resources: {
+      "logs:GetLookupTable": [
+        "arn:${Partition}:logs:${Region}:${Account}:lookup-table:${LookupTableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLookupTable",
 }));
@@ -5144,6 +5534,18 @@ export const getQueryResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryResults",
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:GetQueryResults", "logs:Unmask"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:GetQueryResults": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueryResults",
 }));
@@ -5177,6 +5579,14 @@ export const getScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScheduledQuery",
+  iam: {
+    actions: ["logs:GetScheduledQuery"],
+    resources: {
+      "logs:GetScheduledQuery": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetScheduledQuery",
 }));
@@ -5217,6 +5627,14 @@ export const getScheduledQueryHistory: API.PaginatedOperationMethod<
     items: "triggerHistory",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["logs:GetScheduledQueryHistory"],
+    resources: {
+      "logs:GetScheduledQueryHistory": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetScheduledQueryHistory",
 })) as any;
@@ -5249,6 +5667,7 @@ export const getStorageTierPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStorageTierPolicy",
+  iam: { actions: ["logs:GetStorageTierPolicy"] },
   telemetry: TELEMETRY,
   span: "GetStorageTierPolicy",
 }));
@@ -5282,6 +5701,14 @@ export const getTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransformer",
+  iam: {
+    actions: ["logs:GetTransformer"],
+    resources: {
+      "logs:GetTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransformer",
 }));
@@ -5324,6 +5751,7 @@ export const listAggregateLogGroupSummaries: API.PaginatedOperationMethod<
     items: "aggregateLogGroupSummaries",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:ListAggregateLogGroupSummaries"] },
   telemetry: TELEMETRY,
   span: "ListAggregateLogGroupSummaries",
 })) as any;
@@ -5363,6 +5791,7 @@ export const listAnomalies: API.PaginatedOperationMethod<
     items: "anomalies",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:ListAnomalies"] },
   telemetry: TELEMETRY,
   span: "ListAnomalies",
 })) as any;
@@ -5388,6 +5817,7 @@ export const listIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIntegrations",
+  iam: { actions: ["logs:ListIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListIntegrations",
 }));
@@ -5425,6 +5855,7 @@ export const listLogAnomalyDetectors: API.PaginatedOperationMethod<
     items: "anomalyDetectors",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:ListLogAnomalyDetectors"] },
   telemetry: TELEMETRY,
   span: "ListLogAnomalyDetectors",
 })) as any;
@@ -5459,6 +5890,7 @@ export const listLogGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLogGroups",
+  iam: { actions: ["logs:DescribeLogGroups", "logs:ListLogGroups"] },
   telemetry: TELEMETRY,
   span: "ListLogGroups",
 }));
@@ -5502,6 +5934,7 @@ export const listLogGroupsForQuery: API.PaginatedOperationMethod<
     items: "logGroupIdentifiers",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["logs:ListLogGroupsForQuery"] },
   telemetry: TELEMETRY,
   span: "ListLogGroupsForQuery",
 })) as any;
@@ -5540,6 +5973,7 @@ export const listScheduledQueries: API.PaginatedOperationMethod<
     items: "scheduledQueries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["logs:ListScheduledQueries"] },
   telemetry: TELEMETRY,
   span: "ListScheduledQueries",
 })) as any;
@@ -5580,6 +6014,7 @@ export const listSourcesForS3TableIntegration: API.PaginatedOperationMethod<
     items: "sources",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["logs:ListSourcesForS3TableIntegration"] },
   telemetry: TELEMETRY,
   span: "ListSourcesForS3TableIntegration",
 })) as any;
@@ -5615,6 +6050,7 @@ export const listSyslogConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSyslogConfigurations",
+  iam: { actions: ["logs:ListSyslogConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListSyslogConfigurations",
 }));
@@ -5640,6 +6076,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["logs:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5666,6 +6103,14 @@ export const listTagsLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsLogGroup",
+  iam: {
+    actions: ["logs:ListTagsLogGroup"],
+    resources: {
+      "logs:ListTagsLogGroup": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsLogGroup",
 }));
@@ -6050,6 +6495,30 @@ export const putAccountPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountPolicy",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "logs:PutAccountPolicy",
+      "logs:PutDataProtectionPolicy",
+      "logs:PutIndexPolicy",
+      "logs:PutRetentionPolicy",
+      "logs:PutSubscriptionFilter",
+      "logs:PutTransformer",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "logs:PutDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:PutRetentionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:PutTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "PutAccountPolicy",
 }));
@@ -6088,6 +6557,14 @@ export const putBearerTokenAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBearerTokenAuthentication",
+  iam: {
+    actions: ["logs:PutBearerTokenAuthentication"],
+    resources: {
+      "logs:PutBearerTokenAuthentication": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutBearerTokenAuthentication",
 }));
@@ -6143,6 +6620,14 @@ export const putDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataProtectionPolicy",
+  iam: {
+    actions: ["logs:PutDataProtectionPolicy"],
+    resources: {
+      "logs:PutDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDataProtectionPolicy",
 }));
@@ -6210,6 +6695,15 @@ export const putDeliveryDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliveryDestination",
+  iam: {
+    actions: ["logs:PutDeliveryDestination", "logs:TagResource"],
+    resources: {
+      "logs:PutDeliveryDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutDeliveryDestination",
 }));
@@ -6263,6 +6757,14 @@ export const putDeliveryDestinationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliveryDestinationPolicy",
+  iam: {
+    actions: ["logs:PutDeliveryDestinationPolicy"],
+    resources: {
+      "logs:PutDeliveryDestinationPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDeliveryDestinationPolicy",
 }));
@@ -6326,6 +6828,15 @@ export const putDeliverySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliverySource",
+  iam: {
+    actions: ["logs:PutDeliverySource", "logs:TagResource"],
+    resources: {
+      "logs:PutDeliverySource": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-source:${DeliverySourceName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutDeliverySource",
 }));
@@ -6363,6 +6874,16 @@ export const putDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDestination",
+  iam: {
+    actions: ["iam:PassRole", "logs:PutDestination", "logs:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "logs:PutDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:destination:${DestinationName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutDestination",
 }));
@@ -6390,6 +6911,14 @@ export const putDestinationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDestinationPolicy",
+  iam: {
+    actions: ["logs:PutDestinationPolicy"],
+    resources: {
+      "logs:PutDestinationPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:destination:${DestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDestinationPolicy",
 }));
@@ -6482,6 +7011,7 @@ export const putIndexPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIndexPolicy",
+  iam: { actions: ["logs:PutIndexPolicy"] },
   telemetry: TELEMETRY,
   span: "PutIndexPolicy",
 }));
@@ -6521,6 +7051,7 @@ export const putIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegration",
+  iam: { actions: ["logs:PutIntegration"] },
   telemetry: TELEMETRY,
   span: "PutIntegration",
 }));
@@ -6595,6 +7126,14 @@ export const putLogEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLogEvents",
+  iam: {
+    actions: ["logs:PutLogEvents"],
+    resources: {
+      "logs:PutLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutLogEvents",
 }));
@@ -6633,6 +7172,14 @@ export const putLogGroupDeletionProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLogGroupDeletionProtection",
+  iam: {
+    actions: ["logs:PutLogGroupDeletionProtection"],
+    resources: {
+      "logs:PutLogGroupDeletionProtection": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutLogGroupDeletionProtection",
 }));
@@ -6693,6 +7240,14 @@ export const putMetricFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricFilter",
+  iam: {
+    actions: ["logs:PutMetricFilter"],
+    resources: {
+      "logs:PutMetricFilter": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutMetricFilter",
 }));
@@ -6735,6 +7290,7 @@ export const putQueryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutQueryDefinition",
+  iam: { actions: ["logs:PutQueryDefinition"] },
   telemetry: TELEMETRY,
   span: "PutQueryDefinition",
 }));
@@ -6784,6 +7340,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["logs:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -6834,6 +7391,14 @@ export const putRetentionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionPolicy",
+  iam: {
+    actions: ["logs:PutRetentionPolicy"],
+    resources: {
+      "logs:PutRetentionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRetentionPolicy",
 }));
@@ -6868,6 +7433,7 @@ export const putStorageTierPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutStorageTierPolicy",
+  iam: { actions: ["logs:PutStorageTierPolicy"] },
   telemetry: TELEMETRY,
   span: "PutStorageTierPolicy",
 }));
@@ -6934,6 +7500,11 @@ export const putSubscriptionFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSubscriptionFilter",
+  iam: {
+    actions: ["iam:PassRole", "logs:PutSubscriptionFilter"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "PutSubscriptionFilter",
 }));
@@ -6971,6 +7542,14 @@ export const putSyslogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSyslogConfiguration",
+  iam: {
+    actions: ["logs:PutSyslogConfiguration"],
+    resources: {
+      "logs:PutSyslogConfiguration": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSyslogConfiguration",
 }));
@@ -7035,6 +7614,14 @@ export const putTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTransformer",
+  iam: {
+    actions: ["logs:PutTransformer"],
+    resources: {
+      "logs:PutTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutTransformer",
 }));
@@ -7110,6 +7697,14 @@ export const startLiveTail: API.OperationMethod<
   retry: Retry,
   operationName: "StartLiveTail",
   endpointHostPrefix: "stream-",
+  iam: {
+    actions: ["logs:StartLiveTail"],
+    resources: {
+      "logs:StartLiveTail": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartLiveTail",
 }));
@@ -7187,6 +7782,22 @@ export const startQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuery",
+  iam: {
+    actions: [
+      "logs:DescribeLogGroups",
+      "logs:DescribeQueryDefinitions",
+      "logs:FilterLogEvents",
+      "logs:StartQuery",
+      "logs:Unmask",
+    ],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:StartQuery": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartQuery",
 }));
@@ -7218,6 +7829,14 @@ export const stopQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQuery",
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:StopQuery"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopQuery",
 }));
@@ -7253,6 +7872,12 @@ export const tagLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagLogGroup",
+  iam: {
+    actions: ["logs:TagLogGroup"],
+    resources: {
+      "logs:TagLogGroup": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagLogGroup",
 }));
@@ -7299,6 +7924,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["logs:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -7323,6 +7949,7 @@ export const testMetricFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestMetricFilter",
+  iam: { actions: ["logs:TestMetricFilter"] },
   telemetry: TELEMETRY,
   span: "TestMetricFilter",
 }));
@@ -7349,6 +7976,7 @@ export const testTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestTransformer",
+  iam: { actions: ["logs:TestTransformer"] },
   telemetry: TELEMETRY,
   span: "TestTransformer",
 }));
@@ -7378,6 +8006,14 @@ export const untagLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagLogGroup",
+  iam: {
+    actions: ["logs:UntagLogGroup"],
+    resources: {
+      "logs:UntagLogGroup": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagLogGroup",
 }));
@@ -7402,6 +8038,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["logs:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -7443,6 +8080,14 @@ export const updateAnomaly: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnomaly",
+  iam: {
+    actions: ["logs:UpdateAnomaly"],
+    resources: {
+      "logs:UpdateAnomaly": [
+        "arn:${Partition}:logs:${Region}:${Account}:anomaly-detector:${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnomaly",
 }));
@@ -7479,6 +8124,16 @@ export const updateDeliveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeliveryConfiguration",
+  iam: {
+    actions: ["logs:UpdateDeliveryConfiguration"],
+    resources: {
+      "logs:UpdateDeliveryConfiguration": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery:${DeliveryName}",
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-source:${DeliverySourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDeliveryConfiguration",
 }));
@@ -7509,6 +8164,14 @@ export const updateLogAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLogAnomalyDetector",
+  iam: {
+    actions: ["logs:UpdateLogAnomalyDetector"],
+    resources: {
+      "logs:UpdateLogAnomalyDetector": [
+        "arn:${Partition}:logs:${Region}:${Account}:anomaly-detector:${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLogAnomalyDetector",
 }));
@@ -7546,6 +8209,17 @@ export const updateLookupTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLookupTable",
+  iam: {
+    actions: ["logs:GetQueryResults", "logs:UpdateLookupTable"],
+    resources: {
+      "logs:GetQueryResults": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:UpdateLookupTable": [
+        "arn:${Partition}:logs:${Region}:${Account}:lookup-table:${LookupTableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLookupTable",
 }));
@@ -7581,6 +8255,15 @@ export const updateScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledQuery",
+  iam: {
+    actions: ["iam:PassRole", "logs:UpdateScheduledQuery"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "logs:UpdateScheduledQuery": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateScheduledQuery",
 }));

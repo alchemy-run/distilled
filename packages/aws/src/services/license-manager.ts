@@ -1433,6 +1433,14 @@ export const acceptGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptGrant",
+  iam: {
+    actions: ["license-manager:AcceptGrant"],
+    resources: {
+      "license-manager:AcceptGrant": [
+        "arn:${Partition}:license-manager::${Account}:grant:${GrantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptGrant",
 }));
@@ -1471,6 +1479,7 @@ export const checkInLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckInLicense",
+  iam: { actions: ["license-manager:CheckInLicense"] },
   telemetry: TELEMETRY,
   span: "CheckInLicense",
 }));
@@ -1515,6 +1524,14 @@ export const checkoutBorrowLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckoutBorrowLicense",
+  iam: {
+    actions: ["license-manager:CheckoutBorrowLicense"],
+    resources: {
+      "license-manager:CheckoutBorrowLicense": [
+        "arn:${Partition}:license-manager::${Account}:license:${LicenseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CheckoutBorrowLicense",
 }));
@@ -1560,6 +1577,7 @@ export const checkoutLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckoutLicense",
+  iam: { actions: ["license-manager:CheckoutLicense"] },
   telemetry: TELEMETRY,
   span: "CheckoutLicense",
 }));
@@ -1614,6 +1632,15 @@ export const createGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGrant",
+  iam: {
+    actions: ["license-manager:CreateGrant", "license-manager:TagResource"],
+    resources: {
+      "license-manager:CreateGrant": [
+        "arn:${Partition}:license-manager::${Account}:license:${LicenseId}",
+      ],
+    },
+    conditional: { "license-manager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGrant",
 }));
@@ -1651,6 +1678,14 @@ export const createGrantVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGrantVersion",
+  iam: {
+    actions: ["license-manager:CreateGrantVersion"],
+    resources: {
+      "license-manager:CreateGrantVersion": [
+        "arn:${Partition}:license-manager::${Account}:grant:${GrantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGrantVersion",
 }));
@@ -1687,6 +1722,10 @@ export const createLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicense",
+  iam: {
+    actions: ["license-manager:CreateLicense", "license-manager:TagResource"],
+    conditional: { "license-manager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLicense",
 }));
@@ -1721,6 +1760,15 @@ export const createLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseAssetGroup",
+  iam: {
+    actions: ["license-manager:CreateLicenseAssetGroup", "license-manager:TagResource"],
+    resources: {
+      "license-manager:CreateLicenseAssetGroup": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-asset-ruleset:${LicenseAssetRulesetId}",
+      ],
+    },
+    conditional: { "license-manager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLicenseAssetGroup",
 }));
@@ -1755,6 +1803,10 @@ export const createLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseAssetRuleset",
+  iam: {
+    actions: ["license-manager:CreateLicenseAssetRuleset", "license-manager:TagResource"],
+    conditional: { "license-manager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLicenseAssetRuleset",
 }));
@@ -1795,6 +1847,10 @@ export const createLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseConfiguration",
+  iam: {
+    actions: ["license-manager:CreateLicenseConfiguration", "license-manager:TagResource"],
+    conditional: { "license-manager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLicenseConfiguration",
 }));
@@ -1829,6 +1885,7 @@ export const createLicenseConversionTaskForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseConversionTaskForResource",
+  iam: { actions: ["license-manager:CreateLicenseConversionTaskForResource"] },
   telemetry: TELEMETRY,
   span: "CreateLicenseConversionTaskForResource",
 }));
@@ -1867,6 +1924,10 @@ export const createLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseManagerReportGenerator",
+  iam: {
+    actions: ["license-manager:CreateLicenseManagerReportGenerator", "license-manager:TagResource"],
+    conditional: { "license-manager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLicenseManagerReportGenerator",
 }));
@@ -1905,6 +1966,14 @@ export const createLicenseVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseVersion",
+  iam: {
+    actions: ["license-manager:CreateLicenseVersion"],
+    resources: {
+      "license-manager:CreateLicenseVersion": [
+        "arn:${Partition}:license-manager::${Account}:license:${LicenseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLicenseVersion",
 }));
@@ -1947,6 +2016,14 @@ export const createToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateToken",
+  iam: {
+    actions: ["license-manager:CreateToken"],
+    resources: {
+      "license-manager:CreateToken": [
+        "arn:${Partition}:license-manager::${Account}:license:${LicenseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateToken",
 }));
@@ -1983,6 +2060,14 @@ export const deleteGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGrant",
+  iam: {
+    actions: ["license-manager:DeleteGrant"],
+    resources: {
+      "license-manager:DeleteGrant": [
+        "arn:${Partition}:license-manager::${Account}:grant:${GrantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGrant",
 }));
@@ -2021,6 +2106,14 @@ export const deleteLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicense",
+  iam: {
+    actions: ["license-manager:DeleteLicense"],
+    resources: {
+      "license-manager:DeleteLicense": [
+        "arn:${Partition}:license-manager::${Account}:license:${LicenseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLicense",
 }));
@@ -2055,6 +2148,14 @@ export const deleteLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseAssetGroup",
+  iam: {
+    actions: ["license-manager:DeleteLicenseAssetGroup"],
+    resources: {
+      "license-manager:DeleteLicenseAssetGroup": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-asset-group:${LicenseAssetGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLicenseAssetGroup",
 }));
@@ -2089,6 +2190,14 @@ export const deleteLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseAssetRuleset",
+  iam: {
+    actions: ["license-manager:DeleteLicenseAssetRuleset"],
+    resources: {
+      "license-manager:DeleteLicenseAssetRuleset": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-asset-ruleset:${LicenseAssetRulesetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLicenseAssetRuleset",
 }));
@@ -2125,6 +2234,14 @@ export const deleteLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseConfiguration",
+  iam: {
+    actions: ["license-manager:DeleteLicenseConfiguration"],
+    resources: {
+      "license-manager:DeleteLicenseConfiguration": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-configuration:${LicenseConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLicenseConfiguration",
 }));
@@ -2166,6 +2283,14 @@ export const deleteLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseManagerReportGenerator",
+  iam: {
+    actions: ["license-manager:DeleteLicenseManagerReportGenerator"],
+    resources: {
+      "license-manager:DeleteLicenseManagerReportGenerator": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:report-generator:${ReportGeneratorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLicenseManagerReportGenerator",
 }));
@@ -2202,6 +2327,7 @@ export const deleteToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteToken",
+  iam: { actions: ["license-manager:DeleteToken"] },
   telemetry: TELEMETRY,
   span: "DeleteToken",
 }));
@@ -2238,6 +2364,7 @@ export const extendLicenseConsumption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExtendLicenseConsumption",
+  iam: { actions: ["license-manager:ExtendLicenseConsumption"] },
   telemetry: TELEMETRY,
   span: "ExtendLicenseConsumption",
 }));
@@ -2273,6 +2400,7 @@ export const getAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessToken",
+  iam: { actions: ["license-manager:GetAccessToken"] },
   telemetry: TELEMETRY,
   span: "GetAccessToken",
 }));
@@ -2311,6 +2439,12 @@ export const getGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGrant",
+  iam: {
+    actions: ["license-manager:GetGrant"],
+    resources: {
+      "license-manager:GetGrant": ["arn:${Partition}:license-manager::${Account}:grant:${GrantId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGrant",
 }));
@@ -2347,6 +2481,14 @@ export const getLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicense",
+  iam: {
+    actions: ["license-manager:GetLicense"],
+    resources: {
+      "license-manager:GetLicense": [
+        "arn:${Partition}:license-manager::${Account}:license:${LicenseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLicense",
 }));
@@ -2381,6 +2523,14 @@ export const getLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseAssetGroup",
+  iam: {
+    actions: ["license-manager:GetLicenseAssetGroup"],
+    resources: {
+      "license-manager:GetLicenseAssetGroup": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-asset-group:${LicenseAssetGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLicenseAssetGroup",
 }));
@@ -2415,6 +2565,14 @@ export const getLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseAssetRuleset",
+  iam: {
+    actions: ["license-manager:GetLicenseAssetRuleset"],
+    resources: {
+      "license-manager:GetLicenseAssetRuleset": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-asset-ruleset:${LicenseAssetRulesetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLicenseAssetRuleset",
 }));
@@ -2449,6 +2607,14 @@ export const getLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseConfiguration",
+  iam: {
+    actions: ["license-manager:GetLicenseConfiguration"],
+    resources: {
+      "license-manager:GetLicenseConfiguration": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-configuration:${LicenseConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLicenseConfiguration",
 }));
@@ -2481,6 +2647,7 @@ export const getLicenseConversionTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseConversionTask",
+  iam: { actions: ["license-manager:GetLicenseConversionTask"] },
   telemetry: TELEMETRY,
   span: "GetLicenseConversionTask",
 }));
@@ -2519,6 +2686,14 @@ export const getLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseManagerReportGenerator",
+  iam: {
+    actions: ["license-manager:GetLicenseManagerReportGenerator"],
+    resources: {
+      "license-manager:GetLicenseManagerReportGenerator": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:report-generator:${ReportGeneratorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLicenseManagerReportGenerator",
 }));
@@ -2553,6 +2728,14 @@ export const getLicenseUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseUsage",
+  iam: {
+    actions: ["license-manager:GetLicenseUsage"],
+    resources: {
+      "license-manager:GetLicenseUsage": [
+        "arn:${Partition}:license-manager::${Account}:license:${LicenseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLicenseUsage",
 }));
@@ -2583,6 +2766,7 @@ export const getServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
+  iam: { actions: ["license-manager:GetServiceSettings"] },
   telemetry: TELEMETRY,
   span: "GetServiceSettings",
 }));
@@ -2617,6 +2801,14 @@ export const listAssetsForLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssetsForLicenseAssetGroup",
+  iam: {
+    actions: ["license-manager:ListAssetsForLicenseAssetGroup"],
+    resources: {
+      "license-manager:ListAssetsForLicenseAssetGroup": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-asset-group:${LicenseAssetGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetsForLicenseAssetGroup",
 }));
@@ -2655,6 +2847,14 @@ export const listAssociationsForLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociationsForLicenseConfiguration",
+  iam: {
+    actions: ["license-manager:ListAssociationsForLicenseConfiguration"],
+    resources: {
+      "license-manager:ListAssociationsForLicenseConfiguration": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-configuration:${LicenseConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociationsForLicenseConfiguration",
 }));
@@ -2691,6 +2891,7 @@ export const listDistributedGrants: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributedGrants",
+  iam: { actions: ["license-manager:ListDistributedGrants"] },
   telemetry: TELEMETRY,
   span: "ListDistributedGrants",
 }));
@@ -2731,6 +2932,14 @@ export const listFailuresForLicenseConfigurationOperations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFailuresForLicenseConfigurationOperations",
+  iam: {
+    actions: ["license-manager:ListFailuresForLicenseConfigurationOperations"],
+    resources: {
+      "license-manager:ListFailuresForLicenseConfigurationOperations": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-configuration:${LicenseConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFailuresForLicenseConfigurationOperations",
 }));
@@ -2765,6 +2974,7 @@ export const listLicenseAssetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseAssetGroups",
+  iam: { actions: ["license-manager:ListLicenseAssetGroups"] },
   telemetry: TELEMETRY,
   span: "ListLicenseAssetGroups",
 }));
@@ -2799,6 +3009,7 @@ export const listLicenseAssetRulesets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseAssetRulesets",
+  iam: { actions: ["license-manager:ListLicenseAssetRulesets"] },
   telemetry: TELEMETRY,
   span: "ListLicenseAssetRulesets",
 }));
@@ -2833,6 +3044,7 @@ export const listLicenseConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseConfigurations",
+  iam: { actions: ["license-manager:ListLicenseConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListLicenseConfigurations",
 }));
@@ -2867,6 +3079,7 @@ export const listLicenseConfigurationsForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseConfigurationsForOrganization",
+  iam: { actions: ["license-manager:ListLicenseConfigurationsForOrganization"] },
   telemetry: TELEMETRY,
   span: "ListLicenseConfigurationsForOrganization",
 }));
@@ -2899,6 +3112,7 @@ export const listLicenseConversionTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseConversionTasks",
+  iam: { actions: ["license-manager:ListLicenseConversionTasks"] },
   telemetry: TELEMETRY,
   span: "ListLicenseConversionTasks",
 }));
@@ -2937,6 +3151,7 @@ export const listLicenseManagerReportGenerators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseManagerReportGenerators",
+  iam: { actions: ["license-manager:ListLicenseManagerReportGenerators"] },
   telemetry: TELEMETRY,
   span: "ListLicenseManagerReportGenerators",
 }));
@@ -2971,6 +3186,7 @@ export const listLicenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenses",
+  iam: { actions: ["license-manager:ListLicenses"] },
   telemetry: TELEMETRY,
   span: "ListLicenses",
 }));
@@ -3003,6 +3219,7 @@ export const listLicenseSpecificationsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseSpecificationsForResource",
+  iam: { actions: ["license-manager:ListLicenseSpecificationsForResource"] },
   telemetry: TELEMETRY,
   span: "ListLicenseSpecificationsForResource",
 }));
@@ -3035,6 +3252,14 @@ export const listLicenseVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseVersions",
+  iam: {
+    actions: ["license-manager:ListLicenseVersions"],
+    resources: {
+      "license-manager:ListLicenseVersions": [
+        "arn:${Partition}:license-manager::${Account}:license:${LicenseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLicenseVersions",
 }));
@@ -3073,6 +3298,7 @@ export const listReceivedGrants: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedGrants",
+  iam: { actions: ["license-manager:ListReceivedGrants"] },
   telemetry: TELEMETRY,
   span: "ListReceivedGrants",
 }));
@@ -3109,6 +3335,7 @@ export const listReceivedGrantsForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedGrantsForOrganization",
+  iam: { actions: ["license-manager:ListReceivedGrantsForOrganization"] },
   telemetry: TELEMETRY,
   span: "ListReceivedGrantsForOrganization",
 }));
@@ -3145,6 +3372,7 @@ export const listReceivedLicenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedLicenses",
+  iam: { actions: ["license-manager:ListReceivedLicenses"] },
   telemetry: TELEMETRY,
   span: "ListReceivedLicenses",
 }));
@@ -3181,6 +3409,7 @@ export const listReceivedLicensesForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedLicensesForOrganization",
+  iam: { actions: ["license-manager:ListReceivedLicensesForOrganization"] },
   telemetry: TELEMETRY,
   span: "ListReceivedLicensesForOrganization",
 }));
@@ -3217,6 +3446,7 @@ export const listResourceInventory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceInventory",
+  iam: { actions: ["license-manager:ListResourceInventory"] },
   telemetry: TELEMETRY,
   span: "ListResourceInventory",
 }));
@@ -3252,6 +3482,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["license-manager:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3284,6 +3515,7 @@ export const listTokens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTokens",
+  iam: { actions: ["license-manager:ListTokens"] },
   telemetry: TELEMETRY,
   span: "ListTokens",
 }));
@@ -3320,6 +3552,14 @@ export const listUsageForLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsageForLicenseConfiguration",
+  iam: {
+    actions: ["license-manager:ListUsageForLicenseConfiguration"],
+    resources: {
+      "license-manager:ListUsageForLicenseConfiguration": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-configuration:${LicenseConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUsageForLicenseConfiguration",
 }));
@@ -3356,6 +3596,14 @@ export const rejectGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectGrant",
+  iam: {
+    actions: ["license-manager:RejectGrant"],
+    resources: {
+      "license-manager:RejectGrant": [
+        "arn:${Partition}:license-manager::${Account}:grant:${GrantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectGrant",
 }));
@@ -3399,6 +3647,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["license-manager:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3433,6 +3682,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["license-manager:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3467,6 +3717,15 @@ export const updateLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseAssetGroup",
+  iam: {
+    actions: ["license-manager:UpdateLicenseAssetGroup"],
+    resources: {
+      "license-manager:UpdateLicenseAssetGroup": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-asset-group:${LicenseAssetGroupId}",
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-asset-ruleset:${LicenseAssetRulesetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLicenseAssetGroup",
 }));
@@ -3501,6 +3760,14 @@ export const updateLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseAssetRuleset",
+  iam: {
+    actions: ["license-manager:UpdateLicenseAssetRuleset"],
+    resources: {
+      "license-manager:UpdateLicenseAssetRuleset": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-asset-ruleset:${LicenseAssetRulesetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLicenseAssetRuleset",
 }));
@@ -3539,6 +3806,14 @@ export const updateLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseConfiguration",
+  iam: {
+    actions: ["license-manager:UpdateLicenseConfiguration"],
+    resources: {
+      "license-manager:UpdateLicenseConfiguration": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-configuration:${LicenseConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLicenseConfiguration",
 }));
@@ -3579,6 +3854,14 @@ export const updateLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseManagerReportGenerator",
+  iam: {
+    actions: ["license-manager:UpdateLicenseManagerReportGenerator"],
+    resources: {
+      "license-manager:UpdateLicenseManagerReportGenerator": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:report-generator:${ReportGeneratorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLicenseManagerReportGenerator",
 }));
@@ -3621,6 +3904,14 @@ export const updateLicenseSpecificationsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseSpecificationsForResource",
+  iam: {
+    actions: ["license-manager:UpdateLicenseSpecificationsForResource"],
+    resources: {
+      "license-manager:UpdateLicenseSpecificationsForResource": [
+        "arn:${Partition}:license-manager:${Region}:${Account}:license-configuration:${LicenseConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLicenseSpecificationsForResource",
 }));
@@ -3657,6 +3948,7 @@ export const updateServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSettings",
+  iam: { actions: ["license-manager:UpdateServiceSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateServiceSettings",
 }));

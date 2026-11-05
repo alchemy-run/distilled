@@ -16,7 +16,9 @@
         {
           "name": "SnapshotVolumeNotFound",
           "from": "BadRequest",
-          "message": { "includes": "volume was not found" }
+          "message": {
+            "includes": "volume was not found"
+          }
         }
       ]
     },
@@ -25,16 +27,26 @@
         {
           "name": "RestoreSnapshotNotFound",
           "from": "BadRequest",
-          "message": { "includes": "snapshot cannot be found" }
+          "message": {
+            "includes": "snapshot cannot be found"
+          }
         }
-      ]
+      ],
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:fsx:${Region}:${Account}:snapshot/*/*, arn:${Partition}:fsx:${Region}:${Account}:volume/*/*), the call was denied live in the FSx Bindings suite; the grant stays on *.",
+        "resources": {
+          "fsx:RestoreVolumeFromSnapshot": "*"
+        }
+      }
     },
     "updateSnapshot": {
       "syntheticErrors": [
         {
           "name": "UpdateSnapshotNotFound",
           "from": "BadRequest",
-          "message": { "includes": "the snapshot is not found" }
+          "message": {
+            "includes": "the snapshot is not found"
+          }
         }
       ]
     }

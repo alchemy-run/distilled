@@ -852,6 +852,15 @@ export const associateWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWhatsAppBusinessAccount",
+  iam: {
+    actions: [
+      "social-messaging:AssociateWhatsAppBusinessAccount",
+      "iam:PassRole",
+      "social-messaging:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateWhatsAppBusinessAccount",
 }));
@@ -886,6 +895,14 @@ export const createWhatsAppDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppDataset",
+  iam: {
+    actions: ["social-messaging:CreateWhatsAppDataset"],
+    resources: {
+      "social-messaging:CreateWhatsAppDataset": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWhatsAppDataset",
 }));
@@ -922,6 +939,14 @@ export const createWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppFlow",
+  iam: {
+    actions: ["social-messaging:CreateWhatsAppFlow"],
+    resources: {
+      "social-messaging:CreateWhatsAppFlow": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWhatsAppFlow",
 }));
@@ -958,6 +983,14 @@ export const createWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppMessageTemplate",
+  iam: {
+    actions: ["social-messaging:CreateWhatsAppMessageTemplate"],
+    resources: {
+      "social-messaging:CreateWhatsAppMessageTemplate": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWhatsAppMessageTemplate",
 }));
@@ -992,6 +1025,14 @@ export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppMessageTemplateFromLibrary",
+  iam: {
+    actions: ["social-messaging:CreateWhatsAppMessageTemplateFromLibrary"],
+    resources: {
+      "social-messaging:CreateWhatsAppMessageTemplateFromLibrary": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWhatsAppMessageTemplateFromLibrary",
 }));
@@ -1026,6 +1067,14 @@ export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppMessageTemplateMedia",
+  iam: {
+    actions: ["social-messaging:CreateWhatsAppMessageTemplateMedia"],
+    resources: {
+      "social-messaging:CreateWhatsAppMessageTemplateMedia": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWhatsAppMessageTemplateMedia",
 }));
@@ -1060,6 +1109,14 @@ export const deleteWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatsAppFlow",
+  iam: {
+    actions: ["social-messaging:DeleteWhatsAppFlow"],
+    resources: {
+      "social-messaging:DeleteWhatsAppFlow": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWhatsAppFlow",
 }));
@@ -1094,6 +1151,14 @@ export const deleteWhatsAppMessageMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatsAppMessageMedia",
+  iam: {
+    actions: ["social-messaging:DeleteWhatsAppMessageMedia"],
+    resources: {
+      "social-messaging:DeleteWhatsAppMessageMedia": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWhatsAppMessageMedia",
 }));
@@ -1128,6 +1193,14 @@ export const deleteWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatsAppMessageTemplate",
+  iam: {
+    actions: ["social-messaging:DeleteWhatsAppMessageTemplate"],
+    resources: {
+      "social-messaging:DeleteWhatsAppMessageTemplate": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWhatsAppMessageTemplate",
 }));
@@ -1162,6 +1235,14 @@ export const deprecateWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateWhatsAppFlow",
+  iam: {
+    actions: ["social-messaging:DeprecateWhatsAppFlow"],
+    resources: {
+      "social-messaging:DeprecateWhatsAppFlow": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeprecateWhatsAppFlow",
 }));
@@ -1192,6 +1273,14 @@ export const disassociateWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWhatsAppBusinessAccount",
+  iam: {
+    actions: ["social-messaging:DisassociateWhatsAppBusinessAccount"],
+    resources: {
+      "social-messaging:DisassociateWhatsAppBusinessAccount": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateWhatsAppBusinessAccount",
 }));
@@ -1224,6 +1313,14 @@ export const getLinkedWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkedWhatsAppBusinessAccount",
+  iam: {
+    actions: ["social-messaging:GetLinkedWhatsAppBusinessAccount"],
+    resources: {
+      "social-messaging:GetLinkedWhatsAppBusinessAccount": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLinkedWhatsAppBusinessAccount",
 }));
@@ -1256,6 +1353,14 @@ export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkedWhatsAppBusinessAccountPhoneNumber",
+  iam: {
+    actions: ["social-messaging:GetLinkedWhatsAppBusinessAccountPhoneNumber"],
+    resources: {
+      "social-messaging:GetLinkedWhatsAppBusinessAccountPhoneNumber": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLinkedWhatsAppBusinessAccountPhoneNumber",
 }));
@@ -1292,6 +1397,14 @@ export const getWhatsAppBusinessPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppBusinessPublicKey",
+  iam: {
+    actions: ["social-messaging:GetWhatsAppBusinessPublicKey"],
+    resources: {
+      "social-messaging:GetWhatsAppBusinessPublicKey": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWhatsAppBusinessPublicKey",
 }));
@@ -1326,6 +1439,14 @@ export const getWhatsAppCallPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppCallPermission",
+  iam: {
+    actions: ["social-messaging:GetWhatsAppCallPermission"],
+    resources: {
+      "social-messaging:GetWhatsAppCallPermission": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWhatsAppCallPermission",
 }));
@@ -1360,6 +1481,14 @@ export const getWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppFlow",
+  iam: {
+    actions: ["social-messaging:GetWhatsAppFlow"],
+    resources: {
+      "social-messaging:GetWhatsAppFlow": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWhatsAppFlow",
 }));
@@ -1394,6 +1523,14 @@ export const getWhatsAppFlowPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppFlowPreview",
+  iam: {
+    actions: ["social-messaging:GetWhatsAppFlowPreview"],
+    resources: {
+      "social-messaging:GetWhatsAppFlowPreview": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWhatsAppFlowPreview",
 }));
@@ -1432,6 +1569,14 @@ export const getWhatsAppMessageMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppMessageMedia",
+  iam: {
+    actions: ["social-messaging:GetWhatsAppMessageMedia"],
+    resources: {
+      "social-messaging:GetWhatsAppMessageMedia": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWhatsAppMessageMedia",
 }));
@@ -1466,6 +1611,14 @@ export const getWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppMessageTemplate",
+  iam: {
+    actions: ["social-messaging:GetWhatsAppMessageTemplate"],
+    resources: {
+      "social-messaging:GetWhatsAppMessageTemplate": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWhatsAppMessageTemplate",
 }));
@@ -1503,6 +1656,7 @@ export const listLinkedWhatsAppBusinessAccounts: API.PaginatedOperationMethod<
     items: "linkedAccounts",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["social-messaging:ListLinkedWhatsAppBusinessAccounts"] },
   telemetry: TELEMETRY,
   span: "ListLinkedWhatsAppBusinessAccounts",
 })) as any;
@@ -1527,6 +1681,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["social-messaging:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1568,6 +1723,14 @@ export const listWhatsAppFlowAssets: API.PaginatedOperationMethod<
     items: "flowAssets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["social-messaging:ListWhatsAppFlowAssets"],
+    resources: {
+      "social-messaging:ListWhatsAppFlowAssets": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWhatsAppFlowAssets",
 })) as any;
@@ -1609,6 +1772,14 @@ export const listWhatsAppFlows: API.PaginatedOperationMethod<
     items: "flows",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["social-messaging:ListWhatsAppFlows"],
+    resources: {
+      "social-messaging:ListWhatsAppFlows": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWhatsAppFlows",
 })) as any;
@@ -1650,6 +1821,14 @@ export const listWhatsAppMessageTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["social-messaging:ListWhatsAppMessageTemplates"],
+    resources: {
+      "social-messaging:ListWhatsAppMessageTemplates": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWhatsAppMessageTemplates",
 })) as any;
@@ -1691,6 +1870,14 @@ export const listWhatsAppTemplateLibrary: API.PaginatedOperationMethod<
     items: "metaLibraryTemplates",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["social-messaging:ListWhatsAppTemplateLibrary"],
+    resources: {
+      "social-messaging:ListWhatsAppTemplateLibrary": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWhatsAppTemplateLibrary",
 })) as any;
@@ -1729,6 +1916,14 @@ export const postWhatsAppMessageMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostWhatsAppMessageMedia",
+  iam: {
+    actions: ["social-messaging:PostWhatsAppMessageMedia"],
+    resources: {
+      "social-messaging:PostWhatsAppMessageMedia": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PostWhatsAppMessageMedia",
 }));
@@ -1763,6 +1958,14 @@ export const publishWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishWhatsAppFlow",
+  iam: {
+    actions: ["social-messaging:PublishWhatsAppFlow"],
+    resources: {
+      "social-messaging:PublishWhatsAppFlow": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PublishWhatsAppFlow",
 }));
@@ -1787,6 +1990,16 @@ export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWhatsAppBusinessAccountEventDestinations",
+  iam: {
+    actions: ["iam:PassRole", "social-messaging:PutWhatsAppBusinessAccountEventDestinations"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "social-messaging:PutWhatsAppBusinessAccountEventDestinations": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "PutWhatsAppBusinessAccountEventDestinations",
 }));
@@ -1823,6 +2036,14 @@ export const putWhatsAppBusinessPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWhatsAppBusinessPublicKey",
+  iam: {
+    actions: ["social-messaging:PutWhatsAppBusinessPublicKey"],
+    resources: {
+      "social-messaging:PutWhatsAppBusinessPublicKey": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutWhatsAppBusinessPublicKey",
 }));
@@ -1859,6 +2080,14 @@ export const sendWhatsAppCallEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWhatsAppCallEvent",
+  iam: {
+    actions: ["social-messaging:SendWhatsAppCallEvent"],
+    resources: {
+      "social-messaging:SendWhatsAppCallEvent": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendWhatsAppCallEvent",
 }));
@@ -1893,6 +2122,14 @@ export const sendWhatsAppConversionEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWhatsAppConversionEvent",
+  iam: {
+    actions: ["social-messaging:SendWhatsAppConversionEvent"],
+    resources: {
+      "social-messaging:SendWhatsAppConversionEvent": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendWhatsAppConversionEvent",
 }));
@@ -1931,6 +2168,14 @@ export const sendWhatsAppMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWhatsAppMessage",
+  iam: {
+    actions: ["social-messaging:SendWhatsAppMessage"],
+    resources: {
+      "social-messaging:SendWhatsAppMessage": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendWhatsAppMessage",
 }));
@@ -1956,6 +2201,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["social-messaging:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1980,6 +2226,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["social-messaging:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2018,6 +2265,14 @@ export const updateLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkedWhatsAppBusinessAccountPhoneNumber",
+  iam: {
+    actions: ["social-messaging:UpdateLinkedWhatsAppBusinessAccountPhoneNumber"],
+    resources: {
+      "social-messaging:UpdateLinkedWhatsAppBusinessAccountPhoneNumber": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:phone-number-id/${OriginationPhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLinkedWhatsAppBusinessAccountPhoneNumber",
 }));
@@ -2052,6 +2307,14 @@ export const updateWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWhatsAppFlow",
+  iam: {
+    actions: ["social-messaging:UpdateWhatsAppFlow"],
+    resources: {
+      "social-messaging:UpdateWhatsAppFlow": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWhatsAppFlow",
 }));
@@ -2086,6 +2349,14 @@ export const updateWhatsAppFlowAssets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWhatsAppFlowAssets",
+  iam: {
+    actions: ["social-messaging:UpdateWhatsAppFlowAssets"],
+    resources: {
+      "social-messaging:UpdateWhatsAppFlowAssets": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWhatsAppFlowAssets",
 }));
@@ -2120,6 +2391,14 @@ export const updateWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWhatsAppMessageTemplate",
+  iam: {
+    actions: ["social-messaging:UpdateWhatsAppMessageTemplate"],
+    resources: {
+      "social-messaging:UpdateWhatsAppMessageTemplate": [
+        "arn:${Partition}:social-messaging:${Region}:${Account}:waba/${WabaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWhatsAppMessageTemplate",
 }));

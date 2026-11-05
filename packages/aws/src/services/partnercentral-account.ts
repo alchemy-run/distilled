@@ -1004,6 +1004,14 @@ export const acceptConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptConnectionInvitation",
+  iam: {
+    actions: ["partnercentral:AcceptConnectionInvitation"],
+    resources: {
+      "partnercentral:AcceptConnectionInvitation": [
+        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/connection-invitation/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptConnectionInvitation",
 }));
@@ -1042,6 +1050,14 @@ export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAwsTrainingCertificationEmailDomain",
+  iam: {
+    actions: ["partnercentral:AssociateAwsTrainingCertificationEmailDomain"],
+    resources: {
+      "partnercentral:AssociateAwsTrainingCertificationEmailDomain": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateAwsTrainingCertificationEmailDomain",
 }));
@@ -1076,6 +1092,14 @@ export const cancelConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelConnection",
+  iam: {
+    actions: ["partnercentral:CancelConnection"],
+    resources: {
+      "partnercentral:CancelConnection": [
+        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/connection/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelConnection",
 }));
@@ -1110,6 +1134,14 @@ export const cancelConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelConnectionInvitation",
+  iam: {
+    actions: ["partnercentral:CancelConnectionInvitation"],
+    resources: {
+      "partnercentral:CancelConnectionInvitation": [
+        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/connection-invitation/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelConnectionInvitation",
 }));
@@ -1144,6 +1176,14 @@ export const cancelProfileUpdateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelProfileUpdateTask",
+  iam: {
+    actions: ["partnercentral:CancelProfileUpdateTask"],
+    resources: {
+      "partnercentral:CancelProfileUpdateTask": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelProfileUpdateTask",
 }));
@@ -1180,6 +1220,7 @@ export const createConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionInvitation",
+  iam: { actions: ["partnercentral:CreateConnectionInvitation"] },
   telemetry: TELEMETRY,
   span: "CreateConnectionInvitation",
 }));
@@ -1212,6 +1253,10 @@ export const createPartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartner",
+  iam: {
+    actions: ["partnercentral:CreatePartner", "partnercentral:TagResource"],
+    conditional: { "partnercentral:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePartner",
 }));
@@ -1252,6 +1297,14 @@ export const disassociateAwsTrainingCertificationEmailDomain: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAwsTrainingCertificationEmailDomain",
+  iam: {
+    actions: ["partnercentral:DisassociateAwsTrainingCertificationEmailDomain"],
+    resources: {
+      "partnercentral:DisassociateAwsTrainingCertificationEmailDomain": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateAwsTrainingCertificationEmailDomain",
 }));
@@ -1284,6 +1337,14 @@ export const getAllianceLeadContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAllianceLeadContact",
+  iam: {
+    actions: ["partnercentral:GetAllianceLeadContact"],
+    resources: {
+      "partnercentral:GetAllianceLeadContact": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAllianceLeadContact",
 }));
@@ -1316,6 +1377,14 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  iam: {
+    actions: ["partnercentral:GetConnection"],
+    resources: {
+      "partnercentral:GetConnection": [
+        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/connection/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnection",
 }));
@@ -1348,6 +1417,14 @@ export const getConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionInvitation",
+  iam: {
+    actions: ["partnercentral:GetConnectionInvitation"],
+    resources: {
+      "partnercentral:GetConnectionInvitation": [
+        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/connection-invitation/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnectionInvitation",
 }));
@@ -1378,6 +1455,7 @@ export const getConnectionPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionPreferences",
+  iam: { actions: ["partnercentral:GetConnectionPreferences"] },
   telemetry: TELEMETRY,
   span: "GetConnectionPreferences",
 }));
@@ -1410,6 +1488,14 @@ export const getPartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPartner",
+  iam: {
+    actions: ["partnercentral:GetPartner"],
+    resources: {
+      "partnercentral:GetPartner": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPartner",
 }));
@@ -1442,6 +1528,14 @@ export const getProfileUpdateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileUpdateTask",
+  iam: {
+    actions: ["partnercentral:GetProfileUpdateTask"],
+    resources: {
+      "partnercentral:GetProfileUpdateTask": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProfileUpdateTask",
 }));
@@ -1474,6 +1568,14 @@ export const getProfileVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileVisibility",
+  iam: {
+    actions: ["partnercentral:GetProfileVisibility"],
+    resources: {
+      "partnercentral:GetProfileVisibility": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProfileVisibility",
 }));
@@ -1506,6 +1608,14 @@ export const getQualificationsAssociationDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsAssociationDetails",
+  iam: {
+    actions: ["partnercentral:GetQualificationsAssociationDetails"],
+    resources: {
+      "partnercentral:GetQualificationsAssociationDetails": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQualificationsAssociationDetails",
 }));
@@ -1538,6 +1648,14 @@ export const getQualificationsAssociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsAssociationTask",
+  iam: {
+    actions: ["partnercentral:GetQualificationsAssociationTask"],
+    resources: {
+      "partnercentral:GetQualificationsAssociationTask": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQualificationsAssociationTask",
 }));
@@ -1570,6 +1688,14 @@ export const getQualificationsDisassociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsDisassociationTask",
+  iam: {
+    actions: ["partnercentral:GetQualificationsDisassociationTask"],
+    resources: {
+      "partnercentral:GetQualificationsDisassociationTask": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQualificationsDisassociationTask",
 }));
@@ -1602,6 +1728,7 @@ export const getVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVerification",
+  iam: { actions: ["partnercentral:GetVerification"] },
   telemetry: TELEMETRY,
   span: "GetVerification",
 }));
@@ -1639,6 +1766,7 @@ export const listConnectionInvitations: API.PaginatedOperationMethod<
     items: "ConnectionInvitationSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["partnercentral:ListConnectionInvitations"] },
   telemetry: TELEMETRY,
   span: "ListConnectionInvitations",
 })) as any;
@@ -1676,6 +1804,7 @@ export const listConnections: API.PaginatedOperationMethod<
     items: "ConnectionSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["partnercentral:ListConnections"] },
   telemetry: TELEMETRY,
   span: "ListConnections",
 })) as any;
@@ -1712,6 +1841,7 @@ export const listPartners: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PartnerSummaryList",
   } as const,
+  iam: { actions: ["partnercentral:ListPartners"] },
   telemetry: TELEMETRY,
   span: "ListPartners",
 })) as any;
@@ -1744,6 +1874,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["partnercentral:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1776,6 +1907,14 @@ export const putAllianceLeadContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAllianceLeadContact",
+  iam: {
+    actions: ["partnercentral:PutAllianceLeadContact"],
+    resources: {
+      "partnercentral:PutAllianceLeadContact": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAllianceLeadContact",
 }));
@@ -1810,6 +1949,14 @@ export const putProfileVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileVisibility",
+  iam: {
+    actions: ["partnercentral:PutProfileVisibility"],
+    resources: {
+      "partnercentral:PutProfileVisibility": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutProfileVisibility",
 }));
@@ -1844,6 +1991,14 @@ export const rejectConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectConnectionInvitation",
+  iam: {
+    actions: ["partnercentral:RejectConnectionInvitation"],
+    resources: {
+      "partnercentral:RejectConnectionInvitation": [
+        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/connection-invitation/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectConnectionInvitation",
 }));
@@ -1876,6 +2031,7 @@ export const sendEmailVerificationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEmailVerificationCode",
+  iam: { actions: ["partnercentral:SendEmailVerificationCode"] },
   telemetry: TELEMETRY,
   span: "SendEmailVerificationCode",
 }));
@@ -1912,6 +2068,14 @@ export const startProfileUpdateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProfileUpdateTask",
+  iam: {
+    actions: ["partnercentral:StartProfileUpdateTask"],
+    resources: {
+      "partnercentral:StartProfileUpdateTask": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartProfileUpdateTask",
 }));
@@ -1946,6 +2110,14 @@ export const startQualificationsAssociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQualificationsAssociationTask",
+  iam: {
+    actions: ["partnercentral:StartQualificationsAssociationTask"],
+    resources: {
+      "partnercentral:StartQualificationsAssociationTask": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartQualificationsAssociationTask",
 }));
@@ -1980,6 +2152,14 @@ export const startQualificationsDisassociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQualificationsDisassociationTask",
+  iam: {
+    actions: ["partnercentral:StartQualificationsDisassociationTask"],
+    resources: {
+      "partnercentral:StartQualificationsDisassociationTask": [
+        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/partner/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartQualificationsDisassociationTask",
 }));
@@ -2014,6 +2194,7 @@ export const startVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVerification",
+  iam: { actions: ["partnercentral:StartVerification"] },
   telemetry: TELEMETRY,
   span: "StartVerification",
 }));
@@ -2048,6 +2229,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["partnercentral:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2082,6 +2264,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["partnercentral:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2114,6 +2297,7 @@ export const updateConnectionPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionPreferences",
+  iam: { actions: ["partnercentral:UpdateConnectionPreferences"] },
   telemetry: TELEMETRY,
   span: "UpdateConnectionPreferences",
 }));

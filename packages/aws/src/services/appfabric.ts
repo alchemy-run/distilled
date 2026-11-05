@@ -566,6 +566,14 @@ export const batchGetUserAccessTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetUserAccessTasks",
+  iam: {
+    actions: ["appfabric:BatchGetUserAccessTasks"],
+    resources: {
+      "appfabric:BatchGetUserAccessTasks": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetUserAccessTasks",
 }));
@@ -599,6 +607,15 @@ export const connectAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConnectAppAuthorization",
+  iam: {
+    actions: ["appfabric:ConnectAppAuthorization"],
+    resources: {
+      "appfabric:ConnectAppAuthorization": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/appauthorization/${AppAuthorizationIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ConnectAppAuthorization",
 }));
@@ -636,6 +653,15 @@ export const createAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppAuthorization",
+  iam: {
+    actions: ["appfabric:CreateAppAuthorization", "appfabric:TagResource"],
+    resources: {
+      "appfabric:CreateAppAuthorization": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+    conditional: { "appfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppAuthorization",
 }));
@@ -670,6 +696,10 @@ export const createAppBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBundle",
+  iam: {
+    actions: ["appfabric:CreateAppBundle", "appfabric:TagResource"],
+    conditional: { "appfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppBundle",
 }));
@@ -704,6 +734,15 @@ export const createIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestion",
+  iam: {
+    actions: ["appfabric:CreateIngestion", "appfabric:TagResource"],
+    resources: {
+      "appfabric:CreateIngestion": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+    conditional: { "appfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIngestion",
 }));
@@ -739,6 +778,16 @@ export const createIngestionDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestionDestination",
+  iam: {
+    actions: ["appfabric:CreateIngestionDestination", "appfabric:TagResource"],
+    resources: {
+      "appfabric:CreateIngestionDestination": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}",
+      ],
+    },
+    conditional: { "appfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIngestionDestination",
 }));
@@ -772,6 +821,15 @@ export const deleteAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppAuthorization",
+  iam: {
+    actions: ["appfabric:DeleteAppAuthorization"],
+    resources: {
+      "appfabric:DeleteAppAuthorization": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/appauthorization/${AppAuthorizationIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAppAuthorization",
 }));
@@ -805,6 +863,14 @@ export const deleteAppBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppBundle",
+  iam: {
+    actions: ["appfabric:DeleteAppBundle"],
+    resources: {
+      "appfabric:DeleteAppBundle": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAppBundle",
 }));
@@ -838,6 +904,15 @@ export const deleteIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngestion",
+  iam: {
+    actions: ["appfabric:DeleteIngestion"],
+    resources: {
+      "appfabric:DeleteIngestion": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIngestion",
 }));
@@ -875,6 +950,16 @@ export const deleteIngestionDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngestionDestination",
+  iam: {
+    actions: ["appfabric:DeleteIngestionDestination"],
+    resources: {
+      "appfabric:DeleteIngestionDestination": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}/ingestiondestination/${IngestionDestinationIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIngestionDestination",
 }));
@@ -907,6 +992,15 @@ export const getAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppAuthorization",
+  iam: {
+    actions: ["appfabric:GetAppAuthorization"],
+    resources: {
+      "appfabric:GetAppAuthorization": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/appauthorization/${AppAuthorizationIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAppAuthorization",
 }));
@@ -939,6 +1033,14 @@ export const getAppBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppBundle",
+  iam: {
+    actions: ["appfabric:GetAppBundle"],
+    resources: {
+      "appfabric:GetAppBundle": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAppBundle",
 }));
@@ -971,6 +1073,15 @@ export const getIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestion",
+  iam: {
+    actions: ["appfabric:GetIngestion"],
+    resources: {
+      "appfabric:GetIngestion": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIngestion",
 }));
@@ -1003,6 +1114,16 @@ export const getIngestionDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestionDestination",
+  iam: {
+    actions: ["appfabric:GetIngestionDestination"],
+    resources: {
+      "appfabric:GetIngestionDestination": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}/ingestiondestination/${IngestionDestinationIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIngestionDestination",
 }));
@@ -1042,6 +1163,14 @@ export const listAppAuthorizations: API.PaginatedOperationMethod<
     items: "appAuthorizationSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["appfabric:ListAppAuthorizations"],
+    resources: {
+      "appfabric:ListAppAuthorizations": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAppAuthorizations",
 })) as any;
@@ -1079,6 +1208,7 @@ export const listAppBundles: API.PaginatedOperationMethod<
     items: "appBundleSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["appfabric:ListAppBundles"] },
   telemetry: TELEMETRY,
   span: "ListAppBundles",
 })) as any;
@@ -1118,6 +1248,15 @@ export const listIngestionDestinations: API.PaginatedOperationMethod<
     items: "ingestionDestinations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["appfabric:ListIngestionDestinations"],
+    resources: {
+      "appfabric:ListIngestionDestinations": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIngestionDestinations",
 })) as any;
@@ -1157,6 +1296,14 @@ export const listIngestions: API.PaginatedOperationMethod<
     items: "ingestions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["appfabric:ListIngestions"],
+    resources: {
+      "appfabric:ListIngestions": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIngestions",
 })) as any;
@@ -1189,6 +1336,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["appfabric:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1223,6 +1371,15 @@ export const startIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIngestion",
+  iam: {
+    actions: ["appfabric:StartIngestion"],
+    resources: {
+      "appfabric:StartIngestion": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartIngestion",
 }));
@@ -1258,6 +1415,14 @@ export const startUserAccessTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUserAccessTasks",
+  iam: {
+    actions: ["appfabric:StartUserAccessTasks"],
+    resources: {
+      "appfabric:StartUserAccessTasks": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartUserAccessTasks",
 }));
@@ -1292,6 +1457,15 @@ export const stopIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopIngestion",
+  iam: {
+    actions: ["appfabric:StopIngestion"],
+    resources: {
+      "appfabric:StopIngestion": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopIngestion",
 }));
@@ -1324,6 +1498,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["appfabric:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1356,6 +1531,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["appfabric:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1392,6 +1568,15 @@ export const updateAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppAuthorization",
+  iam: {
+    actions: ["appfabric:UpdateAppAuthorization"],
+    resources: {
+      "appfabric:UpdateAppAuthorization": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/appauthorization/${AppAuthorizationIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAppAuthorization",
 }));
@@ -1429,6 +1614,16 @@ export const updateIngestionDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngestionDestination",
+  iam: {
+    actions: ["appfabric:UpdateIngestionDestination"],
+    resources: {
+      "appfabric:UpdateIngestionDestination": [
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppBundleIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}",
+        "arn:${Partition}:appfabric:${Region}:${Account}:appbundle/${AppbundleId}/ingestion/${IngestionIdentifier}/ingestiondestination/${IngestionDestinationIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIngestionDestination",
 }));

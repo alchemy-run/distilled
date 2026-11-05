@@ -13,7 +13,11 @@
             "includes": "not supported on serverless"
           }
         }
-      ]
+      ],
+      "iam": {
+        "reason": "kafka:ListTopics: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:ListTopics"]
+      }
     },
     "createTopic": {
       "syntheticErrors": [
@@ -24,7 +28,11 @@
             "includes": "not supported on serverless"
           }
         }
-      ]
+      ],
+      "iam": {
+        "reason": "kafka:CreateTopic: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:CreateTopic"]
+      }
     },
     "deleteTopic": {
       "syntheticErrors": [
@@ -35,7 +43,11 @@
             "includes": "not supported on serverless"
           }
         }
-      ]
+      ],
+      "iam": {
+        "reason": "kafka:DeleteTopic: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:DeleteTopic"]
+      }
     },
     "describeTopic": {
       "syntheticErrors": [
@@ -46,7 +58,11 @@
             "includes": "not supported on serverless"
           }
         }
-      ]
+      ],
+      "iam": {
+        "reason": "kafka:DescribeTopic: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:DescribeTopic"]
+      }
     },
     "updateTopic": {
       "syntheticErrors": [
@@ -57,7 +73,17 @@
             "includes": "not supported on serverless"
           }
         }
-      ]
+      ],
+      "iam": {
+        "reason": "kafka:UpdateTopic: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:UpdateTopic"]
+      }
+    },
+    "describeTopicPartitions": {
+      "iam": {
+        "reason": "kafka:DescribeTopicPartitions: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:DescribeTopicPartitions"]
+      }
     }
   },
   "errorCategories": {

@@ -422,6 +422,7 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
+  iam: { actions: ["lex:DeleteSession"] },
   telemetry: TELEMETRY,
   span: "DeleteSession",
 }));
@@ -453,6 +454,7 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  iam: { actions: ["lex:GetSession"] },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -555,6 +557,7 @@ export const postContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostContent",
+  iam: { actions: ["lex:PostContent"] },
   telemetry: TELEMETRY,
   span: "PostContent",
 }));
@@ -648,6 +651,7 @@ export const postText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostText",
+  iam: { actions: ["lex:PostText"] },
   telemetry: TELEMETRY,
   span: "PostText",
 }));
@@ -691,6 +695,7 @@ export const putSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSession",
+  iam: { actions: ["lex:PutSession"] },
   telemetry: TELEMETRY,
   span: "PutSession",
 }));

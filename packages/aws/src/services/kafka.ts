@@ -2148,6 +2148,14 @@ export const batchAssociateScramSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateScramSecret",
+  iam: {
+    actions: ["kafka:BatchAssociateScramSecret"],
+    resources: {
+      "kafka:BatchAssociateScramSecret": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchAssociateScramSecret",
 }));
@@ -2184,6 +2192,14 @@ export const batchDisassociateScramSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateScramSecret",
+  iam: {
+    actions: ["kafka:BatchDisassociateScramSecret"],
+    resources: {
+      "kafka:BatchDisassociateScramSecret": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateScramSecret",
 }));
@@ -2222,6 +2238,19 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  iam: {
+    actions: ["kafka:CreateChannel", "iam:PassRole", "kafka:TagResource"],
+    resources: {
+      "kafka:CreateChannel": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: {
+      "iam:PassRole": "IcebergDestinationConfiguration.ServiceExecutionRoleArn",
+      "kafka:TagResource": "Tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -2258,6 +2287,10 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  iam: {
+    actions: ["kafka:CreateCluster", "kafka:TagResource"],
+    conditional: { "kafka:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -2294,6 +2327,10 @@ export const createClusterV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterV2",
+  iam: {
+    actions: ["kafka:CreateClusterV2", "kafka:TagResource"],
+    conditional: { "kafka:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateClusterV2",
 }));
@@ -2330,6 +2367,14 @@ export const createConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguration",
+  iam: {
+    actions: ["kafka:CreateConfiguration"],
+    resources: {
+      "kafka:CreateConfiguration": [
+        "arn:${Partition}:kafka:${Region}:${Account}:configuration/${ConfigurationName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguration",
 }));
@@ -2368,6 +2413,25 @@ export const createReplicator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicator",
+  iam: {
+    actions: [
+      "kafka:CreateReplicator",
+      "kafka:DescribeClusterV2",
+      "kafka:GetBootstrapBrokers",
+      "iam:PassRole",
+      "kafka:TagResource",
+    ],
+    resources: {
+      "kafka:CreateReplicator": [
+        "arn:${Partition}:kafka:${Region}:${Account}:replicator/${ReplicatorName}/${Uuid}",
+      ],
+      "kafka:DescribeClusterV2": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "kafka:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateReplicator",
 }));
@@ -2424,6 +2488,20 @@ export const createTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopic",
+  iam: {
+    actions: ["kafka-cluster:Connect", "kafka-cluster:CreateTopic", "kafka:CreateTopic"],
+    resources: {
+      "kafka-cluster:Connect": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${ClusterUuid}",
+      ],
+      "kafka-cluster:CreateTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka:CreateTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTopic",
 }));
@@ -2458,6 +2536,16 @@ export const createVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcConnection",
+  iam: {
+    actions: ["kafka:CreateVpcConnection", "kafka:TagResource"],
+    resources: {
+      "kafka:CreateVpcConnection": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+        "arn:${Partition}:kafka:${Region}:${VpcOwnerAccount}:vpc-connection/${ClusterOwnerAccount}/${ClusterName}/${Uuid}",
+      ],
+    },
+    conditional: { "kafka:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcConnection",
 }));
@@ -2494,6 +2582,15 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  iam: {
+    actions: ["kafka:DeleteChannel"],
+    resources: {
+      "kafka:DeleteChannel": [
+        "arn:${Partition}:kafka:${Region}:${Account}:channel/${ClusterName}/${ClusterUuid}/${ChannelName}/${Uuid}",
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteChannel",
 }));
@@ -2524,6 +2621,14 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  iam: {
+    actions: ["kafka:DeleteCluster"],
+    resources: {
+      "kafka:DeleteCluster": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -2554,6 +2659,14 @@ export const deleteClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterPolicy",
+  iam: {
+    actions: ["kafka:DeleteClusterPolicy"],
+    resources: {
+      "kafka:DeleteClusterPolicy": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteClusterPolicy",
 }));
@@ -2584,6 +2697,14 @@ export const deleteConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguration",
+  iam: {
+    actions: ["kafka:DeleteConfiguration"],
+    resources: {
+      "kafka:DeleteConfiguration": [
+        "arn:${Partition}:kafka:${Region}:${Account}:configuration/${ConfigurationName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguration",
 }));
@@ -2620,6 +2741,14 @@ export const deleteReplicator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicator",
+  iam: {
+    actions: ["kafka:DeleteReplicator"],
+    resources: {
+      "kafka:DeleteReplicator": [
+        "arn:${Partition}:kafka:${Region}:${Account}:replicator/${ReplicatorName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReplicator",
 }));
@@ -2668,6 +2797,28 @@ export const deleteTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopic",
+  iam: {
+    actions: [
+      "kafka-cluster:Connect",
+      "kafka-cluster:DeleteTopic",
+      "kafka-cluster:DescribeTopic",
+      "kafka:DeleteTopic",
+    ],
+    resources: {
+      "kafka-cluster:Connect": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${ClusterUuid}",
+      ],
+      "kafka-cluster:DeleteTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka-cluster:DescribeTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka:DeleteTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTopic",
 }));
@@ -2698,6 +2849,14 @@ export const deleteVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcConnection",
+  iam: {
+    actions: ["kafka:DeleteVpcConnection"],
+    resources: {
+      "kafka:DeleteVpcConnection": [
+        "arn:${Partition}:kafka:${Region}:${VpcOwnerAccount}:vpc-connection/${ClusterOwnerAccount}/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpcConnection",
 }));
@@ -2734,6 +2893,15 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  iam: {
+    actions: ["kafka:DescribeChannel"],
+    resources: {
+      "kafka:DescribeChannel": [
+        "arn:${Partition}:kafka:${Region}:${Account}:channel/${ClusterName}/${ClusterUuid}/${ChannelName}/${Uuid}",
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeChannel",
 }));
@@ -2766,6 +2934,14 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  iam: {
+    actions: ["kafka:DescribeCluster"],
+    resources: {
+      "kafka:DescribeCluster": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCluster",
 }));
@@ -2798,6 +2974,7 @@ export const describeClusterOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterOperation",
+  iam: { actions: ["kafka:DescribeClusterOperation"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterOperation",
 }));
@@ -2834,6 +3011,7 @@ export const describeClusterOperationV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterOperationV2",
+  iam: { actions: ["kafka:DescribeClusterOperationV2"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterOperationV2",
 }));
@@ -2866,6 +3044,14 @@ export const describeClusterV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterV2",
+  iam: {
+    actions: ["kafka:DescribeClusterV2"],
+    resources: {
+      "kafka:DescribeClusterV2": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeClusterV2",
 }));
@@ -2900,6 +3086,14 @@ export const describeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfiguration",
+  iam: {
+    actions: ["kafka:DescribeConfiguration"],
+    resources: {
+      "kafka:DescribeConfiguration": [
+        "arn:${Partition}:kafka:${Region}:${Account}:configuration/${ConfigurationName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConfiguration",
 }));
@@ -2934,6 +3128,14 @@ export const describeConfigurationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRevision",
+  iam: {
+    actions: ["kafka:DescribeConfigurationRevision"],
+    resources: {
+      "kafka:DescribeConfigurationRevision": [
+        "arn:${Partition}:kafka:${Region}:${Account}:configuration/${ConfigurationName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationRevision",
 }));
@@ -2970,6 +3172,17 @@ export const describeReplicator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReplicator",
+  iam: {
+    actions: ["kafka:DescribeReplicator", "kafka:ListTagsForResource"],
+    resources: {
+      "kafka:DescribeReplicator": [
+        "arn:${Partition}:kafka:${Region}:${Account}:replicator/${ReplicatorName}/${Uuid}",
+      ],
+      "kafka:ListTagsForResource": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeReplicator",
 }));
@@ -3004,6 +3217,28 @@ export const describeTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopic",
+  iam: {
+    actions: [
+      "kafka-cluster:Connect",
+      "kafka-cluster:DescribeTopic",
+      "kafka-cluster:DescribeTopicDynamicConfiguration",
+      "kafka:DescribeTopic",
+    ],
+    resources: {
+      "kafka-cluster:Connect": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${ClusterUuid}",
+      ],
+      "kafka-cluster:DescribeTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka-cluster:DescribeTopicDynamicConfiguration": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka:DescribeTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTopic",
 }));
@@ -3043,6 +3278,28 @@ export const describeTopicPartitions: API.PaginatedOperationMethod<
     items: "Partitions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: [
+      "kafka-cluster:Connect",
+      "kafka-cluster:DescribeTopic",
+      "kafka-cluster:DescribeTopicDynamicConfiguration",
+      "kafka:DescribeTopicPartitions",
+    ],
+    resources: {
+      "kafka-cluster:Connect": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${ClusterUuid}",
+      ],
+      "kafka-cluster:DescribeTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka-cluster:DescribeTopicDynamicConfiguration": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka:DescribeTopicPartitions": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTopicPartitions",
 })) as any;
@@ -3077,6 +3334,14 @@ export const describeVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcConnection",
+  iam: {
+    actions: ["kafka:DescribeVpcConnection"],
+    resources: {
+      "kafka:DescribeVpcConnection": [
+        "arn:${Partition}:kafka:${Region}:${VpcOwnerAccount}:vpc-connection/${ClusterOwnerAccount}/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVpcConnection",
 }));
@@ -3111,6 +3376,7 @@ export const getBootstrapBrokers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBootstrapBrokers",
+  iam: { actions: ["kafka:GetBootstrapBrokers"] },
   telemetry: TELEMETRY,
   span: "GetBootstrapBrokers",
 }));
@@ -3141,6 +3407,14 @@ export const getClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterPolicy",
+  iam: {
+    actions: ["kafka:GetClusterPolicy"],
+    resources: {
+      "kafka:GetClusterPolicy": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetClusterPolicy",
 }));
@@ -3177,6 +3451,7 @@ export const getCompatibleKafkaVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleKafkaVersions",
+  iam: { actions: ["kafka:GetCompatibleKafkaVersions"] },
   telemetry: TELEMETRY,
   span: "GetCompatibleKafkaVersions",
 }));
@@ -3213,6 +3488,14 @@ export const listChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListChannels",
+  iam: {
+    actions: ["kafka:ListChannels"],
+    resources: {
+      "kafka:ListChannels": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListChannels",
 }));
@@ -3252,6 +3535,14 @@ export const listClientVpcConnections: API.PaginatedOperationMethod<
     items: "ClientVpcConnections",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["kafka:ListClientVpcConnections"],
+    resources: {
+      "kafka:ListClientVpcConnections": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListClientVpcConnections",
 })) as any;
@@ -3289,6 +3580,14 @@ export const listClusterOperations: API.PaginatedOperationMethod<
     items: "ClusterOperationInfoList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["kafka:ListClusterOperations"],
+    resources: {
+      "kafka:ListClusterOperations": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListClusterOperations",
 })) as any;
@@ -3332,6 +3631,14 @@ export const listClusterOperationsV2: API.PaginatedOperationMethod<
     items: "ClusterOperationInfoList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["kafka:ListClusterOperationsV2"],
+    resources: {
+      "kafka:ListClusterOperationsV2": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListClusterOperationsV2",
 })) as any;
@@ -3369,6 +3676,7 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "ClusterInfoList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kafka:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -3406,6 +3714,7 @@ export const listClustersV2: API.PaginatedOperationMethod<
     items: "ClusterInfoList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kafka:ListClustersV2"] },
   telemetry: TELEMETRY,
   span: "ListClustersV2",
 })) as any;
@@ -3447,6 +3756,14 @@ export const listConfigurationRevisions: API.PaginatedOperationMethod<
     items: "Revisions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["kafka:ListConfigurationRevisions"],
+    resources: {
+      "kafka:ListConfigurationRevisions": [
+        "arn:${Partition}:kafka:${Region}:${Account}:configuration/${ConfigurationName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConfigurationRevisions",
 })) as any;
@@ -3486,6 +3803,7 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "Configurations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kafka:ListConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListConfigurations",
 })) as any;
@@ -3523,6 +3841,7 @@ export const listKafkaVersions: API.PaginatedOperationMethod<
     items: "KafkaVersions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kafka:ListKafkaVersions"] },
   telemetry: TELEMETRY,
   span: "ListKafkaVersions",
 })) as any;
@@ -3560,6 +3879,14 @@ export const listNodes: API.PaginatedOperationMethod<
     items: "NodeInfoList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["kafka:ListNodes"],
+    resources: {
+      "kafka:ListNodes": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNodes",
 })) as any;
@@ -3603,6 +3930,7 @@ export const listReplicators: API.PaginatedOperationMethod<
     items: "Replicators",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kafka:ListReplicators"] },
   telemetry: TELEMETRY,
   span: "ListReplicators",
 })) as any;
@@ -3646,6 +3974,14 @@ export const listScramSecrets: API.PaginatedOperationMethod<
     items: "SecretArnList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["kafka:ListScramSecrets"],
+    resources: {
+      "kafka:ListScramSecrets": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListScramSecrets",
 })) as any;
@@ -3670,6 +4006,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["kafka:ListTagsForResource"],
+    resources: {
+      "kafka:ListTagsForResource": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3713,6 +4057,20 @@ export const listTopics: API.PaginatedOperationMethod<
     items: "Topics",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["kafka-cluster:Connect", "kafka-cluster:DescribeTopic", "kafka:ListTopics"],
+    resources: {
+      "kafka-cluster:Connect": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${ClusterUuid}",
+      ],
+      "kafka-cluster:DescribeTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka:ListTopics": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTopics",
 })) as any;
@@ -3752,6 +4110,7 @@ export const listVpcConnections: API.PaginatedOperationMethod<
     items: "VpcConnections",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kafka:ListVpcConnections"] },
   telemetry: TELEMETRY,
   span: "ListVpcConnections",
 })) as any;
@@ -3776,6 +4135,14 @@ export const putClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterPolicy",
+  iam: {
+    actions: ["kafka:PutClusterPolicy"],
+    resources: {
+      "kafka:PutClusterPolicy": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutClusterPolicy",
 }));
@@ -3812,6 +4179,14 @@ export const rebootBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootBroker",
+  iam: {
+    actions: ["kafka:RebootBroker"],
+    resources: {
+      "kafka:RebootBroker": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebootBroker",
 }));
@@ -3844,6 +4219,15 @@ export const rejectClientVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectClientVpcConnection",
+  iam: {
+    actions: ["kafka:RejectClientVpcConnection"],
+    resources: {
+      "kafka:RejectClientVpcConnection": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+        "arn:${Partition}:kafka:${Region}:${VpcOwnerAccount}:vpc-connection/${ClusterOwnerAccount}/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectClientVpcConnection",
 }));
@@ -3868,6 +4252,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["kafka:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3892,6 +4277,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["kafka:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3924,6 +4310,14 @@ export const updateBrokerCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerCount",
+  iam: {
+    actions: ["kafka:UpdateBrokerCount"],
+    resources: {
+      "kafka:UpdateBrokerCount": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBrokerCount",
 }));
@@ -3956,6 +4350,14 @@ export const updateBrokerStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerStorage",
+  iam: {
+    actions: ["kafka:UpdateBrokerStorage"],
+    resources: {
+      "kafka:UpdateBrokerStorage": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBrokerStorage",
 }));
@@ -3992,6 +4394,14 @@ export const updateBrokerType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerType",
+  iam: {
+    actions: ["kafka:UpdateBrokerType"],
+    resources: {
+      "kafka:UpdateBrokerType": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBrokerType",
 }));
@@ -4028,6 +4438,15 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  iam: {
+    actions: ["kafka:UpdateChannel"],
+    resources: {
+      "kafka:UpdateChannel": [
+        "arn:${Partition}:kafka:${Region}:${Account}:channel/${ClusterName}/${ClusterUuid}/${ChannelName}/${Uuid}",
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -4062,6 +4481,15 @@ export const updateClusterConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterConfiguration",
+  iam: {
+    actions: ["kafka:UpdateClusterConfiguration"],
+    resources: {
+      "kafka:UpdateClusterConfiguration": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+        "arn:${Partition}:kafka:${Region}:${Account}:configuration/${ConfigurationName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateClusterConfiguration",
 }));
@@ -4098,6 +4526,14 @@ export const updateClusterKafkaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterKafkaVersion",
+  iam: {
+    actions: ["kafka:UpdateClusterKafkaVersion"],
+    resources: {
+      "kafka:UpdateClusterKafkaVersion": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateClusterKafkaVersion",
 }));
@@ -4132,6 +4568,14 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
+  iam: {
+    actions: ["kafka:UpdateConfiguration"],
+    resources: {
+      "kafka:UpdateConfiguration": [
+        "arn:${Partition}:kafka:${Region}:${Account}:configuration/${ConfigurationName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguration",
 }));
@@ -4166,6 +4610,14 @@ export const updateConnectivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectivity",
+  iam: {
+    actions: ["kafka:UpdateConnectivity"],
+    resources: {
+      "kafka:UpdateConnectivity": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnectivity",
 }));
@@ -4198,6 +4650,14 @@ export const updateMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitoring",
+  iam: {
+    actions: ["kafka:UpdateMonitoring"],
+    resources: {
+      "kafka:UpdateMonitoring": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMonitoring",
 }));
@@ -4234,6 +4694,14 @@ export const updateRebalancing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRebalancing",
+  iam: {
+    actions: ["kafka:UpdateRebalancing"],
+    resources: {
+      "kafka:UpdateRebalancing": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRebalancing",
 }));
@@ -4270,6 +4738,14 @@ export const updateReplicationInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationInfo",
+  iam: {
+    actions: ["kafka:UpdateReplicationInfo"],
+    resources: {
+      "kafka:UpdateReplicationInfo": [
+        "arn:${Partition}:kafka:${Region}:${Account}:replicator/${ReplicatorName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReplicationInfo",
 }));
@@ -4306,6 +4782,14 @@ export const updateSecurity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurity",
+  iam: {
+    actions: ["kafka:UpdateSecurity"],
+    resources: {
+      "kafka:UpdateSecurity": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSecurity",
 }));
@@ -4342,6 +4826,14 @@ export const updateStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStorage",
+  iam: {
+    actions: ["kafka:UpdateStorage"],
+    resources: {
+      "kafka:UpdateStorage": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStorage",
 }));
@@ -4394,6 +4886,32 @@ export const updateTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopic",
+  iam: {
+    actions: [
+      "kafka-cluster:AlterTopic",
+      "kafka-cluster:AlterTopicDynamicConfiguration",
+      "kafka-cluster:Connect",
+      "kafka-cluster:DescribeTopic",
+      "kafka:UpdateTopic",
+    ],
+    resources: {
+      "kafka-cluster:AlterTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka-cluster:AlterTopicDynamicConfiguration": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka-cluster:Connect": [
+        "arn:${Partition}:kafka:${Region}:${Account}:cluster/${ClusterName}/${ClusterUuid}",
+      ],
+      "kafka-cluster:DescribeTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+      "kafka:UpdateTopic": [
+        "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTopic",
 }));

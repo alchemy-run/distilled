@@ -1683,6 +1683,14 @@ export const cancelTrainedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTrainedModel",
+  iam: {
+    actions: ["cleanrooms-ml:CancelTrainedModel"],
+    resources: {
+      "cleanrooms-ml:CancelTrainedModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/trained-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelTrainedModel",
 }));
@@ -1715,6 +1723,14 @@ export const cancelTrainedModelInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTrainedModelInferenceJob",
+  iam: {
+    actions: ["cleanrooms-ml:CancelTrainedModelInferenceJob"],
+    resources: {
+      "cleanrooms-ml:CancelTrainedModelInferenceJob": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/trained-model-inference-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelTrainedModelInferenceJob",
 }));
@@ -1749,6 +1765,15 @@ export const createAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAudienceModel",
+  iam: {
+    actions: ["cleanrooms-ml:CreateAudienceModel", "cleanrooms-ml:TagResource"],
+    resources: {
+      "cleanrooms-ml:CreateAudienceModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:training-dataset/${ResourceId}",
+      ],
+    },
+    conditional: { "cleanrooms-ml:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAudienceModel",
 }));
@@ -1783,6 +1808,20 @@ export const createConfiguredAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredAudienceModel",
+  iam: {
+    actions: [
+      "cleanrooms-ml:CreateConfiguredAudienceModel",
+      "iam:PassRole",
+      "cleanrooms-ml:TagResource",
+    ],
+    resources: {
+      "cleanrooms-ml:CreateConfiguredAudienceModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:audience-model/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "cleanrooms-ml:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredAudienceModel",
 }));
@@ -1815,6 +1854,15 @@ export const createConfiguredModelAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredModelAlgorithm",
+  iam: {
+    actions: [
+      "cleanrooms-ml:CreateConfiguredModelAlgorithm",
+      "iam:PassRole",
+      "cleanrooms-ml:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "cleanrooms-ml:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredModelAlgorithm",
 }));
@@ -1849,6 +1897,18 @@ export const createConfiguredModelAlgorithmAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredModelAlgorithmAssociation",
+  iam: {
+    actions: [
+      "cleanrooms-ml:CreateConfiguredModelAlgorithmAssociation",
+      "cleanrooms-ml:TagResource",
+    ],
+    resources: {
+      "cleanrooms-ml:CreateConfiguredModelAlgorithmAssociation": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:configured-model-algorithm/${ResourceId}",
+      ],
+    },
+    conditional: { "cleanrooms-ml:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredModelAlgorithmAssociation",
 }));
@@ -1883,6 +1943,16 @@ export const createMLInputChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMLInputChannel",
+  iam: {
+    actions: ["cleanrooms-ml:CreateMLInputChannel", "iam:PassRole", "cleanrooms-ml:TagResource"],
+    resources: {
+      "cleanrooms-ml:CreateMLInputChannel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/configured-model-algorithm-association/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "cleanrooms-ml:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMLInputChannel",
 }));
@@ -1919,6 +1989,15 @@ export const createTrainedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainedModel",
+  iam: {
+    actions: ["cleanrooms-ml:CreateTrainedModel", "cleanrooms-ml:TagResource"],
+    resources: {
+      "cleanrooms-ml:CreateTrainedModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/configured-model-algorithm-association/${ResourceId}",
+      ],
+    },
+    conditional: { "cleanrooms-ml:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrainedModel",
 }));
@@ -1944,6 +2023,11 @@ export const createTrainingDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainingDataset",
+  iam: {
+    actions: ["cleanrooms-ml:CreateTrainingDataset", "iam:PassRole", "cleanrooms-ml:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "cleanrooms-ml:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrainingDataset",
 }));
@@ -1976,6 +2060,14 @@ export const deleteAudienceGenerationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAudienceGenerationJob",
+  iam: {
+    actions: ["cleanrooms-ml:DeleteAudienceGenerationJob"],
+    resources: {
+      "cleanrooms-ml:DeleteAudienceGenerationJob": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:audience-generation-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAudienceGenerationJob",
 }));
@@ -2008,6 +2100,14 @@ export const deleteAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAudienceModel",
+  iam: {
+    actions: ["cleanrooms-ml:DeleteAudienceModel"],
+    resources: {
+      "cleanrooms-ml:DeleteAudienceModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:audience-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAudienceModel",
 }));
@@ -2040,6 +2140,14 @@ export const deleteConfiguredAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredAudienceModel",
+  iam: {
+    actions: ["cleanrooms-ml:DeleteConfiguredAudienceModel"],
+    resources: {
+      "cleanrooms-ml:DeleteConfiguredAudienceModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:configured-audience-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredAudienceModel",
 }));
@@ -2070,6 +2178,14 @@ export const deleteConfiguredAudienceModelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredAudienceModelPolicy",
+  iam: {
+    actions: ["cleanrooms-ml:DeleteConfiguredAudienceModelPolicy"],
+    resources: {
+      "cleanrooms-ml:DeleteConfiguredAudienceModelPolicy": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:configured-audience-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredAudienceModelPolicy",
 }));
@@ -2102,6 +2218,14 @@ export const deleteConfiguredModelAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredModelAlgorithm",
+  iam: {
+    actions: ["cleanrooms-ml:DeleteConfiguredModelAlgorithm"],
+    resources: {
+      "cleanrooms-ml:DeleteConfiguredModelAlgorithm": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:configured-model-algorithm/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredModelAlgorithm",
 }));
@@ -2134,6 +2258,14 @@ export const deleteConfiguredModelAlgorithmAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredModelAlgorithmAssociation",
+  iam: {
+    actions: ["cleanrooms-ml:DeleteConfiguredModelAlgorithmAssociation"],
+    resources: {
+      "cleanrooms-ml:DeleteConfiguredModelAlgorithmAssociation": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/configured-model-algorithm-association/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredModelAlgorithmAssociation",
 }));
@@ -2164,6 +2296,7 @@ export const deleteMLConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLConfiguration",
+  iam: { actions: ["cleanrooms-ml:DeleteMLConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteMLConfiguration",
 }));
@@ -2196,6 +2329,14 @@ export const deleteMLInputChannelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLInputChannelData",
+  iam: {
+    actions: ["cleanrooms-ml:DeleteMLInputChannelData"],
+    resources: {
+      "cleanrooms-ml:DeleteMLInputChannelData": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/ml-input-channel/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMLInputChannelData",
 }));
@@ -2228,6 +2369,14 @@ export const deleteTrainedModelOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrainedModelOutput",
+  iam: {
+    actions: ["cleanrooms-ml:DeleteTrainedModelOutput"],
+    resources: {
+      "cleanrooms-ml:DeleteTrainedModelOutput": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/trained-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrainedModelOutput",
 }));
@@ -2260,6 +2409,14 @@ export const deleteTrainingDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrainingDataset",
+  iam: {
+    actions: ["cleanrooms-ml:DeleteTrainingDataset"],
+    resources: {
+      "cleanrooms-ml:DeleteTrainingDataset": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:training-dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrainingDataset",
 }));
@@ -2290,6 +2447,14 @@ export const getAudienceGenerationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAudienceGenerationJob",
+  iam: {
+    actions: ["cleanrooms-ml:GetAudienceGenerationJob"],
+    resources: {
+      "cleanrooms-ml:GetAudienceGenerationJob": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:audience-generation-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAudienceGenerationJob",
 }));
@@ -2320,6 +2485,14 @@ export const getAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAudienceModel",
+  iam: {
+    actions: ["cleanrooms-ml:GetAudienceModel"],
+    resources: {
+      "cleanrooms-ml:GetAudienceModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:audience-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAudienceModel",
 }));
@@ -2358,6 +2531,14 @@ export const getCollaborationConfiguredModelAlgorithmAssociation: API.OperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationConfiguredModelAlgorithmAssociation",
+  iam: {
+    actions: ["cleanrooms-ml:GetCollaborationConfiguredModelAlgorithmAssociation"],
+    resources: {
+      "cleanrooms-ml:GetCollaborationConfiguredModelAlgorithmAssociation": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/configured-model-algorithm-association/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCollaborationConfiguredModelAlgorithmAssociation",
 }));
@@ -2388,6 +2569,14 @@ export const getCollaborationMLInputChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationMLInputChannel",
+  iam: {
+    actions: ["cleanrooms-ml:GetCollaborationMLInputChannel"],
+    resources: {
+      "cleanrooms-ml:GetCollaborationMLInputChannel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/ml-input-channel/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCollaborationMLInputChannel",
 }));
@@ -2418,6 +2607,14 @@ export const getCollaborationTrainedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationTrainedModel",
+  iam: {
+    actions: ["cleanrooms-ml:GetCollaborationTrainedModel"],
+    resources: {
+      "cleanrooms-ml:GetCollaborationTrainedModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/trained-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCollaborationTrainedModel",
 }));
@@ -2448,6 +2645,14 @@ export const getConfiguredAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredAudienceModel",
+  iam: {
+    actions: ["cleanrooms-ml:GetConfiguredAudienceModel"],
+    resources: {
+      "cleanrooms-ml:GetConfiguredAudienceModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:configured-audience-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguredAudienceModel",
 }));
@@ -2478,6 +2683,14 @@ export const getConfiguredAudienceModelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredAudienceModelPolicy",
+  iam: {
+    actions: ["cleanrooms-ml:GetConfiguredAudienceModelPolicy"],
+    resources: {
+      "cleanrooms-ml:GetConfiguredAudienceModelPolicy": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:configured-audience-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguredAudienceModelPolicy",
 }));
@@ -2508,6 +2721,14 @@ export const getConfiguredModelAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredModelAlgorithm",
+  iam: {
+    actions: ["cleanrooms-ml:GetConfiguredModelAlgorithm"],
+    resources: {
+      "cleanrooms-ml:GetConfiguredModelAlgorithm": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:configured-model-algorithm/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguredModelAlgorithm",
 }));
@@ -2538,6 +2759,14 @@ export const getConfiguredModelAlgorithmAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredModelAlgorithmAssociation",
+  iam: {
+    actions: ["cleanrooms-ml:GetConfiguredModelAlgorithmAssociation"],
+    resources: {
+      "cleanrooms-ml:GetConfiguredModelAlgorithmAssociation": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/configured-model-algorithm-association/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguredModelAlgorithmAssociation",
 }));
@@ -2568,6 +2797,7 @@ export const getMLConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLConfiguration",
+  iam: { actions: ["cleanrooms-ml:GetMLConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetMLConfiguration",
 }));
@@ -2598,6 +2828,14 @@ export const getMLInputChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLInputChannel",
+  iam: {
+    actions: ["cleanrooms-ml:GetMLInputChannel"],
+    resources: {
+      "cleanrooms-ml:GetMLInputChannel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/ml-input-channel/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMLInputChannel",
 }));
@@ -2628,6 +2866,14 @@ export const getTrainedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrainedModel",
+  iam: {
+    actions: ["cleanrooms-ml:GetTrainedModel"],
+    resources: {
+      "cleanrooms-ml:GetTrainedModel": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/trained-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrainedModel",
 }));
@@ -2658,6 +2904,14 @@ export const getTrainedModelInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrainedModelInferenceJob",
+  iam: {
+    actions: ["cleanrooms-ml:GetTrainedModelInferenceJob"],
+    resources: {
+      "cleanrooms-ml:GetTrainedModelInferenceJob": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/trained-model-inference-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrainedModelInferenceJob",
 }));
@@ -2688,6 +2942,14 @@ export const getTrainingDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrainingDataset",
+  iam: {
+    actions: ["cleanrooms-ml:GetTrainingDataset"],
+    resources: {
+      "cleanrooms-ml:GetTrainingDataset": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:training-dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrainingDataset",
 }));
@@ -2719,6 +2981,7 @@ export const listAudienceExportJobs: API.PaginatedOperationMethod<
     items: "audienceExportJobs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListAudienceExportJobs"] },
   telemetry: TELEMETRY,
   span: "ListAudienceExportJobs",
 })) as any;
@@ -2750,6 +3013,7 @@ export const listAudienceGenerationJobs: API.PaginatedOperationMethod<
     items: "audienceGenerationJobs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListAudienceGenerationJobs"] },
   telemetry: TELEMETRY,
   span: "ListAudienceGenerationJobs",
 })) as any;
@@ -2781,6 +3045,7 @@ export const listAudienceModels: API.PaginatedOperationMethod<
     items: "audienceModels",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListAudienceModels"] },
   telemetry: TELEMETRY,
   span: "ListAudienceModels",
 })) as any;
@@ -2820,6 +3085,7 @@ export const listCollaborationConfiguredModelAlgorithmAssociations: API.Paginate
     items: "collaborationConfiguredModelAlgorithmAssociations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListCollaborationConfiguredModelAlgorithmAssociations"] },
   telemetry: TELEMETRY,
   span: "ListCollaborationConfiguredModelAlgorithmAssociations",
 })) as any;
@@ -2851,6 +3117,7 @@ export const listCollaborationMLInputChannels: API.PaginatedOperationMethod<
     items: "collaborationMLInputChannelsList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListCollaborationMLInputChannels"] },
   telemetry: TELEMETRY,
   span: "ListCollaborationMLInputChannels",
 })) as any;
@@ -2882,6 +3149,14 @@ export const listCollaborationTrainedModelExportJobs: API.PaginatedOperationMeth
     items: "collaborationTrainedModelExportJobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms-ml:ListCollaborationTrainedModelExportJobs"],
+    resources: {
+      "cleanrooms-ml:ListCollaborationTrainedModelExportJobs": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/trained-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCollaborationTrainedModelExportJobs",
 })) as any;
@@ -2913,6 +3188,7 @@ export const listCollaborationTrainedModelInferenceJobs: API.PaginatedOperationM
     items: "collaborationTrainedModelInferenceJobs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListCollaborationTrainedModelInferenceJobs"] },
   telemetry: TELEMETRY,
   span: "ListCollaborationTrainedModelInferenceJobs",
 })) as any;
@@ -2944,6 +3220,7 @@ export const listCollaborationTrainedModels: API.PaginatedOperationMethod<
     items: "collaborationTrainedModels",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListCollaborationTrainedModels"] },
   telemetry: TELEMETRY,
   span: "ListCollaborationTrainedModels",
 })) as any;
@@ -2975,6 +3252,7 @@ export const listConfiguredAudienceModels: API.PaginatedOperationMethod<
     items: "configuredAudienceModels",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListConfiguredAudienceModels"] },
   telemetry: TELEMETRY,
   span: "ListConfiguredAudienceModels",
 })) as any;
@@ -3006,6 +3284,7 @@ export const listConfiguredModelAlgorithmAssociations: API.PaginatedOperationMet
     items: "configuredModelAlgorithmAssociations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListConfiguredModelAlgorithmAssociations"] },
   telemetry: TELEMETRY,
   span: "ListConfiguredModelAlgorithmAssociations",
 })) as any;
@@ -3037,6 +3316,7 @@ export const listConfiguredModelAlgorithms: API.PaginatedOperationMethod<
     items: "configuredModelAlgorithms",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListConfiguredModelAlgorithms"] },
   telemetry: TELEMETRY,
   span: "ListConfiguredModelAlgorithms",
 })) as any;
@@ -3068,6 +3348,7 @@ export const listMLInputChannels: API.PaginatedOperationMethod<
     items: "mlInputChannelsList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListMLInputChannels"] },
   telemetry: TELEMETRY,
   span: "ListMLInputChannels",
 })) as any;
@@ -3092,6 +3373,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["cleanrooms-ml:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3123,6 +3405,7 @@ export const listTrainedModelInferenceJobs: API.PaginatedOperationMethod<
     items: "trainedModelInferenceJobs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListTrainedModelInferenceJobs"] },
   telemetry: TELEMETRY,
   span: "ListTrainedModelInferenceJobs",
 })) as any;
@@ -3154,6 +3437,7 @@ export const listTrainedModels: API.PaginatedOperationMethod<
     items: "trainedModels",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListTrainedModels"] },
   telemetry: TELEMETRY,
   span: "ListTrainedModels",
 })) as any;
@@ -3191,6 +3475,7 @@ export const listTrainedModelVersions: API.PaginatedOperationMethod<
     items: "trainedModels",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListTrainedModelVersions"] },
   telemetry: TELEMETRY,
   span: "ListTrainedModelVersions",
 })) as any;
@@ -3222,6 +3507,7 @@ export const listTrainingDatasets: API.PaginatedOperationMethod<
     items: "trainingDatasets",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms-ml:ListTrainingDatasets"] },
   telemetry: TELEMETRY,
   span: "ListTrainingDatasets",
 })) as any;
@@ -3252,6 +3538,14 @@ export const putConfiguredAudienceModelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfiguredAudienceModelPolicy",
+  iam: {
+    actions: ["cleanrooms-ml:PutConfiguredAudienceModelPolicy"],
+    resources: {
+      "cleanrooms-ml:PutConfiguredAudienceModelPolicy": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:configured-audience-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutConfiguredAudienceModelPolicy",
 }));
@@ -3276,6 +3570,10 @@ export const putMLConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMLConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "cleanrooms-ml:PutMLConfiguration"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "PutMLConfiguration",
 }));
@@ -3310,6 +3608,14 @@ export const startAudienceExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAudienceExportJob",
+  iam: {
+    actions: ["cleanrooms-ml:StartAudienceExportJob"],
+    resources: {
+      "cleanrooms-ml:StartAudienceExportJob": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:audience-generation-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAudienceExportJob",
 }));
@@ -3344,6 +3650,20 @@ export const startAudienceGenerationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAudienceGenerationJob",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "cleanrooms-ml:StartAudienceGenerationJob",
+      "cleanrooms-ml:TagResource",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "cleanrooms-ml:StartAudienceGenerationJob": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:configured-audience-model/${ResourceId}",
+      ],
+    },
+    conditional: { "cleanrooms-ml:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartAudienceGenerationJob",
 }));
@@ -3376,6 +3696,14 @@ export const startTrainedModelExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTrainedModelExportJob",
+  iam: {
+    actions: ["cleanrooms-ml:StartTrainedModelExportJob"],
+    resources: {
+      "cleanrooms-ml:StartTrainedModelExportJob": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/trained-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartTrainedModelExportJob",
 }));
@@ -3410,6 +3738,17 @@ export const startTrainedModelInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTrainedModelInferenceJob",
+  iam: {
+    actions: ["cleanrooms-ml:StartTrainedModelInferenceJob", "cleanrooms-ml:TagResource"],
+    resources: {
+      "cleanrooms-ml:StartTrainedModelInferenceJob": [
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/configured-model-algorithm-association/${ResourceId}",
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/ml-input-channel/${ResourceId}",
+        "arn:${Partition}:cleanrooms-ml:${Region}:${Account}:membership/${MembershipId}/trained-model/${ResourceId}",
+      ],
+    },
+    conditional: { "cleanrooms-ml:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartTrainedModelInferenceJob",
 }));
@@ -3434,6 +3773,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["cleanrooms-ml:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3458,6 +3798,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["cleanrooms-ml:UnTagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3490,6 +3831,11 @@ export const updateConfiguredAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredAudienceModel",
+  iam: {
+    actions: ["iam:PassRole", "cleanrooms-ml:UpdateConfiguredAudienceModel"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "outputConfig.roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredAudienceModel",
 }));

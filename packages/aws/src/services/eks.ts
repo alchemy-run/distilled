@@ -2230,6 +2230,14 @@ export const activateCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateCertificateAuthority",
+  iam: {
+    actions: ["eks:ActivateCertificateAuthority"],
+    resources: {
+      "eks:ActivateCertificateAuthority": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ActivateCertificateAuthority",
 }));
@@ -2262,6 +2270,14 @@ export const associateAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAccessPolicy",
+  iam: {
+    actions: ["eks:AssociateAccessPolicy"],
+    resources: {
+      "eks:AssociateAccessPolicy": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateAccessPolicy",
 }));
@@ -2302,6 +2318,14 @@ export const associateEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEncryptionConfig",
+  iam: {
+    actions: ["eks:AssociateEncryptionConfig"],
+    resources: {
+      "eks:AssociateEncryptionConfig": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateEncryptionConfig",
 }));
@@ -2346,6 +2370,15 @@ export const associateIdentityProviderConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIdentityProviderConfig",
+  iam: {
+    actions: ["eks:AssociateIdentityProviderConfig", "eks:TagResource"],
+    resources: {
+      "eks:AssociateIdentityProviderConfig": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+    conditional: { "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateIdentityProviderConfig",
 }));
@@ -2391,6 +2424,12 @@ export const cancelUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelUpdate",
+  iam: {
+    actions: ["eks:CancelUpdate"],
+    resources: {
+      "eks:CancelUpdate": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelUpdate",
 }));
@@ -2439,6 +2478,14 @@ export const createAccessEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessEntry",
+  iam: {
+    actions: ["eks:CreateAccessEntry", "iam:PassRole", "eks:TagResource"],
+    resources: {
+      "eks:CreateAccessEntry": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessEntry",
 }));
@@ -2477,6 +2524,11 @@ export const createAddon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddon",
+  iam: {
+    actions: ["eks:CreateAddon", "iam:PassRole", "eks:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "serviceAccountRoleArn", "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAddon",
 }));
@@ -2519,6 +2571,14 @@ export const createCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapability",
+  iam: {
+    actions: ["eks:CreateCapability", "iam:PassRole", "eks:TagResource"],
+    resources: {
+      "eks:CreateCapability": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapability",
 }));
@@ -2578,6 +2638,14 @@ export const createCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateAuthority",
+  iam: {
+    actions: ["eks:CreateCertificateAuthority"],
+    resources: {
+      "eks:CreateCertificateAuthority": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCertificateAuthority",
 }));
@@ -2657,6 +2725,14 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  iam: {
+    actions: ["eks:CreateAccessEntry", "eks:CreateCluster", "iam:PassRole", "eks:TagResource"],
+    resources: {
+      "eks:CreateAccessEntry": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -2692,6 +2768,10 @@ export const createEksAnywhereSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEksAnywhereSubscription",
+  iam: {
+    actions: ["eks:CreateEksAnywhereSubscription", "eks:TagResource"],
+    conditional: { "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEksAnywhereSubscription",
 }));
@@ -2757,6 +2837,16 @@ export const createFargateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFargateProfile",
+  iam: {
+    actions: ["eks:CreateFargateProfile", "iam:PassRole", "eks:TagResource"],
+    resources: {
+      "eks:CreateFargateProfile": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFargateProfile",
 }));
@@ -2812,6 +2902,14 @@ export const createNodegroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNodegroup",
+  iam: {
+    actions: ["eks:CreateNodegroup", "iam:PassRole", "eks:TagResource"],
+    resources: {
+      "eks:CreateNodegroup": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNodegroup",
 }));
@@ -2873,6 +2971,16 @@ export const createPodIdentityAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePodIdentityAssociation",
+  iam: {
+    actions: ["eks:CreatePodIdentityAssociation", "iam:PassRole", "eks:TagResource"],
+    resources: {
+      "eks:CreatePodIdentityAssociation": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePodIdentityAssociation",
 }));
@@ -2901,6 +3009,14 @@ export const deleteAccessEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessEntry",
+  iam: {
+    actions: ["eks:DeleteAccessEntry"],
+    resources: {
+      "eks:DeleteAccessEntry": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessEntry",
 }));
@@ -2936,6 +3052,7 @@ export const deleteAddon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddon",
+  iam: { actions: ["eks:DeleteAddon"] },
   telemetry: TELEMETRY,
   span: "DeleteAddon",
 }));
@@ -2970,6 +3087,14 @@ export const deleteCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapability",
+  iam: {
+    actions: ["eks:DeleteCapability"],
+    resources: {
+      "eks:DeleteCapability": [
+        "arn:${Partition}:eks:${Region}:${Account}:capability/${ClusterName}/${CapabilityType}/${CapabilityName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCapability",
 }));
@@ -3012,6 +3137,14 @@ export const deleteCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificateAuthority",
+  iam: {
+    actions: ["eks:DeleteCertificateAuthority"],
+    resources: {
+      "eks:DeleteCertificateAuthority": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCertificateAuthority",
 }));
@@ -3056,6 +3189,12 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  iam: {
+    actions: ["eks:DeleteCluster"],
+    resources: {
+      "eks:DeleteCluster": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -3084,6 +3223,14 @@ export const deleteEksAnywhereSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEksAnywhereSubscription",
+  iam: {
+    actions: ["eks:DeleteEksAnywhereSubscription"],
+    resources: {
+      "eks:DeleteEksAnywhereSubscription": [
+        "arn:${Partition}:eks:${Region}:${Account}:eks-anywhere-subscription/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEksAnywhereSubscription",
 }));
@@ -3126,6 +3273,14 @@ export const deleteFargateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFargateProfile",
+  iam: {
+    actions: ["eks:DeleteFargateProfile"],
+    resources: {
+      "eks:DeleteFargateProfile": [
+        "arn:${Partition}:eks:${Region}:${Account}:fargateprofile/${ClusterName}/${FargateProfileName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFargateProfile",
 }));
@@ -3160,6 +3315,14 @@ export const deleteNodegroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNodegroup",
+  iam: {
+    actions: ["eks:DeleteNodegroup"],
+    resources: {
+      "eks:DeleteNodegroup": [
+        "arn:${Partition}:eks:${Region}:${Account}:nodegroup/${ClusterName}/${NodegroupName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNodegroup",
 }));
@@ -3192,6 +3355,14 @@ export const deletePodIdentityAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePodIdentityAssociation",
+  iam: {
+    actions: ["eks:DeletePodIdentityAssociation"],
+    resources: {
+      "eks:DeletePodIdentityAssociation": [
+        "arn:${Partition}:eks:${Region}:${Account}:podidentityassociation/${ClusterName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePodIdentityAssociation",
 }));
@@ -3229,6 +3400,12 @@ export const deregisterCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCluster",
+  iam: {
+    actions: ["eks:DeregisterCluster"],
+    resources: {
+      "eks:DeregisterCluster": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterCluster",
 }));
@@ -3253,6 +3430,14 @@ export const describeAccessEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccessEntry",
+  iam: {
+    actions: ["eks:DescribeAccessEntry"],
+    resources: {
+      "eks:DescribeAccessEntry": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAccessEntry",
 }));
@@ -3285,6 +3470,14 @@ export const describeAddon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddon",
+  iam: {
+    actions: ["eks:DescribeAddon"],
+    resources: {
+      "eks:DescribeAddon": [
+        "arn:${Partition}:eks:${Region}:${Account}:addon/${ClusterName}/${AddonName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAddon",
 }));
@@ -3309,6 +3502,7 @@ export const describeAddonConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddonConfiguration",
+  iam: { actions: ["eks:DescribeAddonConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeAddonConfiguration",
 }));
@@ -3344,6 +3538,7 @@ export const describeAddonVersions: API.PaginatedOperationMethod<
     items: "addons",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["eks:DescribeAddonVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeAddonVersions",
 })) as any;
@@ -3374,6 +3569,14 @@ export const describeCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapability",
+  iam: {
+    actions: ["eks:DescribeCapability"],
+    resources: {
+      "eks:DescribeCapability": [
+        "arn:${Partition}:eks:${Region}:${Account}:capability/${ClusterName}/${CapabilityType}/${CapabilityName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCapability",
 }));
@@ -3400,6 +3603,14 @@ export const describeCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateAuthority",
+  iam: {
+    actions: ["eks:DescribeCertificateAuthority"],
+    resources: {
+      "eks:DescribeCertificateAuthority": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCertificateAuthority",
 }));
@@ -3438,6 +3649,12 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  iam: {
+    actions: ["eks:DescribeCluster"],
+    resources: {
+      "eks:DescribeCluster": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCluster",
 }));
@@ -3469,6 +3686,7 @@ export const describeClusterVersions: API.PaginatedOperationMethod<
     items: "clusterVersions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["eks:DescribeClusterVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterVersions",
 })) as any;
@@ -3499,6 +3717,14 @@ export const describeEksAnywhereSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEksAnywhereSubscription",
+  iam: {
+    actions: ["eks:DescribeEksAnywhereSubscription"],
+    resources: {
+      "eks:DescribeEksAnywhereSubscription": [
+        "arn:${Partition}:eks:${Region}:${Account}:eks-anywhere-subscription/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEksAnywhereSubscription",
 }));
@@ -3524,6 +3750,14 @@ export const describeFargateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFargateProfile",
+  iam: {
+    actions: ["eks:DescribeFargateProfile"],
+    resources: {
+      "eks:DescribeFargateProfile": [
+        "arn:${Partition}:eks:${Region}:${Account}:fargateprofile/${ClusterName}/${FargateProfileName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFargateProfile",
 }));
@@ -3556,6 +3790,14 @@ export const describeIdentityProviderConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityProviderConfig",
+  iam: {
+    actions: ["eks:DescribeIdentityProviderConfig"],
+    resources: {
+      "eks:DescribeIdentityProviderConfig": [
+        "arn:${Partition}:eks:${Region}:${Account}:identityproviderconfig/${ClusterName}/${IdentityProviderType}/${IdentityProviderConfigName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeIdentityProviderConfig",
 }));
@@ -3586,6 +3828,12 @@ export const describeInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsight",
+  iam: {
+    actions: ["eks:DescribeInsight"],
+    resources: {
+      "eks:DescribeInsight": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInsight",
 }));
@@ -3616,6 +3864,14 @@ export const describeInsightsRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsightsRefresh",
+  iam: {
+    actions: ["eks:DescribeInsightsRefresh"],
+    resources: {
+      "eks:DescribeInsightsRefresh": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInsightsRefresh",
 }));
@@ -3648,6 +3904,14 @@ export const describeNodegroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNodegroup",
+  iam: {
+    actions: ["eks:DescribeNodegroup"],
+    resources: {
+      "eks:DescribeNodegroup": [
+        "arn:${Partition}:eks:${Region}:${Account}:nodegroup/${ClusterName}/${NodegroupName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNodegroup",
 }));
@@ -3683,6 +3947,14 @@ export const describePodIdentityAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePodIdentityAssociation",
+  iam: {
+    actions: ["eks:DescribePodIdentityAssociation"],
+    resources: {
+      "eks:DescribePodIdentityAssociation": [
+        "arn:${Partition}:eks:${Region}:${Account}:podidentityassociation/${ClusterName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePodIdentityAssociation",
 }));
@@ -3712,6 +3984,7 @@ export const describeUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUpdate",
+  iam: { actions: ["eks:DescribeUpdate"] },
   telemetry: TELEMETRY,
   span: "DescribeUpdate",
 }));
@@ -3736,6 +4009,14 @@ export const disassociateAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAccessPolicy",
+  iam: {
+    actions: ["eks:DisassociateAccessPolicy"],
+    resources: {
+      "eks:DisassociateAccessPolicy": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateAccessPolicy",
 }));
@@ -3776,6 +4057,14 @@ export const disassociateIdentityProviderConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIdentityProviderConfig",
+  iam: {
+    actions: ["eks:DisassociateIdentityProviderConfig"],
+    resources: {
+      "eks:DisassociateIdentityProviderConfig": [
+        "arn:${Partition}:eks:${Region}:${Account}:identityproviderconfig/${ClusterName}/${IdentityProviderType}/${IdentityProviderConfigName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateIdentityProviderConfig",
 }));
@@ -3813,6 +4102,12 @@ export const listAccessEntries: API.PaginatedOperationMethod<
     items: "accessEntries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListAccessEntries"],
+    resources: {
+      "eks:ListAccessEntries": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccessEntries",
 })) as any;
@@ -3840,6 +4135,7 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
     items: "accessPolicies",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["eks:ListAccessPolicies"] },
   telemetry: TELEMETRY,
   span: "ListAccessPolicies",
 })) as any;
@@ -3879,6 +4175,12 @@ export const listAddons: API.PaginatedOperationMethod<
     items: "addons",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListAddons"],
+    resources: {
+      "eks:ListAddons": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAddons",
 })) as any;
@@ -3910,6 +4212,14 @@ export const listAssociatedAccessPolicies: API.PaginatedOperationMethod<
     items: "associatedAccessPolicies",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListAssociatedAccessPolicies"],
+    resources: {
+      "eks:ListAssociatedAccessPolicies": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociatedAccessPolicies",
 })) as any;
@@ -3937,6 +4247,12 @@ export const listCapabilities: API.PaginatedOperationMethod<
     items: "capabilities",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListCapabilities"],
+    resources: {
+      "eks:ListCapabilities": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCapabilities",
 })) as any;
@@ -3976,6 +4292,14 @@ export const listCertificateAuthorities: API.PaginatedOperationMethod<
     items: "certificateAuthorities",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListCertificateAuthorities"],
+    resources: {
+      "eks:ListCertificateAuthorities": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCertificateAuthorities",
 })) as any;
@@ -4013,6 +4337,7 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["eks:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -4050,6 +4375,7 @@ export const listEksAnywhereSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["eks:ListEksAnywhereSubscriptions"] },
   telemetry: TELEMETRY,
   span: "ListEksAnywhereSubscriptions",
 })) as any;
@@ -4083,6 +4409,14 @@ export const listFargateProfiles: API.PaginatedOperationMethod<
     items: "fargateProfileNames",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListFargateProfiles"],
+    resources: {
+      "eks:ListFargateProfiles": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFargateProfiles",
 })) as any;
@@ -4122,6 +4456,14 @@ export const listIdentityProviderConfigs: API.PaginatedOperationMethod<
     items: "identityProviderConfigs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListIdentityProviderConfigs"],
+    resources: {
+      "eks:ListIdentityProviderConfigs": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIdentityProviderConfigs",
 })) as any;
@@ -4170,6 +4512,12 @@ export const listInsights: API.PaginatedOperationMethod<
     items: "insights",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListInsights"],
+    resources: {
+      "eks:ListInsights": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInsights",
 })) as any;
@@ -4210,6 +4558,12 @@ export const listNodegroups: API.PaginatedOperationMethod<
     items: "nodegroups",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListNodegroups"],
+    resources: {
+      "eks:ListNodegroups": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNodegroups",
 })) as any;
@@ -4248,6 +4602,14 @@ export const listPodIdentityAssociations: API.PaginatedOperationMethod<
     items: "associations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["eks:ListPodIdentityAssociations"],
+    resources: {
+      "eks:ListPodIdentityAssociations": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPodIdentityAssociations",
 })) as any;
@@ -4268,6 +4630,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["eks:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4301,6 +4664,7 @@ export const listUpdates: API.PaginatedOperationMethod<
     items: "updateIds",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["eks:ListUpdates"] },
   telemetry: TELEMETRY,
   span: "ListUpdates",
 })) as any;
@@ -4356,6 +4720,11 @@ export const registerCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCluster",
+  iam: {
+    actions: ["iam:PassRole", "eks:RegisterCluster", "eks:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "eks:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterCluster",
 }));
@@ -4386,6 +4755,14 @@ export const startInsightsRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInsightsRefresh",
+  iam: {
+    actions: ["eks:StartInsightsRefresh"],
+    resources: {
+      "eks:StartInsightsRefresh": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartInsightsRefresh",
 }));
@@ -4412,6 +4789,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["eks:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4432,6 +4810,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["eks:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4462,6 +4841,14 @@ export const updateAccessEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessEntry",
+  iam: {
+    actions: ["eks:UpdateAccessEntry"],
+    resources: {
+      "eks:UpdateAccessEntry": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccessEntry",
 }));
@@ -4496,6 +4883,11 @@ export const updateAddon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAddon",
+  iam: {
+    actions: ["iam:PassRole", "eks:UpdateAddon"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "serviceAccountRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAddon",
 }));
@@ -4530,6 +4922,16 @@ export const updateCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapability",
+  iam: {
+    actions: ["iam:PassRole", "eks:UpdateCapability"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "eks:UpdateCapability": [
+        "arn:${Partition}:eks:${Region}:${Account}:capability/${ClusterName}/${CapabilityType}/${CapabilityName}/${UUID}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCapability",
 }));
@@ -4612,6 +5014,17 @@ export const updateClusterConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterConfig",
+  iam: {
+    actions: ["eks:CreateAccessEntry", "iam:PassRole", "eks:UpdateClusterConfig"],
+    resources: {
+      "eks:CreateAccessEntry": ["arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "eks:UpdateClusterConfig": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "computeConfig.nodeRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateClusterConfig",
 }));
@@ -4663,6 +5076,14 @@ export const updateClusterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterVersion",
+  iam: {
+    actions: ["eks:UpdateClusterVersion"],
+    resources: {
+      "eks:UpdateClusterVersion": [
+        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateClusterVersion",
 }));
@@ -4696,6 +5117,14 @@ export const updateEksAnywhereSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEksAnywhereSubscription",
+  iam: {
+    actions: ["eks:UpdateEksAnywhereSubscription"],
+    resources: {
+      "eks:UpdateEksAnywhereSubscription": [
+        "arn:${Partition}:eks:${Region}:${Account}:eks-anywhere-subscription/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEksAnywhereSubscription",
 }));
@@ -4735,6 +5164,14 @@ export const updateNodegroupConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNodegroupConfig",
+  iam: {
+    actions: ["eks:UpdateNodegroupConfig"],
+    resources: {
+      "eks:UpdateNodegroupConfig": [
+        "arn:${Partition}:eks:${Region}:${Account}:nodegroup/${ClusterName}/${NodegroupName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNodegroupConfig",
 }));
@@ -4795,6 +5232,14 @@ export const updateNodegroupVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNodegroupVersion",
+  iam: {
+    actions: ["eks:UpdateNodegroupVersion"],
+    resources: {
+      "eks:UpdateNodegroupVersion": [
+        "arn:${Partition}:eks:${Region}:${Account}:nodegroup/${ClusterName}/${NodegroupName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNodegroupVersion",
 }));
@@ -4843,6 +5288,16 @@ export const updatePodIdentityAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePodIdentityAssociation",
+  iam: {
+    actions: ["iam:PassRole", "eks:UpdatePodIdentityAssociation"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "eks:UpdatePodIdentityAssociation": [
+        "arn:${Partition}:eks:${Region}:${Account}:podidentityassociation/${ClusterName}/${UUID}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePodIdentityAssociation",
 }));

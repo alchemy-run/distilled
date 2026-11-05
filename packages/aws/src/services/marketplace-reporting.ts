@@ -166,6 +166,7 @@ export const getBuyerDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBuyerDashboard",
+  iam: { actions: ["aws-marketplace:GetBuyerDashboard"] },
   telemetry: TELEMETRY,
   span: "GetBuyerDashboard",
 }));

@@ -804,6 +804,14 @@ export const acceptPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPage",
+  iam: {
+    actions: ["ssm-contacts:AcceptPage"],
+    resources: {
+      "ssm-contacts:AcceptPage": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:page/${ContactAlias}/${PageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptPage",
 }));
@@ -839,6 +847,14 @@ export const activateContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateContactChannel",
+  iam: {
+    actions: ["ssm-contacts:ActivateContactChannel"],
+    resources: {
+      "ssm-contacts:ActivateContactChannel": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contactchannel/${ContactAlias}/${ContactChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ActivateContactChannel",
 }));
@@ -879,6 +895,22 @@ export const createContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContact",
+  iam: {
+    actions: [
+      "ssm-contacts:AssociateContact",
+      "ssm-contacts:CreateContact",
+      "ssm-contacts:TagResource",
+    ],
+    resources: {
+      "ssm-contacts:AssociateContact": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+      "ssm-contacts:CreateContact": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+    conditional: { "ssm-contacts:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContact",
 }));
@@ -915,6 +947,14 @@ export const createContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactChannel",
+  iam: {
+    actions: ["ssm-contacts:CreateContactChannel"],
+    resources: {
+      "ssm-contacts:CreateContactChannel": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateContactChannel",
 }));
@@ -953,6 +993,15 @@ export const createRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRotation",
+  iam: {
+    actions: ["ssm-contacts:CreateRotation", "ssm-contacts:TagResource"],
+    resources: {
+      "ssm-contacts:CreateRotation": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:rotation/${RotationId}",
+      ],
+    },
+    conditional: { "ssm-contacts:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRotation",
 }));
@@ -991,6 +1040,14 @@ export const createRotationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRotationOverride",
+  iam: {
+    actions: ["ssm-contacts:CreateRotationOverride"],
+    resources: {
+      "ssm-contacts:CreateRotationOverride": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:rotation/${RotationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRotationOverride",
 }));
@@ -1026,6 +1083,14 @@ export const deactivateContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateContactChannel",
+  iam: {
+    actions: ["ssm-contacts:DeactivateContactChannel"],
+    resources: {
+      "ssm-contacts:DeactivateContactChannel": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contactchannel/${ContactAlias}/${ContactChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeactivateContactChannel",
 }));
@@ -1066,6 +1131,14 @@ export const deleteContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContact",
+  iam: {
+    actions: ["ssm-contacts:DeleteContact"],
+    resources: {
+      "ssm-contacts:DeleteContact": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContact",
 }));
@@ -1104,6 +1177,14 @@ export const deleteContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactChannel",
+  iam: {
+    actions: ["ssm-contacts:DeleteContactChannel"],
+    resources: {
+      "ssm-contacts:DeleteContactChannel": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contactchannel/${ContactAlias}/${ContactChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContactChannel",
 }));
@@ -1143,6 +1224,14 @@ export const deleteRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRotation",
+  iam: {
+    actions: ["ssm-contacts:DeleteRotation"],
+    resources: {
+      "ssm-contacts:DeleteRotation": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:rotation/${RotationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRotation",
 }));
@@ -1179,6 +1268,14 @@ export const deleteRotationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRotationOverride",
+  iam: {
+    actions: ["ssm-contacts:DeleteRotationOverride"],
+    resources: {
+      "ssm-contacts:DeleteRotationOverride": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:rotation/${RotationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRotationOverride",
 }));
@@ -1216,6 +1313,14 @@ export const describeEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEngagement",
+  iam: {
+    actions: ["ssm-contacts:DescribeEngagement"],
+    resources: {
+      "ssm-contacts:DescribeEngagement": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:engagement/${ContactAlias}/${EngagementId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEngagement",
 }));
@@ -1252,6 +1357,14 @@ export const describePage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePage",
+  iam: {
+    actions: ["ssm-contacts:DescribePage"],
+    resources: {
+      "ssm-contacts:DescribePage": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:page/${ContactAlias}/${PageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePage",
 }));
@@ -1288,6 +1401,14 @@ export const getContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContact",
+  iam: {
+    actions: ["ssm-contacts:GetContact"],
+    resources: {
+      "ssm-contacts:GetContact": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContact",
 }));
@@ -1324,6 +1445,14 @@ export const getContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactChannel",
+  iam: {
+    actions: ["ssm-contacts:GetContactChannel"],
+    resources: {
+      "ssm-contacts:GetContactChannel": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contactchannel/${ContactAlias}/${ContactChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContactChannel",
 }));
@@ -1359,6 +1488,14 @@ export const getContactPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactPolicy",
+  iam: {
+    actions: ["ssm-contacts:GetContactPolicy"],
+    resources: {
+      "ssm-contacts:GetContactPolicy": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContactPolicy",
 }));
@@ -1395,6 +1532,14 @@ export const getRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRotation",
+  iam: {
+    actions: ["ssm-contacts:GetRotation"],
+    resources: {
+      "ssm-contacts:GetRotation": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:rotation/${RotationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRotation",
 }));
@@ -1431,6 +1576,14 @@ export const getRotationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRotationOverride",
+  iam: {
+    actions: ["ssm-contacts:GetRotationOverride"],
+    resources: {
+      "ssm-contacts:GetRotationOverride": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:rotation/${RotationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRotationOverride",
 }));
@@ -1474,6 +1627,14 @@ export const listContactChannels: API.PaginatedOperationMethod<
     items: "ContactChannels",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ssm-contacts:ListContactChannels"],
+    resources: {
+      "ssm-contacts:ListContactChannels": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContactChannels",
 })) as any;
@@ -1513,6 +1674,7 @@ export const listContacts: API.PaginatedOperationMethod<
     items: "Contacts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-contacts:ListContacts"] },
   telemetry: TELEMETRY,
   span: "ListContacts",
 })) as any;
@@ -1552,6 +1714,7 @@ export const listEngagements: API.PaginatedOperationMethod<
     items: "Engagements",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-contacts:ListEngagements"] },
   telemetry: TELEMETRY,
   span: "ListEngagements",
 })) as any;
@@ -1593,6 +1756,14 @@ export const listPageReceipts: API.PaginatedOperationMethod<
     items: "Receipts",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ssm-contacts:ListPageReceipts"],
+    resources: {
+      "ssm-contacts:ListPageReceipts": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:page/${ContactAlias}/${PageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPageReceipts",
 })) as any;
@@ -1637,6 +1808,14 @@ export const listPageResolutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PageResolutions",
   } as const,
+  iam: {
+    actions: ["ssm-contacts:ListPageResolutions"],
+    resources: {
+      "ssm-contacts:ListPageResolutions": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:page/${ContactAlias}/${PageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPageResolutions",
 })) as any;
@@ -1678,6 +1857,14 @@ export const listPagesByContact: API.PaginatedOperationMethod<
     items: "Pages",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ssm-contacts:ListPagesByContact"],
+    resources: {
+      "ssm-contacts:ListPagesByContact": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPagesByContact",
 })) as any;
@@ -1719,6 +1906,14 @@ export const listPagesByEngagement: API.PaginatedOperationMethod<
     items: "Pages",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ssm-contacts:ListPagesByEngagement"],
+    resources: {
+      "ssm-contacts:ListPagesByEngagement": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:engagement/${ContactAlias}/${EngagementId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPagesByEngagement",
 })) as any;
@@ -1760,6 +1955,7 @@ export const listPreviewRotationShifts: API.PaginatedOperationMethod<
     items: "RotationShifts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-contacts:ListPreviewRotationShifts"] },
   telemetry: TELEMETRY,
   span: "ListPreviewRotationShifts",
 })) as any;
@@ -1803,6 +1999,14 @@ export const listRotationOverrides: API.PaginatedOperationMethod<
     items: "RotationOverrides",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ssm-contacts:ListRotationOverrides"],
+    resources: {
+      "ssm-contacts:ListRotationOverrides": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:rotation/${RotationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRotationOverrides",
 })) as any;
@@ -1844,6 +2048,7 @@ export const listRotations: API.PaginatedOperationMethod<
     items: "Rotations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-contacts:ListRotations"] },
   telemetry: TELEMETRY,
   span: "ListRotations",
 })) as any;
@@ -1889,6 +2094,14 @@ export const listRotationShifts: API.PaginatedOperationMethod<
     items: "RotationShifts",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ssm-contacts:ListRotationShifts"],
+    resources: {
+      "ssm-contacts:ListRotationShifts": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:rotation/${RotationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRotationShifts",
 })) as any;
@@ -1923,6 +2136,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["ssm-contacts:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1961,6 +2175,14 @@ export const putContactPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContactPolicy",
+  iam: {
+    actions: ["ssm-contacts:PutContactPolicy"],
+    resources: {
+      "ssm-contacts:PutContactPolicy": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutContactPolicy",
 }));
@@ -2001,6 +2223,14 @@ export const sendActivationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendActivationCode",
+  iam: {
+    actions: ["ssm-contacts:SendActivationCode"],
+    resources: {
+      "ssm-contacts:SendActivationCode": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contactchannel/${ContactAlias}/${ContactChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendActivationCode",
 }));
@@ -2038,6 +2268,14 @@ export const startEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEngagement",
+  iam: {
+    actions: ["ssm-contacts:StartEngagement"],
+    resources: {
+      "ssm-contacts:StartEngagement": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartEngagement",
 }));
@@ -2073,6 +2311,14 @@ export const stopEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEngagement",
+  iam: {
+    actions: ["ssm-contacts:StopEngagement"],
+    resources: {
+      "ssm-contacts:StopEngagement": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:engagement/${ContactAlias}/${EngagementId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopEngagement",
 }));
@@ -2110,6 +2356,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["ssm-contacts:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2144,6 +2391,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["ssm-contacts:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2182,6 +2430,17 @@ export const updateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContact",
+  iam: {
+    actions: ["ssm-contacts:AssociateContact", "ssm-contacts:UpdateContact"],
+    resources: {
+      "ssm-contacts:AssociateContact": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+      "ssm-contacts:UpdateContact": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contact/${ContactAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContact",
 }));
@@ -2220,6 +2479,14 @@ export const updateContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactChannel",
+  iam: {
+    actions: ["ssm-contacts:UpdateContactChannel"],
+    resources: {
+      "ssm-contacts:UpdateContactChannel": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:contactchannel/${ContactAlias}/${ContactChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactChannel",
 }));
@@ -2258,6 +2525,14 @@ export const updateRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRotation",
+  iam: {
+    actions: ["ssm-contacts:UpdateRotation"],
+    resources: {
+      "ssm-contacts:UpdateRotation": [
+        "arn:${Partition}:ssm-contacts:${Region}:${Account}:rotation/${RotationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRotation",
 }));

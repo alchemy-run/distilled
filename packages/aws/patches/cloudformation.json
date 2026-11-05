@@ -5,16 +5,24 @@
         {
           "name": "StackNotFound",
           "from": "ValidationError",
-          "message": { "includes": "does not exist" }
+          "message": {
+            "includes": "does not exist"
+          }
         }
-      ]
+      ],
+      "iam": {
+        "reason": "cloudformation:ListStacks: AWS lists it for the operation, but the CloudFormation Bindings suite calls it successfully without it.",
+        "remove": ["cloudformation:ListStacks"]
+      }
     },
     "updateStack": {
       "syntheticErrors": [
         {
           "name": "NoUpdateToPerform",
           "from": "ValidationError",
-          "message": { "includes": "No updates are to be performed" }
+          "message": {
+            "includes": "No updates are to be performed"
+          }
         }
       ]
     }

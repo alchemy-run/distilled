@@ -295,6 +295,14 @@ export const getRoutingControlState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoutingControlState",
+  iam: {
+    actions: ["route53-recovery-cluster:GetRoutingControlState"],
+    resources: {
+      "route53-recovery-cluster:GetRoutingControlState": [
+        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/routingcontrol/${RoutingControlId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRoutingControlState",
 }));
@@ -361,6 +369,7 @@ export const listRoutingControls: API.PaginatedOperationMethod<
     items: "RoutingControls",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53-recovery-cluster:ListRoutingControls"] },
   telemetry: TELEMETRY,
   span: "ListRoutingControls",
 })) as any;
@@ -424,6 +433,14 @@ export const updateRoutingControlState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingControlState",
+  iam: {
+    actions: ["route53-recovery-cluster:UpdateRoutingControlState"],
+    resources: {
+      "route53-recovery-cluster:UpdateRoutingControlState": [
+        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/routingcontrol/${RoutingControlId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoutingControlState",
 }));
@@ -489,6 +506,14 @@ export const updateRoutingControlStates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingControlStates",
+  iam: {
+    actions: ["route53-recovery-cluster:UpdateRoutingControlStates"],
+    resources: {
+      "route53-recovery-cluster:UpdateRoutingControlStates": [
+        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/routingcontrol/${RoutingControlId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoutingControlStates",
 }));

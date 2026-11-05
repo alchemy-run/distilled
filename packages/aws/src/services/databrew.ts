@@ -1156,6 +1156,14 @@ export const batchDeleteRecipeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteRecipeVersion",
+  iam: {
+    actions: ["databrew:BatchDeleteRecipeVersion"],
+    resources: {
+      "databrew:BatchDeleteRecipeVersion": [
+        "arn:${Partition}:databrew:${Region}:${Account}:recipe/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteRecipeVersion",
 }));
@@ -1188,6 +1196,10 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  iam: {
+    actions: ["databrew:CreateDataset", "databrew:TagResource"],
+    conditional: { "databrew:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataset",
 }));
@@ -1224,6 +1236,11 @@ export const createProfileJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfileJob",
+  iam: {
+    actions: ["databrew:CreateProfileJob", "iam:PassRole", "databrew:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "databrew:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProfileJob",
 }));
@@ -1258,6 +1275,11 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  iam: {
+    actions: ["databrew:CreateProject", "iam:PassRole", "databrew:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "databrew:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProject",
 }));
@@ -1288,6 +1310,10 @@ export const createRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecipe",
+  iam: {
+    actions: ["databrew:CreateRecipe", "databrew:TagResource"],
+    conditional: { "databrew:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRecipe",
 }));
@@ -1324,6 +1350,11 @@ export const createRecipeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecipeJob",
+  iam: {
+    actions: ["databrew:CreateRecipeJob", "iam:PassRole", "databrew:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "databrew:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRecipeJob",
 }));
@@ -1355,6 +1386,10 @@ export const createRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleset",
+  iam: {
+    actions: ["databrew:CreateRuleset", "databrew:TagResource"],
+    conditional: { "databrew:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRuleset",
 }));
@@ -1386,6 +1421,10 @@ export const createSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchedule",
+  iam: {
+    actions: ["databrew:CreateSchedule", "databrew:TagResource"],
+    conditional: { "databrew:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSchedule",
 }));
@@ -1416,6 +1455,14 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  iam: {
+    actions: ["databrew:DeleteDataset"],
+    resources: {
+      "databrew:DeleteDataset": [
+        "arn:${Partition}:databrew:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataset",
 }));
@@ -1446,6 +1493,12 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  iam: {
+    actions: ["databrew:DeleteJob"],
+    resources: {
+      "databrew:DeleteJob": ["arn:${Partition}:databrew:${Region}:${Account}:job/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJob",
 }));
@@ -1476,6 +1529,14 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  iam: {
+    actions: ["databrew:DeleteProject"],
+    resources: {
+      "databrew:DeleteProject": [
+        "arn:${Partition}:databrew:${Region}:${Account}:project/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProject",
 }));
@@ -1506,6 +1567,14 @@ export const deleteRecipeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecipeVersion",
+  iam: {
+    actions: ["databrew:DeleteRecipeVersion"],
+    resources: {
+      "databrew:DeleteRecipeVersion": [
+        "arn:${Partition}:databrew:${Region}:${Account}:recipe/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRecipeVersion",
 }));
@@ -1536,6 +1605,14 @@ export const deleteRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleset",
+  iam: {
+    actions: ["databrew:DeleteRuleset"],
+    resources: {
+      "databrew:DeleteRuleset": [
+        "arn:${Partition}:databrew:${Region}:${Account}:ruleset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRuleset",
 }));
@@ -1560,6 +1637,14 @@ export const deleteSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedule",
+  iam: {
+    actions: ["databrew:DeleteSchedule"],
+    resources: {
+      "databrew:DeleteSchedule": [
+        "arn:${Partition}:databrew:${Region}:${Account}:schedule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSchedule",
 }));
@@ -1584,6 +1669,14 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  iam: {
+    actions: ["databrew:DescribeDataset"],
+    resources: {
+      "databrew:DescribeDataset": [
+        "arn:${Partition}:databrew:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataset",
 }));
@@ -1608,6 +1701,12 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
+  iam: {
+    actions: ["databrew:DescribeJob"],
+    resources: {
+      "databrew:DescribeJob": ["arn:${Partition}:databrew:${Region}:${Account}:job/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeJob",
 }));
@@ -1632,6 +1731,14 @@ export const describeJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobRun",
+  iam: {
+    actions: ["databrew:DescribeJobRun"],
+    resources: {
+      "databrew:DescribeJobRun": [
+        "arn:${Partition}:databrew:${Region}:${Account}:job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeJobRun",
 }));
@@ -1656,6 +1763,14 @@ export const describeProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProject",
+  iam: {
+    actions: ["databrew:DescribeProject"],
+    resources: {
+      "databrew:DescribeProject": [
+        "arn:${Partition}:databrew:${Region}:${Account}:project/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeProject",
 }));
@@ -1681,6 +1796,14 @@ export const describeRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecipe",
+  iam: {
+    actions: ["databrew:DescribeRecipe"],
+    resources: {
+      "databrew:DescribeRecipe": [
+        "arn:${Partition}:databrew:${Region}:${Account}:recipe/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRecipe",
 }));
@@ -1705,6 +1828,14 @@ export const describeRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleset",
+  iam: {
+    actions: ["databrew:DescribeRuleset"],
+    resources: {
+      "databrew:DescribeRuleset": [
+        "arn:${Partition}:databrew:${Region}:${Account}:ruleset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRuleset",
 }));
@@ -1729,6 +1860,14 @@ export const describeSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchedule",
+  iam: {
+    actions: ["databrew:DescribeSchedule"],
+    resources: {
+      "databrew:DescribeSchedule": [
+        "arn:${Partition}:databrew:${Region}:${Account}:schedule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSchedule",
 }));
@@ -1756,6 +1895,7 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "Datasets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["databrew:ListDatasets"] },
   telemetry: TELEMETRY,
   span: "ListDatasets",
 })) as any;
@@ -1787,6 +1927,12 @@ export const listJobRuns: API.PaginatedOperationMethod<
     items: "JobRuns",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["databrew:ListJobRuns"],
+    resources: {
+      "databrew:ListJobRuns": ["arn:${Partition}:databrew:${Region}:${Account}:job/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobRuns",
 })) as any;
@@ -1814,6 +1960,7 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["databrew:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -1841,6 +1988,7 @@ export const listProjects: API.PaginatedOperationMethod<
     items: "Projects",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["databrew:ListProjects"] },
   telemetry: TELEMETRY,
   span: "ListProjects",
 })) as any;
@@ -1868,6 +2016,7 @@ export const listRecipes: API.PaginatedOperationMethod<
     items: "Recipes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["databrew:ListRecipes"] },
   telemetry: TELEMETRY,
   span: "ListRecipes",
 })) as any;
@@ -1900,6 +2049,14 @@ export const listRecipeVersions: API.PaginatedOperationMethod<
     items: "Recipes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["databrew:ListRecipeVersions"],
+    resources: {
+      "databrew:ListRecipeVersions": [
+        "arn:${Partition}:databrew:${Region}:${Account}:recipe/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecipeVersions",
 })) as any;
@@ -1932,6 +2089,7 @@ export const listRulesets: API.PaginatedOperationMethod<
     items: "Rulesets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["databrew:ListRulesets"] },
   telemetry: TELEMETRY,
   span: "ListRulesets",
 })) as any;
@@ -1959,6 +2117,7 @@ export const listSchedules: API.PaginatedOperationMethod<
     items: "Schedules",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["databrew:ListSchedules"] },
   telemetry: TELEMETRY,
   span: "ListSchedules",
 })) as any;
@@ -1989,6 +2148,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["databrew:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2019,6 +2179,14 @@ export const publishRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishRecipe",
+  iam: {
+    actions: ["databrew:PublishRecipe"],
+    resources: {
+      "databrew:PublishRecipe": [
+        "arn:${Partition}:databrew:${Region}:${Account}:recipe/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PublishRecipe",
 }));
@@ -2044,6 +2212,14 @@ export const sendProjectSessionAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendProjectSessionAction",
+  iam: {
+    actions: ["databrew:SendProjectSessionAction"],
+    resources: {
+      "databrew:SendProjectSessionAction": [
+        "arn:${Partition}:databrew:${Region}:${Account}:project/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendProjectSessionAction",
 }));
@@ -2076,6 +2252,12 @@ export const startJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
+  iam: {
+    actions: ["databrew:StartJobRun"],
+    resources: {
+      "databrew:StartJobRun": ["arn:${Partition}:databrew:${Region}:${Account}:job/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartJobRun",
 }));
@@ -2107,6 +2289,14 @@ export const startProjectSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProjectSession",
+  iam: {
+    actions: ["databrew:StartProjectSession"],
+    resources: {
+      "databrew:StartProjectSession": [
+        "arn:${Partition}:databrew:${Region}:${Account}:project/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartProjectSession",
 }));
@@ -2131,6 +2321,12 @@ export const stopJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJobRun",
+  iam: {
+    actions: ["databrew:StopJobRun"],
+    resources: {
+      "databrew:StopJobRun": ["arn:${Partition}:databrew:${Region}:${Account}:job/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopJobRun",
 }));
@@ -2162,6 +2358,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["databrew:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2192,6 +2389,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["databrew:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2222,6 +2420,14 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
+  iam: {
+    actions: ["databrew:UpdateDataset"],
+    resources: {
+      "databrew:UpdateDataset": [
+        "arn:${Partition}:databrew:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataset",
 }));
@@ -2254,6 +2460,15 @@ export const updateProfileJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfileJob",
+  iam: {
+    actions: ["iam:PassRole", "databrew:UpdateProfileJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "databrew:UpdateProfileJob": [
+        "arn:${Partition}:databrew:${Region}:${Account}:job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProfileJob",
 }));
@@ -2284,6 +2499,15 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  iam: {
+    actions: ["iam:PassRole", "databrew:UpdateProject"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "databrew:UpdateProject": [
+        "arn:${Partition}:databrew:${Region}:${Account}:project/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProject",
 }));
@@ -2309,6 +2533,14 @@ export const updateRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecipe",
+  iam: {
+    actions: ["databrew:UpdateRecipe"],
+    resources: {
+      "databrew:UpdateRecipe": [
+        "arn:${Partition}:databrew:${Region}:${Account}:recipe/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRecipe",
 }));
@@ -2341,6 +2573,15 @@ export const updateRecipeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecipeJob",
+  iam: {
+    actions: ["iam:PassRole", "databrew:UpdateRecipeJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "databrew:UpdateRecipeJob": [
+        "arn:${Partition}:databrew:${Region}:${Account}:job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRecipeJob",
 }));
@@ -2365,6 +2606,14 @@ export const updateRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleset",
+  iam: {
+    actions: ["databrew:UpdateRuleset"],
+    resources: {
+      "databrew:UpdateRuleset": [
+        "arn:${Partition}:databrew:${Region}:${Account}:ruleset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRuleset",
 }));
@@ -2395,6 +2644,14 @@ export const updateSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchedule",
+  iam: {
+    actions: ["databrew:UpdateSchedule"],
+    resources: {
+      "databrew:UpdateSchedule": [
+        "arn:${Partition}:databrew:${Region}:${Account}:schedule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSchedule",
 }));

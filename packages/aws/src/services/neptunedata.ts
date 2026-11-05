@@ -1381,6 +1381,14 @@ export const cancelLoaderJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLoaderJob",
+  iam: {
+    actions: ["neptune-db:CancelLoaderJob"],
+    resources: {
+      "neptune-db:CancelLoaderJob": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelLoaderJob",
 }));
@@ -1427,6 +1435,14 @@ export const cancelMLDataProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLDataProcessingJob",
+  iam: {
+    actions: ["neptune-db:CancelMLDataProcessingJob"],
+    resources: {
+      "neptune-db:CancelMLDataProcessingJob": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelMLDataProcessingJob",
 }));
@@ -1473,6 +1489,14 @@ export const cancelMLModelTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLModelTrainingJob",
+  iam: {
+    actions: ["neptune-db:CancelMLModelTrainingJob"],
+    resources: {
+      "neptune-db:CancelMLModelTrainingJob": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelMLModelTrainingJob",
 }));
@@ -1519,6 +1543,14 @@ export const cancelMLModelTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLModelTransformJob",
+  iam: {
+    actions: ["neptune-db:CancelMLModelTransformJob"],
+    resources: {
+      "neptune-db:CancelMLModelTransformJob": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelMLModelTransformJob",
 }));
@@ -1619,6 +1651,14 @@ export const createMLEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMLEndpoint",
+  iam: {
+    actions: ["neptune-db:CreateMLEndpoint"],
+    resources: {
+      "neptune-db:CreateMLEndpoint": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMLEndpoint",
 }));
@@ -1665,6 +1705,14 @@ export const deleteMLEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLEndpoint",
+  iam: {
+    actions: ["neptune-db:DeleteMLEndpoint"],
+    resources: {
+      "neptune-db:DeleteMLEndpoint": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMLEndpoint",
 }));
@@ -2227,6 +2275,14 @@ export const getEngineStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEngineStatus",
+  iam: {
+    actions: ["neptune-db:GetEngineStatus"],
+    resources: {
+      "neptune-db:GetEngineStatus": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEngineStatus",
 }));
@@ -2385,6 +2441,14 @@ export const getLoaderJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoaderJobStatus",
+  iam: {
+    actions: ["neptune-db:GetLoaderJobStatus"],
+    resources: {
+      "neptune-db:GetLoaderJobStatus": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLoaderJobStatus",
 }));
@@ -3161,6 +3225,14 @@ export const listLoaderJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoaderJobs",
+  iam: {
+    actions: ["neptune-db:ListLoaderJobs"],
+    resources: {
+      "neptune-db:ListLoaderJobs": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLoaderJobs",
 }));
@@ -3207,6 +3279,14 @@ export const listMLDataProcessingJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLDataProcessingJobs",
+  iam: {
+    actions: ["neptune-db:ListMLDataProcessingJobs"],
+    resources: {
+      "neptune-db:ListMLDataProcessingJobs": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMLDataProcessingJobs",
 }));
@@ -3253,6 +3333,14 @@ export const listMLEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLEndpoints",
+  iam: {
+    actions: ["neptune-db:ListMLEndpoints"],
+    resources: {
+      "neptune-db:ListMLEndpoints": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMLEndpoints",
 }));
@@ -3299,6 +3387,14 @@ export const listMLModelTrainingJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLModelTrainingJobs",
+  iam: {
+    actions: ["neptune-db:ListMLModelTrainingJobs"],
+    resources: {
+      "neptune-db:ListMLModelTrainingJobs": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMLModelTrainingJobs",
 }));
@@ -3345,6 +3441,14 @@ export const listMLModelTransformJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLModelTransformJobs",
+  iam: {
+    actions: ["neptune-db:ListMLModelTransformJobs"],
+    resources: {
+      "neptune-db:ListMLModelTransformJobs": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMLModelTransformJobs",
 }));
@@ -3613,6 +3717,14 @@ export const startLoaderJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLoaderJob",
+  iam: {
+    actions: ["neptune-db:StartLoaderJob"],
+    resources: {
+      "neptune-db:StartLoaderJob": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartLoaderJob",
 }));
@@ -3659,6 +3771,14 @@ export const startMLDataProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLDataProcessingJob",
+  iam: {
+    actions: ["neptune-db:StartMLDataProcessingJob"],
+    resources: {
+      "neptune-db:StartMLDataProcessingJob": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMLDataProcessingJob",
 }));
@@ -3705,6 +3825,14 @@ export const startMLModelTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLModelTrainingJob",
+  iam: {
+    actions: ["neptune-db:StartMLModelTrainingJob"],
+    resources: {
+      "neptune-db:StartMLModelTrainingJob": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMLModelTrainingJob",
 }));
@@ -3751,6 +3879,14 @@ export const startMLModelTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLModelTransformJob",
+  iam: {
+    actions: ["neptune-db:StartMLModelTransformJob"],
+    resources: {
+      "neptune-db:StartMLModelTransformJob": [
+        "arn:${Partition}:neptune-db:${Region}:${Account}:${ClusterResourceId}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMLModelTransformJob",
 }));

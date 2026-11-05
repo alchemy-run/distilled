@@ -491,6 +491,18 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  iam: {
+    actions: ["connect-campaigns:CreateCampaign", "connect-campaigns:TagResource"],
+    resources: {
+      "connect-campaigns:CreateCampaign": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+      "connect-campaigns:TagResource": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+    conditional: { "connect-campaigns:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCampaign",
 }));
@@ -521,6 +533,14 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  iam: {
+    actions: ["connect-campaigns:DeleteCampaign"],
+    resources: {
+      "connect-campaigns:DeleteCampaign": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCampaign",
 }));
@@ -555,6 +575,7 @@ export const deleteConnectInstanceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectInstanceConfig",
+  iam: { actions: ["connect-campaigns:DeleteConnectInstanceConfig"] },
   telemetry: TELEMETRY,
   span: "DeleteConnectInstanceConfig",
 }));
@@ -587,6 +608,7 @@ export const deleteInstanceOnboardingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceOnboardingJob",
+  iam: { actions: ["connect-campaigns:DeleteInstanceOnboardingJob"] },
   telemetry: TELEMETRY,
   span: "DeleteInstanceOnboardingJob",
 }));
@@ -617,6 +639,14 @@ export const describeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCampaign",
+  iam: {
+    actions: ["connect-campaigns:DescribeCampaign"],
+    resources: {
+      "connect-campaigns:DescribeCampaign": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCampaign",
 }));
@@ -649,6 +679,14 @@ export const getCampaignState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignState",
+  iam: {
+    actions: ["connect-campaigns:GetCampaignState"],
+    resources: {
+      "connect-campaigns:GetCampaignState": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCampaignState",
 }));
@@ -679,6 +717,14 @@ export const getCampaignStateBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignStateBatch",
+  iam: {
+    actions: ["connect-campaigns:GetCampaignStateBatch"],
+    resources: {
+      "connect-campaigns:GetCampaignStateBatch": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCampaignStateBatch",
 }));
@@ -709,6 +755,7 @@ export const getConnectInstanceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectInstanceConfig",
+  iam: { actions: ["connect-campaigns:GetConnectInstanceConfig"] },
   telemetry: TELEMETRY,
   span: "GetConnectInstanceConfig",
 }));
@@ -739,6 +786,7 @@ export const getInstanceOnboardingJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceOnboardingJobStatus",
+  iam: { actions: ["connect-campaigns:GetInstanceOnboardingJobStatus"] },
   telemetry: TELEMETRY,
   span: "GetInstanceOnboardingJobStatus",
 }));
@@ -770,6 +818,7 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaignSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["connect-campaigns:ListCampaigns"] },
   telemetry: TELEMETRY,
   span: "ListCampaigns",
 })) as any;
@@ -802,6 +851,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["connect-campaigns:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -838,6 +888,14 @@ export const pauseCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseCampaign",
+  iam: {
+    actions: ["connect-campaigns:PauseCampaign"],
+    resources: {
+      "connect-campaigns:PauseCampaign": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PauseCampaign",
 }));
@@ -874,6 +932,14 @@ export const putDialRequestBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDialRequestBatch",
+  iam: {
+    actions: ["connect-campaigns:PutDialRequestBatch"],
+    resources: {
+      "connect-campaigns:PutDialRequestBatch": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDialRequestBatch",
 }));
@@ -910,6 +976,14 @@ export const resumeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeCampaign",
+  iam: {
+    actions: ["connect-campaigns:ResumeCampaign"],
+    resources: {
+      "connect-campaigns:ResumeCampaign": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResumeCampaign",
 }));
@@ -946,6 +1020,14 @@ export const startCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCampaign",
+  iam: {
+    actions: ["connect-campaigns:StartCampaign"],
+    resources: {
+      "connect-campaigns:StartCampaign": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartCampaign",
 }));
@@ -980,6 +1062,7 @@ export const startInstanceOnboardingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstanceOnboardingJob",
+  iam: { actions: ["connect-campaigns:StartInstanceOnboardingJob"] },
   telemetry: TELEMETRY,
   span: "StartInstanceOnboardingJob",
 }));
@@ -1016,6 +1099,14 @@ export const stopCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCampaign",
+  iam: {
+    actions: ["connect-campaigns:StopCampaign"],
+    resources: {
+      "connect-campaigns:StopCampaign": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopCampaign",
 }));
@@ -1048,6 +1139,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["connect-campaigns:TagResource"],
+    resources: {
+      "connect-campaigns:TagResource": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1080,6 +1179,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["connect-campaigns:UntagResource"],
+    resources: {
+      "connect-campaigns:UntagResource": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1112,6 +1219,14 @@ export const updateCampaignDialerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignDialerConfig",
+  iam: {
+    actions: ["connect-campaigns:UpdateCampaignDialerConfig"],
+    resources: {
+      "connect-campaigns:UpdateCampaignDialerConfig": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCampaignDialerConfig",
 }));
@@ -1144,6 +1259,14 @@ export const updateCampaignName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignName",
+  iam: {
+    actions: ["connect-campaigns:UpdateCampaignName"],
+    resources: {
+      "connect-campaigns:UpdateCampaignName": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCampaignName",
 }));
@@ -1178,6 +1301,14 @@ export const updateCampaignOutboundCallConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignOutboundCallConfig",
+  iam: {
+    actions: ["connect-campaigns:UpdateCampaignOutboundCallConfig"],
+    resources: {
+      "connect-campaigns:UpdateCampaignOutboundCallConfig": [
+        "arn:${Partition}:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCampaignOutboundCallConfig",
 }));

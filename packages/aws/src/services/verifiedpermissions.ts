@@ -1340,6 +1340,14 @@ export const createIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentitySource",
+  iam: {
+    actions: ["verifiedpermissions:CreateIdentitySource"],
+    resources: {
+      "verifiedpermissions:CreateIdentitySource": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIdentitySource",
 }));
@@ -1378,6 +1386,14 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  iam: {
+    actions: ["verifiedpermissions:CreatePolicy"],
+    resources: {
+      "verifiedpermissions:CreatePolicy": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicy",
 }));
@@ -1406,6 +1422,7 @@ export const createPolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStore",
+  iam: { actions: ["verifiedpermissions:CreatePolicyStore"] },
   telemetry: TELEMETRY,
   span: "CreatePolicyStore",
 }));
@@ -1440,6 +1457,15 @@ export const createPolicyStoreAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStoreAlias",
+  iam: {
+    actions: ["verifiedpermissions:CreatePolicyStoreAlias"],
+    resources: {
+      "verifiedpermissions:CreatePolicyStoreAlias": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+        "arn:${Partition}:verifiedpermissions:${Region}:${Account}:policy-store-alias/${AliasName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicyStoreAlias",
 }));
@@ -1472,6 +1498,14 @@ export const createPolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyTemplate",
+  iam: {
+    actions: ["verifiedpermissions:CreatePolicyTemplate"],
+    resources: {
+      "verifiedpermissions:CreatePolicyTemplate": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicyTemplate",
 }));
@@ -1495,6 +1529,14 @@ export const deleteIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentitySource",
+  iam: {
+    actions: ["verifiedpermissions:DeleteIdentitySource"],
+    resources: {
+      "verifiedpermissions:DeleteIdentitySource": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIdentitySource",
 }));
@@ -1517,6 +1559,14 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  iam: {
+    actions: ["verifiedpermissions:DeletePolicy"],
+    resources: {
+      "verifiedpermissions:DeletePolicy": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -1539,6 +1589,14 @@ export const deletePolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStore",
+  iam: {
+    actions: ["verifiedpermissions:DeletePolicyStore"],
+    resources: {
+      "verifiedpermissions:DeletePolicyStore": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicyStore",
 }));
@@ -1571,6 +1629,14 @@ export const deletePolicyStoreAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStoreAlias",
+  iam: {
+    actions: ["verifiedpermissions:DeletePolicyStoreAlias"],
+    resources: {
+      "verifiedpermissions:DeletePolicyStoreAlias": [
+        "arn:${Partition}:verifiedpermissions:${Region}:${Account}:policy-store-alias/${AliasName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicyStoreAlias",
 }));
@@ -1596,6 +1662,14 @@ export const deletePolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyTemplate",
+  iam: {
+    actions: ["verifiedpermissions:DeletePolicyTemplate"],
+    resources: {
+      "verifiedpermissions:DeletePolicyTemplate": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicyTemplate",
 }));
@@ -1616,6 +1690,14 @@ export const getIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentitySource",
+  iam: {
+    actions: ["verifiedpermissions:GetIdentitySource"],
+    resources: {
+      "verifiedpermissions:GetIdentitySource": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdentitySource",
 }));
@@ -1636,6 +1718,14 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: {
+    actions: ["verifiedpermissions:GetPolicy"],
+    resources: {
+      "verifiedpermissions:GetPolicy": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -1656,6 +1746,14 @@ export const getPolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStore",
+  iam: {
+    actions: ["verifiedpermissions:GetPolicyStore"],
+    resources: {
+      "verifiedpermissions:GetPolicyStore": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicyStore",
 }));
@@ -1676,6 +1774,14 @@ export const getPolicyStoreAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStoreAlias",
+  iam: {
+    actions: ["verifiedpermissions:GetPolicyStoreAlias"],
+    resources: {
+      "verifiedpermissions:GetPolicyStoreAlias": [
+        "arn:${Partition}:verifiedpermissions:${Region}:${Account}:policy-store-alias/${AliasName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicyStoreAlias",
 }));
@@ -1696,6 +1802,14 @@ export const getPolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyTemplate",
+  iam: {
+    actions: ["verifiedpermissions:GetPolicyTemplate"],
+    resources: {
+      "verifiedpermissions:GetPolicyTemplate": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicyTemplate",
 }));
@@ -1716,6 +1830,14 @@ export const getSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
+  iam: {
+    actions: ["verifiedpermissions:GetSchema"],
+    resources: {
+      "verifiedpermissions:GetSchema": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSchema",
 }));
@@ -1736,6 +1858,14 @@ export const isAuthorized: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorized",
+  iam: {
+    actions: ["verifiedpermissions:IsAuthorized"],
+    resources: {
+      "verifiedpermissions:IsAuthorized": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "IsAuthorized",
 }));
@@ -1763,6 +1893,14 @@ export const isAuthorizedWithToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorizedWithToken",
+  iam: {
+    actions: ["verifiedpermissions:IsAuthorizedWithToken"],
+    resources: {
+      "verifiedpermissions:IsAuthorizedWithToken": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "IsAuthorizedWithToken",
 }));
@@ -1790,6 +1928,14 @@ export const listIdentitySources: API.PaginatedOperationMethod<
     items: "identitySources",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["verifiedpermissions:ListIdentitySources"],
+    resources: {
+      "verifiedpermissions:ListIdentitySources": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIdentitySources",
 })) as any;
@@ -1817,6 +1963,14 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["verifiedpermissions:ListPolicies"],
+    resources: {
+      "verifiedpermissions:ListPolicies": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -1844,6 +1998,7 @@ export const listPolicyStoreAliases: API.PaginatedOperationMethod<
     items: "policyStoreAliases",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["verifiedpermissions:ListPolicyStoreAliases"] },
   telemetry: TELEMETRY,
   span: "ListPolicyStoreAliases",
 })) as any;
@@ -1871,6 +2026,7 @@ export const listPolicyStores: API.PaginatedOperationMethod<
     items: "policyStores",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["verifiedpermissions:ListPolicyStores"] },
   telemetry: TELEMETRY,
   span: "ListPolicyStores",
 })) as any;
@@ -1898,6 +2054,14 @@ export const listPolicyTemplates: API.PaginatedOperationMethod<
     items: "policyTemplates",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["verifiedpermissions:ListPolicyTemplates"],
+    resources: {
+      "verifiedpermissions:ListPolicyTemplates": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicyTemplates",
 })) as any;
@@ -1928,6 +2092,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["verifiedpermissions:ListTagsForResource"],
+    resources: {
+      "verifiedpermissions:ListTagsForResource": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1960,6 +2132,14 @@ export const putSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSchema",
+  iam: {
+    actions: ["verifiedpermissions:PutSchema"],
+    resources: {
+      "verifiedpermissions:PutSchema": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSchema",
 }));
@@ -1998,6 +2178,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["verifiedpermissions:TagResource"],
+    resources: {
+      "verifiedpermissions:TagResource": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2028,6 +2216,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["verifiedpermissions:UntagResource"],
+    resources: {
+      "verifiedpermissions:UntagResource": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2054,6 +2250,14 @@ export const updateIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentitySource",
+  iam: {
+    actions: ["verifiedpermissions:UpdateIdentitySource"],
+    resources: {
+      "verifiedpermissions:UpdateIdentitySource": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIdentitySource",
 }));
@@ -2106,6 +2310,14 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
+  iam: {
+    actions: ["verifiedpermissions:UpdatePolicy"],
+    resources: {
+      "verifiedpermissions:UpdatePolicy": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePolicy",
 }));
@@ -2132,6 +2344,14 @@ export const updatePolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyStore",
+  iam: {
+    actions: ["verifiedpermissions:UpdatePolicyStore"],
+    resources: {
+      "verifiedpermissions:UpdatePolicyStore": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePolicyStore",
 }));
@@ -2160,6 +2380,14 @@ export const updatePolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyTemplate",
+  iam: {
+    actions: ["verifiedpermissions:UpdatePolicyTemplate"],
+    resources: {
+      "verifiedpermissions:UpdatePolicyTemplate": [
+        "arn:${Partition}:verifiedpermissions::${Account}:policy-store/${PolicyStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePolicyTemplate",
 }));

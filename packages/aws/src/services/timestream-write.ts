@@ -599,6 +599,17 @@ export const createBatchLoadTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchLoadTask",
+  iam: {
+    actions: ["timestream:CreateBatchLoadTask", "timestream:WriteRecords"],
+    resources: {
+      "timestream:CreateBatchLoadTask": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+      "timestream:WriteRecords": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBatchLoadTask",
 }));
@@ -639,6 +650,20 @@ export const createDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatabase",
+  iam: {
+    actions: ["timestream:CreateDatabase", "timestream:TagResource"],
+    resources: {
+      "timestream:CreateDatabase": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+      ],
+      "timestream:TagResource": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+    conditional: { "timestream:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDatabase",
 }));
@@ -682,6 +707,20 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  iam: {
+    actions: ["timestream:CreateTable", "timestream:TagResource"],
+    resources: {
+      "timestream:CreateTable": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+      "timestream:TagResource": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+    conditional: { "timestream:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTable",
 }));
@@ -727,6 +766,14 @@ export const deleteDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatabase",
+  iam: {
+    actions: ["timestream:DeleteDatabase"],
+    resources: {
+      "timestream:DeleteDatabase": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDatabase",
 }));
@@ -769,6 +816,14 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  iam: {
+    actions: ["timestream:DeleteTable"],
+    resources: {
+      "timestream:DeleteTable": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTable",
 }));
@@ -804,6 +859,7 @@ export const describeBatchLoadTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchLoadTask",
+  iam: { actions: ["timestream:DescribeBatchLoadTask"] },
   telemetry: TELEMETRY,
   span: "DescribeBatchLoadTask",
 }));
@@ -841,6 +897,14 @@ export const describeDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatabase",
+  iam: {
+    actions: ["timestream:DescribeDatabase"],
+    resources: {
+      "timestream:DescribeDatabase": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDatabase",
 }));
@@ -887,6 +951,7 @@ export const describeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoints",
+  iam: { actions: ["timestream:DescribeEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpoints",
 }));
@@ -924,6 +989,14 @@ export const describeTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTable",
+  iam: {
+    actions: ["timestream:DescribeTable"],
+    resources: {
+      "timestream:DescribeTable": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTable",
 }));
@@ -964,6 +1037,7 @@ export const listBatchLoadTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["timestream:ListBatchLoadTasks"] },
   telemetry: TELEMETRY,
   span: "ListBatchLoadTasks",
 })) as any;
@@ -1004,6 +1078,7 @@ export const listDatabases: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["timestream:ListDatabases"] },
   telemetry: TELEMETRY,
   span: "ListDatabases",
 })) as any;
@@ -1046,6 +1121,14 @@ export const listTables: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["timestream:ListTables"],
+    resources: {
+      "timestream:ListTables": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTables",
 })) as any;
@@ -1076,6 +1159,16 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["timestream:ListTagsForResource"],
+    resources: {
+      "timestream:ListTagsForResource": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1110,6 +1203,7 @@ export const resumeBatchLoadTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeBatchLoadTask",
+  iam: { actions: ["timestream:ResumeBatchLoadTask"] },
   telemetry: TELEMETRY,
   span: "ResumeBatchLoadTask",
 }));
@@ -1144,6 +1238,16 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["timestream:TagResource"],
+    resources: {
+      "timestream:TagResource": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1176,6 +1280,16 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["timestream:UntagResource"],
+    resources: {
+      "timestream:UntagResource": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1217,6 +1331,14 @@ export const updateDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatabase",
+  iam: {
+    actions: ["timestream:UpdateDatabase"],
+    resources: {
+      "timestream:UpdateDatabase": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDatabase",
 }));
@@ -1257,6 +1379,14 @@ export const updateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTable",
+  iam: {
+    actions: ["timestream:UpdateTable"],
+    resources: {
+      "timestream:UpdateTable": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTable",
 }));
@@ -1335,6 +1465,14 @@ export const writeRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WriteRecords",
+  iam: {
+    actions: ["timestream:WriteRecords"],
+    resources: {
+      "timestream:WriteRecords": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "WriteRecords",
 }));

@@ -1,0 +1,51 @@
+{
+  "operations": {
+    "deleteCoreDevice": {
+      "iam": {
+        "reason": "iot:DescribeJobExecution: See the note: Deleting a core device resolves the device's deployment job executions with the caller's credentials (documented dependent action).",
+        "add": ["iot:DescribeJobExecution"]
+      }
+    },
+    "getConnectivityInfo": {
+      "iam": {
+        "reason": "iot:GetThingShadow: See the note: Connectivity info is stored in IoT Core; Greengrass reads it with the caller's credentials (documented dependent action).",
+        "add": ["iot:GetThingShadow"]
+      }
+    },
+    "getCoreDevice": {
+      "iam": {
+        "reason": "iot:DescribeThing: See the note: Core devices are IoT things; Greengrass authorizes the IoT-side lookup with the caller's credentials before resolving the device (observed \"not authorized to call Iot Core services for thing\" without it).",
+        "add": ["iot:DescribeThing"]
+      }
+    },
+    "listDeployments": {
+      "iam": {
+        "reason": "iot:DescribeJob: See the note: Enumerating deployments resolves each deployment's backing IoT Job and thing/thing-group target with the caller's credentials. iot:DescribeThing: See the note: Enumerating deployments resolves each deployment's backing IoT Job and thing/thing-group target with the caller's credentials. iot:DescribeThingGroup: See the note: Enumerating deployments resolves each deployment's backing IoT Job and thing/thing-group target with the caller's credentials. iot:GetThingShadow: See the note: Enumerating deployments resolves each deployment's backing IoT Job and thing/thing-group target with the caller's credentials.",
+        "add": [
+          "iot:DescribeJob",
+          "iot:DescribeThing",
+          "iot:DescribeThingGroup",
+          "iot:GetThingShadow"
+        ]
+      }
+    },
+    "listEffectiveDeployments": {
+      "iam": {
+        "reason": "iot:DescribeJob: See the note: Effective deployments are backed by IoT Jobs; enumerating them resolves each job, its execution on the device, and the thing/thing-group target with the caller's credentials (documented dependent actions). iot:DescribeJobExecution: See the note: Effective deployments are backed by IoT Jobs; enumerating them resolves each job, its execution on the device, and the thing/thing-group target with the caller's credentials (documented dependent actions). iot:DescribeThing: See the note: Effective deployments are backed by IoT Jobs; enumerating them resolves each job, its execution on the device, and the thing/thing-group target with the caller's credentials (documented dependent actions). iot:DescribeThingGroup: See the note: Effective deployments are backed by IoT Jobs; enumerating them resolves each job, its execution on the device, and the thing/thing-group target with the caller's credentials (documented dependent actions). iot:GetThingShadow: See the note: Effective deployments are backed by IoT Jobs; enumerating them resolves each job, its execution on the device, and the thing/thing-group target with the caller's credentials (documented dependent actions).",
+        "add": [
+          "iot:DescribeJob",
+          "iot:DescribeJobExecution",
+          "iot:DescribeThing",
+          "iot:DescribeThingGroup",
+          "iot:GetThingShadow"
+        ]
+      }
+    },
+    "updateConnectivityInfo": {
+      "iam": {
+        "reason": "iot:GetThingShadow: See the note: Connectivity info is stored in IoT Core; Greengrass writes it with the caller's credentials (documented dependent action). iot:UpdateThingShadow: See the note: Connectivity info is stored in IoT Core; Greengrass writes it with the caller's credentials (documented dependent action).",
+        "add": ["iot:GetThingShadow", "iot:UpdateThingShadow"]
+      }
+    }
+  }
+}

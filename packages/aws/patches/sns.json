@@ -85,7 +85,14 @@
       "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "publish": {
-      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"],
+      "iam": {
+        "reason": "sms-voice:SendTextMessage: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials. Publishing to a PhoneNumber sends the SMS through AWS End User Messaging, which authorizes sms-voice:SendTextMessage with the caller's credentials (SNS Bindings suite).",
+        "add": ["sms-voice:SendTextMessage"],
+        "conditional": {
+          "sms-voice:SendTextMessage": "PhoneNumber"
+        }
+      }
     },
     "getEndpointAttributes": {
       "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
@@ -95,6 +102,76 @@
     },
     "deleteEndpoint": {
       "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
+    },
+    "checkIfPhoneNumberIsOptedOut": {
+      "iam": {
+        "reason": "sms-voice:DescribeOptedOutNumbers: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:DescribeOptedOutNumbers"]
+      }
+    },
+    "createSMSSandboxPhoneNumber": {
+      "iam": {
+        "reason": "sms-voice:CreateVerifiedDestinationNumber: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials. sms-voice:SendDestinationNumberVerificationCode: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials. sms-voice:SendTextMessage: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": [
+          "sms-voice:CreateVerifiedDestinationNumber",
+          "sms-voice:SendDestinationNumberVerificationCode",
+          "sms-voice:SendTextMessage"
+        ]
+      }
+    },
+    "deleteSMSSandboxPhoneNumber": {
+      "iam": {
+        "reason": "sms-voice:DeleteVerifiedDestinationNumber: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:DeleteVerifiedDestinationNumber"]
+      }
+    },
+    "getSMSAttributes": {
+      "iam": {
+        "reason": "sms-voice:DescribeSpendLimits: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:DescribeSpendLimits"]
+      }
+    },
+    "getSMSSandboxAccountStatus": {
+      "iam": {
+        "reason": "sms-voice:DescribeAccountAttributes: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:DescribeAccountAttributes"]
+      }
+    },
+    "listOriginationNumbers": {
+      "iam": {
+        "reason": "sms-voice:DescribePhoneNumbers: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:DescribePhoneNumbers"]
+      }
+    },
+    "listPhoneNumbersOptedOut": {
+      "iam": {
+        "reason": "sms-voice:DescribeOptedOutNumbers: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:DescribeOptedOutNumbers"]
+      }
+    },
+    "listSMSSandboxPhoneNumbers": {
+      "iam": {
+        "reason": "sms-voice:DescribeVerifiedDestinationNumbers: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:DescribeVerifiedDestinationNumbers"]
+      }
+    },
+    "optInPhoneNumber": {
+      "iam": {
+        "reason": "sms-voice:DeleteOptedOutNumber: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:DeleteOptedOutNumber"]
+      }
+    },
+    "setSMSAttributes": {
+      "iam": {
+        "reason": "sms-voice:DescribeSpendLimits: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials. sms-voice:SetTextMessageSpendLimitOverride: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:DescribeSpendLimits", "sms-voice:SetTextMessageSpendLimitOverride"]
+      }
+    },
+    "verifySMSSandboxPhoneNumber": {
+      "iam": {
+        "reason": "sms-voice:VerifyDestinationNumber: SNS's SMS calls run on AWS End User Messaging, which authorizes its sms-voice action with the caller's credentials.",
+        "add": ["sms-voice:VerifyDestinationNumber"]
+      }
     }
   }
 }

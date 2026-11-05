@@ -715,6 +715,14 @@ export const deleteScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScalingPolicy",
+  iam: {
+    actions: ["application-autoscaling:DeleteScalingPolicy"],
+    resources: {
+      "application-autoscaling:DeleteScalingPolicy": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteScalingPolicy",
 }));
@@ -747,6 +755,14 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
+  iam: {
+    actions: ["application-autoscaling:DeleteScheduledAction"],
+    resources: {
+      "application-autoscaling:DeleteScheduledAction": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteScheduledAction",
 }));
@@ -781,6 +797,14 @@ export const deregisterScalableTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterScalableTarget",
+  iam: {
+    actions: ["application-autoscaling:DeregisterScalableTarget"],
+    resources: {
+      "application-autoscaling:DeregisterScalableTarget": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterScalableTarget",
 }));
@@ -821,6 +845,7 @@ export const describeScalableTargets: API.PaginatedOperationMethod<
     items: "ScalableTargets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["application-autoscaling:DescribeScalableTargets"] },
   telemetry: TELEMETRY,
   span: "DescribeScalableTargets",
 })) as any;
@@ -864,6 +889,7 @@ export const describeScalingActivities: API.PaginatedOperationMethod<
     items: "ScalingActivities",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["application-autoscaling:DescribeScalingActivities"] },
   telemetry: TELEMETRY,
   span: "DescribeScalingActivities",
 })) as any;
@@ -908,6 +934,7 @@ export const describeScalingPolicies: API.PaginatedOperationMethod<
     items: "ScalingPolicies",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["application-autoscaling:DescribeScalingPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeScalingPolicies",
 })) as any;
@@ -950,6 +977,7 @@ export const describeScheduledActions: API.PaginatedOperationMethod<
     items: "ScheduledActions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["application-autoscaling:DescribeScheduledActions"] },
   telemetry: TELEMETRY,
   span: "DescribeScheduledActions",
 })) as any;
@@ -982,6 +1010,7 @@ export const getPredictiveScalingForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPredictiveScalingForecast",
+  iam: { actions: ["application-autoscaling:GetPredictiveScalingForecast"] },
   telemetry: TELEMETRY,
   span: "GetPredictiveScalingForecast",
 }));
@@ -1005,6 +1034,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["application-autoscaling:ListTagsForResource"],
+    resources: {
+      "application-autoscaling:ListTagsForResource": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1067,6 +1104,14 @@ export const putScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScalingPolicy",
+  iam: {
+    actions: ["application-autoscaling:PutScalingPolicy"],
+    resources: {
+      "application-autoscaling:PutScalingPolicy": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutScalingPolicy",
 }));
@@ -1116,6 +1161,14 @@ export const putScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScheduledAction",
+  iam: {
+    actions: ["application-autoscaling:PutScheduledAction"],
+    resources: {
+      "application-autoscaling:PutScheduledAction": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutScheduledAction",
 }));
@@ -1182,6 +1235,23 @@ export const registerScalableTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterScalableTarget",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "application-autoscaling:RegisterScalableTarget",
+      "application-autoscaling:TagResource",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "application-autoscaling:RegisterScalableTarget": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+      "application-autoscaling:TagResource": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleARN", "application-autoscaling:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterScalableTarget",
 }));
@@ -1222,6 +1292,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["application-autoscaling:TagResource"],
+    resources: {
+      "application-autoscaling:TagResource": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1243,6 +1321,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["application-autoscaling:UntagResource"],
+    resources: {
+      "application-autoscaling:UntagResource": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

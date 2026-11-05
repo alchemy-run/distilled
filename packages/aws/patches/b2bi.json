@@ -1,0 +1,28 @@
+{
+  "operations": {
+    "createStarterMappingTemplate": {
+      "iam": {
+        "reason": "s3:PutObject: See the note: `outputSampleLocation` is written through the caller's session (forward-access), so the S3 write grant rides along.",
+        "add": ["s3:PutObject"]
+      }
+    },
+    "generateMapping": {
+      "iam": {
+        "reason": "bedrock:InvokeModel: See the note: GenerateMapping invokes Amazon Bedrock through the caller's session (verified live: \"Access denied when invoking Bedrock's InvokeModel API\" without the grant).",
+        "add": ["bedrock:InvokeModel"]
+      }
+    },
+    "testConversion": {
+      "iam": {
+        "reason": "s3:GetObject: See the note: `target.outputSampleFile` is read through the caller's session (forward-access), so the S3 read grants ride along. s3:GetObjectAttributes: See the note: `target.outputSampleFile` is read through the caller's session (forward-access), so the S3 read grants ride along.",
+        "add": ["s3:GetObject", "s3:GetObjectAttributes"]
+      }
+    },
+    "testParsing": {
+      "iam": {
+        "reason": "s3:GetObject: See the note: B2BI reads `inputFile` through the caller's session (verified live: \"Access denied when getting object attributes from s3://…\" without the S3 grants), so the documented companion permissions are granted alongside. s3:GetObjectAttributes: See the note: B2BI reads `inputFile` through the caller's session (verified live: \"Access denied when getting object attributes from s3://…\" without the S3 grants), so the documented companion permissions are granted alongside.",
+        "add": ["s3:GetObject", "s3:GetObjectAttributes"]
+      }
+    }
+  }
+}

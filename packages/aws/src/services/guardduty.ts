@@ -3425,6 +3425,7 @@ export const acceptAdministratorInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAdministratorInvitation",
+  iam: { actions: ["guardduty:AcceptAdministratorInvitation"] },
   telemetry: TELEMETRY,
   span: "AcceptAdministratorInvitation",
 }));
@@ -3448,6 +3449,7 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
+  iam: { actions: ["guardduty:AcceptInvitation"] },
   telemetry: TELEMETRY,
   span: "AcceptInvitation",
 }));
@@ -3473,6 +3475,7 @@ export const archiveFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ArchiveFindings",
+  iam: { actions: ["guardduty:ArchiveFindings"] },
   telemetry: TELEMETRY,
   span: "ArchiveFindings",
 }));
@@ -3505,6 +3508,10 @@ export const createCustomDetectionRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDetectionRuleAssociation",
+  iam: {
+    actions: ["guardduty:CreateCustomDetectionRuleAssociation", "guardduty:TagResource"],
+    conditional: { "guardduty:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomDetectionRuleAssociation",
 }));
@@ -3537,6 +3544,7 @@ export const createCustomDetectionRuleOrgConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDetectionRuleOrgConfiguration",
+  iam: { actions: ["guardduty:CreateCustomDetectionRuleOrgConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateCustomDetectionRuleOrgConfiguration",
 }));
@@ -3565,6 +3573,10 @@ export const createDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDetector",
+  iam: {
+    actions: ["guardduty:CreateDetector", "guardduty:TagResource"],
+    conditional: { "guardduty:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDetector",
 }));
@@ -3585,6 +3597,15 @@ export const createFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFilter",
+  iam: {
+    actions: ["guardduty:CreateFilter", "guardduty:TagResource"],
+    resources: {
+      "guardduty:CreateFilter": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/filter/${FilterName}",
+      ],
+    },
+    conditional: { "guardduty:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFilter",
 }));
@@ -3617,6 +3638,7 @@ export const createInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvestigation",
+  iam: { actions: ["guardduty:CreateInvestigation"] },
   telemetry: TELEMETRY,
   span: "CreateInvestigation",
 }));
@@ -3641,6 +3663,10 @@ export const createIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIPSet",
+  iam: {
+    actions: ["guardduty:CreateIPSet", "guardduty:TagResource"],
+    conditional: { "guardduty:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIPSet",
 }));
@@ -3673,6 +3699,11 @@ export const createMalwareProtectionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMalwareProtectionPlan",
+  iam: {
+    actions: ["guardduty:CreateMalwareProtectionPlan", "iam:PassRole", "guardduty:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "guardduty:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMalwareProtectionPlan",
 }));
@@ -3701,6 +3732,7 @@ export const createMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembers",
+  iam: { actions: ["guardduty:CreateMembers"] },
   telemetry: TELEMETRY,
   span: "CreateMembers",
 }));
@@ -3724,6 +3756,10 @@ export const createPublishingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublishingDestination",
+  iam: {
+    actions: ["guardduty:CreatePublishingDestination", "guardduty:TagResource"],
+    conditional: { "guardduty:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePublishingDestination",
 }));
@@ -3747,6 +3783,7 @@ export const createSampleFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSampleFindings",
+  iam: { actions: ["guardduty:CreateSampleFindings"] },
   telemetry: TELEMETRY,
   span: "CreateSampleFindings",
 }));
@@ -3770,6 +3807,10 @@ export const createThreatEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreatEntitySet",
+  iam: {
+    actions: ["guardduty:CreateThreatEntitySet", "guardduty:TagResource"],
+    conditional: { "guardduty:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateThreatEntitySet",
 }));
@@ -3794,6 +3835,10 @@ export const createThreatIntelSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreatIntelSet",
+  iam: {
+    actions: ["guardduty:CreateThreatIntelSet", "guardduty:TagResource"],
+    conditional: { "guardduty:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateThreatIntelSet",
 }));
@@ -3819,6 +3864,10 @@ export const createTrustedEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustedEntitySet",
+  iam: {
+    actions: ["guardduty:CreateTrustedEntitySet", "guardduty:TagResource"],
+    conditional: { "guardduty:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrustedEntitySet",
 }));
@@ -3842,6 +3891,7 @@ export const declineInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineInvitations",
+  iam: { actions: ["guardduty:DeclineInvitations"] },
   telemetry: TELEMETRY,
   span: "DeclineInvitations",
 }));
@@ -3872,6 +3922,14 @@ export const deleteCustomDetectionRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDetectionRuleAssociation",
+  iam: {
+    actions: ["guardduty:DeleteCustomDetectionRuleAssociation"],
+    resources: {
+      "guardduty:DeleteCustomDetectionRuleAssociation": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detection-rule/custom/${RuleId}/association/${AssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomDetectionRuleAssociation",
 }));
@@ -3904,6 +3962,7 @@ export const deleteCustomDetectionRuleOrgConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDetectionRuleOrgConfiguration",
+  iam: { actions: ["guardduty:DeleteCustomDetectionRuleOrgConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteCustomDetectionRuleOrgConfiguration",
 }));
@@ -3924,6 +3983,14 @@ export const deleteDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDetector",
+  iam: {
+    actions: ["guardduty:DeleteDetector"],
+    resources: {
+      "guardduty:DeleteDetector": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDetector",
 }));
@@ -3944,6 +4011,14 @@ export const deleteFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFilter",
+  iam: {
+    actions: ["guardduty:DeleteFilter"],
+    resources: {
+      "guardduty:DeleteFilter": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/filter/${FilterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFilter",
 }));
@@ -3967,6 +4042,7 @@ export const deleteInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvitations",
+  iam: { actions: ["guardduty:DeleteInvitations"] },
   telemetry: TELEMETRY,
   span: "DeleteInvitations",
 }));
@@ -3987,6 +4063,14 @@ export const deleteIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIPSet",
+  iam: {
+    actions: ["guardduty:DeleteIPSet"],
+    resources: {
+      "guardduty:DeleteIPSet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/ipset/${IPSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIPSet",
 }));
@@ -4017,6 +4101,14 @@ export const deleteMalwareProtectionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMalwareProtectionPlan",
+  iam: {
+    actions: ["guardduty:DeleteMalwareProtectionPlan"],
+    resources: {
+      "guardduty:DeleteMalwareProtectionPlan": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:malware-protection-plan/${MalwareProtectionPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMalwareProtectionPlan",
 }));
@@ -4039,6 +4131,7 @@ export const deleteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembers",
+  iam: { actions: ["guardduty:DeleteMembers"] },
   telemetry: TELEMETRY,
   span: "DeleteMembers",
 }));
@@ -4062,6 +4155,14 @@ export const deletePublishingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublishingDestination",
+  iam: {
+    actions: ["guardduty:DeletePublishingDestination"],
+    resources: {
+      "guardduty:DeletePublishingDestination": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/publishingdestination/${PublishingDestinationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePublishingDestination",
 }));
@@ -4085,6 +4186,14 @@ export const deleteThreatEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThreatEntitySet",
+  iam: {
+    actions: ["guardduty:DeleteThreatEntitySet"],
+    resources: {
+      "guardduty:DeleteThreatEntitySet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/threatentityset/${ThreatEntitySetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteThreatEntitySet",
 }));
@@ -4108,6 +4217,14 @@ export const deleteThreatIntelSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThreatIntelSet",
+  iam: {
+    actions: ["guardduty:DeleteThreatIntelSet"],
+    resources: {
+      "guardduty:DeleteThreatIntelSet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/threatintelset/${ThreatIntelSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteThreatIntelSet",
 }));
@@ -4131,6 +4248,14 @@ export const deleteTrustedEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustedEntitySet",
+  iam: {
+    actions: ["guardduty:DeleteTrustedEntitySet"],
+    resources: {
+      "guardduty:DeleteTrustedEntitySet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/trustedentityset/${TrustedEntitySetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrustedEntitySet",
 }));
@@ -4163,6 +4288,7 @@ export const describeMalwareScans: API.PaginatedOperationMethod<
     items: "Scans",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:DescribeMalwareScans"] },
   telemetry: TELEMETRY,
   span: "DescribeMalwareScans",
 })) as any;
@@ -4194,6 +4320,7 @@ export const describeOrganizationConfiguration: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:DescribeOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConfiguration",
 })) as any;
@@ -4217,6 +4344,14 @@ export const describePublishingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePublishingDestination",
+  iam: {
+    actions: ["guardduty:DescribePublishingDestination"],
+    resources: {
+      "guardduty:DescribePublishingDestination": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/publishingdestination/${PublishingDestinationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePublishingDestination",
 }));
@@ -4240,6 +4375,7 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
+  iam: { actions: ["guardduty:DisableOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DisableOrganizationAdminAccount",
 }));
@@ -4267,6 +4403,7 @@ export const disassociateFromAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromAdministratorAccount",
+  iam: { actions: ["guardduty:DisassociateFromAdministratorAccount"] },
   telemetry: TELEMETRY,
   span: "DisassociateFromAdministratorAccount",
 }));
@@ -4292,6 +4429,7 @@ export const disassociateFromMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromMasterAccount",
+  iam: { actions: ["guardduty:DisassociateFromMasterAccount"] },
   telemetry: TELEMETRY,
   span: "DisassociateFromMasterAccount",
 }));
@@ -4323,6 +4461,7 @@ export const disassociateMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMembers",
+  iam: { actions: ["guardduty:DisassociateMembers"] },
   telemetry: TELEMETRY,
   span: "DisassociateMembers",
 }));
@@ -4346,6 +4485,7 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
+  iam: { actions: ["guardduty:EnableOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "EnableOrganizationAdminAccount",
 }));
@@ -4377,6 +4517,7 @@ export const getAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdministratorAccount",
+  iam: { actions: ["guardduty:GetAdministratorAccount"] },
   telemetry: TELEMETRY,
   span: "GetAdministratorAccount",
 }));
@@ -4400,6 +4541,14 @@ export const getCoverageStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoverageStatistics",
+  iam: {
+    actions: ["guardduty:GetCoverageStatistics"],
+    resources: {
+      "guardduty:GetCoverageStatistics": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCoverageStatistics",
 }));
@@ -4430,6 +4579,7 @@ export const getCustomDetectionRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDetectionRule",
+  iam: { actions: ["guardduty:GetCustomDetectionRule"] },
   telemetry: TELEMETRY,
   span: "GetCustomDetectionRule",
 }));
@@ -4460,6 +4610,14 @@ export const getCustomDetectionRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDetectionRuleAssociation",
+  iam: {
+    actions: ["guardduty:GetCustomDetectionRuleAssociation"],
+    resources: {
+      "guardduty:GetCustomDetectionRuleAssociation": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detection-rule/custom/${RuleId}/association/${AssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCustomDetectionRuleAssociation",
 }));
@@ -4490,6 +4648,7 @@ export const getCustomDetectionRuleOrgConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDetectionRuleOrgConfiguration",
+  iam: { actions: ["guardduty:GetCustomDetectionRuleOrgConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetCustomDetectionRuleOrgConfiguration",
 }));
@@ -4512,6 +4671,14 @@ export const getDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDetector",
+  iam: {
+    actions: ["guardduty:GetDetector"],
+    resources: {
+      "guardduty:GetDetector": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDetector",
 }));
@@ -4532,6 +4699,14 @@ export const getFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFilter",
+  iam: {
+    actions: ["guardduty:GetFilter"],
+    resources: {
+      "guardduty:GetFilter": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/filter/${FilterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFilter",
 }));
@@ -4552,6 +4727,7 @@ export const getFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindings",
+  iam: { actions: ["guardduty:GetFindings"] },
   telemetry: TELEMETRY,
   span: "GetFindings",
 }));
@@ -4579,6 +4755,7 @@ export const getFindingsStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsStatistics",
+  iam: { actions: ["guardduty:GetFindingsStatistics"] },
   telemetry: TELEMETRY,
   span: "GetFindingsStatistics",
 }));
@@ -4613,6 +4790,7 @@ export const getInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigation",
+  iam: { actions: ["guardduty:GetInvestigation"] },
   telemetry: TELEMETRY,
   span: "GetInvestigation",
 }));
@@ -4636,6 +4814,7 @@ export const getInvitationsCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvitationsCount",
+  iam: { actions: ["guardduty:GetInvitationsCount"] },
   telemetry: TELEMETRY,
   span: "GetInvitationsCount",
 }));
@@ -4656,6 +4835,14 @@ export const getIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIPSet",
+  iam: {
+    actions: ["guardduty:GetIPSet"],
+    resources: {
+      "guardduty:GetIPSet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/ipset/${IPSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIPSet",
 }));
@@ -4686,6 +4873,14 @@ export const getMalwareProtectionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMalwareProtectionPlan",
+  iam: {
+    actions: ["guardduty:GetMalwareProtectionPlan"],
+    resources: {
+      "guardduty:GetMalwareProtectionPlan": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:malware-protection-plan/${MalwareProtectionPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMalwareProtectionPlan",
 }));
@@ -4712,6 +4907,7 @@ export const getMalwareScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMalwareScan",
+  iam: { actions: ["guardduty:GetMalwareScan"] },
   telemetry: TELEMETRY,
   span: "GetMalwareScan",
 }));
@@ -4737,6 +4933,7 @@ export const getMalwareScanSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMalwareScanSettings",
+  iam: { actions: ["guardduty:GetMalwareScanSettings"] },
   telemetry: TELEMETRY,
   span: "GetMalwareScanSettings",
 }));
@@ -4760,6 +4957,7 @@ export const getMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMasterAccount",
+  iam: { actions: ["guardduty:GetMasterAccount"] },
   telemetry: TELEMETRY,
   span: "GetMasterAccount",
 }));
@@ -4785,6 +4983,7 @@ export const getMemberDetectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemberDetectors",
+  iam: { actions: ["guardduty:GetMemberDetectors"] },
   telemetry: TELEMETRY,
   span: "GetMemberDetectors",
 }));
@@ -4805,6 +5004,7 @@ export const getMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembers",
+  iam: { actions: ["guardduty:GetMembers"] },
   telemetry: TELEMETRY,
   span: "GetMembers",
 }));
@@ -4830,6 +5030,7 @@ export const getOrganizationStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationStatistics",
+  iam: { actions: ["guardduty:GetOrganizationStatistics"] },
   telemetry: TELEMETRY,
   span: "GetOrganizationStatistics",
 }));
@@ -4853,6 +5054,7 @@ export const getRemainingFreeTrialDays: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRemainingFreeTrialDays",
+  iam: { actions: ["guardduty:GetRemainingFreeTrialDays"] },
   telemetry: TELEMETRY,
   span: "GetRemainingFreeTrialDays",
 }));
@@ -4876,6 +5078,14 @@ export const getThreatEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThreatEntitySet",
+  iam: {
+    actions: ["guardduty:GetThreatEntitySet"],
+    resources: {
+      "guardduty:GetThreatEntitySet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/threatentityset/${ThreatEntitySetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetThreatEntitySet",
 }));
@@ -4899,6 +5109,14 @@ export const getThreatIntelSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThreatIntelSet",
+  iam: {
+    actions: ["guardduty:GetThreatIntelSet"],
+    resources: {
+      "guardduty:GetThreatIntelSet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/threatintelset/${ThreatIntelSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetThreatIntelSet",
 }));
@@ -4922,6 +5140,14 @@ export const getTrustedEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustedEntitySet",
+  iam: {
+    actions: ["guardduty:GetTrustedEntitySet"],
+    resources: {
+      "guardduty:GetTrustedEntitySet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/trustedentityset/${TrustedEntitySetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrustedEntitySet",
 }));
@@ -4951,6 +5177,7 @@ export const getUsageStatistics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:GetUsageStatistics"] },
   telemetry: TELEMETRY,
   span: "GetUsageStatistics",
 })) as any;
@@ -4979,6 +5206,7 @@ export const inviteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteMembers",
+  iam: { actions: ["guardduty:InviteMembers"] },
   telemetry: TELEMETRY,
   span: "InviteMembers",
 }));
@@ -5008,6 +5236,14 @@ export const listCoverage: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["guardduty:ListCoverage"],
+    resources: {
+      "guardduty:ListCoverage": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCoverage",
 })) as any;
@@ -5039,6 +5275,7 @@ export const listCustomDetectionRuleAssociations: API.PaginatedOperationMethod<
     items: "RuleAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListCustomDetectionRuleAssociations"] },
   telemetry: TELEMETRY,
   span: "ListCustomDetectionRuleAssociations",
 })) as any;
@@ -5070,6 +5307,7 @@ export const listCustomDetectionRuleOrgConfigurations: API.PaginatedOperationMet
     items: "Configurations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListCustomDetectionRuleOrgConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListCustomDetectionRuleOrgConfigurations",
 })) as any;
@@ -5101,6 +5339,7 @@ export const listCustomDetectionRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListCustomDetectionRules"] },
   telemetry: TELEMETRY,
   span: "ListCustomDetectionRules",
 })) as any;
@@ -5128,6 +5367,7 @@ export const listDetectors: API.PaginatedOperationMethod<
     items: "DetectorIds",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListDetectors"] },
   telemetry: TELEMETRY,
   span: "ListDetectors",
 })) as any;
@@ -5155,6 +5395,7 @@ export const listFilters: API.PaginatedOperationMethod<
     items: "FilterNames",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListFilters"] },
   telemetry: TELEMETRY,
   span: "ListFilters",
 })) as any;
@@ -5184,6 +5425,7 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "FindingIds",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListFindings"] },
   telemetry: TELEMETRY,
   span: "ListFindings",
 })) as any;
@@ -5219,6 +5461,7 @@ export const listInvestigations: API.PaginatedOperationMethod<
     items: "Investigations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListInvestigations"] },
   telemetry: TELEMETRY,
   span: "ListInvestigations",
 })) as any;
@@ -5249,6 +5492,7 @@ export const listInvitations: API.PaginatedOperationMethod<
     items: "Invitations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListInvitations"] },
   telemetry: TELEMETRY,
   span: "ListInvitations",
 })) as any;
@@ -5276,6 +5520,7 @@ export const listIPSets: API.PaginatedOperationMethod<
     items: "IpSetIds",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListIPSets"] },
   telemetry: TELEMETRY,
   span: "ListIPSets",
 })) as any;
@@ -5300,6 +5545,7 @@ export const listMalwareProtectionPlans: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMalwareProtectionPlans",
+  iam: { actions: ["guardduty:ListMalwareProtectionPlans"] },
   telemetry: TELEMETRY,
   span: "ListMalwareProtectionPlans",
 }));
@@ -5330,6 +5576,7 @@ export const listMalwareScans: API.PaginatedOperationMethod<
     items: "Scans",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListMalwareScans"] },
   telemetry: TELEMETRY,
   span: "ListMalwareScans",
 })) as any;
@@ -5357,6 +5604,7 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "Members",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListMembers"] },
   telemetry: TELEMETRY,
   span: "ListMembers",
 })) as any;
@@ -5387,6 +5635,7 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     items: "AdminAccounts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListOrganizationAdminAccounts"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationAdminAccounts",
 })) as any;
@@ -5416,6 +5665,7 @@ export const listPublishingDestinations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListPublishingDestinations"] },
   telemetry: TELEMETRY,
   span: "ListPublishingDestinations",
 })) as any;
@@ -5440,6 +5690,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["guardduty:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5470,6 +5721,7 @@ export const listThreatEntitySets: API.PaginatedOperationMethod<
     items: "ThreatEntitySetIds",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListThreatEntitySets"] },
   telemetry: TELEMETRY,
   span: "ListThreatEntitySets",
 })) as any;
@@ -5500,6 +5752,7 @@ export const listThreatIntelSets: API.PaginatedOperationMethod<
     items: "ThreatIntelSetIds",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListThreatIntelSets"] },
   telemetry: TELEMETRY,
   span: "ListThreatIntelSets",
 })) as any;
@@ -5530,6 +5783,7 @@ export const listTrustedEntitySets: API.PaginatedOperationMethod<
     items: "TrustedEntitySetIds",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["guardduty:ListTrustedEntitySets"] },
   telemetry: TELEMETRY,
   span: "ListTrustedEntitySets",
 })) as any;
@@ -5556,6 +5810,7 @@ export const sendObjectMalwareScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendObjectMalwareScan",
+  iam: { actions: ["guardduty:SendObjectMalwareScan"] },
   telemetry: TELEMETRY,
   span: "SendObjectMalwareScan",
 }));
@@ -5584,6 +5839,11 @@ export const startMalwareScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMalwareScan",
+  iam: {
+    actions: ["iam:PassRole", "guardduty:StartMalwareScan"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "ScanConfiguration.Role" },
+  },
   telemetry: TELEMETRY,
   span: "StartMalwareScan",
 }));
@@ -5607,6 +5867,7 @@ export const startMonitoringMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitoringMembers",
+  iam: { actions: ["guardduty:StartMonitoringMembers"] },
   telemetry: TELEMETRY,
   span: "StartMonitoringMembers",
 }));
@@ -5632,6 +5893,7 @@ export const stopMonitoringMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMonitoringMembers",
+  iam: { actions: ["guardduty:StopMonitoringMembers"] },
   telemetry: TELEMETRY,
   span: "StopMonitoringMembers",
 }));
@@ -5656,6 +5918,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["guardduty:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5679,6 +5942,7 @@ export const unarchiveFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnarchiveFindings",
+  iam: { actions: ["guardduty:UnarchiveFindings"] },
   telemetry: TELEMETRY,
   span: "UnarchiveFindings",
 }));
@@ -5703,6 +5967,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["guardduty:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5735,6 +6000,14 @@ export const updateCustomDetectionRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomDetectionRuleAssociation",
+  iam: {
+    actions: ["guardduty:UpdateCustomDetectionRuleAssociation"],
+    resources: {
+      "guardduty:UpdateCustomDetectionRuleAssociation": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detection-rule/custom/${RuleId}/association/${AssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCustomDetectionRuleAssociation",
 }));
@@ -5767,6 +6040,7 @@ export const updateCustomDetectionRuleOrgConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomDetectionRuleOrgConfiguration",
+  iam: { actions: ["guardduty:UpdateCustomDetectionRuleOrgConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateCustomDetectionRuleOrgConfiguration",
 }));
@@ -5791,6 +6065,14 @@ export const updateDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetector",
+  iam: {
+    actions: ["guardduty:UpdateDetector"],
+    resources: {
+      "guardduty:UpdateDetector": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDetector",
 }));
@@ -5811,6 +6093,14 @@ export const updateFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFilter",
+  iam: {
+    actions: ["guardduty:UpdateFilter"],
+    resources: {
+      "guardduty:UpdateFilter": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/filter/${FilterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFilter",
 }));
@@ -5834,6 +6124,7 @@ export const updateFindingsFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindingsFeedback",
+  iam: { actions: ["guardduty:UpdateFindingsFeedback"] },
   telemetry: TELEMETRY,
   span: "UpdateFindingsFeedback",
 }));
@@ -5858,6 +6149,14 @@ export const updateIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIPSet",
+  iam: {
+    actions: ["guardduty:UpdateIPSet"],
+    resources: {
+      "guardduty:UpdateIPSet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/ipset/${IPSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIPSet",
 }));
@@ -5888,6 +6187,16 @@ export const updateMalwareProtectionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMalwareProtectionPlan",
+  iam: {
+    actions: ["iam:PassRole", "guardduty:UpdateMalwareProtectionPlan"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "guardduty:UpdateMalwareProtectionPlan": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:malware-protection-plan/${MalwareProtectionPlanId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "Role" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMalwareProtectionPlan",
 }));
@@ -5913,6 +6222,7 @@ export const updateMalwareScanSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMalwareScanSettings",
+  iam: { actions: ["guardduty:UpdateMalwareScanSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateMalwareScanSettings",
 }));
@@ -5940,6 +6250,7 @@ export const updateMemberDetectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMemberDetectors",
+  iam: { actions: ["guardduty:UpdateMemberDetectors"] },
   telemetry: TELEMETRY,
   span: "UpdateMemberDetectors",
 }));
@@ -5967,6 +6278,7 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  iam: { actions: ["guardduty:UpdateOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateOrganizationConfiguration",
 }));
@@ -5990,6 +6302,14 @@ export const updatePublishingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublishingDestination",
+  iam: {
+    actions: ["guardduty:UpdatePublishingDestination"],
+    resources: {
+      "guardduty:UpdatePublishingDestination": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/publishingdestination/${PublishingDestinationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePublishingDestination",
 }));
@@ -6013,6 +6333,14 @@ export const updateThreatEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreatEntitySet",
+  iam: {
+    actions: ["guardduty:UpdateThreatEntitySet"],
+    resources: {
+      "guardduty:UpdateThreatEntitySet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/threatentityset/${ThreatEntitySetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateThreatEntitySet",
 }));
@@ -6037,6 +6365,14 @@ export const updateThreatIntelSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreatIntelSet",
+  iam: {
+    actions: ["guardduty:UpdateThreatIntelSet"],
+    resources: {
+      "guardduty:UpdateThreatIntelSet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/threatintelset/${ThreatIntelSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateThreatIntelSet",
 }));
@@ -6060,6 +6396,14 @@ export const updateTrustedEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustedEntitySet",
+  iam: {
+    actions: ["guardduty:UpdateTrustedEntitySet"],
+    resources: {
+      "guardduty:UpdateTrustedEntitySet": [
+        "arn:${Partition}:guardduty:${Region}:${Account}:detector/${DetectorId}/trustedentityset/${TrustedEntitySetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrustedEntitySet",
 }));

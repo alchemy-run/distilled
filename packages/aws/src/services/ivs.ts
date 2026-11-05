@@ -1192,6 +1192,12 @@ export const batchGetChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetChannel",
+  iam: {
+    actions: ["ivs:BatchGetChannel"],
+    resources: {
+      "ivs:BatchGetChannel": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetChannel",
 }));
@@ -1216,6 +1222,14 @@ export const batchGetStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetStreamKey",
+  iam: {
+    actions: ["ivs:BatchGetStreamKey"],
+    resources: {
+      "ivs:BatchGetStreamKey": [
+        "arn:${Partition}:ivs:${Region}:${Account}:stream-key/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetStreamKey",
 }));
@@ -1241,6 +1255,14 @@ export const batchStartViewerSessionRevocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStartViewerSessionRevocation",
+  iam: {
+    actions: ["ivs:BatchStartViewerSessionRevocation"],
+    resources: {
+      "ivs:BatchStartViewerSessionRevocation": [
+        "arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchStartViewerSessionRevocation",
 }));
@@ -1279,6 +1301,15 @@ export const createAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdConfiguration",
+  iam: {
+    actions: ["ivs:CreateAdConfiguration", "ivs:TagResource"],
+    resources: {
+      "ivs:CreateAdConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:ad-configuration/${ResourceId}",
+      ],
+    },
+    conditional: { "ivs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAdConfiguration",
 }));
@@ -1313,6 +1344,16 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  iam: {
+    actions: ["ivs:CreateChannel", "ivs:TagResource"],
+    resources: {
+      "ivs:CreateChannel": [
+        "arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}",
+        "arn:${Partition}:ivs:${Region}:${Account}:stream-key/${ResourceId}",
+      ],
+    },
+    conditional: { "ivs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -1347,6 +1388,15 @@ export const createFailoverSlateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFailoverSlateConfiguration",
+  iam: {
+    actions: ["ivs:CreateFailoverSlateConfiguration", "ivs:TagResource"],
+    resources: {
+      "ivs:CreateFailoverSlateConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:failover-slate-configuration/${ResourceId}",
+      ],
+    },
+    conditional: { "ivs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFailoverSlateConfiguration",
 }));
@@ -1379,6 +1429,15 @@ export const createPlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlaybackRestrictionPolicy",
+  iam: {
+    actions: ["ivs:CreatePlaybackRestrictionPolicy", "ivs:TagResource"],
+    resources: {
+      "ivs:CreatePlaybackRestrictionPolicy": [
+        "arn:${Partition}:ivs:${Region}:${Account}:playback-restriction-policy/${ResourceId}",
+      ],
+    },
+    conditional: { "ivs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePlaybackRestrictionPolicy",
 }));
@@ -1419,6 +1478,15 @@ export const createRecordingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecordingConfiguration",
+  iam: {
+    actions: ["ivs:CreateRecordingConfiguration", "ivs:TagResource"],
+    resources: {
+      "ivs:CreateRecordingConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:recording-configuration/${ResourceId}",
+      ],
+    },
+    conditional: { "ivs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRecordingConfiguration",
 }));
@@ -1455,6 +1523,13 @@ export const createStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamKey",
+  iam: {
+    actions: ["ivs:CreateStreamKey", "ivs:TagResource"],
+    resources: {
+      "ivs:CreateStreamKey": ["arn:${Partition}:ivs:${Region}:${Account}:stream-key/${ResourceId}"],
+    },
+    conditional: { "ivs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStreamKey",
 }));
@@ -1489,6 +1564,14 @@ export const deleteAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdConfiguration",
+  iam: {
+    actions: ["ivs:DeleteAdConfiguration"],
+    resources: {
+      "ivs:DeleteAdConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:ad-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAdConfiguration",
 }));
@@ -1525,6 +1608,15 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  iam: {
+    actions: ["ivs:DeleteChannel"],
+    resources: {
+      "ivs:DeleteChannel": [
+        "arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}",
+        "arn:${Partition}:ivs:${Region}:${Account}:stream-key/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteChannel",
 }));
@@ -1557,6 +1649,14 @@ export const deleteFailoverSlateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFailoverSlateConfiguration",
+  iam: {
+    actions: ["ivs:DeleteFailoverSlateConfiguration"],
+    resources: {
+      "ivs:DeleteFailoverSlateConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:failover-slate-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFailoverSlateConfiguration",
 }));
@@ -1591,6 +1691,14 @@ export const deletePlaybackKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlaybackKeyPair",
+  iam: {
+    actions: ["ivs:DeletePlaybackKeyPair"],
+    resources: {
+      "ivs:DeletePlaybackKeyPair": [
+        "arn:${Partition}:ivs:${Region}:${Account}:playback-key/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePlaybackKeyPair",
 }));
@@ -1625,6 +1733,14 @@ export const deletePlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlaybackRestrictionPolicy",
+  iam: {
+    actions: ["ivs:DeletePlaybackRestrictionPolicy"],
+    resources: {
+      "ivs:DeletePlaybackRestrictionPolicy": [
+        "arn:${Partition}:ivs:${Region}:${Account}:playback-restriction-policy/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePlaybackRestrictionPolicy",
 }));
@@ -1661,6 +1777,14 @@ export const deleteRecordingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecordingConfiguration",
+  iam: {
+    actions: ["ivs:DeleteRecordingConfiguration"],
+    resources: {
+      "ivs:DeleteRecordingConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:recording-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRecordingConfiguration",
 }));
@@ -1693,6 +1817,12 @@ export const deleteStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamKey",
+  iam: {
+    actions: ["ivs:DeleteStreamKey"],
+    resources: {
+      "ivs:DeleteStreamKey": ["arn:${Partition}:ivs:${Region}:${Account}:stream-key/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStreamKey",
 }));
@@ -1725,6 +1855,14 @@ export const getAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdConfiguration",
+  iam: {
+    actions: ["ivs:GetAdConfiguration"],
+    resources: {
+      "ivs:GetAdConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:ad-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAdConfiguration",
 }));
@@ -1755,6 +1893,12 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
+  iam: {
+    actions: ["ivs:GetChannel"],
+    resources: {
+      "ivs:GetChannel": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetChannel",
 }));
@@ -1785,6 +1929,14 @@ export const getFailoverSlateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFailoverSlateConfiguration",
+  iam: {
+    actions: ["ivs:GetFailoverSlateConfiguration"],
+    resources: {
+      "ivs:GetFailoverSlateConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:failover-slate-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFailoverSlateConfiguration",
 }));
@@ -1815,6 +1967,14 @@ export const getPlaybackKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlaybackKeyPair",
+  iam: {
+    actions: ["ivs:GetPlaybackKeyPair"],
+    resources: {
+      "ivs:GetPlaybackKeyPair": [
+        "arn:${Partition}:ivs:${Region}:${Account}:playback-key/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlaybackKeyPair",
 }));
@@ -1847,6 +2007,14 @@ export const getPlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlaybackRestrictionPolicy",
+  iam: {
+    actions: ["ivs:GetPlaybackRestrictionPolicy"],
+    resources: {
+      "ivs:GetPlaybackRestrictionPolicy": [
+        "arn:${Partition}:ivs:${Region}:${Account}:playback-restriction-policy/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlaybackRestrictionPolicy",
 }));
@@ -1879,6 +2047,14 @@ export const getRecordingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecordingConfiguration",
+  iam: {
+    actions: ["ivs:GetRecordingConfiguration"],
+    resources: {
+      "ivs:GetRecordingConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:recording-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecordingConfiguration",
 }));
@@ -1911,6 +2087,12 @@ export const getStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStream",
+  iam: {
+    actions: ["ivs:GetStream"],
+    resources: {
+      "ivs:GetStream": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStream",
 }));
@@ -1941,6 +2123,12 @@ export const getStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamKey",
+  iam: {
+    actions: ["ivs:GetStreamKey"],
+    resources: {
+      "ivs:GetStreamKey": ["arn:${Partition}:ivs:${Region}:${Account}:stream-key/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStreamKey",
 }));
@@ -1971,6 +2159,12 @@ export const getStreamSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamSession",
+  iam: {
+    actions: ["ivs:GetStreamSession"],
+    resources: {
+      "ivs:GetStreamSession": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStreamSession",
 }));
@@ -2005,6 +2199,15 @@ export const importPlaybackKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPlaybackKeyPair",
+  iam: {
+    actions: ["ivs:ImportPlaybackKeyPair", "ivs:TagResource"],
+    resources: {
+      "ivs:ImportPlaybackKeyPair": [
+        "arn:${Partition}:ivs:${Region}:${Account}:playback-key/${ResourceId}",
+      ],
+    },
+    conditional: { "ivs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportPlaybackKeyPair",
 }));
@@ -2043,6 +2246,12 @@ export const insertAdBreak: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InsertAdBreak",
+  iam: {
+    actions: ["ivs:InsertAdBreak"],
+    resources: {
+      "ivs:InsertAdBreak": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InsertAdBreak",
 }));
@@ -2080,6 +2289,7 @@ export const listAdConfigurations: API.PaginatedOperationMethod<
     items: "adConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ivs:ListAdConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListAdConfigurations",
 })) as any;
@@ -2111,6 +2321,12 @@ export const listChannels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ivs:ListChannels"],
+    resources: {
+      "ivs:ListChannels": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -2142,6 +2358,14 @@ export const listFailoverSlateConfigurations: API.PaginatedOperationMethod<
     items: "failoverSlateConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ivs:ListFailoverSlateConfigurations"],
+    resources: {
+      "ivs:ListFailoverSlateConfigurations": [
+        "arn:${Partition}:ivs:${Region}:${Account}:failover-slate-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFailoverSlateConfigurations",
 })) as any;
@@ -2172,6 +2396,14 @@ export const listPlaybackKeyPairs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ivs:ListPlaybackKeyPairs"],
+    resources: {
+      "ivs:ListPlaybackKeyPairs": [
+        "arn:${Partition}:ivs:${Region}:${Account}:playback-key/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPlaybackKeyPairs",
 })) as any;
@@ -2210,6 +2442,7 @@ export const listPlaybackRestrictionPolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ivs:ListPlaybackRestrictionPolicies"] },
   telemetry: TELEMETRY,
   span: "ListPlaybackRestrictionPolicies",
 })) as any;
@@ -2246,6 +2479,14 @@ export const listRecordingConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ivs:ListRecordingConfigurations"],
+    resources: {
+      "ivs:ListRecordingConfigurations": [
+        "arn:${Partition}:ivs:${Region}:${Account}:recording-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecordingConfigurations",
 })) as any;
@@ -2282,6 +2523,15 @@ export const listStreamKeys: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ivs:ListStreamKeys"],
+    resources: {
+      "ivs:ListStreamKeys": [
+        "arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}",
+        "arn:${Partition}:ivs:${Region}:${Account}:stream-key/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStreamKeys",
 })) as any;
@@ -2312,6 +2562,12 @@ export const listStreams: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ivs:ListStreams"],
+    resources: {
+      "ivs:ListStreams": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStreams",
 })) as any;
@@ -2348,6 +2604,12 @@ export const listStreamSessions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ivs:ListStreamSessions"],
+    resources: {
+      "ivs:ListStreamSessions": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStreamSessions",
 })) as any;
@@ -2378,6 +2640,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["ivs:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2410,6 +2673,12 @@ export const putMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetadata",
+  iam: {
+    actions: ["ivs:PutMetadata"],
+    resources: {
+      "ivs:PutMetadata": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutMetadata",
 }));
@@ -2444,6 +2713,14 @@ export const startViewerSessionRevocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartViewerSessionRevocation",
+  iam: {
+    actions: ["ivs:StartViewerSessionRevocation"],
+    resources: {
+      "ivs:StartViewerSessionRevocation": [
+        "arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartViewerSessionRevocation",
 }));
@@ -2480,6 +2757,12 @@ export const stopStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStream",
+  iam: {
+    actions: ["ivs:StopStream"],
+    resources: {
+      "ivs:StopStream": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopStream",
 }));
@@ -2510,6 +2793,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["ivs:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2540,6 +2824,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["ivs:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2578,6 +2863,7 @@ export const updateAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAdConfiguration",
+  iam: { actions: ["ivs:UpdateAdConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateAdConfiguration",
 }));
@@ -2612,6 +2898,12 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  iam: {
+    actions: ["ivs:UpdateChannel"],
+    resources: {
+      "ivs:UpdateChannel": ["arn:${Partition}:ivs:${Region}:${Account}:channel/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -2648,6 +2940,14 @@ export const updateFailoverSlateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFailoverSlateConfiguration",
+  iam: {
+    actions: ["ivs:UpdateFailoverSlateConfiguration"],
+    resources: {
+      "ivs:UpdateFailoverSlateConfiguration": [
+        "arn:${Partition}:ivs:${Region}:${Account}:failover-slate-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFailoverSlateConfiguration",
 }));
@@ -2680,6 +2980,14 @@ export const updatePlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlaybackRestrictionPolicy",
+  iam: {
+    actions: ["ivs:UpdatePlaybackRestrictionPolicy"],
+    resources: {
+      "ivs:UpdatePlaybackRestrictionPolicy": [
+        "arn:${Partition}:ivs:${Region}:${Account}:playback-restriction-policy/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePlaybackRestrictionPolicy",
 }));

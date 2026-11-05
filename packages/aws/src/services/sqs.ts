@@ -741,6 +741,10 @@ export const addPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
+  iam: {
+    actions: ["sqs:AddPermission"],
+    resources: { "sqs:AddPermission": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "AddPermission",
@@ -796,6 +800,12 @@ export const cancelMessageMoveTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMessageMoveTask",
+  iam: {
+    actions: ["sqs:CancelMessageMoveTask"],
+    resources: {
+      "sqs:CancelMessageMoveTask": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelMessageMoveTask",
 }));
@@ -874,6 +884,12 @@ export const changeMessageVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeMessageVisibility",
+  iam: {
+    actions: ["sqs:ChangeMessageVisibility"],
+    resources: {
+      "sqs:ChangeMessageVisibility": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ChangeMessageVisibility",
@@ -931,6 +947,12 @@ export const changeMessageVisibilityBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeMessageVisibilityBatch",
+  iam: {
+    actions: ["sqs:ChangeMessageVisibility"],
+    resources: {
+      "sqs:ChangeMessageVisibility": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ChangeMessageVisibilityBatch",
@@ -1027,6 +1049,14 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  iam: {
+    actions: ["sqs:CreateQueue", "sqs:TagQueue"],
+    resources: {
+      "sqs:CreateQueue": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+      "sqs:TagQueue": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+    conditional: { "sqs:TagQueue": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateQueue",
 }));
@@ -1083,6 +1113,10 @@ export const deleteMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessage",
+  iam: {
+    actions: ["sqs:DeleteMessage"],
+    resources: { "sqs:DeleteMessage": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteMessage",
@@ -1138,6 +1172,10 @@ export const deleteMessageBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageBatch",
+  iam: {
+    actions: ["sqs:DeleteMessage"],
+    resources: { "sqs:DeleteMessage": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteMessageBatch",
@@ -1201,6 +1239,10 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  iam: {
+    actions: ["sqs:DeleteQueue"],
+    resources: { "sqs:DeleteQueue": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteQueue",
@@ -1245,6 +1287,12 @@ export const getQueueAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueueAttributes",
+  iam: {
+    actions: ["sqs:GetQueueAttributes"],
+    resources: {
+      "sqs:GetQueueAttributes": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetQueueAttributes",
@@ -1296,6 +1344,10 @@ export const getQueueUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueueUrl",
+  iam: {
+    actions: ["sqs:GetQueueUrl"],
+    resources: { "sqs:GetQueueUrl": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetQueueUrl",
 }));
@@ -1347,6 +1399,12 @@ export const listDeadLetterSourceQueues: API.PaginatedOperationMethod<
     items: "queueUrls",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sqs:ListDeadLetterSourceQueues"],
+    resources: {
+      "sqs:ListDeadLetterSourceQueues": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListDeadLetterSourceQueues",
@@ -1400,6 +1458,12 @@ export const listMessageMoveTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMessageMoveTasks",
+  iam: {
+    actions: ["sqs:ListMessageMoveTasks"],
+    resources: {
+      "sqs:ListMessageMoveTasks": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMessageMoveTasks",
 }));
@@ -1447,6 +1511,7 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "QueueUrls",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["sqs:ListQueues"] },
   telemetry: TELEMETRY,
   span: "ListQueues",
 })) as any;
@@ -1485,6 +1550,10 @@ export const listQueueTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQueueTags",
+  iam: {
+    actions: ["sqs:ListQueueTags"],
+    resources: { "sqs:ListQueueTags": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListQueueTags",
@@ -1541,6 +1610,10 @@ export const purgeQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurgeQueue",
+  iam: {
+    actions: ["sqs:PurgeQueue"],
+    resources: { "sqs:PurgeQueue": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PurgeQueue",
@@ -1638,6 +1711,10 @@ export const receiveMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReceiveMessage",
+  iam: {
+    actions: ["sqs:ReceiveMessage"],
+    resources: { "sqs:ReceiveMessage": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ReceiveMessage",
@@ -1699,6 +1776,12 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  iam: {
+    actions: ["sqs:RemovePermission"],
+    resources: {
+      "sqs:RemovePermission": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "RemovePermission",
@@ -1767,6 +1850,10 @@ export const sendMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessage",
+  iam: {
+    actions: ["sqs:SendMessage"],
+    resources: { "sqs:SendMessage": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "SendMessage",
@@ -1862,6 +1949,10 @@ export const sendMessageBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessageBatch",
+  iam: {
+    actions: ["sqs:SendMessage"],
+    resources: { "sqs:SendMessage": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "SendMessageBatch",
@@ -1935,6 +2026,12 @@ export const setQueueAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetQueueAttributes",
+  iam: {
+    actions: ["sqs:SetQueueAttributes"],
+    resources: {
+      "sqs:SetQueueAttributes": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "SetQueueAttributes",
@@ -1995,6 +2092,22 @@ export const startMessageMoveTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMessageMoveTask",
+  iam: {
+    actions: [
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:ReceiveMessage",
+      "sqs:SendMessage",
+      "sqs:StartMessageMoveTask",
+    ],
+    resources: {
+      "sqs:DeleteMessage": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+      "sqs:GetQueueAttributes": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+      "sqs:ReceiveMessage": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+      "sqs:SendMessage": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+      "sqs:StartMessageMoveTask": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMessageMoveTask",
 }));
@@ -2046,6 +2159,10 @@ export const tagQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagQueue",
+  iam: {
+    actions: ["sqs:TagQueue"],
+    resources: { "sqs:TagQueue": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "TagQueue",
@@ -2091,6 +2208,10 @@ export const untagQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagQueue",
+  iam: {
+    actions: ["sqs:UntagQueue"],
+    resources: { "sqs:UntagQueue": ["arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UntagQueue",

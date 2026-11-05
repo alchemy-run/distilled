@@ -1653,6 +1653,14 @@ export const acceptSharedDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptSharedDirectory",
+  iam: {
+    actions: ["ds:AcceptSharedDirectory"],
+    resources: {
+      "ds:AcceptSharedDirectory": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptSharedDirectory",
 }));
@@ -1697,6 +1705,12 @@ export const addIpRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddIpRoutes",
+  iam: {
+    actions: ["ds:AddIpRoutes"],
+    resources: {
+      "ds:AddIpRoutes": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddIpRoutes",
 }));
@@ -1739,6 +1753,12 @@ export const addRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRegion",
+  iam: {
+    actions: ["ds:AddRegion"],
+    resources: {
+      "ds:AddRegion": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddRegion",
 }));
@@ -1773,6 +1793,12 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  iam: {
+    actions: ["ds:AddTagsToResource"],
+    resources: {
+      "ds:AddTagsToResource": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddTagsToResource",
 }));
@@ -1801,6 +1827,14 @@ export const cancelSchemaExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSchemaExtension",
+  iam: {
+    actions: ["ds:CancelSchemaExtension"],
+    resources: {
+      "ds:CancelSchemaExtension": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelSchemaExtension",
 }));
@@ -1835,6 +1869,13 @@ export const connectDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConnectDirectory",
+  iam: {
+    actions: ["ds:AddTagsToResource", "ds:ConnectDirectory"],
+    resources: {
+      "ds:AddTagsToResource": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+    conditional: { "ds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ConnectDirectory",
 }));
@@ -1871,6 +1912,12 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  iam: {
+    actions: ["ds:CreateAlias"],
+    resources: {
+      "ds:CreateAlias": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAlias",
 }));
@@ -1909,6 +1956,12 @@ export const createComputer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputer",
+  iam: {
+    actions: ["ds:CreateComputer"],
+    resources: {
+      "ds:CreateComputer": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateComputer",
 }));
@@ -1947,6 +2000,14 @@ export const createConditionalForwarder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConditionalForwarder",
+  iam: {
+    actions: ["ds:CreateConditionalForwarder"],
+    resources: {
+      "ds:CreateConditionalForwarder": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateConditionalForwarder",
 }));
@@ -1983,6 +2044,13 @@ export const createDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectory",
+  iam: {
+    actions: ["ds:AddTagsToResource", "ds:CreateDirectory"],
+    resources: {
+      "ds:AddTagsToResource": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+    conditional: { "ds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDirectory",
 }));
@@ -2026,6 +2094,13 @@ export const createHybridAD: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHybridAD",
+  iam: {
+    actions: ["ds:AddTagsToResource", "ds:CreateHybridAD"],
+    resources: {
+      "ds:AddTagsToResource": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+    conditional: { "ds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateHybridAD",
 }));
@@ -2061,6 +2136,14 @@ export const createLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogSubscription",
+  iam: {
+    actions: ["ds:CreateLogSubscription"],
+    resources: {
+      "ds:CreateLogSubscription": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLogSubscription",
 }));
@@ -2097,6 +2180,13 @@ export const createMicrosoftAD: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrosoftAD",
+  iam: {
+    actions: ["ds:AddTagsToResource", "ds:CreateMicrosoftAD"],
+    resources: {
+      "ds:AddTagsToResource": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+    conditional: { "ds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMicrosoftAD",
 }));
@@ -2131,6 +2221,12 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  iam: {
+    actions: ["ds:CreateSnapshot"],
+    resources: {
+      "ds:CreateSnapshot": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSnapshot",
 }));
@@ -2172,6 +2268,12 @@ export const createTrust: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrust",
+  iam: {
+    actions: ["ds:CreateTrust"],
+    resources: {
+      "ds:CreateTrust": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrust",
 }));
@@ -2209,6 +2311,7 @@ export const deleteADAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteADAssessment",
+  iam: { actions: ["ds:DeleteADAssessment"] },
   telemetry: TELEMETRY,
   span: "DeleteADAssessment",
 }));
@@ -2244,6 +2347,14 @@ export const deleteConditionalForwarder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConditionalForwarder",
+  iam: {
+    actions: ["ds:DeleteConditionalForwarder"],
+    resources: {
+      "ds:DeleteConditionalForwarder": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConditionalForwarder",
 }));
@@ -2272,6 +2383,12 @@ export const deleteDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectory",
+  iam: {
+    actions: ["ds:DeleteDirectory"],
+    resources: {
+      "ds:DeleteDirectory": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDirectory",
 }));
@@ -2302,6 +2419,14 @@ export const deleteLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogSubscription",
+  iam: {
+    actions: ["ds:DeleteLogSubscription"],
+    resources: {
+      "ds:DeleteLogSubscription": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLogSubscription",
 }));
@@ -2332,6 +2457,12 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  iam: {
+    actions: ["ds:DeleteSnapshot"],
+    resources: {
+      "ds:DeleteSnapshot": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSnapshot",
 }));
@@ -2365,6 +2496,12 @@ export const deleteTrust: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrust",
+  iam: {
+    actions: ["ds:DeleteTrust"],
+    resources: {
+      "ds:DeleteTrust": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrust",
 }));
@@ -2404,6 +2541,14 @@ export const deregisterCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCertificate",
+  iam: {
+    actions: ["ds:DeregisterCertificate"],
+    resources: {
+      "ds:DeregisterCertificate": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterCertificate",
 }));
@@ -2434,6 +2579,14 @@ export const deregisterEventTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterEventTopic",
+  iam: {
+    actions: ["ds:DeregisterEventTopic"],
+    resources: {
+      "ds:DeregisterEventTopic": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterEventTopic",
 }));
@@ -2468,6 +2621,7 @@ export const describeADAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeADAssessment",
+  iam: { actions: ["ds:DescribeADAssessment"] },
   telemetry: TELEMETRY,
   span: "DescribeADAssessment",
 }));
@@ -2500,6 +2654,14 @@ export const describeCAEnrollmentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCAEnrollmentPolicy",
+  iam: {
+    actions: ["ds:DescribeCAEnrollmentPolicy"],
+    resources: {
+      "ds:DescribeCAEnrollmentPolicy": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCAEnrollmentPolicy",
 }));
@@ -2535,6 +2697,14 @@ export const describeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificate",
+  iam: {
+    actions: ["ds:DescribeCertificate"],
+    resources: {
+      "ds:DescribeCertificate": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCertificate",
 }));
@@ -2579,6 +2749,14 @@ export const describeClientAuthenticationSettings: API.PaginatedOperationMethod<
     items: "ClientAuthenticationSettingsInfo",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["ds:DescribeClientAuthenticationSettings"],
+    resources: {
+      "ds:DescribeClientAuthenticationSettings": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeClientAuthenticationSettings",
 })) as any;
@@ -2616,6 +2794,14 @@ export const describeConditionalForwarders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConditionalForwarders",
+  iam: {
+    actions: ["ds:DescribeConditionalForwarders"],
+    resources: {
+      "ds:DescribeConditionalForwarders": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConditionalForwarders",
 }));
@@ -2668,6 +2854,7 @@ export const describeDirectories: API.PaginatedOperationMethod<
     items: "DirectoryDescriptions",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["ds:DescribeDirectories"] },
   telemetry: TELEMETRY,
   span: "DescribeDirectories",
 })) as any;
@@ -2701,6 +2888,14 @@ export const describeDirectoryDataAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectoryDataAccess",
+  iam: {
+    actions: ["ds:DescribeDirectoryDataAccess"],
+    resources: {
+      "ds:DescribeDirectoryDataAccess": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDirectoryDataAccess",
 }));
@@ -2737,6 +2932,14 @@ export const describeDomainControllers: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeDomainControllers",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: {
+    actions: ["ds:DescribeDomainControllers"],
+    resources: {
+      "ds:DescribeDomainControllers": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDomainControllers",
 })) as any;
@@ -2771,6 +2974,14 @@ export const describeEventTopics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventTopics",
+  iam: {
+    actions: ["ds:DescribeEventTopics"],
+    resources: {
+      "ds:DescribeEventTopics": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEventTopics",
 }));
@@ -2807,6 +3018,14 @@ export const describeHybridADUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHybridADUpdate",
+  iam: {
+    actions: ["ds:DescribeHybridADUpdate"],
+    resources: {
+      "ds:DescribeHybridADUpdate": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeHybridADUpdate",
 }));
@@ -2848,6 +3067,14 @@ export const describeLDAPSSettings: API.PaginatedOperationMethod<
     items: "LDAPSSettingsInfo",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["ds:DescribeLDAPSSettings"],
+    resources: {
+      "ds:DescribeLDAPSSettings": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeLDAPSSettings",
 })) as any;
@@ -2891,6 +3118,12 @@ export const describeRegions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "RegionsDescription",
   } as const,
+  iam: {
+    actions: ["ds:DescribeRegions"],
+    resources: {
+      "ds:DescribeRegions": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRegions",
 })) as any;
@@ -2925,6 +3158,12 @@ export const describeSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSettings",
+  iam: {
+    actions: ["ds:DescribeSettings"],
+    resources: {
+      "ds:DescribeSettings": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSettings",
 }));
@@ -2966,6 +3205,14 @@ export const describeSharedDirectories: API.PaginatedOperationMethod<
     items: "SharedDirectories",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["ds:DescribeSharedDirectories"],
+    resources: {
+      "ds:DescribeSharedDirectories": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSharedDirectories",
 })) as any;
@@ -3013,6 +3260,7 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["ds:DescribeSnapshots"] },
   telemetry: TELEMETRY,
   span: "DescribeSnapshots",
 })) as any;
@@ -3057,6 +3305,7 @@ export const describeTrusts: API.PaginatedOperationMethod<
     items: "Trusts",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["ds:DescribeTrusts"] },
   telemetry: TELEMETRY,
   span: "DescribeTrusts",
 })) as any;
@@ -3097,6 +3346,14 @@ export const describeUpdateDirectory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "UpdateActivities",
   } as const,
+  iam: {
+    actions: ["ds:DescribeUpdateDirectory"],
+    resources: {
+      "ds:DescribeUpdateDirectory": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeUpdateDirectory",
 })) as any;
@@ -3140,6 +3397,14 @@ export const disableCAEnrollmentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableCAEnrollmentPolicy",
+  iam: {
+    actions: ["ds:DisableCAEnrollmentPolicy"],
+    resources: {
+      "ds:DisableCAEnrollmentPolicy": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableCAEnrollmentPolicy",
 }));
@@ -3174,6 +3439,14 @@ export const disableClientAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableClientAuthentication",
+  iam: {
+    actions: ["ds:DisableClientAuthentication"],
+    resources: {
+      "ds:DisableClientAuthentication": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableClientAuthentication",
 }));
@@ -3211,6 +3484,14 @@ export const disableDirectoryDataAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDirectoryDataAccess",
+  iam: {
+    actions: ["ds:DisableDirectoryDataAccess"],
+    resources: {
+      "ds:DisableDirectoryDataAccess": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableDirectoryDataAccess",
 }));
@@ -3247,6 +3528,12 @@ export const disableLDAPS: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableLDAPS",
+  iam: {
+    actions: ["ds:DisableLDAPS"],
+    resources: {
+      "ds:DisableLDAPS": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableLDAPS",
 }));
@@ -3272,6 +3559,12 @@ export const disableRadius: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableRadius",
+  iam: {
+    actions: ["ds:DisableRadius"],
+    resources: {
+      "ds:DisableRadius": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableRadius",
 }));
@@ -3304,6 +3597,12 @@ export const disableSso: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSso",
+  iam: {
+    actions: ["ds:DisableSso"],
+    resources: {
+      "ds:DisableSso": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableSso",
 }));
@@ -3350,6 +3649,14 @@ export const enableCAEnrollmentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableCAEnrollmentPolicy",
+  iam: {
+    actions: ["ds:EnableCAEnrollmentPolicy"],
+    resources: {
+      "ds:EnableCAEnrollmentPolicy": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableCAEnrollmentPolicy",
 }));
@@ -3386,6 +3693,14 @@ export const enableClientAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableClientAuthentication",
+  iam: {
+    actions: ["ds:EnableClientAuthentication"],
+    resources: {
+      "ds:EnableClientAuthentication": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableClientAuthentication",
 }));
@@ -3423,6 +3738,14 @@ export const enableDirectoryDataAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDirectoryDataAccess",
+  iam: {
+    actions: ["ds:EnableDirectoryDataAccess"],
+    resources: {
+      "ds:EnableDirectoryDataAccess": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableDirectoryDataAccess",
 }));
@@ -3461,6 +3784,12 @@ export const enableLDAPS: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableLDAPS",
+  iam: {
+    actions: ["ds:EnableLDAPS"],
+    resources: {
+      "ds:EnableLDAPS": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableLDAPS",
 }));
@@ -3494,6 +3823,12 @@ export const enableRadius: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableRadius",
+  iam: {
+    actions: ["ds:EnableRadius"],
+    resources: {
+      "ds:EnableRadius": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableRadius",
 }));
@@ -3528,6 +3863,12 @@ export const enableSso: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSso",
+  iam: {
+    actions: ["ds:EnableSso"],
+    resources: {
+      "ds:EnableSso": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableSso",
 }));
@@ -3552,6 +3893,7 @@ export const getDirectoryLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectoryLimits",
+  iam: { actions: ["ds:GetDirectoryLimits"] },
   telemetry: TELEMETRY,
   span: "GetDirectoryLimits",
 }));
@@ -3576,6 +3918,12 @@ export const getSnapshotLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshotLimits",
+  iam: {
+    actions: ["ds:GetSnapshotLimits"],
+    resources: {
+      "ds:GetSnapshotLimits": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSnapshotLimits",
 }));
@@ -3617,6 +3965,7 @@ export const listADAssessments: API.PaginatedOperationMethod<
     items: "Assessments",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["ds:ListADAssessments"] },
   telemetry: TELEMETRY,
   span: "ListADAssessments",
 })) as any;
@@ -3659,6 +4008,12 @@ export const listCertificates: API.PaginatedOperationMethod<
     items: "CertificatesInfo",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["ds:ListCertificates"],
+    resources: {
+      "ds:ListCertificates": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCertificates",
 })) as any;
@@ -3698,6 +4053,12 @@ export const listIpRoutes: API.PaginatedOperationMethod<
     items: "IpRoutesInfo",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["ds:ListIpRoutes"],
+    resources: {
+      "ds:ListIpRoutes": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIpRoutes",
 })) as any;
@@ -3735,6 +4096,7 @@ export const listLogSubscriptions: API.PaginatedOperationMethod<
     items: "LogSubscriptions",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["ds:ListLogSubscriptions"] },
   telemetry: TELEMETRY,
   span: "ListLogSubscriptions",
 })) as any;
@@ -3772,6 +4134,14 @@ export const listSchemaExtensions: API.PaginatedOperationMethod<
     items: "SchemaExtensionsInfo",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["ds:ListSchemaExtensions"],
+    resources: {
+      "ds:ListSchemaExtensions": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSchemaExtensions",
 })) as any;
@@ -3811,6 +4181,14 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["ds:ListTagsForResource"],
+    resources: {
+      "ds:ListTagsForResource": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -3851,6 +4229,14 @@ export const registerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCertificate",
+  iam: {
+    actions: ["ds:RegisterCertificate"],
+    resources: {
+      "ds:RegisterCertificate": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterCertificate",
 }));
@@ -3885,6 +4271,14 @@ export const registerEventTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterEventTopic",
+  iam: {
+    actions: ["ds:RegisterEventTopic"],
+    resources: {
+      "ds:RegisterEventTopic": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterEventTopic",
 }));
@@ -3917,6 +4311,14 @@ export const rejectSharedDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectSharedDirectory",
+  iam: {
+    actions: ["ds:RejectSharedDirectory"],
+    resources: {
+      "ds:RejectSharedDirectory": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectSharedDirectory",
 }));
@@ -3949,6 +4351,12 @@ export const removeIpRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveIpRoutes",
+  iam: {
+    actions: ["ds:RemoveIpRoutes"],
+    resources: {
+      "ds:RemoveIpRoutes": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveIpRoutes",
 }));
@@ -3985,6 +4393,12 @@ export const removeRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRegion",
+  iam: {
+    actions: ["ds:RemoveRegion"],
+    resources: {
+      "ds:RemoveRegion": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveRegion",
 }));
@@ -4015,6 +4429,14 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  iam: {
+    actions: ["ds:RemoveTagsFromResource"],
+    resources: {
+      "ds:RemoveTagsFromResource": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveTagsFromResource",
 }));
@@ -4066,6 +4488,12 @@ export const resetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetUserPassword",
+  iam: {
+    actions: ["ds:ResetUserPassword"],
+    resources: {
+      "ds:ResetUserPassword": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetUserPassword",
 }));
@@ -4103,6 +4531,14 @@ export const restoreFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromSnapshot",
+  iam: {
+    actions: ["ds:RestoreFromSnapshot"],
+    resources: {
+      "ds:RestoreFromSnapshot": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreFromSnapshot",
 }));
@@ -4160,6 +4596,12 @@ export const shareDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ShareDirectory",
+  iam: {
+    actions: ["ds:ShareDirectory"],
+    resources: {
+      "ds:ShareDirectory": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ShareDirectory",
 }));
@@ -4214,6 +4656,7 @@ export const startADAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartADAssessment",
+  iam: { actions: ["ds:StartADAssessment"] },
   telemetry: TELEMETRY,
   span: "StartADAssessment",
 }));
@@ -4248,6 +4691,14 @@ export const startSchemaExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaExtension",
+  iam: {
+    actions: ["ds:StartSchemaExtension"],
+    resources: {
+      "ds:StartSchemaExtension": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartSchemaExtension",
 }));
@@ -4280,6 +4731,12 @@ export const unshareDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnshareDirectory",
+  iam: {
+    actions: ["ds:UnshareDirectory"],
+    resources: {
+      "ds:UnshareDirectory": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnshareDirectory",
 }));
@@ -4315,6 +4772,14 @@ export const updateConditionalForwarder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConditionalForwarder",
+  iam: {
+    actions: ["ds:UpdateConditionalForwarder"],
+    resources: {
+      "ds:UpdateConditionalForwarder": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConditionalForwarder",
 }));
@@ -4355,6 +4820,14 @@ export const updateDirectorySetup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectorySetup",
+  iam: {
+    actions: ["ds:UpdateDirectorySetup"],
+    resources: {
+      "ds:UpdateDirectorySetup": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDirectorySetup",
 }));
@@ -4402,6 +4875,12 @@ export const updateHybridAD: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHybridAD",
+  iam: {
+    actions: ["ds:UpdateHybridAD"],
+    resources: {
+      "ds:UpdateHybridAD": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateHybridAD",
 }));
@@ -4442,6 +4921,14 @@ export const updateNumberOfDomainControllers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNumberOfDomainControllers",
+  iam: {
+    actions: ["ds:UpdateNumberOfDomainControllers"],
+    resources: {
+      "ds:UpdateNumberOfDomainControllers": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNumberOfDomainControllers",
 }));
@@ -4473,6 +4960,12 @@ export const updateRadius: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRadius",
+  iam: {
+    actions: ["ds:UpdateRadius"],
+    resources: {
+      "ds:UpdateRadius": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRadius",
 }));
@@ -4511,6 +5004,12 @@ export const updateSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSettings",
+  iam: {
+    actions: ["ds:UpdateSettings"],
+    resources: {
+      "ds:UpdateSettings": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSettings",
 }));
@@ -4542,6 +5041,12 @@ export const updateTrust: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrust",
+  iam: {
+    actions: ["ds:UpdateTrust"],
+    resources: {
+      "ds:UpdateTrust": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrust",
 }));
@@ -4578,6 +5083,12 @@ export const verifyTrust: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyTrust",
+  iam: {
+    actions: ["ds:VerifyTrust"],
+    resources: {
+      "ds:VerifyTrust": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "VerifyTrust",
 }));

@@ -353,6 +353,26 @@ export const createConfigurationManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationManager",
+  iam: {
+    actions: [
+      "ssm-quicksetup:CreateConfigurationManager",
+      "iam:PassRole",
+      "ssm-quicksetup:TagResource",
+    ],
+    resources: {
+      "ssm-quicksetup:CreateConfigurationManager": [
+        "arn:${Partition}:ssm-quicksetup:${Region}:${Account}:configuration-manager/${ConfigurationManagerId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ssm-quicksetup:TagResource": [
+        "arn:${Partition}:ssm-quicksetup:${Region}:${Account}:configuration-manager/${ConfigurationManagerId}",
+      ],
+    },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "ssm-quicksetup:TagResource": "Tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfigurationManager",
 }));
@@ -387,6 +407,16 @@ export const deleteConfigurationManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationManager",
+  iam: {
+    actions: ["ssm-quicksetup:DeleteConfigurationManager", "iam:PassRole"],
+    resources: {
+      "ssm-quicksetup:DeleteConfigurationManager": [
+        "arn:${Partition}:ssm-quicksetup:${Region}:${Account}:configuration-manager/${ConfigurationManagerId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationManager",
 }));
@@ -421,6 +451,7 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
+  iam: { actions: ["ssm-quicksetup:GetConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetConfiguration",
 }));
@@ -455,6 +486,14 @@ export const getConfigurationManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationManager",
+  iam: {
+    actions: ["ssm-quicksetup:GetConfigurationManager"],
+    resources: {
+      "ssm-quicksetup:GetConfigurationManager": [
+        "arn:${Partition}:ssm-quicksetup:${Region}:${Account}:configuration-manager/${ConfigurationManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfigurationManager",
 }));
@@ -480,6 +519,7 @@ export const getServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
+  iam: { actions: ["ssm-quicksetup:GetServiceSettings"] },
   telemetry: TELEMETRY,
   span: "GetServiceSettings",
 }));
@@ -519,6 +559,7 @@ export const listConfigurationManagers: API.PaginatedOperationMethod<
     items: "ConfigurationManagersList",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["ssm-quicksetup:ListConfigurationManagers"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationManagers",
 })) as any;
@@ -558,6 +599,7 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "ConfigurationsList",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["ssm-quicksetup:ListConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListConfigurations",
 })) as any;
@@ -583,6 +625,7 @@ export const listQuickSetupTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQuickSetupTypes",
+  iam: { actions: ["ssm-quicksetup:ListQuickSetupTypes"] },
   telemetry: TELEMETRY,
   span: "ListQuickSetupTypes",
 }));
@@ -617,6 +660,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["ssm-quicksetup:ListTagsForResource"],
+    resources: {
+      "ssm-quicksetup:ListTagsForResource": [
+        "arn:${Partition}:ssm-quicksetup:${Region}:${Account}:configuration-manager/${ConfigurationManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -651,6 +702,16 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["iam:PassRole", "ssm-quicksetup:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ssm-quicksetup:TagResource": [
+        "arn:${Partition}:ssm-quicksetup:${Region}:${Account}:configuration-manager/${ConfigurationManagerId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -685,6 +746,16 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["iam:PassRole", "ssm-quicksetup:UntagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ssm-quicksetup:UntagResource": [
+        "arn:${Partition}:ssm-quicksetup:${Region}:${Account}:configuration-manager/${ConfigurationManagerId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -719,6 +790,16 @@ export const updateConfigurationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationDefinition",
+  iam: {
+    actions: ["iam:PassRole", "ssm-quicksetup:UpdateConfigurationDefinition"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ssm-quicksetup:UpdateConfigurationDefinition": [
+        "arn:${Partition}:ssm-quicksetup:${Region}:${Account}:configuration-manager/${ConfigurationManagerId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "LocalDeploymentExecutionRoleName" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationDefinition",
 }));
@@ -753,6 +834,14 @@ export const updateConfigurationManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationManager",
+  iam: {
+    actions: ["ssm-quicksetup:UpdateConfigurationManager"],
+    resources: {
+      "ssm-quicksetup:UpdateConfigurationManager": [
+        "arn:${Partition}:ssm-quicksetup:${Region}:${Account}:configuration-manager/${ConfigurationManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationManager",
 }));
@@ -785,6 +874,11 @@ export const updateServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSettings",
+  iam: {
+    actions: ["iam:PassRole", "ssm-quicksetup:UpdateServiceSettings"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "ExplorerEnablingRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateServiceSettings",
 }));

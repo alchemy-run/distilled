@@ -1008,6 +1008,7 @@ export const associatePhoneNumberWithUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePhoneNumberWithUser",
+  iam: { actions: ["chime:AssociatePhoneNumberWithUser"] },
   telemetry: TELEMETRY,
   span: "AssociatePhoneNumberWithUser",
 }));
@@ -1044,6 +1045,7 @@ export const associateSigninDelegateGroupsWithAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSigninDelegateGroupsWithAccount",
+  iam: { actions: ["chime:AssociateSigninDelegateGroupsWithAccount"] },
   telemetry: TELEMETRY,
   span: "AssociateSigninDelegateGroupsWithAccount",
 }));
@@ -1081,6 +1083,7 @@ export const batchCreateRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateRoomMembership",
+  iam: { actions: ["chime:BatchCreateRoomMembership"] },
   telemetry: TELEMETRY,
   span: "BatchCreateRoomMembership",
 }));
@@ -1121,6 +1124,7 @@ export const batchDeletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeletePhoneNumber",
+  iam: { actions: ["chime:BatchDeletePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "BatchDeletePhoneNumber",
 }));
@@ -1171,6 +1175,7 @@ export const batchSuspendUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchSuspendUser",
+  iam: { actions: ["chime:BatchSuspendUser"] },
   telemetry: TELEMETRY,
   span: "BatchSuspendUser",
 }));
@@ -1216,6 +1221,7 @@ export const batchUnsuspendUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUnsuspendUser",
+  iam: { actions: ["chime:BatchUnsuspendUser"] },
   telemetry: TELEMETRY,
   span: "BatchUnsuspendUser",
 }));
@@ -1256,6 +1262,7 @@ export const batchUpdatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdatePhoneNumber",
+  iam: { actions: ["chime:BatchUpdatePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "BatchUpdatePhoneNumber",
 }));
@@ -1292,6 +1299,7 @@ export const batchUpdateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateUser",
+  iam: { actions: ["chime:BatchUpdateUser"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateUser",
 }));
@@ -1331,6 +1339,7 @@ export const createAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccount",
+  iam: { actions: ["chime:CreateAccount"] },
   telemetry: TELEMETRY,
   span: "CreateAccount",
 }));
@@ -1369,6 +1378,7 @@ export const createBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBot",
+  iam: { actions: ["chime:CreateBot"] },
   telemetry: TELEMETRY,
   span: "CreateBot",
 }));
@@ -1413,6 +1423,14 @@ export const createMeetingDialOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMeetingDialOut",
+  iam: {
+    actions: ["chime:CreateMeetingDialOut"],
+    resources: {
+      "chime:CreateMeetingDialOut": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMeetingDialOut",
 }));
@@ -1452,6 +1470,7 @@ export const createPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePhoneNumberOrder",
+  iam: { actions: ["chime:CreatePhoneNumberOrder"] },
   telemetry: TELEMETRY,
   span: "CreatePhoneNumberOrder",
 }));
@@ -1490,6 +1509,7 @@ export const createRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoom",
+  iam: { actions: ["chime:CreateRoom"] },
   telemetry: TELEMETRY,
   span: "CreateRoom",
 }));
@@ -1530,6 +1550,7 @@ export const createRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoomMembership",
+  iam: { actions: ["chime:CreateRoomMembership"] },
   telemetry: TELEMETRY,
   span: "CreateRoomMembership",
 }));
@@ -1568,6 +1589,7 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  iam: { actions: ["chime:CreateUser"] },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -1619,6 +1641,7 @@ export const deleteAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccount",
+  iam: { actions: ["chime:DeleteAccount"] },
   telemetry: TELEMETRY,
   span: "DeleteAccount",
 }));
@@ -1653,6 +1676,7 @@ export const deleteEventsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventsConfiguration",
+  iam: { actions: ["chime:DeleteEventsConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteEventsConfiguration",
 }));
@@ -1695,6 +1719,7 @@ export const deletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePhoneNumber",
+  iam: { actions: ["chime:DeletePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "DeletePhoneNumber",
 }));
@@ -1731,6 +1756,7 @@ export const deleteRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoom",
+  iam: { actions: ["chime:DeleteRoom"] },
   telemetry: TELEMETRY,
   span: "DeleteRoom",
 }));
@@ -1767,6 +1793,7 @@ export const deleteRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoomMembership",
+  iam: { actions: ["chime:DeleteRoomMembership"] },
   telemetry: TELEMETRY,
   span: "DeleteRoomMembership",
 }));
@@ -1803,6 +1830,7 @@ export const disassociatePhoneNumberFromUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePhoneNumberFromUser",
+  iam: { actions: ["chime:DisassociatePhoneNumberFromUser"] },
   telemetry: TELEMETRY,
   span: "DisassociatePhoneNumberFromUser",
 }));
@@ -1839,6 +1867,7 @@ export const disassociateSigninDelegateGroupsFromAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSigninDelegateGroupsFromAccount",
+  iam: { actions: ["chime:DisassociateSigninDelegateGroupsFromAccount"] },
   telemetry: TELEMETRY,
   span: "DisassociateSigninDelegateGroupsFromAccount",
 }));
@@ -1876,6 +1905,7 @@ export const getAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccount",
+  iam: { actions: ["chime:GetAccount"] },
   telemetry: TELEMETRY,
   span: "GetAccount",
 }));
@@ -1914,6 +1944,7 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  iam: { actions: ["chime:GetAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetAccountSettings",
 }));
@@ -1950,6 +1981,7 @@ export const getBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBot",
+  iam: { actions: ["chime:GetBot"] },
   telemetry: TELEMETRY,
   span: "GetBot",
 }));
@@ -1986,6 +2018,7 @@ export const getEventsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventsConfiguration",
+  iam: { actions: ["chime:GetEventsConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetEventsConfiguration",
 }));
@@ -2021,6 +2054,7 @@ export const getGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalSettings",
+  iam: { actions: ["chime:GetGlobalSettings"] },
   telemetry: TELEMETRY,
   span: "GetGlobalSettings",
 }));
@@ -2057,6 +2091,7 @@ export const getPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumber",
+  iam: { actions: ["chime:GetPhoneNumber"] },
   telemetry: TELEMETRY,
   span: "GetPhoneNumber",
 }));
@@ -2094,6 +2129,7 @@ export const getPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberOrder",
+  iam: { actions: ["chime:GetPhoneNumberOrder"] },
   telemetry: TELEMETRY,
   span: "GetPhoneNumberOrder",
 }));
@@ -2128,6 +2164,7 @@ export const getPhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberSettings",
+  iam: { actions: ["chime:GetPhoneNumberSettings"] },
   telemetry: TELEMETRY,
   span: "GetPhoneNumberSettings",
 }));
@@ -2165,6 +2202,7 @@ export const getRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetentionSettings",
+  iam: { actions: ["chime:GetRetentionSettings"] },
   telemetry: TELEMETRY,
   span: "GetRetentionSettings",
 }));
@@ -2201,6 +2239,7 @@ export const getRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoom",
+  iam: { actions: ["chime:GetRoom"] },
   telemetry: TELEMETRY,
   span: "GetRoom",
 }));
@@ -2240,6 +2279,7 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  iam: { actions: ["chime:GetUser"] },
   telemetry: TELEMETRY,
   span: "GetUser",
 }));
@@ -2276,6 +2316,7 @@ export const getUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserSettings",
+  iam: { actions: ["chime:GetUserSettings"] },
   telemetry: TELEMETRY,
   span: "GetUserSettings",
 }));
@@ -2314,6 +2355,7 @@ export const inviteUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteUsers",
+  iam: { actions: ["chime:InviteUsers"] },
   telemetry: TELEMETRY,
   span: "InviteUsers",
 }));
@@ -2358,6 +2400,7 @@ export const listAccounts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chime:ListAccounts"] },
   telemetry: TELEMETRY,
   span: "ListAccounts",
 })) as any;
@@ -2400,6 +2443,7 @@ export const listBots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chime:ListBots"] },
   telemetry: TELEMETRY,
   span: "ListBots",
 })) as any;
@@ -2440,6 +2484,7 @@ export const listPhoneNumberOrders: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chime:ListPhoneNumberOrders"] },
   telemetry: TELEMETRY,
   span: "ListPhoneNumberOrders",
 })) as any;
@@ -2482,6 +2527,7 @@ export const listPhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chime:ListPhoneNumbers"] },
   telemetry: TELEMETRY,
   span: "ListPhoneNumbers",
 })) as any;
@@ -2525,6 +2571,7 @@ export const listRoomMemberships: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chime:ListRoomMemberships"] },
   telemetry: TELEMETRY,
   span: "ListRoomMemberships",
 })) as any;
@@ -2567,6 +2614,7 @@ export const listRooms: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chime:ListRooms"] },
   telemetry: TELEMETRY,
   span: "ListRooms",
 })) as any;
@@ -2603,6 +2651,7 @@ export const listSupportedPhoneNumberCountries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSupportedPhoneNumberCountries",
+  iam: { actions: ["chime:ListSupportedPhoneNumberCountries"] },
   telemetry: TELEMETRY,
   span: "ListSupportedPhoneNumberCountries",
 }));
@@ -2646,6 +2695,7 @@ export const listUsers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chime:ListUsers"] },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -2682,6 +2732,7 @@ export const logoutUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LogoutUser",
+  iam: { actions: ["chime:LogoutUser"] },
   telemetry: TELEMETRY,
   span: "LogoutUser",
 }));
@@ -2720,6 +2771,7 @@ export const putEventsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventsConfiguration",
+  iam: { actions: ["chime:PutEventsConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutEventsConfiguration",
 }));
@@ -2768,6 +2820,7 @@ export const putRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionSettings",
+  iam: { actions: ["chime:PutRetentionSettings"] },
   telemetry: TELEMETRY,
   span: "PutRetentionSettings",
 }));
@@ -2804,6 +2857,7 @@ export const redactConversationMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedactConversationMessage",
+  iam: { actions: ["chime:RedactConversationMessage"] },
   telemetry: TELEMETRY,
   span: "RedactConversationMessage",
 }));
@@ -2840,6 +2894,7 @@ export const redactRoomMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedactRoomMessage",
+  iam: { actions: ["chime:RedactRoomMessage"] },
   telemetry: TELEMETRY,
   span: "RedactRoomMessage",
 }));
@@ -2876,6 +2931,7 @@ export const regenerateSecurityToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegenerateSecurityToken",
+  iam: { actions: ["chime:RegenerateSecurityToken"] },
   telemetry: TELEMETRY,
   span: "RegenerateSecurityToken",
 }));
@@ -2913,6 +2969,7 @@ export const resetPersonalPIN: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetPersonalPIN",
+  iam: { actions: ["chime:ResetPersonalPIN"] },
   telemetry: TELEMETRY,
   span: "ResetPersonalPIN",
 }));
@@ -2952,6 +3009,7 @@ export const restorePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestorePhoneNumber",
+  iam: { actions: ["chime:RestorePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "RestorePhoneNumber",
 }));
@@ -2998,6 +3056,7 @@ export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chime:SearchAvailablePhoneNumbers"] },
   telemetry: TELEMETRY,
   span: "SearchAvailablePhoneNumbers",
 })) as any;
@@ -3034,6 +3093,7 @@ export const updateAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccount",
+  iam: { actions: ["chime:UpdateAccount"] },
   telemetry: TELEMETRY,
   span: "UpdateAccount",
 }));
@@ -3076,6 +3136,7 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  iam: { actions: ["chime:UpdateAccountSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountSettings",
 }));
@@ -3112,6 +3173,7 @@ export const updateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBot",
+  iam: { actions: ["chime:UpdateBot"] },
   telemetry: TELEMETRY,
   span: "UpdateBot",
 }));
@@ -3146,6 +3208,7 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  iam: { actions: ["chime:UpdateGlobalSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateGlobalSettings",
 }));
@@ -3188,6 +3251,7 @@ export const updatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumber",
+  iam: { actions: ["chime:UpdatePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "UpdatePhoneNumber",
 }));
@@ -3224,6 +3288,7 @@ export const updatePhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumberSettings",
+  iam: { actions: ["chime:UpdatePhoneNumberSettings"] },
   telemetry: TELEMETRY,
   span: "UpdatePhoneNumberSettings",
 }));
@@ -3260,6 +3325,7 @@ export const updateRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoom",
+  iam: { actions: ["chime:UpdateRoom"] },
   telemetry: TELEMETRY,
   span: "UpdateRoom",
 }));
@@ -3299,6 +3365,7 @@ export const updateRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoomMembership",
+  iam: { actions: ["chime:UpdateRoomMembership"] },
   telemetry: TELEMETRY,
   span: "UpdateRoomMembership",
 }));
@@ -3335,6 +3402,7 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  iam: { actions: ["chime:UpdateUser"] },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));
@@ -3371,6 +3439,7 @@ export const updateUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserSettings",
+  iam: { actions: ["chime:UpdateUserSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateUserSettings",
 }));

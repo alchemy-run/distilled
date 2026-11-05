@@ -869,6 +869,13 @@ export const createBudget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBudget",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "budgets:ModifyBudget", "budgets:TagResource"],
+    resources: {
+      "budgets:ModifyBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+    conditional: { "budgets:TagResource": "ResourceTags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBudget",
 }));
@@ -907,6 +914,21 @@ export const createBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBudgetAction",
+  iam: {
+    actions: [
+      "budgets:CreateBudgetAction",
+      "aws-portal:ModifyBilling",
+      "iam:PassRole",
+      "budgets:TagResource",
+    ],
+    resources: {
+      "budgets:CreateBudgetAction": [
+        "arn:${Partition}:budgets::${Account}:budget/${BudgetName}/action/${ActionId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "budgets:TagResource": "ResourceTags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBudgetAction",
 }));
@@ -943,6 +965,12 @@ export const createNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotification",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "budgets:ModifyBudget"],
+    resources: {
+      "budgets:ModifyBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateNotification",
 }));
@@ -979,6 +1007,12 @@ export const createSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriber",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "budgets:ModifyBudget"],
+    resources: {
+      "budgets:ModifyBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSubscriber",
 }));
@@ -1013,6 +1047,12 @@ export const deleteBudget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBudget",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "budgets:ModifyBudget"],
+    resources: {
+      "budgets:ModifyBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBudget",
 }));
@@ -1047,6 +1087,14 @@ export const deleteBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBudgetAction",
+  iam: {
+    actions: ["budgets:DeleteBudgetAction", "aws-portal:ModifyBilling"],
+    resources: {
+      "budgets:DeleteBudgetAction": [
+        "arn:${Partition}:budgets::${Account}:budget/${BudgetName}/action/${ActionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBudgetAction",
 }));
@@ -1081,6 +1129,12 @@ export const deleteNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotification",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "budgets:ModifyBudget"],
+    resources: {
+      "budgets:ModifyBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNotification",
 }));
@@ -1115,6 +1169,12 @@ export const deleteSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriber",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "budgets:ModifyBudget"],
+    resources: {
+      "budgets:ModifyBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSubscriber",
 }));
@@ -1150,6 +1210,12 @@ export const describeBudget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBudget",
+  iam: {
+    actions: ["budgets:ViewBudget"],
+    resources: {
+      "budgets:ViewBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBudget",
 }));
@@ -1182,6 +1248,14 @@ export const describeBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBudgetAction",
+  iam: {
+    actions: ["budgets:DescribeBudgetAction"],
+    resources: {
+      "budgets:DescribeBudgetAction": [
+        "arn:${Partition}:budgets::${Account}:budget/${BudgetName}/action/${ActionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBudgetAction",
 }));
@@ -1223,6 +1297,14 @@ export const describeBudgetActionHistories: API.PaginatedOperationMethod<
     items: "ActionHistories",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["budgets:DescribeBudgetActionHistories"],
+    resources: {
+      "budgets:DescribeBudgetActionHistories": [
+        "arn:${Partition}:budgets::${Account}:budget/${BudgetName}/action/${ActionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBudgetActionHistories",
 })) as any;
@@ -1262,6 +1344,7 @@ export const describeBudgetActionsForAccount: API.PaginatedOperationMethod<
     items: "Actions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["budgets:DescribeBudgetActionsForAccount"] },
   telemetry: TELEMETRY,
   span: "DescribeBudgetActionsForAccount",
 })) as any;
@@ -1303,6 +1386,14 @@ export const describeBudgetActionsForBudget: API.PaginatedOperationMethod<
     items: "Actions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["budgets:DescribeBudgetActionsForBudget"],
+    resources: {
+      "budgets:DescribeBudgetActionsForBudget": [
+        "arn:${Partition}:budgets::${Account}:budget/${BudgetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBudgetActionsForBudget",
 })) as any;
@@ -1346,6 +1437,12 @@ export const describeBudgetNotificationsForAccount: API.PaginatedOperationMethod
     items: "BudgetNotificationsForAccount",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["budgets:ViewBudget"],
+    resources: {
+      "budgets:ViewBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBudgetNotificationsForAccount",
 })) as any;
@@ -1390,6 +1487,12 @@ export const describeBudgetPerformanceHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["budgets:ViewBudget"],
+    resources: {
+      "budgets:ViewBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBudgetPerformanceHistory",
 })) as any;
@@ -1436,6 +1539,12 @@ export const describeBudgets: API.PaginatedOperationMethod<
     items: "Budgets",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["budgets:ViewBudget"],
+    resources: {
+      "budgets:ViewBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBudgets",
 })) as any;
@@ -1479,6 +1588,12 @@ export const describeNotificationsForBudget: API.PaginatedOperationMethod<
     items: "Notifications",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["budgets:ViewBudget"],
+    resources: {
+      "budgets:ViewBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNotificationsForBudget",
 })) as any;
@@ -1522,6 +1637,12 @@ export const describeSubscribersForNotification: API.PaginatedOperationMethod<
     items: "Subscribers",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["budgets:ViewBudget"],
+    resources: {
+      "budgets:ViewBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSubscribersForNotification",
 })) as any;
@@ -1556,6 +1677,14 @@ export const executeBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteBudgetAction",
+  iam: {
+    actions: ["budgets:ExecuteBudgetAction"],
+    resources: {
+      "budgets:ExecuteBudgetAction": [
+        "arn:${Partition}:budgets::${Account}:budget/${BudgetName}/action/${ActionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExecuteBudgetAction",
 }));
@@ -1588,6 +1717,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["budgets:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1622,6 +1752,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["aws-portal:ModifyBilling", "budgets:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1654,6 +1785,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["aws-portal:ModifyBilling", "budgets:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1702,6 +1834,12 @@ export const updateBudget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBudget",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "budgets:ModifyBudget"],
+    resources: {
+      "budgets:ModifyBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBudget",
 }));
@@ -1736,6 +1874,16 @@ export const updateBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBudgetAction",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "iam:PassRole", "budgets:UpdateBudgetAction"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "budgets:UpdateBudgetAction": [
+        "arn:${Partition}:budgets::${Account}:budget/${BudgetName}/action/${ActionId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "ExecutionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBudgetAction",
 }));
@@ -1770,6 +1918,12 @@ export const updateNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotification",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "budgets:ModifyBudget"],
+    resources: {
+      "budgets:ModifyBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNotification",
 }));
@@ -1804,6 +1958,12 @@ export const updateSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriber",
+  iam: {
+    actions: ["aws-portal:ModifyBilling", "budgets:ModifyBudget"],
+    resources: {
+      "budgets:ModifyBudget": ["arn:${Partition}:budgets::${Account}:budget/${BudgetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSubscriber",
 }));

@@ -5143,6 +5143,14 @@ export const acceptCertificateTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptCertificateTransfer",
+  iam: {
+    actions: ["iot:AcceptCertificateTransfer"],
+    resources: {
+      "iot:AcceptCertificateTransfer": [
+        "arn:${Partition}:iot:${Region}:${Account}:cert/${Certificate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptCertificateTransfer",
 }));
@@ -5175,6 +5183,15 @@ export const addThingToBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddThingToBillingGroup",
+  iam: {
+    actions: ["iot:AddThingToBillingGroup"],
+    resources: {
+      "iot:AddThingToBillingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:billinggroup/${BillingGroupName}",
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddThingToBillingGroup",
 }));
@@ -5207,6 +5224,15 @@ export const addThingToThingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddThingToThingGroup",
+  iam: {
+    actions: ["iot:AddThingToThingGroup"],
+    resources: {
+      "iot:AddThingToThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddThingToThingGroup",
 }));
@@ -5243,6 +5269,14 @@ export const associateSbomWithPackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSbomWithPackageVersion",
+  iam: {
+    actions: ["iot:AssociateSbomWithPackageVersion"],
+    resources: {
+      "iot:AssociateSbomWithPackageVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}/version/${VersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateSbomWithPackageVersion",
 }));
@@ -5285,6 +5319,16 @@ export const associateTargetsWithJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTargetsWithJob",
+  iam: {
+    actions: ["iot:AssociateTargetsWithJob"],
+    resources: {
+      "iot:AssociateTargetsWithJob": [
+        "arn:${Partition}:iot:${Region}:${Account}:job/${JobId}",
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateTargetsWithJob",
 }));
@@ -5324,6 +5368,7 @@ export const attachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachPolicy",
+  iam: { actions: ["iot:AttachPolicy"] },
   telemetry: TELEMETRY,
   span: "AttachPolicy",
 }));
@@ -5366,6 +5411,7 @@ export const attachPrincipalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachPrincipalPolicy",
+  iam: { actions: ["iot:AttachPrincipalPolicy"] },
   telemetry: TELEMETRY,
   span: "AttachPrincipalPolicy",
 }));
@@ -5405,6 +5451,7 @@ export const attachSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachSecurityProfile",
+  iam: { actions: ["iot:AttachSecurityProfile"] },
   telemetry: TELEMETRY,
   span: "AttachSecurityProfile",
 }));
@@ -5442,6 +5489,7 @@ export const attachThingPrincipal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachThingPrincipal",
+  iam: { actions: ["iot:AttachThingPrincipal"] },
   telemetry: TELEMETRY,
   span: "AttachThingPrincipal",
 }));
@@ -5476,6 +5524,7 @@ export const cancelAuditMitigationActionsTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAuditMitigationActionsTask",
+  iam: { actions: ["iot:CancelAuditMitigationActionsTask"] },
   telemetry: TELEMETRY,
   span: "CancelAuditMitigationActionsTask",
 }));
@@ -5508,6 +5557,7 @@ export const cancelAuditTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAuditTask",
+  iam: { actions: ["iot:CancelAuditTask"] },
   telemetry: TELEMETRY,
   span: "CancelAuditTask",
 }));
@@ -5554,6 +5604,14 @@ export const cancelCertificateTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCertificateTransfer",
+  iam: {
+    actions: ["iot:CancelCertificateTransfer"],
+    resources: {
+      "iot:CancelCertificateTransfer": [
+        "arn:${Partition}:iot:${Region}:${Account}:cert/${Certificate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelCertificateTransfer",
 }));
@@ -5588,6 +5646,7 @@ export const cancelDetectMitigationActionsTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDetectMitigationActionsTask",
+  iam: { actions: ["iot:CancelDetectMitigationActionsTask"] },
   telemetry: TELEMETRY,
   span: "CancelDetectMitigationActionsTask",
 }));
@@ -5622,6 +5681,10 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
+  iam: {
+    actions: ["iot:CancelJob"],
+    resources: { "iot:CancelJob": ["arn:${Partition}:iot:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "CancelJob",
 }));
@@ -5658,6 +5721,15 @@ export const cancelJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobExecution",
+  iam: {
+    actions: ["iot:CancelJobExecution"],
+    resources: {
+      "iot:CancelJobExecution": [
+        "arn:${Partition}:iot:${Region}:${Account}:job/${JobId}",
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelJobExecution",
 }));
@@ -5694,6 +5766,7 @@ export const clearDefaultAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClearDefaultAuthorizer",
+  iam: { actions: ["iot:ClearDefaultAuthorizer"] },
   telemetry: TELEMETRY,
   span: "ClearDefaultAuthorizer",
 }));
@@ -5731,6 +5804,14 @@ export const confirmTopicRuleDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmTopicRuleDestination",
+  iam: {
+    actions: ["iot:ConfirmTopicRuleDestination"],
+    resources: {
+      "iot:ConfirmTopicRuleDestination": [
+        "arn:${Partition}:iot:${Region}:${Account}:ruledestination/${DestinationType}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ConfirmTopicRuleDestination",
 }));
@@ -5765,6 +5846,7 @@ export const createAuditSuppression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuditSuppression",
+  iam: { actions: ["iot:CreateAuditSuppression"] },
   telemetry: TELEMETRY,
   span: "CreateAuditSuppression",
 }));
@@ -5803,6 +5885,15 @@ export const createAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuthorizer",
+  iam: {
+    actions: ["iot:CreateAuthorizer", "iot:TagResource"],
+    resources: {
+      "iot:CreateAuthorizer": [
+        "arn:${Partition}:iot:${Region}:${Account}:authorizer/${AuthorizerName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAuthorizer",
 }));
@@ -5837,6 +5928,15 @@ export const createBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillingGroup",
+  iam: {
+    actions: ["iot:CreateBillingGroup", "iot:TagResource"],
+    resources: {
+      "iot:CreateBillingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:billinggroup/${BillingGroupName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBillingGroup",
 }));
@@ -5912,6 +6012,7 @@ export const createCertificateFromCsr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateFromCsr",
+  iam: { actions: ["iot:CreateCertificateFromCsr"] },
   telemetry: TELEMETRY,
   span: "CreateCertificateFromCsr",
 }));
@@ -5960,6 +6061,15 @@ export const createCertificateProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateProvider",
+  iam: {
+    actions: ["iot:CreateCertificateProvider", "iot:TagResource"],
+    resources: {
+      "iot:CreateCertificateProvider": [
+        "arn:${Partition}:iot:${Region}:${Account}:certificateprovider/${CertificateProviderName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCertificateProvider",
 }));
@@ -5993,6 +6103,14 @@ export const createCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCommand",
+  iam: {
+    actions: ["iot:CreateCommand", "iam:PassRole", "iot:TagResource"],
+    resources: {
+      "iot:CreateCommand": ["arn:${Partition}:iot:${Region}:${Account}:command/${CommandId}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "roleArn", "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCommand",
 }));
@@ -6032,6 +6150,15 @@ export const createCustomMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomMetric",
+  iam: {
+    actions: ["iot:CreateCustomMetric", "iot:TagResource"],
+    resources: {
+      "iot:CreateCustomMetric": [
+        "arn:${Partition}:iot:${Region}:${Account}:custommetric/${MetricName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomMetric",
 }));
@@ -6069,6 +6196,15 @@ export const createDimension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDimension",
+  iam: {
+    actions: ["iot:CreateDimension", "iot:TagResource"],
+    resources: {
+      "iot:CreateDimension": [
+        "arn:${Partition}:iot:${Region}:${Account}:dimension/${DimensionName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDimension",
 }));
@@ -6109,6 +6245,15 @@ export const createDomainConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainConfiguration",
+  iam: {
+    actions: ["iot:CreateDomainConfiguration", "iot:TagResource"],
+    resources: {
+      "iot:CreateDomainConfiguration": [
+        "arn:${Partition}:iot:${Region}:${Account}:domainconfiguration/${DomainConfigurationName}/${Id}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDomainConfiguration",
 }));
@@ -6147,6 +6292,15 @@ export const createDynamicThingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDynamicThingGroup",
+  iam: {
+    actions: ["iot:CreateDynamicThingGroup", "iot:TagResource"],
+    resources: {
+      "iot:CreateDynamicThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDynamicThingGroup",
 }));
@@ -6193,6 +6347,16 @@ export const createFleetMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleetMetric",
+  iam: {
+    actions: ["iot:CreateFleetMetric", "iot:TagResource"],
+    resources: {
+      "iot:CreateFleetMetric": [
+        "arn:${Partition}:iot:${Region}:${Account}:fleetmetric/${FleetMetricName}",
+        "arn:${Partition}:iot:${Region}:${Account}:index/${IndexName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFleetMetric",
 }));
@@ -6229,6 +6393,11 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  iam: {
+    actions: ["iot:CreateJob", "iam:PassRole", "iot:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "presignedUrlConfig.roleArn", "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -6265,6 +6434,11 @@ export const createJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobTemplate",
+  iam: {
+    actions: ["iot:CreateJobTemplate", "iam:PassRole", "iot:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "presignedUrlConfig.roleArn", "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJobTemplate",
 }));
@@ -6304,6 +6478,7 @@ export const createKeysAndCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeysAndCertificate",
+  iam: { actions: ["iot:CreateKeysAndCertificate"] },
   telemetry: TELEMETRY,
   span: "CreateKeysAndCertificate",
 }));
@@ -6339,6 +6514,16 @@ export const createMitigationAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMitigationAction",
+  iam: {
+    actions: ["iot:CreateMitigationAction", "iam:PassRole", "iot:TagResource"],
+    resources: {
+      "iot:CreateMitigationAction": [
+        "arn:${Partition}:iot:${Region}:${Account}:mitigationaction/${MitigationActionName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMitigationAction",
 }));
@@ -6379,6 +6564,14 @@ export const createOTAUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOTAUpdate",
+  iam: {
+    actions: ["iot:CreateOTAUpdate", "iam:PassRole", "iot:TagResource"],
+    resources: {
+      "iot:CreateOTAUpdate": ["arn:${Partition}:iot:${Region}:${Account}:otaupdate/${OtaUpdateId}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateOTAUpdate",
 }));
@@ -6413,6 +6606,13 @@ export const createPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackage",
+  iam: {
+    actions: ["iot:CreatePackage", "iot:TagResource"],
+    resources: {
+      "iot:CreatePackage": ["arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}"],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePackage",
 }));
@@ -6447,6 +6647,16 @@ export const createPackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackageVersion",
+  iam: {
+    actions: ["iot:CreatePackageVersion", "iot:TagResource"],
+    resources: {
+      "iot:CreatePackageVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}",
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}/version/${VersionName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePackageVersion",
 }));
@@ -6489,6 +6699,13 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  iam: {
+    actions: ["iot:CreatePolicy", "iot:TagResource"],
+    resources: {
+      "iot:CreatePolicy": ["arn:${Partition}:iot:${Region}:${Account}:policy/${PolicyName}"],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicy",
 }));
@@ -6536,6 +6753,12 @@ export const createPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyVersion",
+  iam: {
+    actions: ["iot:CreatePolicyVersion"],
+    resources: {
+      "iot:CreatePolicyVersion": ["arn:${Partition}:iot:${Region}:${Account}:policy/${PolicyName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicyVersion",
 }));
@@ -6572,6 +6795,14 @@ export const createProvisioningClaim: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisioningClaim",
+  iam: {
+    actions: ["iot:CreateProvisioningClaim"],
+    resources: {
+      "iot:CreateProvisioningClaim": [
+        "arn:${Partition}:iot:${Region}:${Account}:provisioningtemplate/${ProvisioningTemplate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateProvisioningClaim",
 }));
@@ -6608,6 +6839,16 @@ export const createProvisioningTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisioningTemplate",
+  iam: {
+    actions: ["iot:CreateProvisioningTemplate", "iam:PassRole", "iot:TagResource"],
+    resources: {
+      "iot:CreateProvisioningTemplate": [
+        "arn:${Partition}:iot:${Region}:${Account}:provisioningtemplate/${ProvisioningTemplate}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProvisioningTemplate",
 }));
@@ -6646,6 +6887,14 @@ export const createProvisioningTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisioningTemplateVersion",
+  iam: {
+    actions: ["iot:CreateProvisioningTemplateVersion"],
+    resources: {
+      "iot:CreateProvisioningTemplateVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:provisioningtemplate/${ProvisioningTemplate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateProvisioningTemplateVersion",
 }));
@@ -6691,6 +6940,14 @@ export const createRoleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoleAlias",
+  iam: {
+    actions: ["iot:CreateRoleAlias", "iam:PassRole", "iot:TagResource"],
+    resources: {
+      "iot:CreateRoleAlias": ["arn:${Partition}:iot:${Region}:${Account}:rolealias/${RoleAlias}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRoleAlias",
 }));
@@ -6726,6 +6983,15 @@ export const createScheduledAudit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledAudit",
+  iam: {
+    actions: ["iot:CreateScheduledAudit", "iot:TagResource"],
+    resources: {
+      "iot:CreateScheduledAudit": [
+        "arn:${Partition}:iot:${Region}:${Account}:scheduledaudit/${ScheduleName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateScheduledAudit",
 }));
@@ -6760,6 +7026,11 @@ export const createSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityProfile",
+  iam: {
+    actions: ["iot:CreateSecurityProfile", "iam:PassRole", "iot:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "metricsExportConfig.roleArn", "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSecurityProfile",
 }));
@@ -6802,6 +7073,14 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
+  iam: {
+    actions: ["iot:CreateStream", "iam:PassRole", "iot:TagResource"],
+    resources: {
+      "iot:CreateStream": ["arn:${Partition}:iot:${Region}:${Account}:stream/${StreamId}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStream",
 }));
@@ -6846,6 +7125,7 @@ export const createThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThing",
+  iam: { actions: ["iot:CreateThing"] },
   telemetry: TELEMETRY,
   span: "CreateThing",
 }));
@@ -6884,6 +7164,15 @@ export const createThingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThingGroup",
+  iam: {
+    actions: ["iot:CreateThingGroup", "iot:TagResource"],
+    resources: {
+      "iot:CreateThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateThingGroup",
 }));
@@ -6922,6 +7211,15 @@ export const createThingType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThingType",
+  iam: {
+    actions: ["iot:CreateThingType", "iot:TagResource"],
+    resources: {
+      "iot:CreateThingType": [
+        "arn:${Partition}:iot:${Region}:${Account}:thingtype/${ThingTypeName}",
+      ],
+    },
+    conditional: { "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateThingType",
 }));
@@ -6961,6 +7259,14 @@ export const createTopicRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopicRule",
+  iam: {
+    actions: ["iot:CreateTopicRule", "iam:PassRole", "iot:TagResource"],
+    resources: {
+      "iot:CreateTopicRule": ["arn:${Partition}:iot:${Region}:${Account}:rule/${RuleName}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTopicRule",
 }));
@@ -6997,6 +7303,11 @@ export const createTopicRuleDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopicRuleDestination",
+  iam: {
+    actions: ["iot:CreateTopicRuleDestination", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTopicRuleDestination",
 }));
@@ -7031,6 +7342,7 @@ export const deleteAccountAuditConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAuditConfiguration",
+  iam: { actions: ["iot:DeleteAccountAuditConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteAccountAuditConfiguration",
 }));
@@ -7057,6 +7369,7 @@ export const deleteAuditSuppression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuditSuppression",
+  iam: { actions: ["iot:DeleteAuditSuppression"] },
   telemetry: TELEMETRY,
   span: "DeleteAuditSuppression",
 }));
@@ -7095,6 +7408,14 @@ export const deleteAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthorizer",
+  iam: {
+    actions: ["iot:DeleteAuthorizer"],
+    resources: {
+      "iot:DeleteAuthorizer": [
+        "arn:${Partition}:iot:${Region}:${Account}:authorizer/${AuthorizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAuthorizer",
 }));
@@ -7127,6 +7448,14 @@ export const deleteBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillingGroup",
+  iam: {
+    actions: ["iot:DeleteBillingGroup"],
+    resources: {
+      "iot:DeleteBillingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:billinggroup/${BillingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBillingGroup",
 }));
@@ -7165,6 +7494,14 @@ export const deleteCACertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCACertificate",
+  iam: {
+    actions: ["iot:DeleteCACertificate"],
+    resources: {
+      "iot:DeleteCACertificate": [
+        "arn:${Partition}:iot:${Region}:${Account}:cacert/${CACertificate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCACertificate",
 }));
@@ -7209,6 +7546,12 @@ export const deleteCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
+  iam: {
+    actions: ["iot:DeleteCertificate"],
+    resources: {
+      "iot:DeleteCertificate": ["arn:${Partition}:iot:${Region}:${Account}:cert/${Certificate}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCertificate",
 }));
@@ -7251,6 +7594,14 @@ export const deleteCertificateProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificateProvider",
+  iam: {
+    actions: ["iot:DeleteCertificateProvider"],
+    resources: {
+      "iot:DeleteCertificateProvider": [
+        "arn:${Partition}:iot:${Region}:${Account}:certificateprovider/${CertificateProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCertificateProvider",
 }));
@@ -7276,6 +7627,12 @@ export const deleteCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCommand",
+  iam: {
+    actions: ["iot:DeleteCommand"],
+    resources: {
+      "iot:DeleteCommand": ["arn:${Partition}:iot:${Region}:${Account}:command/${CommandId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCommand",
 }));
@@ -7304,6 +7661,7 @@ export const deleteCommandExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCommandExecution",
+  iam: { actions: ["iot:DeleteCommandExecution"] },
   telemetry: TELEMETRY,
   span: "DeleteCommandExecution",
 }));
@@ -7339,6 +7697,14 @@ export const deleteCustomMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomMetric",
+  iam: {
+    actions: ["iot:DeleteCustomMetric"],
+    resources: {
+      "iot:DeleteCustomMetric": [
+        "arn:${Partition}:iot:${Region}:${Account}:custommetric/${MetricName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomMetric",
 }));
@@ -7367,6 +7733,14 @@ export const deleteDimension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDimension",
+  iam: {
+    actions: ["iot:DeleteDimension"],
+    resources: {
+      "iot:DeleteDimension": [
+        "arn:${Partition}:iot:${Region}:${Account}:dimension/${DimensionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDimension",
 }));
@@ -7403,6 +7777,14 @@ export const deleteDomainConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainConfiguration",
+  iam: {
+    actions: ["iot:DeleteDomainConfiguration"],
+    resources: {
+      "iot:DeleteDomainConfiguration": [
+        "arn:${Partition}:iot:${Region}:${Account}:domainconfiguration/${DomainConfigurationName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomainConfiguration",
 }));
@@ -7435,6 +7817,14 @@ export const deleteDynamicThingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDynamicThingGroup",
+  iam: {
+    actions: ["iot:DeleteDynamicThingGroup"],
+    resources: {
+      "iot:DeleteDynamicThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDynamicThingGroup",
 }));
@@ -7472,6 +7862,14 @@ export const deleteFleetMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleetMetric",
+  iam: {
+    actions: ["iot:DeleteFleetMetric"],
+    resources: {
+      "iot:DeleteFleetMetric": [
+        "arn:${Partition}:iot:${Region}:${Account}:fleetmetric/${FleetMetricName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFleetMetric",
 }));
@@ -7516,6 +7914,10 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  iam: {
+    actions: ["iot:DeleteJob"],
+    resources: { "iot:DeleteJob": ["arn:${Partition}:iot:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJob",
 }));
@@ -7550,6 +7952,15 @@ export const deleteJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobExecution",
+  iam: {
+    actions: ["iot:DeleteJobExecution"],
+    resources: {
+      "iot:DeleteJobExecution": [
+        "arn:${Partition}:iot:${Region}:${Account}:job/${JobId}",
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJobExecution",
 }));
@@ -7580,6 +7991,14 @@ export const deleteJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTemplate",
+  iam: {
+    actions: ["iot:DeleteJobTemplate"],
+    resources: {
+      "iot:DeleteJobTemplate": [
+        "arn:${Partition}:iot:${Region}:${Account}:jobtemplate/${JobTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJobTemplate",
 }));
@@ -7606,6 +8025,14 @@ export const deleteMitigationAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMitigationAction",
+  iam: {
+    actions: ["iot:DeleteMitigationAction"],
+    resources: {
+      "iot:DeleteMitigationAction": [
+        "arn:${Partition}:iot:${Region}:${Account}:mitigationaction/${MitigationActionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMitigationAction",
 }));
@@ -7644,6 +8071,12 @@ export const deleteOTAUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOTAUpdate",
+  iam: {
+    actions: ["iot:DeleteOTAUpdate"],
+    resources: {
+      "iot:DeleteOTAUpdate": ["arn:${Partition}:iot:${Region}:${Account}:otaupdate/${OtaUpdateId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOTAUpdate",
 }));
@@ -7672,6 +8105,12 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
+  iam: {
+    actions: ["iot:DeletePackage"],
+    resources: {
+      "iot:DeletePackage": ["arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePackage",
 }));
@@ -7698,6 +8137,15 @@ export const deletePackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackageVersion",
+  iam: {
+    actions: ["iot:DeletePackageVersion"],
+    resources: {
+      "iot:DeletePackageVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}",
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}/version/${VersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePackageVersion",
 }));
@@ -7749,6 +8197,12 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  iam: {
+    actions: ["iot:DeletePolicy"],
+    resources: {
+      "iot:DeletePolicy": ["arn:${Partition}:iot:${Region}:${Account}:policy/${PolicyName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -7789,6 +8243,12 @@ export const deletePolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyVersion",
+  iam: {
+    actions: ["iot:DeletePolicyVersion"],
+    resources: {
+      "iot:DeletePolicyVersion": ["arn:${Partition}:iot:${Region}:${Account}:policy/${PolicyName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicyVersion",
 }));
@@ -7827,6 +8287,14 @@ export const deleteProvisioningTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisioningTemplate",
+  iam: {
+    actions: ["iot:DeleteProvisioningTemplate"],
+    resources: {
+      "iot:DeleteProvisioningTemplate": [
+        "arn:${Partition}:iot:${Region}:${Account}:provisioningtemplate/${ProvisioningTemplate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProvisioningTemplate",
 }));
@@ -7865,6 +8333,14 @@ export const deleteProvisioningTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisioningTemplateVersion",
+  iam: {
+    actions: ["iot:DeleteProvisioningTemplateVersion"],
+    resources: {
+      "iot:DeleteProvisioningTemplateVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:provisioningtemplate/${ProvisioningTemplate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProvisioningTemplateVersion",
 }));
@@ -7899,6 +8375,7 @@ export const deleteRegistrationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistrationCode",
+  iam: { actions: ["iot:DeleteRegistrationCode"] },
   telemetry: TELEMETRY,
   span: "DeleteRegistrationCode",
 }));
@@ -7937,6 +8414,12 @@ export const deleteRoleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoleAlias",
+  iam: {
+    actions: ["iot:DeleteRoleAlias"],
+    resources: {
+      "iot:DeleteRoleAlias": ["arn:${Partition}:iot:${Region}:${Account}:rolealias/${RoleAlias}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRoleAlias",
 }));
@@ -7969,6 +8452,14 @@ export const deleteScheduledAudit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAudit",
+  iam: {
+    actions: ["iot:DeleteScheduledAudit"],
+    resources: {
+      "iot:DeleteScheduledAudit": [
+        "arn:${Partition}:iot:${Region}:${Account}:scheduledaudit/${ScheduleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteScheduledAudit",
 }));
@@ -8003,6 +8494,7 @@ export const deleteSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityProfile",
+  iam: { actions: ["iot:DeleteSecurityProfile"] },
   telemetry: TELEMETRY,
   span: "DeleteSecurityProfile",
 }));
@@ -8041,6 +8533,12 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
+  iam: {
+    actions: ["iot:DeleteStream"],
+    resources: {
+      "iot:DeleteStream": ["arn:${Partition}:iot:${Region}:${Account}:stream/${StreamId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStream",
 }));
@@ -8080,6 +8578,12 @@ export const deleteThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThing",
+  iam: {
+    actions: ["iot:DeleteThing"],
+    resources: {
+      "iot:DeleteThing": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteThing",
 }));
@@ -8112,6 +8616,14 @@ export const deleteThingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThingGroup",
+  iam: {
+    actions: ["iot:DeleteThingGroup"],
+    resources: {
+      "iot:DeleteThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteThingGroup",
 }));
@@ -8150,6 +8662,14 @@ export const deleteThingType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThingType",
+  iam: {
+    actions: ["iot:DeleteThingType"],
+    resources: {
+      "iot:DeleteThingType": [
+        "arn:${Partition}:iot:${Region}:${Account}:thingtype/${ThingTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteThingType",
 }));
@@ -8186,6 +8706,12 @@ export const deleteTopicRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopicRule",
+  iam: {
+    actions: ["iot:DeleteTopicRule"],
+    resources: {
+      "iot:DeleteTopicRule": ["arn:${Partition}:iot:${Region}:${Account}:rule/${RuleName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTopicRule",
 }));
@@ -8220,6 +8746,14 @@ export const deleteTopicRuleDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopicRuleDestination",
+  iam: {
+    actions: ["iot:DeleteTopicRuleDestination"],
+    resources: {
+      "iot:DeleteTopicRuleDestination": [
+        "arn:${Partition}:iot:${Region}:${Account}:ruledestination/${DestinationType}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTopicRuleDestination",
 }));
@@ -8246,6 +8780,7 @@ export const deleteV2LoggingLevel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteV2LoggingLevel",
+  iam: { actions: ["iot:DeleteV2LoggingLevel"] },
   telemetry: TELEMETRY,
   span: "DeleteV2LoggingLevel",
 }));
@@ -8283,6 +8818,14 @@ export const deprecateThingType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateThingType",
+  iam: {
+    actions: ["iot:DeprecateThingType"],
+    resources: {
+      "iot:DeprecateThingType": [
+        "arn:${Partition}:iot:${Region}:${Account}:thingtype/${ThingTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeprecateThingType",
 }));
@@ -8310,6 +8853,7 @@ export const describeAccountAuditConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAuditConfiguration",
+  iam: { actions: ["iot:DescribeAccountAuditConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountAuditConfiguration",
 }));
@@ -8346,6 +8890,7 @@ export const describeAuditFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuditFinding",
+  iam: { actions: ["iot:DescribeAuditFinding"] },
   telemetry: TELEMETRY,
   span: "DescribeAuditFinding",
 }));
@@ -8376,6 +8921,7 @@ export const describeAuditMitigationActionsTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuditMitigationActionsTask",
+  iam: { actions: ["iot:DescribeAuditMitigationActionsTask"] },
   telemetry: TELEMETRY,
   span: "DescribeAuditMitigationActionsTask",
 }));
@@ -8406,6 +8952,7 @@ export const describeAuditSuppression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuditSuppression",
+  iam: { actions: ["iot:DescribeAuditSuppression"] },
   telemetry: TELEMETRY,
   span: "DescribeAuditSuppression",
 }));
@@ -8438,6 +8985,7 @@ export const describeAuditTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuditTask",
+  iam: { actions: ["iot:DescribeAuditTask"] },
   telemetry: TELEMETRY,
   span: "DescribeAuditTask",
 }));
@@ -8474,6 +9022,14 @@ export const describeAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuthorizer",
+  iam: {
+    actions: ["iot:DescribeAuthorizer"],
+    resources: {
+      "iot:DescribeAuthorizer": [
+        "arn:${Partition}:iot:${Region}:${Account}:authorizer/${AuthorizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAuthorizer",
 }));
@@ -8506,6 +9062,14 @@ export const describeBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBillingGroup",
+  iam: {
+    actions: ["iot:DescribeBillingGroup"],
+    resources: {
+      "iot:DescribeBillingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:billinggroup/${BillingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBillingGroup",
 }));
@@ -8542,6 +9106,14 @@ export const describeCACertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCACertificate",
+  iam: {
+    actions: ["iot:DescribeCACertificate"],
+    resources: {
+      "iot:DescribeCACertificate": [
+        "arn:${Partition}:iot:${Region}:${Account}:cacert/${CACertificate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCACertificate",
 }));
@@ -8578,6 +9150,12 @@ export const describeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificate",
+  iam: {
+    actions: ["iot:DescribeCertificate"],
+    resources: {
+      "iot:DescribeCertificate": ["arn:${Partition}:iot:${Region}:${Account}:cert/${Certificate}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCertificate",
 }));
@@ -8614,6 +9192,14 @@ export const describeCertificateProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateProvider",
+  iam: {
+    actions: ["iot:DescribeCertificateProvider"],
+    resources: {
+      "iot:DescribeCertificateProvider": [
+        "arn:${Partition}:iot:${Region}:${Account}:certificateprovider/${CertificateProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCertificateProvider",
 }));
@@ -8648,6 +9234,14 @@ export const describeCustomMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomMetric",
+  iam: {
+    actions: ["iot:DescribeCustomMetric"],
+    resources: {
+      "iot:DescribeCustomMetric": [
+        "arn:${Partition}:iot:${Region}:${Account}:custommetric/${MetricName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCustomMetric",
 }));
@@ -8684,6 +9278,7 @@ export const describeDefaultAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDefaultAuthorizer",
+  iam: { actions: ["iot:DescribeDefaultAuthorizer"] },
   telemetry: TELEMETRY,
   span: "DescribeDefaultAuthorizer",
 }));
@@ -8718,6 +9313,7 @@ export const describeDetectMitigationActionsTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDetectMitigationActionsTask",
+  iam: { actions: ["iot:DescribeDetectMitigationActionsTask"] },
   telemetry: TELEMETRY,
   span: "DescribeDetectMitigationActionsTask",
 }));
@@ -8752,6 +9348,14 @@ export const describeDimension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDimension",
+  iam: {
+    actions: ["iot:DescribeDimension"],
+    resources: {
+      "iot:DescribeDimension": [
+        "arn:${Partition}:iot:${Region}:${Account}:dimension/${DimensionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDimension",
 }));
@@ -8788,6 +9392,14 @@ export const describeDomainConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainConfiguration",
+  iam: {
+    actions: ["iot:DescribeDomainConfiguration"],
+    resources: {
+      "iot:DescribeDomainConfiguration": [
+        "arn:${Partition}:iot:${Region}:${Account}:domainconfiguration/${DomainConfigurationName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDomainConfiguration",
 }));
@@ -8822,6 +9434,7 @@ export const describeEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEncryptionConfiguration",
+  iam: { actions: ["iot:DescribeEncryptionConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeEncryptionConfiguration",
 }));
@@ -8857,6 +9470,7 @@ export const describeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoint",
+  iam: { actions: ["iot:DescribeEndpoint"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpoint",
 }));
@@ -8882,6 +9496,7 @@ export const describeEventConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventConfigurations",
+  iam: { actions: ["iot:DescribeEventConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeEventConfigurations",
 }));
@@ -8918,6 +9533,14 @@ export const describeFleetMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetMetric",
+  iam: {
+    actions: ["iot:DescribeFleetMetric"],
+    resources: {
+      "iot:DescribeFleetMetric": [
+        "arn:${Partition}:iot:${Region}:${Account}:fleetmetric/${FleetMetricName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFleetMetric",
 }));
@@ -8954,6 +9577,12 @@ export const describeIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIndex",
+  iam: {
+    actions: ["iot:DescribeIndex"],
+    resources: {
+      "iot:DescribeIndex": ["arn:${Partition}:iot:${Region}:${Account}:index/${IndexName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeIndex",
 }));
@@ -8986,6 +9615,10 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
+  iam: {
+    actions: ["iot:DescribeJob"],
+    resources: { "iot:DescribeJob": ["arn:${Partition}:iot:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DescribeJob",
 }));
@@ -9018,6 +9651,7 @@ export const describeJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobExecution",
+  iam: { actions: ["iot:DescribeJobExecution"] },
   telemetry: TELEMETRY,
   span: "DescribeJobExecution",
 }));
@@ -9048,6 +9682,14 @@ export const describeJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobTemplate",
+  iam: {
+    actions: ["iot:DescribeJobTemplate"],
+    resources: {
+      "iot:DescribeJobTemplate": [
+        "arn:${Partition}:iot:${Region}:${Account}:jobtemplate/${JobTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeJobTemplate",
 }));
@@ -9078,6 +9720,14 @@ export const describeManagedJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedJobTemplate",
+  iam: {
+    actions: ["iot:DescribeManagedJobTemplate"],
+    resources: {
+      "iot:DescribeManagedJobTemplate": [
+        "arn:${Partition}:iot:${Region}:${Account}:jobtemplate/${JobTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeManagedJobTemplate",
 }));
@@ -9110,6 +9760,14 @@ export const describeMitigationAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMitigationAction",
+  iam: {
+    actions: ["iot:DescribeMitigationAction"],
+    resources: {
+      "iot:DescribeMitigationAction": [
+        "arn:${Partition}:iot:${Region}:${Account}:mitigationaction/${MitigationActionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMitigationAction",
 }));
@@ -9144,6 +9802,14 @@ export const describeProvisioningTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningTemplate",
+  iam: {
+    actions: ["iot:DescribeProvisioningTemplate"],
+    resources: {
+      "iot:DescribeProvisioningTemplate": [
+        "arn:${Partition}:iot:${Region}:${Account}:provisioningtemplate/${ProvisioningTemplate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeProvisioningTemplate",
 }));
@@ -9178,6 +9844,14 @@ export const describeProvisioningTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningTemplateVersion",
+  iam: {
+    actions: ["iot:DescribeProvisioningTemplateVersion"],
+    resources: {
+      "iot:DescribeProvisioningTemplateVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:provisioningtemplate/${ProvisioningTemplate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeProvisioningTemplateVersion",
 }));
@@ -9214,6 +9888,12 @@ export const describeRoleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoleAlias",
+  iam: {
+    actions: ["iot:DescribeRoleAlias"],
+    resources: {
+      "iot:DescribeRoleAlias": ["arn:${Partition}:iot:${Region}:${Account}:rolealias/${RoleAlias}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRoleAlias",
 }));
@@ -9246,6 +9926,14 @@ export const describeScheduledAudit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScheduledAudit",
+  iam: {
+    actions: ["iot:DescribeScheduledAudit"],
+    resources: {
+      "iot:DescribeScheduledAudit": [
+        "arn:${Partition}:iot:${Region}:${Account}:scheduledaudit/${ScheduleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeScheduledAudit",
 }));
@@ -9280,6 +9968,14 @@ export const describeSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityProfile",
+  iam: {
+    actions: ["iot:DescribeSecurityProfile"],
+    resources: {
+      "iot:DescribeSecurityProfile": [
+        "arn:${Partition}:iot:${Region}:${Account}:securityprofile/${SecurityProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSecurityProfile",
 }));
@@ -9316,6 +10012,12 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  iam: {
+    actions: ["iot:DescribeStream"],
+    resources: {
+      "iot:DescribeStream": ["arn:${Partition}:iot:${Region}:${Account}:stream/${StreamId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStream",
 }));
@@ -9352,6 +10054,12 @@ export const describeThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThing",
+  iam: {
+    actions: ["iot:DescribeThing"],
+    resources: {
+      "iot:DescribeThing": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeThing",
 }));
@@ -9384,6 +10092,14 @@ export const describeThingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThingGroup",
+  iam: {
+    actions: ["iot:DescribeThingGroup"],
+    resources: {
+      "iot:DescribeThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeThingGroup",
 }));
@@ -9418,6 +10134,7 @@ export const describeThingRegistrationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThingRegistrationTask",
+  iam: { actions: ["iot:DescribeThingRegistrationTask"] },
   telemetry: TELEMETRY,
   span: "DescribeThingRegistrationTask",
 }));
@@ -9454,6 +10171,14 @@ export const describeThingType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThingType",
+  iam: {
+    actions: ["iot:DescribeThingType"],
+    resources: {
+      "iot:DescribeThingType": [
+        "arn:${Partition}:iot:${Region}:${Account}:thingtype/${ThingTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeThingType",
 }));
@@ -9493,6 +10218,7 @@ export const detachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachPolicy",
+  iam: { actions: ["iot:DetachPolicy"] },
   telemetry: TELEMETRY,
   span: "DetachPolicy",
 }));
@@ -9532,6 +10258,7 @@ export const detachPrincipalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachPrincipalPolicy",
+  iam: { actions: ["iot:DetachPrincipalPolicy"] },
   telemetry: TELEMETRY,
   span: "DetachPrincipalPolicy",
 }));
@@ -9566,6 +10293,7 @@ export const detachSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachSecurityProfile",
+  iam: { actions: ["iot:DetachSecurityProfile"] },
   telemetry: TELEMETRY,
   span: "DetachSecurityProfile",
 }));
@@ -9607,6 +10335,7 @@ export const detachThingPrincipal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachThingPrincipal",
+  iam: { actions: ["iot:DetachThingPrincipal"] },
   telemetry: TELEMETRY,
   span: "DetachThingPrincipal",
 }));
@@ -9641,6 +10370,12 @@ export const disableTopicRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableTopicRule",
+  iam: {
+    actions: ["iot:DisableTopicRule"],
+    resources: {
+      "iot:DisableTopicRule": ["arn:${Partition}:iot:${Region}:${Account}:rule/${RuleName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableTopicRule",
 }));
@@ -9675,6 +10410,14 @@ export const disassociateSbomFromPackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSbomFromPackageVersion",
+  iam: {
+    actions: ["iot:DisassociateSbomFromPackageVersion"],
+    resources: {
+      "iot:DisassociateSbomFromPackageVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}/version/${VersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateSbomFromPackageVersion",
 }));
@@ -9709,6 +10452,12 @@ export const enableTopicRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableTopicRule",
+  iam: {
+    actions: ["iot:EnableTopicRule"],
+    resources: {
+      "iot:EnableTopicRule": ["arn:${Partition}:iot:${Region}:${Account}:rule/${RuleName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableTopicRule",
 }));
@@ -9750,6 +10499,7 @@ export const getBehaviorModelTrainingSummaries: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:GetBehaviorModelTrainingSummaries"] },
   telemetry: TELEMETRY,
   span: "GetBehaviorModelTrainingSummaries",
 })) as any;
@@ -9792,6 +10542,12 @@ export const getBucketsAggregation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketsAggregation",
+  iam: {
+    actions: ["iot:GetBucketsAggregation"],
+    resources: {
+      "iot:GetBucketsAggregation": ["arn:${Partition}:iot:${Region}:${Account}:index/${IndexName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBucketsAggregation",
 }));
@@ -9834,6 +10590,12 @@ export const getCardinality: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCardinality",
+  iam: {
+    actions: ["iot:GetCardinality"],
+    resources: {
+      "iot:GetCardinality": ["arn:${Partition}:iot:${Region}:${Account}:index/${IndexName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCardinality",
 }));
@@ -9864,6 +10626,12 @@ export const getCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommand",
+  iam: {
+    actions: ["iot:GetCommand"],
+    resources: {
+      "iot:GetCommand": ["arn:${Partition}:iot:${Region}:${Account}:command/${CommandId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCommand",
 }));
@@ -9894,6 +10662,7 @@ export const getCommandExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommandExecution",
+  iam: { actions: ["iot:GetCommandExecution"] },
   telemetry: TELEMETRY,
   span: "GetCommandExecution",
 }));
@@ -9933,6 +10702,7 @@ export const getEffectivePolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEffectivePolicies",
+  iam: { actions: ["iot:GetEffectivePolicies"] },
   telemetry: TELEMETRY,
   span: "GetEffectivePolicies",
 }));
@@ -9967,6 +10737,7 @@ export const getIndexingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndexingConfiguration",
+  iam: { actions: ["iot:GetIndexingConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetIndexingConfiguration",
 }));
@@ -9999,6 +10770,10 @@ export const getJobDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobDocument",
+  iam: {
+    actions: ["iot:GetJobDocument"],
+    resources: { "iot:GetJobDocument": ["arn:${Partition}:iot:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetJobDocument",
 }));
@@ -10028,6 +10803,7 @@ export const getLoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingOptions",
+  iam: { actions: ["iot:GetLoggingOptions"] },
   telemetry: TELEMETRY,
   span: "GetLoggingOptions",
 }));
@@ -10064,6 +10840,12 @@ export const getOTAUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOTAUpdate",
+  iam: {
+    actions: ["iot:GetOTAUpdate"],
+    resources: {
+      "iot:GetOTAUpdate": ["arn:${Partition}:iot:${Region}:${Account}:otaupdate/${OtaUpdateId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOTAUpdate",
 }));
@@ -10096,6 +10878,12 @@ export const getPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPackage",
+  iam: {
+    actions: ["iot:GetPackage"],
+    resources: {
+      "iot:GetPackage": ["arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPackage",
 }));
@@ -10121,6 +10909,7 @@ export const getPackageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPackageConfiguration",
+  iam: { actions: ["iot:GetPackageConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetPackageConfiguration",
 }));
@@ -10153,6 +10942,15 @@ export const getPackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPackageVersion",
+  iam: {
+    actions: ["iot:GetPackageVersion"],
+    resources: {
+      "iot:GetPackageVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}",
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}/version/${VersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPackageVersion",
 }));
@@ -10203,6 +11001,12 @@ export const getPercentiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPercentiles",
+  iam: {
+    actions: ["iot:GetPercentiles"],
+    resources: {
+      "iot:GetPercentiles": ["arn:${Partition}:iot:${Region}:${Account}:index/${IndexName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPercentiles",
 }));
@@ -10240,6 +11044,12 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: {
+    actions: ["iot:GetPolicy"],
+    resources: {
+      "iot:GetPolicy": ["arn:${Partition}:iot:${Region}:${Account}:policy/${PolicyName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -10276,6 +11086,12 @@ export const getPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyVersion",
+  iam: {
+    actions: ["iot:GetPolicyVersion"],
+    resources: {
+      "iot:GetPolicyVersion": ["arn:${Partition}:iot:${Region}:${Account}:policy/${PolicyName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicyVersion",
 }));
@@ -10314,6 +11130,7 @@ export const getRegistrationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistrationCode",
+  iam: { actions: ["iot:GetRegistrationCode"] },
   telemetry: TELEMETRY,
   span: "GetRegistrationCode",
 }));
@@ -10358,6 +11175,12 @@ export const getStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStatistics",
+  iam: {
+    actions: ["iot:GetStatistics"],
+    resources: {
+      "iot:GetStatistics": ["arn:${Partition}:iot:${Region}:${Account}:index/${IndexName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStatistics",
 }));
@@ -10394,6 +11217,14 @@ export const getThingConnectivityData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThingConnectivityData",
+  iam: {
+    actions: ["iot:GetThingConnectivityData"],
+    resources: {
+      "iot:GetThingConnectivityData": [
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetThingConnectivityData",
 }));
@@ -10428,6 +11259,12 @@ export const getTopicRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTopicRule",
+  iam: {
+    actions: ["iot:GetTopicRule"],
+    resources: {
+      "iot:GetTopicRule": ["arn:${Partition}:iot:${Region}:${Account}:rule/${RuleName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTopicRule",
 }));
@@ -10460,6 +11297,14 @@ export const getTopicRuleDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTopicRuleDestination",
+  iam: {
+    actions: ["iot:GetTopicRuleDestination"],
+    resources: {
+      "iot:GetTopicRuleDestination": [
+        "arn:${Partition}:iot:${Region}:${Account}:ruledestination/${DestinationType}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTopicRuleDestination",
 }));
@@ -10486,6 +11331,7 @@ export const getV2LoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetV2LoggingOptions",
+  iam: { actions: ["iot:GetV2LoggingOptions"] },
   telemetry: TELEMETRY,
   span: "GetV2LoggingOptions",
 }));
@@ -10527,6 +11373,7 @@ export const listActiveViolations: API.PaginatedOperationMethod<
     items: "activeViolations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListActiveViolations"] },
   telemetry: TELEMETRY,
   span: "ListActiveViolations",
 })) as any;
@@ -10572,6 +11419,7 @@ export const listAttachedPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListAttachedPolicies"] },
   telemetry: TELEMETRY,
   span: "ListAttachedPolicies",
 })) as any;
@@ -10606,6 +11454,7 @@ export const listAuditFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListAuditFindings"] },
   telemetry: TELEMETRY,
   span: "ListAuditFindings",
 })) as any;
@@ -10640,6 +11489,7 @@ export const listAuditMitigationActionsExecutions: API.PaginatedOperationMethod<
     items: "actionsExecutions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListAuditMitigationActionsExecutions"] },
   telemetry: TELEMETRY,
   span: "ListAuditMitigationActionsExecutions",
 })) as any;
@@ -10673,6 +11523,7 @@ export const listAuditMitigationActionsTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListAuditMitigationActionsTasks"] },
   telemetry: TELEMETRY,
   span: "ListAuditMitigationActionsTasks",
 })) as any;
@@ -10706,6 +11557,7 @@ export const listAuditSuppressions: API.PaginatedOperationMethod<
     items: "suppressions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListAuditSuppressions"] },
   telemetry: TELEMETRY,
   span: "ListAuditSuppressions",
 })) as any;
@@ -10740,6 +11592,7 @@ export const listAuditTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListAuditTasks"] },
   telemetry: TELEMETRY,
   span: "ListAuditTasks",
 })) as any;
@@ -10781,6 +11634,7 @@ export const listAuthorizers: API.PaginatedOperationMethod<
     items: "authorizers",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListAuthorizers"] },
   telemetry: TELEMETRY,
   span: "ListAuthorizers",
 })) as any;
@@ -10820,6 +11674,7 @@ export const listBillingGroups: API.PaginatedOperationMethod<
     items: "billingGroups",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListBillingGroups"] },
   telemetry: TELEMETRY,
   span: "ListBillingGroups",
 })) as any;
@@ -10864,6 +11719,7 @@ export const listCACertificates: API.PaginatedOperationMethod<
     items: "certificates",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListCACertificates"] },
   telemetry: TELEMETRY,
   span: "ListCACertificates",
 })) as any;
@@ -10898,6 +11754,7 @@ export const listCertificateProviders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCertificateProviders",
+  iam: { actions: ["iot:ListCertificateProviders"] },
   telemetry: TELEMETRY,
   span: "ListCertificateProviders",
 }));
@@ -10942,6 +11799,7 @@ export const listCertificates: API.PaginatedOperationMethod<
     items: "certificates",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListCertificates"] },
   telemetry: TELEMETRY,
   span: "ListCertificates",
 })) as any;
@@ -10983,6 +11841,7 @@ export const listCertificatesByCA: API.PaginatedOperationMethod<
     items: "certificates",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListCertificatesByCA"] },
   telemetry: TELEMETRY,
   span: "ListCertificatesByCA",
 })) as any;
@@ -11035,6 +11894,7 @@ export const listCommandExecutions: API.PaginatedOperationMethod<
     items: "commandExecutions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListCommandExecutions"] },
   telemetry: TELEMETRY,
   span: "ListCommandExecutions",
 })) as any;
@@ -11066,6 +11926,7 @@ export const listCommands: API.PaginatedOperationMethod<
     items: "commands",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListCommands"] },
   telemetry: TELEMETRY,
   span: "ListCommands",
 })) as any;
@@ -11101,6 +11962,7 @@ export const listCustomMetrics: API.PaginatedOperationMethod<
     items: "metricNames",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListCustomMetrics"] },
   telemetry: TELEMETRY,
   span: "ListCustomMetrics",
 })) as any;
@@ -11136,6 +11998,7 @@ export const listDetectMitigationActionsExecutions: API.PaginatedOperationMethod
     items: "actionsExecutions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListDetectMitigationActionsExecutions"] },
   telemetry: TELEMETRY,
   span: "ListDetectMitigationActionsExecutions",
 })) as any;
@@ -11171,6 +12034,7 @@ export const listDetectMitigationActionsTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListDetectMitigationActionsTasks"] },
   telemetry: TELEMETRY,
   span: "ListDetectMitigationActionsTasks",
 })) as any;
@@ -11206,6 +12070,7 @@ export const listDimensions: API.PaginatedOperationMethod<
     items: "dimensionNames",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListDimensions"] },
   telemetry: TELEMETRY,
   span: "ListDimensions",
 })) as any;
@@ -11248,6 +12113,7 @@ export const listDomainConfigurations: API.PaginatedOperationMethod<
     items: "domainConfigurations",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListDomainConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListDomainConfigurations",
 })) as any;
@@ -11289,6 +12155,7 @@ export const listFleetMetrics: API.PaginatedOperationMethod<
     items: "fleetMetrics",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListFleetMetrics"] },
   telemetry: TELEMETRY,
   span: "ListFleetMetrics",
 })) as any;
@@ -11330,6 +12197,7 @@ export const listIndices: API.PaginatedOperationMethod<
     items: "indexNames",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListIndices"] },
   telemetry: TELEMETRY,
   span: "ListIndices",
 })) as any;
@@ -11369,6 +12237,12 @@ export const listJobExecutionsForJob: API.PaginatedOperationMethod<
     items: "executionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListJobExecutionsForJob"],
+    resources: {
+      "iot:ListJobExecutionsForJob": ["arn:${Partition}:iot:${Region}:${Account}:job/${JobId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobExecutionsForJob",
 })) as any;
@@ -11408,6 +12282,14 @@ export const listJobExecutionsForThing: API.PaginatedOperationMethod<
     items: "executionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListJobExecutionsForThing"],
+    resources: {
+      "iot:ListJobExecutionsForThing": [
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobExecutionsForThing",
 })) as any;
@@ -11447,6 +12329,7 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -11480,6 +12363,7 @@ export const listJobTemplates: API.PaginatedOperationMethod<
     items: "jobTemplates",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListJobTemplates"] },
   telemetry: TELEMETRY,
   span: "ListJobTemplates",
 })) as any;
@@ -11517,6 +12401,7 @@ export const listManagedJobTemplates: API.PaginatedOperationMethod<
     items: "managedJobTemplates",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListManagedJobTemplates"] },
   telemetry: TELEMETRY,
   span: "ListManagedJobTemplates",
 })) as any;
@@ -11555,6 +12440,12 @@ export const listMetricValues: API.PaginatedOperationMethod<
     items: "metricDatumList",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListMetricValues"],
+    resources: {
+      "iot:ListMetricValues": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMetricValues",
 })) as any;
@@ -11588,6 +12479,7 @@ export const listMitigationActions: API.PaginatedOperationMethod<
     items: "actionIdentifiers",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListMitigationActions"] },
   telemetry: TELEMETRY,
   span: "ListMitigationActions",
 })) as any;
@@ -11629,6 +12521,7 @@ export const listOTAUpdates: API.PaginatedOperationMethod<
     items: "otaUpdates",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListOTAUpdates"] },
   telemetry: TELEMETRY,
   span: "ListOTAUpdates",
 })) as any;
@@ -11670,6 +12563,7 @@ export const listOutgoingCertificates: API.PaginatedOperationMethod<
     items: "outgoingCertificates",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListOutgoingCertificates"] },
   telemetry: TELEMETRY,
   span: "ListOutgoingCertificates",
 })) as any;
@@ -11703,6 +12597,7 @@ export const listPackages: API.PaginatedOperationMethod<
     items: "packageSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListPackages"] },
   telemetry: TELEMETRY,
   span: "ListPackages",
 })) as any;
@@ -11736,6 +12631,7 @@ export const listPackageVersions: API.PaginatedOperationMethod<
     items: "packageVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListPackageVersions"] },
   telemetry: TELEMETRY,
   span: "ListPackageVersions",
 })) as any;
@@ -11777,6 +12673,7 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListPolicies"] },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -11823,6 +12720,7 @@ export const listPolicyPrincipals: API.PaginatedOperationMethod<
     items: "principals",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListPolicyPrincipals"] },
   telemetry: TELEMETRY,
   span: "ListPolicyPrincipals",
 })) as any;
@@ -11860,6 +12758,12 @@ export const listPolicyVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyVersions",
+  iam: {
+    actions: ["iot:ListPolicyVersions"],
+    resources: {
+      "iot:ListPolicyVersions": ["arn:${Partition}:iot:${Region}:${Account}:policy/${PolicyName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicyVersions",
 }));
@@ -11907,6 +12811,7 @@ export const listPrincipalPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListPrincipalPolicies"] },
   telemetry: TELEMETRY,
   span: "ListPrincipalPolicies",
 })) as any;
@@ -11952,6 +12857,7 @@ export const listPrincipalThings: API.PaginatedOperationMethod<
     items: "things",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListPrincipalThings"] },
   telemetry: TELEMETRY,
   span: "ListPrincipalThings",
 })) as any;
@@ -11996,6 +12902,7 @@ export const listPrincipalThingsV2: API.PaginatedOperationMethod<
     items: "principalThingObjects",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListPrincipalThingsV2"] },
   telemetry: TELEMETRY,
   span: "ListPrincipalThingsV2",
 })) as any;
@@ -12035,6 +12942,7 @@ export const listProvisioningTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListProvisioningTemplates"] },
   telemetry: TELEMETRY,
   span: "ListProvisioningTemplates",
 })) as any;
@@ -12076,6 +12984,14 @@ export const listProvisioningTemplateVersions: API.PaginatedOperationMethod<
     items: "versions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListProvisioningTemplateVersions"],
+    resources: {
+      "iot:ListProvisioningTemplateVersions": [
+        "arn:${Partition}:iot:${Region}:${Account}:provisioningtemplate/${ProvisioningTemplate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProvisioningTemplateVersions",
 })) as any;
@@ -12137,6 +13053,7 @@ export const listRelatedResourcesForAuditFinding: API.PaginatedOperationMethod<
     items: "relatedResources",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListRelatedResourcesForAuditFinding"] },
   telemetry: TELEMETRY,
   span: "ListRelatedResourcesForAuditFinding",
 })) as any;
@@ -12178,6 +13095,7 @@ export const listRoleAliases: API.PaginatedOperationMethod<
     items: "roleAliases",
     pageSize: "pageSize",
   } as const,
+  iam: { actions: ["iot:ListRoleAliases"] },
   telemetry: TELEMETRY,
   span: "ListRoleAliases",
 })) as any;
@@ -12217,6 +13135,14 @@ export const listSbomValidationResults: API.PaginatedOperationMethod<
     items: "validationResultSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListSbomValidationResults"],
+    resources: {
+      "iot:ListSbomValidationResults": [
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}/version/${VersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSbomValidationResults",
 })) as any;
@@ -12250,6 +13176,7 @@ export const listScheduledAudits: API.PaginatedOperationMethod<
     items: "scheduledAudits",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListScheduledAudits"] },
   telemetry: TELEMETRY,
   span: "ListScheduledAudits",
 })) as any;
@@ -12295,6 +13222,7 @@ export const listSecurityProfiles: API.PaginatedOperationMethod<
     items: "securityProfileIdentifiers",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListSecurityProfiles"] },
   telemetry: TELEMETRY,
   span: "ListSecurityProfiles",
 })) as any;
@@ -12336,6 +13264,7 @@ export const listSecurityProfilesForTarget: API.PaginatedOperationMethod<
     items: "securityProfileTargetMappings",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListSecurityProfilesForTarget"] },
   telemetry: TELEMETRY,
   span: "ListSecurityProfilesForTarget",
 })) as any;
@@ -12377,6 +13306,7 @@ export const listStreams: API.PaginatedOperationMethod<
     items: "streams",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListStreams"] },
   telemetry: TELEMETRY,
   span: "ListStreams",
 })) as any;
@@ -12411,6 +13341,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "tags" } as const,
+  iam: { actions: ["iot:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -12456,6 +13387,14 @@ export const listTargetsForPolicy: API.PaginatedOperationMethod<
     items: "targets",
     pageSize: "pageSize",
   } as const,
+  iam: {
+    actions: ["iot:ListTargetsForPolicy"],
+    resources: {
+      "iot:ListTargetsForPolicy": [
+        "arn:${Partition}:iot:${Region}:${Account}:policy/${PolicyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTargetsForPolicy",
 })) as any;
@@ -12497,6 +13436,14 @@ export const listTargetsForSecurityProfile: API.PaginatedOperationMethod<
     items: "securityProfileTargets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListTargetsForSecurityProfile"],
+    resources: {
+      "iot:ListTargetsForSecurityProfile": [
+        "arn:${Partition}:iot:${Region}:${Account}:securityprofile/${SecurityProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTargetsForSecurityProfile",
 })) as any;
@@ -12536,6 +13483,7 @@ export const listThingGroups: API.PaginatedOperationMethod<
     items: "thingGroups",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListThingGroups"] },
   telemetry: TELEMETRY,
   span: "ListThingGroups",
 })) as any;
@@ -12575,6 +13523,14 @@ export const listThingGroupsForThing: API.PaginatedOperationMethod<
     items: "thingGroups",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListThingGroupsForThing"],
+    resources: {
+      "iot:ListThingGroupsForThing": [
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListThingGroupsForThing",
 })) as any;
@@ -12620,6 +13576,12 @@ export const listThingPrincipals: API.PaginatedOperationMethod<
     items: "principals",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListThingPrincipals"],
+    resources: {
+      "iot:ListThingPrincipals": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListThingPrincipals",
 })) as any;
@@ -12664,6 +13626,12 @@ export const listThingPrincipalsV2: API.PaginatedOperationMethod<
     items: "thingPrincipalObjects",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListThingPrincipalsV2"],
+    resources: {
+      "iot:ListThingPrincipalsV2": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListThingPrincipalsV2",
 })) as any;
@@ -12701,6 +13669,7 @@ export const listThingRegistrationTaskReports: API.PaginatedOperationMethod<
     items: "resourceLinks",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListThingRegistrationTaskReports"] },
   telemetry: TELEMETRY,
   span: "ListThingRegistrationTaskReports",
 })) as any;
@@ -12740,6 +13709,7 @@ export const listThingRegistrationTasks: API.PaginatedOperationMethod<
     items: "taskIds",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListThingRegistrationTasks"] },
   telemetry: TELEMETRY,
   span: "ListThingRegistrationTasks",
 })) as any;
@@ -12787,6 +13757,7 @@ export const listThings: API.PaginatedOperationMethod<
     items: "things",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListThings"] },
   telemetry: TELEMETRY,
   span: "ListThings",
 })) as any;
@@ -12826,6 +13797,14 @@ export const listThingsInBillingGroup: API.PaginatedOperationMethod<
     items: "things",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListThingsInBillingGroup"],
+    resources: {
+      "iot:ListThingsInBillingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:billinggroup/${BillingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListThingsInBillingGroup",
 })) as any;
@@ -12865,6 +13844,14 @@ export const listThingsInThingGroup: API.PaginatedOperationMethod<
     items: "things",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iot:ListThingsInThingGroup"],
+    resources: {
+      "iot:ListThingsInThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListThingsInThingGroup",
 })) as any;
@@ -12906,6 +13893,7 @@ export const listThingTypes: API.PaginatedOperationMethod<
     items: "thingTypes",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListThingTypes"] },
   telemetry: TELEMETRY,
   span: "ListThingTypes",
 })) as any;
@@ -12945,6 +13933,7 @@ export const listTopicRuleDestinations: API.PaginatedOperationMethod<
     items: "destinationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListTopicRuleDestinations"] },
   telemetry: TELEMETRY,
   span: "ListTopicRuleDestinations",
 })) as any;
@@ -12984,6 +13973,7 @@ export const listTopicRules: API.PaginatedOperationMethod<
     items: "rules",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListTopicRules"] },
   telemetry: TELEMETRY,
   span: "ListTopicRules",
 })) as any;
@@ -13023,6 +14013,7 @@ export const listV2LoggingLevels: API.PaginatedOperationMethod<
     items: "logTargetConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListV2LoggingLevels"] },
   telemetry: TELEMETRY,
   span: "ListV2LoggingLevels",
 })) as any;
@@ -13060,6 +14051,7 @@ export const listViolationEvents: API.PaginatedOperationMethod<
     items: "violationEvents",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iot:ListViolationEvents"] },
   telemetry: TELEMETRY,
   span: "ListViolationEvents",
 })) as any;
@@ -13086,6 +14078,7 @@ export const putVerificationStateOnViolation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVerificationStateOnViolation",
+  iam: { actions: ["iot:PutVerificationStateOnViolation"] },
   telemetry: TELEMETRY,
   span: "PutVerificationStateOnViolation",
 }));
@@ -13132,6 +14125,11 @@ export const registerCACertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCACertificate",
+  iam: {
+    actions: ["iam:PassRole", "iot:RegisterCACertificate", "iot:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "registrationConfig.roleArn", "iot:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterCACertificate",
 }));
@@ -13176,6 +14174,7 @@ export const registerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCertificate",
+  iam: { actions: ["iot:RegisterCertificate"] },
   telemetry: TELEMETRY,
   span: "RegisterCertificate",
 }));
@@ -13216,6 +14215,7 @@ export const registerCertificateWithoutCA: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCertificateWithoutCA",
+  iam: { actions: ["iot:RegisterCertificateWithoutCA"] },
   telemetry: TELEMETRY,
   span: "RegisterCertificateWithoutCA",
 }));
@@ -13257,6 +14257,7 @@ export const registerThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterThing",
+  iam: { actions: ["iot:RegisterThing"] },
   telemetry: TELEMETRY,
   span: "RegisterThing",
 }));
@@ -13303,6 +14304,14 @@ export const rejectCertificateTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectCertificateTransfer",
+  iam: {
+    actions: ["iot:RejectCertificateTransfer"],
+    resources: {
+      "iot:RejectCertificateTransfer": [
+        "arn:${Partition}:iot:${Region}:${Account}:cert/${Certificate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectCertificateTransfer",
 }));
@@ -13337,6 +14346,15 @@ export const removeThingFromBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveThingFromBillingGroup",
+  iam: {
+    actions: ["iot:RemoveThingFromBillingGroup"],
+    resources: {
+      "iot:RemoveThingFromBillingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:billinggroup/${BillingGroupName}",
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveThingFromBillingGroup",
 }));
@@ -13374,6 +14392,15 @@ export const removeThingFromThingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveThingFromThingGroup",
+  iam: {
+    actions: ["iot:RemoveThingFromThingGroup"],
+    resources: {
+      "iot:RemoveThingFromThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveThingFromThingGroup",
 }));
@@ -13412,6 +14439,14 @@ export const replaceTopicRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceTopicRule",
+  iam: {
+    actions: ["iam:PassRole", "iot:ReplaceTopicRule"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iot:ReplaceTopicRule": ["arn:${Partition}:iot:${Region}:${Account}:rule/${RuleName}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "ReplaceTopicRule",
 }));
@@ -13454,6 +14489,12 @@ export const searchIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchIndex",
+  iam: {
+    actions: ["iot:SearchIndex"],
+    resources: {
+      "iot:SearchIndex": ["arn:${Partition}:iot:${Region}:${Account}:index/${IndexName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchIndex",
 }));
@@ -13493,6 +14534,14 @@ export const setDefaultAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultAuthorizer",
+  iam: {
+    actions: ["iot:SetDefaultAuthorizer"],
+    resources: {
+      "iot:SetDefaultAuthorizer": [
+        "arn:${Partition}:iot:${Region}:${Account}:authorizer/${AuthorizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetDefaultAuthorizer",
 }));
@@ -13532,6 +14581,14 @@ export const setDefaultPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultPolicyVersion",
+  iam: {
+    actions: ["iot:SetDefaultPolicyVersion"],
+    resources: {
+      "iot:SetDefaultPolicyVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:policy/${PolicyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetDefaultPolicyVersion",
 }));
@@ -13561,6 +14618,10 @@ export const setLoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoggingOptions",
+  iam: {
+    actions: ["iam:PassRole", "iot:SetLoggingOptions"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "SetLoggingOptions",
 }));
@@ -13595,6 +14656,7 @@ export const setV2LoggingLevel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetV2LoggingLevel",
+  iam: { actions: ["iot:SetV2LoggingLevel"] },
   telemetry: TELEMETRY,
   span: "SetV2LoggingLevel",
 }));
@@ -13621,6 +14683,11 @@ export const setV2LoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetV2LoggingOptions",
+  iam: {
+    actions: ["iam:PassRole", "iot:SetV2LoggingOptions"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "SetV2LoggingOptions",
 }));
@@ -13655,6 +14722,7 @@ export const startAuditMitigationActionsTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAuditMitigationActionsTask",
+  iam: { actions: ["iot:StartAuditMitigationActionsTask"] },
   telemetry: TELEMETRY,
   span: "StartAuditMitigationActionsTask",
 }));
@@ -13691,6 +14759,7 @@ export const startDetectMitigationActionsTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDetectMitigationActionsTask",
+  iam: { actions: ["iot:StartDetectMitigationActionsTask"] },
   telemetry: TELEMETRY,
   span: "StartDetectMitigationActionsTask",
 }));
@@ -13723,6 +14792,7 @@ export const startOnDemandAuditTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOnDemandAuditTask",
+  iam: { actions: ["iot:StartOnDemandAuditTask"] },
   telemetry: TELEMETRY,
   span: "StartOnDemandAuditTask",
 }));
@@ -13755,6 +14825,10 @@ export const startThingRegistrationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartThingRegistrationTask",
+  iam: {
+    actions: ["iam:PassRole", "iot:StartThingRegistrationTask"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "StartThingRegistrationTask",
 }));
@@ -13789,6 +14863,7 @@ export const stopThingRegistrationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopThingRegistrationTask",
+  iam: { actions: ["iot:StopThingRegistrationTask"] },
   telemetry: TELEMETRY,
   span: "StopThingRegistrationTask",
 }));
@@ -13824,6 +14899,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["iot:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -13864,6 +14940,7 @@ export const testAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestAuthorization",
+  iam: { actions: ["iot:TestAuthorization"] },
   telemetry: TELEMETRY,
   span: "TestAuthorization",
 }));
@@ -13904,6 +14981,14 @@ export const testInvokeAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestInvokeAuthorizer",
+  iam: {
+    actions: ["iot:TestInvokeAuthorizer"],
+    resources: {
+      "iot:TestInvokeAuthorizer": [
+        "arn:${Partition}:iot:${Region}:${Account}:authorizer/${AuthorizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestInvokeAuthorizer",
 }));
@@ -13968,6 +15053,12 @@ export const transferCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferCertificate",
+  iam: {
+    actions: ["iot:TransferCertificate"],
+    resources: {
+      "iot:TransferCertificate": ["arn:${Partition}:iot:${Region}:${Account}:cert/${Certificate}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TransferCertificate",
 }));
@@ -14000,6 +15091,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["iot:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -14028,6 +15120,11 @@ export const updateAccountAuditConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountAuditConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdateAccountAuditConfiguration"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccountAuditConfiguration",
 }));
@@ -14058,6 +15155,7 @@ export const updateAuditSuppression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuditSuppression",
+  iam: { actions: ["iot:UpdateAuditSuppression"] },
   telemetry: TELEMETRY,
   span: "UpdateAuditSuppression",
 }));
@@ -14096,6 +15194,14 @@ export const updateAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthorizer",
+  iam: {
+    actions: ["iot:UpdateAuthorizer"],
+    resources: {
+      "iot:UpdateAuthorizer": [
+        "arn:${Partition}:iot:${Region}:${Account}:authorizer/${AuthorizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAuthorizer",
 }));
@@ -14130,6 +15236,14 @@ export const updateBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillingGroup",
+  iam: {
+    actions: ["iot:UpdateBillingGroup"],
+    resources: {
+      "iot:UpdateBillingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:billinggroup/${BillingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBillingGroup",
 }));
@@ -14166,6 +15280,16 @@ export const updateCACertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCACertificate",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdateCACertificate"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iot:UpdateCACertificate": [
+        "arn:${Partition}:iot:${Region}:${Account}:cacert/${CACertificate}",
+      ],
+    },
+    conditional: { "iam:PassRole": "registrationConfig.roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCACertificate",
 }));
@@ -14212,6 +15336,12 @@ export const updateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificate",
+  iam: {
+    actions: ["iot:UpdateCertificate"],
+    resources: {
+      "iot:UpdateCertificate": ["arn:${Partition}:iot:${Region}:${Account}:cert/${Certificate}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCertificate",
 }));
@@ -14248,6 +15378,14 @@ export const updateCertificateProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificateProvider",
+  iam: {
+    actions: ["iot:UpdateCertificateProvider"],
+    resources: {
+      "iot:UpdateCertificateProvider": [
+        "arn:${Partition}:iot:${Region}:${Account}:certificateprovider/${CertificateProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCertificateProvider",
 }));
@@ -14280,6 +15418,12 @@ export const updateCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCommand",
+  iam: {
+    actions: ["iot:UpdateCommand"],
+    resources: {
+      "iot:UpdateCommand": ["arn:${Partition}:iot:${Region}:${Account}:command/${CommandId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCommand",
 }));
@@ -14315,6 +15459,14 @@ export const updateCustomMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomMetric",
+  iam: {
+    actions: ["iot:UpdateCustomMetric"],
+    resources: {
+      "iot:UpdateCustomMetric": [
+        "arn:${Partition}:iot:${Region}:${Account}:custommetric/${MetricName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCustomMetric",
 }));
@@ -14354,6 +15506,14 @@ export const updateDimension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDimension",
+  iam: {
+    actions: ["iot:UpdateDimension"],
+    resources: {
+      "iot:UpdateDimension": [
+        "arn:${Partition}:iot:${Region}:${Account}:dimension/${DimensionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDimension",
 }));
@@ -14393,6 +15553,14 @@ export const updateDomainConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainConfiguration",
+  iam: {
+    actions: ["iot:UpdateDomainConfiguration"],
+    resources: {
+      "iot:UpdateDomainConfiguration": [
+        "arn:${Partition}:iot:${Region}:${Account}:domainconfiguration/${DomainConfigurationName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDomainConfiguration",
 }));
@@ -14429,6 +15597,14 @@ export const updateDynamicThingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDynamicThingGroup",
+  iam: {
+    actions: ["iot:UpdateDynamicThingGroup"],
+    resources: {
+      "iot:UpdateDynamicThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDynamicThingGroup",
 }));
@@ -14465,6 +15641,11 @@ export const updateEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEncryptionConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdateEncryptionConfiguration"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "kmsAccessRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEncryptionConfiguration",
 }));
@@ -14491,6 +15672,7 @@ export const updateEventConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventConfigurations",
+  iam: { actions: ["iot:UpdateEventConfigurations"] },
   telemetry: TELEMETRY,
   span: "UpdateEventConfigurations",
 }));
@@ -14535,6 +15717,15 @@ export const updateFleetMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetMetric",
+  iam: {
+    actions: ["iot:UpdateFleetMetric"],
+    resources: {
+      "iot:UpdateFleetMetric": [
+        "arn:${Partition}:iot:${Region}:${Account}:fleetmetric/${FleetMetricName}",
+        "arn:${Partition}:iot:${Region}:${Account}:index/${IndexName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFleetMetric",
 }));
@@ -14569,6 +15760,7 @@ export const updateIndexingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexingConfiguration",
+  iam: { actions: ["iot:UpdateIndexingConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateIndexingConfiguration",
 }));
@@ -14601,6 +15793,14 @@ export const updateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJob",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdateJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iot:UpdateJob": ["arn:${Partition}:iot:${Region}:${Account}:job/${JobId}"],
+    },
+    conditional: { "iam:PassRole": "presignedUrlConfig.roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateJob",
 }));
@@ -14633,6 +15833,16 @@ export const updateMitigationAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMitigationAction",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdateMitigationAction"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iot:UpdateMitigationAction": [
+        "arn:${Partition}:iot:${Region}:${Account}:mitigationaction/${MitigationActionName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMitigationAction",
 }));
@@ -14667,6 +15877,12 @@ export const updatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackage",
+  iam: {
+    actions: ["iot:UpdatePackage"],
+    resources: {
+      "iot:UpdatePackage": ["arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePackage",
 }));
@@ -14694,6 +15910,11 @@ export const updatePackageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdatePackageConfiguration"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "versionUpdateByJobsConfig.roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePackageConfiguration",
 }));
@@ -14728,6 +15949,15 @@ export const updatePackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageVersion",
+  iam: {
+    actions: ["iot:UpdatePackageVersion"],
+    resources: {
+      "iot:UpdatePackageVersion": [
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}",
+        "arn:${Partition}:iot:${Region}:${Account}:package/${PackageName}/version/${VersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePackageVersion",
 }));
@@ -14762,6 +15992,16 @@ export const updateProvisioningTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisioningTemplate",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdateProvisioningTemplate"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iot:UpdateProvisioningTemplate": [
+        "arn:${Partition}:iot:${Region}:${Account}:provisioningtemplate/${ProvisioningTemplate}",
+      ],
+    },
+    conditional: { "iam:PassRole": "provisioningRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProvisioningTemplate",
 }));
@@ -14805,6 +16045,14 @@ export const updateRoleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoleAlias",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdateRoleAlias"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iot:UpdateRoleAlias": ["arn:${Partition}:iot:${Region}:${Account}:rolealias/${RoleAlias}"],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoleAlias",
 }));
@@ -14838,6 +16086,14 @@ export const updateScheduledAudit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledAudit",
+  iam: {
+    actions: ["iot:UpdateScheduledAudit"],
+    resources: {
+      "iot:UpdateScheduledAudit": [
+        "arn:${Partition}:iot:${Region}:${Account}:scheduledaudit/${ScheduleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateScheduledAudit",
 }));
@@ -14874,6 +16130,11 @@ export const updateSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityProfile",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdateSecurityProfile"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "metricsExportConfig.roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSecurityProfile",
 }));
@@ -14912,6 +16173,14 @@ export const updateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStream",
+  iam: {
+    actions: ["iam:PassRole", "iot:UpdateStream"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iot:UpdateStream": ["arn:${Partition}:iot:${Region}:${Account}:stream/${StreamId}"],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStream",
 }));
@@ -14950,6 +16219,12 @@ export const updateThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThing",
+  iam: {
+    actions: ["iot:UpdateThing"],
+    resources: {
+      "iot:UpdateThing": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateThing",
 }));
@@ -14984,6 +16259,14 @@ export const updateThingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingGroup",
+  iam: {
+    actions: ["iot:UpdateThingGroup"],
+    resources: {
+      "iot:UpdateThingGroup": [
+        "arn:${Partition}:iot:${Region}:${Account}:thinggroup/${ThingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateThingGroup",
 }));
@@ -15016,6 +16299,7 @@ export const updateThingGroupsForThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingGroupsForThing",
+  iam: { actions: ["iot:UpdateThingGroupsForThing"] },
   telemetry: TELEMETRY,
   span: "UpdateThingGroupsForThing",
 }));
@@ -15050,6 +16334,14 @@ export const updateThingType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingType",
+  iam: {
+    actions: ["iot:UpdateThingType"],
+    resources: {
+      "iot:UpdateThingType": [
+        "arn:${Partition}:iot:${Region}:${Account}:thingtype/${ThingTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateThingType",
 }));
@@ -15085,6 +16377,14 @@ export const updateTopicRuleDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopicRuleDestination",
+  iam: {
+    actions: ["iot:UpdateTopicRuleDestination"],
+    resources: {
+      "iot:UpdateTopicRuleDestination": [
+        "arn:${Partition}:iot:${Region}:${Account}:ruledestination/${DestinationType}/${Uuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTopicRuleDestination",
 }));
@@ -15113,6 +16413,7 @@ export const validateSecurityProfileBehaviors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateSecurityProfileBehaviors",
+  iam: { actions: ["iot:ValidateSecurityProfileBehaviors"] },
   telemetry: TELEMETRY,
   span: "ValidateSecurityProfileBehaviors",
 }));

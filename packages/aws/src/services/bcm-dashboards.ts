@@ -564,6 +564,10 @@ export const createDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDashboard",
+  iam: {
+    actions: ["bcm-dashboards:CreateDashboard", "bcm-dashboards:TagResource"],
+    conditional: { "bcm-dashboards:TagResource": "resourceTags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDashboard",
 }));
@@ -598,6 +602,11 @@ export const createScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledReport",
+  iam: {
+    actions: ["bcm-dashboards:CreateScheduledReport", "iam:PassRole", "bcm-dashboards:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "bcm-dashboards:TagResource": "resourceTags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateScheduledReport",
 }));
@@ -628,6 +637,7 @@ export const deleteDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboard",
+  iam: { actions: ["bcm-dashboards:DeleteDashboard"] },
   telemetry: TELEMETRY,
   span: "DeleteDashboard",
 }));
@@ -660,6 +670,7 @@ export const deleteScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledReport",
+  iam: { actions: ["bcm-dashboards:DeleteScheduledReport"] },
   telemetry: TELEMETRY,
   span: "DeleteScheduledReport",
 }));
@@ -696,6 +707,7 @@ export const executeScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteScheduledReport",
+  iam: { actions: ["bcm-dashboards:ExecuteScheduledReport"] },
   telemetry: TELEMETRY,
   span: "ExecuteScheduledReport",
 }));
@@ -728,6 +740,7 @@ export const getDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboard",
+  iam: { actions: ["bcm-dashboards:GetDashboard"] },
   telemetry: TELEMETRY,
   span: "GetDashboard",
 }));
@@ -760,6 +773,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["bcm-dashboards:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -792,6 +806,7 @@ export const getScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScheduledReport",
+  iam: { actions: ["bcm-dashboards:GetScheduledReport"] },
   telemetry: TELEMETRY,
   span: "GetScheduledReport",
 }));
@@ -829,6 +844,7 @@ export const listDashboards: API.PaginatedOperationMethod<
     items: "dashboards",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bcm-dashboards:ListDashboards"] },
   telemetry: TELEMETRY,
   span: "ListDashboards",
 })) as any;
@@ -866,6 +882,7 @@ export const listScheduledReports: API.PaginatedOperationMethod<
     items: "scheduledReports",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bcm-dashboards:ListScheduledReports"] },
   telemetry: TELEMETRY,
   span: "ListScheduledReports",
 })) as any;
@@ -896,6 +913,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["bcm-dashboards:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -926,6 +944,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["bcm-dashboards:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -956,6 +975,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["bcm-dashboards:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -988,6 +1008,7 @@ export const updateDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboard",
+  iam: { actions: ["bcm-dashboards:UpdateDashboard"] },
   telemetry: TELEMETRY,
   span: "UpdateDashboard",
 }));
@@ -1022,6 +1043,11 @@ export const updateScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledReport",
+  iam: {
+    actions: ["iam:PassRole", "bcm-dashboards:UpdateScheduledReport"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "scheduledReportExecutionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateScheduledReport",
 }));

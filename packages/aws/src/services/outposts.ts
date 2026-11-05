@@ -1210,6 +1210,14 @@ export const cancelCapacityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCapacityTask",
+  iam: {
+    actions: ["outposts:CancelCapacityTask"],
+    resources: {
+      "outposts:CancelCapacityTask": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelCapacityTask",
 }));
@@ -1242,6 +1250,7 @@ export const cancelOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelOrder",
+  iam: { actions: ["outposts:CancelOrder"] },
   telemetry: TELEMETRY,
   span: "CancelOrder",
 }));
@@ -1276,6 +1285,14 @@ export const createOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrder",
+  iam: {
+    actions: ["outposts:CreateOrder"],
+    resources: {
+      "outposts:CreateOrder": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateOrder",
 }));
@@ -1312,6 +1329,13 @@ export const createOutpost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutpost",
+  iam: {
+    actions: ["outposts:CreateOutpost", "outposts:TagResource"],
+    resources: {
+      "outposts:CreateOutpost": ["arn:${Partition}:outposts:${Region}:${Account}:site/${SiteId}"],
+    },
+    conditional: { "outposts:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateOutpost",
 }));
@@ -1347,6 +1371,14 @@ export const createPrivateConnectivityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateConnectivityConfig",
+  iam: {
+    actions: ["outposts:CreatePrivateConnectivityConfig"],
+    resources: {
+      "outposts:CreatePrivateConnectivityConfig": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePrivateConnectivityConfig",
 }));
@@ -1374,6 +1406,7 @@ export const createQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuote",
+  iam: { actions: ["outposts:CreateQuote"] },
   telemetry: TELEMETRY,
   span: "CreateQuote",
 }));
@@ -1399,6 +1432,14 @@ export const createRenewal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRenewal",
+  iam: {
+    actions: ["outposts:CreateRenewal"],
+    resources: {
+      "outposts:CreateRenewal": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRenewal",
 }));
@@ -1431,6 +1472,10 @@ export const createSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSite",
+  iam: {
+    actions: ["outposts:CreateSite", "outposts:TagResource"],
+    conditional: { "outposts:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSite",
 }));
@@ -1463,6 +1508,14 @@ export const deleteOutpost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutpost",
+  iam: {
+    actions: ["outposts:DeleteOutpost"],
+    resources: {
+      "outposts:DeleteOutpost": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOutpost",
 }));
@@ -1488,6 +1541,7 @@ export const deleteQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuote",
+  iam: { actions: ["outposts:DeleteQuote"] },
   telemetry: TELEMETRY,
   span: "DeleteQuote",
 }));
@@ -1520,6 +1574,12 @@ export const deleteSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSite",
+  iam: {
+    actions: ["outposts:DeleteSite"],
+    resources: {
+      "outposts:DeleteSite": ["arn:${Partition}:outposts:${Region}:${Account}:site/${SiteId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSite",
 }));
@@ -1545,6 +1605,14 @@ export const getCapacityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityTask",
+  iam: {
+    actions: ["outposts:GetCapacityTask"],
+    resources: {
+      "outposts:GetCapacityTask": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCapacityTask",
 }));
@@ -1570,6 +1638,7 @@ export const getCatalogItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCatalogItem",
+  iam: { actions: ["outposts:GetCatalogItem"] },
   telemetry: TELEMETRY,
   span: "GetCatalogItem",
 }));
@@ -1602,6 +1671,7 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  iam: { actions: ["outposts:GetConnection"] },
   telemetry: TELEMETRY,
   span: "GetConnection",
 }));
@@ -1626,6 +1696,7 @@ export const getOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrder",
+  iam: { actions: ["outposts:GetOrder"] },
   telemetry: TELEMETRY,
   span: "GetOrder",
 }));
@@ -1651,6 +1722,14 @@ export const getOutpost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutpost",
+  iam: {
+    actions: ["outposts:GetOutpost"],
+    resources: {
+      "outposts:GetOutpost": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOutpost",
 }));
@@ -1682,6 +1761,14 @@ export const getOutpostBillingInformation: API.PaginatedOperationMethod<
     items: "Subscriptions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["outposts:GetOutpostBillingInformation"],
+    resources: {
+      "outposts:GetOutpostBillingInformation": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOutpostBillingInformation",
 })) as any;
@@ -1714,6 +1801,14 @@ export const getOutpostInstanceTypes: API.PaginatedOperationMethod<
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["outposts:GetOutpostInstanceTypes"],
+    resources: {
+      "outposts:GetOutpostInstanceTypes": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOutpostInstanceTypes",
 })) as any;
@@ -1748,6 +1843,14 @@ export const getOutpostSupportedInstanceTypes: API.PaginatedOperationMethod<
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["outposts:GetOutpostSupportedInstanceTypes"],
+    resources: {
+      "outposts:GetOutpostSupportedInstanceTypes": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOutpostSupportedInstanceTypes",
 })) as any;
@@ -1773,6 +1876,14 @@ export const getPrivateConnectivityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrivateConnectivityConfig",
+  iam: {
+    actions: ["outposts:GetPrivateConnectivityConfig"],
+    resources: {
+      "outposts:GetPrivateConnectivityConfig": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPrivateConnectivityConfig",
 }));
@@ -1798,6 +1909,7 @@ export const getQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuote",
+  iam: { actions: ["outposts:GetQuote"] },
   telemetry: TELEMETRY,
   span: "GetQuote",
 }));
@@ -1823,6 +1935,14 @@ export const getRenewalPricing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRenewalPricing",
+  iam: {
+    actions: ["outposts:GetRenewalPricing"],
+    resources: {
+      "outposts:GetRenewalPricing": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRenewalPricing",
 }));
@@ -1848,6 +1968,12 @@ export const getSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSite",
+  iam: {
+    actions: ["outposts:GetSite"],
+    resources: {
+      "outposts:GetSite": ["arn:${Partition}:outposts:${Region}:${Account}:site/${SiteId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSite",
 }));
@@ -1873,6 +1999,12 @@ export const getSiteAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSiteAddress",
+  iam: {
+    actions: ["outposts:GetSiteAddress"],
+    resources: {
+      "outposts:GetSiteAddress": ["arn:${Partition}:outposts:${Region}:${Account}:site/${SiteId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSiteAddress",
 }));
@@ -1906,6 +2038,14 @@ export const listAssetInstances: API.PaginatedOperationMethod<
     items: "AssetInstances",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["outposts:ListAssetInstances"],
+    resources: {
+      "outposts:ListAssetInstances": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetInstances",
 })) as any;
@@ -1942,6 +2082,14 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "Assets",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["outposts:ListAssets"],
+    resources: {
+      "outposts:ListAssets": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssets",
 })) as any;
@@ -1976,6 +2124,14 @@ export const listBlockingInstancesForCapacityTask: API.PaginatedOperationMethod<
     items: "BlockingInstances",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["outposts:ListBlockingInstancesForCapacityTask"],
+    resources: {
+      "outposts:ListBlockingInstancesForCapacityTask": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBlockingInstancesForCapacityTask",
 })) as any;
@@ -2012,6 +2168,7 @@ export const listCapacityTasks: API.PaginatedOperationMethod<
     items: "CapacityTasks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["outposts:ListCapacityTasks"] },
   telemetry: TELEMETRY,
   span: "ListCapacityTasks",
 })) as any;
@@ -2048,6 +2205,7 @@ export const listCatalogItems: API.PaginatedOperationMethod<
     items: "CatalogItems",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["outposts:ListCatalogItems"] },
   telemetry: TELEMETRY,
   span: "ListCatalogItems",
 })) as any;
@@ -2081,6 +2239,7 @@ export const listOrderableInstanceTypes: API.PaginatedOperationMethod<
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["outposts:ListOrderableInstanceTypes"] },
   telemetry: TELEMETRY,
   span: "ListOrderableInstanceTypes",
 })) as any;
@@ -2113,6 +2272,7 @@ export const listOrders: API.PaginatedOperationMethod<
     items: "Orders",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["outposts:ListOrders"] },
   telemetry: TELEMETRY,
   span: "ListOrders",
 })) as any;
@@ -2148,6 +2308,7 @@ export const listOutposts: API.PaginatedOperationMethod<
     items: "Outposts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["outposts:ListOutposts"] },
   telemetry: TELEMETRY,
   span: "ListOutposts",
 })) as any;
@@ -2175,6 +2336,7 @@ export const listQuotes: API.PaginatedOperationMethod<
     items: "Quotes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["outposts:ListQuotes"] },
   telemetry: TELEMETRY,
   span: "ListQuotes",
 })) as any;
@@ -2211,6 +2373,7 @@ export const listSites: API.PaginatedOperationMethod<
     items: "Sites",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["outposts:ListSites"] },
   telemetry: TELEMETRY,
   span: "ListSites",
 })) as any;
@@ -2235,6 +2398,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["outposts:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2268,6 +2432,14 @@ export const startCapacityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCapacityTask",
+  iam: {
+    actions: ["outposts:StartCapacityTask"],
+    resources: {
+      "outposts:StartCapacityTask": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartCapacityTask",
 }));
@@ -2300,6 +2472,14 @@ export const startConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConnection",
+  iam: {
+    actions: ["outposts:StartConnection"],
+    resources: {
+      "outposts:StartConnection": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartConnection",
 }));
@@ -2356,6 +2536,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["outposts:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2380,6 +2561,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["outposts:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2412,6 +2594,14 @@ export const updateOutpost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOutpost",
+  iam: {
+    actions: ["outposts:UpdateOutpost"],
+    resources: {
+      "outposts:UpdateOutpost": [
+        "arn:${Partition}:outposts:${Region}:${Account}:outpost/${OutpostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOutpost",
 }));
@@ -2438,6 +2628,7 @@ export const updateQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuote",
+  iam: { actions: ["outposts:UpdateQuote"] },
   telemetry: TELEMETRY,
   span: "UpdateQuote",
 }));
@@ -2470,6 +2661,12 @@ export const updateSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSite",
+  iam: {
+    actions: ["outposts:UpdateSite"],
+    resources: {
+      "outposts:UpdateSite": ["arn:${Partition}:outposts:${Region}:${Account}:site/${SiteId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSite",
 }));
@@ -2508,6 +2705,14 @@ export const updateSiteAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSiteAddress",
+  iam: {
+    actions: ["outposts:UpdateSiteAddress"],
+    resources: {
+      "outposts:UpdateSiteAddress": [
+        "arn:${Partition}:outposts:${Region}:${Account}:site/${SiteId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSiteAddress",
 }));
@@ -2545,6 +2750,14 @@ export const updateSiteRackPhysicalProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSiteRackPhysicalProperties",
+  iam: {
+    actions: ["outposts:UpdateSiteRackPhysicalProperties"],
+    resources: {
+      "outposts:UpdateSiteRackPhysicalProperties": [
+        "arn:${Partition}:outposts:${Region}:${Account}:site/${SiteId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSiteRackPhysicalProperties",
 }));

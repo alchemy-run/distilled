@@ -443,6 +443,15 @@ export const cancelPracticeRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPracticeRun",
+  iam: {
+    actions: ["arc-zonal-shift:CancelPracticeRun"],
+    resources: {
+      "arc-zonal-shift:CancelPracticeRun": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelPracticeRun",
 }));
@@ -479,6 +488,15 @@ export const cancelZonalShift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelZonalShift",
+  iam: {
+    actions: ["arc-zonal-shift:CancelZonalShift"],
+    resources: {
+      "arc-zonal-shift:CancelZonalShift": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelZonalShift",
 }));
@@ -517,6 +535,15 @@ export const createPracticeRunConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePracticeRunConfiguration",
+  iam: {
+    actions: ["arc-zonal-shift:CreatePracticeRunConfiguration"],
+    resources: {
+      "arc-zonal-shift:CreatePracticeRunConfiguration": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePracticeRunConfiguration",
 }));
@@ -551,6 +578,15 @@ export const deletePracticeRunConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePracticeRunConfiguration",
+  iam: {
+    actions: ["arc-zonal-shift:DeletePracticeRunConfiguration"],
+    resources: {
+      "arc-zonal-shift:DeletePracticeRunConfiguration": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePracticeRunConfiguration",
 }));
@@ -575,6 +611,7 @@ export const getAutoshiftObserverNotificationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoshiftObserverNotificationStatus",
+  iam: { actions: ["arc-zonal-shift:GetAutoshiftObserverNotificationStatus"] },
   telemetry: TELEMETRY,
   span: "GetAutoshiftObserverNotificationStatus",
 }));
@@ -607,6 +644,15 @@ export const getManagedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedResource",
+  iam: {
+    actions: ["arc-zonal-shift:GetManagedResource"],
+    resources: {
+      "arc-zonal-shift:GetManagedResource": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetManagedResource",
 }));
@@ -644,6 +690,7 @@ export const listAutoshifts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["arc-zonal-shift:ListAutoshifts"] },
   telemetry: TELEMETRY,
   span: "ListAutoshifts",
 })) as any;
@@ -681,6 +728,7 @@ export const listManagedResources: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["arc-zonal-shift:ListManagedResources"] },
   telemetry: TELEMETRY,
   span: "ListManagedResources",
 })) as any;
@@ -720,6 +768,7 @@ export const listZonalShifts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["arc-zonal-shift:ListZonalShifts"] },
   telemetry: TELEMETRY,
   span: "ListZonalShifts",
 })) as any;
@@ -756,6 +805,15 @@ export const startPracticeRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPracticeRun",
+  iam: {
+    actions: ["arc-zonal-shift:StartPracticeRun"],
+    resources: {
+      "arc-zonal-shift:StartPracticeRun": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartPracticeRun",
 }));
@@ -804,6 +862,15 @@ export const startZonalShift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartZonalShift",
+  iam: {
+    actions: ["arc-zonal-shift:StartZonalShift"],
+    resources: {
+      "arc-zonal-shift:StartZonalShift": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartZonalShift",
 }));
@@ -838,6 +905,7 @@ export const updateAutoshiftObserverNotificationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoshiftObserverNotificationStatus",
+  iam: { actions: ["arc-zonal-shift:UpdateAutoshiftObserverNotificationStatus"] },
   telemetry: TELEMETRY,
   span: "UpdateAutoshiftObserverNotificationStatus",
 }));
@@ -872,6 +940,15 @@ export const updatePracticeRunConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePracticeRunConfiguration",
+  iam: {
+    actions: ["arc-zonal-shift:UpdatePracticeRunConfiguration"],
+    resources: {
+      "arc-zonal-shift:UpdatePracticeRunConfiguration": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePracticeRunConfiguration",
 }));
@@ -908,6 +985,15 @@ export const updateZonalAutoshiftConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateZonalAutoshiftConfiguration",
+  iam: {
+    actions: ["arc-zonal-shift:UpdateZonalAutoshiftConfiguration"],
+    resources: {
+      "arc-zonal-shift:UpdateZonalAutoshiftConfiguration": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateZonalAutoshiftConfiguration",
 }));
@@ -942,6 +1028,15 @@ export const updateZonalShift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateZonalShift",
+  iam: {
+    actions: ["arc-zonal-shift:UpdateZonalShift"],
+    resources: {
+      "arc-zonal-shift:UpdateZonalShift": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateZonalShift",
 }));

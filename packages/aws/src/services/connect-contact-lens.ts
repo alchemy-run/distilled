@@ -323,6 +323,14 @@ export const listRealtimeContactAnalysisSegments: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListRealtimeContactAnalysisSegments"],
+    resources: {
+      "connect:ListRealtimeContactAnalysisSegments": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRealtimeContactAnalysisSegments",
 })) as any;

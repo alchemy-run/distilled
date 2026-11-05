@@ -2435,6 +2435,14 @@ export const abortMultipartReadSetUpload: API.OperationMethod<
   retry: Retry,
   operationName: "AbortMultipartReadSetUpload",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:AbortMultipartReadSetUpload"],
+    resources: {
+      "omics:AbortMultipartReadSetUpload": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AbortMultipartReadSetUpload",
 }));
@@ -2472,6 +2480,7 @@ export const acceptShare: API.OperationMethod<
   retry: Retry,
   operationName: "AcceptShare",
   endpointHostPrefix: "analytics-",
+  iam: { actions: ["omics:AcceptShare"] },
   telemetry: TELEMETRY,
   span: "AcceptShare",
 }));
@@ -2507,6 +2516,14 @@ export const batchDeleteReadSet: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteReadSet",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:BatchDeleteReadSet"],
+    resources: {
+      "omics:BatchDeleteReadSet": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteReadSet",
 }));
@@ -2542,6 +2559,7 @@ export const cancelAnnotationImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelAnnotationImportJob",
   endpointHostPrefix: "analytics-",
+  iam: { actions: ["omics:CancelAnnotationImportJob"] },
   telemetry: TELEMETRY,
   span: "CancelAnnotationImportJob",
 }));
@@ -2581,6 +2599,10 @@ export const cancelRun: API.OperationMethod<
   retry: Retry,
   operationName: "CancelRun",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:CancelRun"],
+    resources: { "omics:CancelRun": ["arn:${Partition}:omics:${Region}:${Account}:run/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "CancelRun",
 }));
@@ -2622,6 +2644,12 @@ export const cancelRunBatch: API.OperationMethod<
   retry: Retry,
   operationName: "CancelRunBatch",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:CancelRunBatch"],
+    resources: {
+      "omics:CancelRunBatch": ["arn:${Partition}:omics:${Region}:${Account}:runBatch/${BatchId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelRunBatch",
 }));
@@ -2657,6 +2685,7 @@ export const cancelVariantImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelVariantImportJob",
   endpointHostPrefix: "analytics-",
+  iam: { actions: ["omics:CancelVariantImportJob"] },
   telemetry: TELEMETRY,
   span: "CancelVariantImportJob",
 }));
@@ -2698,6 +2727,14 @@ export const completeMultipartReadSetUpload: API.OperationMethod<
   retry: Retry,
   operationName: "CompleteMultipartReadSetUpload",
   endpointHostPrefix: "storage-",
+  iam: {
+    actions: ["omics:CompleteMultipartReadSetUpload"],
+    resources: {
+      "omics:CompleteMultipartReadSetUpload": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CompleteMultipartReadSetUpload",
 }));
@@ -2737,6 +2774,10 @@ export const createAnnotationStore: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAnnotationStore",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:CreateAnnotationStore", "omics:TagResource"],
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAnnotationStore",
 }));
@@ -2774,6 +2815,15 @@ export const createAnnotationStoreVersion: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAnnotationStoreVersion",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:CreateAnnotationStoreVersion", "omics:TagResource"],
+    resources: {
+      "omics:CreateAnnotationStoreVersion": [
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}",
+      ],
+    },
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAnnotationStoreVersion",
 }));
@@ -2813,6 +2863,23 @@ export const createConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "CreateConfiguration",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: [
+      "omics:CreateConfiguration",
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeSubnets",
+      "codeconnections:PassConnection",
+      "iam:PassRole",
+      "omics:TagResource",
+    ],
+    resources: {
+      "codeconnections:PassConnection": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguration",
 }));
@@ -2862,6 +2929,15 @@ export const createMultipartReadSetUpload: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMultipartReadSetUpload",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:CreateMultipartReadSetUpload", "omics:TagResource"],
+    resources: {
+      "omics:CreateMultipartReadSetUpload": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMultipartReadSetUpload",
 }));
@@ -2899,6 +2975,10 @@ export const createReferenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "CreateReferenceStore",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:CreateReferenceStore", "omics:TagResource"],
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateReferenceStore",
 }));
@@ -2940,6 +3020,10 @@ export const createRunCache: API.OperationMethod<
   retry: Retry,
   operationName: "CreateRunCache",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:CreateRunCache", "omics:TagResource"],
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRunCache",
 }));
@@ -2979,6 +3063,10 @@ export const createRunGroup: API.OperationMethod<
   retry: Retry,
   operationName: "CreateRunGroup",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:CreateRunGroup", "omics:TagResource"],
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRunGroup",
 }));
@@ -3028,6 +3116,10 @@ export const createSequenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "CreateSequenceStore",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:CreateSequenceStore", "omics:TagResource"],
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSequenceStore",
 }));
@@ -3073,6 +3165,7 @@ export const createShare: API.OperationMethod<
   retry: Retry,
   operationName: "CreateShare",
   endpointHostPrefix: "analytics-",
+  iam: { actions: ["omics:CreateShare"] },
   telemetry: TELEMETRY,
   span: "CreateShare",
 }));
@@ -3112,6 +3205,10 @@ export const createVariantStore: API.OperationMethod<
   retry: Retry,
   operationName: "CreateVariantStore",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:CreateVariantStore", "omics:TagResource"],
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVariantStore",
 }));
@@ -3163,6 +3260,15 @@ export const createWorkflow: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorkflow",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:CreateWorkflow", "codeconnections:PassConnection", "omics:TagResource"],
+    resources: {
+      "codeconnections:PassConnection": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+    },
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkflow",
 }));
@@ -3210,6 +3316,16 @@ export const createWorkflowVersion: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorkflowVersion",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:CreateWorkflowVersion", "codeconnections:PassConnection", "omics:TagResource"],
+    resources: {
+      "omics:CreateWorkflowVersion": ["arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}"],
+      "codeconnections:PassConnection": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+    },
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkflowVersion",
 }));
@@ -3247,6 +3363,14 @@ export const deleteAnnotationStore: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAnnotationStore",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:DeleteAnnotationStore"],
+    resources: {
+      "omics:DeleteAnnotationStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAnnotationStore",
 }));
@@ -3282,6 +3406,15 @@ export const deleteAnnotationStoreVersions: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAnnotationStoreVersions",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:DeleteAnnotationStoreVersions"],
+    resources: {
+      "omics:DeleteAnnotationStoreVersions": [
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}",
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}/version/${AnnotationStoreVersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAnnotationStoreVersions",
 }));
@@ -3323,6 +3456,12 @@ export const deleteBatch: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBatch",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:DeleteBatch"],
+    resources: {
+      "omics:DeleteBatch": ["arn:${Partition}:omics:${Region}:${Account}:runBatch/${BatchId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBatch",
 }));
@@ -3362,6 +3501,14 @@ export const deleteConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteConfiguration",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:DeleteConfiguration"],
+    resources: {
+      "omics:DeleteConfiguration": [
+        "arn:${Partition}:omics:${Region}:${Account}:configuration/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguration",
 }));
@@ -3401,6 +3548,15 @@ export const deleteReference: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteReference",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:DeleteReference"],
+    resources: {
+      "omics:DeleteReference": [
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}/reference/${ReferenceId}",
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReference",
 }));
@@ -3440,6 +3596,14 @@ export const deleteReferenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteReferenceStore",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:DeleteReferenceStore"],
+    resources: {
+      "omics:DeleteReferenceStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReferenceStore",
 }));
@@ -3485,6 +3649,10 @@ export const deleteRun: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRun",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:DeleteRun"],
+    resources: { "omics:DeleteRun": ["arn:${Partition}:omics:${Region}:${Account}:run/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRun",
 }));
@@ -3526,6 +3694,15 @@ export const deleteRunBatch: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRunBatch",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:DeleteRunBatch"],
+    resources: {
+      "omics:DeleteRunBatch": [
+        "arn:${Partition}:omics:${Region}:${Account}:run/${Id}",
+        "arn:${Partition}:omics:${Region}:${Account}:runBatch/${BatchId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRunBatch",
 }));
@@ -3567,6 +3744,12 @@ export const deleteRunCache: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRunCache",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:DeleteRunCache"],
+    resources: {
+      "omics:DeleteRunCache": ["arn:${Partition}:omics:${Region}:${Account}:runCache/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRunCache",
 }));
@@ -3612,6 +3795,12 @@ export const deleteRunGroup: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRunGroup",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:DeleteRunGroup"],
+    resources: {
+      "omics:DeleteRunGroup": ["arn:${Partition}:omics:${Region}:${Account}:runGroup/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRunGroup",
 }));
@@ -3649,6 +3838,14 @@ export const deleteS3AccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteS3AccessPolicy",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:DeleteS3AccessPolicy"],
+    resources: {
+      "omics:DeleteS3AccessPolicy": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteS3AccessPolicy",
 }));
@@ -3690,6 +3887,14 @@ export const deleteSequenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteSequenceStore",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:DeleteSequenceStore"],
+    resources: {
+      "omics:DeleteSequenceStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSequenceStore",
 }));
@@ -3727,6 +3932,7 @@ export const deleteShare: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteShare",
   endpointHostPrefix: "analytics-",
+  iam: { actions: ["omics:DeleteShare"] },
   telemetry: TELEMETRY,
   span: "DeleteShare",
 }));
@@ -3764,6 +3970,14 @@ export const deleteVariantStore: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteVariantStore",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:DeleteVariantStore"],
+    resources: {
+      "omics:DeleteVariantStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:variantStore/${VariantStoreName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVariantStore",
 }));
@@ -3809,6 +4023,12 @@ export const deleteWorkflow: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorkflow",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:DeleteWorkflow"],
+    resources: {
+      "omics:DeleteWorkflow": ["arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflow",
 }));
@@ -3850,6 +4070,15 @@ export const deleteWorkflowVersion: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorkflowVersion",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:DeleteWorkflowVersion"],
+    resources: {
+      "omics:DeleteWorkflowVersion": [
+        "arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}/version/${VersionName}",
+        "arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflowVersion",
 }));
@@ -3885,6 +4114,7 @@ export const getAnnotationImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetAnnotationImportJob",
   endpointHostPrefix: "analytics-",
+  iam: { actions: ["omics:GetAnnotationImportJob"] },
   telemetry: TELEMETRY,
   span: "GetAnnotationImportJob",
 }));
@@ -3920,6 +4150,14 @@ export const getAnnotationStore: API.OperationMethod<
   retry: Retry,
   operationName: "GetAnnotationStore",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:GetAnnotationStore"],
+    resources: {
+      "omics:GetAnnotationStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAnnotationStore",
 }));
@@ -3953,6 +4191,14 @@ export const getAnnotationStoreVersion: API.OperationMethod<
   retry: Retry,
   operationName: "GetAnnotationStoreVersion",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:GetAnnotationStoreVersion"],
+    resources: {
+      "omics:GetAnnotationStoreVersion": [
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}/version/${AnnotationStoreVersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAnnotationStoreVersion",
 }));
@@ -3988,6 +4234,12 @@ export const getBatch: API.OperationMethod<
   retry: Retry,
   operationName: "GetBatch",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:GetBatch"],
+    resources: {
+      "omics:GetBatch": ["arn:${Partition}:omics:${Region}:${Account}:runBatch/${BatchId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBatch",
 }));
@@ -4027,6 +4279,14 @@ export const getConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "GetConfiguration",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:GetConfiguration"],
+    resources: {
+      "omics:GetConfiguration": [
+        "arn:${Partition}:omics:${Region}:${Account}:configuration/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguration",
 }));
@@ -4066,6 +4326,15 @@ export const getReadSet: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSet",
   endpointHostPrefix: "storage-",
+  iam: {
+    actions: ["omics:GetReadSet"],
+    resources: {
+      "omics:GetReadSet": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}/readSet/${ReadSetId}",
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReadSet",
 }));
@@ -4101,6 +4370,14 @@ export const getReadSetActivationJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSetActivationJob",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:GetReadSetActivationJob"],
+    resources: {
+      "omics:GetReadSetActivationJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReadSetActivationJob",
 }));
@@ -4136,6 +4413,14 @@ export const getReadSetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSetExportJob",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:GetReadSetExportJob"],
+    resources: {
+      "omics:GetReadSetExportJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReadSetExportJob",
 }));
@@ -4171,6 +4456,14 @@ export const getReadSetImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSetImportJob",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:GetReadSetImportJob"],
+    resources: {
+      "omics:GetReadSetImportJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReadSetImportJob",
 }));
@@ -4206,6 +4499,15 @@ export const getReadSetMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSetMetadata",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:GetReadSetMetadata"],
+    resources: {
+      "omics:GetReadSetMetadata": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}/readSet/${ReadSetId}",
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReadSetMetadata",
 }));
@@ -4245,6 +4547,15 @@ export const getReference: API.OperationMethod<
   retry: Retry,
   operationName: "GetReference",
   endpointHostPrefix: "storage-",
+  iam: {
+    actions: ["omics:GetReference"],
+    resources: {
+      "omics:GetReference": [
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}/reference/${ReferenceId}",
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReference",
 }));
@@ -4280,6 +4591,14 @@ export const getReferenceImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetReferenceImportJob",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:GetReferenceImportJob"],
+    resources: {
+      "omics:GetReferenceImportJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReferenceImportJob",
 }));
@@ -4315,6 +4634,15 @@ export const getReferenceMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "GetReferenceMetadata",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:GetReferenceMetadata"],
+    resources: {
+      "omics:GetReferenceMetadata": [
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}/reference/${ReferenceId}",
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReferenceMetadata",
 }));
@@ -4350,6 +4678,14 @@ export const getReferenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "GetReferenceStore",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:GetReferenceStore"],
+    resources: {
+      "omics:GetReferenceStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReferenceStore",
 }));
@@ -4391,6 +4727,10 @@ export const getRun: API.OperationMethod<
   retry: Retry,
   operationName: "GetRun",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:GetRun"],
+    resources: { "omics:GetRun": ["arn:${Partition}:omics:${Region}:${Account}:run/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetRun",
 }));
@@ -4432,6 +4772,12 @@ export const getRunCache: API.OperationMethod<
   retry: Retry,
   operationName: "GetRunCache",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:GetRunCache"],
+    resources: {
+      "omics:GetRunCache": ["arn:${Partition}:omics:${Region}:${Account}:runCache/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRunCache",
 }));
@@ -4471,6 +4817,12 @@ export const getRunGroup: API.OperationMethod<
   retry: Retry,
   operationName: "GetRunGroup",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:GetRunGroup"],
+    resources: {
+      "omics:GetRunGroup": ["arn:${Partition}:omics:${Region}:${Account}:runGroup/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRunGroup",
 }));
@@ -4510,6 +4862,15 @@ export const getRunTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetRunTask",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:GetRunTask"],
+    resources: {
+      "omics:GetRunTask": [
+        "arn:${Partition}:omics:${Region}:${Account}:task/${Id}",
+        "arn:${Partition}:omics:${Region}:${Account}:run/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRunTask",
 }));
@@ -4549,6 +4910,14 @@ export const getS3AccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "GetS3AccessPolicy",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:GetS3AccessPolicy"],
+    resources: {
+      "omics:GetS3AccessPolicy": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetS3AccessPolicy",
 }));
@@ -4584,6 +4953,14 @@ export const getSequenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "GetSequenceStore",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:GetSequenceStore"],
+    resources: {
+      "omics:GetSequenceStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSequenceStore",
 }));
@@ -4621,6 +4998,7 @@ export const getShare: API.OperationMethod<
   retry: Retry,
   operationName: "GetShare",
   endpointHostPrefix: "analytics-",
+  iam: { actions: ["omics:GetShare"] },
   telemetry: TELEMETRY,
   span: "GetShare",
 }));
@@ -4656,6 +5034,7 @@ export const getVariantImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetVariantImportJob",
   endpointHostPrefix: "analytics-",
+  iam: { actions: ["omics:GetVariantImportJob"] },
   telemetry: TELEMETRY,
   span: "GetVariantImportJob",
 }));
@@ -4693,6 +5072,14 @@ export const getVariantStore: API.OperationMethod<
   retry: Retry,
   operationName: "GetVariantStore",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:GetVariantStore"],
+    resources: {
+      "omics:GetVariantStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:variantStore/${VariantStoreName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVariantStore",
 }));
@@ -4736,6 +5123,12 @@ export const getWorkflow: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorkflow",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:GetWorkflow"],
+    resources: {
+      "omics:GetWorkflow": ["arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflow",
 }));
@@ -4775,6 +5168,15 @@ export const getWorkflowVersion: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorkflowVersion",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:GetWorkflowVersion"],
+    resources: {
+      "omics:GetWorkflowVersion": [
+        "arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}/version/${VersionName}",
+        "arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowVersion",
 }));
@@ -4817,6 +5219,7 @@ export const listAnnotationImportJobs: API.PaginatedOperationMethod<
     items: "annotationImportJobs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListAnnotationImportJobs"] },
   telemetry: TELEMETRY,
   span: "ListAnnotationImportJobs",
 })) as any;
@@ -4859,6 +5262,7 @@ export const listAnnotationStores: API.PaginatedOperationMethod<
     items: "annotationStores",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListAnnotationStores"] },
   telemetry: TELEMETRY,
   span: "ListAnnotationStores",
 })) as any;
@@ -4899,6 +5303,14 @@ export const listAnnotationStoreVersions: API.PaginatedOperationMethod<
     items: "annotationStoreVersions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListAnnotationStoreVersions"],
+    resources: {
+      "omics:ListAnnotationStoreVersions": [
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAnnotationStoreVersions",
 })) as any;
@@ -4939,6 +5351,7 @@ export const listBatch: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxItems",
   } as const,
+  iam: { actions: ["omics:ListBatch"] },
   telemetry: TELEMETRY,
   span: "ListBatch",
 })) as any;
@@ -4985,6 +5398,7 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListConfigurations",
 })) as any;
@@ -5031,6 +5445,14 @@ export const listMultipartReadSetUploads: API.PaginatedOperationMethod<
     items: "uploads",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListMultipartReadSetUploads"],
+    resources: {
+      "omics:ListMultipartReadSetUploads": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMultipartReadSetUploads",
 })) as any;
@@ -5073,6 +5495,14 @@ export const listReadSetActivationJobs: API.PaginatedOperationMethod<
     items: "activationJobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListReadSetActivationJobs"],
+    resources: {
+      "omics:ListReadSetActivationJobs": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListReadSetActivationJobs",
 })) as any;
@@ -5115,6 +5545,14 @@ export const listReadSetExportJobs: API.PaginatedOperationMethod<
     items: "exportJobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListReadSetExportJobs"],
+    resources: {
+      "omics:ListReadSetExportJobs": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListReadSetExportJobs",
 })) as any;
@@ -5157,6 +5595,14 @@ export const listReadSetImportJobs: API.PaginatedOperationMethod<
     items: "importJobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListReadSetImportJobs"],
+    resources: {
+      "omics:ListReadSetImportJobs": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListReadSetImportJobs",
 })) as any;
@@ -5199,6 +5645,14 @@ export const listReadSets: API.PaginatedOperationMethod<
     items: "readSets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListReadSets"],
+    resources: {
+      "omics:ListReadSets": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListReadSets",
 })) as any;
@@ -5245,6 +5699,14 @@ export const listReadSetUploadParts: API.PaginatedOperationMethod<
     items: "parts",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListReadSetUploadParts"],
+    resources: {
+      "omics:ListReadSetUploadParts": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListReadSetUploadParts",
 })) as any;
@@ -5287,6 +5749,14 @@ export const listReferenceImportJobs: API.PaginatedOperationMethod<
     items: "importJobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListReferenceImportJobs"],
+    resources: {
+      "omics:ListReferenceImportJobs": [
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListReferenceImportJobs",
 })) as any;
@@ -5331,6 +5801,14 @@ export const listReferences: API.PaginatedOperationMethod<
     items: "references",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListReferences"],
+    resources: {
+      "omics:ListReferences": [
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListReferences",
 })) as any;
@@ -5373,6 +5851,7 @@ export const listReferenceStores: API.PaginatedOperationMethod<
     items: "referenceStores",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListReferenceStores"] },
   telemetry: TELEMETRY,
   span: "ListReferenceStores",
 })) as any;
@@ -5419,6 +5898,7 @@ export const listRunCaches: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListRunCaches"] },
   telemetry: TELEMETRY,
   span: "ListRunCaches",
 })) as any;
@@ -5465,6 +5945,7 @@ export const listRunGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListRunGroups"] },
   telemetry: TELEMETRY,
   span: "ListRunGroups",
 })) as any;
@@ -5513,6 +5994,7 @@ export const listRuns: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListRuns"] },
   telemetry: TELEMETRY,
   span: "ListRuns",
 })) as any;
@@ -5559,6 +6041,12 @@ export const listRunsInBatch: API.PaginatedOperationMethod<
     items: "runs",
     pageSize: "maxItems",
   } as const,
+  iam: {
+    actions: ["omics:ListRunsInBatch"],
+    resources: {
+      "omics:ListRunsInBatch": ["arn:${Partition}:omics:${Region}:${Account}:runBatch/${BatchId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRunsInBatch",
 })) as any;
@@ -5605,6 +6093,10 @@ export const listRunTasks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListRunTasks"],
+    resources: { "omics:ListRunTasks": ["arn:${Partition}:omics:${Region}:${Account}:run/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "ListRunTasks",
 })) as any;
@@ -5647,6 +6139,7 @@ export const listSequenceStores: API.PaginatedOperationMethod<
     items: "sequenceStores",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListSequenceStores"] },
   telemetry: TELEMETRY,
   span: "ListSequenceStores",
 })) as any;
@@ -5691,6 +6184,7 @@ export const listShares: API.PaginatedOperationMethod<
     items: "shares",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListShares"] },
   telemetry: TELEMETRY,
   span: "ListShares",
 })) as any;
@@ -5730,6 +6224,7 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "tags-",
+  iam: { actions: ["omics:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5772,6 +6267,7 @@ export const listVariantImportJobs: API.PaginatedOperationMethod<
     items: "variantImportJobs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListVariantImportJobs"] },
   telemetry: TELEMETRY,
   span: "ListVariantImportJobs",
 })) as any;
@@ -5814,6 +6310,7 @@ export const listVariantStores: API.PaginatedOperationMethod<
     items: "variantStores",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListVariantStores"] },
   telemetry: TELEMETRY,
   span: "ListVariantStores",
 })) as any;
@@ -5860,6 +6357,7 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["omics:ListWorkflows"] },
   telemetry: TELEMETRY,
   span: "ListWorkflows",
 })) as any;
@@ -5906,6 +6404,12 @@ export const listWorkflowVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["omics:ListWorkflowVersions"],
+    resources: {
+      "omics:ListWorkflowVersions": ["arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflowVersions",
 })) as any;
@@ -5943,6 +6447,14 @@ export const putS3AccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "PutS3AccessPolicy",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:PutS3AccessPolicy"],
+    resources: {
+      "omics:PutS3AccessPolicy": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutS3AccessPolicy",
 }));
@@ -5980,6 +6492,16 @@ export const startAnnotationImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartAnnotationImportJob",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["iam:PassRole", "omics:StartAnnotationImportJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "omics:StartAnnotationImportJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}",
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}/version/${AnnotationStoreVersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAnnotationImportJob",
 }));
@@ -6019,6 +6541,14 @@ export const startReadSetActivationJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartReadSetActivationJob",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:StartReadSetActivationJob"],
+    resources: {
+      "omics:StartReadSetActivationJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartReadSetActivationJob",
 }));
@@ -6058,6 +6588,15 @@ export const startReadSetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartReadSetExportJob",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["iam:PassRole", "omics:StartReadSetExportJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "omics:StartReadSetExportJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartReadSetExportJob",
 }));
@@ -6095,6 +6634,19 @@ export const startReadSetImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartReadSetImportJob",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["iam:PassRole", "omics:StartReadSetImportJob", "omics:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "omics:StartReadSetImportJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+    conditional: {
+      "omics:TagResource":
+        "Needed only when the request sets tags; not granted, since tagging can change tag-based access.",
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartReadSetImportJob",
 }));
@@ -6132,6 +6684,19 @@ export const startReferenceImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartReferenceImportJob",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["iam:PassRole", "omics:StartReferenceImportJob", "omics:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "omics:StartReferenceImportJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:referenceStore/${ReferenceStoreId}",
+      ],
+    },
+    conditional: {
+      "omics:TagResource":
+        "Needed only when the request sets tags; not granted, since tagging can change tag-based access.",
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartReferenceImportJob",
 }));
@@ -6203,6 +6768,11 @@ export const startRun: API.OperationMethod<
   retry: Retry,
   operationName: "StartRun",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["iam:PassRole", "omics:StartRun", "omics:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartRun",
 }));
@@ -6244,6 +6814,11 @@ export const startRunBatch: API.OperationMethod<
   retry: Retry,
   operationName: "StartRunBatch",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["iam:PassRole", "omics:StartRun", "omics:StartRunBatch", "omics:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "omics:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartRunBatch",
 }));
@@ -6281,6 +6856,15 @@ export const startVariantImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartVariantImportJob",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["iam:PassRole", "omics:StartVariantImportJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "omics:StartVariantImportJob": [
+        "arn:${Partition}:omics:${Region}:${Account}:variantStore/${VariantStoreName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartVariantImportJob",
 }));
@@ -6320,6 +6904,7 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "tags-",
+  iam: { actions: ["omics:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -6359,6 +6944,7 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "tags-",
+  iam: { actions: ["omics:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6394,6 +6980,14 @@ export const updateAnnotationStore: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAnnotationStore",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:UpdateAnnotationStore"],
+    resources: {
+      "omics:UpdateAnnotationStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnnotationStore",
 }));
@@ -6427,6 +7021,14 @@ export const updateAnnotationStoreVersion: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAnnotationStoreVersion",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:UpdateAnnotationStoreVersion"],
+    resources: {
+      "omics:UpdateAnnotationStoreVersion": [
+        "arn:${Partition}:omics:${Region}:${Account}:annotationStore/${AnnotationStoreName}/version/${AnnotationStoreVersionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnnotationStoreVersion",
 }));
@@ -6468,6 +7070,12 @@ export const updateRunCache: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRunCache",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:UpdateRunCache"],
+    resources: {
+      "omics:UpdateRunCache": ["arn:${Partition}:omics:${Region}:${Account}:runCache/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRunCache",
 }));
@@ -6521,6 +7129,12 @@ export const updateRunGroup: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRunGroup",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:UpdateRunGroup"],
+    resources: {
+      "omics:UpdateRunGroup": ["arn:${Partition}:omics:${Region}:${Account}:runGroup/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRunGroup",
 }));
@@ -6558,6 +7172,14 @@ export const updateSequenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateSequenceStore",
   endpointHostPrefix: "control-storage-",
+  iam: {
+    actions: ["omics:UpdateSequenceStore"],
+    resources: {
+      "omics:UpdateSequenceStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSequenceStore",
 }));
@@ -6593,6 +7215,14 @@ export const updateVariantStore: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateVariantStore",
   endpointHostPrefix: "analytics-",
+  iam: {
+    actions: ["omics:UpdateVariantStore"],
+    resources: {
+      "omics:UpdateVariantStore": [
+        "arn:${Partition}:omics:${Region}:${Account}:variantStore/${VariantStoreName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVariantStore",
 }));
@@ -6646,6 +7276,12 @@ export const updateWorkflow: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkflow",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:UpdateWorkflow"],
+    resources: {
+      "omics:UpdateWorkflow": ["arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkflow",
 }));
@@ -6685,6 +7321,15 @@ export const updateWorkflowVersion: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkflowVersion",
   endpointHostPrefix: "workflows-",
+  iam: {
+    actions: ["omics:UpdateWorkflowVersion"],
+    resources: {
+      "omics:UpdateWorkflowVersion": [
+        "arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}/version/${VersionName}",
+        "arn:${Partition}:omics:${Region}:${Account}:workflow/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkflowVersion",
 }));
@@ -6726,6 +7371,14 @@ export const uploadReadSetPart: API.OperationMethod<
   retry: Retry,
   operationName: "UploadReadSetPart",
   endpointHostPrefix: "storage-",
+  iam: {
+    actions: ["omics:UploadReadSetPart"],
+    resources: {
+      "omics:UploadReadSetPart": [
+        "arn:${Partition}:omics:${Region}:${Account}:sequenceStore/${SequenceStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UploadReadSetPart",
 }));

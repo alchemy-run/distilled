@@ -383,6 +383,7 @@ export const getGlyphs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlyphs",
+  iam: { actions: ["geo-maps:GetGlyphs"] },
   telemetry: TELEMETRY,
   span: "GetGlyphs",
 }));
@@ -405,6 +406,7 @@ export const getSprites: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSprites",
+  iam: { actions: ["geo-maps:GetSprites"] },
   telemetry: TELEMETRY,
   span: "GetSprites",
 }));
@@ -443,6 +445,12 @@ export const getStaticMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStaticMap",
+  iam: {
+    actions: ["geo-maps:GetStaticMap"],
+    resources: {
+      "geo-maps:GetStaticMap": ["arn:${Partition}:geo-maps:${Region}::provider/default"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStaticMap",
 }));
@@ -465,6 +473,7 @@ export const getStyleDescriptor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStyleDescriptor",
+  iam: { actions: ["geo-maps:GetStyleDescriptor"] },
   telemetry: TELEMETRY,
   span: "GetStyleDescriptor",
 }));
@@ -499,6 +508,10 @@ export const getTile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTile",
+  iam: {
+    actions: ["geo-maps:GetTile"],
+    resources: { "geo-maps:GetTile": ["arn:${Partition}:geo-maps:${Region}::provider/default"] },
+  },
   telemetry: TELEMETRY,
   span: "GetTile",
 }));

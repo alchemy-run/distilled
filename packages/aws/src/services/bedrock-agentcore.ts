@@ -3351,6 +3351,20 @@ export const batchCreateMemoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateMemoryRecords",
+  iam: {
+    actions: [
+      "bedrock-agentcore:BatchCreateMemoryRecords",
+      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification",
+    ],
+    resources: {
+      "bedrock-agentcore:BatchCreateMemoryRecords": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateMemoryRecords",
 }));
@@ -3385,6 +3399,14 @@ export const batchDeleteMemoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteMemoryRecords",
+  iam: {
+    actions: ["bedrock-agentcore:BatchDeleteMemoryRecords"],
+    resources: {
+      "bedrock-agentcore:BatchDeleteMemoryRecords": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteMemoryRecords",
 }));
@@ -3419,6 +3441,20 @@ export const batchUpdateMemoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateMemoryRecords",
+  iam: {
+    actions: [
+      "bedrock-agentcore:BatchUpdateMemoryRecords",
+      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification",
+    ],
+    resources: {
+      "bedrock-agentcore:BatchUpdateMemoryRecords": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateMemoryRecords",
 }));
@@ -3453,6 +3489,17 @@ export const completeResourceTokenAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteResourceTokenAuth",
+  iam: {
+    actions: ["bedrock-agentcore:CompleteResourceTokenAuth"],
+    resources: {
+      "bedrock-agentcore:CompleteResourceTokenAuth": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CompleteResourceTokenAuth",
 }));
@@ -3489,6 +3536,10 @@ export const createABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateABTest",
+  iam: {
+    actions: ["bedrock-agentcore:CreateABTest", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateABTest",
 }));
@@ -3531,6 +3582,14 @@ export const createEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvent",
+  iam: {
+    actions: ["bedrock-agentcore:CreateEvent"],
+    resources: {
+      "bedrock-agentcore:CreateEvent": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateEvent",
 }));
@@ -3569,6 +3628,14 @@ export const createPaymentInstrument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentInstrument",
+  iam: {
+    actions: ["bedrock-agentcore:CreatePaymentInstrument"],
+    resources: {
+      "bedrock-agentcore:CreatePaymentInstrument": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePaymentInstrument",
 }));
@@ -3605,6 +3672,14 @@ export const createPaymentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentSession",
+  iam: {
+    actions: ["bedrock-agentcore:CreatePaymentSession"],
+    resources: {
+      "bedrock-agentcore:CreatePaymentSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePaymentSession",
 }));
@@ -3641,6 +3716,14 @@ export const deleteABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteABTest",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteABTest"],
+    resources: {
+      "bedrock-agentcore:DeleteABTest": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:ab-test/${ABTestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteABTest",
 }));
@@ -3677,6 +3760,14 @@ export const deleteBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchEvaluation",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteBatchEvaluation"],
+    resources: {
+      "bedrock-agentcore:DeleteBatchEvaluation": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:batch-evaluate/${BatchEvaluationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBatchEvaluation",
 }));
@@ -3709,6 +3800,14 @@ export const deleteCapacityProviderSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProviderSession",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteCapacityProviderSession"],
+    resources: {
+      "bedrock-agentcore:DeleteCapacityProviderSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCapacityProviderSession",
 }));
@@ -3747,6 +3846,14 @@ export const deleteEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvent",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteEvent"],
+    resources: {
+      "bedrock-agentcore:DeleteEvent": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEvent",
 }));
@@ -3785,6 +3892,14 @@ export const deleteMemoryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMemoryRecord",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteMemoryRecord"],
+    resources: {
+      "bedrock-agentcore:DeleteMemoryRecord": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMemoryRecord",
 }));
@@ -3817,6 +3932,14 @@ export const deletePaymentInstrument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentInstrument",
+  iam: {
+    actions: ["bedrock-agentcore:DeletePaymentInstrument"],
+    resources: {
+      "bedrock-agentcore:DeletePaymentInstrument": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePaymentInstrument",
 }));
@@ -3849,6 +3972,14 @@ export const deletePaymentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentSession",
+  iam: {
+    actions: ["bedrock-agentcore:DeletePaymentSession"],
+    resources: {
+      "bedrock-agentcore:DeletePaymentSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePaymentSession",
 }));
@@ -3883,6 +4014,14 @@ export const deleteRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommendation",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteRecommendation"],
+    resources: {
+      "bedrock-agentcore:DeleteRecommendation": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:recommendation/${RecommendationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRecommendation",
 }));
@@ -3923,6 +4062,14 @@ export const evaluate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Evaluate",
+  iam: {
+    actions: ["bedrock-agentcore:Evaluate"],
+    resources: {
+      "bedrock-agentcore:Evaluate": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:evaluator/${EvaluatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "Evaluate",
 }));
@@ -3957,6 +4104,14 @@ export const getABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetABTest",
+  iam: {
+    actions: ["bedrock-agentcore:GetABTest"],
+    resources: {
+      "bedrock-agentcore:GetABTest": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:ab-test/${ABTestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetABTest",
 }));
@@ -3995,6 +4150,15 @@ export const getAgentCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentCard",
+  iam: {
+    actions: ["bedrock-agentcore:GetAgentCard"],
+    resources: {
+      "bedrock-agentcore:GetAgentCard": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentCard",
 }));
@@ -4029,6 +4193,14 @@ export const getBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatchEvaluation",
+  iam: {
+    actions: ["bedrock-agentcore:GetBatchEvaluation"],
+    resources: {
+      "bedrock-agentcore:GetBatchEvaluation": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:batch-evaluate/${BatchEvaluationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBatchEvaluation",
 }));
@@ -4071,6 +4243,15 @@ export const getBrowserSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowserSession",
+  iam: {
+    actions: ["bedrock-agentcore:GetBrowserSession"],
+    resources: {
+      "bedrock-agentcore:GetBrowserSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:browser/${BrowserId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-custom/${BrowserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBrowserSession",
 }));
@@ -4113,6 +4294,15 @@ export const getCodeInterpreterSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeInterpreterSession",
+  iam: {
+    actions: ["bedrock-agentcore:GetCodeInterpreterSession"],
+    resources: {
+      "bedrock-agentcore:GetCodeInterpreterSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:code-interpreter/${CodeInterpreterId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCodeInterpreterSession",
 }));
@@ -4151,6 +4341,14 @@ export const getEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvent",
+  iam: {
+    actions: ["bedrock-agentcore:GetEvent"],
+    resources: {
+      "bedrock-agentcore:GetEvent": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEvent",
 }));
@@ -4189,6 +4387,14 @@ export const getMemoryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemoryRecord",
+  iam: {
+    actions: ["bedrock-agentcore:GetMemoryRecord"],
+    resources: {
+      "bedrock-agentcore:GetMemoryRecord": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMemoryRecord",
 }));
@@ -4221,6 +4427,14 @@ export const getPaymentInstrument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentInstrument",
+  iam: {
+    actions: ["bedrock-agentcore:GetPaymentInstrument"],
+    resources: {
+      "bedrock-agentcore:GetPaymentInstrument": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPaymentInstrument",
 }));
@@ -4253,6 +4467,14 @@ export const getPaymentInstrumentBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentInstrumentBalance",
+  iam: {
+    actions: ["bedrock-agentcore:GetPaymentInstrumentBalance"],
+    resources: {
+      "bedrock-agentcore:GetPaymentInstrumentBalance": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPaymentInstrumentBalance",
 }));
@@ -4285,6 +4507,14 @@ export const getPaymentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentSession",
+  iam: {
+    actions: ["bedrock-agentcore:GetPaymentSession"],
+    resources: {
+      "bedrock-agentcore:GetPaymentSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPaymentSession",
 }));
@@ -4317,6 +4547,14 @@ export const getRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendation",
+  iam: {
+    actions: ["bedrock-agentcore:GetRecommendation"],
+    resources: {
+      "bedrock-agentcore:GetRecommendation": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:recommendation/${RecommendationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommendation",
 }));
@@ -4351,6 +4589,17 @@ export const getResourceApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceApiKey",
+  iam: {
+    actions: ["bedrock-agentcore:GetResourceApiKey"],
+    resources: {
+      "bedrock-agentcore:GetResourceApiKey": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourceApiKey",
 }));
@@ -4385,6 +4634,17 @@ export const getResourceOauth2Token: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceOauth2Token",
+  iam: {
+    actions: ["bedrock-agentcore:GetResourceOauth2Token"],
+    resources: {
+      "bedrock-agentcore:GetResourceOauth2Token": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourceOauth2Token",
 }));
@@ -4419,6 +4679,17 @@ export const getResourcePaymentToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePaymentToken",
+  iam: {
+    actions: ["bedrock-agentcore:GetResourcePaymentToken"],
+    resources: {
+      "bedrock-agentcore:GetResourcePaymentToken": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePaymentToken",
 }));
@@ -4453,6 +4724,15 @@ export const getWorkloadAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessToken",
+  iam: {
+    actions: ["bedrock-agentcore:GetWorkloadAccessToken"],
+    resources: {
+      "bedrock-agentcore:GetWorkloadAccessToken": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkloadAccessToken",
 }));
@@ -4487,6 +4767,15 @@ export const getWorkloadAccessTokenForJWT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessTokenForJWT",
+  iam: {
+    actions: ["bedrock-agentcore:GetWorkloadAccessTokenForJWT"],
+    resources: {
+      "bedrock-agentcore:GetWorkloadAccessTokenForJWT": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkloadAccessTokenForJWT",
 }));
@@ -4521,6 +4810,15 @@ export const getWorkloadAccessTokenForUserId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessTokenForUserId",
+  iam: {
+    actions: ["bedrock-agentcore:GetWorkloadAccessTokenForUserId"],
+    resources: {
+      "bedrock-agentcore:GetWorkloadAccessTokenForUserId": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkloadAccessTokenForUserId",
 }));
@@ -4557,6 +4855,14 @@ export const ingestData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IngestData",
+  iam: {
+    actions: ["bedrock-agentcore:IngestData"],
+    resources: {
+      "bedrock-agentcore:IngestData": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "IngestData",
 }));
@@ -4605,6 +4911,22 @@ export const invokeAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgentRuntime",
+  iam: {
+    actions: [
+      "bedrock-agentcore:InvokeAgentRuntime",
+      "bedrock-agentcore:InvokeAgentRuntimeForUser",
+    ],
+    resources: {
+      "bedrock-agentcore:InvokeAgentRuntime": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+      "bedrock-agentcore:InvokeAgentRuntimeForUser": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvokeAgentRuntime",
 }));
@@ -4647,6 +4969,15 @@ export const invokeAgentRuntimeCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgentRuntimeCommand",
+  iam: {
+    actions: ["bedrock-agentcore:InvokeAgentRuntimeCommand"],
+    resources: {
+      "bedrock-agentcore:InvokeAgentRuntimeCommand": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvokeAgentRuntimeCommand",
 }));
@@ -4737,6 +5068,22 @@ export const invokeCodeInterpreter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeCodeInterpreter",
+  iam: {
+    actions: [
+      "bedrock-agentcore:InvokeCodeInterpreter",
+      "bedrock-agentcore:StartCodeInterpreterSession",
+    ],
+    resources: {
+      "bedrock-agentcore:InvokeCodeInterpreter": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:code-interpreter/${CodeInterpreterId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
+      ],
+      "bedrock-agentcore:StartCodeInterpreterSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:code-interpreter/${CodeInterpreterId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvokeCodeInterpreter",
 }));
@@ -4773,6 +5120,19 @@ export const invokeHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeHarness",
+  iam: {
+    actions: ["bedrock-agentcore:InvokeAgentRuntime", "bedrock-agentcore:InvokeHarness"],
+    resources: {
+      "bedrock-agentcore:InvokeAgentRuntime": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+      "bedrock-agentcore:InvokeHarness": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}/harness-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvokeHarness",
 }));
@@ -4812,6 +5172,7 @@ export const listABTests: API.PaginatedOperationMethod<
     items: "abTests",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListABTests"] },
   telemetry: TELEMETRY,
   span: "ListABTests",
 })) as any;
@@ -4857,6 +5218,14 @@ export const listActors: API.PaginatedOperationMethod<
     items: "actorSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListActors"],
+    resources: {
+      "bedrock-agentcore:ListActors": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListActors",
 })) as any;
@@ -4896,6 +5265,7 @@ export const listBatchEvaluations: API.PaginatedOperationMethod<
     items: "batchEvaluations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListBatchEvaluations"] },
   telemetry: TELEMETRY,
   span: "ListBatchEvaluations",
 })) as any;
@@ -4938,6 +5308,7 @@ export const listBrowserSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBrowserSessions",
+  iam: { actions: ["bedrock-agentcore:ListBrowserSessions"] },
   telemetry: TELEMETRY,
   span: "ListBrowserSessions",
 }));
@@ -4980,6 +5351,15 @@ export const listCodeInterpreterSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeInterpreterSessions",
+  iam: {
+    actions: ["bedrock-agentcore:ListCodeInterpreterSessions"],
+    resources: {
+      "bedrock-agentcore:ListCodeInterpreterSessions": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:code-interpreter/${CodeInterpreterId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCodeInterpreterSessions",
 }));
@@ -5025,6 +5405,14 @@ export const listEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListEvents"],
+    resources: {
+      "bedrock-agentcore:ListEvents": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEvents",
 })) as any;
@@ -5068,6 +5456,14 @@ export const listMemoryExtractionJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListMemoryExtractionJobs"],
+    resources: {
+      "bedrock-agentcore:ListMemoryExtractionJobs": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMemoryExtractionJobs",
 })) as any;
@@ -5113,6 +5509,14 @@ export const listMemoryRecords: API.PaginatedOperationMethod<
     items: "memoryRecordSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListMemoryRecords"],
+    resources: {
+      "bedrock-agentcore:ListMemoryRecords": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMemoryRecords",
 })) as any;
@@ -5150,6 +5554,14 @@ export const listPaymentInstruments: API.PaginatedOperationMethod<
     items: "paymentInstruments",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListPaymentInstruments"],
+    resources: {
+      "bedrock-agentcore:ListPaymentInstruments": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPaymentInstruments",
 })) as any;
@@ -5187,6 +5599,14 @@ export const listPaymentSessions: API.PaginatedOperationMethod<
     items: "paymentSessions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListPaymentSessions"],
+    resources: {
+      "bedrock-agentcore:ListPaymentSessions": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPaymentSessions",
 })) as any;
@@ -5224,6 +5644,7 @@ export const listRecommendations: API.PaginatedOperationMethod<
     items: "recommendationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListRecommendations"] },
   telemetry: TELEMETRY,
   span: "ListRecommendations",
 })) as any;
@@ -5271,6 +5692,14 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListSessions"],
+    resources: {
+      "bedrock-agentcore:ListSessions": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -5309,6 +5738,14 @@ export const processPayment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProcessPayment",
+  iam: {
+    actions: ["bedrock-agentcore:ProcessPayment"],
+    resources: {
+      "bedrock-agentcore:ProcessPayment": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ProcessPayment",
 }));
@@ -5354,6 +5791,14 @@ export const retrieveMemoryRecords: API.PaginatedOperationMethod<
     items: "memoryRecordSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:RetrieveMemoryRecords"],
+    resources: {
+      "bedrock-agentcore:RetrieveMemoryRecords": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetrieveMemoryRecords",
 })) as any;
@@ -5398,6 +5843,16 @@ export const saveBrowserSessionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SaveBrowserSessionProfile",
+  iam: {
+    actions: ["bedrock-agentcore:SaveBrowserSessionProfile"],
+    resources: {
+      "bedrock-agentcore:SaveBrowserSessionProfile": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:browser/${BrowserId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-custom/${BrowserId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-profile/${BrowserProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SaveBrowserSessionProfile",
 }));
@@ -5432,6 +5887,14 @@ export const searchRegistryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchRegistryRecords",
+  iam: {
+    actions: ["bedrock-agentcore:SearchRegistryRecords"],
+    resources: {
+      "bedrock-agentcore:SearchRegistryRecords": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchRegistryRecords",
 }));
@@ -5468,6 +5931,7 @@ export const startBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBatchEvaluation",
+  iam: { actions: ["bedrock-agentcore:StartBatchEvaluation"] },
   telemetry: TELEMETRY,
   span: "StartBatchEvaluation",
 }));
@@ -5518,6 +5982,7 @@ export const startBrowserSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBrowserSession",
+  iam: { actions: ["bedrock-agentcore:StartBrowserSession"] },
   telemetry: TELEMETRY,
   span: "StartBrowserSession",
 }));
@@ -5564,6 +6029,15 @@ export const startCodeInterpreterSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeInterpreterSession",
+  iam: {
+    actions: ["bedrock-agentcore:StartCodeInterpreterSession"],
+    resources: {
+      "bedrock-agentcore:StartCodeInterpreterSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:code-interpreter/${CodeInterpreterId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartCodeInterpreterSession",
 }));
@@ -5600,6 +6074,14 @@ export const startMemoryExtractionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMemoryExtractionJob",
+  iam: {
+    actions: ["bedrock-agentcore:StartMemoryExtractionJob"],
+    resources: {
+      "bedrock-agentcore:StartMemoryExtractionJob": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMemoryExtractionJob",
 }));
@@ -5634,6 +6116,7 @@ export const startRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommendation",
+  iam: { actions: ["bedrock-agentcore:StartRecommendation"] },
   telemetry: TELEMETRY,
   span: "StartRecommendation",
 }));
@@ -5670,6 +6153,14 @@ export const stopBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBatchEvaluation",
+  iam: {
+    actions: ["bedrock-agentcore:StopBatchEvaluation"],
+    resources: {
+      "bedrock-agentcore:StopBatchEvaluation": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:batch-evaluate/${BatchEvaluationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopBatchEvaluation",
 }));
@@ -5714,6 +6205,15 @@ export const stopBrowserSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBrowserSession",
+  iam: {
+    actions: ["bedrock-agentcore:StopBrowserSession"],
+    resources: {
+      "bedrock-agentcore:StopBrowserSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:browser/${BrowserId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-custom/${BrowserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopBrowserSession",
 }));
@@ -5758,6 +6258,15 @@ export const stopCodeInterpreterSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCodeInterpreterSession",
+  iam: {
+    actions: ["bedrock-agentcore:StopCodeInterpreterSession"],
+    resources: {
+      "bedrock-agentcore:StopCodeInterpreterSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:code-interpreter/${CodeInterpreterId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopCodeInterpreterSession",
 }));
@@ -5800,6 +6309,15 @@ export const stopRuntimeSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRuntimeSession",
+  iam: {
+    actions: ["bedrock-agentcore:StopRuntimeSession"],
+    resources: {
+      "bedrock-agentcore:StopRuntimeSession": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopRuntimeSession",
 }));
@@ -5838,6 +6356,16 @@ export const updateABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateABTest",
+  iam: {
+    actions: ["iam:PassRole", "bedrock-agentcore:UpdateABTest"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:UpdateABTest": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:ab-test/${ABTestId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateABTest",
 }));
@@ -5874,6 +6402,15 @@ export const updateBrowserStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrowserStream",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateBrowserStream"],
+    resources: {
+      "bedrock-agentcore:UpdateBrowserStream": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:aws:browser/${BrowserId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-custom/${BrowserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBrowserStream",
 }));

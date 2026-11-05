@@ -421,6 +421,7 @@ export const createScalingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScalingPlan",
+  iam: { actions: ["autoscaling-plans:CreateScalingPlan"] },
   telemetry: TELEMETRY,
   span: "CreateScalingPlan",
 }));
@@ -457,6 +458,7 @@ export const deleteScalingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScalingPlan",
+  iam: { actions: ["autoscaling-plans:DeleteScalingPlan"] },
   telemetry: TELEMETRY,
   span: "DeleteScalingPlan",
 }));
@@ -487,6 +489,7 @@ export const describeScalingPlanResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingPlanResources",
+  iam: { actions: ["autoscaling-plans:DescribeScalingPlanResources"] },
   telemetry: TELEMETRY,
   span: "DescribeScalingPlanResources",
 }));
@@ -517,6 +520,7 @@ export const describeScalingPlans: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingPlans",
+  iam: { actions: ["autoscaling-plans:DescribeScalingPlans"] },
   telemetry: TELEMETRY,
   span: "DescribeScalingPlans",
 }));
@@ -544,6 +548,7 @@ export const getScalingPlanResourceForecastData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScalingPlanResourceForecastData",
+  iam: { actions: ["autoscaling-plans:GetScalingPlanResourceForecastData"] },
   telemetry: TELEMETRY,
   span: "GetScalingPlanResourceForecastData",
 }));
@@ -577,6 +582,7 @@ export const updateScalingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScalingPlan",
+  iam: { actions: ["autoscaling-plans:UpdateScalingPlan"] },
   telemetry: TELEMETRY,
   span: "UpdateScalingPlan",
 }));

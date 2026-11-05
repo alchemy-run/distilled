@@ -184,6 +184,7 @@ export const getAccountCustomizations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountCustomizations",
+  iam: { actions: ["uxc:GetAccountColor", "uxc:GetAccountCustomizations"] },
   telemetry: TELEMETRY,
   span: "GetAccountCustomizations",
 }));
@@ -218,6 +219,7 @@ export const listServices: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListServices",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "services" } as const,
+  iam: { actions: ["uxc:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -250,6 +252,9 @@ export const updateAccountCustomizations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountCustomizations",
+  iam: {
+    actions: ["uxc:DeleteAccountColor", "uxc:PutAccountColor", "uxc:UpdateAccountCustomizations"],
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccountCustomizations",
 }));

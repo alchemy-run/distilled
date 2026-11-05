@@ -4,10 +4,20 @@
   },
   "operations": {
     "describeAlarmContributors": {
-      "errors": ["ValidationException"]
+      "errors": ["ValidationException"],
+      "iam": {
+        "reason": "Not in AWS's reference; the CloudWatch Bindings suite calls the operation successfully with it.",
+        "actions": ["cloudwatch:DescribeAlarmContributors"]
+      }
     },
     "describeInsightRules": {
       "errors": ["UnsupportedOperation"]
+    },
+    "listTagsForResource": {
+      "iam": {
+        "reason": "oam:ListTagsForResource: AWS lists it for the operation, but the CloudWatch Bindings suite calls it successfully without it.",
+        "remove": ["oam:ListTagsForResource"]
+      }
     }
   },
   "errors": {

@@ -892,6 +892,11 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
+  iam: {
+    actions: ["amplify:CreateApp", "iam:PassRole", "amplify:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "computeRoleArn", "amplify:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApp",
 }));
@@ -932,6 +937,14 @@ export const createBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendEnvironment",
+  iam: {
+    actions: ["amplify:CreateBackendEnvironment"],
+    resources: {
+      "amplify:CreateBackendEnvironment": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBackendEnvironment",
 }));
@@ -968,6 +981,16 @@ export const createBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBranch",
+  iam: {
+    actions: ["amplify:CreateBranch", "iam:PassRole", "amplify:TagResource"],
+    resources: {
+      "amplify:CreateBranch": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "computeRoleArn", "amplify:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBranch",
 }));
@@ -1006,6 +1029,14 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  iam: {
+    actions: ["amplify:CreateDeployment"],
+    resources: {
+      "amplify:CreateDeployment": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDeployment",
 }));
@@ -1043,6 +1074,16 @@ export const createDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainAssociation",
+  iam: {
+    actions: ["amplify:CreateDomainAssociation", "iam:PassRole"],
+    resources: {
+      "amplify:CreateDomainAssociation": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/domains/${DomainName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "autoSubDomainIAMRole" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDomainAssociation",
 }));
@@ -1079,6 +1120,14 @@ export const createWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebhook",
+  iam: {
+    actions: ["amplify:CreateWebHook"],
+    resources: {
+      "amplify:CreateWebHook": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWebhook",
 }));
@@ -1113,6 +1162,12 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  iam: {
+    actions: ["amplify:DeleteApp"],
+    resources: {
+      "amplify:DeleteApp": ["arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApp",
 }));
@@ -1153,6 +1208,14 @@ export const deleteBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendEnvironment",
+  iam: {
+    actions: ["amplify:DeleteBackendEnvironment"],
+    resources: {
+      "amplify:DeleteBackendEnvironment": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBackendEnvironment",
 }));
@@ -1187,6 +1250,14 @@ export const deleteBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBranch",
+  iam: {
+    actions: ["amplify:DeleteBranch"],
+    resources: {
+      "amplify:DeleteBranch": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBranch",
 }));
@@ -1221,6 +1292,14 @@ export const deleteDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainAssociation",
+  iam: {
+    actions: ["amplify:DeleteDomainAssociation"],
+    resources: {
+      "amplify:DeleteDomainAssociation": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomainAssociation",
 }));
@@ -1255,6 +1334,14 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  iam: {
+    actions: ["amplify:DeleteJob"],
+    resources: {
+      "amplify:DeleteJob": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}/jobs/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJob",
 }));
@@ -1289,6 +1376,14 @@ export const deleteWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
+  iam: {
+    actions: ["amplify:DeleteWebHook"],
+    resources: {
+      "amplify:DeleteWebHook": [
+        "arn:${Partition}:amplify:${Region}:${Account}:webhooks/${WebhookId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWebhook",
 }));
@@ -1321,6 +1416,12 @@ export const generateAccessLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateAccessLogs",
+  iam: {
+    actions: ["amplify:GenerateAccessLogs"],
+    resources: {
+      "amplify:GenerateAccessLogs": ["arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GenerateAccessLogs",
 }));
@@ -1353,6 +1454,12 @@ export const getApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApp",
+  iam: {
+    actions: ["amplify:GetApp"],
+    resources: {
+      "amplify:GetApp": ["arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApp",
 }));
@@ -1387,6 +1494,12 @@ export const getArtifactUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArtifactUrl",
+  iam: {
+    actions: ["amplify:GetArtifactUrl"],
+    resources: {
+      "amplify:GetArtifactUrl": ["arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetArtifactUrl",
 }));
@@ -1425,6 +1538,14 @@ export const getBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendEnvironment",
+  iam: {
+    actions: ["amplify:GetBackendEnvironment"],
+    resources: {
+      "amplify:GetBackendEnvironment": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBackendEnvironment",
 }));
@@ -1457,6 +1578,14 @@ export const getBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBranch",
+  iam: {
+    actions: ["amplify:GetBranch"],
+    resources: {
+      "amplify:GetBranch": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBranch",
 }));
@@ -1489,6 +1618,14 @@ export const getDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainAssociation",
+  iam: {
+    actions: ["amplify:GetDomainAssociation"],
+    resources: {
+      "amplify:GetDomainAssociation": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDomainAssociation",
 }));
@@ -1523,6 +1660,14 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  iam: {
+    actions: ["amplify:GetJob"],
+    resources: {
+      "amplify:GetJob": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}/jobs/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -1557,6 +1702,12 @@ export const getWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebhook",
+  iam: {
+    actions: ["amplify:GetWebHook"],
+    resources: {
+      "amplify:GetWebHook": ["arn:${Partition}:amplify:${Region}:${Account}:webhooks/${WebhookId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWebhook",
 }));
@@ -1589,6 +1740,7 @@ export const listApps: API.PaginatedOperationMethod<
     items: "apps",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["amplify:ListApps"] },
   telemetry: TELEMETRY,
   span: "ListApps",
 })) as any;
@@ -1629,6 +1781,12 @@ export const listArtifacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListArtifacts",
+  iam: {
+    actions: ["amplify:ListArtifacts"],
+    resources: {
+      "amplify:ListArtifacts": ["arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListArtifacts",
 }));
@@ -1660,6 +1818,14 @@ export const listBackendEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackendEnvironments",
+  iam: {
+    actions: ["amplify:ListBackendEnvironments"],
+    resources: {
+      "amplify:ListBackendEnvironments": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBackendEnvironments",
 }));
@@ -1692,6 +1858,12 @@ export const listBranches: API.PaginatedOperationMethod<
     items: "branches",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["amplify:ListBranches"],
+    resources: {
+      "amplify:ListBranches": ["arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBranches",
 })) as any;
@@ -1724,6 +1896,14 @@ export const listDomainAssociations: API.PaginatedOperationMethod<
     items: "domainAssociations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["amplify:ListDomainAssociations"],
+    resources: {
+      "amplify:ListDomainAssociations": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDomainAssociations",
 })) as any;
@@ -1763,6 +1943,14 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["amplify:ListJobs"],
+    resources: {
+      "amplify:ListJobs": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -1793,6 +1981,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["amplify:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1825,6 +2014,12 @@ export const listWebhooks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebhooks",
+  iam: {
+    actions: ["amplify:ListWebHooks"],
+    resources: {
+      "amplify:ListWebHooks": ["arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWebhooks",
 }));
@@ -1865,6 +2060,14 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  iam: {
+    actions: ["amplify:StartDeployment"],
+    resources: {
+      "amplify:StartDeployment": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDeployment",
 }));
@@ -1899,6 +2102,14 @@ export const startJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJob",
+  iam: {
+    actions: ["amplify:StartJob"],
+    resources: {
+      "amplify:StartJob": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}/jobs/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartJob",
 }));
@@ -1933,6 +2144,14 @@ export const stopJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
+  iam: {
+    actions: ["amplify:StopJob"],
+    resources: {
+      "amplify:StopJob": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}/jobs/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopJob",
 }));
@@ -1963,6 +2182,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["amplify:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1993,6 +2213,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["amplify:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2025,6 +2246,14 @@ export const updateApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApp",
+  iam: {
+    actions: ["iam:PassRole", "amplify:UpdateApp"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "amplify:UpdateApp": ["arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}"],
+    },
+    conditional: { "iam:PassRole": "computeRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApp",
 }));
@@ -2059,6 +2288,16 @@ export const updateBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBranch",
+  iam: {
+    actions: ["iam:PassRole", "amplify:UpdateBranch"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "amplify:UpdateBranch": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/branches/${BranchName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "computeRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBranch",
 }));
@@ -2093,6 +2332,16 @@ export const updateDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainAssociation",
+  iam: {
+    actions: ["iam:PassRole", "amplify:UpdateDomainAssociation"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "amplify:UpdateDomainAssociation": [
+        "arn:${Partition}:amplify:${Region}:${Account}:apps/${AppId}/domains/${DomainName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "autoSubDomainIAMRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDomainAssociation",
 }));
@@ -2127,6 +2376,14 @@ export const updateWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebhook",
+  iam: {
+    actions: ["amplify:UpdateWebHook"],
+    resources: {
+      "amplify:UpdateWebHook": [
+        "arn:${Partition}:amplify:${Region}:${Account}:webhooks/${WebhookId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWebhook",
 }));

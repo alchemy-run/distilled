@@ -410,6 +410,15 @@ export const createSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSuiteDefinition",
+  iam: {
+    actions: [
+      "iotdeviceadvisor:CreateSuiteDefinition",
+      "iam:PassRole",
+      "iotdeviceadvisor:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iotdeviceadvisor:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSuiteDefinition",
 }));
@@ -435,6 +444,14 @@ export const deleteSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSuiteDefinition",
+  iam: {
+    actions: ["iotdeviceadvisor:DeleteSuiteDefinition"],
+    resources: {
+      "iotdeviceadvisor:DeleteSuiteDefinition": [
+        "arn:${Partition}:iotdeviceadvisor:${Region}:${Account}:suitedefinition/${SuiteDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSuiteDefinition",
 }));
@@ -459,6 +476,11 @@ export const getEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpoint",
+  iam: {
+    actions: ["iotdeviceadvisor:GetEndpoint", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "deviceRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "GetEndpoint",
 }));
@@ -485,6 +507,14 @@ export const getSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteDefinition",
+  iam: {
+    actions: ["iotdeviceadvisor:GetSuiteDefinition"],
+    resources: {
+      "iotdeviceadvisor:GetSuiteDefinition": [
+        "arn:${Partition}:iotdeviceadvisor:${Region}:${Account}:suitedefinition/${SuiteDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSuiteDefinition",
 }));
@@ -511,6 +541,14 @@ export const getSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRun",
+  iam: {
+    actions: ["iotdeviceadvisor:GetSuiteRun"],
+    resources: {
+      "iotdeviceadvisor:GetSuiteRun": [
+        "arn:${Partition}:iotdeviceadvisor:${Region}:${Account}:suiterun/${SuiteDefinitionId}/${SuiteRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSuiteRun",
 }));
@@ -537,6 +575,14 @@ export const getSuiteRunReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRunReport",
+  iam: {
+    actions: ["iotdeviceadvisor:GetSuiteRunReport"],
+    resources: {
+      "iotdeviceadvisor:GetSuiteRunReport": [
+        "arn:${Partition}:iotdeviceadvisor:${Region}:${Account}:suiterun/${SuiteDefinitionId}/${SuiteRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSuiteRunReport",
 }));
@@ -568,6 +614,7 @@ export const listSuiteDefinitions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotdeviceadvisor:ListSuiteDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListSuiteDefinitions",
 })) as any;
@@ -597,6 +644,14 @@ export const listSuiteRuns: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotdeviceadvisor:ListSuiteRuns"],
+    resources: {
+      "iotdeviceadvisor:ListSuiteRuns": [
+        "arn:${Partition}:iotdeviceadvisor:${Region}:${Account}:suitedefinition/${SuiteDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSuiteRuns",
 })) as any;
@@ -623,6 +678,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["iotdeviceadvisor:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -649,6 +705,14 @@ export const startSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSuiteRun",
+  iam: {
+    actions: ["iam:PassRole", "iotdeviceadvisor:StartSuiteRun", "iotdeviceadvisor:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "iotdeviceadvisor:TagResource": "tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartSuiteRun",
 }));
@@ -675,6 +739,14 @@ export const stopSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSuiteRun",
+  iam: {
+    actions: ["iotdeviceadvisor:StopSuiteRun"],
+    resources: {
+      "iotdeviceadvisor:StopSuiteRun": [
+        "arn:${Partition}:iotdeviceadvisor:${Region}:${Account}:suiterun/${SuiteDefinitionId}/${SuiteRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopSuiteRun",
 }));
@@ -701,6 +773,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["iotdeviceadvisor:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -727,6 +800,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["iotdeviceadvisor:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -752,6 +826,15 @@ export const updateSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSuiteDefinition",
+  iam: {
+    actions: ["iam:PassRole", "iotdeviceadvisor:UpdateSuiteDefinition"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iotdeviceadvisor:UpdateSuiteDefinition": [
+        "arn:${Partition}:iotdeviceadvisor:${Region}:${Account}:suitedefinition/${SuiteDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSuiteDefinition",
 }));

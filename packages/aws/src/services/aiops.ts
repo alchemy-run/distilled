@@ -310,6 +310,16 @@ export const createInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvestigationGroup",
+  iam: {
+    actions: ["aiops:CreateInvestigationGroup", "iam:PassRole", "aiops:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "aiops:TagResource": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+    conditional: { "aiops:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInvestigationGroup",
 }));
@@ -342,6 +352,14 @@ export const deleteInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroup",
+  iam: {
+    actions: ["aiops:DeleteInvestigationGroup"],
+    resources: {
+      "aiops:DeleteInvestigationGroup": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInvestigationGroup",
 }));
@@ -376,6 +394,14 @@ export const deleteInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroupPolicy",
+  iam: {
+    actions: ["aiops:DeleteInvestigationGroupPolicy"],
+    resources: {
+      "aiops:DeleteInvestigationGroupPolicy": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInvestigationGroupPolicy",
 }));
@@ -408,6 +434,14 @@ export const getInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroup",
+  iam: {
+    actions: ["aiops:GetInvestigationGroup"],
+    resources: {
+      "aiops:GetInvestigationGroup": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInvestigationGroup",
 }));
@@ -442,6 +476,14 @@ export const getInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroupPolicy",
+  iam: {
+    actions: ["aiops:GetInvestigationGroupPolicy"],
+    resources: {
+      "aiops:GetInvestigationGroupPolicy": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInvestigationGroupPolicy",
 }));
@@ -473,6 +515,7 @@ export const listInvestigationGroups: API.PaginatedOperationMethod<
     items: "investigationGroups",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aiops:ListInvestigationGroups"] },
   telemetry: TELEMETRY,
   span: "ListInvestigationGroups",
 })) as any;
@@ -507,6 +550,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["aiops:ListTagsForResource"],
+    resources: {
+      "aiops:ListTagsForResource": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -547,6 +598,14 @@ export const putInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInvestigationGroupPolicy",
+  iam: {
+    actions: ["aiops:PutInvestigationGroupPolicy"],
+    resources: {
+      "aiops:PutInvestigationGroupPolicy": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutInvestigationGroupPolicy",
 }));
@@ -587,6 +646,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["aiops:TagResource"],
+    resources: {
+      "aiops:TagResource": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -621,6 +688,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["aiops:UntagResource"],
+    resources: {
+      "aiops:UntagResource": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -657,6 +732,16 @@ export const updateInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvestigationGroup",
+  iam: {
+    actions: ["iam:PassRole", "aiops:UpdateInvestigationGroup"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "aiops:UpdateInvestigationGroup": [
+        "arn:${Partition}:aiops:${Region}:${Account}:investigation-group/${InvestigationGroupId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInvestigationGroup",
 }));

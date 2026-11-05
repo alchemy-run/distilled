@@ -2,6 +2,34 @@
   "operations": {
     "listManagedNotificationChildEvents": {
       "errors": ["ResourceNotFoundException"]
+    },
+    "getManagedNotificationChildEvent": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/*/sub-category/*/event/*/child-event/*), the call was denied live in the Notifications Bindings suite; the grant stays on *.",
+        "resources": {
+          "notifications:GetManagedNotificationChildEvent": "*"
+        }
+      }
+    },
+    "getManagedNotificationEvent": {
+      "iam": {
+        "reason": "notifications:AccessSensitiveEvents: AWS lists it for the operation, but the Notifications Bindings suite calls it successfully without it.",
+        "remove": ["notifications:AccessSensitiveEvents"]
+      }
+    },
+    "getNotificationEvent": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:notifications:${Region}:${Account}:configuration/*/event/*), the call was denied live in the Notifications Bindings suite; the grant stays on *.",
+        "resources": {
+          "notifications:GetNotificationEvent": "*"
+        }
+      }
+    },
+    "listManagedNotificationEvents": {
+      "iam": {
+        "reason": "notifications:AccessSensitiveEvents: AWS lists it for the operation, but the Notifications Bindings suite calls it successfully without it.",
+        "remove": ["notifications:AccessSensitiveEvents"]
+      }
     }
   }
 }

@@ -238,6 +238,14 @@ export const deleteHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHumanLoop",
+  iam: {
+    actions: ["sagemaker:DeleteHumanLoop"],
+    resources: {
+      "sagemaker:DeleteHumanLoop": [
+        "arn:${Partition}:sagemaker:${Region}:${Account}:human-loop/${HumanLoopName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteHumanLoop",
 }));
@@ -269,6 +277,14 @@ export const describeHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHumanLoop",
+  iam: {
+    actions: ["sagemaker:DescribeHumanLoop"],
+    resources: {
+      "sagemaker:DescribeHumanLoop": [
+        "arn:${Partition}:sagemaker:${Region}:${Account}:human-loop/${HumanLoopName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeHumanLoop",
 }));
@@ -306,6 +322,7 @@ export const listHumanLoops: API.PaginatedOperationMethod<
     items: "HumanLoopSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["sagemaker:ListHumanLoops"] },
   telemetry: TELEMETRY,
   span: "ListHumanLoops",
 })) as any;
@@ -338,6 +355,14 @@ export const startHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartHumanLoop",
+  iam: {
+    actions: ["sagemaker:StartHumanLoop"],
+    resources: {
+      "sagemaker:StartHumanLoop": [
+        "arn:${Partition}:sagemaker:${Region}:${Account}:flow-definition/${FlowDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartHumanLoop",
 }));
@@ -368,6 +393,14 @@ export const stopHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopHumanLoop",
+  iam: {
+    actions: ["sagemaker:StopHumanLoop"],
+    resources: {
+      "sagemaker:StopHumanLoop": [
+        "arn:${Partition}:sagemaker:${Region}:${Account}:human-loop/${HumanLoopName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopHumanLoop",
 }));

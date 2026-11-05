@@ -271,6 +271,7 @@ export const listRecommendedActions: API.PaginatedOperationMethod<
     items: "recommendedActions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bcm-recommended-actions:ListRecommendedActions"] },
   telemetry: TELEMETRY,
   span: "ListRecommendedActions",
 })) as any;

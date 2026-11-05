@@ -752,6 +752,10 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  iam: {
+    actions: ["migrationhub-orchestrator:CreateTemplate", "migrationhub-orchestrator:TagResource"],
+    conditional: { "migrationhub-orchestrator:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTemplate",
 }));
@@ -782,6 +786,15 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  iam: {
+    actions: ["migrationhub-orchestrator:CreateWorkflow", "migrationhub-orchestrator:TagResource"],
+    resources: {
+      "migrationhub-orchestrator:CreateWorkflow": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+    conditional: { "migrationhub-orchestrator:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkflow",
 }));
@@ -812,6 +825,14 @@ export const createWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowStep",
+  iam: {
+    actions: ["migrationhub-orchestrator:CreateWorkflowStep"],
+    resources: {
+      "migrationhub-orchestrator:CreateWorkflowStep": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkflowStep",
 }));
@@ -842,6 +863,14 @@ export const createWorkflowStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowStepGroup",
+  iam: {
+    actions: ["migrationhub-orchestrator:CreateWorkflowStepGroup"],
+    resources: {
+      "migrationhub-orchestrator:CreateWorkflowStepGroup": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkflowStepGroup",
 }));
@@ -874,6 +903,14 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  iam: {
+    actions: ["migrationhub-orchestrator:DeleteTemplate"],
+    resources: {
+      "migrationhub-orchestrator:DeleteTemplate": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTemplate",
 }));
@@ -907,6 +944,14 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  iam: {
+    actions: ["migrationhub-orchestrator:DeleteWorkflow"],
+    resources: {
+      "migrationhub-orchestrator:DeleteWorkflow": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflow",
 }));
@@ -940,6 +985,14 @@ export const deleteWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowStep",
+  iam: {
+    actions: ["migrationhub-orchestrator:DeleteWorkflowStep"],
+    resources: {
+      "migrationhub-orchestrator:DeleteWorkflowStep": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflowStep",
 }));
@@ -972,6 +1025,14 @@ export const deleteWorkflowStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowStepGroup",
+  iam: {
+    actions: ["migrationhub-orchestrator:DeleteWorkflowStepGroup"],
+    resources: {
+      "migrationhub-orchestrator:DeleteWorkflowStepGroup": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflowStepGroup",
 }));
@@ -1002,6 +1063,14 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  iam: {
+    actions: ["migrationhub-orchestrator:GetTemplate"],
+    resources: {
+      "migrationhub-orchestrator:GetTemplate": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTemplate",
 }));
@@ -1034,6 +1103,14 @@ export const getTemplateStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateStep",
+  iam: {
+    actions: ["migrationhub-orchestrator:GetTemplateStep"],
+    resources: {
+      "migrationhub-orchestrator:GetTemplateStep": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTemplateStep",
 }));
@@ -1066,6 +1143,14 @@ export const getTemplateStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateStepGroup",
+  iam: {
+    actions: ["migrationhub-orchestrator:GetTemplateStepGroup"],
+    resources: {
+      "migrationhub-orchestrator:GetTemplateStepGroup": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTemplateStepGroup",
 }));
@@ -1098,6 +1183,14 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  iam: {
+    actions: ["migrationhub-orchestrator:GetWorkflow"],
+    resources: {
+      "migrationhub-orchestrator:GetWorkflow": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflow",
 }));
@@ -1128,6 +1221,14 @@ export const getWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowStep",
+  iam: {
+    actions: ["migrationhub-orchestrator:GetWorkflowStep"],
+    resources: {
+      "migrationhub-orchestrator:GetWorkflowStep": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowStep",
 }));
@@ -1160,6 +1261,14 @@ export const getWorkflowStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowStepGroup",
+  iam: {
+    actions: ["migrationhub-orchestrator:GetWorkflowStepGroup"],
+    resources: {
+      "migrationhub-orchestrator:GetWorkflowStepGroup": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowStepGroup",
 }));
@@ -1191,6 +1300,7 @@ export const listPlugins: API.PaginatedOperationMethod<
     items: "plugins",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["migrationhub-orchestrator:ListPlugins"] },
   telemetry: TELEMETRY,
   span: "ListPlugins",
 })) as any;
@@ -1214,6 +1324,15 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["migrationhub-orchestrator:ListTagsForResource"],
+    resources: {
+      "migrationhub-orchestrator:ListTagsForResource": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:template/${ResourceId}",
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1245,6 +1364,7 @@ export const listTemplates: API.PaginatedOperationMethod<
     items: "templateSummary",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["migrationhub-orchestrator:ListTemplates"] },
   telemetry: TELEMETRY,
   span: "ListTemplates",
 })) as any;
@@ -1282,6 +1402,14 @@ export const listTemplateStepGroups: API.PaginatedOperationMethod<
     items: "templateStepGroupSummary",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["migrationhub-orchestrator:ListTemplateStepGroups"],
+    resources: {
+      "migrationhub-orchestrator:ListTemplateStepGroups": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTemplateStepGroups",
 })) as any;
@@ -1321,6 +1449,14 @@ export const listTemplateSteps: API.PaginatedOperationMethod<
     items: "templateStepSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["migrationhub-orchestrator:ListTemplateSteps"],
+    resources: {
+      "migrationhub-orchestrator:ListTemplateSteps": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTemplateSteps",
 })) as any;
@@ -1360,6 +1496,7 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "migrationWorkflowSummary",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["migrationhub-orchestrator:ListWorkflows"] },
   telemetry: TELEMETRY,
   span: "ListWorkflows",
 })) as any;
@@ -1399,6 +1536,14 @@ export const listWorkflowStepGroups: API.PaginatedOperationMethod<
     items: "workflowStepGroupsSummary",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["migrationhub-orchestrator:ListWorkflowStepGroups"],
+    resources: {
+      "migrationhub-orchestrator:ListWorkflowStepGroups": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflowStepGroups",
 })) as any;
@@ -1436,6 +1581,14 @@ export const listWorkflowSteps: API.PaginatedOperationMethod<
     items: "workflowStepsSummary",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["migrationhub-orchestrator:ListWorkflowSteps"],
+    resources: {
+      "migrationhub-orchestrator:ListWorkflowSteps": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflowSteps",
 })) as any;
@@ -1466,6 +1619,14 @@ export const retryWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryWorkflowStep",
+  iam: {
+    actions: ["migrationhub-orchestrator:RetryWorkflowStep"],
+    resources: {
+      "migrationhub-orchestrator:RetryWorkflowStep": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetryWorkflowStep",
 }));
@@ -1498,6 +1659,14 @@ export const startWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflow",
+  iam: {
+    actions: ["migrationhub-orchestrator:StartWorkflow"],
+    resources: {
+      "migrationhub-orchestrator:StartWorkflow": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartWorkflow",
 }));
@@ -1530,6 +1699,14 @@ export const stopWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopWorkflow",
+  iam: {
+    actions: ["migrationhub-orchestrator:StopWorkflow"],
+    resources: {
+      "migrationhub-orchestrator:StopWorkflow": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopWorkflow",
 }));
@@ -1550,6 +1727,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["migrationhub-orchestrator:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1570,6 +1748,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["migrationhub-orchestrator:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1602,6 +1781,14 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  iam: {
+    actions: ["migrationhub-orchestrator:UpdateTemplate"],
+    resources: {
+      "migrationhub-orchestrator:UpdateTemplate": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTemplate",
 }));
@@ -1634,6 +1821,14 @@ export const updateWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflow",
+  iam: {
+    actions: ["migrationhub-orchestrator:UpdateWorkflow"],
+    resources: {
+      "migrationhub-orchestrator:UpdateWorkflow": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkflow",
 }));
@@ -1664,6 +1859,14 @@ export const updateWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflowStep",
+  iam: {
+    actions: ["migrationhub-orchestrator:UpdateWorkflowStep"],
+    resources: {
+      "migrationhub-orchestrator:UpdateWorkflowStep": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkflowStep",
 }));
@@ -1696,6 +1899,14 @@ export const updateWorkflowStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflowStepGroup",
+  iam: {
+    actions: ["migrationhub-orchestrator:UpdateWorkflowStepGroup"],
+    resources: {
+      "migrationhub-orchestrator:UpdateWorkflowStepGroup": [
+        "arn:${Partition}:migrationhub-orchestrator:${Region}:${Account}:workflow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkflowStepGroup",
 }));

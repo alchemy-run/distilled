@@ -3397,6 +3397,7 @@ export const acceptMatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptMatch",
+  iam: { actions: ["gamelift:AcceptMatch"] },
   telemetry: TELEMETRY,
   span: "AcceptMatch",
 }));
@@ -3468,6 +3469,14 @@ export const claimGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClaimGameServer",
+  iam: {
+    actions: ["gamelift:ClaimGameServer"],
+    resources: {
+      "gamelift:ClaimGameServer": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ClaimGameServer",
 }));
@@ -3523,6 +3532,10 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  iam: {
+    actions: ["gamelift:CreateAlias", "gamelift:TagResource"],
+    conditional: { "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAlias",
 }));
@@ -3592,6 +3605,11 @@ export const createBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBuild",
+  iam: {
+    actions: ["gamelift:CreateBuild", "iam:PassRole", "gamelift:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "StorageLocation.RoleArn", "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBuild",
 }));
@@ -3702,6 +3720,11 @@ export const createContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerFleet",
+  iam: {
+    actions: ["gamelift:CreateContainerFleet", "iam:PassRole", "gamelift:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContainerFleet",
 }));
@@ -3831,6 +3854,10 @@ export const createContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerGroupDefinition",
+  iam: {
+    actions: ["gamelift:CreateContainerGroupDefinition", "gamelift:TagResource"],
+    conditional: { "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContainerGroupDefinition",
 }));
@@ -3944,6 +3971,11 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  iam: {
+    actions: ["gamelift:CreateFleet", "iam:PassRole", "gamelift:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "InstanceRoleArn", "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFleet",
 }));
@@ -4009,6 +4041,7 @@ export const createFleetLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleetLocations",
+  iam: { actions: ["gamelift:CreateFleetLocations"] },
   telemetry: TELEMETRY,
   span: "CreateFleetLocations",
 }));
@@ -4078,6 +4111,11 @@ export const createGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGameServerGroup",
+  iam: {
+    actions: ["gamelift:CreateGameServerGroup", "iam:PassRole", "gamelift:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGameServerGroup",
 }));
@@ -4162,6 +4200,7 @@ export const createGameSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGameSession",
+  iam: { actions: ["gamelift:CreateGameSession"] },
   telemetry: TELEMETRY,
   span: "CreateGameSession",
 }));
@@ -4270,6 +4309,10 @@ export const createGameSessionQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGameSessionQueue",
+  iam: {
+    actions: ["gamelift:CreateGameSessionQueue", "gamelift:TagResource"],
+    conditional: { "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGameSessionQueue",
 }));
@@ -4308,6 +4351,10 @@ export const createLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocation",
+  iam: {
+    actions: ["gamelift:CreateLocation", "gamelift:TagResource"],
+    conditional: { "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLocation",
 }));
@@ -4368,6 +4415,10 @@ export const createMatchmakingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMatchmakingConfiguration",
+  iam: {
+    actions: ["gamelift:CreateMatchmakingConfiguration", "gamelift:TagResource"],
+    conditional: { "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMatchmakingConfiguration",
 }));
@@ -4422,6 +4473,10 @@ export const createMatchmakingRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMatchmakingRuleSet",
+  iam: {
+    actions: ["gamelift:CreateMatchmakingRuleSet", "gamelift:TagResource"],
+    conditional: { "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMatchmakingRuleSet",
 }));
@@ -4478,6 +4533,7 @@ export const createPlayerSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlayerSession",
+  iam: { actions: ["gamelift:CreatePlayerSession"] },
   telemetry: TELEMETRY,
   span: "CreatePlayerSession",
 }));
@@ -4534,6 +4590,7 @@ export const createPlayerSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlayerSessions",
+  iam: { actions: ["gamelift:CreatePlayerSessions"] },
   telemetry: TELEMETRY,
   span: "CreatePlayerSessions",
 }));
@@ -4599,6 +4656,11 @@ export const createScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScript",
+  iam: {
+    actions: ["gamelift:CreateScript", "iam:PassRole", "gamelift:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "StorageLocation.RoleArn", "gamelift:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateScript",
 }));
@@ -4674,6 +4736,7 @@ export const createVpcPeeringAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcPeeringAuthorization",
+  iam: { actions: ["gamelift:CreateVpcPeeringAuthorization"] },
   telemetry: TELEMETRY,
   span: "CreateVpcPeeringAuthorization",
 }));
@@ -4744,6 +4807,7 @@ export const createVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcPeeringConnection",
+  iam: { actions: ["gamelift:CreateVpcPeeringConnection"] },
   telemetry: TELEMETRY,
   span: "CreateVpcPeeringConnection",
 }));
@@ -4784,6 +4848,12 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
+  iam: {
+    actions: ["gamelift:DeleteAlias"],
+    resources: {
+      "gamelift:DeleteAlias": ["arn:${Partition}:gamelift:${Region}::alias/${AliasId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAlias",
 }));
@@ -4829,6 +4899,12 @@ export const deleteBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBuild",
+  iam: {
+    actions: ["gamelift:DeleteBuild"],
+    resources: {
+      "gamelift:DeleteBuild": ["arn:${Partition}:gamelift:${Region}:${Account}:build/${BuildId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBuild",
 }));
@@ -4875,6 +4951,14 @@ export const deleteContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerFleet",
+  iam: {
+    actions: ["gamelift:DeleteContainerFleet"],
+    resources: {
+      "gamelift:DeleteContainerFleet": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:containerfleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContainerFleet",
 }));
@@ -4939,6 +5023,14 @@ export const deleteContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerGroupDefinition",
+  iam: {
+    actions: ["gamelift:DeleteContainerGroupDefinition"],
+    resources: {
+      "gamelift:DeleteContainerGroupDefinition": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:containergroupdefinition/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContainerGroupDefinition",
 }));
@@ -4990,6 +5082,12 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  iam: {
+    actions: ["gamelift:DeleteFleet"],
+    resources: {
+      "gamelift:DeleteFleet": ["arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFleet",
 }));
@@ -5037,6 +5135,7 @@ export const deleteFleetLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleetLocations",
+  iam: { actions: ["gamelift:DeleteFleetLocations"] },
   telemetry: TELEMETRY,
   span: "DeleteFleetLocations",
 }));
@@ -5096,6 +5195,14 @@ export const deleteGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGameServerGroup",
+  iam: {
+    actions: ["gamelift:DeleteGameServerGroup"],
+    resources: {
+      "gamelift:DeleteGameServerGroup": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGameServerGroup",
 }));
@@ -5131,6 +5238,14 @@ export const deleteGameSessionQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGameSessionQueue",
+  iam: {
+    actions: ["gamelift:DeleteGameSessionQueue"],
+    resources: {
+      "gamelift:DeleteGameSessionQueue": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gamesessionqueue/${GameSessionQueueName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGameSessionQueue",
 }));
@@ -5168,6 +5283,14 @@ export const deleteLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocation",
+  iam: {
+    actions: ["gamelift:DeleteLocation"],
+    resources: {
+      "gamelift:DeleteLocation": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:location/${LocationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLocation",
 }));
@@ -5204,6 +5327,14 @@ export const deleteMatchmakingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMatchmakingConfiguration",
+  iam: {
+    actions: ["gamelift:DeleteMatchmakingConfiguration"],
+    resources: {
+      "gamelift:DeleteMatchmakingConfiguration": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:matchmakingconfiguration/${MatchmakingConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMatchmakingConfiguration",
 }));
@@ -5245,6 +5376,14 @@ export const deleteMatchmakingRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMatchmakingRuleSet",
+  iam: {
+    actions: ["gamelift:DeleteMatchmakingRuleSet"],
+    resources: {
+      "gamelift:DeleteMatchmakingRuleSet": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:matchmakingruleset/${MatchmakingRuleSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMatchmakingRuleSet",
 }));
@@ -5284,6 +5423,7 @@ export const deleteScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScalingPolicy",
+  iam: { actions: ["gamelift:DeleteScalingPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteScalingPolicy",
 }));
@@ -5333,6 +5473,14 @@ export const deleteScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScript",
+  iam: {
+    actions: ["gamelift:DeleteScript"],
+    resources: {
+      "gamelift:DeleteScript": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:script/${ScriptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteScript",
 }));
@@ -5370,6 +5518,7 @@ export const deleteVpcPeeringAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcPeeringAuthorization",
+  iam: { actions: ["gamelift:DeleteVpcPeeringAuthorization"] },
   telemetry: TELEMETRY,
   span: "DeleteVpcPeeringAuthorization",
 }));
@@ -5411,6 +5560,7 @@ export const deleteVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcPeeringConnection",
+  iam: { actions: ["gamelift:DeleteVpcPeeringConnection"] },
   telemetry: TELEMETRY,
   span: "DeleteVpcPeeringConnection",
 }));
@@ -5451,6 +5601,14 @@ export const deregisterCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCompute",
+  iam: {
+    actions: ["gamelift:DeregisterCompute"],
+    resources: {
+      "gamelift:DeregisterCompute": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterCompute",
 }));
@@ -5494,6 +5652,14 @@ export const deregisterGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterGameServer",
+  iam: {
+    actions: ["gamelift:DeregisterGameServer"],
+    resources: {
+      "gamelift:DeregisterGameServer": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterGameServer",
 }));
@@ -5534,6 +5700,12 @@ export const describeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlias",
+  iam: {
+    actions: ["gamelift:DescribeAlias"],
+    resources: {
+      "gamelift:DescribeAlias": ["arn:${Partition}:gamelift:${Region}::alias/${AliasId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAlias",
 }));
@@ -5574,6 +5746,12 @@ export const describeBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBuild",
+  iam: {
+    actions: ["gamelift:DescribeBuild"],
+    resources: {
+      "gamelift:DescribeBuild": ["arn:${Partition}:gamelift:${Region}:${Account}:build/${BuildId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBuild",
 }));
@@ -5636,6 +5814,7 @@ export const describeCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCompute",
+  iam: { actions: ["gamelift:DescribeCompute"] },
   telemetry: TELEMETRY,
   span: "DescribeCompute",
 }));
@@ -5685,6 +5864,14 @@ export const describeContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerFleet",
+  iam: {
+    actions: ["gamelift:DescribeContainerFleet"],
+    resources: {
+      "gamelift:DescribeContainerFleet": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:containerfleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeContainerFleet",
 }));
@@ -5737,6 +5924,14 @@ export const describeContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerGroupDefinition",
+  iam: {
+    actions: ["gamelift:DescribeContainerGroupDefinition"],
+    resources: {
+      "gamelift:DescribeContainerGroupDefinition": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:containergroupdefinition/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeContainerGroupDefinition",
 }));
@@ -5805,6 +6000,14 @@ export const describeContainerGroupPortMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerGroupPortMappings",
+  iam: {
+    actions: ["gamelift:DescribeContainerGroupPortMappings"],
+    resources: {
+      "gamelift:DescribeContainerGroupPortMappings": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:containerfleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeContainerGroupPortMappings",
 }));
@@ -5886,6 +6089,7 @@ export const describeEC2InstanceLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEC2InstanceLimits",
+  iam: { actions: ["gamelift:DescribeEC2InstanceLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeEC2InstanceLimits",
 }));
@@ -5947,6 +6151,7 @@ export const describeFleetAttributes: API.PaginatedOperationMethod<
     items: "FleetAttributes",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeFleetAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetAttributes",
 })) as any;
@@ -6019,6 +6224,7 @@ export const describeFleetCapacity: API.PaginatedOperationMethod<
     items: "FleetCapacity",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeFleetCapacity"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetCapacity",
 })) as any;
@@ -6065,6 +6271,14 @@ export const describeFleetDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetDeployment",
+  iam: {
+    actions: ["gamelift:DescribeFleetDeployment"],
+    resources: {
+      "gamelift:DescribeFleetDeployment": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:containerfleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFleetDeployment",
 }));
@@ -6119,6 +6333,7 @@ export const describeFleetEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeFleetEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetEvents",
 })) as any;
@@ -6177,6 +6392,7 @@ export const describeFleetLocationAttributes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeFleetLocationAttributes",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: { actions: ["gamelift:DescribeFleetLocationAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetLocationAttributes",
 })) as any;
@@ -6232,6 +6448,7 @@ export const describeFleetLocationCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetLocationCapacity",
+  iam: { actions: ["gamelift:DescribeFleetLocationCapacity"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetLocationCapacity",
 }));
@@ -6284,6 +6501,14 @@ export const describeFleetLocationUtilization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetLocationUtilization",
+  iam: {
+    actions: ["gamelift:DescribeFleetLocationUtilization"],
+    resources: {
+      "gamelift:DescribeFleetLocationUtilization": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFleetLocationUtilization",
 }));
@@ -6339,6 +6564,14 @@ export const describeFleetPortSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetPortSettings",
+  iam: {
+    actions: ["gamelift:DescribeFleetPortSettings"],
+    resources: {
+      "gamelift:DescribeFleetPortSettings": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFleetPortSettings",
 }));
@@ -6407,6 +6640,7 @@ export const describeFleetUtilization: API.PaginatedOperationMethod<
     items: "FleetUtilization",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeFleetUtilization"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetUtilization",
 })) as any;
@@ -6449,6 +6683,14 @@ export const describeGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGameServer",
+  iam: {
+    actions: ["gamelift:DescribeGameServer"],
+    resources: {
+      "gamelift:DescribeGameServer": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGameServer",
 }));
@@ -6493,6 +6735,14 @@ export const describeGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGameServerGroup",
+  iam: {
+    actions: ["gamelift:DescribeGameServerGroup"],
+    resources: {
+      "gamelift:DescribeGameServerGroup": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGameServerGroup",
 }));
@@ -6551,6 +6801,14 @@ export const describeGameServerInstances: API.PaginatedOperationMethod<
     items: "GameServerInstances",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["gamelift:DescribeGameServerInstances"],
+    resources: {
+      "gamelift:DescribeGameServerInstances": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGameServerInstances",
 })) as any;
@@ -6623,6 +6881,7 @@ export const describeGameSessionDetails: API.PaginatedOperationMethod<
     items: "GameSessionDetails",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeGameSessionDetails"] },
   telemetry: TELEMETRY,
   span: "DescribeGameSessionDetails",
 })) as any;
@@ -6666,6 +6925,7 @@ export const describeGameSessionPlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGameSessionPlacement",
+  iam: { actions: ["gamelift:DescribeGameSessionPlacement"] },
   telemetry: TELEMETRY,
   span: "DescribeGameSessionPlacement",
 }));
@@ -6712,6 +6972,7 @@ export const describeGameSessionQueues: API.PaginatedOperationMethod<
     items: "GameSessionQueues",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeGameSessionQueues"] },
   telemetry: TELEMETRY,
   span: "DescribeGameSessionQueues",
 })) as any;
@@ -6791,6 +7052,7 @@ export const describeGameSessions: API.PaginatedOperationMethod<
     items: "GameSessions",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeGameSessions"] },
   telemetry: TELEMETRY,
   span: "DescribeGameSessions",
 })) as any;
@@ -6865,6 +7127,7 @@ export const describeInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeInstances",
 })) as any;
@@ -6909,6 +7172,7 @@ export const describeMatchmaking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMatchmaking",
+  iam: { actions: ["gamelift:DescribeMatchmaking"] },
   telemetry: TELEMETRY,
   span: "DescribeMatchmaking",
 }));
@@ -6954,6 +7218,7 @@ export const describeMatchmakingConfigurations: API.PaginatedOperationMethod<
     items: "Configurations",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeMatchmakingConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeMatchmakingConfigurations",
 })) as any;
@@ -7001,6 +7266,7 @@ export const describeMatchmakingRuleSets: API.PaginatedOperationMethod<
     items: "RuleSets",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeMatchmakingRuleSets"] },
   telemetry: TELEMETRY,
   span: "DescribeMatchmakingRuleSets",
 })) as any;
@@ -7063,6 +7329,7 @@ export const describePlayerSessions: API.PaginatedOperationMethod<
     items: "PlayerSessions",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribePlayerSessions"] },
   telemetry: TELEMETRY,
   span: "DescribePlayerSessions",
 })) as any;
@@ -7113,6 +7380,14 @@ export const describeRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuntimeConfiguration",
+  iam: {
+    actions: ["gamelift:DescribeRuntimeConfiguration"],
+    resources: {
+      "gamelift:DescribeRuntimeConfiguration": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRuntimeConfiguration",
 }));
@@ -7162,6 +7437,7 @@ export const describeScalingPolicies: API.PaginatedOperationMethod<
     items: "ScalingPolicies",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:DescribeScalingPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeScalingPolicies",
 })) as any;
@@ -7205,6 +7481,14 @@ export const describeScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScript",
+  iam: {
+    actions: ["gamelift:DescribeScript"],
+    resources: {
+      "gamelift:DescribeScript": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:script/${ScriptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeScript",
 }));
@@ -7237,6 +7521,7 @@ export const describeVpcPeeringAuthorizations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcPeeringAuthorizations",
+  iam: { actions: ["gamelift:DescribeVpcPeeringAuthorizations"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcPeeringAuthorizations",
 }));
@@ -7280,6 +7565,7 @@ export const describeVpcPeeringConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcPeeringConnections",
+  iam: { actions: ["gamelift:DescribeVpcPeeringConnections"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcPeeringConnections",
 }));
@@ -7337,6 +7623,7 @@ export const getComputeAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeAccess",
+  iam: { actions: ["gamelift:GetComputeAccess"] },
   telemetry: TELEMETRY,
   span: "GetComputeAccess",
 }));
@@ -7398,6 +7685,7 @@ export const getComputeAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeAuthToken",
+  iam: { actions: ["gamelift:GetComputeAuthToken"] },
   telemetry: TELEMETRY,
   span: "GetComputeAuthToken",
 }));
@@ -7438,6 +7726,7 @@ export const getGameSessionLogUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGameSessionLogUrl",
+  iam: { actions: ["gamelift:GetGameSessionLogUrl"] },
   telemetry: TELEMETRY,
   span: "GetGameSessionLogUrl",
 }));
@@ -7499,6 +7788,14 @@ export const getInstanceAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceAccess",
+  iam: {
+    actions: ["gamelift:GetInstanceAccess"],
+    resources: {
+      "gamelift:GetInstanceAccess": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInstanceAccess",
 }));
@@ -7547,6 +7844,7 @@ export const getPlayerConnectionDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlayerConnectionDetails",
+  iam: { actions: ["gamelift:GetPlayerConnectionDetails"] },
   telemetry: TELEMETRY,
   span: "GetPlayerConnectionDetails",
 }));
@@ -7588,6 +7886,7 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListAliases"] },
   telemetry: TELEMETRY,
   span: "ListAliases",
 })) as any;
@@ -7632,6 +7931,7 @@ export const listBuilds: API.PaginatedOperationMethod<
     items: "Builds",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListBuilds"] },
   telemetry: TELEMETRY,
   span: "ListBuilds",
 })) as any;
@@ -7694,6 +7994,7 @@ export const listCompute: API.PaginatedOperationMethod<
     items: "ComputeList",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListCompute"] },
   telemetry: TELEMETRY,
   span: "ListCompute",
 })) as any;
@@ -7754,6 +8055,7 @@ export const listContainerFleets: API.PaginatedOperationMethod<
     items: "ContainerFleets",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListContainerFleets"] },
   telemetry: TELEMETRY,
   span: "ListContainerFleets",
 })) as any;
@@ -7811,6 +8113,7 @@ export const listContainerGroupDefinitions: API.PaginatedOperationMethod<
     items: "ContainerGroupDefinitions",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListContainerGroupDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListContainerGroupDefinitions",
 })) as any;
@@ -7871,6 +8174,14 @@ export const listContainerGroupDefinitionVersions: API.PaginatedOperationMethod<
     items: "ContainerGroupDefinitions",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["gamelift:ListContainerGroupDefinitionVersions"],
+    resources: {
+      "gamelift:ListContainerGroupDefinitionVersions": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:containergroupdefinition/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContainerGroupDefinitionVersions",
 })) as any;
@@ -7927,6 +8238,7 @@ export const listFleetDeployments: API.PaginatedOperationMethod<
     items: "FleetDeployments",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListFleetDeployments"] },
   telemetry: TELEMETRY,
   span: "ListFleetDeployments",
 })) as any;
@@ -7988,6 +8300,7 @@ export const listFleets: API.PaginatedOperationMethod<
     items: "FleetIds",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListFleets"] },
   telemetry: TELEMETRY,
   span: "ListFleets",
 })) as any;
@@ -8021,6 +8334,7 @@ export const listGameServerGroups: API.PaginatedOperationMethod<
     items: "GameServerGroups",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListGameServerGroups"] },
   telemetry: TELEMETRY,
   span: "ListGameServerGroups",
 })) as any;
@@ -8062,6 +8376,14 @@ export const listGameServers: API.PaginatedOperationMethod<
     items: "GameServers",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["gamelift:ListGameServers"],
+    resources: {
+      "gamelift:ListGameServers": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGameServers",
 })) as any;
@@ -8102,6 +8424,7 @@ export const listLocations: API.PaginatedOperationMethod<
     items: "Locations",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListLocations"] },
   telemetry: TELEMETRY,
   span: "ListLocations",
 })) as any;
@@ -8144,6 +8467,7 @@ export const listScripts: API.PaginatedOperationMethod<
     items: "Scripts",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:ListScripts"] },
   telemetry: TELEMETRY,
   span: "ListScripts",
 })) as any;
@@ -8193,6 +8517,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["gamelift:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -8294,6 +8619,7 @@ export const putScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScalingPolicy",
+  iam: { actions: ["gamelift:PutScalingPolicy"] },
   telemetry: TELEMETRY,
   span: "PutScalingPolicy",
 }));
@@ -8359,6 +8685,14 @@ export const registerCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCompute",
+  iam: {
+    actions: ["gamelift:RegisterCompute"],
+    resources: {
+      "gamelift:RegisterCompute": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterCompute",
 }));
@@ -8412,6 +8746,14 @@ export const registerGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterGameServer",
+  iam: {
+    actions: ["gamelift:RegisterGameServer"],
+    resources: {
+      "gamelift:RegisterGameServer": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterGameServer",
 }));
@@ -8456,6 +8798,14 @@ export const requestUploadCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestUploadCredentials",
+  iam: {
+    actions: ["gamelift:RequestUploadCredentials"],
+    resources: {
+      "gamelift:RequestUploadCredentials": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:build/${BuildId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RequestUploadCredentials",
 }));
@@ -8499,6 +8849,12 @@ export const resolveAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveAlias",
+  iam: {
+    actions: ["gamelift:ResolveAlias"],
+    resources: {
+      "gamelift:ResolveAlias": ["arn:${Partition}:gamelift:${Region}::alias/${AliasId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResolveAlias",
 }));
@@ -8546,6 +8902,14 @@ export const resumeGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeGameServerGroup",
+  iam: {
+    actions: ["gamelift:ResumeGameServerGroup"],
+    resources: {
+      "gamelift:ResumeGameServerGroup": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResumeGameServerGroup",
 }));
@@ -8657,6 +9021,7 @@ export const searchGameSessions: API.PaginatedOperationMethod<
     items: "GameSessions",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["gamelift:SearchGameSessions"] },
   telemetry: TELEMETRY,
   span: "SearchGameSessions",
 })) as any;
@@ -8710,6 +9075,7 @@ export const startFleetActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFleetActions",
+  iam: { actions: ["gamelift:StartFleetActions"] },
   telemetry: TELEMETRY,
   span: "StartFleetActions",
 }));
@@ -8819,6 +9185,14 @@ export const startGameSessionPlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGameSessionPlacement",
+  iam: {
+    actions: ["gamelift:StartGameSessionPlacement"],
+    resources: {
+      "gamelift:StartGameSessionPlacement": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gamesessionqueue/${GameSessionQueueName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartGameSessionPlacement",
 }));
@@ -8886,6 +9260,7 @@ export const startMatchBackfill: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMatchBackfill",
+  iam: { actions: ["gamelift:StartMatchBackfill"] },
   telemetry: TELEMETRY,
   span: "StartMatchBackfill",
 }));
@@ -8943,6 +9318,7 @@ export const startMatchmaking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMatchmaking",
+  iam: { actions: ["gamelift:StartMatchmaking"] },
   telemetry: TELEMETRY,
   span: "StartMatchmaking",
 }));
@@ -9001,6 +9377,7 @@ export const stopFleetActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFleetActions",
+  iam: { actions: ["gamelift:StopFleetActions"] },
   telemetry: TELEMETRY,
   span: "StopFleetActions",
 }));
@@ -9043,6 +9420,7 @@ export const stopGameSessionPlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopGameSessionPlacement",
+  iam: { actions: ["gamelift:StopGameSessionPlacement"] },
   telemetry: TELEMETRY,
   span: "StopGameSessionPlacement",
 }));
@@ -9090,6 +9468,7 @@ export const stopMatchmaking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMatchmaking",
+  iam: { actions: ["gamelift:StopMatchmaking"] },
   telemetry: TELEMETRY,
   span: "StopMatchmaking",
 }));
@@ -9143,6 +9522,14 @@ export const suspendGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendGameServerGroup",
+  iam: {
+    actions: ["gamelift:SuspendGameServerGroup"],
+    resources: {
+      "gamelift:SuspendGameServerGroup": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SuspendGameServerGroup",
 }));
@@ -9195,6 +9582,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["gamelift:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -9273,6 +9661,7 @@ export const terminateGameSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateGameSession",
+  iam: { actions: ["gamelift:TerminateGameSession"] },
   telemetry: TELEMETRY,
   span: "TerminateGameSession",
 }));
@@ -9324,6 +9713,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["gamelift:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -9364,6 +9754,12 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
+  iam: {
+    actions: ["gamelift:UpdateAlias"],
+    resources: {
+      "gamelift:UpdateAlias": ["arn:${Partition}:gamelift:${Region}::alias/${AliasId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAlias",
 }));
@@ -9405,6 +9801,12 @@ export const updateBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBuild",
+  iam: {
+    actions: ["gamelift:UpdateBuild"],
+    resources: {
+      "gamelift:UpdateBuild": ["arn:${Partition}:gamelift:${Region}:${Account}:build/${BuildId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBuild",
 }));
@@ -9490,6 +9892,14 @@ export const updateContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerFleet",
+  iam: {
+    actions: ["gamelift:UpdateContainerFleet"],
+    resources: {
+      "gamelift:UpdateContainerFleet": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:containerfleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContainerFleet",
 }));
@@ -9567,6 +9977,14 @@ export const updateContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerGroupDefinition",
+  iam: {
+    actions: ["gamelift:UpdateContainerGroupDefinition"],
+    resources: {
+      "gamelift:UpdateContainerGroupDefinition": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:containergroupdefinition/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContainerGroupDefinition",
 }));
@@ -9621,6 +10039,14 @@ export const updateFleetAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetAttributes",
+  iam: {
+    actions: ["gamelift:UpdateFleetAttributes"],
+    resources: {
+      "gamelift:UpdateFleetAttributes": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFleetAttributes",
 }));
@@ -9709,6 +10135,7 @@ export const updateFleetCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetCapacity",
+  iam: { actions: ["gamelift:UpdateFleetCapacity"] },
   telemetry: TELEMETRY,
   span: "UpdateFleetCapacity",
 }));
@@ -9764,6 +10191,14 @@ export const updateFleetPortSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetPortSettings",
+  iam: {
+    actions: ["gamelift:UpdateFleetPortSettings"],
+    resources: {
+      "gamelift:UpdateFleetPortSettings": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFleetPortSettings",
 }));
@@ -9824,6 +10259,14 @@ export const updateGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameServer",
+  iam: {
+    actions: ["gamelift:UpdateGameServer"],
+    resources: {
+      "gamelift:UpdateGameServer": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGameServer",
 }));
@@ -9875,6 +10318,16 @@ export const updateGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameServerGroup",
+  iam: {
+    actions: ["iam:PassRole", "gamelift:UpdateGameServerGroup"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "gamelift:UpdateGameServerGroup": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gameservergroup/${GameServerGroupName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGameServerGroup",
 }));
@@ -9920,6 +10373,7 @@ export const updateGameSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameSession",
+  iam: { actions: ["gamelift:UpdateGameSession"] },
   telemetry: TELEMETRY,
   span: "UpdateGameSession",
 }));
@@ -9959,6 +10413,14 @@ export const updateGameSessionQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameSessionQueue",
+  iam: {
+    actions: ["gamelift:UpdateGameSessionQueue"],
+    resources: {
+      "gamelift:UpdateGameSessionQueue": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:gamesessionqueue/${GameSessionQueueName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGameSessionQueue",
 }));
@@ -9998,6 +10460,14 @@ export const updateMatchmakingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMatchmakingConfiguration",
+  iam: {
+    actions: ["gamelift:UpdateMatchmakingConfiguration"],
+    resources: {
+      "gamelift:UpdateMatchmakingConfiguration": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:matchmakingconfiguration/${MatchmakingConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMatchmakingConfiguration",
 }));
@@ -10053,6 +10523,14 @@ export const updateRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuntimeConfiguration",
+  iam: {
+    actions: ["gamelift:UpdateRuntimeConfiguration"],
+    resources: {
+      "gamelift:UpdateRuntimeConfiguration": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRuntimeConfiguration",
 }));
@@ -10105,6 +10583,16 @@ export const updateScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScript",
+  iam: {
+    actions: ["iam:PassRole", "gamelift:UpdateScript"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "gamelift:UpdateScript": [
+        "arn:${Partition}:gamelift:${Region}:${Account}:script/${ScriptId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "StorageLocation.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateScript",
 }));
@@ -10138,6 +10626,7 @@ export const validateMatchmakingRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateMatchmakingRuleSet",
+  iam: { actions: ["gamelift:ValidateMatchmakingRuleSet"] },
   telemetry: TELEMETRY,
   span: "ValidateMatchmakingRuleSet",
 }));

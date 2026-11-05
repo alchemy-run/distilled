@@ -7176,6 +7176,7 @@ export const acceptPredictions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPredictions",
+  iam: { actions: ["datazone:AcceptPredictions"] },
   telemetry: TELEMETRY,
   span: "AcceptPredictions",
 }));
@@ -7212,6 +7213,7 @@ export const acceptSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptSubscriptionRequest",
+  iam: { actions: ["datazone:AcceptSubscriptionRequest"] },
   telemetry: TELEMETRY,
   span: "AcceptSubscriptionRequest",
 }));
@@ -7248,6 +7250,7 @@ export const addEntityOwner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddEntityOwner",
+  iam: { actions: ["datazone:AddEntityOwner"] },
   telemetry: TELEMETRY,
   span: "AddEntityOwner",
 }));
@@ -7282,6 +7285,7 @@ export const addPolicyGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPolicyGrant",
+  iam: { actions: ["datazone:AddPolicyGrant"] },
   telemetry: TELEMETRY,
   span: "AddPolicyGrant",
 }));
@@ -7316,6 +7320,10 @@ export const associateEnvironmentRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEnvironmentRole",
+  iam: {
+    actions: ["datazone:AssociateEnvironmentRole", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "AssociateEnvironmentRole",
 }));
@@ -7350,6 +7358,7 @@ export const associateGovernedTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateGovernedTerms",
+  iam: { actions: ["datazone:AssociateGovernedTerms"] },
   telemetry: TELEMETRY,
   span: "AssociateGovernedTerms",
 }));
@@ -7382,6 +7391,7 @@ export const batchGetAttributesMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAttributesMetadata",
+  iam: { actions: ["datazone:BatchGetAttributesMetadata"] },
   telemetry: TELEMETRY,
   span: "BatchGetAttributesMetadata",
 }));
@@ -7416,6 +7426,7 @@ export const batchPutAttributesMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutAttributesMetadata",
+  iam: { actions: ["datazone:BatchPutAttributesMetadata"] },
   telemetry: TELEMETRY,
   span: "BatchPutAttributesMetadata",
 }));
@@ -7458,6 +7469,7 @@ export const cancelMetadataGenerationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMetadataGenerationRun",
+  iam: { actions: ["datazone:CancelMetadataGenerationRun"] },
   telemetry: TELEMETRY,
   span: "CancelMetadataGenerationRun",
 }));
@@ -7492,6 +7504,7 @@ export const cancelSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscription",
+  iam: { actions: ["datazone:CancelSubscription"] },
   telemetry: TELEMETRY,
   span: "CancelSubscription",
 }));
@@ -7528,6 +7541,11 @@ export const createAccountPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountPool",
+  iam: {
+    actions: ["datazone:CreateAccountPool", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccountPool",
 }));
@@ -7584,6 +7602,7 @@ export const createAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAsset",
+  iam: { actions: ["datazone:CreateAsset"] },
   telemetry: TELEMETRY,
   span: "CreateAsset",
 }));
@@ -7632,6 +7651,7 @@ export const createAssetFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssetFilter",
+  iam: { actions: ["datazone:CreateAssetFilter"] },
   telemetry: TELEMETRY,
   span: "CreateAssetFilter",
 }));
@@ -7680,6 +7700,7 @@ export const createAssetRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssetRevision",
+  iam: { actions: ["datazone:CreateAssetRevision"] },
   telemetry: TELEMETRY,
   span: "CreateAssetRevision",
 }));
@@ -7726,6 +7747,7 @@ export const createAssetType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssetType",
+  iam: { actions: ["datazone:CreateAssetType"] },
   telemetry: TELEMETRY,
   span: "CreateAssetType",
 }));
@@ -7762,6 +7784,11 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  iam: {
+    actions: ["datazone:CreateConnection", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "awsLocation.accessRole" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnection",
 }));
@@ -7810,6 +7837,7 @@ export const createDataProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProduct",
+  iam: { actions: ["datazone:CreateDataProduct"] },
   telemetry: TELEMETRY,
   span: "CreateDataProduct",
 }));
@@ -7854,6 +7882,7 @@ export const createDataProductRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProductRevision",
+  iam: { actions: ["datazone:CreateDataProductRevision"] },
   telemetry: TELEMETRY,
   span: "CreateDataProductRevision",
 }));
@@ -7890,6 +7919,11 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
+  iam: {
+    actions: ["datazone:CreateDataSource", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataSource",
 }));
@@ -7927,6 +7961,7 @@ export const createDesignation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDesignation",
+  iam: { actions: ["datazone:CreateDesignation"] },
   telemetry: TELEMETRY,
   span: "CreateDesignation",
 }));
@@ -7963,6 +7998,14 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  iam: {
+    actions: ["datazone:CreateDomain", "iam:PassRole", "datazone:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "datazone:TagResource": ["arn:${Partition}:datazone:${Region}:${Account}:domain/${DomainId}"],
+    },
+    conditional: { "iam:PassRole": "domainExecutionRole", "datazone:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -7997,6 +8040,7 @@ export const createDomainUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainUnit",
+  iam: { actions: ["datazone:CreateDomainUnit"] },
   telemetry: TELEMETRY,
   span: "CreateDomainUnit",
 }));
@@ -8031,6 +8075,7 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  iam: { actions: ["datazone:CreateEnvironment"] },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -8065,6 +8110,7 @@ export const createEnvironmentAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentAction",
+  iam: { actions: ["datazone:CreateEnvironmentAction"] },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentAction",
 }));
@@ -8101,6 +8147,7 @@ export const createEnvironmentBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentBlueprint",
+  iam: { actions: ["datazone:CreateEnvironmentBlueprint"] },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentBlueprint",
 }));
@@ -8137,6 +8184,7 @@ export const createEnvironmentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentProfile",
+  iam: { actions: ["datazone:CreateEnvironmentProfile"] },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentProfile",
 }));
@@ -8183,6 +8231,7 @@ export const createFormType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFormType",
+  iam: { actions: ["datazone:CreateFormType"] },
   telemetry: TELEMETRY,
   span: "CreateFormType",
 }));
@@ -8229,6 +8278,7 @@ export const createGlossary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlossary",
+  iam: { actions: ["datazone:CreateGlossary"] },
   telemetry: TELEMETRY,
   span: "CreateGlossary",
 }));
@@ -8277,6 +8327,7 @@ export const createGlossaryTerm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlossaryTerm",
+  iam: { actions: ["datazone:CreateGlossaryTerm"] },
   telemetry: TELEMETRY,
   span: "CreateGlossaryTerm",
 }));
@@ -8307,6 +8358,7 @@ export const createGroupProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupProfile",
+  iam: { actions: ["datazone:CreateGroupProfile"] },
   telemetry: TELEMETRY,
   span: "CreateGroupProfile",
 }));
@@ -8343,6 +8395,7 @@ export const createListingChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListingChangeSet",
+  iam: { actions: ["datazone:CreateListingChangeSet"] },
   telemetry: TELEMETRY,
   span: "CreateListingChangeSet",
 }));
@@ -8379,6 +8432,7 @@ export const createNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebook",
+  iam: { actions: ["datazone:CreateNotebook"] },
   telemetry: TELEMETRY,
   span: "CreateNotebook",
 }));
@@ -8415,6 +8469,11 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  iam: {
+    actions: ["datazone:CreateProject", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "projectExecutionRole" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProject",
 }));
@@ -8445,6 +8504,7 @@ export const createProjectMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProjectMembership",
+  iam: { actions: ["datazone:CreateProjectMembership"] },
   telemetry: TELEMETRY,
   span: "CreateProjectMembership",
 }));
@@ -8481,6 +8541,7 @@ export const createProjectProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProjectProfile",
+  iam: { actions: ["datazone:CreateProjectProfile"] },
   telemetry: TELEMETRY,
   span: "CreateProjectProfile",
 }));
@@ -8517,6 +8578,7 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  iam: { actions: ["datazone:CreateRule"] },
   telemetry: TELEMETRY,
   span: "CreateRule",
 }));
@@ -8551,6 +8613,7 @@ export const createSubscriptionGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionGrant",
+  iam: { actions: ["datazone:CreateSubscriptionGrant"] },
   telemetry: TELEMETRY,
   span: "CreateSubscriptionGrant",
 }));
@@ -8587,6 +8650,7 @@ export const createSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionRequest",
+  iam: { actions: ["datazone:CreateSubscriptionRequest"] },
   telemetry: TELEMETRY,
   span: "CreateSubscriptionRequest",
 }));
@@ -8621,6 +8685,10 @@ export const createSubscriptionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionTarget",
+  iam: {
+    actions: ["datazone:CreateSubscriptionTarget", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateSubscriptionTarget",
 }));
@@ -8651,6 +8719,7 @@ export const createUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserProfile",
+  iam: { actions: ["datazone:CreateUserProfile"] },
   telemetry: TELEMETRY,
   span: "CreateUserProfile",
 }));
@@ -8683,6 +8752,7 @@ export const deleteAccountPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountPool",
+  iam: { actions: ["datazone:DeleteAccountPool"] },
   telemetry: TELEMETRY,
   span: "DeleteAccountPool",
 }));
@@ -8727,6 +8797,7 @@ export const deleteAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAsset",
+  iam: { actions: ["datazone:DeleteAsset"] },
   telemetry: TELEMETRY,
   span: "DeleteAsset",
 }));
@@ -8769,6 +8840,7 @@ export const deleteAssetFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssetFilter",
+  iam: { actions: ["datazone:DeleteAssetFilter"] },
   telemetry: TELEMETRY,
   span: "DeleteAssetFilter",
 }));
@@ -8813,6 +8885,7 @@ export const deleteAssetType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssetType",
+  iam: { actions: ["datazone:DeleteAssetType"] },
   telemetry: TELEMETRY,
   span: "DeleteAssetType",
 }));
@@ -8845,6 +8918,7 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  iam: { actions: ["datazone:DeleteConnection"] },
   telemetry: TELEMETRY,
   span: "DeleteConnection",
 }));
@@ -8883,6 +8957,7 @@ export const deleteDataExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataExportConfiguration",
+  iam: { actions: ["datazone:DeleteDataExportConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteDataExportConfiguration",
 }));
@@ -8925,6 +9000,7 @@ export const deleteDataProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataProduct",
+  iam: { actions: ["datazone:DeleteDataProduct"] },
   telemetry: TELEMETRY,
   span: "DeleteDataProduct",
 }));
@@ -8961,6 +9037,7 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  iam: { actions: ["datazone:DeleteDataSource"] },
   telemetry: TELEMETRY,
   span: "DeleteDataSource",
 }));
@@ -8996,6 +9073,7 @@ export const deleteDesignation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDesignation",
+  iam: { actions: ["datazone:DeleteDesignation"] },
   telemetry: TELEMETRY,
   span: "DeleteDesignation",
 }));
@@ -9030,6 +9108,14 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  iam: {
+    actions: ["datazone:DeleteDomain"],
+    resources: {
+      "datazone:DeleteDomain": [
+        "arn:${Partition}:datazone:${Region}:${Account}:domain/${DomainId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -9064,6 +9150,7 @@ export const deleteDomainUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainUnit",
+  iam: { actions: ["datazone:DeleteDomainUnit"] },
   telemetry: TELEMETRY,
   span: "DeleteDomainUnit",
 }));
@@ -9096,6 +9183,7 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  iam: { actions: ["datazone:DeleteEnvironment"] },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -9130,6 +9218,7 @@ export const deleteEnvironmentAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentAction",
+  iam: { actions: ["datazone:DeleteEnvironmentAction"] },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentAction",
 }));
@@ -9164,6 +9253,7 @@ export const deleteEnvironmentBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentBlueprint",
+  iam: { actions: ["datazone:DeleteEnvironmentBlueprint"] },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentBlueprint",
 }));
@@ -9196,6 +9286,7 @@ export const deleteEnvironmentBlueprintConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentBlueprintConfiguration",
+  iam: { actions: ["datazone:DeleteEnvironmentBlueprintConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentBlueprintConfiguration",
 }));
@@ -9228,6 +9319,7 @@ export const deleteEnvironmentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentProfile",
+  iam: { actions: ["datazone:DeleteEnvironmentProfile"] },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentProfile",
 }));
@@ -9274,6 +9366,7 @@ export const deleteFormType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFormType",
+  iam: { actions: ["datazone:DeleteFormType"] },
   telemetry: TELEMETRY,
   span: "DeleteFormType",
 }));
@@ -9320,6 +9413,7 @@ export const deleteGlossary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlossary",
+  iam: { actions: ["datazone:DeleteGlossary"] },
   telemetry: TELEMETRY,
   span: "DeleteGlossary",
 }));
@@ -9364,6 +9458,7 @@ export const deleteGlossaryTerm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlossaryTerm",
+  iam: { actions: ["datazone:DeleteGlossaryTerm"] },
   telemetry: TELEMETRY,
   span: "DeleteGlossaryTerm",
 }));
@@ -9396,6 +9491,7 @@ export const deleteLineageEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLineageEvent",
+  iam: { actions: ["datazone:DeleteLineageEvent"] },
   telemetry: TELEMETRY,
   span: "DeleteLineageEvent",
 }));
@@ -9430,6 +9526,7 @@ export const deleteListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListing",
+  iam: { actions: ["datazone:DeleteListing"] },
   telemetry: TELEMETRY,
   span: "DeleteListing",
 }));
@@ -9462,6 +9559,7 @@ export const deleteNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebook",
+  iam: { actions: ["datazone:DeleteNotebook"] },
   telemetry: TELEMETRY,
   span: "DeleteNotebook",
 }));
@@ -9494,6 +9592,7 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  iam: { actions: ["datazone:DeleteProject"] },
   telemetry: TELEMETRY,
   span: "DeleteProject",
 }));
@@ -9528,6 +9627,7 @@ export const deleteProjectMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectMembership",
+  iam: { actions: ["datazone:DeleteProjectMembership"] },
   telemetry: TELEMETRY,
   span: "DeleteProjectMembership",
 }));
@@ -9560,6 +9660,7 @@ export const deleteProjectProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectProfile",
+  iam: { actions: ["datazone:DeleteProjectProfile"] },
   telemetry: TELEMETRY,
   span: "DeleteProjectProfile",
 }));
@@ -9594,6 +9695,7 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  iam: { actions: ["datazone:DeleteRule"] },
   telemetry: TELEMETRY,
   span: "DeleteRule",
 }));
@@ -9628,6 +9730,7 @@ export const deleteSubscriptionGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionGrant",
+  iam: { actions: ["datazone:DeleteSubscriptionGrant"] },
   telemetry: TELEMETRY,
   span: "DeleteSubscriptionGrant",
 }));
@@ -9662,6 +9765,7 @@ export const deleteSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionRequest",
+  iam: { actions: ["datazone:DeleteSubscriptionRequest"] },
   telemetry: TELEMETRY,
   span: "DeleteSubscriptionRequest",
 }));
@@ -9696,6 +9800,7 @@ export const deleteSubscriptionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionTarget",
+  iam: { actions: ["datazone:DeleteSubscriptionTarget"] },
   telemetry: TELEMETRY,
   span: "DeleteSubscriptionTarget",
 }));
@@ -9728,6 +9833,7 @@ export const deleteTimeSeriesDataPoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTimeSeriesDataPoints",
+  iam: { actions: ["datazone:DeleteTimeSeriesDataPoints"] },
   telemetry: TELEMETRY,
   span: "DeleteTimeSeriesDataPoints",
 }));
@@ -9762,6 +9868,7 @@ export const disassociateEnvironmentRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEnvironmentRole",
+  iam: { actions: ["datazone:DisassociateEnvironmentRole"] },
   telemetry: TELEMETRY,
   span: "DisassociateEnvironmentRole",
 }));
@@ -9796,6 +9903,7 @@ export const disassociateGovernedTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGovernedTerms",
+  iam: { actions: ["datazone:DisassociateGovernedTerms"] },
   telemetry: TELEMETRY,
   span: "DisassociateGovernedTerms",
 }));
@@ -9828,6 +9936,7 @@ export const getAccountPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPool",
+  iam: { actions: ["datazone:GetAccountPool"] },
   telemetry: TELEMETRY,
   span: "GetAccountPool",
 }));
@@ -9870,6 +9979,7 @@ export const getAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsset",
+  iam: { actions: ["datazone:GetAsset"] },
   telemetry: TELEMETRY,
   span: "GetAsset",
 }));
@@ -9910,6 +10020,7 @@ export const getAssetFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssetFilter",
+  iam: { actions: ["datazone:GetAssetFilter"] },
   telemetry: TELEMETRY,
   span: "GetAssetFilter",
 }));
@@ -9952,6 +10063,7 @@ export const getAssetType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssetType",
+  iam: { actions: ["datazone:GetAssetType"] },
   telemetry: TELEMETRY,
   span: "GetAssetType",
 }));
@@ -9984,6 +10096,7 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  iam: { actions: ["datazone:GetConnection"] },
   telemetry: TELEMETRY,
   span: "GetConnection",
 }));
@@ -10016,6 +10129,7 @@ export const getDataExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataExportConfiguration",
+  iam: { actions: ["datazone:GetDataExportConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetDataExportConfiguration",
 }));
@@ -10056,6 +10170,7 @@ export const getDataProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProduct",
+  iam: { actions: ["datazone:GetDataProduct"] },
   telemetry: TELEMETRY,
   span: "GetDataProduct",
 }));
@@ -10092,6 +10207,7 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  iam: { actions: ["datazone:GetDataSource"] },
   telemetry: TELEMETRY,
   span: "GetDataSource",
 }));
@@ -10128,6 +10244,7 @@ export const getDataSourceRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSourceRun",
+  iam: { actions: ["datazone:GetDataSourceRun"] },
   telemetry: TELEMETRY,
   span: "GetDataSourceRun",
 }));
@@ -10160,6 +10277,7 @@ export const getDesignation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDesignation",
+  iam: { actions: ["datazone:GetDesignation"] },
   telemetry: TELEMETRY,
   span: "GetDesignation",
 }));
@@ -10194,6 +10312,12 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  iam: {
+    actions: ["datazone:GetDomain"],
+    resources: {
+      "datazone:GetDomain": ["arn:${Partition}:datazone:${Region}:${Account}:domain/${DomainId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDomain",
 }));
@@ -10226,6 +10350,7 @@ export const getDomainUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainUnit",
+  iam: { actions: ["datazone:GetDomainUnit"] },
   telemetry: TELEMETRY,
   span: "GetDomainUnit",
 }));
@@ -10258,6 +10383,7 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  iam: { actions: ["datazone:GetEnvironment"] },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -10290,6 +10416,7 @@ export const getEnvironmentAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentAction",
+  iam: { actions: ["datazone:GetEnvironmentAction"] },
   telemetry: TELEMETRY,
   span: "GetEnvironmentAction",
 }));
@@ -10322,6 +10449,7 @@ export const getEnvironmentBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentBlueprint",
+  iam: { actions: ["datazone:GetEnvironmentBlueprint"] },
   telemetry: TELEMETRY,
   span: "GetEnvironmentBlueprint",
 }));
@@ -10352,6 +10480,7 @@ export const getEnvironmentBlueprintConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentBlueprintConfiguration",
+  iam: { actions: ["datazone:GetEnvironmentBlueprintConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetEnvironmentBlueprintConfiguration",
 }));
@@ -10384,6 +10513,7 @@ export const getEnvironmentCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentCredentials",
+  iam: { actions: ["datazone:GetEnvironmentCredentials"] },
   telemetry: TELEMETRY,
   span: "GetEnvironmentCredentials",
 }));
@@ -10416,6 +10546,7 @@ export const getEnvironmentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentProfile",
+  iam: { actions: ["datazone:GetEnvironmentProfile"] },
   telemetry: TELEMETRY,
   span: "GetEnvironmentProfile",
 }));
@@ -10464,6 +10595,7 @@ export const getFormType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFormType",
+  iam: { actions: ["datazone:GetFormType"] },
   telemetry: TELEMETRY,
   span: "GetFormType",
 }));
@@ -10502,6 +10634,7 @@ export const getGlossary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlossary",
+  iam: { actions: ["datazone:GetGlossary"] },
   telemetry: TELEMETRY,
   span: "GetGlossary",
 }));
@@ -10542,6 +10675,7 @@ export const getGlossaryTerm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlossaryTerm",
+  iam: { actions: ["datazone:GetGlossaryTerm"] },
   telemetry: TELEMETRY,
   span: "GetGlossaryTerm",
 }));
@@ -10572,6 +10706,7 @@ export const getGroupProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupProfile",
+  iam: { actions: ["datazone:GetGroupProfile"] },
   telemetry: TELEMETRY,
   span: "GetGroupProfile",
 }));
@@ -10606,6 +10741,7 @@ export const getIamPortalLoginUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIamPortalLoginUrl",
+  iam: { actions: ["datazone:GetIamPortalLoginUrl"] },
   telemetry: TELEMETRY,
   span: "GetIamPortalLoginUrl",
 }));
@@ -10638,6 +10774,7 @@ export const getJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobRun",
+  iam: { actions: ["datazone:GetJobRun"] },
   telemetry: TELEMETRY,
   span: "GetJobRun",
 }));
@@ -10670,6 +10807,7 @@ export const getLineageEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLineageEvent",
+  iam: { actions: ["datazone:GetLineageEvent"] },
   telemetry: TELEMETRY,
   span: "GetLineageEvent",
 }));
@@ -10702,6 +10840,7 @@ export const getLineageNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLineageNode",
+  iam: { actions: ["datazone:GetLineageNode"] },
   telemetry: TELEMETRY,
   span: "GetLineageNode",
 }));
@@ -10734,6 +10873,7 @@ export const getListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListing",
+  iam: { actions: ["datazone:GetListing"] },
   telemetry: TELEMETRY,
   span: "GetListing",
 }));
@@ -10774,6 +10914,7 @@ export const getMetadataGenerationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetadataGenerationRun",
+  iam: { actions: ["datazone:GetMetadataGenerationRun"] },
   telemetry: TELEMETRY,
   span: "GetMetadataGenerationRun",
 }));
@@ -10806,6 +10947,7 @@ export const getNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebook",
+  iam: { actions: ["datazone:GetNotebook"] },
   telemetry: TELEMETRY,
   span: "GetNotebook",
 }));
@@ -10838,6 +10980,7 @@ export const getNotebookExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookExport",
+  iam: { actions: ["datazone:GetNotebookExport"] },
   telemetry: TELEMETRY,
   span: "GetNotebookExport",
 }));
@@ -10870,6 +11013,7 @@ export const getNotebookRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookRun",
+  iam: { actions: ["datazone:GetNotebookRun"] },
   telemetry: TELEMETRY,
   span: "GetNotebookRun",
 }));
@@ -10902,6 +11046,7 @@ export const getProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
+  iam: { actions: ["datazone:GetProject"] },
   telemetry: TELEMETRY,
   span: "GetProject",
 }));
@@ -10934,6 +11079,7 @@ export const getProjectProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProjectProfile",
+  iam: { actions: ["datazone:GetProjectProfile"] },
   telemetry: TELEMETRY,
   span: "GetProjectProfile",
 }));
@@ -10966,6 +11112,7 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  iam: { actions: ["datazone:GetRule"] },
   telemetry: TELEMETRY,
   span: "GetRule",
 }));
@@ -10998,6 +11145,7 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
+  iam: { actions: ["datazone:GetSubscription"] },
   telemetry: TELEMETRY,
   span: "GetSubscription",
 }));
@@ -11030,6 +11178,7 @@ export const getSubscriptionGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionGrant",
+  iam: { actions: ["datazone:GetSubscriptionGrant"] },
   telemetry: TELEMETRY,
   span: "GetSubscriptionGrant",
 }));
@@ -11062,6 +11211,7 @@ export const getSubscriptionRequestDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionRequestDetails",
+  iam: { actions: ["datazone:GetSubscriptionRequestDetails"] },
   telemetry: TELEMETRY,
   span: "GetSubscriptionRequestDetails",
 }));
@@ -11094,6 +11244,7 @@ export const getSubscriptionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionTarget",
+  iam: { actions: ["datazone:GetSubscriptionTarget"] },
   telemetry: TELEMETRY,
   span: "GetSubscriptionTarget",
 }));
@@ -11126,6 +11277,7 @@ export const getTimeSeriesDataPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTimeSeriesDataPoint",
+  iam: { actions: ["datazone:GetTimeSeriesDataPoint"] },
   telemetry: TELEMETRY,
   span: "GetTimeSeriesDataPoint",
 }));
@@ -11156,6 +11308,7 @@ export const getUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserProfile",
+  iam: { actions: ["datazone:GetUserProfile"] },
   telemetry: TELEMETRY,
   span: "GetUserProfile",
 }));
@@ -11193,6 +11346,7 @@ export const listAccountPools: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListAccountPools"] },
   telemetry: TELEMETRY,
   span: "ListAccountPools",
 })) as any;
@@ -11232,6 +11386,7 @@ export const listAccountsInAccountPool: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListAccountsInAccountPool"] },
   telemetry: TELEMETRY,
   span: "ListAccountsInAccountPool",
 })) as any;
@@ -11277,6 +11432,7 @@ export const listAssetFilters: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListAssetFilters"] },
   telemetry: TELEMETRY,
   span: "ListAssetFilters",
 })) as any;
@@ -11326,6 +11482,7 @@ export const listAssetRevisions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListAssetRevisions"] },
   telemetry: TELEMETRY,
   span: "ListAssetRevisions",
 })) as any;
@@ -11363,6 +11520,7 @@ export const listConnections: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListConnections"] },
   telemetry: TELEMETRY,
   span: "ListConnections",
 })) as any;
@@ -11410,6 +11568,7 @@ export const listDataProductRevisions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListDataProductRevisions"] },
   telemetry: TELEMETRY,
   span: "ListDataProductRevisions",
 })) as any;
@@ -11453,6 +11612,7 @@ export const listDataSourceRunActivities: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListDataSourceRunActivities"] },
   telemetry: TELEMETRY,
   span: "ListDataSourceRunActivities",
 })) as any;
@@ -11496,6 +11656,7 @@ export const listDataSourceRuns: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListDataSourceRuns"] },
   telemetry: TELEMETRY,
   span: "ListDataSourceRuns",
 })) as any;
@@ -11539,6 +11700,7 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListDataSources"] },
   telemetry: TELEMETRY,
   span: "ListDataSources",
 })) as any;
@@ -11579,6 +11741,7 @@ export const listDesignations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListDesignations"] },
   telemetry: TELEMETRY,
   span: "ListDesignations",
 })) as any;
@@ -11622,6 +11785,7 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 })) as any;
@@ -11659,6 +11823,7 @@ export const listDomainUnitsForParent: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListDomainUnitsForParent"] },
   telemetry: TELEMETRY,
   span: "ListDomainUnitsForParent",
 })) as any;
@@ -11696,6 +11861,7 @@ export const listEntityOwners: API.PaginatedOperationMethod<
     items: "owners",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListEntityOwners"] },
   telemetry: TELEMETRY,
   span: "ListEntityOwners",
 })) as any;
@@ -11733,6 +11899,7 @@ export const listEnvironmentActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListEnvironmentActions"] },
   telemetry: TELEMETRY,
   span: "ListEnvironmentActions",
 })) as any;
@@ -11770,6 +11937,7 @@ export const listEnvironmentBlueprintConfigurations: API.PaginatedOperationMetho
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListEnvironmentBlueprintConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListEnvironmentBlueprintConfigurations",
 })) as any;
@@ -11809,6 +11977,7 @@ export const listEnvironmentBlueprints: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListEnvironmentBlueprints"] },
   telemetry: TELEMETRY,
   span: "ListEnvironmentBlueprints",
 })) as any;
@@ -11846,6 +12015,7 @@ export const listEnvironmentProfiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListEnvironmentProfiles"] },
   telemetry: TELEMETRY,
   span: "ListEnvironmentProfiles",
 })) as any;
@@ -11885,6 +12055,7 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -11924,6 +12095,7 @@ export const listJobRuns: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListJobRuns"] },
   telemetry: TELEMETRY,
   span: "ListJobRuns",
 })) as any;
@@ -11961,6 +12133,7 @@ export const listLineageEvents: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListLineageEvents"] },
   telemetry: TELEMETRY,
   span: "ListLineageEvents",
 })) as any;
@@ -12000,6 +12173,7 @@ export const listLineageNodeHistory: API.PaginatedOperationMethod<
     items: "nodes",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListLineageNodeHistory"] },
   telemetry: TELEMETRY,
   span: "ListLineageNodeHistory",
 })) as any;
@@ -12047,6 +12221,7 @@ export const listMetadataGenerationRuns: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListMetadataGenerationRuns"] },
   telemetry: TELEMETRY,
   span: "ListMetadataGenerationRuns",
 })) as any;
@@ -12084,6 +12259,7 @@ export const listNotebookRuns: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListNotebookRuns"] },
   telemetry: TELEMETRY,
   span: "ListNotebookRuns",
 })) as any;
@@ -12121,6 +12297,7 @@ export const listNotebooks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListNotebooks"] },
   telemetry: TELEMETRY,
   span: "ListNotebooks",
 })) as any;
@@ -12158,6 +12335,7 @@ export const listNotifications: API.PaginatedOperationMethod<
     items: "notifications",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListNotifications"] },
   telemetry: TELEMETRY,
   span: "ListNotifications",
 })) as any;
@@ -12195,6 +12373,7 @@ export const listPolicyGrants: API.PaginatedOperationMethod<
     items: "grantList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListPolicyGrants"] },
   telemetry: TELEMETRY,
   span: "ListPolicyGrants",
 })) as any;
@@ -12234,6 +12413,7 @@ export const listProjectMemberships: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListProjectMemberships"] },
   telemetry: TELEMETRY,
   span: "ListProjectMemberships",
 })) as any;
@@ -12271,6 +12451,7 @@ export const listProjectProfiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListProjectProfiles"] },
   telemetry: TELEMETRY,
   span: "ListProjectProfiles",
 })) as any;
@@ -12310,6 +12491,7 @@ export const listProjects: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListProjects"] },
   telemetry: TELEMETRY,
   span: "ListProjects",
 })) as any;
@@ -12349,6 +12531,7 @@ export const listRules: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListRules"] },
   telemetry: TELEMETRY,
   span: "ListRules",
 })) as any;
@@ -12388,6 +12571,7 @@ export const listSubscriptionGrants: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListSubscriptionGrants"] },
   telemetry: TELEMETRY,
   span: "ListSubscriptionGrants",
 })) as any;
@@ -12427,6 +12611,7 @@ export const listSubscriptionRequests: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListSubscriptionRequests"] },
   telemetry: TELEMETRY,
   span: "ListSubscriptionRequests",
 })) as any;
@@ -12466,6 +12651,7 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListSubscriptions"] },
   telemetry: TELEMETRY,
   span: "ListSubscriptions",
 })) as any;
@@ -12505,6 +12691,7 @@ export const listSubscriptionTargets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListSubscriptionTargets"] },
   telemetry: TELEMETRY,
   span: "ListSubscriptionTargets",
 })) as any;
@@ -12529,6 +12716,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["datazone:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -12568,6 +12756,7 @@ export const listTimeSeriesDataPoints: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:ListTimeSeriesDataPoints"] },
   telemetry: TELEMETRY,
   span: "ListTimeSeriesDataPoints",
 })) as any;
@@ -12604,6 +12793,7 @@ export const postLineageEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostLineageEvent",
+  iam: { actions: ["datazone:PostLineageEvent"] },
   telemetry: TELEMETRY,
   span: "PostLineageEvent",
 }));
@@ -12640,6 +12830,7 @@ export const postTimeSeriesDataPoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostTimeSeriesDataPoints",
+  iam: { actions: ["datazone:PostTimeSeriesDataPoints"] },
   telemetry: TELEMETRY,
   span: "PostTimeSeriesDataPoints",
 }));
@@ -12686,6 +12877,7 @@ export const putDataExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataExportConfiguration",
+  iam: { actions: ["datazone:PutDataExportConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutDataExportConfiguration",
 }));
@@ -12718,6 +12910,11 @@ export const putEnvironmentBlueprintConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEnvironmentBlueprintConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "datazone:PutEnvironmentBlueprintConfiguration"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "provisioningRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "PutEnvironmentBlueprintConfiguration",
 }));
@@ -12755,6 +12952,7 @@ export const queryGraph: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:QueryGraph"] },
   telemetry: TELEMETRY,
   span: "QueryGraph",
 })) as any;
@@ -12789,6 +12987,7 @@ export const rejectPredictions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectPredictions",
+  iam: { actions: ["datazone:RejectPredictions"] },
   telemetry: TELEMETRY,
   span: "RejectPredictions",
 }));
@@ -12823,6 +13022,7 @@ export const rejectSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectSubscriptionRequest",
+  iam: { actions: ["datazone:RejectSubscriptionRequest"] },
   telemetry: TELEMETRY,
   span: "RejectSubscriptionRequest",
 }));
@@ -12855,6 +13055,7 @@ export const removeEntityOwner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveEntityOwner",
+  iam: { actions: ["datazone:RemoveEntityOwner"] },
   telemetry: TELEMETRY,
   span: "RemoveEntityOwner",
 }));
@@ -12885,6 +13086,7 @@ export const removePolicyGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePolicyGrant",
+  iam: { actions: ["datazone:RemovePolicyGrant"] },
   telemetry: TELEMETRY,
   span: "RemovePolicyGrant",
 }));
@@ -12919,6 +13121,7 @@ export const revokeSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSubscription",
+  iam: { actions: ["datazone:RevokeSubscription"] },
   telemetry: TELEMETRY,
   span: "RevokeSubscription",
 }));
@@ -12978,6 +13181,7 @@ export const search: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:Search"] },
   telemetry: TELEMETRY,
   span: "Search",
 })) as any;
@@ -13015,6 +13219,7 @@ export const searchGroupProfiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:SearchGroupProfiles"] },
   telemetry: TELEMETRY,
   span: "SearchGroupProfiles",
 })) as any;
@@ -13064,6 +13269,7 @@ export const searchListings: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:SearchListings"] },
   telemetry: TELEMETRY,
   span: "SearchListings",
 })) as any;
@@ -13115,6 +13321,7 @@ export const searchTypes: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:SearchTypes"] },
   telemetry: TELEMETRY,
   span: "SearchTypes",
 })) as any;
@@ -13152,6 +13359,7 @@ export const searchUserProfiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["datazone:SearchUserProfiles"] },
   telemetry: TELEMETRY,
   span: "SearchUserProfiles",
 })) as any;
@@ -13188,6 +13396,7 @@ export const startDataSourceRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceRun",
+  iam: { actions: ["datazone:StartDataSourceRun"] },
   telemetry: TELEMETRY,
   span: "StartDataSourceRun",
 }));
@@ -13236,6 +13445,7 @@ export const startMetadataGenerationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataGenerationRun",
+  iam: { actions: ["datazone:StartMetadataGenerationRun"] },
   telemetry: TELEMETRY,
   span: "StartMetadataGenerationRun",
 }));
@@ -13272,6 +13482,7 @@ export const startNotebookExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookExport",
+  iam: { actions: ["datazone:StartNotebookExport"] },
   telemetry: TELEMETRY,
   span: "StartNotebookExport",
 }));
@@ -13308,6 +13519,7 @@ export const startNotebookImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookImport",
+  iam: { actions: ["datazone:StartNotebookImport"] },
   telemetry: TELEMETRY,
   span: "StartNotebookImport",
 }));
@@ -13344,6 +13556,7 @@ export const startNotebookRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookRun",
+  iam: { actions: ["datazone:StartNotebookRun"] },
   telemetry: TELEMETRY,
   span: "StartNotebookRun",
 }));
@@ -13380,6 +13593,7 @@ export const startNotebookSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookSync",
+  iam: { actions: ["datazone:StartNotebookSync"] },
   telemetry: TELEMETRY,
   span: "StartNotebookSync",
 }));
@@ -13414,6 +13628,7 @@ export const stopNotebookRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopNotebookRun",
+  iam: { actions: ["datazone:StopNotebookRun"] },
   telemetry: TELEMETRY,
   span: "StopNotebookRun",
 }));
@@ -13438,6 +13653,12 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["datazone:TagResource"],
+    resources: {
+      "datazone:TagResource": ["arn:${Partition}:datazone:${Region}:${Account}:domain/${DomainId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -13458,6 +13679,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["datazone:UntagResource"],
+    resources: {
+      "datazone:UntagResource": [
+        "arn:${Partition}:datazone:${Region}:${Account}:domain/${DomainId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -13494,6 +13723,11 @@ export const updateAccountPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPool",
+  iam: {
+    actions: ["iam:PassRole", "datazone:UpdateAccountPool"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccountPool",
 }));
@@ -13536,6 +13770,7 @@ export const updateAssetFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssetFilter",
+  iam: { actions: ["datazone:UpdateAssetFilter"] },
   telemetry: TELEMETRY,
   span: "UpdateAssetFilter",
 }));
@@ -13572,6 +13807,11 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
+  iam: {
+    actions: ["iam:PassRole", "datazone:UpdateConnection"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "awsLocation.accessRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnection",
 }));
@@ -13608,6 +13848,11 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  iam: {
+    actions: ["iam:PassRole", "datazone:UpdateDataSource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataSource",
 }));
@@ -13642,6 +13887,7 @@ export const updateDesignation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDesignation",
+  iam: { actions: ["datazone:UpdateDesignation"] },
   telemetry: TELEMETRY,
   span: "UpdateDesignation",
 }));
@@ -13678,6 +13924,16 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
+  iam: {
+    actions: ["iam:PassRole", "datazone:UpdateDomain"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "datazone:UpdateDomain": [
+        "arn:${Partition}:datazone:${Region}:${Account}:domain/${DomainId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "domainExecutionRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDomain",
 }));
@@ -13712,6 +13968,7 @@ export const updateDomainUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainUnit",
+  iam: { actions: ["datazone:UpdateDomainUnit"] },
   telemetry: TELEMETRY,
   span: "UpdateDomainUnit",
 }));
@@ -13746,6 +14003,7 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  iam: { actions: ["datazone:UpdateEnvironment"] },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));
@@ -13780,6 +14038,7 @@ export const updateEnvironmentAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentAction",
+  iam: { actions: ["datazone:UpdateEnvironmentAction"] },
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentAction",
 }));
@@ -13816,6 +14075,7 @@ export const updateEnvironmentBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentBlueprint",
+  iam: { actions: ["datazone:UpdateEnvironmentBlueprint"] },
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentBlueprint",
 }));
@@ -13852,6 +14112,7 @@ export const updateEnvironmentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentProfile",
+  iam: { actions: ["datazone:UpdateEnvironmentProfile"] },
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentProfile",
 }));
@@ -13896,6 +14157,7 @@ export const updateGlossary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlossary",
+  iam: { actions: ["datazone:UpdateGlossary"] },
   telemetry: TELEMETRY,
   span: "UpdateGlossary",
 }));
@@ -13940,6 +14202,7 @@ export const updateGlossaryTerm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlossaryTerm",
+  iam: { actions: ["datazone:UpdateGlossaryTerm"] },
   telemetry: TELEMETRY,
   span: "UpdateGlossaryTerm",
 }));
@@ -13970,6 +14233,7 @@ export const updateGroupProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupProfile",
+  iam: { actions: ["datazone:UpdateGroupProfile"] },
   telemetry: TELEMETRY,
   span: "UpdateGroupProfile",
 }));
@@ -14004,6 +14268,7 @@ export const updateNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebook",
+  iam: { actions: ["datazone:UpdateNotebook"] },
   telemetry: TELEMETRY,
   span: "UpdateNotebook",
 }));
@@ -14040,6 +14305,7 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  iam: { actions: ["datazone:UpdateProject"] },
   telemetry: TELEMETRY,
   span: "UpdateProject",
 }));
@@ -14076,6 +14342,7 @@ export const updateProjectProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProjectProfile",
+  iam: { actions: ["datazone:UpdateProjectProfile"] },
   telemetry: TELEMETRY,
   span: "UpdateProjectProfile",
 }));
@@ -14146,6 +14413,7 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  iam: { actions: ["datazone:UpdateRule"] },
   telemetry: TELEMETRY,
   span: "UpdateRule",
 }));
@@ -14180,6 +14448,7 @@ export const updateSubscriptionGrantStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionGrantStatus",
+  iam: { actions: ["datazone:UpdateSubscriptionGrantStatus"] },
   telemetry: TELEMETRY,
   span: "UpdateSubscriptionGrantStatus",
 }));
@@ -14214,6 +14483,7 @@ export const updateSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionRequest",
+  iam: { actions: ["datazone:UpdateSubscriptionRequest"] },
   telemetry: TELEMETRY,
   span: "UpdateSubscriptionRequest",
 }));
@@ -14248,6 +14518,11 @@ export const updateSubscriptionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionTarget",
+  iam: {
+    actions: ["iam:PassRole", "datazone:UpdateSubscriptionTarget"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "manageAccessRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSubscriptionTarget",
 }));
@@ -14278,6 +14553,7 @@ export const updateUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserProfile",
+  iam: { actions: ["datazone:UpdateUserProfile"] },
   telemetry: TELEMETRY,
   span: "UpdateUserProfile",
 }));

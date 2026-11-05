@@ -3701,6 +3701,14 @@ export const associateAssets: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateAssets",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:AssociateAssets"],
+    resources: {
+      "iotsitewise:AssociateAssets": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateAssets",
 }));
@@ -3734,6 +3742,15 @@ export const associateTimeSeriesToAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateTimeSeriesToAssetProperty",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:AssociateTimeSeriesToAssetProperty"],
+    resources: {
+      "iotsitewise:AssociateTimeSeriesToAssetProperty": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:time-series/${TimeSeriesId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateTimeSeriesToAssetProperty",
 }));
@@ -3772,6 +3789,7 @@ export const batchAssociateDataSegmentsToDataset: API.OperationMethod<
   retry: Retry,
   operationName: "BatchAssociateDataSegmentsToDataset",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:BatchAssociateDataSegmentsToDataset"] },
   telemetry: TELEMETRY,
   span: "BatchAssociateDataSegmentsToDataset",
 }));
@@ -3810,6 +3828,14 @@ export const batchAssociateProjectAssets: API.OperationMethod<
   retry: Retry,
   operationName: "BatchAssociateProjectAssets",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:BatchAssociateProjectAssets"],
+    resources: {
+      "iotsitewise:BatchAssociateProjectAssets": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchAssociateProjectAssets",
 }));
@@ -3844,6 +3870,7 @@ export const batchDeleteDatasetDataSegments: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteDatasetDataSegments",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:BatchDeleteDatasetDataSegments"] },
   telemetry: TELEMETRY,
   span: "BatchDeleteDatasetDataSegments",
 }));
@@ -3878,6 +3905,7 @@ export const batchDisassociateDataSegmentsFromDataset: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDisassociateDataSegmentsFromDataset",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:BatchDisassociateDataSegmentsFromDataset"] },
   telemetry: TELEMETRY,
   span: "BatchDisassociateDataSegmentsFromDataset",
 }));
@@ -3909,6 +3937,14 @@ export const batchDisassociateProjectAssets: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDisassociateProjectAssets",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:BatchDisassociateProjectAssets"],
+    resources: {
+      "iotsitewise:BatchDisassociateProjectAssets": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateProjectAssets",
 }));
@@ -3948,6 +3984,7 @@ export const batchGetAssetPropertyAggregates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:BatchGetAssetPropertyAggregates"] },
   telemetry: TELEMETRY,
   span: "BatchGetAssetPropertyAggregates",
 })) as any;
@@ -3982,6 +4019,7 @@ export const batchGetAssetPropertyValue: API.PaginatedOperationMethod<
   operationName: "BatchGetAssetPropertyValue",
   endpointHostPrefix: "data.",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  iam: { actions: ["iotsitewise:BatchGetAssetPropertyValue"] },
   telemetry: TELEMETRY,
   span: "BatchGetAssetPropertyValue",
 })) as any;
@@ -4020,6 +4058,7 @@ export const batchGetAssetPropertyValueHistory: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:BatchGetAssetPropertyValueHistory"] },
   telemetry: TELEMETRY,
   span: "BatchGetAssetPropertyValueHistory",
 })) as any;
@@ -4079,6 +4118,7 @@ export const batchPutAssetPropertyValue: API.OperationMethod<
   retry: Retry,
   operationName: "BatchPutAssetPropertyValue",
   endpointHostPrefix: "data.",
+  iam: { actions: ["iotsitewise:BatchPutAssetPropertyValue"] },
   telemetry: TELEMETRY,
   span: "BatchPutAssetPropertyValue",
 }));
@@ -4148,6 +4188,14 @@ export const cancelEnrichmentJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelEnrichmentJob",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:CancelEnrichmentJob"],
+    resources: {
+      "iotsitewise:CancelEnrichmentJob": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelEnrichmentJob",
 }));
@@ -4189,6 +4237,14 @@ export const cancelPipelineExecution: API.OperationMethod<
   retry: Retry,
   operationName: "CancelPipelineExecution",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:CancelPipelineExecution"],
+    resources: {
+      "iotsitewise:CancelPipelineExecution": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelPipelineExecution",
 }));
@@ -4224,6 +4280,14 @@ export const cancelQuery: API.OperationMethod<
   retry: Retry,
   operationName: "CancelQuery",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:CancelQuery"],
+    resources: {
+      "iotsitewise:CancelQuery": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelQuery",
 }));
@@ -4265,6 +4329,10 @@ export const createAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAccessPolicy",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:CreateAccessPolicy", "iotsitewise:TagResource"],
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessPolicy",
 }));
@@ -4302,6 +4370,10 @@ export const createApplication: API.OperationMethod<
   retry: Retry,
   operationName: "CreateApplication",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreateApplication", "iotsitewise:TagResource"],
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -4340,6 +4412,15 @@ export const createAsset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAsset",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreateAsset", "iotsitewise:TagResource"],
+    resources: {
+      "iotsitewise:CreateAsset": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAsset",
 }));
@@ -4395,6 +4476,10 @@ export const createAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreateAssetModel", "iotsitewise:TagResource"],
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAssetModel",
 }));
@@ -4454,6 +4539,16 @@ export const createAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreateAssetModelCompositeModel", "iam:PassRole"],
+    resources: {
+      "iotsitewise:CreateAssetModelCompositeModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAssetModelCompositeModel",
 }));
@@ -4508,6 +4603,10 @@ export const createBulkImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBulkImportJob",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:CreateBulkImportJob", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateBulkImportJob",
 }));
@@ -4545,6 +4644,10 @@ export const createComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "CreateComputationModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreateComputationModel", "iotsitewise:TagResource"],
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateComputationModel",
 }));
@@ -4583,6 +4686,15 @@ export const createDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDashboard",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:CreateDashboard", "iotsitewise:TagResource"],
+    resources: {
+      "iotsitewise:CreateDashboard": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}",
+      ],
+    },
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDashboard",
 }));
@@ -4620,6 +4732,11 @@ export const createDataset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDataset",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreateDataset", "iam:PassRole", "iotsitewise:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names", "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataset",
 }));
@@ -4657,6 +4774,7 @@ export const createDatasetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDatasetExportJob",
   endpointHostPrefix: "data.",
+  iam: { actions: ["iotsitewise:CreateDatasetExportJob"] },
   telemetry: TELEMETRY,
   span: "CreateDatasetExportJob",
 }));
@@ -4734,6 +4852,7 @@ export const createEnrichmentJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateEnrichmentJob",
   endpointHostPrefix: "data.",
+  iam: { actions: ["iotsitewise:CreateEnrichmentJob"] },
   telemetry: TELEMETRY,
   span: "CreateEnrichmentJob",
 }));
@@ -4769,6 +4888,11 @@ export const createGateway: API.OperationMethod<
   retry: Retry,
   operationName: "CreateGateway",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreateGateway", "iam:PassRole", "iotsitewise:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names", "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGateway",
 }));
@@ -4813,6 +4937,10 @@ export const createPipeline: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePipeline",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreatePipeline", "iotsitewise:TagResource"],
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePipeline",
 }));
@@ -4856,6 +4984,11 @@ export const createPortal: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePortal",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:CreatePortal", "iam:PassRole", "iotsitewise:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePortal",
 }));
@@ -4897,6 +5030,15 @@ export const createProject: API.OperationMethod<
   retry: Retry,
   operationName: "CreateProject",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:CreateProject", "iotsitewise:TagResource"],
+    resources: {
+      "iotsitewise:CreateProject": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProject",
 }));
@@ -4938,6 +5080,11 @@ export const createTask: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTask",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreateTask", "iam:PassRole", "iotsitewise:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names", "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTask",
 }));
@@ -4978,6 +5125,10 @@ export const createWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorkspace",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:CreateWorkspace", "iotsitewise:TagResource"],
+    conditional: { "iotsitewise:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspace",
 }));
@@ -5011,6 +5162,14 @@ export const deleteAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessPolicy",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:DeleteAccessPolicy"],
+    resources: {
+      "iotsitewise:DeleteAccessPolicy": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessPolicy",
 }));
@@ -5046,6 +5205,14 @@ export const deleteApplication: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteApplication",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeleteApplication"],
+    resources: {
+      "iotsitewise:DeleteApplication": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -5083,6 +5250,14 @@ export const deleteAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAsset",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeleteAsset"],
+    resources: {
+      "iotsitewise:DeleteAsset": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAsset",
 }));
@@ -5122,6 +5297,14 @@ export const deleteAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeleteAssetModel"],
+    resources: {
+      "iotsitewise:DeleteAssetModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAssetModel",
 }));
@@ -5161,6 +5344,14 @@ export const deleteAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeleteAssetModelCompositeModel"],
+    resources: {
+      "iotsitewise:DeleteAssetModelCompositeModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAssetModelCompositeModel",
 }));
@@ -5195,6 +5386,14 @@ export const deleteAssetModelInterfaceRelationship: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetModelInterfaceRelationship",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeleteAssetModelInterfaceRelationship"],
+    resources: {
+      "iotsitewise:DeleteAssetModelInterfaceRelationship": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAssetModelInterfaceRelationship",
 }));
@@ -5228,6 +5427,14 @@ export const deleteComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteComputationModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeleteComputationModel"],
+    resources: {
+      "iotsitewise:DeleteComputationModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:computation-model/${ComputationModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteComputationModel",
 }));
@@ -5259,6 +5466,14 @@ export const deleteDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDashboard",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:DeleteDashboard"],
+    resources: {
+      "iotsitewise:DeleteDashboard": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDashboard",
 }));
@@ -5292,6 +5507,7 @@ export const deleteDataset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDataset",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DeleteDataset"] },
   telemetry: TELEMETRY,
   span: "DeleteDataset",
 }));
@@ -5326,6 +5542,14 @@ export const deleteGateway: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteGateway",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeleteGateway"],
+    resources: {
+      "iotsitewise:DeleteGateway": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGateway",
 }));
@@ -5364,6 +5588,14 @@ export const deletePipeline: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePipeline",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeletePipeline"],
+    resources: {
+      "iotsitewise:DeletePipeline": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePipeline",
 }));
@@ -5397,6 +5629,14 @@ export const deletePortal: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePortal",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:DeletePortal"],
+    resources: {
+      "iotsitewise:DeletePortal": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePortal",
 }));
@@ -5428,6 +5668,14 @@ export const deleteProject: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteProject",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:DeleteProject"],
+    resources: {
+      "iotsitewise:DeleteProject": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProject",
 }));
@@ -5465,6 +5713,14 @@ export const deleteTask: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTask",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeleteTask"],
+    resources: {
+      "iotsitewise:DeleteTask": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/task/${TaskName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTask",
 }));
@@ -5513,6 +5769,7 @@ export const deleteTimeSeries: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTimeSeries",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DeleteTimeSeries"] },
   telemetry: TELEMETRY,
   span: "DeleteTimeSeries",
 }));
@@ -5550,6 +5807,14 @@ export const deleteWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorkspace",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DeleteWorkspace"],
+    resources: {
+      "iotsitewise:DeleteWorkspace": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspace",
 }));
@@ -5582,6 +5847,14 @@ export const describeAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAccessPolicy",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:DescribeAccessPolicy"],
+    resources: {
+      "iotsitewise:DescribeAccessPolicy": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAccessPolicy",
 }));
@@ -5613,6 +5886,7 @@ export const describeAction: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAction",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DescribeAction"] },
   telemetry: TELEMETRY,
   span: "DescribeAction",
 }));
@@ -5646,6 +5920,14 @@ export const describeApplication: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeApplication",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeApplication"],
+    resources: {
+      "iotsitewise:DescribeApplication": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeApplication",
 }));
@@ -5677,6 +5959,14 @@ export const describeAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAsset",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeAsset"],
+    resources: {
+      "iotsitewise:DescribeAsset": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAsset",
 }));
@@ -5711,6 +6001,14 @@ export const describeAssetCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetCompositeModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeAssetCompositeModel"],
+    resources: {
+      "iotsitewise:DescribeAssetCompositeModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAssetCompositeModel",
 }));
@@ -5744,6 +6042,14 @@ export const describeAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeAssetModel"],
+    resources: {
+      "iotsitewise:DescribeAssetModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAssetModel",
 }));
@@ -5777,6 +6083,14 @@ export const describeAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeAssetModelCompositeModel"],
+    resources: {
+      "iotsitewise:DescribeAssetModelCompositeModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAssetModelCompositeModel",
 }));
@@ -5809,6 +6123,14 @@ export const describeAssetModelInterfaceRelationship: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetModelInterfaceRelationship",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeAssetModelInterfaceRelationship"],
+    resources: {
+      "iotsitewise:DescribeAssetModelInterfaceRelationship": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAssetModelInterfaceRelationship",
 }));
@@ -5847,6 +6169,14 @@ export const describeAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetProperty",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeAssetProperty"],
+    resources: {
+      "iotsitewise:DescribeAssetProperty": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAssetProperty",
 }));
@@ -5879,6 +6209,7 @@ export const describeBulkImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeBulkImportJob",
   endpointHostPrefix: "data.",
+  iam: { actions: ["iotsitewise:DescribeBulkImportJob"] },
   telemetry: TELEMETRY,
   span: "DescribeBulkImportJob",
 }));
@@ -5910,6 +6241,14 @@ export const describeComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeComputationModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeComputationModel"],
+    resources: {
+      "iotsitewise:DescribeComputationModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:computation-model/${ComputationModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeComputationModel",
 }));
@@ -5941,6 +6280,7 @@ export const describeComputationModelExecutionSummary: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeComputationModelExecutionSummary",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DescribeComputationModelExecutionSummary"] },
   telemetry: TELEMETRY,
   span: "DescribeComputationModelExecutionSummary",
 }));
@@ -5972,6 +6312,14 @@ export const describeDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDashboard",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:DescribeDashboard"],
+    resources: {
+      "iotsitewise:DescribeDashboard": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDashboard",
 }));
@@ -6003,6 +6351,7 @@ export const describeDataset: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDataset",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DescribeDataset"] },
   telemetry: TELEMETRY,
   span: "DescribeDataset",
 }));
@@ -6036,6 +6385,14 @@ export const describeDatasetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDatasetExportJob",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:DescribeDatasetExportJob"],
+    resources: {
+      "iotsitewise:DescribeDatasetExportJob": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDatasetExportJob",
 }));
@@ -6069,6 +6426,7 @@ export const describeDefaultEncryptionConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDefaultEncryptionConfiguration",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DescribeDefaultEncryptionConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeDefaultEncryptionConfiguration",
 }));
@@ -6143,6 +6501,14 @@ export const describeEnrichmentJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeEnrichmentJob",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:DescribeEnrichmentJob"],
+    resources: {
+      "iotsitewise:DescribeEnrichmentJob": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEnrichmentJob",
 }));
@@ -6174,6 +6540,7 @@ export const describeExecution: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeExecution",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DescribeExecution"] },
   telemetry: TELEMETRY,
   span: "DescribeExecution",
 }));
@@ -6205,6 +6572,14 @@ export const describeGateway: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGateway",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeGateway"],
+    resources: {
+      "iotsitewise:DescribeGateway": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGateway",
 }));
@@ -6248,6 +6623,14 @@ export const describeGatewayCapabilityConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGatewayCapabilityConfiguration",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeGatewayCapabilityConfiguration"],
+    resources: {
+      "iotsitewise:DescribeGatewayCapabilityConfiguration": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGatewayCapabilityConfiguration",
 }));
@@ -6279,6 +6662,7 @@ export const describeLoggingOptions: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeLoggingOptions",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DescribeLoggingOptions"] },
   telemetry: TELEMETRY,
   span: "DescribeLoggingOptions",
 }));
@@ -6312,6 +6696,14 @@ export const describePipeline: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePipeline",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribePipeline"],
+    resources: {
+      "iotsitewise:DescribePipeline": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePipeline",
 }));
@@ -6355,6 +6747,14 @@ export const describePipelineExecution: API.PaginatedOperationMethod<
     items: "computeNodeExecutionDetails",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:DescribePipelineExecution"],
+    resources: {
+      "iotsitewise:DescribePipelineExecution": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePipelineExecution",
 })) as any;
@@ -6386,6 +6786,14 @@ export const describePortal: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePortal",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:DescribePortal"],
+    resources: {
+      "iotsitewise:DescribePortal": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePortal",
 }));
@@ -6417,6 +6825,14 @@ export const describeProject: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeProject",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:DescribeProject"],
+    resources: {
+      "iotsitewise:DescribeProject": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeProject",
 }));
@@ -6450,6 +6866,14 @@ export const describeQuery: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeQuery",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:DescribeQuery"],
+    resources: {
+      "iotsitewise:DescribeQuery": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeQuery",
 }));
@@ -6486,6 +6910,14 @@ export const describeSearch: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeSearch",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:DescribeSearch"],
+    resources: {
+      "iotsitewise:DescribeSearch": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSearch",
 }));
@@ -6521,6 +6953,7 @@ export const describeStorageConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeStorageConfiguration",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DescribeStorageConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeStorageConfiguration",
 }));
@@ -6554,6 +6987,14 @@ export const describeTask: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeTask",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeTask"],
+    resources: {
+      "iotsitewise:DescribeTask": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/task/${TaskName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTask",
 }));
@@ -6597,6 +7038,7 @@ export const describeTimeSeries: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeTimeSeries",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:DescribeTimeSeries"] },
   telemetry: TELEMETRY,
   span: "DescribeTimeSeries",
 }));
@@ -6630,6 +7072,14 @@ export const describeWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeWorkspace",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DescribeWorkspace"],
+    resources: {
+      "iotsitewise:DescribeWorkspace": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspace",
 }));
@@ -6664,6 +7114,14 @@ export const disassociateAssets: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateAssets",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DisassociateAssets"],
+    resources: {
+      "iotsitewise:DisassociateAssets": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateAssets",
 }));
@@ -6697,6 +7155,15 @@ export const disassociateTimeSeriesFromAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateTimeSeriesFromAssetProperty",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:DisassociateTimeSeriesFromAssetProperty"],
+    resources: {
+      "iotsitewise:DisassociateTimeSeriesFromAssetProperty": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:time-series/${TimeSeriesId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateTimeSeriesFromAssetProperty",
 }));
@@ -6732,6 +7199,7 @@ export const executeAction: API.OperationMethod<
   retry: Retry,
   operationName: "ExecuteAction",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:ExecuteAction"] },
   telemetry: TELEMETRY,
   span: "ExecuteAction",
 }));
@@ -6777,6 +7245,7 @@ export const executeQuery: API.PaginatedOperationMethod<
     items: "rows",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ExecuteQuery"] },
   telemetry: TELEMETRY,
   span: "ExecuteQuery",
 })) as any;
@@ -6825,6 +7294,7 @@ export const getAssetPropertyAggregates: API.PaginatedOperationMethod<
     items: "aggregatedValues",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:GetAssetPropertyAggregates"] },
   telemetry: TELEMETRY,
   span: "GetAssetPropertyAggregates",
 })) as any;
@@ -6866,6 +7336,7 @@ export const getAssetPropertyValue: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetPropertyValue",
   endpointHostPrefix: "data.",
+  iam: { actions: ["iotsitewise:GetAssetPropertyValue"] },
   telemetry: TELEMETRY,
   span: "GetAssetPropertyValue",
 }));
@@ -6914,6 +7385,7 @@ export const getAssetPropertyValueHistory: API.PaginatedOperationMethod<
     items: "assetPropertyValueHistory",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:GetAssetPropertyValueHistory"] },
   telemetry: TELEMETRY,
   span: "GetAssetPropertyValueHistory",
 })) as any;
@@ -6947,6 +7419,15 @@ export const getCaptureData: API.OperationMethod<
   retry: Retry,
   operationName: "GetCaptureData",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:GetCaptureData"],
+    resources: {
+      "iotsitewise:GetCaptureData": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:time-series/${TimeSeriesId}",
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCaptureData",
 }));
@@ -6999,6 +7480,7 @@ export const getInterpolatedAssetPropertyValues: API.PaginatedOperationMethod<
     items: "interpolatedAssetPropertyValues",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:GetInterpolatedAssetPropertyValues"] },
   telemetry: TELEMETRY,
   span: "GetInterpolatedAssetPropertyValues",
 })) as any;
@@ -7039,6 +7521,14 @@ export const getQueryResults: API.PaginatedOperationMethod<
     items: "rows",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:GetQueryResults"],
+    resources: {
+      "iotsitewise:GetQueryResults": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueryResults",
 })) as any;
@@ -7083,6 +7573,14 @@ export const getSearchResults: API.PaginatedOperationMethod<
     items: "searchResults",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:GetSearchResults"],
+    resources: {
+      "iotsitewise:GetSearchResults": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSearchResults",
 })) as any;
@@ -7120,6 +7618,7 @@ export const invokeAssistant: API.OperationMethod<
   retry: Retry,
   operationName: "InvokeAssistant",
   endpointHostPrefix: "data.",
+  iam: { actions: ["iotsitewise:InvokeAssistant"] },
   telemetry: TELEMETRY,
   span: "InvokeAssistant",
 }));
@@ -7153,6 +7652,7 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
     items: "accessPolicySummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListAccessPolicies"] },
   telemetry: TELEMETRY,
   span: "ListAccessPolicies",
 })) as any;
@@ -7191,6 +7691,7 @@ export const listActions: API.PaginatedOperationMethod<
     items: "actionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListActions"] },
   telemetry: TELEMETRY,
   span: "ListActions",
 })) as any;
@@ -7231,6 +7732,7 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -7269,6 +7771,14 @@ export const listAssetModelCompositeModels: API.PaginatedOperationMethod<
     items: "assetModelCompositeModelSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListAssetModelCompositeModels"],
+    resources: {
+      "iotsitewise:ListAssetModelCompositeModels": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetModelCompositeModels",
 })) as any;
@@ -7309,6 +7819,14 @@ export const listAssetModelProperties: API.PaginatedOperationMethod<
     items: "assetModelPropertySummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListAssetModelProperties"],
+    resources: {
+      "iotsitewise:ListAssetModelProperties": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetModelProperties",
 })) as any;
@@ -7347,6 +7865,7 @@ export const listAssetModels: API.PaginatedOperationMethod<
     items: "assetModelSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListAssetModels"] },
   telemetry: TELEMETRY,
   span: "ListAssetModels",
 })) as any;
@@ -7387,6 +7906,14 @@ export const listAssetProperties: API.PaginatedOperationMethod<
     items: "assetPropertySummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListAssetProperties"],
+    resources: {
+      "iotsitewise:ListAssetProperties": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetProperties",
 })) as any;
@@ -7427,6 +7954,14 @@ export const listAssetRelationships: API.PaginatedOperationMethod<
     items: "assetRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListAssetRelationships"],
+    resources: {
+      "iotsitewise:ListAssetRelationships": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetRelationships",
 })) as any;
@@ -7475,6 +8010,7 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "assetSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListAssets"] },
   telemetry: TELEMETRY,
   span: "ListAssets",
 })) as any;
@@ -7519,6 +8055,14 @@ export const listAssociatedAssets: API.PaginatedOperationMethod<
     items: "assetSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListAssociatedAssets"],
+    resources: {
+      "iotsitewise:ListAssociatedAssets": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociatedAssets",
 })) as any;
@@ -7558,6 +8102,7 @@ export const listBulkImportJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListBulkImportJobs"] },
   telemetry: TELEMETRY,
   span: "ListBulkImportJobs",
 })) as any;
@@ -7597,6 +8142,14 @@ export const listCompositionRelationships: API.PaginatedOperationMethod<
     items: "compositionRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListCompositionRelationships"],
+    resources: {
+      "iotsitewise:ListCompositionRelationships": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCompositionRelationships",
 })) as any;
@@ -7631,6 +8184,7 @@ export const listComputationModelDataBindingUsages: API.PaginatedOperationMethod
     items: "dataBindingUsageSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListComputationModelDataBindingUsages"] },
   telemetry: TELEMETRY,
   span: "ListComputationModelDataBindingUsages",
 })) as any;
@@ -7670,6 +8224,14 @@ export const listComputationModelResolveToResources: API.PaginatedOperationMetho
     items: "computationModelResolveToResourceSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListComputationModelResolveToResources"],
+    resources: {
+      "iotsitewise:ListComputationModelResolveToResources": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:computation-model/${ComputationModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListComputationModelResolveToResources",
 })) as any;
@@ -7702,6 +8264,7 @@ export const listComputationModels: API.PaginatedOperationMethod<
     items: "computationModelSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListComputationModels"] },
   telemetry: TELEMETRY,
   span: "ListComputationModels",
 })) as any;
@@ -7734,6 +8297,14 @@ export const listDashboards: API.PaginatedOperationMethod<
     items: "dashboardSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListDashboards"],
+    resources: {
+      "iotsitewise:ListDashboards": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDashboards",
 })) as any;
@@ -7774,6 +8345,7 @@ export const listDatasetDataSegmentRelationships: API.PaginatedOperationMethod<
     items: "dataSegmentRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListDatasetDataSegmentRelationships"] },
   telemetry: TELEMETRY,
   span: "ListDatasetDataSegmentRelationships",
 })) as any;
@@ -7812,6 +8384,7 @@ export const listDatasetDataSegments: API.PaginatedOperationMethod<
     items: "dataSegments",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListDatasetDataSegments"] },
   telemetry: TELEMETRY,
   span: "ListDatasetDataSegments",
 })) as any;
@@ -7852,6 +8425,14 @@ export const listDatasetExportJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListDatasetExportJobs"],
+    resources: {
+      "iotsitewise:ListDatasetExportJobs": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDatasetExportJobs",
 })) as any;
@@ -7890,6 +8471,7 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasetSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListDatasets"] },
   telemetry: TELEMETRY,
   span: "ListDatasets",
 })) as any;
@@ -7978,6 +8560,7 @@ export const listEnrichmentJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListEnrichmentJobs"] },
   telemetry: TELEMETRY,
   span: "ListEnrichmentJobs",
 })) as any;
@@ -8016,6 +8599,7 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListExecutions"] },
   telemetry: TELEMETRY,
   span: "ListExecutions",
 })) as any;
@@ -8048,6 +8632,7 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "gatewaySummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListGateways"] },
   telemetry: TELEMETRY,
   span: "ListGateways",
 })) as any;
@@ -8087,6 +8672,14 @@ export const listInterfaceRelationships: API.PaginatedOperationMethod<
     items: "interfaceRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListInterfaceRelationships"],
+    resources: {
+      "iotsitewise:ListInterfaceRelationships": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInterfaceRelationships",
 })) as any;
@@ -8133,6 +8726,14 @@ export const listPipelineExecutions: API.PaginatedOperationMethod<
     items: "pipelineExecutionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListPipelineExecutions"],
+    resources: {
+      "iotsitewise:ListPipelineExecutions": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPipelineExecutions",
 })) as any;
@@ -8173,6 +8774,7 @@ export const listPipelines: API.PaginatedOperationMethod<
     items: "pipelineSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListPipelines"] },
   telemetry: TELEMETRY,
   span: "ListPipelines",
 })) as any;
@@ -8205,6 +8807,7 @@ export const listPortals: API.PaginatedOperationMethod<
     items: "portalSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListPortals"] },
   telemetry: TELEMETRY,
   span: "ListPortals",
 })) as any;
@@ -8237,6 +8840,14 @@ export const listProjectAssets: API.PaginatedOperationMethod<
     items: "assetIds",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListProjectAssets"],
+    resources: {
+      "iotsitewise:ListProjectAssets": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProjectAssets",
 })) as any;
@@ -8269,6 +8880,14 @@ export const listProjects: API.PaginatedOperationMethod<
     items: "projectSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListProjects"],
+    resources: {
+      "iotsitewise:ListProjects": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProjects",
 })) as any;
@@ -8309,6 +8928,14 @@ export const listQueries: API.PaginatedOperationMethod<
     items: "queries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListQueries"],
+    resources: {
+      "iotsitewise:ListQueries": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQueries",
 })) as any;
@@ -8351,6 +8978,14 @@ export const listSearches: API.PaginatedOperationMethod<
     items: "searchSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["iotsitewise:ListSearches"],
+    resources: {
+      "iotsitewise:ListSearches": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSearches",
 })) as any;
@@ -8388,6 +9023,7 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -8428,6 +9064,7 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "taskSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListTasks"] },
   telemetry: TELEMETRY,
   span: "ListTasks",
 })) as any;
@@ -8466,6 +9103,7 @@ export const listTimeSeries: API.PaginatedOperationMethod<
     items: "TimeSeriesSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListTimeSeries"] },
   telemetry: TELEMETRY,
   span: "ListTimeSeries",
 })) as any;
@@ -8504,6 +9142,7 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "workspaceSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["iotsitewise:ListWorkspaces"] },
   telemetry: TELEMETRY,
   span: "ListWorkspaces",
 })) as any;
@@ -8540,6 +9179,14 @@ export const putAssetModelInterfaceRelationship: API.OperationMethod<
   retry: Retry,
   operationName: "PutAssetModelInterfaceRelationship",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:PutAssetModelInterfaceRelationship"],
+    resources: {
+      "iotsitewise:PutAssetModelInterfaceRelationship": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAssetModelInterfaceRelationship",
 }));
@@ -8577,6 +9224,7 @@ export const putDefaultEncryptionConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "PutDefaultEncryptionConfiguration",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:PutDefaultEncryptionConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutDefaultEncryptionConfiguration",
 }));
@@ -8610,6 +9258,7 @@ export const putLoggingOptions: API.OperationMethod<
   retry: Retry,
   operationName: "PutLoggingOptions",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:PutLoggingOptions"] },
   telemetry: TELEMETRY,
   span: "PutLoggingOptions",
 }));
@@ -8647,6 +9296,11 @@ export const putStorageConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "PutStorageConfiguration",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iam:PassRole", "iotsitewise:PutStorageConfiguration"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "PutStorageConfiguration",
 }));
@@ -8690,6 +9344,14 @@ export const startPipelineExecution: API.OperationMethod<
   retry: Retry,
   operationName: "StartPipelineExecution",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:StartPipelineExecution"],
+    resources: {
+      "iotsitewise:StartPipelineExecution": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartPipelineExecution",
 }));
@@ -8725,6 +9387,14 @@ export const startQuery: API.OperationMethod<
   retry: Retry,
   operationName: "StartQuery",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:StartQuery"],
+    resources: {
+      "iotsitewise:StartQuery": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartQuery",
 }));
@@ -8766,6 +9436,14 @@ export const startSearch: API.OperationMethod<
   retry: Retry,
   operationName: "StartSearch",
   endpointHostPrefix: "data.",
+  iam: {
+    actions: ["iotsitewise:StartSearch"],
+    resources: {
+      "iotsitewise:StartSearch": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartSearch",
 }));
@@ -8806,6 +9484,7 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -8843,6 +9522,7 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -8880,6 +9560,14 @@ export const updateAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAccessPolicy",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:UpdateAccessPolicy"],
+    resources: {
+      "iotsitewise:UpdateAccessPolicy": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccessPolicy",
 }));
@@ -8916,6 +9604,14 @@ export const updateAsset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAsset",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:UpdateAsset"],
+    resources: {
+      "iotsitewise:UpdateAsset": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAsset",
 }));
@@ -8971,6 +9667,14 @@ export const updateAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:UpdateAssetModel"],
+    resources: {
+      "iotsitewise:UpdateAssetModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAssetModel",
 }));
@@ -9026,6 +9730,16 @@ export const updateAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iam:PassRole", "iotsitewise:UpdateAssetModelCompositeModel"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iotsitewise:UpdateAssetModelCompositeModel": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAssetModelCompositeModel",
 }));
@@ -9063,6 +9777,14 @@ export const updateAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetProperty",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:UpdateAssetProperty"],
+    resources: {
+      "iotsitewise:UpdateAssetProperty": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAssetProperty",
 }));
@@ -9100,6 +9822,7 @@ export const updateComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateComputationModel",
   endpointHostPrefix: "api.",
+  iam: { actions: ["iotsitewise:UpdateComputationModel"] },
   telemetry: TELEMETRY,
   span: "UpdateComputationModel",
 }));
@@ -9136,6 +9859,14 @@ export const updateDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDashboard",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:UpdateDashboard"],
+    resources: {
+      "iotsitewise:UpdateDashboard": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDashboard",
 }));
@@ -9173,6 +9904,11 @@ export const updateDataset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDataset",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iam:PassRole", "iotsitewise:UpdateDataset"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataset",
 }));
@@ -9206,6 +9942,14 @@ export const updateGateway: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGateway",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:UpdateGateway"],
+    resources: {
+      "iotsitewise:UpdateGateway": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGateway",
 }));
@@ -9257,6 +10001,14 @@ export const updateGatewayCapabilityConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGatewayCapabilityConfiguration",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:UpdateGatewayCapabilityConfiguration"],
+    resources: {
+      "iotsitewise:UpdateGatewayCapabilityConfiguration": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayCapabilityConfiguration",
 }));
@@ -9297,6 +10049,14 @@ export const updatePipeline: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePipeline",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:UpdatePipeline"],
+    resources: {
+      "iotsitewise:UpdatePipeline": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePipeline",
 }));
@@ -9335,6 +10095,15 @@ export const updatePortal: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePortal",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iam:PassRole", "iotsitewise:UpdatePortal"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iotsitewise:UpdatePortal": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePortal",
 }));
@@ -9371,6 +10140,14 @@ export const updateProject: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateProject",
   endpointHostPrefix: "monitor.",
+  iam: {
+    actions: ["iotsitewise:UpdateProject"],
+    resources: {
+      "iotsitewise:UpdateProject": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProject",
 }));
@@ -9408,6 +10185,16 @@ export const updateTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTask",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iam:PassRole", "iotsitewise:UpdateTask"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iotsitewise:UpdateTask": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}/task/${TaskName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTask",
 }));
@@ -9446,6 +10233,14 @@ export const updateWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkspace",
   endpointHostPrefix: "api.",
+  iam: {
+    actions: ["iotsitewise:UpdateWorkspace"],
+    resources: {
+      "iotsitewise:UpdateWorkspace": [
+        "arn:${Partition}:iotsitewise:${Region}:${Account}:workspace/${WorkspaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspace",
 }));

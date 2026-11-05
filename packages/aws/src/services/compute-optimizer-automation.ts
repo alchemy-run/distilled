@@ -764,6 +764,7 @@ export const associateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAccounts",
+  iam: { actions: ["aco-automation:AssociateAccounts"] },
   telemetry: TELEMETRY,
   span: "AssociateAccounts",
 }));
@@ -808,6 +809,15 @@ export const createAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRule",
+  iam: {
+    actions: ["aco-automation:CreateAutomationRule", "aco-automation:TagResource"],
+    resources: {
+      "aco-automation:TagResource": [
+        "arn:${Partition}:compute-optimizer::${Account}:automation-rule/${RuleId}",
+      ],
+    },
+    conditional: { "aco-automation:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAutomationRule",
 }));
@@ -850,6 +860,14 @@ export const deleteAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomationRule",
+  iam: {
+    actions: ["aco-automation:DeleteAutomationRule"],
+    resources: {
+      "aco-automation:DeleteAutomationRule": [
+        "arn:${Partition}:compute-optimizer::${Account}:automation-rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAutomationRule",
 }));
@@ -894,6 +912,7 @@ export const disassociateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAccounts",
+  iam: { actions: ["aco-automation:DisassociateAccounts"] },
   telemetry: TELEMETRY,
   span: "DisassociateAccounts",
 }));
@@ -932,6 +951,7 @@ export const getAutomationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationEvent",
+  iam: { actions: ["aco-automation:GetAutomationEvent"] },
   telemetry: TELEMETRY,
   span: "GetAutomationEvent",
 }));
@@ -970,6 +990,14 @@ export const getAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationRule",
+  iam: {
+    actions: ["aco-automation:GetAutomationRule"],
+    resources: {
+      "aco-automation:GetAutomationRule": [
+        "arn:${Partition}:compute-optimizer::${Account}:automation-rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutomationRule",
 }));
@@ -1008,6 +1036,7 @@ export const getEnrollmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnrollmentConfiguration",
+  iam: { actions: ["aco-automation:GetEnrollmentConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetEnrollmentConfiguration",
 }));
@@ -1055,6 +1084,7 @@ export const listAccounts: API.PaginatedOperationMethod<
     items: "accounts",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aco-automation:ListAccounts"] },
   telemetry: TELEMETRY,
   span: "ListAccounts",
 })) as any;
@@ -1098,6 +1128,7 @@ export const listAutomationEvents: API.PaginatedOperationMethod<
     items: "automationEvents",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aco-automation:ListAutomationEvents"] },
   telemetry: TELEMETRY,
   span: "ListAutomationEvents",
 })) as any;
@@ -1143,6 +1174,7 @@ export const listAutomationEventSteps: API.PaginatedOperationMethod<
     items: "automationEventSteps",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aco-automation:ListAutomationEventSteps"] },
   telemetry: TELEMETRY,
   span: "ListAutomationEventSteps",
 })) as any;
@@ -1186,6 +1218,7 @@ export const listAutomationEventSummaries: API.PaginatedOperationMethod<
     items: "automationEventSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aco-automation:ListAutomationEventSummaries"] },
   telemetry: TELEMETRY,
   span: "ListAutomationEventSummaries",
 })) as any;
@@ -1229,6 +1262,7 @@ export const listAutomationRulePreview: API.PaginatedOperationMethod<
     items: "previewResults",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVolumes", "aco-automation:ListAutomationRulePreview"] },
   telemetry: TELEMETRY,
   span: "ListAutomationRulePreview",
 })) as any;
@@ -1272,6 +1306,7 @@ export const listAutomationRulePreviewSummaries: API.PaginatedOperationMethod<
     items: "previewResultSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aco-automation:ListAutomationRulePreviewSummaries"] },
   telemetry: TELEMETRY,
   span: "ListAutomationRulePreviewSummaries",
 })) as any;
@@ -1315,6 +1350,7 @@ export const listAutomationRules: API.PaginatedOperationMethod<
     items: "automationRules",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aco-automation:ListAutomationRules"] },
   telemetry: TELEMETRY,
   span: "ListAutomationRules",
 })) as any;
@@ -1360,6 +1396,7 @@ export const listRecommendedActions: API.PaginatedOperationMethod<
     items: "recommendedActions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVolumes", "aco-automation:ListRecommendedActions"] },
   telemetry: TELEMETRY,
   span: "ListRecommendedActions",
 })) as any;
@@ -1405,6 +1442,7 @@ export const listRecommendedActionSummaries: API.PaginatedOperationMethod<
     items: "recommendedActionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aco-automation:ListRecommendedActionSummaries"] },
   telemetry: TELEMETRY,
   span: "ListRecommendedActionSummaries",
 })) as any;
@@ -1443,6 +1481,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["aco-automation:ListTagsForResource"],
+    resources: {
+      "aco-automation:ListTagsForResource": [
+        "arn:${Partition}:compute-optimizer::${Account}:automation-rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1487,6 +1533,7 @@ export const rollbackAutomationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackAutomationEvent",
+  iam: { actions: ["aco-automation:RollbackAutomationEvent"] },
   telemetry: TELEMETRY,
   span: "RollbackAutomationEvent",
 }));
@@ -1533,6 +1580,7 @@ export const startAutomationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationEvent",
+  iam: { actions: ["aco-automation:StartAutomationEvent"] },
   telemetry: TELEMETRY,
   span: "StartAutomationEvent",
 }));
@@ -1575,6 +1623,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["aco-automation:TagResource"],
+    resources: {
+      "aco-automation:TagResource": [
+        "arn:${Partition}:compute-optimizer::${Account}:automation-rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1617,6 +1673,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["aco-automation:UntagResource"],
+    resources: {
+      "aco-automation:UntagResource": [
+        "arn:${Partition}:compute-optimizer::${Account}:automation-rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1659,6 +1723,14 @@ export const updateAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomationRule",
+  iam: {
+    actions: ["aco-automation:UpdateAutomationRule"],
+    resources: {
+      "aco-automation:UpdateAutomationRule": [
+        "arn:${Partition}:compute-optimizer::${Account}:automation-rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAutomationRule",
 }));
@@ -1703,6 +1775,7 @@ export const updateEnrollmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnrollmentConfiguration",
+  iam: { actions: ["aco-automation:UpdateEnrollmentConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateEnrollmentConfiguration",
 }));

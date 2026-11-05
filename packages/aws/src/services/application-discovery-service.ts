@@ -729,6 +729,7 @@ export const associateConfigurationItemsToApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConfigurationItemsToApplication",
+  iam: { actions: ["discovery:AssociateConfigurationItemsToApplication"] },
   telemetry: TELEMETRY,
   span: "AssociateConfigurationItemsToApplication",
 }));
@@ -761,6 +762,7 @@ export const batchDeleteAgents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAgents",
+  iam: { actions: ["discovery:BatchDeleteAgents"] },
   telemetry: TELEMETRY,
   span: "BatchDeleteAgents",
 }));
@@ -800,6 +802,7 @@ export const batchDeleteImportData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteImportData",
+  iam: { actions: ["discovery:BatchDeleteImportData"] },
   telemetry: TELEMETRY,
   span: "BatchDeleteImportData",
 }));
@@ -832,6 +835,7 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  iam: { actions: ["discovery:CreateApplication"] },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -869,6 +873,7 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  iam: { actions: ["discovery:CreateTags"] },
   telemetry: TELEMETRY,
   span: "CreateTags",
 }));
@@ -902,6 +907,7 @@ export const deleteApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplications",
+  iam: { actions: ["discovery:DeleteApplications"] },
   telemetry: TELEMETRY,
   span: "DeleteApplications",
 }));
@@ -937,6 +943,7 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  iam: { actions: ["discovery:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -978,6 +985,7 @@ export const describeAgents: API.PaginatedOperationMethod<
     items: "agentsInfo",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["discovery:DescribeAgents"] },
   telemetry: TELEMETRY,
   span: "DescribeAgents",
 })) as any;
@@ -1008,6 +1016,7 @@ export const describeBatchDeleteConfigurationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchDeleteConfigurationTask",
+  iam: { actions: ["discovery:DescribeBatchDeleteConfigurationTask"] },
   telemetry: TELEMETRY,
   span: "DescribeBatchDeleteConfigurationTask",
 }));
@@ -1058,6 +1067,7 @@ export const describeConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurations",
+  iam: { actions: ["discovery:DescribeConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeConfigurations",
 }));
@@ -1103,6 +1113,7 @@ export const describeContinuousExports: API.PaginatedOperationMethod<
     items: "descriptions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["discovery:DescribeContinuousExports"] },
   telemetry: TELEMETRY,
   span: "DescribeContinuousExports",
 })) as any;
@@ -1144,6 +1155,7 @@ export const describeExportConfigurations: API.PaginatedOperationMethod<
     items: "exportsInfo",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["discovery:DescribeExportConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeExportConfigurations",
 })) as any;
@@ -1184,6 +1196,7 @@ export const describeExportTasks: API.PaginatedOperationMethod<
     items: "exportsInfo",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["discovery:DescribeExportTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeExportTasks",
 })) as any;
@@ -1224,6 +1237,7 @@ export const describeImportTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["discovery:DescribeImportTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeImportTasks",
 })) as any;
@@ -1277,6 +1291,7 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["discovery:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 })) as any;
@@ -1317,6 +1332,7 @@ export const disassociateConfigurationItemsFromApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConfigurationItemsFromApplication",
+  iam: { actions: ["discovery:DisassociateConfigurationItemsFromApplication"] },
   telemetry: TELEMETRY,
   span: "DisassociateConfigurationItemsFromApplication",
 }));
@@ -1357,6 +1373,7 @@ export const exportConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportConfigurations",
+  iam: { actions: ["discovery:ExportConfigurations"] },
   telemetry: TELEMETRY,
   span: "ExportConfigurations",
 }));
@@ -1392,6 +1409,7 @@ export const getDiscoverySummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiscoverySummary",
+  iam: { actions: ["discovery:GetDiscoverySummary"] },
   telemetry: TELEMETRY,
   span: "GetDiscoverySummary",
 }));
@@ -1435,6 +1453,7 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "configurations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["discovery:ListConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListConfigurations",
 })) as any;
@@ -1468,6 +1487,7 @@ export const listServerNeighbors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServerNeighbors",
+  iam: { actions: ["discovery:ListServerNeighbors"] },
   telemetry: TELEMETRY,
   span: "ListServerNeighbors",
 }));
@@ -1505,6 +1525,7 @@ export const startBatchDeleteConfigurationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBatchDeleteConfigurationTask",
+  iam: { actions: ["discovery:StartBatchDeleteConfigurationTask"] },
   telemetry: TELEMETRY,
   span: "StartBatchDeleteConfigurationTask",
 }));
@@ -1543,6 +1564,7 @@ export const startContinuousExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContinuousExport",
+  iam: { actions: ["discovery:StartContinuousExport"] },
   telemetry: TELEMETRY,
   span: "StartContinuousExport",
 }));
@@ -1575,6 +1597,7 @@ export const startDataCollectionByAgentIds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataCollectionByAgentIds",
+  iam: { actions: ["discovery:StartDataCollectionByAgentIds"] },
   telemetry: TELEMETRY,
   span: "StartDataCollectionByAgentIds",
 }));
@@ -1632,6 +1655,7 @@ export const startExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportTask",
+  iam: { actions: ["discovery:StartExportTask"] },
   telemetry: TELEMETRY,
   span: "StartExportTask",
 }));
@@ -1693,6 +1717,7 @@ export const startImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportTask",
+  iam: { actions: ["discovery:StartImportTask"] },
   telemetry: TELEMETRY,
   span: "StartImportTask",
 }));
@@ -1731,6 +1756,7 @@ export const stopContinuousExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContinuousExport",
+  iam: { actions: ["discovery:StopContinuousExport"] },
   telemetry: TELEMETRY,
   span: "StopContinuousExport",
 }));
@@ -1763,6 +1789,7 @@ export const stopDataCollectionByAgentIds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataCollectionByAgentIds",
+  iam: { actions: ["discovery:StopDataCollectionByAgentIds"] },
   telemetry: TELEMETRY,
   span: "StopDataCollectionByAgentIds",
 }));
@@ -1795,6 +1822,7 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  iam: { actions: ["discovery:UpdateApplication"] },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));

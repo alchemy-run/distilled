@@ -1176,6 +1176,10 @@ export const createCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapability",
+  iam: {
+    actions: ["b2bi:CreateCapability", "b2bi:TagResource"],
+    conditional: { "b2bi:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapability",
 }));
@@ -1212,6 +1216,16 @@ export const createPartnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnership",
+  iam: {
+    actions: ["b2bi:CreatePartnership", "b2bi:TagResource"],
+    resources: {
+      "b2bi:CreatePartnership": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:capability/${ResourceId}",
+        "arn:${Partition}:b2bi:${Region}:${Account}:profile/${ResourceId}",
+      ],
+    },
+    conditional: { "b2bi:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePartnership",
 }));
@@ -1248,6 +1262,10 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  iam: {
+    actions: ["b2bi:CreateProfile", "b2bi:TagResource"],
+    conditional: { "b2bi:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProfile",
 }));
@@ -1284,6 +1302,14 @@ export const createStarterMappingTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStarterMappingTemplate",
+  iam: {
+    actions: ["b2bi:CreateStarterMappingTemplate", "s3:PutObject"],
+    resources: {
+      "b2bi:CreateStarterMappingTemplate": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateStarterMappingTemplate",
 }));
@@ -1332,6 +1358,10 @@ export const createTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransformer",
+  iam: {
+    actions: ["b2bi:CreateTransformer", "b2bi:TagResource"],
+    conditional: { "b2bi:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransformer",
 }));
@@ -1366,6 +1396,14 @@ export const deleteCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapability",
+  iam: {
+    actions: ["b2bi:DeleteCapability"],
+    resources: {
+      "b2bi:DeleteCapability": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:capability/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCapability",
 }));
@@ -1400,6 +1438,14 @@ export const deletePartnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartnership",
+  iam: {
+    actions: ["b2bi:DeletePartnership"],
+    resources: {
+      "b2bi:DeletePartnership": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:partnership/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePartnership",
 }));
@@ -1434,6 +1480,12 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  iam: {
+    actions: ["b2bi:DeleteProfile"],
+    resources: {
+      "b2bi:DeleteProfile": ["arn:${Partition}:b2bi:${Region}:${Account}:profile/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfile",
 }));
@@ -1468,6 +1520,14 @@ export const deleteTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransformer",
+  iam: {
+    actions: ["b2bi:DeleteTransformer"],
+    resources: {
+      "b2bi:DeleteTransformer": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransformer",
 }));
@@ -1508,6 +1568,28 @@ export const generateMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMapping",
+  iam: {
+    actions: ["b2bi:GenerateMapping", "bedrock:InvokeModel"],
+    resources: {
+      "b2bi:GenerateMapping": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}",
+      ],
+      "bedrock:InvokeModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:project/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GenerateMapping",
 }));
@@ -1540,6 +1622,12 @@ export const getCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapability",
+  iam: {
+    actions: ["b2bi:GetCapability"],
+    resources: {
+      "b2bi:GetCapability": ["arn:${Partition}:b2bi:${Region}:${Account}:capability/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCapability",
 }));
@@ -1572,6 +1660,14 @@ export const getPartnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPartnership",
+  iam: {
+    actions: ["b2bi:GetPartnership"],
+    resources: {
+      "b2bi:GetPartnership": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:partnership/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPartnership",
 }));
@@ -1604,6 +1700,12 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  iam: {
+    actions: ["b2bi:GetProfile"],
+    resources: {
+      "b2bi:GetProfile": ["arn:${Partition}:b2bi:${Region}:${Account}:profile/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProfile",
 }));
@@ -1636,6 +1738,14 @@ export const getTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransformer",
+  iam: {
+    actions: ["b2bi:GetTransformer"],
+    resources: {
+      "b2bi:GetTransformer": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransformer",
 }));
@@ -1670,6 +1780,14 @@ export const getTransformerJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransformerJob",
+  iam: {
+    actions: ["b2bi:GetTransformerJob"],
+    resources: {
+      "b2bi:GetTransformerJob": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransformerJob",
 }));
@@ -1707,6 +1825,7 @@ export const listCapabilities: API.PaginatedOperationMethod<
     items: "capabilities",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["b2bi:ListCapabilities"] },
   telemetry: TELEMETRY,
   span: "ListCapabilities",
 })) as any;
@@ -1746,6 +1865,7 @@ export const listPartnerships: API.PaginatedOperationMethod<
     items: "partnerships",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["b2bi:ListPartnerships"] },
   telemetry: TELEMETRY,
   span: "ListPartnerships",
 })) as any;
@@ -1783,6 +1903,7 @@ export const listProfiles: API.PaginatedOperationMethod<
     items: "profiles",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["b2bi:ListProfiles"] },
   telemetry: TELEMETRY,
   span: "ListProfiles",
 })) as any;
@@ -1807,6 +1928,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["b2bi:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1844,6 +1966,7 @@ export const listTransformers: API.PaginatedOperationMethod<
     items: "transformers",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["b2bi:ListTransformers"] },
   telemetry: TELEMETRY,
   span: "ListTransformers",
 })) as any;
@@ -1882,6 +2005,14 @@ export const startTransformerJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTransformerJob",
+  iam: {
+    actions: ["b2bi:StartTransformerJob"],
+    resources: {
+      "b2bi:StartTransformerJob": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartTransformerJob",
 }));
@@ -1914,6 +2045,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["b2bi:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1946,6 +2078,14 @@ export const testConversion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConversion",
+  iam: {
+    actions: ["b2bi:TestConversion", "s3:GetObject", "s3:GetObjectAttributes"],
+    resources: {
+      "b2bi:TestConversion": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestConversion",
 }));
@@ -1978,6 +2118,12 @@ export const testMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestMapping",
+  iam: {
+    actions: ["b2bi:TestMapping"],
+    resources: {
+      "b2bi:TestMapping": ["arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestMapping",
 }));
@@ -2010,6 +2156,12 @@ export const testParsing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestParsing",
+  iam: {
+    actions: ["b2bi:TestParsing", "s3:GetObject", "s3:GetObjectAttributes"],
+    resources: {
+      "b2bi:TestParsing": ["arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestParsing",
 }));
@@ -2034,6 +2186,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["b2bi:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2070,6 +2223,7 @@ export const updateCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapability",
+  iam: { actions: ["b2bi:UpdateCapability"] },
   telemetry: TELEMETRY,
   span: "UpdateCapability",
 }));
@@ -2106,6 +2260,7 @@ export const updatePartnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePartnership",
+  iam: { actions: ["b2bi:UpdatePartnership"] },
   telemetry: TELEMETRY,
   span: "UpdatePartnership",
 }));
@@ -2142,6 +2297,12 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  iam: {
+    actions: ["b2bi:UpdateProfile"],
+    resources: {
+      "b2bi:UpdateProfile": ["arn:${Partition}:b2bi:${Region}:${Account}:profile/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProfile",
 }));
@@ -2178,6 +2339,14 @@ export const updateTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTransformer",
+  iam: {
+    actions: ["b2bi:UpdateTransformer"],
+    resources: {
+      "b2bi:UpdateTransformer": [
+        "arn:${Partition}:b2bi:${Region}:${Account}:transformer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTransformer",
 }));

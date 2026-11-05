@@ -397,6 +397,7 @@ export const batchMeterUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchMeterUsage",
+  iam: { actions: ["aws-marketplace:BatchMeterUsage"] },
   telemetry: TELEMETRY,
   span: "BatchMeterUsage",
 }));
@@ -479,6 +480,7 @@ export const meterUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MeterUsage",
+  iam: { actions: ["aws-marketplace:MeterUsage"] },
   telemetry: TELEMETRY,
   span: "MeterUsage",
 }));
@@ -555,6 +557,7 @@ export const registerUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterUsage",
+  iam: { actions: ["aws-marketplace:RegisterUsage"] },
   telemetry: TELEMETRY,
   span: "RegisterUsage",
 }));
@@ -604,6 +607,7 @@ export const resolveCustomer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveCustomer",
+  iam: { actions: ["aws-marketplace:ResolveCustomer"] },
   telemetry: TELEMETRY,
   span: "ResolveCustomer",
 }));

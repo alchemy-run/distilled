@@ -5,7 +5,9 @@
         {
           "name": "InsufficientLakeFormationPermissions",
           "from": "AccessDeniedException",
-          "message": { "includes": "Insufficient Lake Formation permission" }
+          "message": {
+            "includes": "Insufficient Lake Formation permission"
+          }
         }
       ]
     },
@@ -14,12 +16,16 @@
         {
           "name": "GlueRoleNotAssumable",
           "from": "InvalidInputException",
-          "message": { "includes": "unable to assume" }
+          "message": {
+            "includes": "unable to assume"
+          }
         },
         {
           "name": "GlueS3TargetNotReady",
           "from": "InvalidInputException",
-          "message": { "includes": "InvalidAccessKeyId" }
+          "message": {
+            "includes": "InvalidAccessKeyId"
+          }
         }
       ]
     },
@@ -28,12 +34,16 @@
         {
           "name": "GlueRoleNotAssumable",
           "from": "InvalidInputException",
-          "message": { "includes": "unable to assume" }
+          "message": {
+            "includes": "unable to assume"
+          }
         },
         {
           "name": "GlueS3TargetNotReady",
           "from": "InvalidInputException",
-          "message": { "includes": "InvalidAccessKeyId" }
+          "message": {
+            "includes": "InvalidAccessKeyId"
+          }
         }
       ]
     },
@@ -42,16 +52,24 @@
         {
           "name": "GlueRoleNotAssumable",
           "from": "InvalidInputException",
-          "message": { "includes": "unable to assume" }
+          "message": {
+            "includes": "unable to assume"
+          }
         }
-      ]
+      ],
+      "iam": {
+        "reason": "glue:GetUsageProfile: AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
+        "remove": ["glue:GetUsageProfile"]
+      }
     },
     "createJob": {
       "syntheticErrors": [
         {
           "name": "GlueRoleNotAssumable",
           "from": "InvalidInputException",
-          "message": { "includes": "unable to assume" }
+          "message": {
+            "includes": "unable to assume"
+          }
         }
       ]
     },
@@ -60,9 +78,23 @@
         {
           "name": "GlueRoleNotAssumable",
           "from": "InvalidInputException",
-          "message": { "includes": "unable to assume" }
+          "message": {
+            "includes": "unable to assume"
+          }
         }
       ]
+    },
+    "getTable": {
+      "iam": {
+        "reason": "athena:GetTable: AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
+        "remove": ["athena:GetTable"]
+      }
+    },
+    "getTables": {
+      "iam": {
+        "reason": "athena:GetTables: AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
+        "remove": ["athena:GetTables"]
+      }
     }
   },
   "errorCategories": {

@@ -488,6 +488,15 @@ export const createAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPoint",
+  iam: {
+    actions: ["s3files:CreateAccessPoint", "s3files:TagResource"],
+    resources: {
+      "s3files:CreateAccessPoint": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+    conditional: { "s3files:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessPoint",
 }));
@@ -520,6 +529,11 @@ export const createFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileSystem",
+  iam: {
+    actions: ["s3files:CreateFileSystem", "iam:PassRole", "s3files:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "s3files:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFileSystem",
 }));
@@ -552,6 +566,14 @@ export const createMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMountTarget",
+  iam: {
+    actions: ["s3files:CreateMountTarget"],
+    resources: {
+      "s3files:CreateMountTarget": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMountTarget",
 }));
@@ -582,6 +604,14 @@ export const deleteAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPoint",
+  iam: {
+    actions: ["s3files:DeleteAccessPoint"],
+    resources: {
+      "s3files:DeleteAccessPoint": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}/access-point/${AccessPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessPoint",
 }));
@@ -612,6 +642,14 @@ export const deleteFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystem",
+  iam: {
+    actions: ["s3files:DeleteFileSystem"],
+    resources: {
+      "s3files:DeleteFileSystem": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFileSystem",
 }));
@@ -636,6 +674,14 @@ export const deleteFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystemPolicy",
+  iam: {
+    actions: ["s3files:DeleteFileSystemPolicy"],
+    resources: {
+      "s3files:DeleteFileSystemPolicy": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFileSystemPolicy",
 }));
@@ -666,6 +712,14 @@ export const deleteMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMountTarget",
+  iam: {
+    actions: ["s3files:DeleteMountTarget"],
+    resources: {
+      "s3files:DeleteMountTarget": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMountTarget",
 }));
@@ -690,6 +744,14 @@ export const getAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPoint",
+  iam: {
+    actions: ["s3files:GetAccessPoint"],
+    resources: {
+      "s3files:GetAccessPoint": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}/access-point/${AccessPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessPoint",
 }));
@@ -714,6 +776,7 @@ export const getFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFileSystem",
+  iam: { actions: ["s3files:GetFileSystem"] },
   telemetry: TELEMETRY,
   span: "GetFileSystem",
 }));
@@ -738,6 +801,7 @@ export const getFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFileSystemPolicy",
+  iam: { actions: ["s3files:GetFileSystemPolicy"] },
   telemetry: TELEMETRY,
   span: "GetFileSystemPolicy",
 }));
@@ -762,6 +826,14 @@ export const getMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMountTarget",
+  iam: {
+    actions: ["s3files:GetMountTarget"],
+    resources: {
+      "s3files:GetMountTarget": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMountTarget",
 }));
@@ -786,6 +858,14 @@ export const getSynchronizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSynchronizationConfiguration",
+  iam: {
+    actions: ["s3files:GetSynchronizationConfiguration"],
+    resources: {
+      "s3files:GetSynchronizationConfiguration": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSynchronizationConfiguration",
 }));
@@ -817,6 +897,14 @@ export const listAccessPoints: API.PaginatedOperationMethod<
     items: "accessPoints",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["s3files:ListAccessPoints"],
+    resources: {
+      "s3files:ListAccessPoints": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}/access-point/${AccessPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccessPoints",
 })) as any;
@@ -844,6 +932,7 @@ export const listFileSystems: API.PaginatedOperationMethod<
     items: "fileSystems",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["s3files:ListFileSystems"] },
   telemetry: TELEMETRY,
   span: "ListFileSystems",
 })) as any;
@@ -875,6 +964,14 @@ export const listMountTargets: API.PaginatedOperationMethod<
     items: "mountTargets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["s3files:ListMountTargets"],
+    resources: {
+      "s3files:ListMountTargets": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMountTargets",
 })) as any;
@@ -906,6 +1003,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["s3files:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -930,6 +1028,14 @@ export const putFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFileSystemPolicy",
+  iam: {
+    actions: ["s3files:PutFileSystemPolicy"],
+    resources: {
+      "s3files:PutFileSystemPolicy": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutFileSystemPolicy",
 }));
@@ -960,6 +1066,14 @@ export const putSynchronizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSynchronizationConfiguration",
+  iam: {
+    actions: ["s3files:PutSynchronizationConfiguration"],
+    resources: {
+      "s3files:PutSynchronizationConfiguration": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSynchronizationConfiguration",
 }));
@@ -984,6 +1098,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["s3files:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1008,6 +1123,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["s3files:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1032,6 +1148,14 @@ export const updateMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMountTarget",
+  iam: {
+    actions: ["s3files:UpdateMountTarget"],
+    resources: {
+      "s3files:UpdateMountTarget": [
+        "arn:${Partition}:s3files:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMountTarget",
 }));

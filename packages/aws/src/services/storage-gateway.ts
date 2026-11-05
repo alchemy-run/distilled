@@ -1631,6 +1631,10 @@ export const activateGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateGateway",
+  iam: {
+    actions: ["storagegateway:ActivateGateway", "storagegateway:AddTagsToResource"],
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ActivateGateway",
 }));
@@ -1655,6 +1659,14 @@ export const addCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCache",
+  iam: {
+    actions: ["storagegateway:AddCache"],
+    resources: {
+      "storagegateway:AddCache": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddCache",
 }));
@@ -1694,6 +1706,7 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  iam: { actions: ["storagegateway:AddTagsToResource"] },
   telemetry: TELEMETRY,
   span: "AddTagsToResource",
 }));
@@ -1723,6 +1736,14 @@ export const addUploadBuffer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddUploadBuffer",
+  iam: {
+    actions: ["storagegateway:AddUploadBuffer"],
+    resources: {
+      "storagegateway:AddUploadBuffer": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddUploadBuffer",
 }));
@@ -1756,6 +1777,14 @@ export const addWorkingStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddWorkingStorage",
+  iam: {
+    actions: ["storagegateway:AddWorkingStorage"],
+    resources: {
+      "storagegateway:AddWorkingStorage": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddWorkingStorage",
 }));
@@ -1782,6 +1811,18 @@ export const assignTapePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssignTapePool",
+  iam: {
+    actions: ["storagegateway:AssignTapePool", "storagegateway:BypassGovernanceRetention"],
+    resources: {
+      "storagegateway:AssignTapePool": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tape/${TapeBarcode}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tapepool/${PoolId}",
+      ],
+      "storagegateway:BypassGovernanceRetention": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tapepool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssignTapePool",
 }));
@@ -1808,6 +1849,15 @@ export const associateFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFileSystem",
+  iam: {
+    actions: ["storagegateway:AddTagsToResource", "storagegateway:AssociateFileSystem"],
+    resources: {
+      "storagegateway:AssociateFileSystem": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateFileSystem",
 }));
@@ -1831,6 +1881,15 @@ export const attachVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachVolume",
+  iam: {
+    actions: ["storagegateway:AttachVolume"],
+    resources: {
+      "storagegateway:AttachVolume": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachVolume",
 }));
@@ -1855,6 +1914,15 @@ export const cancelArchival: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelArchival",
+  iam: {
+    actions: ["storagegateway:CancelArchival"],
+    resources: {
+      "storagegateway:CancelArchival": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tape/${TapeBarcode}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelArchival",
 }));
@@ -1882,6 +1950,14 @@ export const cancelCacheReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCacheReport",
+  iam: {
+    actions: ["storagegateway:CancelCacheReport"],
+    resources: {
+      "storagegateway:CancelCacheReport": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}/cache-report/${CacheReportId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelCacheReport",
 }));
@@ -1907,6 +1983,15 @@ export const cancelRetrieval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelRetrieval",
+  iam: {
+    actions: ["storagegateway:CancelRetrieval"],
+    resources: {
+      "storagegateway:CancelRetrieval": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tape/${TapeBarcode}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelRetrieval",
 }));
@@ -1945,6 +2030,16 @@ export const createCachediSCSIVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCachediSCSIVolume",
+  iam: {
+    actions: ["storagegateway:AddTagsToResource", "storagegateway:CreateCachediSCSIVolume"],
+    resources: {
+      "storagegateway:CreateCachediSCSIVolume": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCachediSCSIVolume",
 }));
@@ -1982,6 +2077,20 @@ export const createNFSFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNFSFileShare",
+  iam: {
+    actions: [
+      "storagegateway:AddTagsToResource",
+      "storagegateway:CreateNFSFileShare",
+      "iam:PassRole",
+    ],
+    resources: {
+      "storagegateway:CreateNFSFileShare": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNFSFileShare",
 }));
@@ -2019,6 +2128,20 @@ export const createSMBFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSMBFileShare",
+  iam: {
+    actions: [
+      "storagegateway:AddTagsToResource",
+      "storagegateway:CreateSMBFileShare",
+      "iam:PassRole",
+    ],
+    resources: {
+      "storagegateway:CreateSMBFileShare": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSMBFileShare",
 }));
@@ -2066,6 +2189,14 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  iam: {
+    actions: ["storagegateway:CreateSnapshot"],
+    resources: {
+      "storagegateway:CreateSnapshot": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSnapshot",
 }));
@@ -2108,6 +2239,14 @@ export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshotFromVolumeRecoveryPoint",
+  iam: {
+    actions: ["storagegateway:CreateSnapshotFromVolumeRecoveryPoint"],
+    resources: {
+      "storagegateway:CreateSnapshotFromVolumeRecoveryPoint": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSnapshotFromVolumeRecoveryPoint",
 }));
@@ -2142,6 +2281,15 @@ export const createStorediSCSIVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorediSCSIVolume",
+  iam: {
+    actions: ["storagegateway:AddTagsToResource", "storagegateway:CreateStorediSCSIVolume"],
+    resources: {
+      "storagegateway:CreateStorediSCSIVolume": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStorediSCSIVolume",
 }));
@@ -2166,6 +2314,10 @@ export const createTapePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTapePool",
+  iam: {
+    actions: ["storagegateway:AddTagsToResource", "storagegateway:CreateTapePool"],
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTapePool",
 }));
@@ -2190,6 +2342,16 @@ export const createTapes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTapes",
+  iam: {
+    actions: ["storagegateway:AddTagsToResource", "storagegateway:CreateTapes"],
+    resources: {
+      "storagegateway:CreateTapes": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tapepool/${PoolId}",
+      ],
+    },
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTapes",
 }));
@@ -2219,6 +2381,16 @@ export const createTapeWithBarcode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTapeWithBarcode",
+  iam: {
+    actions: ["storagegateway:AddTagsToResource", "storagegateway:CreateTapeWithBarcode"],
+    resources: {
+      "storagegateway:CreateTapeWithBarcode": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tapepool/${PoolId}",
+      ],
+    },
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTapeWithBarcode",
 }));
@@ -2244,6 +2416,14 @@ export const deleteAutomaticTapeCreationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomaticTapeCreationPolicy",
+  iam: {
+    actions: ["storagegateway:DeleteAutomaticTapeCreationPolicy"],
+    resources: {
+      "storagegateway:DeleteAutomaticTapeCreationPolicy": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAutomaticTapeCreationPolicy",
 }));
@@ -2271,6 +2451,14 @@ export const deleteBandwidthRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBandwidthRateLimit",
+  iam: {
+    actions: ["storagegateway:DeleteBandwidthRateLimit"],
+    resources: {
+      "storagegateway:DeleteBandwidthRateLimit": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBandwidthRateLimit",
 }));
@@ -2298,6 +2486,14 @@ export const deleteCacheReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheReport",
+  iam: {
+    actions: ["storagegateway:DeleteCacheReport"],
+    resources: {
+      "storagegateway:DeleteCacheReport": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}/cache-report/${CacheReportId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCacheReport",
 }));
@@ -2323,6 +2519,14 @@ export const deleteChapCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChapCredentials",
+  iam: {
+    actions: ["storagegateway:DeleteChapCredentials"],
+    resources: {
+      "storagegateway:DeleteChapCredentials": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/target/${IscsiTarget}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteChapCredentials",
 }));
@@ -2347,6 +2551,14 @@ export const deleteFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileShare",
+  iam: {
+    actions: ["storagegateway:DeleteFileShare"],
+    resources: {
+      "storagegateway:DeleteFileShare": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFileShare",
 }));
@@ -2385,6 +2597,14 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
+  iam: {
+    actions: ["storagegateway:DeleteGateway"],
+    resources: {
+      "storagegateway:DeleteGateway": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGateway",
 }));
@@ -2419,6 +2639,14 @@ export const deleteSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshotSchedule",
+  iam: {
+    actions: ["storagegateway:DeleteSnapshotSchedule"],
+    resources: {
+      "storagegateway:DeleteSnapshotSchedule": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSnapshotSchedule",
 }));
@@ -2440,6 +2668,15 @@ export const deleteTape: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTape",
+  iam: {
+    actions: ["storagegateway:DeleteTape"],
+    resources: {
+      "storagegateway:DeleteTape": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tape/${TapeBarcode}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTape",
 }));
@@ -2464,6 +2701,14 @@ export const deleteTapeArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTapeArchive",
+  iam: {
+    actions: ["storagegateway:BypassGovernanceRetention", "storagegateway:DeleteTapeArchive"],
+    resources: {
+      "storagegateway:BypassGovernanceRetention": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tapepool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTapeArchive",
 }));
@@ -2489,6 +2734,14 @@ export const deleteTapePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTapePool",
+  iam: {
+    actions: ["storagegateway:DeleteTapePool"],
+    resources: {
+      "storagegateway:DeleteTapePool": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tapepool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTapePool",
 }));
@@ -2521,6 +2774,14 @@ export const deleteVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVolume",
+  iam: {
+    actions: ["storagegateway:DeleteVolume"],
+    resources: {
+      "storagegateway:DeleteVolume": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVolume",
 }));
@@ -2546,6 +2807,14 @@ export const describeAvailabilityMonitorTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAvailabilityMonitorTest",
+  iam: {
+    actions: ["storagegateway:DescribeAvailabilityMonitorTest"],
+    resources: {
+      "storagegateway:DescribeAvailabilityMonitorTest": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAvailabilityMonitorTest",
 }));
@@ -2577,6 +2846,14 @@ export const describeBandwidthRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBandwidthRateLimit",
+  iam: {
+    actions: ["storagegateway:DescribeBandwidthRateLimit"],
+    resources: {
+      "storagegateway:DescribeBandwidthRateLimit": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBandwidthRateLimit",
 }));
@@ -2616,6 +2893,14 @@ export const describeBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBandwidthRateLimitSchedule",
+  iam: {
+    actions: ["storagegateway:DescribeBandwidthRateLimitSchedule"],
+    resources: {
+      "storagegateway:DescribeBandwidthRateLimitSchedule": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBandwidthRateLimitSchedule",
 }));
@@ -2643,6 +2928,14 @@ export const describeCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCache",
+  iam: {
+    actions: ["storagegateway:DescribeCache"],
+    resources: {
+      "storagegateway:DescribeCache": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCache",
 }));
@@ -2671,6 +2964,14 @@ export const describeCachediSCSIVolumes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCachediSCSIVolumes",
+  iam: {
+    actions: ["storagegateway:DescribeCachediSCSIVolumes"],
+    resources: {
+      "storagegateway:DescribeCachediSCSIVolumes": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCachediSCSIVolumes",
 }));
@@ -2695,6 +2996,14 @@ export const describeCacheReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCacheReport",
+  iam: {
+    actions: ["storagegateway:DescribeCacheReport"],
+    resources: {
+      "storagegateway:DescribeCacheReport": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}/cache-report/${CacheReportId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCacheReport",
 }));
@@ -2720,6 +3029,14 @@ export const describeChapCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChapCredentials",
+  iam: {
+    actions: ["storagegateway:DescribeChapCredentials"],
+    resources: {
+      "storagegateway:DescribeChapCredentials": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/target/${IscsiTarget}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeChapCredentials",
 }));
@@ -2744,6 +3061,14 @@ export const describeFileSystemAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFileSystemAssociations",
+  iam: {
+    actions: ["storagegateway:DescribeFileSystemAssociations"],
+    resources: {
+      "storagegateway:DescribeFileSystemAssociations": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:fs-association/${FsaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFileSystemAssociations",
 }));
@@ -2769,6 +3094,14 @@ export const describeGatewayInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayInformation",
+  iam: {
+    actions: ["storagegateway:DescribeGatewayInformation"],
+    resources: {
+      "storagegateway:DescribeGatewayInformation": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGatewayInformation",
 }));
@@ -2794,6 +3127,14 @@ export const describeMaintenanceStartTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceStartTime",
+  iam: {
+    actions: ["storagegateway:DescribeMaintenanceStartTime"],
+    resources: {
+      "storagegateway:DescribeMaintenanceStartTime": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceStartTime",
 }));
@@ -2818,6 +3159,14 @@ export const describeNFSFileShares: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNFSFileShares",
+  iam: {
+    actions: ["storagegateway:DescribeNFSFileShares"],
+    resources: {
+      "storagegateway:DescribeNFSFileShares": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNFSFileShares",
 }));
@@ -2842,6 +3191,14 @@ export const describeSMBFileShares: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSMBFileShares",
+  iam: {
+    actions: ["storagegateway:DescribeSMBFileShares"],
+    resources: {
+      "storagegateway:DescribeSMBFileShares": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSMBFileShares",
 }));
@@ -2866,6 +3223,14 @@ export const describeSMBSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSMBSettings",
+  iam: {
+    actions: ["storagegateway:DescribeSMBSettings"],
+    resources: {
+      "storagegateway:DescribeSMBSettings": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSMBSettings",
 }));
@@ -2892,6 +3257,14 @@ export const describeSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSnapshotSchedule",
+  iam: {
+    actions: ["storagegateway:DescribeSnapshotSchedule"],
+    resources: {
+      "storagegateway:DescribeSnapshotSchedule": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSnapshotSchedule",
 }));
@@ -2917,6 +3290,14 @@ export const describeStorediSCSIVolumes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStorediSCSIVolumes",
+  iam: {
+    actions: ["storagegateway:DescribeStorediSCSIVolumes"],
+    resources: {
+      "storagegateway:DescribeStorediSCSIVolumes": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStorediSCSIVolumes",
 }));
@@ -2951,6 +3332,7 @@ export const describeTapeArchives: API.PaginatedOperationMethod<
     items: "TapeArchives",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["storagegateway:DescribeTapeArchives"] },
   telemetry: TELEMETRY,
   span: "DescribeTapeArchives",
 })) as any;
@@ -2987,6 +3369,14 @@ export const describeTapeRecoveryPoints: API.PaginatedOperationMethod<
     items: "TapeRecoveryPointInfos",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["storagegateway:DescribeTapeRecoveryPoints"],
+    resources: {
+      "storagegateway:DescribeTapeRecoveryPoints": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTapeRecoveryPoints",
 })) as any;
@@ -3027,6 +3417,14 @@ export const describeTapes: API.PaginatedOperationMethod<
     items: "Tapes",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["storagegateway:DescribeTapes"],
+    resources: {
+      "storagegateway:DescribeTapes": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTapes",
 })) as any;
@@ -3054,6 +3452,14 @@ export const describeUploadBuffer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUploadBuffer",
+  iam: {
+    actions: ["storagegateway:DescribeUploadBuffer"],
+    resources: {
+      "storagegateway:DescribeUploadBuffer": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeUploadBuffer",
 }));
@@ -3087,6 +3493,14 @@ export const describeVTLDevices: API.PaginatedOperationMethod<
     items: "VTLDevices",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["storagegateway:DescribeVTLDevices"],
+    resources: {
+      "storagegateway:DescribeVTLDevices": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVTLDevices",
 })) as any;
@@ -3118,6 +3532,14 @@ export const describeWorkingStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkingStorage",
+  iam: {
+    actions: ["storagegateway:DescribeWorkingStorage"],
+    resources: {
+      "storagegateway:DescribeWorkingStorage": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkingStorage",
 }));
@@ -3142,6 +3564,14 @@ export const detachVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachVolume",
+  iam: {
+    actions: ["storagegateway:DetachVolume"],
+    resources: {
+      "storagegateway:DetachVolume": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachVolume",
 }));
@@ -3171,6 +3601,14 @@ export const disableGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableGateway",
+  iam: {
+    actions: ["storagegateway:DisableGateway"],
+    resources: {
+      "storagegateway:DisableGateway": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableGateway",
 }));
@@ -3196,6 +3634,14 @@ export const disassociateFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFileSystem",
+  iam: {
+    actions: ["storagegateway:DisassociateFileSystem"],
+    resources: {
+      "storagegateway:DisassociateFileSystem": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:fs-association/${FsaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateFileSystem",
 }));
@@ -3230,6 +3676,14 @@ export const evictFilesFailingUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvictFilesFailingUpload",
+  iam: {
+    actions: ["storagegateway:EvictFilesFailingUpload"],
+    resources: {
+      "storagegateway:EvictFilesFailingUpload": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EvictFilesFailingUpload",
 }));
@@ -3260,6 +3714,14 @@ export const joinDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "JoinDomain",
+  iam: {
+    actions: ["storagegateway:JoinDomain"],
+    resources: {
+      "storagegateway:JoinDomain": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "JoinDomain",
 }));
@@ -3286,6 +3748,7 @@ export const listAutomaticTapeCreationPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomaticTapeCreationPolicies",
+  iam: { actions: ["storagegateway:ListAutomaticTapeCreationPolicies"] },
   telemetry: TELEMETRY,
   span: "ListAutomaticTapeCreationPolicies",
 }));
@@ -3314,6 +3777,7 @@ export const listCacheReports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListCacheReports",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "CacheReportList" } as const,
+  iam: { actions: ["storagegateway:ListCacheReports"] },
   telemetry: TELEMETRY,
   span: "ListCacheReports",
 })) as any;
@@ -3346,6 +3810,7 @@ export const listFileShares: API.PaginatedOperationMethod<
     items: "FileShareInfoList",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["storagegateway:ListFileShares"] },
   telemetry: TELEMETRY,
   span: "ListFileShares",
 })) as any;
@@ -3378,6 +3843,7 @@ export const listFileSystemAssociations: API.PaginatedOperationMethod<
     items: "FileSystemAssociationSummaryList",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["storagegateway:ListFileSystemAssociations"] },
   telemetry: TELEMETRY,
   span: "ListFileSystemAssociations",
 })) as any;
@@ -3415,6 +3881,7 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "Gateways",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["storagegateway:ListGateways"] },
   telemetry: TELEMETRY,
   span: "ListGateways",
 })) as any;
@@ -3446,6 +3913,14 @@ export const listLocalDisks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLocalDisks",
+  iam: {
+    actions: ["storagegateway:ListLocalDisks"],
+    resources: {
+      "storagegateway:ListLocalDisks": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLocalDisks",
 }));
@@ -3477,6 +3952,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["storagegateway:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -3515,6 +3991,7 @@ export const listTapePools: API.PaginatedOperationMethod<
     items: "PoolInfos",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["storagegateway:ListTapePools"] },
   telemetry: TELEMETRY,
   span: "ListTapePools",
 })) as any;
@@ -3552,6 +4029,7 @@ export const listTapes: API.PaginatedOperationMethod<
     items: "TapeInfos",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["storagegateway:ListTapes"] },
   telemetry: TELEMETRY,
   span: "ListTapes",
 })) as any;
@@ -3577,6 +4055,14 @@ export const listVolumeInitiators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVolumeInitiators",
+  iam: {
+    actions: ["storagegateway:ListVolumeInitiators"],
+    resources: {
+      "storagegateway:ListVolumeInitiators": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListVolumeInitiators",
 }));
@@ -3606,6 +4092,14 @@ export const listVolumeRecoveryPoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVolumeRecoveryPoints",
+  iam: {
+    actions: ["storagegateway:ListVolumeRecoveryPoints"],
+    resources: {
+      "storagegateway:ListVolumeRecoveryPoints": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListVolumeRecoveryPoints",
 }));
@@ -3642,6 +4136,7 @@ export const listVolumes: API.PaginatedOperationMethod<
     items: "VolumeInfos",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["storagegateway:ListVolumes"] },
   telemetry: TELEMETRY,
   span: "ListVolumes",
 })) as any;
@@ -3677,6 +4172,14 @@ export const notifyWhenUploaded: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyWhenUploaded",
+  iam: {
+    actions: ["storagegateway:NotifyWhenUploaded"],
+    resources: {
+      "storagegateway:NotifyWhenUploaded": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "NotifyWhenUploaded",
 }));
@@ -3734,6 +4237,14 @@ export const refreshCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RefreshCache",
+  iam: {
+    actions: ["storagegateway:RefreshCache"],
+    resources: {
+      "storagegateway:RefreshCache": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RefreshCache",
 }));
@@ -3758,6 +4269,7 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  iam: { actions: ["storagegateway:RemoveTagsFromResource"] },
   telemetry: TELEMETRY,
   span: "RemoveTagsFromResource",
 }));
@@ -3788,6 +4300,14 @@ export const resetCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetCache",
+  iam: {
+    actions: ["storagegateway:ResetCache"],
+    resources: {
+      "storagegateway:ResetCache": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetCache",
 }));
@@ -3818,6 +4338,15 @@ export const retrieveTapeArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveTapeArchive",
+  iam: {
+    actions: ["storagegateway:RetrieveTapeArchive"],
+    resources: {
+      "storagegateway:RetrieveTapeArchive": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tape/${TapeBarcode}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetrieveTapeArchive",
 }));
@@ -3850,6 +4379,15 @@ export const retrieveTapeRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveTapeRecoveryPoint",
+  iam: {
+    actions: ["storagegateway:RetrieveTapeRecoveryPoint"],
+    resources: {
+      "storagegateway:RetrieveTapeRecoveryPoint": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tape/${TapeBarcode}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetrieveTapeRecoveryPoint",
 }));
@@ -3876,6 +4414,14 @@ export const setLocalConsolePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLocalConsolePassword",
+  iam: {
+    actions: ["storagegateway:SetLocalConsolePassword"],
+    resources: {
+      "storagegateway:SetLocalConsolePassword": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetLocalConsolePassword",
 }));
@@ -3901,6 +4447,14 @@ export const setSMBGuestPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSMBGuestPassword",
+  iam: {
+    actions: ["storagegateway:SetSMBGuestPassword"],
+    resources: {
+      "storagegateway:SetSMBGuestPassword": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetSMBGuestPassword",
 }));
@@ -3946,6 +4500,14 @@ export const shutdownGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ShutdownGateway",
+  iam: {
+    actions: ["storagegateway:ShutdownGateway"],
+    resources: {
+      "storagegateway:ShutdownGateway": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ShutdownGateway",
 }));
@@ -3975,6 +4537,14 @@ export const startAvailabilityMonitorTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAvailabilityMonitorTest",
+  iam: {
+    actions: ["storagegateway:StartAvailabilityMonitorTest"],
+    resources: {
+      "storagegateway:StartAvailabilityMonitorTest": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAvailabilityMonitorTest",
 }));
@@ -4025,6 +4595,20 @@ export const startCacheReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCacheReport",
+  iam: {
+    actions: [
+      "storagegateway:AddTagsToResource",
+      "iam:PassRole",
+      "storagegateway:StartCacheReport",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "storagegateway:StartCacheReport": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}",
+      ],
+    },
+    conditional: { "storagegateway:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartCacheReport",
 }));
@@ -4055,6 +4639,14 @@ export const startGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGateway",
+  iam: {
+    actions: ["storagegateway:StartGateway"],
+    resources: {
+      "storagegateway:StartGateway": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartGateway",
 }));
@@ -4084,6 +4676,15 @@ export const updateAutomaticTapeCreationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomaticTapeCreationPolicy",
+  iam: {
+    actions: ["storagegateway:UpdateAutomaticTapeCreationPolicy"],
+    resources: {
+      "storagegateway:UpdateAutomaticTapeCreationPolicy": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+        "arn:${Partition}:storagegateway:${Region}:${Account}:tapepool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAutomaticTapeCreationPolicy",
 }));
@@ -4118,6 +4719,14 @@ export const updateBandwidthRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBandwidthRateLimit",
+  iam: {
+    actions: ["storagegateway:UpdateBandwidthRateLimit"],
+    resources: {
+      "storagegateway:UpdateBandwidthRateLimit": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBandwidthRateLimit",
 }));
@@ -4146,6 +4755,14 @@ export const updateBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBandwidthRateLimitSchedule",
+  iam: {
+    actions: ["storagegateway:UpdateBandwidthRateLimitSchedule"],
+    resources: {
+      "storagegateway:UpdateBandwidthRateLimitSchedule": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBandwidthRateLimitSchedule",
 }));
@@ -4175,6 +4792,14 @@ export const updateChapCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChapCredentials",
+  iam: {
+    actions: ["storagegateway:UpdateChapCredentials"],
+    resources: {
+      "storagegateway:UpdateChapCredentials": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/target/${IscsiTarget}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateChapCredentials",
 }));
@@ -4199,6 +4824,14 @@ export const updateFileSystemAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystemAssociation",
+  iam: {
+    actions: ["storagegateway:UpdateFileSystemAssociation"],
+    resources: {
+      "storagegateway:UpdateFileSystemAssociation": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:fs-association/${FsaId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFileSystemAssociation",
 }));
@@ -4228,6 +4861,14 @@ export const updateGatewayInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInformation",
+  iam: {
+    actions: ["storagegateway:UpdateGatewayInformation"],
+    resources: {
+      "storagegateway:UpdateGatewayInformation": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayInformation",
 }));
@@ -4262,6 +4903,14 @@ export const updateGatewaySoftwareNow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewaySoftwareNow",
+  iam: {
+    actions: ["storagegateway:UpdateGatewaySoftwareNow"],
+    resources: {
+      "storagegateway:UpdateGatewaySoftwareNow": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGatewaySoftwareNow",
 }));
@@ -4300,6 +4949,14 @@ export const updateMaintenanceStartTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceStartTime",
+  iam: {
+    actions: ["storagegateway:UpdateMaintenanceStartTime"],
+    resources: {
+      "storagegateway:UpdateMaintenanceStartTime": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMaintenanceStartTime",
 }));
@@ -4339,6 +4996,14 @@ export const updateNFSFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNFSFileShare",
+  iam: {
+    actions: ["storagegateway:UpdateNFSFileShare"],
+    resources: {
+      "storagegateway:UpdateNFSFileShare": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNFSFileShare",
 }));
@@ -4377,6 +5042,14 @@ export const updateSMBFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSMBFileShare",
+  iam: {
+    actions: ["storagegateway:UpdateSMBFileShare"],
+    resources: {
+      "storagegateway:UpdateSMBFileShare": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:share/${ShareId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSMBFileShare",
 }));
@@ -4401,6 +5074,14 @@ export const updateSMBFileShareVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSMBFileShareVisibility",
+  iam: {
+    actions: ["storagegateway:UpdateSMBFileShareVisibility"],
+    resources: {
+      "storagegateway:UpdateSMBFileShareVisibility": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSMBFileShareVisibility",
 }));
@@ -4425,6 +5106,14 @@ export const updateSMBLocalGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSMBLocalGroups",
+  iam: {
+    actions: ["storagegateway:UpdateSMBLocalGroups"],
+    resources: {
+      "storagegateway:UpdateSMBLocalGroups": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSMBLocalGroups",
 }));
@@ -4455,6 +5144,14 @@ export const updateSMBSecurityStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSMBSecurityStrategy",
+  iam: {
+    actions: ["storagegateway:UpdateSMBSecurityStrategy"],
+    resources: {
+      "storagegateway:UpdateSMBSecurityStrategy": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSMBSecurityStrategy",
 }));
@@ -4487,6 +5184,14 @@ export const updateSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSnapshotSchedule",
+  iam: {
+    actions: ["storagegateway:UpdateSnapshotSchedule"],
+    resources: {
+      "storagegateway:UpdateSnapshotSchedule": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSnapshotSchedule",
 }));
@@ -4513,6 +5218,14 @@ export const updateVTLDeviceType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVTLDeviceType",
+  iam: {
+    actions: ["storagegateway:UpdateVTLDeviceType"],
+    resources: {
+      "storagegateway:UpdateVTLDeviceType": [
+        "arn:${Partition}:storagegateway:${Region}:${Account}:gateway/${GatewayId}/device/${Vtldevice}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVTLDeviceType",
 }));

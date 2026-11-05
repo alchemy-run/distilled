@@ -858,6 +858,14 @@ export const acceptLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptLink",
+  iam: {
+    actions: ["rtbfabric:AcceptLink"],
+    resources: {
+      "rtbfabric:AcceptLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptLink",
 }));
@@ -894,6 +902,14 @@ export const associateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCertificate",
+  iam: {
+    actions: ["rtbfabric:AssociateCertificate"],
+    resources: {
+      "rtbfabric:AssociateCertificate": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateCertificate",
 }));
@@ -930,6 +946,15 @@ export const createInboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInboundExternalLink",
+  iam: {
+    actions: ["rtbfabric:CreateInboundExternalLink", "rtbfabric:TagResource"],
+    resources: {
+      "rtbfabric:CreateInboundExternalLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+    conditional: { "rtbfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInboundExternalLink",
 }));
@@ -968,6 +993,10 @@ export const createLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLink",
+  iam: {
+    actions: ["rtbfabric:CreateLink", "rtbfabric:TagResource"],
+    conditional: { "rtbfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLink",
 }));
@@ -1006,6 +1035,15 @@ export const createLinkRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLinkRoutingRule",
+  iam: {
+    actions: ["rtbfabric:CreateLinkRoutingRule", "rtbfabric:TagResource"],
+    resources: {
+      "rtbfabric:CreateLinkRoutingRule": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+      ],
+    },
+    conditional: { "rtbfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLinkRoutingRule",
 }));
@@ -1042,6 +1080,15 @@ export const createOutboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutboundExternalLink",
+  iam: {
+    actions: ["rtbfabric:CreateOutboundExternalLink", "rtbfabric:TagResource"],
+    resources: {
+      "rtbfabric:CreateOutboundExternalLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+    conditional: { "rtbfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateOutboundExternalLink",
 }));
@@ -1076,6 +1123,10 @@ export const createRequesterGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRequesterGateway",
+  iam: {
+    actions: ["rtbfabric:CreateRequesterGateway", "rtbfabric:TagResource"],
+    conditional: { "rtbfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRequesterGateway",
 }));
@@ -1112,6 +1163,10 @@ export const createResponderGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponderGateway",
+  iam: {
+    actions: ["rtbfabric:CreateResponderGateway", "rtbfabric:TagResource"],
+    conditional: { "rtbfabric:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateResponderGateway",
 }));
@@ -1146,6 +1201,15 @@ export const deleteInboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInboundExternalLink",
+  iam: {
+    actions: ["rtbfabric:DeleteInboundExternalLink"],
+    resources: {
+      "rtbfabric:DeleteInboundExternalLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInboundExternalLink",
 }));
@@ -1182,6 +1246,14 @@ export const deleteLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLink",
+  iam: {
+    actions: ["rtbfabric:DeleteLink"],
+    resources: {
+      "rtbfabric:DeleteLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLink",
 }));
@@ -1216,6 +1288,15 @@ export const deleteLinkRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLinkRoutingRule",
+  iam: {
+    actions: ["rtbfabric:DeleteLinkRoutingRule"],
+    resources: {
+      "rtbfabric:DeleteLinkRoutingRule": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}/routing-rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLinkRoutingRule",
 }));
@@ -1250,6 +1331,15 @@ export const deleteOutboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutboundExternalLink",
+  iam: {
+    actions: ["rtbfabric:DeleteOutboundExternalLink"],
+    resources: {
+      "rtbfabric:DeleteOutboundExternalLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOutboundExternalLink",
 }));
@@ -1284,6 +1374,14 @@ export const deleteRequesterGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRequesterGateway",
+  iam: {
+    actions: ["rtbfabric:DeleteRequesterGateway"],
+    resources: {
+      "rtbfabric:DeleteRequesterGateway": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRequesterGateway",
 }));
@@ -1318,6 +1416,14 @@ export const deleteResponderGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponderGateway",
+  iam: {
+    actions: ["rtbfabric:DeleteResponderGateway"],
+    resources: {
+      "rtbfabric:DeleteResponderGateway": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResponderGateway",
 }));
@@ -1354,6 +1460,14 @@ export const disassociateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCertificate",
+  iam: {
+    actions: ["rtbfabric:DisassociateCertificate"],
+    resources: {
+      "rtbfabric:DisassociateCertificate": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateCertificate",
 }));
@@ -1386,6 +1500,14 @@ export const getCertificateAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateAssociation",
+  iam: {
+    actions: ["rtbfabric:GetCertificateAssociation"],
+    resources: {
+      "rtbfabric:GetCertificateAssociation": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCertificateAssociation",
 }));
@@ -1418,6 +1540,15 @@ export const getInboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInboundExternalLink",
+  iam: {
+    actions: ["rtbfabric:GetInboundExternalLink"],
+    resources: {
+      "rtbfabric:GetInboundExternalLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInboundExternalLink",
 }));
@@ -1454,6 +1585,14 @@ export const getLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLink",
+  iam: {
+    actions: ["rtbfabric:GetLink"],
+    resources: {
+      "rtbfabric:GetLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLink",
 }));
@@ -1486,6 +1625,15 @@ export const getLinkRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkRoutingRule",
+  iam: {
+    actions: ["rtbfabric:GetLinkRoutingRule"],
+    resources: {
+      "rtbfabric:GetLinkRoutingRule": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}/routing-rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLinkRoutingRule",
 }));
@@ -1518,6 +1666,15 @@ export const getOutboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutboundExternalLink",
+  iam: {
+    actions: ["rtbfabric:GetOutboundExternalLink"],
+    resources: {
+      "rtbfabric:GetOutboundExternalLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOutboundExternalLink",
 }));
@@ -1550,6 +1707,14 @@ export const getRequesterGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequesterGateway",
+  iam: {
+    actions: ["rtbfabric:GetRequesterGateway"],
+    resources: {
+      "rtbfabric:GetRequesterGateway": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRequesterGateway",
 }));
@@ -1582,6 +1747,14 @@ export const getResponderGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponderGateway",
+  iam: {
+    actions: ["rtbfabric:GetResponderGateway"],
+    resources: {
+      "rtbfabric:GetResponderGateway": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResponderGateway",
 }));
@@ -1621,6 +1794,14 @@ export const listCertificateAssociations: API.PaginatedOperationMethod<
     items: "certificateAssociations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["rtbfabric:ListCertificateAssociations"],
+    resources: {
+      "rtbfabric:ListCertificateAssociations": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCertificateAssociations",
 })) as any;
@@ -1660,6 +1841,14 @@ export const listLinkRoutingRules: API.PaginatedOperationMethod<
     items: "rules",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["rtbfabric:ListLinkRoutingRules"],
+    resources: {
+      "rtbfabric:ListLinkRoutingRules": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLinkRoutingRules",
 })) as any;
@@ -1701,6 +1890,7 @@ export const listLinks: API.PaginatedOperationMethod<
     items: "links",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["rtbfabric:ListLinks"] },
   telemetry: TELEMETRY,
   span: "ListLinks",
 })) as any;
@@ -1731,6 +1921,7 @@ export const listRequesterGateways: API.PaginatedOperationMethod<
     items: "gatewayIds",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["rtbfabric:ListRequesterGateways"] },
   telemetry: TELEMETRY,
   span: "ListRequesterGateways",
 })) as any;
@@ -1761,6 +1952,7 @@ export const listResponderGateways: API.PaginatedOperationMethod<
     items: "gatewayIds",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["rtbfabric:ListResponderGateways"] },
   telemetry: TELEMETRY,
   span: "ListResponderGateways",
 })) as any;
@@ -1793,6 +1985,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["rtbfabric:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1829,6 +2022,14 @@ export const rejectLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectLink",
+  iam: {
+    actions: ["rtbfabric:RejectLink"],
+    resources: {
+      "rtbfabric:RejectLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectLink",
 }));
@@ -1861,6 +2062,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["rtbfabric:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1893,6 +2095,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["rtbfabric:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1929,6 +2132,14 @@ export const updateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLink",
+  iam: {
+    actions: ["rtbfabric:UpdateLink"],
+    resources: {
+      "rtbfabric:UpdateLink": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLink",
 }));
@@ -1965,6 +2176,14 @@ export const updateLinkModuleFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkModuleFlow",
+  iam: {
+    actions: ["rtbfabric:UpdateLinkModuleFlow"],
+    resources: {
+      "rtbfabric:UpdateLinkModuleFlow": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLinkModuleFlow",
 }));
@@ -1999,6 +2218,15 @@ export const updateLinkRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkRoutingRule",
+  iam: {
+    actions: ["rtbfabric:UpdateLinkRoutingRule"],
+    resources: {
+      "rtbfabric:UpdateLinkRoutingRule": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}",
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}/link/${LinkId}/routing-rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLinkRoutingRule",
 }));
@@ -2033,6 +2261,14 @@ export const updateRequesterGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRequesterGateway",
+  iam: {
+    actions: ["rtbfabric:UpdateRequesterGateway"],
+    resources: {
+      "rtbfabric:UpdateRequesterGateway": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRequesterGateway",
 }));
@@ -2069,6 +2305,14 @@ export const updateResponderGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponderGateway",
+  iam: {
+    actions: ["rtbfabric:UpdateResponderGateway"],
+    resources: {
+      "rtbfabric:UpdateResponderGateway": [
+        "arn:${Partition}:rtbfabric:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResponderGateway",
 }));

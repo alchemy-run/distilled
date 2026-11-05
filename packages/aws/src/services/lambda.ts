@@ -2701,6 +2701,14 @@ export const addLayerVersionPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddLayerVersionPermission",
+  iam: {
+    actions: ["lambda:AddLayerVersionPermission"],
+    resources: {
+      "lambda:AddLayerVersionPermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}:${LayerVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddLayerVersionPermission",
 }));
@@ -2747,6 +2755,14 @@ export const addPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
+  iam: {
+    actions: ["lambda:AddPermission"],
+    resources: {
+      "lambda:AddPermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "AddPermission", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -2785,6 +2801,14 @@ export const checkpointDurableExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckpointDurableExecution",
+  iam: {
+    actions: ["lambda:CheckpointDurableExecution"],
+    resources: {
+      "lambda:CheckpointDurableExecution": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}/durable-execution/${ExecutionName}/${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CheckpointDurableExecution",
 }));
@@ -2825,6 +2849,14 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  iam: {
+    actions: ["lambda:CreateAlias"],
+    resources: {
+      "lambda:CreateAlias": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "CreateAlias", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -2857,6 +2889,16 @@ export const createCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityProvider",
+  iam: {
+    actions: ["lambda:CreateCapacityProvider", "iam:PassRole", "lambda:TagResource"],
+    resources: {
+      "lambda:CreateCapacityProvider": [
+        "arn:${Partition}:lambda:${Region}:${Account}:capacity-provider:${CapacityProviderName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "lambda:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapacityProvider",
 }));
@@ -2880,6 +2922,10 @@ export const createCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeSigningConfig",
+  iam: {
+    actions: ["lambda:CreateCodeSigningConfig", "lambda:TagResource"],
+    conditional: { "lambda:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCodeSigningConfig",
 }));
@@ -2968,6 +3014,10 @@ export const createEventSourceMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSourceMapping",
+  iam: {
+    actions: ["lambda:CreateEventSourceMapping", "lambda:TagResource"],
+    conditional: { "lambda:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "CreateEventSourceMapping",
@@ -3039,6 +3089,28 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
+  iam: {
+    actions: [
+      "lambda:CreateFunction",
+      "lambda:GetLayerVersion",
+      "lambda:PassCapacityProvider",
+      "iam:PassRole",
+      "lambda:TagResource",
+    ],
+    resources: {
+      "lambda:CreateFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+      "lambda:GetLayerVersion": [
+        "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}:${LayerVersion}",
+      ],
+      "lambda:PassCapacityProvider": [
+        "arn:${Partition}:lambda:${Region}:${Account}:capacity-provider:${CapacityProviderName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "lambda:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: { op: "CreateFunction", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -3075,6 +3147,14 @@ export const createFunctionUrlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionUrlConfig",
+  iam: {
+    actions: ["lambda:CreateFunctionUrlConfig"],
+    resources: {
+      "lambda:CreateFunctionUrlConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "CreateFunctionUrlConfig", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -3109,6 +3189,14 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
+  iam: {
+    actions: ["lambda:DeleteAlias"],
+    resources: {
+      "lambda:DeleteAlias": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DeleteAlias", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -3141,6 +3229,14 @@ export const deleteCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProvider",
+  iam: {
+    actions: ["lambda:DeleteCapacityProvider"],
+    resources: {
+      "lambda:DeleteCapacityProvider": [
+        "arn:${Partition}:lambda:${Region}:${Account}:capacity-provider:${CapacityProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCapacityProvider",
 }));
@@ -3175,6 +3271,14 @@ export const deleteCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSigningConfig",
+  iam: {
+    actions: ["lambda:DeleteCodeSigningConfig"],
+    resources: {
+      "lambda:DeleteCodeSigningConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:code-signing-config:${CodeSigningConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCodeSigningConfig",
 }));
@@ -3211,6 +3315,14 @@ export const deleteEventSourceMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSourceMapping",
+  iam: {
+    actions: ["lambda:DeleteEventSourceMapping"],
+    resources: {
+      "lambda:DeleteEventSourceMapping": [
+        "arn:${Partition}:lambda:${Region}:${Account}:event-source-mapping:${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEventSourceMapping",
 }));
@@ -3247,6 +3359,14 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
+  iam: {
+    actions: ["lambda:DeleteFunction"],
+    resources: {
+      "lambda:DeleteFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DeleteFunction", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -3281,6 +3401,14 @@ export const deleteFunctionCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionCodeSigningConfig",
+  iam: {
+    actions: ["lambda:DeleteFunctionCodeSigningConfig"],
+    resources: {
+      "lambda:DeleteFunctionCodeSigningConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteFunctionCodeSigningConfig",
@@ -3320,6 +3448,14 @@ export const deleteFunctionConcurrency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionConcurrency",
+  iam: {
+    actions: ["lambda:DeleteFunctionConcurrency"],
+    resources: {
+      "lambda:DeleteFunctionConcurrency": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteFunctionConcurrency",
@@ -3361,6 +3497,14 @@ export const deleteFunctionEventInvokeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionEventInvokeConfig",
+  iam: {
+    actions: ["lambda:DeleteFunctionEventInvokeConfig"],
+    resources: {
+      "lambda:DeleteFunctionEventInvokeConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteFunctionEventInvokeConfig",
@@ -3400,6 +3544,14 @@ export const deleteFunctionUrlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionUrlConfig",
+  iam: {
+    actions: ["lambda:DeleteFunctionUrlConfig"],
+    resources: {
+      "lambda:DeleteFunctionUrlConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DeleteFunctionUrlConfig", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -3434,6 +3586,14 @@ export const deleteLayerVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLayerVersion",
+  iam: {
+    actions: ["lambda:DeleteLayerVersion"],
+    resources: {
+      "lambda:DeleteLayerVersion": [
+        "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}:${LayerVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLayerVersion",
 }));
@@ -3470,6 +3630,7 @@ export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisionedConcurrencyConfig",
+  iam: { actions: ["lambda:DeleteProvisionedConcurrencyConfig"] },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteProvisionedConcurrencyConfig",
@@ -3507,6 +3668,18 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["lambda:DeleteResourcePolicy", "lambda:RemovePermission"],
+    resources: {
+      "lambda:DeleteResourcePolicy": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+      "lambda:RemovePermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -3527,6 +3700,7 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  iam: { actions: ["lambda:GetAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetAccountSettings",
 }));
@@ -3557,6 +3731,12 @@ export const getAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlias",
+  iam: {
+    actions: ["lambda:GetAlias"],
+    resources: {
+      "lambda:GetAlias": ["arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "GetAlias", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -3587,6 +3767,14 @@ export const getCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityProvider",
+  iam: {
+    actions: ["lambda:GetCapacityProvider"],
+    resources: {
+      "lambda:GetCapacityProvider": [
+        "arn:${Partition}:lambda:${Region}:${Account}:capacity-provider:${CapacityProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCapacityProvider",
 }));
@@ -3619,6 +3807,14 @@ export const getCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSigningConfig",
+  iam: {
+    actions: ["lambda:GetCodeSigningConfig"],
+    resources: {
+      "lambda:GetCodeSigningConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:code-signing-config:${CodeSigningConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCodeSigningConfig",
 }));
@@ -3657,6 +3853,14 @@ export const getDurableExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDurableExecution",
+  iam: {
+    actions: ["lambda:GetDurableExecution"],
+    resources: {
+      "lambda:GetDurableExecution": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}/durable-execution/${ExecutionName}/${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDurableExecution",
 }));
@@ -3704,6 +3908,14 @@ export const getDurableExecutionHistory: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:GetDurableExecutionHistory"],
+    resources: {
+      "lambda:GetDurableExecutionHistory": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}/durable-execution/${ExecutionName}/${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDurableExecutionHistory",
 })) as any;
@@ -3749,6 +3961,14 @@ export const getDurableExecutionState: API.PaginatedOperationMethod<
     items: "Operations",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:GetDurableExecutionState"],
+    resources: {
+      "lambda:GetDurableExecutionState": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}/durable-execution/${ExecutionName}/${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDurableExecutionState",
 })) as any;
@@ -3779,6 +3999,14 @@ export const getEventSourceMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventSourceMapping",
+  iam: {
+    actions: ["lambda:GetEventSourceMapping"],
+    resources: {
+      "lambda:GetEventSourceMapping": [
+        "arn:${Partition}:lambda:${Region}:${Account}:event-source-mapping:${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEventSourceMapping",
 }));
@@ -3809,6 +4037,14 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
+  iam: {
+    actions: ["lambda:GetFunction"],
+    resources: {
+      "lambda:GetFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "GetFunction", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -3841,6 +4077,14 @@ export const getFunctionCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionCodeSigningConfig",
+  iam: {
+    actions: ["lambda:GetFunctionCodeSigningConfig"],
+    resources: {
+      "lambda:GetFunctionCodeSigningConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetFunctionCodeSigningConfig",
@@ -3878,6 +4122,14 @@ export const getFunctionConcurrency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionConcurrency",
+  iam: {
+    actions: ["lambda:GetFunctionConcurrency"],
+    resources: {
+      "lambda:GetFunctionConcurrency": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "GetFunctionConcurrency", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -3910,6 +4162,14 @@ export const getFunctionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionConfiguration",
+  iam: {
+    actions: ["lambda:GetFunctionConfiguration"],
+    resources: {
+      "lambda:GetFunctionConfiguration": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetFunctionConfiguration",
@@ -3949,6 +4209,14 @@ export const getFunctionEventInvokeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionEventInvokeConfig",
+  iam: {
+    actions: ["lambda:GetFunctionEventInvokeConfig"],
+    resources: {
+      "lambda:GetFunctionEventInvokeConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetFunctionEventInvokeConfig",
@@ -3986,6 +4254,14 @@ export const getFunctionRecursionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionRecursionConfig",
+  iam: {
+    actions: ["lambda:GetFunctionRecursionConfig"],
+    resources: {
+      "lambda:GetFunctionRecursionConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetFunctionRecursionConfig",
@@ -4019,6 +4295,14 @@ export const getFunctionScalingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionScalingConfig",
+  iam: {
+    actions: ["lambda:GetFunctionScalingConfig"],
+    resources: {
+      "lambda:GetFunctionScalingConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetFunctionScalingConfig",
@@ -4052,6 +4336,14 @@ export const getFunctionUrlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionUrlConfig",
+  iam: {
+    actions: ["lambda:GetFunctionUrlConfig"],
+    resources: {
+      "lambda:GetFunctionUrlConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "GetFunctionUrlConfig", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -4086,6 +4378,14 @@ export const getLayerVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayerVersion",
+  iam: {
+    actions: ["lambda:GetLayerVersion"],
+    resources: {
+      "lambda:GetLayerVersion": [
+        "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}:${LayerVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLayerVersion",
 }));
@@ -4116,6 +4416,14 @@ export const getLayerVersionByArn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayerVersionByArn",
+  iam: {
+    actions: ["lambda:GetLayerVersion"],
+    resources: {
+      "lambda:GetLayerVersion": [
+        "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}:${LayerVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLayerVersionByArn",
 }));
@@ -4150,6 +4458,14 @@ export const getLayerVersionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayerVersionPolicy",
+  iam: {
+    actions: ["lambda:GetLayerVersionPolicy"],
+    resources: {
+      "lambda:GetLayerVersionPolicy": [
+        "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}:${LayerVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLayerVersionPolicy",
 }));
@@ -4180,6 +4496,12 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: {
+    actions: ["lambda:GetPolicy"],
+    resources: {
+      "lambda:GetPolicy": ["arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "GetPolicy", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -4216,6 +4538,7 @@ export const getProvisionedConcurrencyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedConcurrencyConfig",
+  iam: { actions: ["lambda:GetProvisionedConcurrencyConfig"] },
   telemetry: TELEMETRY,
   span: {
     op: "GetProvisionedConcurrencyConfig",
@@ -4249,6 +4572,16 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["lambda:GetPolicy", "lambda:GetResourcePolicy"],
+    resources: {
+      "lambda:GetPolicy": ["arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}"],
+      "lambda:GetResourcePolicy": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -4279,6 +4612,14 @@ export const getRuntimeManagementConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuntimeManagementConfig",
+  iam: {
+    actions: ["lambda:GetRuntimeManagementConfig"],
+    resources: {
+      "lambda:GetRuntimeManagementConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetRuntimeManagementConfig",
@@ -4408,6 +4749,14 @@ export const invoke: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Invoke",
+  iam: {
+    actions: ["lambda:InvokeFunction"],
+    resources: {
+      "lambda:InvokeFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "Invoke",
@@ -4500,6 +4849,14 @@ export const invokeAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAsync",
+  iam: {
+    actions: ["lambda:InvokeAsync"],
+    resources: {
+      "lambda:InvokeAsync": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "InvokeAsync", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -4604,6 +4961,14 @@ export const invokeWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeWithResponseStream",
+  iam: {
+    actions: ["lambda:InvokeFunction"],
+    resources: {
+      "lambda:InvokeFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "InvokeWithResponseStream",
@@ -4647,6 +5012,14 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:ListAliases"],
+    resources: {
+      "lambda:ListAliases": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "ListAliases", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 })) as any;
@@ -4678,6 +5051,7 @@ export const listCapacityProviders: API.PaginatedOperationMethod<
     items: "CapacityProviders",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["lambda:ListCapacityProviders"] },
   telemetry: TELEMETRY,
   span: "ListCapacityProviders",
 })) as any;
@@ -4708,6 +5082,7 @@ export const listCodeSigningConfigs: API.PaginatedOperationMethod<
     items: "CodeSigningConfigs",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["lambda:ListCodeSigningConfigs"] },
   telemetry: TELEMETRY,
   span: "ListCodeSigningConfigs",
 })) as any;
@@ -4745,6 +5120,14 @@ export const listDurableExecutionsByFunction: API.PaginatedOperationMethod<
     items: "DurableExecutions",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:ListDurableExecutionsByFunction"],
+    resources: {
+      "lambda:ListDurableExecutionsByFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListDurableExecutionsByFunction",
@@ -4785,6 +5168,7 @@ export const listEventSourceMappings: API.PaginatedOperationMethod<
     items: "EventSourceMappings",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["lambda:ListEventSourceMappings"] },
   telemetry: TELEMETRY,
   span: { op: "ListEventSourceMappings", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 })) as any;
@@ -4828,6 +5212,14 @@ export const listFunctionEventInvokeConfigs: API.PaginatedOperationMethod<
     items: "FunctionEventInvokeConfigs",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:ListFunctionEventInvokeConfigs"],
+    resources: {
+      "lambda:ListFunctionEventInvokeConfigs": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListFunctionEventInvokeConfigs",
@@ -4866,6 +5258,7 @@ export const listFunctions: API.PaginatedOperationMethod<
     items: "Functions",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["lambda:ListFunctions"] },
   telemetry: TELEMETRY,
   span: "ListFunctions",
 })) as any;
@@ -4897,6 +5290,14 @@ export const listFunctionsByCodeSigningConfig: API.PaginatedOperationMethod<
     items: "FunctionArns",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:ListFunctionsByCodeSigningConfig"],
+    resources: {
+      "lambda:ListFunctionsByCodeSigningConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:code-signing-config:${CodeSigningConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFunctionsByCodeSigningConfig",
 })) as any;
@@ -4934,6 +5335,14 @@ export const listFunctionUrlConfigs: API.PaginatedOperationMethod<
     items: "FunctionUrlConfigs",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:ListFunctionUrlConfigs"],
+    resources: {
+      "lambda:ListFunctionUrlConfigs": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "ListFunctionUrlConfigs", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 })) as any;
@@ -4971,6 +5380,14 @@ export const listFunctionVersionsByCapacityProvider: API.PaginatedOperationMetho
     items: "FunctionVersions",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:ListFunctionVersionsByCapacityProvider"],
+    resources: {
+      "lambda:ListFunctionVersionsByCapacityProvider": [
+        "arn:${Partition}:lambda:${Region}:${Account}:capacity-provider:${CapacityProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFunctionVersionsByCapacityProvider",
 })) as any;
@@ -5002,6 +5419,7 @@ export const listLayers: API.PaginatedOperationMethod<
     items: "Layers",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["lambda:ListLayers"] },
   telemetry: TELEMETRY,
   span: "ListLayers",
 })) as any;
@@ -5043,6 +5461,7 @@ export const listLayerVersions: API.PaginatedOperationMethod<
     items: "LayerVersions",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["lambda:ListLayerVersions"] },
   telemetry: TELEMETRY,
   span: "ListLayerVersions",
 })) as any;
@@ -5084,6 +5503,14 @@ export const listProvisionedConcurrencyConfigs: API.PaginatedOperationMethod<
     items: "ProvisionedConcurrencyConfigs",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:ListProvisionedConcurrencyConfigs"],
+    resources: {
+      "lambda:ListProvisionedConcurrencyConfigs": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListProvisionedConcurrencyConfigs",
@@ -5121,6 +5548,7 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  iam: { actions: ["lambda:ListTags"] },
   telemetry: TELEMETRY,
   span: "ListTags",
 }));
@@ -5158,6 +5586,14 @@ export const listVersionsByFunction: API.PaginatedOperationMethod<
     items: "Versions",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:ListVersionsByFunction"],
+    resources: {
+      "lambda:ListVersionsByFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "ListVersionsByFunction", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 })) as any;
@@ -5196,6 +5632,14 @@ export const publishLayerVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishLayerVersion",
+  iam: {
+    actions: ["lambda:PublishLayerVersion"],
+    resources: {
+      "lambda:PublishLayerVersion": [
+        "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PublishLayerVersion",
 }));
@@ -5242,6 +5686,14 @@ export const publishVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishVersion",
+  iam: {
+    actions: ["lambda:PublishVersion"],
+    resources: {
+      "lambda:PublishVersion": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "PublishVersion", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -5280,6 +5732,15 @@ export const putFunctionCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionCodeSigningConfig",
+  iam: {
+    actions: ["lambda:PutFunctionCodeSigningConfig"],
+    resources: {
+      "lambda:PutFunctionCodeSigningConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:code-signing-config:${CodeSigningConfigId}",
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutFunctionCodeSigningConfig",
@@ -5323,6 +5784,14 @@ export const putFunctionConcurrency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionConcurrency",
+  iam: {
+    actions: ["lambda:PutFunctionConcurrency"],
+    resources: {
+      "lambda:PutFunctionConcurrency": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "PutFunctionConcurrency", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -5365,6 +5834,14 @@ export const putFunctionEventInvokeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionEventInvokeConfig",
+  iam: {
+    actions: ["lambda:PutFunctionEventInvokeConfig"],
+    resources: {
+      "lambda:PutFunctionEventInvokeConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutFunctionEventInvokeConfig",
@@ -5408,6 +5885,14 @@ export const putFunctionRecursionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionRecursionConfig",
+  iam: {
+    actions: ["lambda:PutFunctionRecursionConfig"],
+    resources: {
+      "lambda:PutFunctionRecursionConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutFunctionRecursionConfig",
@@ -5443,6 +5928,14 @@ export const putFunctionScalingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionScalingConfig",
+  iam: {
+    actions: ["lambda:PutFunctionScalingConfig"],
+    resources: {
+      "lambda:PutFunctionScalingConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutFunctionScalingConfig",
@@ -5482,6 +5975,7 @@ export const putProvisionedConcurrencyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProvisionedConcurrencyConfig",
+  iam: { actions: ["lambda:PutProvisionedConcurrencyConfig"] },
   telemetry: TELEMETRY,
   span: {
     op: "PutProvisionedConcurrencyConfig",
@@ -5525,6 +6019,21 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["lambda:AddPermission", "lambda:PutResourcePolicy", "lambda:RemovePermission"],
+    resources: {
+      "lambda:AddPermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+      "lambda:PutResourcePolicy": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+      "lambda:RemovePermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -5557,6 +6066,14 @@ export const putRuntimeManagementConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRuntimeManagementConfig",
+  iam: {
+    actions: ["lambda:PutRuntimeManagementConfig"],
+    resources: {
+      "lambda:PutRuntimeManagementConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutRuntimeManagementConfig",
@@ -5596,6 +6113,14 @@ export const removeLayerVersionPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveLayerVersionPermission",
+  iam: {
+    actions: ["lambda:RemoveLayerVersionPermission"],
+    resources: {
+      "lambda:RemoveLayerVersionPermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}:${LayerVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveLayerVersionPermission",
 }));
@@ -5630,6 +6155,14 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  iam: {
+    actions: ["lambda:RemovePermission"],
+    resources: {
+      "lambda:RemovePermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "RemovePermission", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -5670,6 +6203,14 @@ export const sendDurableExecutionCallbackFailure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDurableExecutionCallbackFailure",
+  iam: {
+    actions: ["lambda:SendDurableExecutionCallbackFailure"],
+    resources: {
+      "lambda:SendDurableExecutionCallbackFailure": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}/durable-execution/${ExecutionName}/${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendDurableExecutionCallbackFailure",
 }));
@@ -5702,6 +6243,14 @@ export const sendDurableExecutionCallbackHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDurableExecutionCallbackHeartbeat",
+  iam: {
+    actions: ["lambda:SendDurableExecutionCallbackHeartbeat"],
+    resources: {
+      "lambda:SendDurableExecutionCallbackHeartbeat": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}/durable-execution/${ExecutionName}/${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendDurableExecutionCallbackHeartbeat",
 }));
@@ -5742,6 +6291,14 @@ export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDurableExecutionCallbackSuccess",
+  iam: {
+    actions: ["lambda:SendDurableExecutionCallbackSuccess"],
+    resources: {
+      "lambda:SendDurableExecutionCallbackSuccess": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}/durable-execution/${ExecutionName}/${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendDurableExecutionCallbackSuccess",
 }));
@@ -5780,6 +6337,14 @@ export const stopDurableExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDurableExecution",
+  iam: {
+    actions: ["lambda:StopDurableExecution"],
+    resources: {
+      "lambda:StopDurableExecution": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}/durable-execution/${ExecutionName}/${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopDurableExecution",
 }));
@@ -5816,6 +6381,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["lambda:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5852,6 +6418,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["lambda:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5890,6 +6457,14 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
+  iam: {
+    actions: ["lambda:UpdateAlias"],
+    resources: {
+      "lambda:UpdateAlias": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "UpdateAlias", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -5922,6 +6497,14 @@ export const updateCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityProvider",
+  iam: {
+    actions: ["lambda:UpdateCapacityProvider"],
+    resources: {
+      "lambda:UpdateCapacityProvider": [
+        "arn:${Partition}:lambda:${Region}:${Account}:capacity-provider:${CapacityProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCapacityProvider",
 }));
@@ -5946,6 +6529,14 @@ export const updateCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeSigningConfig",
+  iam: {
+    actions: ["lambda:UpdateCodeSigningConfig"],
+    resources: {
+      "lambda:UpdateCodeSigningConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:code-signing-config:${CodeSigningConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCodeSigningConfig",
 }));
@@ -6036,6 +6627,14 @@ export const updateEventSourceMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventSourceMapping",
+  iam: {
+    actions: ["lambda:UpdateEventSourceMapping"],
+    resources: {
+      "lambda:UpdateEventSourceMapping": [
+        "arn:${Partition}:lambda:${Region}:${Account}:event-source-mapping:${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateEventSourceMapping",
@@ -6101,6 +6700,14 @@ export const updateFunctionCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionCode",
+  iam: {
+    actions: ["lambda:UpdateFunctionCode"],
+    resources: {
+      "lambda:UpdateFunctionCode": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "UpdateFunctionCode", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
@@ -6159,6 +6766,27 @@ export const updateFunctionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionConfiguration",
+  iam: {
+    actions: [
+      "lambda:GetLayerVersion",
+      "lambda:PassCapacityProvider",
+      "iam:PassRole",
+      "lambda:UpdateFunctionConfiguration",
+    ],
+    resources: {
+      "lambda:GetLayerVersion": [
+        "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}:${LayerVersion}",
+      ],
+      "lambda:PassCapacityProvider": [
+        "arn:${Partition}:lambda:${Region}:${Account}:capacity-provider:${CapacityProviderName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "lambda:UpdateFunctionConfiguration": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "Role" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateFunctionConfiguration",
@@ -6196,6 +6824,14 @@ export const updateFunctionEventInvokeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionEventInvokeConfig",
+  iam: {
+    actions: ["lambda:UpdateFunctionEventInvokeConfig"],
+    resources: {
+      "lambda:UpdateFunctionEventInvokeConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateFunctionEventInvokeConfig",
@@ -6235,6 +6871,14 @@ export const updateFunctionUrlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionUrlConfig",
+  iam: {
+    actions: ["lambda:UpdateFunctionUrlConfig"],
+    resources: {
+      "lambda:UpdateFunctionUrlConfig": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "UpdateFunctionUrlConfig", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));

@@ -799,6 +799,7 @@ export const batchDeleteTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteTaxRegistration",
+  iam: { actions: ["tax:BatchDeleteTaxRegistration"] },
   telemetry: TELEMETRY,
   span: "BatchDeleteTaxRegistration",
 }));
@@ -823,6 +824,7 @@ export const batchGetTaxExemptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTaxExemptions",
+  iam: { actions: ["tax:GetExemptions"] },
   telemetry: TELEMETRY,
   span: "BatchGetTaxExemptions",
 }));
@@ -1007,6 +1009,7 @@ export const batchPutTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutTaxRegistration",
+  iam: { actions: ["tax:BatchPutTaxRegistration"] },
   telemetry: TELEMETRY,
   span: "BatchPutTaxRegistration",
 }));
@@ -1037,6 +1040,7 @@ export const deleteSupplementalTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSupplementalTaxRegistration",
+  iam: { actions: ["tax:DeleteSupplementalTaxRegistration"] },
   telemetry: TELEMETRY,
   span: "DeleteSupplementalTaxRegistration",
 }));
@@ -1069,6 +1073,7 @@ export const deleteTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTaxRegistration",
+  iam: { actions: ["tax:DeleteTaxRegistration"] },
   telemetry: TELEMETRY,
   span: "DeleteTaxRegistration",
 }));
@@ -1093,6 +1098,7 @@ export const getTaxExemptionTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaxExemptionTypes",
+  iam: { actions: ["tax:GetExemptions"] },
   telemetry: TELEMETRY,
   span: "GetTaxExemptionTypes",
 }));
@@ -1117,6 +1123,7 @@ export const getTaxInheritance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaxInheritance",
+  iam: { actions: ["tax:GetTaxInheritance"] },
   telemetry: TELEMETRY,
   span: "GetTaxInheritance",
 }));
@@ -1141,6 +1148,7 @@ export const getTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaxRegistration",
+  iam: { actions: ["tax:GetTaxRegistration"] },
   telemetry: TELEMETRY,
   span: "GetTaxRegistration",
 }));
@@ -1164,6 +1172,7 @@ export const getTaxRegistrationDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaxRegistrationDocument",
+  iam: { actions: ["tax:GetTaxRegistrationDocument"] },
   telemetry: TELEMETRY,
   span: "GetTaxRegistrationDocument",
 }));
@@ -1195,6 +1204,7 @@ export const listSupplementalTaxRegistrations: API.PaginatedOperationMethod<
     items: "taxRegistrations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["tax:ListSupplementalTaxRegistrations"] },
   telemetry: TELEMETRY,
   span: "ListSupplementalTaxRegistrations",
 })) as any;
@@ -1226,6 +1236,7 @@ export const listTaxExemptions: API.PaginatedOperationMethod<
     items: "taxExemptionDetailsMap",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["tax:GetExemptions"] },
   telemetry: TELEMETRY,
   span: "ListTaxExemptions",
 })) as any;
@@ -1257,6 +1268,7 @@ export const listTaxRegistrations: API.PaginatedOperationMethod<
     items: "accountDetails",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["tax:ListTaxRegistrations"] },
   telemetry: TELEMETRY,
   span: "ListTaxRegistrations",
 })) as any;
@@ -1281,6 +1293,7 @@ export const putSupplementalTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSupplementalTaxRegistration",
+  iam: { actions: ["tax:PutSupplementalTaxRegistration"] },
   telemetry: TELEMETRY,
   span: "PutSupplementalTaxRegistration",
 }));
@@ -1315,6 +1328,7 @@ export const putTaxExemption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTaxExemption",
+  iam: { actions: ["tax:UpdateExemptions"] },
   telemetry: TELEMETRY,
   span: "PutTaxExemption",
 }));
@@ -1345,6 +1359,7 @@ export const putTaxInheritance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTaxInheritance",
+  iam: { actions: ["tax:PutTaxInheritance"] },
   telemetry: TELEMETRY,
   span: "PutTaxInheritance",
 }));
@@ -1529,6 +1544,7 @@ export const putTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTaxRegistration",
+  iam: { actions: ["tax:PutTaxRegistration"] },
   telemetry: TELEMETRY,
   span: "PutTaxRegistration",
 }));

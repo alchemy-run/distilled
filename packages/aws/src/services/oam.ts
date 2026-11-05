@@ -396,6 +396,22 @@ export const createLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLink",
+  iam: {
+    actions: [
+      "oam:CreateLink",
+      "application-signals:Link",
+      "applicationinsights:Link",
+      "cloudwatch:Link",
+      "internetmonitor:Link",
+      "logs:Link",
+      "xray:Link",
+      "oam:TagResource",
+    ],
+    resources: {
+      "oam:CreateLink": ["arn:${Partition}:oam:${Region}:${Account}:sink/${ResourceId}"],
+    },
+    conditional: { "oam:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLink",
 }));
@@ -434,6 +450,10 @@ export const createSink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSink",
+  iam: {
+    actions: ["oam:CreateSink", "oam:TagResource"],
+    conditional: { "oam:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSink",
 }));
@@ -466,6 +486,12 @@ export const deleteLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLink",
+  iam: {
+    actions: ["oam:DeleteLink"],
+    resources: {
+      "oam:DeleteLink": ["arn:${Partition}:oam:${Region}:${Account}:link/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLink",
 }));
@@ -500,6 +526,12 @@ export const deleteSink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSink",
+  iam: {
+    actions: ["oam:DeleteSink"],
+    resources: {
+      "oam:DeleteSink": ["arn:${Partition}:oam:${Region}:${Account}:sink/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSink",
 }));
@@ -534,6 +566,10 @@ export const getLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLink",
+  iam: {
+    actions: ["oam:GetLink"],
+    resources: { "oam:GetLink": ["arn:${Partition}:oam:${Region}:${Account}:link/${ResourceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetLink",
 }));
@@ -568,6 +604,10 @@ export const getSink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSink",
+  iam: {
+    actions: ["oam:GetSink"],
+    resources: { "oam:GetSink": ["arn:${Partition}:oam:${Region}:${Account}:sink/${ResourceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetSink",
 }));
@@ -600,6 +640,12 @@ export const getSinkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSinkPolicy",
+  iam: {
+    actions: ["oam:GetSinkPolicy"],
+    resources: {
+      "oam:GetSinkPolicy": ["arn:${Partition}:oam:${Region}:${Account}:sink/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSinkPolicy",
 }));
@@ -643,6 +689,12 @@ export const listAttachedLinks: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["oam:ListAttachedLinks"],
+    resources: {
+      "oam:ListAttachedLinks": ["arn:${Partition}:oam:${Region}:${Account}:sink/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAttachedLinks",
 })) as any;
@@ -682,6 +734,7 @@ export const listLinks: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["oam:ListLinks"] },
   telemetry: TELEMETRY,
   span: "ListLinks",
 })) as any;
@@ -719,6 +772,7 @@ export const listSinks: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["oam:ListSinks"] },
   telemetry: TELEMETRY,
   span: "ListSinks",
 })) as any;
@@ -743,6 +797,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["oam:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -791,6 +846,12 @@ export const putSinkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSinkPolicy",
+  iam: {
+    actions: ["oam:PutSinkPolicy"],
+    resources: {
+      "oam:PutSinkPolicy": ["arn:${Partition}:oam:${Region}:${Account}:sink/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSinkPolicy",
 }));
@@ -831,6 +892,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["oam:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -857,6 +919,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["oam:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -893,6 +956,20 @@ export const updateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLink",
+  iam: {
+    actions: [
+      "application-signals:Link",
+      "applicationinsights:Link",
+      "cloudwatch:Link",
+      "internetmonitor:Link",
+      "logs:Link",
+      "xray:Link",
+      "oam:UpdateLink",
+    ],
+    resources: {
+      "oam:UpdateLink": ["arn:${Partition}:oam:${Region}:${Account}:link/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLink",
 }));

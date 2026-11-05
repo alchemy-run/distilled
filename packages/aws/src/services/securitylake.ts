@@ -592,6 +592,14 @@ export const createAwsLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAwsLogSource",
+  iam: {
+    actions: ["securitylake:CreateAwsLogSource"],
+    resources: {
+      "securitylake:CreateAwsLogSource": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAwsLogSource",
 }));
@@ -634,6 +642,16 @@ export const createCustomLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomLogSource",
+  iam: {
+    actions: ["securitylake:CreateCustomLogSource", "iam:PassRole"],
+    resources: {
+      "securitylake:CreateCustomLogSource": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomLogSource",
 }));
@@ -684,6 +702,16 @@ export const createDataLake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLake",
+  iam: {
+    actions: ["securitylake:CreateDataLake", "iam:PassRole", "securitylake:TagResource"],
+    resources: {
+      "securitylake:CreateDataLake": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "securitylake:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataLake",
 }));
@@ -721,6 +749,7 @@ export const createDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeExceptionSubscription",
+  iam: { actions: ["securitylake:CreateDataLakeExceptionSubscription"] },
   telemetry: TELEMETRY,
   span: "CreateDataLakeExceptionSubscription",
 }));
@@ -759,6 +788,14 @@ export const createDataLakeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeOrganizationConfiguration",
+  iam: {
+    actions: ["securitylake:CreateDataLakeOrganizationConfiguration"],
+    resources: {
+      "securitylake:CreateDataLakeOrganizationConfiguration": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataLakeOrganizationConfiguration",
 }));
@@ -796,6 +833,10 @@ export const createSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriber",
+  iam: {
+    actions: ["securitylake:CreateSubscriber", "securitylake:TagResource"],
+    conditional: { "securitylake:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSubscriber",
 }));
@@ -834,6 +875,16 @@ export const createSubscriberNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriberNotification",
+  iam: {
+    actions: ["securitylake:CreateSubscriberNotification", "iam:PassRole"],
+    resources: {
+      "securitylake:CreateSubscriberNotification": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:subscriber/${SubscriberId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSubscriberNotification",
 }));
@@ -877,6 +928,14 @@ export const deleteAwsLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAwsLogSource",
+  iam: {
+    actions: ["securitylake:DeleteAwsLogSource"],
+    resources: {
+      "securitylake:DeleteAwsLogSource": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAwsLogSource",
 }));
@@ -914,6 +973,14 @@ export const deleteCustomLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomLogSource",
+  iam: {
+    actions: ["securitylake:DeleteCustomLogSource"],
+    resources: {
+      "securitylake:DeleteCustomLogSource": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomLogSource",
 }));
@@ -958,6 +1025,14 @@ export const deleteDataLake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLake",
+  iam: {
+    actions: ["securitylake:DeleteDataLake"],
+    resources: {
+      "securitylake:DeleteDataLake": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataLake",
 }));
@@ -995,6 +1070,7 @@ export const deleteDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeExceptionSubscription",
+  iam: { actions: ["securitylake:DeleteDataLakeExceptionSubscription"] },
   telemetry: TELEMETRY,
   span: "DeleteDataLakeExceptionSubscription",
 }));
@@ -1031,6 +1107,14 @@ export const deleteDataLakeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeOrganizationConfiguration",
+  iam: {
+    actions: ["securitylake:DeleteDataLakeOrganizationConfiguration"],
+    resources: {
+      "securitylake:DeleteDataLakeOrganizationConfiguration": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataLakeOrganizationConfiguration",
 }));
@@ -1070,6 +1154,14 @@ export const deleteSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriber",
+  iam: {
+    actions: ["securitylake:DeleteSubscriber"],
+    resources: {
+      "securitylake:DeleteSubscriber": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:subscriber/${SubscriberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSubscriber",
 }));
@@ -1107,6 +1199,14 @@ export const deleteSubscriberNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriberNotification",
+  iam: {
+    actions: ["securitylake:DeleteSubscriberNotification"],
+    resources: {
+      "securitylake:DeleteSubscriberNotification": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:subscriber/${SubscriberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSubscriberNotification",
 }));
@@ -1143,6 +1243,7 @@ export const deregisterDataLakeDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDataLakeDelegatedAdministrator",
+  iam: { actions: ["securitylake:DeregisterDataLakeDelegatedAdministrator"] },
   telemetry: TELEMETRY,
   span: "DeregisterDataLakeDelegatedAdministrator",
 }));
@@ -1179,6 +1280,7 @@ export const getDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeExceptionSubscription",
+  iam: { actions: ["securitylake:GetDataLakeExceptionSubscription"] },
   telemetry: TELEMETRY,
   span: "GetDataLakeExceptionSubscription",
 }));
@@ -1215,6 +1317,14 @@ export const getDataLakeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeOrganizationConfiguration",
+  iam: {
+    actions: ["securitylake:GetDataLakeOrganizationConfiguration"],
+    resources: {
+      "securitylake:GetDataLakeOrganizationConfiguration": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataLakeOrganizationConfiguration",
 }));
@@ -1259,6 +1369,14 @@ export const getDataLakeSources: API.PaginatedOperationMethod<
     items: "dataLakeSources",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["securitylake:GetDataLakeSources"],
+    resources: {
+      "securitylake:GetDataLakeSources": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataLakeSources",
 })) as any;
@@ -1296,6 +1414,14 @@ export const getSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriber",
+  iam: {
+    actions: ["securitylake:GetSubscriber"],
+    resources: {
+      "securitylake:GetSubscriber": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:subscriber/${SubscriberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSubscriber",
 }));
@@ -1340,6 +1466,7 @@ export const listDataLakeExceptions: API.PaginatedOperationMethod<
     items: "exceptions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["securitylake:ListDataLakeExceptions"] },
   telemetry: TELEMETRY,
   span: "ListDataLakeExceptions",
 })) as any;
@@ -1377,6 +1504,7 @@ export const listDataLakes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataLakes",
+  iam: { actions: ["securitylake:ListDataLakes"] },
   telemetry: TELEMETRY,
   span: "ListDataLakes",
 }));
@@ -1420,6 +1548,7 @@ export const listLogSources: API.PaginatedOperationMethod<
     items: "sources",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["securitylake:ListLogSources"] },
   telemetry: TELEMETRY,
   span: "ListLogSources",
 })) as any;
@@ -1464,6 +1593,7 @@ export const listSubscribers: API.PaginatedOperationMethod<
     items: "subscribers",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["securitylake:ListSubscribers"] },
   telemetry: TELEMETRY,
   span: "ListSubscribers",
 })) as any;
@@ -1501,6 +1631,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["securitylake:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1537,6 +1668,7 @@ export const registerDataLakeDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDataLakeDelegatedAdministrator",
+  iam: { actions: ["securitylake:RegisterDataLakeDelegatedAdministrator"] },
   telemetry: TELEMETRY,
   span: "RegisterDataLakeDelegatedAdministrator",
 }));
@@ -1580,6 +1712,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["securitylake:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1617,6 +1750,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["securitylake:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1665,6 +1799,16 @@ export const updateDataLake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLake",
+  iam: {
+    actions: ["iam:PassRole", "securitylake:UpdateDataLake"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "securitylake:UpdateDataLake": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:data-lake/default",
+      ],
+    },
+    conditional: { "iam:PassRole": "metaStoreManagerRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataLake",
 }));
@@ -1702,6 +1846,7 @@ export const updateDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLakeExceptionSubscription",
+  iam: { actions: ["securitylake:UpdateDataLakeExceptionSubscription"] },
   telemetry: TELEMETRY,
   span: "UpdateDataLakeExceptionSubscription",
 }));
@@ -1739,6 +1884,14 @@ export const updateSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriber",
+  iam: {
+    actions: ["securitylake:UpdateSubscriber"],
+    resources: {
+      "securitylake:UpdateSubscriber": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:subscriber/${SubscriberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSubscriber",
 }));
@@ -1776,6 +1929,16 @@ export const updateSubscriberNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriberNotification",
+  iam: {
+    actions: ["iam:PassRole", "securitylake:UpdateSubscriberNotification"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "securitylake:UpdateSubscriberNotification": [
+        "arn:${Partition}:securitylake:${Region}:${Account}:subscriber/${SubscriberId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSubscriberNotification",
 }));

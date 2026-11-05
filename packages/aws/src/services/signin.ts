@@ -643,6 +643,17 @@ export const createOAuth2Token: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuth2Token",
+  iam: {
+    actions: ["signin:CreateOAuth2Token"],
+    resources: {
+      "signin:CreateOAuth2Token": [
+        "arn:${Partition}:signin:::console/${ConsoleName}",
+        "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/localhost",
+        "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/remote",
+        "arn:${Partition}:signin:${Region}:${Account}:service-principal/${ServicePrincipalName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateOAuth2Token",
 }));
@@ -673,6 +684,17 @@ export const createOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuth2TokenWithIAM",
+  iam: {
+    actions: ["signin:CreateOAuth2Token"],
+    resources: {
+      "signin:CreateOAuth2Token": [
+        "arn:${Partition}:signin:::console/${ConsoleName}",
+        "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/localhost",
+        "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/remote",
+        "arn:${Partition}:signin:${Region}:${Account}:service-principal/${ServicePrincipalName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateOAuth2TokenWithIAM",
 }));
@@ -739,6 +761,7 @@ export const deleteConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConsoleAuthorizationConfiguration",
+  iam: { actions: ["signin:DeleteConsoleAuthorizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteConsoleAuthorizationConfiguration",
 }));
@@ -771,6 +794,7 @@ export const deleteResourcePermissionStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePermissionStatement",
+  iam: { actions: ["signin:DeleteResourcePermissionStatement"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePermissionStatement",
 }));
@@ -803,6 +827,7 @@ export const getConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConsoleAuthorizationConfiguration",
+  iam: { actions: ["signin:GetConsoleAuthorizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetConsoleAuthorizationConfiguration",
 }));
@@ -833,6 +858,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["signin:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -866,6 +892,16 @@ export const introspectOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IntrospectOAuth2TokenWithIAM",
+  iam: {
+    actions: ["signin:IntrospectOAuth2Token"],
+    resources: {
+      "signin:IntrospectOAuth2Token": [
+        "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/localhost",
+        "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/remote",
+        "arn:${Partition}:signin:${Region}:${Account}:service-principal/${ServicePrincipalName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "IntrospectOAuth2TokenWithIAM",
 }));
@@ -905,6 +941,7 @@ export const listResourcePermissionStatements: API.PaginatedOperationMethod<
     items: "permissionStatements",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["signin:ListResourcePermissionStatements"] },
   telemetry: TELEMETRY,
   span: "ListResourcePermissionStatements",
 })) as any;
@@ -939,6 +976,7 @@ export const putConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConsoleAuthorizationConfiguration",
+  iam: { actions: ["signin:PutConsoleAuthorizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutConsoleAuthorizationConfiguration",
 }));
@@ -973,6 +1011,7 @@ export const putResourcePermissionStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePermissionStatement",
+  iam: { actions: ["signin:PutResourcePermissionStatement"] },
   telemetry: TELEMETRY,
   span: "PutResourcePermissionStatement",
 }));
@@ -1003,6 +1042,16 @@ export const revokeOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeOAuth2TokenWithIAM",
+  iam: {
+    actions: ["signin:RevokeOAuth2Token"],
+    resources: {
+      "signin:RevokeOAuth2Token": [
+        "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/localhost",
+        "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/remote",
+        "arn:${Partition}:signin:${Region}:${Account}:service-principal/${ServicePrincipalName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeOAuth2TokenWithIAM",
 }));

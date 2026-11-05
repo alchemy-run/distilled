@@ -658,6 +658,7 @@ export const associateDRTLogBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDRTLogBucket",
+  iam: { actions: ["shield:AssociateDRTLogBucket"] },
   telemetry: TELEMETRY,
   span: "AssociateDRTLogBucket",
 }));
@@ -703,6 +704,10 @@ export const associateDRTRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDRTRole",
+  iam: {
+    actions: ["shield:AssociateDRTRole", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "AssociateDRTRole",
 }));
@@ -739,6 +744,12 @@ export const associateHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateHealthCheck",
+  iam: {
+    actions: ["shield:AssociateHealthCheck"],
+    resources: {
+      "shield:AssociateHealthCheck": ["arn:${Partition}:shield::${Account}:protection/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateHealthCheck",
 }));
@@ -777,6 +788,7 @@ export const associateProactiveEngagementDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProactiveEngagementDetails",
+  iam: { actions: ["shield:AssociateProactiveEngagementDetails"] },
   telemetry: TELEMETRY,
   span: "AssociateProactiveEngagementDetails",
 }));
@@ -823,6 +835,10 @@ export const createProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProtection",
+  iam: {
+    actions: ["shield:CreateProtection", "shield:TagResource"],
+    conditional: { "shield:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProtection",
 }));
@@ -859,6 +875,10 @@ export const createProtectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProtectionGroup",
+  iam: {
+    actions: ["shield:CreateProtectionGroup", "shield:TagResource"],
+    conditional: { "shield:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProtectionGroup",
 }));
@@ -887,6 +907,7 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
+  iam: { actions: ["shield:CreateSubscription"] },
   telemetry: TELEMETRY,
   span: "CreateSubscription",
 }));
@@ -917,6 +938,12 @@ export const deleteProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtection",
+  iam: {
+    actions: ["shield:DeleteProtection"],
+    resources: {
+      "shield:DeleteProtection": ["arn:${Partition}:shield::${Account}:protection/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProtection",
 }));
@@ -947,6 +974,14 @@ export const deleteProtectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtectionGroup",
+  iam: {
+    actions: ["shield:DeleteProtectionGroup"],
+    resources: {
+      "shield:DeleteProtectionGroup": [
+        "arn:${Partition}:shield::${Account}:protection-group/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProtectionGroup",
 }));
@@ -977,6 +1012,7 @@ export const deleteSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscription",
+  iam: { actions: ["shield:DeleteSubscription"] },
   telemetry: TELEMETRY,
   span: "DeleteSubscription",
 }));
@@ -997,6 +1033,10 @@ export const describeAttack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttack",
+  iam: {
+    actions: ["shield:DescribeAttack"],
+    resources: { "shield:DescribeAttack": ["arn:${Partition}:shield::${Account}:attack/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAttack",
 }));
@@ -1021,6 +1061,7 @@ export const describeAttackStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttackStatistics",
+  iam: { actions: ["shield:DescribeAttackStatistics"] },
   telemetry: TELEMETRY,
   span: "DescribeAttackStatistics",
 }));
@@ -1044,6 +1085,7 @@ export const describeDRTAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDRTAccess",
+  iam: { actions: ["shield:DescribeDRTAccess"] },
   telemetry: TELEMETRY,
   span: "DescribeDRTAccess",
 }));
@@ -1067,6 +1109,7 @@ export const describeEmergencyContactSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEmergencyContactSettings",
+  iam: { actions: ["shield:DescribeEmergencyContactSettings"] },
   telemetry: TELEMETRY,
   span: "DescribeEmergencyContactSettings",
 }));
@@ -1097,6 +1140,12 @@ export const describeProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProtection",
+  iam: {
+    actions: ["shield:DescribeProtection"],
+    resources: {
+      "shield:DescribeProtection": ["arn:${Partition}:shield::${Account}:protection/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeProtection",
 }));
@@ -1121,6 +1170,14 @@ export const describeProtectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProtectionGroup",
+  iam: {
+    actions: ["shield:DescribeProtectionGroup"],
+    resources: {
+      "shield:DescribeProtectionGroup": [
+        "arn:${Partition}:shield::${Account}:protection-group/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeProtectionGroup",
 }));
@@ -1145,6 +1202,7 @@ export const describeSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSubscription",
+  iam: { actions: ["shield:DescribeSubscription"] },
   telemetry: TELEMETRY,
   span: "DescribeSubscription",
 }));
@@ -1178,6 +1236,7 @@ export const disableApplicationLayerAutomaticResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableApplicationLayerAutomaticResponse",
+  iam: { actions: ["shield:DisableApplicationLayerAutomaticResponse"] },
   telemetry: TELEMETRY,
   span: "DisableApplicationLayerAutomaticResponse",
 }));
@@ -1210,6 +1269,7 @@ export const disableProactiveEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableProactiveEngagement",
+  iam: { actions: ["shield:DisableProactiveEngagement"] },
   telemetry: TELEMETRY,
   span: "DisableProactiveEngagement",
 }));
@@ -1244,6 +1304,7 @@ export const disassociateDRTLogBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDRTLogBucket",
+  iam: { actions: ["shield:DisassociateDRTLogBucket"] },
   telemetry: TELEMETRY,
   span: "DisassociateDRTLogBucket",
 }));
@@ -1274,6 +1335,7 @@ export const disassociateDRTRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDRTRole",
+  iam: { actions: ["shield:DisassociateDRTRole"] },
   telemetry: TELEMETRY,
   span: "DisassociateDRTRole",
 }));
@@ -1308,6 +1370,12 @@ export const disassociateHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateHealthCheck",
+  iam: {
+    actions: ["shield:DisassociateHealthCheck"],
+    resources: {
+      "shield:DisassociateHealthCheck": ["arn:${Partition}:shield::${Account}:protection/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateHealthCheck",
 }));
@@ -1356,6 +1424,7 @@ export const enableApplicationLayerAutomaticResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableApplicationLayerAutomaticResponse",
+  iam: { actions: ["shield:EnableApplicationLayerAutomaticResponse"] },
   telemetry: TELEMETRY,
   span: "EnableApplicationLayerAutomaticResponse",
 }));
@@ -1388,6 +1457,7 @@ export const enableProactiveEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableProactiveEngagement",
+  iam: { actions: ["shield:EnableProactiveEngagement"] },
   telemetry: TELEMETRY,
   span: "EnableProactiveEngagement",
 }));
@@ -1408,6 +1478,7 @@ export const getSubscriptionState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionState",
+  iam: { actions: ["shield:GetSubscriptionState"] },
   telemetry: TELEMETRY,
   span: "GetSubscriptionState",
 }));
@@ -1440,6 +1511,7 @@ export const listAttacks: API.PaginatedOperationMethod<
     items: "AttackSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["shield:ListAttacks"] },
   telemetry: TELEMETRY,
   span: "ListAttacks",
 })) as any;
@@ -1477,6 +1549,7 @@ export const listProtectionGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["shield:ListProtectionGroups"] },
   telemetry: TELEMETRY,
   span: "ListProtectionGroups",
 })) as any;
@@ -1515,6 +1588,7 @@ export const listProtections: API.PaginatedOperationMethod<
     items: "Protections",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["shield:ListProtections"] },
   telemetry: TELEMETRY,
   span: "ListProtections",
 })) as any;
@@ -1545,6 +1619,14 @@ export const listResourcesInProtectionGroup: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["shield:ListResourcesInProtectionGroup"],
+    resources: {
+      "shield:ListResourcesInProtectionGroup": [
+        "arn:${Partition}:shield::${Account}:protection-group/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListResourcesInProtectionGroup",
 })) as any;
@@ -1575,6 +1657,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["shield:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1607,6 +1690,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["shield:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1639,6 +1723,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["shield:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1671,6 +1756,7 @@ export const updateApplicationLayerAutomaticResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationLayerAutomaticResponse",
+  iam: { actions: ["shield:UpdateApplicationLayerAutomaticResponse"] },
   telemetry: TELEMETRY,
   span: "UpdateApplicationLayerAutomaticResponse",
 }));
@@ -1701,6 +1787,7 @@ export const updateEmergencyContactSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmergencyContactSettings",
+  iam: { actions: ["shield:UpdateEmergencyContactSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateEmergencyContactSettings",
 }));
@@ -1733,6 +1820,14 @@ export const updateProtectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectionGroup",
+  iam: {
+    actions: ["shield:UpdateProtectionGroup"],
+    resources: {
+      "shield:UpdateProtectionGroup": [
+        "arn:${Partition}:shield::${Account}:protection-group/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProtectionGroup",
 }));
@@ -1770,6 +1865,7 @@ export const updateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscription",
+  iam: { actions: ["shield:UpdateSubscription"] },
   telemetry: TELEMETRY,
   span: "UpdateSubscription",
 }));

@@ -2,7 +2,29 @@
   "structures": {
     "StaticKeyProvider": {
       "members": {
-        "StaticKeyValue": { "sensitive": true }
+        "StaticKeyValue": {
+          "sensitive": true
+        }
+      }
+    }
+  },
+  "operations": {
+    "getJob": {
+      "iam": {
+        "reason": "mediaconvert:ListJobs: AWS lists it for the operation, but the MediaConvert Bindings suite calls it successfully without it.",
+        "remove": ["mediaconvert:ListJobs"]
+      }
+    },
+    "getJobsQueryResults": {
+      "iam": {
+        "reason": "Not in AWS's reference; the MediaConvert Bindings suite calls the operation successfully with it.",
+        "actions": ["mediaconvert:GetJobsQueryResults"]
+      }
+    },
+    "startJobsQuery": {
+      "iam": {
+        "reason": "Not in AWS's reference; the MediaConvert Bindings suite calls the operation successfully with it.",
+        "actions": ["mediaconvert:CreateJobsQuery", "mediaconvert:StartJobsQuery"]
       }
     }
   }

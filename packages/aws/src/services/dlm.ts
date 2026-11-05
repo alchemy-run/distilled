@@ -514,6 +514,14 @@ export const createLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
+  iam: {
+    actions: ["dlm:CreateLifecyclePolicy", "iam:PassRole", "dlm:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "dlm:TagResource": ["arn:${Partition}:dlm:${Region}:${Account}:policy/${ResourceName}"],
+    },
+    conditional: { "dlm:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLifecyclePolicy",
 }));
@@ -542,6 +550,14 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  iam: {
+    actions: ["dlm:DeleteLifecyclePolicy"],
+    resources: {
+      "dlm:DeleteLifecyclePolicy": [
+        "arn:${Partition}:dlm:${Region}:${Account}:policy/${ResourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLifecyclePolicy",
 }));
@@ -574,6 +590,7 @@ export const getLifecyclePolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicies",
+  iam: { actions: ["dlm:GetLifecyclePolicies"] },
   telemetry: TELEMETRY,
   span: "GetLifecyclePolicies",
 }));
@@ -598,6 +615,14 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
+  iam: {
+    actions: ["dlm:GetLifecyclePolicy"],
+    resources: {
+      "dlm:GetLifecyclePolicy": [
+        "arn:${Partition}:dlm:${Region}:${Account}:policy/${ResourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLifecyclePolicy",
 }));
@@ -622,6 +647,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["dlm:ListTagsForResource"],
+    resources: {
+      "dlm:ListTagsForResource": [
+        "arn:${Partition}:dlm:${Region}:${Account}:policy/${ResourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -646,6 +679,12 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["dlm:TagResource"],
+    resources: {
+      "dlm:TagResource": ["arn:${Partition}:dlm:${Region}:${Account}:policy/${ResourceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -670,6 +709,12 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["dlm:UntagResource"],
+    resources: {
+      "dlm:UntagResource": ["arn:${Partition}:dlm:${Region}:${Account}:policy/${ResourceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -703,6 +748,16 @@ export const updateLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLifecyclePolicy",
+  iam: {
+    actions: ["iam:PassRole", "dlm:UpdateLifecyclePolicy"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "dlm:UpdateLifecyclePolicy": [
+        "arn:${Partition}:dlm:${Region}:${Account}:policy/${ResourceName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "ExecutionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLifecyclePolicy",
 }));

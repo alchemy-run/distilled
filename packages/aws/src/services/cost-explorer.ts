@@ -1840,6 +1840,10 @@ export const createAnomalyMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnomalyMonitor",
+  iam: {
+    actions: ["ce:CreateAnomalyMonitor", "ce:TagResource"],
+    conditional: { "ce:TagResource": "ResourceTags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAnomalyMonitor",
 }));
@@ -1866,6 +1870,10 @@ export const createAnomalySubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnomalySubscription",
+  iam: {
+    actions: ["ce:CreateAnomalySubscription", "ce:TagResource"],
+    conditional: { "ce:TagResource": "ResourceTags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAnomalySubscription",
 }));
@@ -1889,6 +1897,10 @@ export const createCostCategoryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCostCategoryDefinition",
+  iam: {
+    actions: ["ce:CreateCostCategoryDefinition", "ce:TagResource"],
+    conditional: { "ce:TagResource": "ResourceTags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCostCategoryDefinition",
 }));
@@ -1912,6 +1924,12 @@ export const deleteAnomalyMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalyMonitor",
+  iam: {
+    actions: ["ce:DeleteAnomalyMonitor"],
+    resources: {
+      "ce:DeleteAnomalyMonitor": ["arn:${Partition}:ce::${Account}:anomalymonitor/${Identifier}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAnomalyMonitor",
 }));
@@ -1935,6 +1953,14 @@ export const deleteAnomalySubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalySubscription",
+  iam: {
+    actions: ["ce:DeleteAnomalySubscription"],
+    resources: {
+      "ce:DeleteAnomalySubscription": [
+        "arn:${Partition}:ce::${Account}:anomalysubscription/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAnomalySubscription",
 }));
@@ -1959,6 +1985,14 @@ export const deleteCostCategoryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCostCategoryDefinition",
+  iam: {
+    actions: ["ce:DeleteCostCategoryDefinition"],
+    resources: {
+      "ce:DeleteCostCategoryDefinition": [
+        "arn:${Partition}:ce::${Account}:costcategory/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCostCategoryDefinition",
 }));
@@ -1988,6 +2022,14 @@ export const describeCostCategoryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCostCategoryDefinition",
+  iam: {
+    actions: ["ce:DescribeCostCategoryDefinition"],
+    resources: {
+      "ce:DescribeCostCategoryDefinition": [
+        "arn:${Partition}:ce::${Account}:costcategory/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCostCategoryDefinition",
 }));
@@ -2017,6 +2059,12 @@ export const getAnomalies: API.PaginatedOperationMethod<
     items: "Anomalies",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ce:GetAnomalies"],
+    resources: {
+      "ce:GetAnomalies": ["arn:${Partition}:ce::${Account}:anomalymonitor/${Identifier}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAnomalies",
 })) as any;
@@ -2049,6 +2097,12 @@ export const getAnomalyMonitors: API.PaginatedOperationMethod<
     items: "AnomalyMonitors",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ce:GetAnomalyMonitors"],
+    resources: {
+      "ce:GetAnomalyMonitors": ["arn:${Partition}:ce::${Account}:anomalymonitor/${Identifier}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAnomalyMonitors",
 })) as any;
@@ -2081,6 +2135,14 @@ export const getAnomalySubscriptions: API.PaginatedOperationMethod<
     items: "AnomalySubscriptions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ce:GetAnomalySubscriptions"],
+    resources: {
+      "ce:GetAnomalySubscriptions": [
+        "arn:${Partition}:ce::${Account}:anomalysubscription/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAnomalySubscriptions",
 })) as any;
@@ -2105,6 +2167,7 @@ export const getApproximateUsageRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApproximateUsageRecords",
+  iam: { actions: ["ce:GetApproximateUsageRecords"] },
   telemetry: TELEMETRY,
   span: "GetApproximateUsageRecords",
 }));
@@ -2130,6 +2193,7 @@ export const getCommitmentPurchaseAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommitmentPurchaseAnalysis",
+  iam: { actions: ["ce:GetCommitmentPurchaseAnalysis"] },
   telemetry: TELEMETRY,
   span: "GetCommitmentPurchaseAnalysis",
 }));
@@ -2173,6 +2237,7 @@ export const getCostAndUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostAndUsage",
+  iam: { actions: ["ce:GetCostAndUsage"] },
   telemetry: TELEMETRY,
   span: "GetCostAndUsage",
 }));
@@ -2214,6 +2279,7 @@ export const getCostAndUsageComparisons: API.PaginatedOperationMethod<
     items: "CostAndUsageComparisons",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ce:GetCostAndUsageComparisons"] },
   telemetry: TELEMETRY,
   span: "GetCostAndUsageComparisons",
 })) as any;
@@ -2263,6 +2329,7 @@ export const getCostAndUsageWithResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostAndUsageWithResources",
+  iam: { actions: ["ce:GetCostAndUsageWithResources"] },
   telemetry: TELEMETRY,
   span: "GetCostAndUsageWithResources",
 }));
@@ -2302,6 +2369,7 @@ export const getCostCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostCategories",
+  iam: { actions: ["ce:GetCostCategories"] },
   telemetry: TELEMETRY,
   span: "GetCostCategories",
 }));
@@ -2343,6 +2411,7 @@ export const getCostComparisonDrivers: API.PaginatedOperationMethod<
     items: "CostComparisonDrivers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ce:GetCostComparisonDrivers"] },
   telemetry: TELEMETRY,
   span: "GetCostComparisonDrivers",
 })) as any;
@@ -2374,6 +2443,7 @@ export const getCostForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostForecast",
+  iam: { actions: ["ce:GetCostForecast"] },
   telemetry: TELEMETRY,
   span: "GetCostForecast",
 }));
@@ -2411,6 +2481,7 @@ export const getDimensionValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDimensionValues",
+  iam: { actions: ["ce:GetDimensionValues"] },
   telemetry: TELEMETRY,
   span: "GetDimensionValues",
 }));
@@ -2467,6 +2538,7 @@ export const getReservationCoverage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReservationCoverage",
+  iam: { actions: ["ce:GetReservationCoverage"] },
   telemetry: TELEMETRY,
   span: "GetReservationCoverage",
 }));
@@ -2515,6 +2587,7 @@ export const getReservationPurchaseRecommendation: API.PaginatedOperationMethod<
     items: "Recommendations",
     pageSize: "PageSize",
   } as const,
+  iam: { actions: ["ce:GetReservationPurchaseRecommendation"] },
   telemetry: TELEMETRY,
   span: "GetReservationPurchaseRecommendation",
 })) as any;
@@ -2542,6 +2615,7 @@ export const getReservationUtilization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReservationUtilization",
+  iam: { actions: ["ce:GetReservationUtilization"] },
   telemetry: TELEMETRY,
   span: "GetReservationUtilization",
 }));
@@ -2578,6 +2652,7 @@ export const getRightsizingRecommendation: API.PaginatedOperationMethod<
     items: "RightsizingRecommendations",
     pageSize: "PageSize",
   } as const,
+  iam: { actions: ["ce:GetRightsizingRecommendation"] },
   telemetry: TELEMETRY,
   span: "GetRightsizingRecommendation",
 })) as any;
@@ -2606,6 +2681,7 @@ export const getSavingsPlanPurchaseRecommendationDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSavingsPlanPurchaseRecommendationDetails",
+  iam: { actions: ["ce:GetSavingsPlanPurchaseRecommendationDetails"] },
   telemetry: TELEMETRY,
   span: "GetSavingsPlanPurchaseRecommendationDetails",
 }));
@@ -2651,6 +2727,7 @@ export const getSavingsPlansCoverage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ce:GetSavingsPlansCoverage"] },
   telemetry: TELEMETRY,
   span: "GetSavingsPlansCoverage",
 })) as any;
@@ -2677,6 +2754,7 @@ export const getSavingsPlansPurchaseRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSavingsPlansPurchaseRecommendation",
+  iam: { actions: ["ce:GetSavingsPlansPurchaseRecommendation"] },
   telemetry: TELEMETRY,
   span: "GetSavingsPlansPurchaseRecommendation",
 }));
@@ -2706,6 +2784,7 @@ export const getSavingsPlansUtilization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSavingsPlansUtilization",
+  iam: { actions: ["ce:GetSavingsPlansUtilization"] },
   telemetry: TELEMETRY,
   span: "GetSavingsPlansUtilization",
 }));
@@ -2745,6 +2824,7 @@ export const getSavingsPlansUtilizationDetails: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ce:GetSavingsPlansUtilizationDetails"] },
   telemetry: TELEMETRY,
   span: "GetSavingsPlansUtilizationDetails",
 })) as any;
@@ -2782,6 +2862,7 @@ export const getTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
+  iam: { actions: ["ce:GetTags"] },
   telemetry: TELEMETRY,
   span: "GetTags",
 }));
@@ -2815,6 +2896,7 @@ export const getUsageForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsageForecast",
+  iam: { actions: ["ce:GetUsageForecast"] },
   telemetry: TELEMETRY,
   span: "GetUsageForecast",
 }));
@@ -2846,6 +2928,7 @@ export const listCommitmentPurchaseAnalyses: API.PaginatedOperationMethod<
     items: "AnalysisSummaryList",
     pageSize: "PageSize",
   } as const,
+  iam: { actions: ["ce:ListCommitmentPurchaseAnalyses"] },
   telemetry: TELEMETRY,
   span: "ListCommitmentPurchaseAnalyses",
 })) as any;
@@ -2876,6 +2959,7 @@ export const listCostAllocationTagBackfillHistory: API.PaginatedOperationMethod<
     items: "BackfillRequests",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ce:ListCostAllocationTagBackfillHistory"] },
   telemetry: TELEMETRY,
   span: "ListCostAllocationTagBackfillHistory",
 })) as any;
@@ -2907,6 +2991,7 @@ export const listCostAllocationTags: API.PaginatedOperationMethod<
     items: "CostAllocationTags",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ce:ListCostAllocationTags"] },
   telemetry: TELEMETRY,
   span: "ListCostAllocationTags",
 })) as any;
@@ -2940,6 +3025,7 @@ export const listCostCategoryDefinitions: API.PaginatedOperationMethod<
     items: "CostCategoryReferences",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ce:ListCostCategoryDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListCostCategoryDefinitions",
 })) as any;
@@ -2970,6 +3056,7 @@ export const listCostCategoryResourceAssociations: API.PaginatedOperationMethod<
     items: "CostCategoryResourceAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ce:ListCostCategoryResourceAssociations"] },
   telemetry: TELEMETRY,
   span: "ListCostCategoryResourceAssociations",
 })) as any;
@@ -3010,6 +3097,7 @@ export const listSavingsPlansPurchaseRecommendationGeneration: API.PaginatedOper
     items: "GenerationSummaryList",
     pageSize: "PageSize",
   } as const,
+  iam: { actions: ["ce:ListSavingsPlansPurchaseRecommendationGeneration"] },
   telemetry: TELEMETRY,
   span: "ListSavingsPlansPurchaseRecommendationGeneration",
 })) as any;
@@ -3034,6 +3122,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["ce:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3054,6 +3143,7 @@ export const provideAnomalyFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvideAnomalyFeedback",
+  iam: { actions: ["ce:ProvideAnomalyFeedback"] },
   telemetry: TELEMETRY,
   span: "ProvideAnomalyFeedback",
 }));
@@ -3086,6 +3176,7 @@ export const startCommitmentPurchaseAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCommitmentPurchaseAnalysis",
+  iam: { actions: ["ce:StartCommitmentPurchaseAnalysis"] },
   telemetry: TELEMETRY,
   span: "StartCommitmentPurchaseAnalysis",
 }));
@@ -3111,6 +3202,7 @@ export const startCostAllocationTagBackfill: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCostAllocationTagBackfill",
+  iam: { actions: ["ce:StartCostAllocationTagBackfill"] },
   telemetry: TELEMETRY,
   span: "StartCostAllocationTagBackfill",
 }));
@@ -3155,6 +3247,7 @@ export const startSavingsPlansPurchaseRecommendationGeneration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSavingsPlansPurchaseRecommendationGeneration",
+  iam: { actions: ["ce:StartSavingsPlansPurchaseRecommendationGeneration"] },
   telemetry: TELEMETRY,
   span: "StartSavingsPlansPurchaseRecommendationGeneration",
 }));
@@ -3187,6 +3280,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["ce:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3208,6 +3302,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["ce:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3232,6 +3327,12 @@ export const updateAnomalyMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnomalyMonitor",
+  iam: {
+    actions: ["ce:UpdateAnomalyMonitor"],
+    resources: {
+      "ce:UpdateAnomalyMonitor": ["arn:${Partition}:ce::${Account}:anomalymonitor/${Identifier}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnomalyMonitor",
 }));
@@ -3260,6 +3361,14 @@ export const updateAnomalySubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnomalySubscription",
+  iam: {
+    actions: ["ce:UpdateAnomalySubscription"],
+    resources: {
+      "ce:UpdateAnomalySubscription": [
+        "arn:${Partition}:ce::${Account}:anomalysubscription/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnomalySubscription",
 }));
@@ -3283,6 +3392,7 @@ export const updateCostAllocationTagsStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCostAllocationTagsStatus",
+  iam: { actions: ["ce:UpdateCostAllocationTagsStatus"] },
   telemetry: TELEMETRY,
   span: "UpdateCostAllocationTagsStatus",
 }));
@@ -3309,6 +3419,14 @@ export const updateCostCategoryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCostCategoryDefinition",
+  iam: {
+    actions: ["ce:UpdateCostCategoryDefinition"],
+    resources: {
+      "ce:UpdateCostCategoryDefinition": [
+        "arn:${Partition}:ce::${Account}:costcategory/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCostCategoryDefinition",
 }));

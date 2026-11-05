@@ -21328,6 +21328,15 @@ export const acceptAddressTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAddressTransfer",
+  iam: {
+    actions: ["ec2:AcceptAddressTransfer", "ec2:CreateTags"],
+    resources: {
+      "ec2:AcceptAddressTransfer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:elastic-ip/${AllocationId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "AcceptAddressTransfer",
 }));
@@ -21354,6 +21363,14 @@ export const acceptCapacityReservationBillingOwnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptCapacityReservationBillingOwnership",
+  iam: {
+    actions: ["ec2:AcceptCapacityReservationBillingOwnership"],
+    resources: {
+      "ec2:AcceptCapacityReservationBillingOwnership": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptCapacityReservationBillingOwnership",
 }));
@@ -21378,6 +21395,14 @@ export const acceptReservedInstancesExchangeQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptReservedInstancesExchangeQuote",
+  iam: {
+    actions: ["ec2:AcceptReservedInstancesExchangeQuote"],
+    resources: {
+      "ec2:AcceptReservedInstancesExchangeQuote": [
+        "arn:${Partition}:ec2:${Region}:${Account}:reserved-instances/${ReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptReservedInstancesExchangeQuote",
 }));
@@ -21398,6 +21423,14 @@ export const acceptTransitGatewayClientVpnAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptTransitGatewayClientVpnAttachment",
+  iam: {
+    actions: ["ec2:AcceptTransitGatewayClientVpnAttachment"],
+    resources: {
+      "ec2:AcceptTransitGatewayClientVpnAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptTransitGatewayClientVpnAttachment",
 }));
@@ -21430,6 +21463,7 @@ export const acceptTransitGatewayMulticastDomainAssociations: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptTransitGatewayMulticastDomainAssociations",
+  iam: { actions: ["ec2:AcceptTransitGatewayMulticastDomainAssociations"] },
   telemetry: TELEMETRY,
   span: "AcceptTransitGatewayMulticastDomainAssociations",
 }));
@@ -21455,6 +21489,14 @@ export const acceptTransitGatewayPeeringAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptTransitGatewayPeeringAttachment",
+  iam: {
+    actions: ["ec2:AcceptTransitGatewayPeeringAttachment"],
+    resources: {
+      "ec2:AcceptTransitGatewayPeeringAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptTransitGatewayPeeringAttachment",
 }));
@@ -21483,6 +21525,14 @@ export const acceptTransitGatewayVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptTransitGatewayVpcAttachment",
+  iam: {
+    actions: ["ec2:AcceptTransitGatewayVpcAttachment"],
+    resources: {
+      "ec2:AcceptTransitGatewayVpcAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptTransitGatewayVpcAttachment",
 }));
@@ -21513,6 +21563,14 @@ export const acceptVpcEndpointConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptVpcEndpointConnections",
+  iam: {
+    actions: ["ec2:AcceptVpcEndpointConnections"],
+    resources: {
+      "ec2:AcceptVpcEndpointConnections": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptVpcEndpointConnections",
 }));
@@ -21549,6 +21607,15 @@ export const acceptVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptVpcPeeringConnection",
+  iam: {
+    actions: ["ec2:AcceptVpcPeeringConnection"],
+    resources: {
+      "ec2:AcceptVpcPeeringConnection": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-peering-connection/${VpcPeeringConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptVpcPeeringConnection",
 }));
@@ -21581,6 +21648,7 @@ export const advertiseByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdvertiseByoipCidr",
+  iam: { actions: ["ec2:AdvertiseByoipCidr"] },
   telemetry: TELEMETRY,
   span: "AdvertiseByoipCidr",
 }));
@@ -21629,6 +21697,10 @@ export const allocateAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateAddress",
+  iam: {
+    actions: ["ec2:AllocateAddress", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "AllocateAddress",
 }));
@@ -21656,6 +21728,15 @@ export const allocateHosts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateHosts",
+  iam: {
+    actions: ["ec2:AllocateHosts", "ec2:CreateTags"],
+    resources: {
+      "ec2:AllocateHosts": [
+        "arn:${Partition}:ec2:${Region}:${Account}:dedicated-host/${DedicatedHostId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "AllocateHosts",
 }));
@@ -21684,6 +21765,10 @@ export const allocateIpamPoolCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateIpamPoolCidr",
+  iam: {
+    actions: ["ec2:AllocateIpamPoolCidr", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "AllocateIpamPoolCidr",
 }));
@@ -21709,6 +21794,16 @@ export const applySecurityGroupsToClientVpnTargetNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplySecurityGroupsToClientVpnTargetNetwork",
+  iam: {
+    actions: ["ec2:ApplySecurityGroupsToClientVpnTargetNetwork"],
+    resources: {
+      "ec2:ApplySecurityGroupsToClientVpnTargetNetwork": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ApplySecurityGroupsToClientVpnTargetNetwork",
 }));
@@ -21750,6 +21845,14 @@ export const assignIpv6Addresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssignIpv6Addresses",
+  iam: {
+    actions: ["ec2:AssignIpv6Addresses"],
+    resources: {
+      "ec2:AssignIpv6Addresses": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssignIpv6Addresses",
 }));
@@ -21805,6 +21908,14 @@ export const assignPrivateIpAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssignPrivateIpAddresses",
+  iam: {
+    actions: ["ec2:AssignPrivateIpAddresses"],
+    resources: {
+      "ec2:AssignPrivateIpAddresses": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssignPrivateIpAddresses",
 }));
@@ -21830,6 +21941,14 @@ export const assignPrivateNatGatewayAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssignPrivateNatGatewayAddress",
+  iam: {
+    actions: ["ec2:AssignPrivateNatGatewayAddress"],
+    resources: {
+      "ec2:AssignPrivateNatGatewayAddress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:natgateway/${NatGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssignPrivateNatGatewayAddress",
 }));
@@ -21883,6 +22002,7 @@ export const associateAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAddress",
+  iam: { actions: ["ec2:AssociateAddress"] },
   telemetry: TELEMETRY,
   span: "AssociateAddress",
 }));
@@ -21915,6 +22035,7 @@ export const associateApplicationStatusCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplicationStatusCheck",
+  iam: { actions: ["ec2:AssociateApplicationStatusCheck"] },
   telemetry: TELEMETRY,
   span: "AssociateApplicationStatusCheck",
 }));
@@ -21948,6 +22069,14 @@ export const associateCapacityReservationBillingOwner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCapacityReservationBillingOwner",
+  iam: {
+    actions: ["ec2:AssociateCapacityReservationBillingOwner"],
+    resources: {
+      "ec2:AssociateCapacityReservationBillingOwner": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateCapacityReservationBillingOwner",
 }));
@@ -21994,6 +22123,7 @@ export const associateClientVpnTargetNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateClientVpnTargetNetwork",
+  iam: { actions: ["ec2:AssociateClientVpnTargetNetwork"] },
   telemetry: TELEMETRY,
   span: "AssociateClientVpnTargetNetwork",
 }));
@@ -22031,6 +22161,15 @@ export const associateDhcpOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDhcpOptions",
+  iam: {
+    actions: ["ec2:AssociateDhcpOptions"],
+    resources: {
+      "ec2:AssociateDhcpOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:dhcp-options/${DhcpOptionsId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateDhcpOptions",
 }));
@@ -22075,6 +22214,15 @@ export const associateEnclaveCertificateIamRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEnclaveCertificateIamRole",
+  iam: {
+    actions: ["ec2:AssociateEnclaveCertificateIamRole"],
+    resources: {
+      "ec2:AssociateEnclaveCertificateIamRole": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateEnclaveCertificateIamRole",
 }));
@@ -22100,6 +22248,16 @@ export const associateIamInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIamInstanceProfile",
+  iam: {
+    actions: ["ec2:AssociateIamInstanceProfile", "iam:PassRole"],
+    resources: {
+      "ec2:AssociateIamInstanceProfile": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateIamInstanceProfile",
 }));
@@ -22128,6 +22286,14 @@ export const associateInstanceEventWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateInstanceEventWindow",
+  iam: {
+    actions: ["ec2:AssociateInstanceEventWindow"],
+    resources: {
+      "ec2:AssociateInstanceEventWindow": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance-event-window/${InstanceEventWindowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateInstanceEventWindow",
 }));
@@ -22156,6 +22322,7 @@ export const associateIpamByoasn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIpamByoasn",
+  iam: { actions: ["ec2:AssociateIpamByoasn"] },
   telemetry: TELEMETRY,
   span: "AssociateIpamByoasn",
 }));
@@ -22186,6 +22353,17 @@ export const associateIpamResourceDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIpamResourceDiscovery",
+  iam: {
+    actions: ["ec2:AssociateIpamResourceDiscovery", "ec2:CreateTags"],
+    resources: {
+      "ec2:AssociateIpamResourceDiscovery": [
+        "arn:${Partition}:ec2::${Account}:ipam/${IpamId}",
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery/${IpamResourceDiscoveryId}",
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery-association/${IpamResourceDiscoveryAssociationId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateIpamResourceDiscovery",
 }));
@@ -22228,6 +22406,15 @@ export const associateNatGatewayAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateNatGatewayAddress",
+  iam: {
+    actions: ["ec2:AssociateNatGatewayAddress"],
+    resources: {
+      "ec2:AssociateNatGatewayAddress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:elastic-ip/${AllocationId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:natgateway/${NatGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateNatGatewayAddress",
 }));
@@ -22256,6 +22443,15 @@ export const associateRouteServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRouteServer",
+  iam: {
+    actions: ["ec2:AssociateRouteServer"],
+    resources: {
+      "ec2:AssociateRouteServer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateRouteServer",
 }));
@@ -22305,6 +22501,7 @@ export const associateRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRouteTable",
+  iam: { actions: ["ec2:AssociateRouteTable"] },
   telemetry: TELEMETRY,
   span: "AssociateRouteTable",
 }));
@@ -22340,6 +22537,15 @@ export const associateSecurityGroupVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSecurityGroupVpc",
+  iam: {
+    actions: ["ec2:AssociateSecurityGroupVpc"],
+    resources: {
+      "ec2:AssociateSecurityGroupVpc": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateSecurityGroupVpc",
 }));
@@ -22366,6 +22572,7 @@ export const associateSubnetCidrBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSubnetCidrBlock",
+  iam: { actions: ["ec2:AssociateSubnetCidrBlock"] },
   telemetry: TELEMETRY,
   span: "AssociateSubnetCidrBlock",
 }));
@@ -22397,6 +22604,16 @@ export const associateTransitGatewayMulticastDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTransitGatewayMulticastDomain",
+  iam: {
+    actions: ["ec2:AssociateTransitGatewayMulticastDomain"],
+    resources: {
+      "ec2:AssociateTransitGatewayMulticastDomain": [
+        "arn:${Partition}:ec2:${Region}:${Account}:subnet/${SubnetId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-multicast-domain/${TransitGatewayMulticastDomainId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateTransitGatewayMulticastDomain",
 }));
@@ -22427,6 +22644,15 @@ export const associateTransitGatewayPolicyTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTransitGatewayPolicyTable",
+  iam: {
+    actions: ["ec2:AssociateTransitGatewayPolicyTable"],
+    resources: {
+      "ec2:AssociateTransitGatewayPolicyTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-policy-table/${TransitGatewayPolicyTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateTransitGatewayPolicyTable",
 }));
@@ -22452,6 +22678,15 @@ export const associateTransitGatewayRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTransitGatewayRouteTable",
+  iam: {
+    actions: ["ec2:AssociateTransitGatewayRouteTable"],
+    resources: {
+      "ec2:AssociateTransitGatewayRouteTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table/${TransitGatewayRouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateTransitGatewayRouteTable",
 }));
@@ -22481,6 +22716,7 @@ export const associateTrunkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTrunkInterface",
+  iam: { actions: ["ec2:AssociateTrunkInterface"] },
   telemetry: TELEMETRY,
   span: "AssociateTrunkInterface",
 }));
@@ -22526,6 +22762,7 @@ export const associateVpcCidrBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVpcCidrBlock",
+  iam: { actions: ["ec2:AssociateVpcCidrBlock"] },
   telemetry: TELEMETRY,
   span: "AssociateVpcCidrBlock",
 }));
@@ -22566,6 +22803,16 @@ export const attachClassicLinkVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachClassicLinkVpc",
+  iam: {
+    actions: ["ec2:AttachClassicLinkVpc"],
+    resources: {
+      "ec2:AttachClassicLinkVpc": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachClassicLinkVpc",
 }));
@@ -22592,6 +22839,10 @@ export const attachImageWatermark: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachImageWatermark",
+  iam: {
+    actions: ["ec2:AttachImageWatermark"],
+    resources: { "ec2:AttachImageWatermark": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "AttachImageWatermark",
 }));
@@ -22628,6 +22879,15 @@ export const attachInternetGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachInternetGateway",
+  iam: {
+    actions: ["ec2:AttachInternetGateway"],
+    resources: {
+      "ec2:AttachInternetGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:internet-gateway/${InternetGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachInternetGateway",
 }));
@@ -22660,6 +22920,15 @@ export const attachNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachNetworkInterface",
+  iam: {
+    actions: ["ec2:AttachNetworkInterface"],
+    resources: {
+      "ec2:AttachNetworkInterface": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachNetworkInterface",
 }));
@@ -22684,6 +22953,15 @@ export const attachVerifiedAccessTrustProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachVerifiedAccessTrustProvider",
+  iam: {
+    actions: ["ec2:AttachVerifiedAccessTrustProvider"],
+    resources: {
+      "ec2:AttachVerifiedAccessTrustProvider": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-instance/${VerifiedAccessInstanceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-trust-provider/${VerifiedAccessTrustProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachVerifiedAccessTrustProvider",
 }));
@@ -22744,6 +23022,15 @@ export const attachVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachVolume",
+  iam: {
+    actions: ["ec2:AttachVolume"],
+    resources: {
+      "ec2:AttachVolume": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachVolume",
 }));
@@ -22778,6 +23065,15 @@ export const attachVpnGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachVpnGateway",
+  iam: {
+    actions: ["ec2:AttachVpnGateway"],
+    resources: {
+      "ec2:AttachVpnGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-gateway/${VpnGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachVpnGateway",
 }));
@@ -22818,6 +23114,14 @@ export const authorizeClientVpnIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeClientVpnIngress",
+  iam: {
+    actions: ["ec2:AuthorizeClientVpnIngress"],
+    resources: {
+      "ec2:AuthorizeClientVpnIngress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AuthorizeClientVpnIngress",
 }));
@@ -22869,6 +23173,10 @@ export const authorizeSecurityGroupEgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeSecurityGroupEgress",
+  iam: {
+    actions: ["ec2:AuthorizeSecurityGroupEgress", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "AuthorizeSecurityGroupEgress",
 }));
@@ -22920,6 +23228,10 @@ export const authorizeSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeSecurityGroupIngress",
+  iam: {
+    actions: ["ec2:AuthorizeSecurityGroupIngress", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "AuthorizeSecurityGroupIngress",
 }));
@@ -22940,6 +23252,14 @@ export const batchModifyIpamRoutingPolicyRegistrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchModifyIpamRoutingPolicyRegistrations",
+  iam: {
+    actions: ["ec2:BatchModifyIpamRoutingPolicyRegistrations"],
+    resources: {
+      "ec2:BatchModifyIpamRoutingPolicyRegistrations": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchModifyIpamRoutingPolicyRegistrations",
 }));
@@ -22972,6 +23292,7 @@ export const bundleInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BundleInstance",
+  iam: { actions: ["ec2:BundleInstance"] },
   telemetry: TELEMETRY,
   span: "BundleInstance",
 }));
@@ -23005,6 +23326,7 @@ export const cancelBundleTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBundleTask",
+  iam: { actions: ["ec2:CancelBundleTask"] },
   telemetry: TELEMETRY,
   span: "CancelBundleTask",
 }));
@@ -23067,6 +23389,7 @@ export const cancelCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCapacityReservation",
+  iam: { actions: ["ec2:CancelCapacityReservation"] },
   telemetry: TELEMETRY,
   span: "CancelCapacityReservation",
 }));
@@ -23101,6 +23424,14 @@ export const cancelCapacityReservationFleets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCapacityReservationFleets",
+  iam: {
+    actions: ["ec2:CancelCapacityReservationFleets"],
+    resources: {
+      "ec2:CancelCapacityReservationFleets": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation-fleet/${CapacityReservationFleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelCapacityReservationFleets",
 }));
@@ -23127,6 +23458,7 @@ export const cancelConversionTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelConversionTask",
+  iam: { actions: ["ec2:CancelConversionTask"] },
   telemetry: TELEMETRY,
   span: "CancelConversionTask",
 }));
@@ -23162,6 +23494,14 @@ export const cancelDeclarativePoliciesReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDeclarativePoliciesReport",
+  iam: {
+    actions: ["ec2:CancelDeclarativePoliciesReport"],
+    resources: {
+      "ec2:CancelDeclarativePoliciesReport": [
+        "arn:${Partition}:ec2:${Region}:${Account}:declarative-policies-report/${DeclarativePoliciesReportId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelDeclarativePoliciesReport",
 }));
@@ -23188,6 +23528,7 @@ export const cancelExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportTask",
+  iam: { actions: ["ec2:CancelExportTask"] },
   telemetry: TELEMETRY,
   span: "CancelExportTask",
 }));
@@ -23214,6 +23555,12 @@ export const cancelImageLaunchPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImageLaunchPermission",
+  iam: {
+    actions: ["ec2:CancelImageLaunchPermission"],
+    resources: {
+      "ec2:CancelImageLaunchPermission": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelImageLaunchPermission",
 }));
@@ -23238,6 +23585,7 @@ export const cancelImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImportTask",
+  iam: { actions: ["ec2:CancelImportTask"] },
   telemetry: TELEMETRY,
   span: "CancelImportTask",
 }));
@@ -23266,6 +23614,7 @@ export const cancelReservedInstancesListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelReservedInstancesListing",
+  iam: { actions: ["ec2:CancelReservedInstancesListing"] },
   telemetry: TELEMETRY,
   span: "CancelReservedInstancesListing",
 }));
@@ -23315,6 +23664,14 @@ export const cancelSpotFleetRequests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSpotFleetRequests",
+  iam: {
+    actions: ["ec2:CancelSpotFleetRequests"],
+    resources: {
+      "ec2:CancelSpotFleetRequests": [
+        "arn:${Partition}:ec2:${Region}:${Account}:spot-fleet-request/${SpotFleetRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelSpotFleetRequests",
 }));
@@ -23348,6 +23705,14 @@ export const cancelSpotInstanceRequests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSpotInstanceRequests",
+  iam: {
+    actions: ["ec2:CancelSpotInstanceRequests"],
+    resources: {
+      "ec2:CancelSpotInstanceRequests": [
+        "arn:${Partition}:ec2:${Region}:${Account}:spot-instances-request/${SpotInstanceRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelSpotInstanceRequests",
 }));
@@ -23374,6 +23739,7 @@ export const confirmProductInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmProductInstance",
+  iam: { actions: ["ec2:ConfirmProductInstance"] },
   telemetry: TELEMETRY,
   span: "ConfirmProductInstance",
 }));
@@ -23398,6 +23764,12 @@ export const copyFpgaImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyFpgaImage",
+  iam: {
+    actions: ["ec2:CopyFpgaImage"],
+    resources: {
+      "ec2:CopyFpgaImage": ["arn:${Partition}:ec2:${Region}:${Account}:fpga-image/${FpgaImageId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CopyFpgaImage",
 }));
@@ -23493,6 +23865,16 @@ export const copyImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyImage",
+  iam: {
+    actions: ["ec2:CopyImage", "ec2:CreateTags"],
+    resources: {
+      "ec2:CopyImage": [
+        "arn:${Partition}:ec2:${Region}::image/${ImageId}",
+        "arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CopyImage",
 }));
@@ -23553,6 +23935,11 @@ export const copySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
+  iam: {
+    actions: ["ec2:CopySnapshot", "ec2:CreateTags"],
+    resources: { "ec2:CopySnapshot": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"] },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CopySnapshot",
 }));
@@ -23579,6 +23966,13 @@ export const copyVolumes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyVolumes",
+  iam: {
+    actions: ["ec2:CopyVolumes", "ec2:CreateTags"],
+    resources: {
+      "ec2:CopyVolumes": ["arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}"],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CopyVolumes",
 }));
@@ -23613,6 +24007,10 @@ export const createApplicationStatusCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationStatusCheck",
+  iam: {
+    actions: ["ec2:CreateApplicationStatusCheck", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplicationStatusCheck",
 }));
@@ -23638,6 +24036,15 @@ export const createCapacityManagerDataExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityManagerDataExport",
+  iam: {
+    actions: ["ec2:CreateCapacityManagerDataExport", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateCapacityManagerDataExport": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-manager-data-export/${CapacityManagerDataExportId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapacityManagerDataExport",
 }));
@@ -23685,6 +24092,15 @@ export const createCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservation",
+  iam: {
+    actions: ["ec2:CreateCapacityReservation", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateCapacityReservation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapacityReservation",
 }));
@@ -23718,6 +24134,15 @@ export const createCapacityReservationBySplitting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservationBySplitting",
+  iam: {
+    actions: ["ec2:CreateCapacityReservationBySplitting", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateCapacityReservationBySplitting": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapacityReservationBySplitting",
 }));
@@ -23741,6 +24166,16 @@ export const createCapacityReservationCancellationQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservationCancellationQuote",
+  iam: {
+    actions: ["ec2:CreateCapacityReservationCancellationQuote", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateCapacityReservationCancellationQuote": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation-cancellation-quote/${CapacityReservationCancellationQuoteId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapacityReservationCancellationQuote",
 }));
@@ -23768,6 +24203,7 @@ export const createCapacityReservationDateChangeQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservationDateChangeQuote",
+  iam: { actions: ["ec2:CreateTags"], conditional: { "ec2:CreateTags": "TagSpecifications" } },
   telemetry: TELEMETRY,
   span: "CreateCapacityReservationDateChangeQuote",
 }));
@@ -23794,6 +24230,15 @@ export const createCapacityReservationFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservationFleet",
+  iam: {
+    actions: ["ec2:CreateCapacityReservationFleet", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateCapacityReservationFleet": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation-fleet/${CapacityReservationFleetId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapacityReservationFleet",
 }));
@@ -23828,6 +24273,16 @@ export const createCarrierGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCarrierGateway",
+  iam: {
+    actions: ["ec2:CreateCarrierGateway", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateCarrierGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:carrier-gateway/${CarrierGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCarrierGateway",
 }));
@@ -23866,6 +24321,10 @@ export const createClientVpnEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClientVpnEndpoint",
+  iam: {
+    actions: ["ec2:CreateClientVpnEndpoint", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateClientVpnEndpoint",
 }));
@@ -23905,6 +24364,7 @@ export const createClientVpnRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClientVpnRoute",
+  iam: { actions: ["ec2:CreateClientVpnRoute"] },
   telemetry: TELEMETRY,
   span: "CreateClientVpnRoute",
 }));
@@ -23937,6 +24397,14 @@ export const createCoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoipCidr",
+  iam: {
+    actions: ["ec2:CreateCoipCidr"],
+    resources: {
+      "ec2:CreateCoipCidr": [
+        "arn:${Partition}:ec2:${Region}:${Account}:coip-pool/${Ipv4PoolCoipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCoipCidr",
 }));
@@ -23969,6 +24437,16 @@ export const createCoipPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoipPool",
+  iam: {
+    actions: ["ec2:CreateCoipPool", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateCoipPool": [
+        "arn:${Partition}:ec2:${Region}:${Account}:coip-pool/${Ipv4PoolCoipId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table/${LocalGatewayRoutetableId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCoipPool",
 }));
@@ -24009,6 +24487,15 @@ export const createCustomerGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomerGateway",
+  iam: {
+    actions: ["ec2:CreateCustomerGateway", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateCustomerGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:customer-gateway/${CustomerGatewayId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomerGateway",
 }));
@@ -24042,6 +24529,7 @@ export const createDefaultSubnet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDefaultSubnet",
+  iam: { actions: ["ec2:CreateDefaultSubnet"] },
   telemetry: TELEMETRY,
   span: "CreateDefaultSubnet",
 }));
@@ -24073,6 +24561,7 @@ export const createDefaultVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDefaultVpc",
+  iam: { actions: ["ec2:CreateDefaultVpc"] },
   telemetry: TELEMETRY,
   span: "CreateDefaultVpc",
 }));
@@ -24098,6 +24587,16 @@ export const createDelegateMacVolumeOwnershipTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDelegateMacVolumeOwnershipTask",
+  iam: {
+    actions: ["ec2:CreateDelegateMacVolumeOwnershipTask", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateDelegateMacVolumeOwnershipTask": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:mac-modification-task/${MacModificationTaskId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDelegateMacVolumeOwnershipTask",
 }));
@@ -24160,6 +24659,15 @@ export const createDhcpOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDhcpOptions",
+  iam: {
+    actions: ["ec2:CreateDhcpOptions", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateDhcpOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:dhcp-options/${DhcpOptionsId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDhcpOptions",
 }));
@@ -24197,6 +24705,16 @@ export const createEgressOnlyInternetGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEgressOnlyInternetGateway",
+  iam: {
+    actions: ["ec2:CreateEgressOnlyInternetGateway", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateEgressOnlyInternetGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:egress-only-internet-gateway/${EgressOnlyInternetGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEgressOnlyInternetGateway",
 }));
@@ -24227,6 +24745,10 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  iam: {
+    actions: ["ec2:CreateFleet", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFleet",
 }));
@@ -24273,6 +24795,14 @@ export const createFlowLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlowLogs",
+  iam: {
+    actions: ["ec2:CreateFlowLogs", "ec2:CreateTags", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: {
+      "iam:PassRole": "DeliverCrossAccountRole",
+      "ec2:CreateTags": "TagSpecifications",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateFlowLogs",
 }));
@@ -24304,6 +24834,15 @@ export const createFpgaImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFpgaImage",
+  iam: {
+    actions: ["ec2:CreateFpgaImage", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateFpgaImage": [
+        "arn:${Partition}:ec2:${Region}:${Account}:fpga-image/${FpgaImageId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFpgaImage",
 }));
@@ -24357,6 +24896,17 @@ export const createImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImage",
+  iam: {
+    actions: ["ec2:CreateImage", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateImage": [
+        "arn:${Partition}:ec2:${Region}::image/${ImageId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateImage",
 }));
@@ -24386,6 +24936,16 @@ export const createImageUsageReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageUsageReport",
+  iam: {
+    actions: ["ec2:CreateImageUsageReport", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateImageUsageReport": [
+        "arn:${Partition}:ec2:${Region}::image/${ImageId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:image-usage-report/${ImageUsageReportId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateImageUsageReport",
 }));
@@ -24423,6 +24983,10 @@ export const createInstanceConnectEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceConnectEndpoint",
+  iam: {
+    actions: ["ec2:CreateInstanceConnectEndpoint", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstanceConnectEndpoint",
 }));
@@ -24469,6 +25033,15 @@ export const createInstanceEventWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceEventWindow",
+  iam: {
+    actions: ["ec2:CreateInstanceEventWindow", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateInstanceEventWindow": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance-event-window/${InstanceEventWindowId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstanceEventWindow",
 }));
@@ -24497,6 +25070,16 @@ export const createInstanceExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceExportTask",
+  iam: {
+    actions: ["ec2:CreateInstanceExportTask", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateInstanceExportTask": [
+        "arn:${Partition}:ec2:${Region}:${Account}:export-instance-task/${ExportTaskId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstanceExportTask",
 }));
@@ -24526,6 +25109,15 @@ export const createInternetGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInternetGateway",
+  iam: {
+    actions: ["ec2:CreateInternetGateway", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateInternetGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:internet-gateway/${InternetGatewayId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInternetGateway",
 }));
@@ -24558,6 +25150,15 @@ export const createInterruptibleCapacityReservationAllocation: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInterruptibleCapacityReservationAllocation",
+  iam: {
+    actions: ["ec2:CreateInterruptibleCapacityReservationAllocation", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateInterruptibleCapacityReservationAllocation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInterruptibleCapacityReservationAllocation",
 }));
@@ -24595,6 +25196,11 @@ export const createIpam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpam",
+  iam: {
+    actions: ["ec2:CreateIpam", "ec2:CreateTags"],
+    resources: { "ec2:CreateIpam": ["arn:${Partition}:ec2::${Account}:ipam/${IpamId}"] },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpam",
 }));
@@ -24630,6 +25236,16 @@ export const createIpamExternalResourceVerificationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpamExternalResourceVerificationToken",
+  iam: {
+    actions: ["ec2:CreateIpamExternalResourceVerificationToken", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateIpamExternalResourceVerificationToken": [
+        "arn:${Partition}:ec2::${Account}:ipam/${IpamId}",
+        "arn:${Partition}:ec2::${Account}:ipam-external-resource-verification-token/${IpamExternalResourceVerificationTokenId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpamExternalResourceVerificationToken",
 }));
@@ -24650,6 +25266,16 @@ export const createIpamInternetRegistryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpamInternetRegistryAssociation",
+  iam: {
+    actions: ["ec2:CreateIpamInternetRegistryAssociation", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateIpamInternetRegistryAssociation": [
+        "arn:${Partition}:ec2::${Account}:ipam/${IpamId}",
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpamInternetRegistryAssociation",
 }));
@@ -24679,6 +25305,16 @@ export const createIpamPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpamPolicy",
+  iam: {
+    actions: ["ec2:CreateIpamPolicy", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateIpamPolicy": [
+        "arn:${Partition}:ec2::${Account}:ipam/${IpamId}",
+        "arn:${Partition}:ec2::${Account}:ipam-policy/${IpamPolicyId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpamPolicy",
 }));
@@ -24711,6 +25347,16 @@ export const createIpamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpamPool",
+  iam: {
+    actions: ["ec2:CreateIpamPool", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateIpamPool": [
+        "arn:${Partition}:ec2::${Account}:ipam-pool/${IpamPoolId}",
+        "arn:${Partition}:ec2::${Account}:ipam-scope/${IpamScopeId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpamPool",
 }));
@@ -24739,6 +25385,10 @@ export const createIpamPrefixListResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpamPrefixListResolver",
+  iam: {
+    actions: ["ec2:CreateIpamPrefixListResolver", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpamPrefixListResolver",
 }));
@@ -24775,6 +25425,16 @@ export const createIpamPrefixListResolverTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpamPrefixListResolverTarget",
+  iam: {
+    actions: ["ec2:CreateIpamPrefixListResolverTarget", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateIpamPrefixListResolverTarget": [
+        "arn:${Partition}:ec2::${Account}:ipam-prefix-list-resolver/${IpamPrefixListResolverId}",
+        "arn:${Partition}:ec2::${Account}:ipam-prefix-list-resolver-target/${IpamPrefixListResolverTargetId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpamPrefixListResolverTarget",
 }));
@@ -24799,6 +25459,15 @@ export const createIpamResourceDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpamResourceDiscovery",
+  iam: {
+    actions: ["ec2:CreateIpamResourceDiscovery", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateIpamResourceDiscovery": [
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery/${IpamResourceDiscoveryId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpamResourceDiscovery",
 }));
@@ -24819,6 +25488,14 @@ export const createIpamRoutingPolicyRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpamRoutingPolicyRegistration",
+  iam: {
+    actions: ["ec2:CreateIpamRoutingPolicyRegistration"],
+    resources: {
+      "ec2:CreateIpamRoutingPolicyRegistration": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpamRoutingPolicyRegistration",
 }));
@@ -24846,6 +25523,16 @@ export const createIpamScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpamScope",
+  iam: {
+    actions: ["ec2:CreateIpamScope", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateIpamScope": [
+        "arn:${Partition}:ec2::${Account}:ipam/${IpamId}",
+        "arn:${Partition}:ec2::${Account}:ipam-scope/${IpamScopeId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpamScope",
 }));
@@ -24883,6 +25570,13 @@ export const createKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyPair",
+  iam: {
+    actions: ["ec2:CreateKeyPair", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateKeyPair": ["arn:${Partition}:ec2:${Region}:${Account}:key-pair/${KeyPairName}"],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateKeyPair",
 }));
@@ -24918,6 +25612,19 @@ export const createLaunchTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchTemplate",
+  iam: {
+    actions: ["ec2:CreateLaunchTemplate", "ec2:CreateTags", "iam:PassRole"],
+    resources: {
+      "ec2:CreateLaunchTemplate": [
+        "arn:${Partition}:ec2:${Region}:${Account}:launch-template/${LaunchTemplateId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "ec2:CreateTags": "TagSpecifications",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLaunchTemplate",
 }));
@@ -24951,6 +25658,16 @@ export const createLaunchTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchTemplateVersion",
+  iam: {
+    actions: ["ec2:CreateLaunchTemplateVersion", "iam:PassRole"],
+    resources: {
+      "ec2:CreateLaunchTemplateVersion": [
+        "arn:${Partition}:ec2:${Region}:${Account}:launch-template/${LaunchTemplateId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLaunchTemplateVersion",
 }));
@@ -24981,6 +25698,7 @@ export const createLocalGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocalGatewayRoute",
+  iam: { actions: ["ec2:CreateLocalGatewayRoute"] },
   telemetry: TELEMETRY,
   span: "CreateLocalGatewayRoute",
 }));
@@ -25013,6 +25731,16 @@ export const createLocalGatewayRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocalGatewayRouteTable",
+  iam: {
+    actions: ["ec2:CreateLocalGatewayRouteTable", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateLocalGatewayRouteTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway/${LocalGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table/${LocalGatewayRoutetableId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLocalGatewayRouteTable",
 }));
@@ -25053,6 +25781,17 @@ export const createLocalGatewayRouteTableVirtualInterfaceGroupAssociation: API.O
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+  iam: {
+    actions: ["ec2:CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table/${LocalGatewayRoutetableId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table-virtual-interface-group-association/${LocalGatewayRouteTableVirtualInterfaceGroupAssociationId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-virtual-interface-group/${LocalGatewayVirtualInterfaceGroupId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
 }));
@@ -25095,6 +25834,17 @@ export const createLocalGatewayRouteTableVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocalGatewayRouteTableVpcAssociation",
+  iam: {
+    actions: ["ec2:CreateLocalGatewayRouteTableVpcAssociation", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateLocalGatewayRouteTableVpcAssociation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table/${LocalGatewayRoutetableId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table-vpc-association/${LocalGatewayRouteTableVpcAssociationId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLocalGatewayRouteTableVpcAssociation",
 }));
@@ -25127,6 +25877,17 @@ export const createLocalGatewayVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocalGatewayVirtualInterface",
+  iam: {
+    actions: ["ec2:CreateLocalGatewayVirtualInterface", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateLocalGatewayVirtualInterface": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-virtual-interface/${LocalGatewayVirtualInterfaceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-virtual-interface-group/${LocalGatewayVirtualInterfaceGroupId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:outpost-lag/${OutpostLagId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLocalGatewayVirtualInterface",
 }));
@@ -25157,6 +25918,16 @@ export const createLocalGatewayVirtualInterfaceGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocalGatewayVirtualInterfaceGroup",
+  iam: {
+    actions: ["ec2:CreateLocalGatewayVirtualInterfaceGroup", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateLocalGatewayVirtualInterfaceGroup": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway/${LocalGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-virtual-interface-group/${LocalGatewayVirtualInterfaceGroupId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLocalGatewayVirtualInterfaceGroup",
 }));
@@ -25218,6 +25989,16 @@ export const createMacSystemIntegrityProtectionModificationTask: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMacSystemIntegrityProtectionModificationTask",
+  iam: {
+    actions: ["ec2:CreateMacSystemIntegrityProtectionModificationTask", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateMacSystemIntegrityProtectionModificationTask": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:mac-modification-task/${MacModificationTaskId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMacSystemIntegrityProtectionModificationTask",
 }));
@@ -25244,6 +26025,15 @@ export const createManagedPrefixList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedPrefixList",
+  iam: {
+    actions: ["ec2:CreateManagedPrefixList", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateManagedPrefixList": [
+        "arn:${Partition}:ec2:${Region}:${Account}:prefix-list/${PrefixListId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateManagedPrefixList",
 }));
@@ -25300,6 +26090,10 @@ export const createNatGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNatGateway",
+  iam: {
+    actions: ["ec2:CreateNatGateway", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNatGateway",
 }));
@@ -25335,6 +26129,16 @@ export const createNetworkAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkAcl",
+  iam: {
+    actions: ["ec2:CreateNetworkAcl", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateNetworkAcl": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-acl/${NaclId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkAcl",
 }));
@@ -25376,6 +26180,14 @@ export const createNetworkAclEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkAclEntry",
+  iam: {
+    actions: ["ec2:CreateNetworkAclEntry"],
+    resources: {
+      "ec2:CreateNetworkAclEntry": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-acl/${NaclId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkAclEntry",
 }));
@@ -25400,6 +26212,15 @@ export const createNetworkInsightsAccessScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkInsightsAccessScope",
+  iam: {
+    actions: ["ec2:CreateNetworkInsightsAccessScope", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateNetworkInsightsAccessScope": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-access-scope/${NetworkInsightsAccessScopeId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkInsightsAccessScope",
 }));
@@ -25429,6 +26250,10 @@ export const createNetworkInsightsPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkInsightsPath",
+  iam: {
+    actions: ["ec2:CreateNetworkInsightsPath", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkInsightsPath",
 }));
@@ -25467,6 +26292,10 @@ export const createNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkInterface",
+  iam: {
+    actions: ["ec2:CreateNetworkInterface", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkInterface",
 }));
@@ -25495,6 +26324,14 @@ export const createNetworkInterfacePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkInterfacePermission",
+  iam: {
+    actions: ["ec2:CreateNetworkInterfacePermission"],
+    resources: {
+      "ec2:CreateNetworkInterfacePermission": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkInterfacePermission",
 }));
@@ -25533,6 +26370,15 @@ export const createPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlacementGroup",
+  iam: {
+    actions: ["ec2:CreatePlacementGroup", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreatePlacementGroup": [
+        "arn:${Partition}:ec2:${Region}:${Account}:placement-group/${PlacementGroupName}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePlacementGroup",
 }));
@@ -25553,6 +26399,15 @@ export const createPublicIpv4Pool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicIpv4Pool",
+  iam: {
+    actions: ["ec2:CreatePublicIpv4Pool", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreatePublicIpv4Pool": [
+        "arn:${Partition}:ec2:${Region}:${Account}:ipv4pool-ec2/${Ipv4PoolEc2Id}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePublicIpv4Pool",
 }));
@@ -25583,6 +26438,10 @@ export const createReplaceRootVolumeTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplaceRootVolumeTask",
+  iam: {
+    actions: ["ec2:CreateReplaceRootVolumeTask", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateReplaceRootVolumeTask",
 }));
@@ -25627,6 +26486,7 @@ export const createReservedInstancesListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReservedInstancesListing",
+  iam: { actions: ["ec2:CreateReservedInstancesListing"] },
   telemetry: TELEMETRY,
   span: "CreateReservedInstancesListing",
 }));
@@ -25658,6 +26518,13 @@ export const createRestoreImageTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreImageTask",
+  iam: {
+    actions: ["ec2:CreateRestoreImageTask", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateRestoreImageTask": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRestoreImageTask",
 }));
@@ -25720,6 +26587,12 @@ export const createRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoute",
+  iam: {
+    actions: ["ec2:CreateRoute"],
+    resources: {
+      "ec2:CreateRoute": ["arn:${Partition}:ec2:${Region}:${Account}:route-table/${RouteTableId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRoute",
 }));
@@ -25759,6 +26632,15 @@ export const createRouteServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouteServer",
+  iam: {
+    actions: ["ec2:CreateRouteServer", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateRouteServer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRouteServer",
 }));
@@ -25797,6 +26679,17 @@ export const createRouteServerEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouteServerEndpoint",
+  iam: {
+    actions: ["ec2:CreateRouteServerEndpoint", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateRouteServerEndpoint": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server-endpoint/${RouteServerEndpointId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:subnet/${SubnetId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRouteServerEndpoint",
 }));
@@ -25831,6 +26724,16 @@ export const createRouteServerPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouteServerPeer",
+  iam: {
+    actions: ["ec2:CreateRouteServerPeer", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateRouteServerPeer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server-endpoint/${RouteServerEndpointId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server-peer/${RouteServerPeerId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRouteServerPeer",
 }));
@@ -25866,6 +26769,16 @@ export const createRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouteTable",
+  iam: {
+    actions: ["ec2:CreateRouteTable", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateRouteTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-table/${RouteTableId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRouteTable",
 }));
@@ -25888,6 +26801,15 @@ export const createSecondaryNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecondaryNetwork",
+  iam: {
+    actions: ["ec2:CreateSecondaryNetwork", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateSecondaryNetwork": [
+        "arn:${Partition}:ec2:${Region}:${Account}:secondary-network/${SecondaryNetworkId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSecondaryNetwork",
 }));
@@ -25912,6 +26834,16 @@ export const createSecondarySubnet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecondarySubnet",
+  iam: {
+    actions: ["ec2:CreateSecondarySubnet", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateSecondarySubnet": [
+        "arn:${Partition}:ec2:${Region}:${Account}:secondary-network/${SecondaryNetworkId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:secondary-subnet/${SecondarySubnetId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSecondarySubnet",
 }));
@@ -25973,6 +26905,10 @@ export const createSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityGroup",
+  iam: {
+    actions: ["ec2:CreateSecurityGroup", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSecurityGroup",
 }));
@@ -26038,6 +26974,16 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  iam: {
+    actions: ["ec2:CreateSnapshot", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateSnapshot": [
+        "arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSnapshot",
 }));
@@ -26077,6 +27023,17 @@ export const createSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshots",
+  iam: {
+    actions: ["ec2:CreateSnapshots", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateSnapshots": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSnapshots",
 }));
@@ -26104,6 +27061,7 @@ export const createSpotDatafeedSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpotDatafeedSubscription",
+  iam: { actions: ["ec2:CreateSpotDatafeedSubscription"] },
   telemetry: TELEMETRY,
   span: "CreateSpotDatafeedSubscription",
 }));
@@ -26134,6 +27092,10 @@ export const createStoreImageTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStoreImageTask",
+  iam: {
+    actions: ["ec2:CreateStoreImageTask"],
+    resources: { "ec2:CreateStoreImageTask": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateStoreImageTask",
 }));
@@ -26192,6 +27154,10 @@ export const createSubnet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubnet",
+  iam: {
+    actions: ["ec2:CreateSubnet", "ec2:CreateTags"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSubnet",
 }));
@@ -26226,6 +27192,15 @@ export const createSubnetCidrReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubnetCidrReservation",
+  iam: {
+    actions: ["ec2:CreateSubnetCidrReservation", "ec2:CreateTags"],
+    resources: {
+      "ec2:CreateSubnetCidrReservation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:subnet/${SubnetId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSubnetCidrReservation",
 }));
@@ -26260,6 +27235,7 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  iam: { actions: ["ec2:CreateTags"] },
   telemetry: TELEMETRY,
   span: "CreateTags",
 }));
@@ -26290,6 +27266,15 @@ export const createTrafficMirrorFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficMirrorFilter",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTrafficMirrorFilter"],
+    resources: {
+      "ec2:CreateTrafficMirrorFilter": [
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter/${TrafficMirrorFilterId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrafficMirrorFilter",
 }));
@@ -26318,6 +27303,16 @@ export const createTrafficMirrorFilterRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficMirrorFilterRule",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTrafficMirrorFilterRule"],
+    resources: {
+      "ec2:CreateTrafficMirrorFilterRule": [
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter/${TrafficMirrorFilterId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter-rule/${TrafficMirrorFilterRuleId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrafficMirrorFilterRule",
 }));
@@ -26359,6 +27354,18 @@ export const createTrafficMirrorSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficMirrorSession",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTrafficMirrorSession"],
+    resources: {
+      "ec2:CreateTrafficMirrorSession": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter/${TrafficMirrorFilterId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-session/${TrafficMirrorSessionId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-target/${TrafficMirrorTargetId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrafficMirrorSession",
 }));
@@ -26391,6 +27398,10 @@ export const createTrafficMirrorTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficMirrorTarget",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTrafficMirrorTarget"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrafficMirrorTarget",
 }));
@@ -26432,6 +27443,15 @@ export const createTransitGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGateway",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGateway"],
+    resources: {
+      "ec2:CreateTransitGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway/${TransitGatewayId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGateway",
 }));
@@ -26458,6 +27478,15 @@ export const createTransitGatewayConnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayConnect",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGatewayConnect"],
+    resources: {
+      "ec2:CreateTransitGatewayConnect": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayConnect",
 }));
@@ -26488,6 +27517,16 @@ export const createTransitGatewayConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayConnectPeer",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGatewayConnectPeer"],
+    resources: {
+      "ec2:CreateTransitGatewayConnectPeer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-connect-peer/${TransitGatewayConnectPeerId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayConnectPeer",
 }));
@@ -26520,6 +27559,10 @@ export const createTransitGatewayMeteringPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayMeteringPolicy",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGatewayMeteringPolicy"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayMeteringPolicy",
 }));
@@ -26544,6 +27587,7 @@ export const createTransitGatewayMeteringPolicyEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayMeteringPolicyEntry",
+  iam: { actions: ["ec2:CreateTransitGatewayMeteringPolicyEntry"] },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayMeteringPolicyEntry",
 }));
@@ -26580,6 +27624,16 @@ export const createTransitGatewayMulticastDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayMulticastDomain",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGatewayMulticastDomain"],
+    resources: {
+      "ec2:CreateTransitGatewayMulticastDomain": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway/${TransitGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-multicast-domain/${TransitGatewayMulticastDomainId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayMulticastDomain",
 }));
@@ -26617,6 +27671,16 @@ export const createTransitGatewayPeeringAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayPeeringAttachment",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGatewayPeeringAttachment"],
+    resources: {
+      "ec2:CreateTransitGatewayPeeringAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway/${TransitGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayPeeringAttachment",
 }));
@@ -26649,6 +27713,16 @@ export const createTransitGatewayPolicyTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayPolicyTable",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGatewayPolicyTable"],
+    resources: {
+      "ec2:CreateTransitGatewayPolicyTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway/${TransitGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-policy-table/${TransitGatewayPolicyTableId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayPolicyTable",
 }));
@@ -26669,6 +27743,15 @@ export const createTransitGatewayPolicyTableEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayPolicyTableEntry",
+  iam: {
+    actions: ["ec2:CreateTransitGatewayPolicyTableEntry"],
+    resources: {
+      "ec2:CreateTransitGatewayPolicyTableEntry": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-policy-table/${TransitGatewayPolicyTableId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table/${TransitGatewayRouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayPolicyTableEntry",
 }));
@@ -26693,6 +27776,7 @@ export const createTransitGatewayPrefixListReference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayPrefixListReference",
+  iam: { actions: ["ec2:CreateTransitGatewayPrefixListReference"] },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayPrefixListReference",
 }));
@@ -26723,6 +27807,7 @@ export const createTransitGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayRoute",
+  iam: { actions: ["ec2:CreateTransitGatewayRoute"] },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayRoute",
 }));
@@ -26757,6 +27842,16 @@ export const createTransitGatewayRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayRouteTable",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGatewayRouteTable"],
+    resources: {
+      "ec2:CreateTransitGatewayRouteTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway/${TransitGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table/${TransitGatewayRouteTableId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayRouteTable",
 }));
@@ -26797,6 +27892,17 @@ export const createTransitGatewayRouteTableAnnouncement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayRouteTableAnnouncement",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGatewayRouteTableAnnouncement"],
+    resources: {
+      "ec2:CreateTransitGatewayRouteTableAnnouncement": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table/${TransitGatewayRouteTableId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table-announcement/${TransitGatewayRouteTableAnnouncementId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayRouteTableAnnouncement",
 }));
@@ -26834,6 +27940,18 @@ export const createTransitGatewayVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayVpcAttachment",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateTransitGatewayVpcAttachment"],
+    resources: {
+      "ec2:CreateTransitGatewayVpcAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:subnet/${SubnetId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway/${TransitGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayVpcAttachment",
 }));
@@ -26858,6 +27976,10 @@ export const createVerifiedAccessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVerifiedAccessEndpoint",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVerifiedAccessEndpoint"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVerifiedAccessEndpoint",
 }));
@@ -26893,6 +28015,16 @@ export const createVerifiedAccessGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVerifiedAccessGroup",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVerifiedAccessGroup"],
+    resources: {
+      "ec2:CreateVerifiedAccessGroup": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-group/${VerifiedAccessGroupId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-instance/${VerifiedAccessInstanceId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVerifiedAccessGroup",
 }));
@@ -26924,6 +28056,15 @@ export const createVerifiedAccessInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVerifiedAccessInstance",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVerifiedAccessInstance"],
+    resources: {
+      "ec2:CreateVerifiedAccessInstance": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-instance/${VerifiedAccessInstanceId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVerifiedAccessInstance",
 }));
@@ -26951,6 +28092,15 @@ export const createVerifiedAccessTrustProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVerifiedAccessTrustProvider",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVerifiedAccessTrustProvider"],
+    resources: {
+      "ec2:CreateVerifiedAccessTrustProvider": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-trust-provider/${VerifiedAccessTrustProviderId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVerifiedAccessTrustProvider",
 }));
@@ -26999,6 +28149,10 @@ export const createVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVolume",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVolume"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVolume",
 }));
@@ -27048,6 +28202,10 @@ export const createVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpc",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVpc"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpc",
 }));
@@ -27073,6 +28231,10 @@ export const createVpcBlockPublicAccessExclusion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcBlockPublicAccessExclusion",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVpcBlockPublicAccessExclusion"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcBlockPublicAccessExclusion",
 }));
@@ -27100,6 +28262,16 @@ export const createVpcEncryptionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEncryptionControl",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVpcEncryptionControl"],
+    resources: {
+      "ec2:CreateVpcEncryptionControl": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-encryption-control/${VpcEncryptionControlId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcEncryptionControl",
 }));
@@ -27139,6 +28311,10 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVpcEndpoint"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcEndpoint",
 }));
@@ -27168,6 +28344,7 @@ export const createVpcEndpointConnectionNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpointConnectionNotification",
+  iam: { actions: ["ec2:CreateVpcEndpointConnectionNotification"] },
   telemetry: TELEMETRY,
   span: "CreateVpcEndpointConnectionNotification",
 }));
@@ -27207,6 +28384,15 @@ export const createVpcEndpointServiceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpointServiceConfiguration",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVpcEndpointServiceConfiguration"],
+    resources: {
+      "ec2:CreateVpcEndpointServiceConfiguration": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcEndpointServiceConfiguration",
 }));
@@ -27254,6 +28440,16 @@ export const createVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcPeeringConnection",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVpcPeeringConnection"],
+    resources: {
+      "ec2:CreateVpcPeeringConnection": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-peering-connection/${VpcPeeringConnectionId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcPeeringConnection",
 }));
@@ -27278,6 +28474,10 @@ export const createVpnConcentrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpnConcentrator",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVpnConcentrator"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpnConcentrator",
 }));
@@ -27331,6 +28531,10 @@ export const createVpnConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpnConnection",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVpnConnection"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpnConnection",
 }));
@@ -27361,6 +28565,14 @@ export const createVpnConnectionRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpnConnectionRoute",
+  iam: {
+    actions: ["ec2:CreateVpnConnectionRoute"],
+    resources: {
+      "ec2:CreateVpnConnectionRoute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpnConnectionRoute",
 }));
@@ -27391,6 +28603,15 @@ export const createVpnGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpnGateway",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:CreateVpnGateway"],
+    resources: {
+      "ec2:CreateVpnGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-gateway/${VpnGatewayId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpnGateway",
 }));
@@ -27415,6 +28636,14 @@ export const deleteApplicationStatusCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationStatusCheck",
+  iam: {
+    actions: ["ec2:DeleteApplicationStatusCheck"],
+    resources: {
+      "ec2:DeleteApplicationStatusCheck": [
+        "arn:${Partition}:ec2:${Region}:${Account}:application-status-check/${ApplicationStatusCheckId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationStatusCheck",
 }));
@@ -27445,6 +28674,14 @@ export const deleteCapacityManagerDataExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityManagerDataExport",
+  iam: {
+    actions: ["ec2:DeleteCapacityManagerDataExport"],
+    resources: {
+      "ec2:DeleteCapacityManagerDataExport": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-manager-data-export/${CapacityManagerDataExportId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCapacityManagerDataExport",
 }));
@@ -27481,6 +28718,14 @@ export const deleteCarrierGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCarrierGateway",
+  iam: {
+    actions: ["ec2:DeleteCarrierGateway"],
+    resources: {
+      "ec2:DeleteCarrierGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:carrier-gateway/${CarrierGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCarrierGateway",
 }));
@@ -27514,6 +28759,14 @@ export const deleteClientVpnEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClientVpnEndpoint",
+  iam: {
+    actions: ["ec2:DeleteClientVpnEndpoint"],
+    resources: {
+      "ec2:DeleteClientVpnEndpoint": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteClientVpnEndpoint",
 }));
@@ -27577,6 +28830,7 @@ export const deleteClientVpnRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClientVpnRoute",
+  iam: { actions: ["ec2:DeleteClientVpnRoute"] },
   telemetry: TELEMETRY,
   span: "DeleteClientVpnRoute",
 }));
@@ -27609,6 +28863,14 @@ export const deleteCoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoipCidr",
+  iam: {
+    actions: ["ec2:DeleteCoipCidr"],
+    resources: {
+      "ec2:DeleteCoipCidr": [
+        "arn:${Partition}:ec2:${Region}:${Account}:coip-pool/${Ipv4PoolCoipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCoipCidr",
 }));
@@ -27641,6 +28903,14 @@ export const deleteCoipPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoipPool",
+  iam: {
+    actions: ["ec2:DeleteCoipPool"],
+    resources: {
+      "ec2:DeleteCoipPool": [
+        "arn:${Partition}:ec2:${Region}:${Account}:coip-pool/${Ipv4PoolCoipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCoipPool",
 }));
@@ -27674,6 +28944,14 @@ export const deleteCustomerGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomerGateway",
+  iam: {
+    actions: ["ec2:DeleteCustomerGateway"],
+    resources: {
+      "ec2:DeleteCustomerGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:customer-gateway/${CustomerGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomerGateway",
 }));
@@ -27708,6 +28986,14 @@ export const deleteDhcpOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDhcpOptions",
+  iam: {
+    actions: ["ec2:DeleteDhcpOptions"],
+    resources: {
+      "ec2:DeleteDhcpOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:dhcp-options/${DhcpOptionsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDhcpOptions",
 }));
@@ -27746,6 +29032,14 @@ export const deleteEgressOnlyInternetGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEgressOnlyInternetGateway",
+  iam: {
+    actions: ["ec2:DeleteEgressOnlyInternetGateway"],
+    resources: {
+      "ec2:DeleteEgressOnlyInternetGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:egress-only-internet-gateway/${EgressOnlyInternetGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEgressOnlyInternetGateway",
 }));
@@ -27812,6 +29106,12 @@ export const deleteFleets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleets",
+  iam: {
+    actions: ["ec2:DeleteFleets"],
+    resources: {
+      "ec2:DeleteFleets": ["arn:${Partition}:ec2:${Region}:${Account}:fleet/${FleetId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFleets",
 }));
@@ -27836,6 +29136,14 @@ export const deleteFlowLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlowLogs",
+  iam: {
+    actions: ["ec2:DeleteFlowLogs"],
+    resources: {
+      "ec2:DeleteFlowLogs": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-flow-log/${VpcFlowLogId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFlowLogs",
 }));
@@ -27860,6 +29168,14 @@ export const deleteFpgaImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFpgaImage",
+  iam: {
+    actions: ["ec2:DeleteFpgaImage"],
+    resources: {
+      "ec2:DeleteFpgaImage": [
+        "arn:${Partition}:ec2:${Region}:${Account}:fpga-image/${FpgaImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFpgaImage",
 }));
@@ -27893,6 +29209,14 @@ export const deleteImageUsageReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImageUsageReport",
+  iam: {
+    actions: ["ec2:DeleteImageUsageReport"],
+    resources: {
+      "ec2:DeleteImageUsageReport": [
+        "arn:${Partition}:ec2:${Region}:${Account}:image-usage-report/${ImageUsageReportId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImageUsageReport",
 }));
@@ -27927,6 +29251,14 @@ export const deleteInstanceConnectEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceConnectEndpoint",
+  iam: {
+    actions: ["ec2:DeleteInstanceConnectEndpoint"],
+    resources: {
+      "ec2:DeleteInstanceConnectEndpoint": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance-connect-endpoint/${InstanceConnectEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstanceConnectEndpoint",
 }));
@@ -27960,6 +29292,14 @@ export const deleteInstanceEventWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceEventWindow",
+  iam: {
+    actions: ["ec2:DeleteInstanceEventWindow"],
+    resources: {
+      "ec2:DeleteInstanceEventWindow": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance-event-window/${InstanceEventWindowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstanceEventWindow",
 }));
@@ -27993,6 +29333,14 @@ export const deleteInternetGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInternetGateway",
+  iam: {
+    actions: ["ec2:DeleteInternetGateway"],
+    resources: {
+      "ec2:DeleteInternetGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:internet-gateway/${InternetGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInternetGateway",
 }));
@@ -28027,6 +29375,10 @@ export const deleteIpam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpam",
+  iam: {
+    actions: ["ec2:DeleteIpam"],
+    resources: { "ec2:DeleteIpam": ["arn:${Partition}:ec2::${Account}:ipam/${IpamId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpam",
 }));
@@ -28069,6 +29421,14 @@ export const deleteIpamExternalResourceVerificationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpamExternalResourceVerificationToken",
+  iam: {
+    actions: ["ec2:DeleteIpamExternalResourceVerificationToken"],
+    resources: {
+      "ec2:DeleteIpamExternalResourceVerificationToken": [
+        "arn:${Partition}:ec2::${Account}:ipam-external-resource-verification-token/${IpamExternalResourceVerificationTokenId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpamExternalResourceVerificationToken",
 }));
@@ -28089,6 +29449,14 @@ export const deleteIpamInternetRegistryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpamInternetRegistryAssociation",
+  iam: {
+    actions: ["ec2:DeleteIpamInternetRegistryAssociation"],
+    resources: {
+      "ec2:DeleteIpamInternetRegistryAssociation": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpamInternetRegistryAssociation",
 }));
@@ -28123,6 +29491,12 @@ export const deleteIpamPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpamPolicy",
+  iam: {
+    actions: ["ec2:DeleteIpamPolicy"],
+    resources: {
+      "ec2:DeleteIpamPolicy": ["arn:${Partition}:ec2::${Account}:ipam-policy/${IpamPolicyId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpamPolicy",
 }));
@@ -28161,6 +29535,12 @@ export const deleteIpamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpamPool",
+  iam: {
+    actions: ["ec2:DeleteIpamPool"],
+    resources: {
+      "ec2:DeleteIpamPool": ["arn:${Partition}:ec2::${Account}:ipam-pool/${IpamPoolId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpamPool",
 }));
@@ -28193,6 +29573,14 @@ export const deleteIpamPrefixListResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpamPrefixListResolver",
+  iam: {
+    actions: ["ec2:DeleteIpamPrefixListResolver"],
+    resources: {
+      "ec2:DeleteIpamPrefixListResolver": [
+        "arn:${Partition}:ec2::${Account}:ipam-prefix-list-resolver/${IpamPrefixListResolverId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpamPrefixListResolver",
 }));
@@ -28225,6 +29613,14 @@ export const deleteIpamPrefixListResolverTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpamPrefixListResolverTarget",
+  iam: {
+    actions: ["ec2:DeleteIpamPrefixListResolverTarget"],
+    resources: {
+      "ec2:DeleteIpamPrefixListResolverTarget": [
+        "arn:${Partition}:ec2::${Account}:ipam-prefix-list-resolver-target/${IpamPrefixListResolverTargetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpamPrefixListResolverTarget",
 }));
@@ -28255,6 +29651,14 @@ export const deleteIpamResourceDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpamResourceDiscovery",
+  iam: {
+    actions: ["ec2:DeleteIpamResourceDiscovery"],
+    resources: {
+      "ec2:DeleteIpamResourceDiscovery": [
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery/${IpamResourceDiscoveryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpamResourceDiscovery",
 }));
@@ -28275,6 +29679,14 @@ export const deleteIpamRoutingPolicyRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpamRoutingPolicyRegistration",
+  iam: {
+    actions: ["ec2:DeleteIpamRoutingPolicyRegistration"],
+    resources: {
+      "ec2:DeleteIpamRoutingPolicyRegistration": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpamRoutingPolicyRegistration",
 }));
@@ -28311,6 +29723,12 @@ export const deleteIpamScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpamScope",
+  iam: {
+    actions: ["ec2:DeleteIpamScope"],
+    resources: {
+      "ec2:DeleteIpamScope": ["arn:${Partition}:ec2::${Account}:ipam-scope/${IpamScopeId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpamScope",
 }));
@@ -28335,6 +29753,7 @@ export const deleteKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyPair",
+  iam: { actions: ["ec2:DeleteKeyPair"] },
   telemetry: TELEMETRY,
   span: "DeleteKeyPair",
 }));
@@ -28368,6 +29787,14 @@ export const deleteLaunchTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchTemplate",
+  iam: {
+    actions: ["ec2:DeleteLaunchTemplate"],
+    resources: {
+      "ec2:DeleteLaunchTemplate": [
+        "arn:${Partition}:ec2:${Region}:${Account}:launch-template/${LaunchTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLaunchTemplate",
 }));
@@ -28403,6 +29830,14 @@ export const deleteLaunchTemplateVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchTemplateVersions",
+  iam: {
+    actions: ["ec2:DeleteLaunchTemplateVersions"],
+    resources: {
+      "ec2:DeleteLaunchTemplateVersions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:launch-template/${LaunchTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLaunchTemplateVersions",
 }));
@@ -28427,6 +29862,7 @@ export const deleteLocalGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocalGatewayRoute",
+  iam: { actions: ["ec2:DeleteLocalGatewayRoute"] },
   telemetry: TELEMETRY,
   span: "DeleteLocalGatewayRoute",
 }));
@@ -28457,6 +29893,14 @@ export const deleteLocalGatewayRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocalGatewayRouteTable",
+  iam: {
+    actions: ["ec2:DeleteLocalGatewayRouteTable"],
+    resources: {
+      "ec2:DeleteLocalGatewayRouteTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table/${LocalGatewayRoutetableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLocalGatewayRouteTable",
 }));
@@ -28497,6 +29941,14 @@ export const deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation: API.O
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+  iam: {
+    actions: ["ec2:DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation"],
+    resources: {
+      "ec2:DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table-virtual-interface-group-association/${LocalGatewayRouteTableVirtualInterfaceGroupAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
 }));
@@ -28537,6 +29989,14 @@ export const deleteLocalGatewayRouteTableVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocalGatewayRouteTableVpcAssociation",
+  iam: {
+    actions: ["ec2:DeleteLocalGatewayRouteTableVpcAssociation"],
+    resources: {
+      "ec2:DeleteLocalGatewayRouteTableVpcAssociation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table-vpc-association/${LocalGatewayRouteTableVpcAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLocalGatewayRouteTableVpcAssociation",
 }));
@@ -28569,6 +30029,14 @@ export const deleteLocalGatewayVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocalGatewayVirtualInterface",
+  iam: {
+    actions: ["ec2:DeleteLocalGatewayVirtualInterface"],
+    resources: {
+      "ec2:DeleteLocalGatewayVirtualInterface": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-virtual-interface/${LocalGatewayVirtualInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLocalGatewayVirtualInterface",
 }));
@@ -28601,6 +30069,14 @@ export const deleteLocalGatewayVirtualInterfaceGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocalGatewayVirtualInterfaceGroup",
+  iam: {
+    actions: ["ec2:DeleteLocalGatewayVirtualInterfaceGroup"],
+    resources: {
+      "ec2:DeleteLocalGatewayVirtualInterfaceGroup": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-virtual-interface-group/${LocalGatewayVirtualInterfaceGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLocalGatewayVirtualInterfaceGroup",
 }));
@@ -28633,6 +30109,14 @@ export const deleteManagedPrefixList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedPrefixList",
+  iam: {
+    actions: ["ec2:DeleteManagedPrefixList"],
+    resources: {
+      "ec2:DeleteManagedPrefixList": [
+        "arn:${Partition}:ec2:${Region}:${Account}:prefix-list/${PrefixListId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteManagedPrefixList",
 }));
@@ -28673,6 +30157,14 @@ export const deleteNatGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNatGateway",
+  iam: {
+    actions: ["ec2:DeleteNatGateway"],
+    resources: {
+      "ec2:DeleteNatGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:natgateway/${NatGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNatGateway",
 }));
@@ -28711,6 +30203,12 @@ export const deleteNetworkAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkAcl",
+  iam: {
+    actions: ["ec2:DeleteNetworkAcl"],
+    resources: {
+      "ec2:DeleteNetworkAcl": ["arn:${Partition}:ec2:${Region}:${Account}:network-acl/${NaclId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkAcl",
 }));
@@ -28745,6 +30243,14 @@ export const deleteNetworkAclEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkAclEntry",
+  iam: {
+    actions: ["ec2:DeleteNetworkAclEntry"],
+    resources: {
+      "ec2:DeleteNetworkAclEntry": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-acl/${NaclId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkAclEntry",
 }));
@@ -28775,6 +30281,14 @@ export const deleteNetworkInsightsAccessScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkInsightsAccessScope",
+  iam: {
+    actions: ["ec2:DeleteNetworkInsightsAccessScope"],
+    resources: {
+      "ec2:DeleteNetworkInsightsAccessScope": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-access-scope/${NetworkInsightsAccessScopeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkInsightsAccessScope",
 }));
@@ -28800,6 +30314,14 @@ export const deleteNetworkInsightsAccessScopeAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkInsightsAccessScopeAnalysis",
+  iam: {
+    actions: ["ec2:DeleteNetworkInsightsAccessScopeAnalysis"],
+    resources: {
+      "ec2:DeleteNetworkInsightsAccessScopeAnalysis": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-access-scope-analysis/${NetworkInsightsAccessScopeAnalysisId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkInsightsAccessScopeAnalysis",
 }));
@@ -28825,6 +30347,14 @@ export const deleteNetworkInsightsAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkInsightsAnalysis",
+  iam: {
+    actions: ["ec2:DeleteNetworkInsightsAnalysis"],
+    resources: {
+      "ec2:DeleteNetworkInsightsAnalysis": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-analysis/${NetworkInsightsAnalysisId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkInsightsAnalysis",
 }));
@@ -28850,6 +30380,14 @@ export const deleteNetworkInsightsPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkInsightsPath",
+  iam: {
+    actions: ["ec2:DeleteNetworkInsightsPath"],
+    resources: {
+      "ec2:DeleteNetworkInsightsPath": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-path/${NetworkInsightsPathId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkInsightsPath",
 }));
@@ -28887,6 +30425,14 @@ export const deleteNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkInterface",
+  iam: {
+    actions: ["ec2:DeleteNetworkInterface"],
+    resources: {
+      "ec2:DeleteNetworkInterface": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkInterface",
 }));
@@ -28922,6 +30468,7 @@ export const deleteNetworkInterfacePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkInterfacePermission",
+  iam: { actions: ["ec2:DeleteNetworkInterfacePermission"] },
   telemetry: TELEMETRY,
   span: "DeleteNetworkInterfacePermission",
 }));
@@ -28950,6 +30497,14 @@ export const deletePlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlacementGroup",
+  iam: {
+    actions: ["ec2:DeletePlacementGroup"],
+    resources: {
+      "ec2:DeletePlacementGroup": [
+        "arn:${Partition}:ec2:${Region}:${Account}:placement-group/${PlacementGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePlacementGroup",
 }));
@@ -28980,6 +30535,14 @@ export const deletePublicIpv4Pool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicIpv4Pool",
+  iam: {
+    actions: ["ec2:DeletePublicIpv4Pool"],
+    resources: {
+      "ec2:DeletePublicIpv4Pool": [
+        "arn:${Partition}:ec2:${Region}:${Account}:ipv4pool-ec2/${Ipv4PoolEc2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePublicIpv4Pool",
 }));
@@ -29004,6 +30567,14 @@ export const deleteQueuedReservedInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueuedReservedInstances",
+  iam: {
+    actions: ["ec2:DeleteQueuedReservedInstances"],
+    resources: {
+      "ec2:DeleteQueuedReservedInstances": [
+        "arn:${Partition}:ec2:${Region}:${Account}:reserved-instances/${ReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQueuedReservedInstances",
 }));
@@ -29042,6 +30613,12 @@ export const deleteRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoute",
+  iam: {
+    actions: ["ec2:DeleteRoute"],
+    resources: {
+      "ec2:DeleteRoute": ["arn:${Partition}:ec2:${Region}:${Account}:route-table/${RouteTableId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRoute",
 }));
@@ -29087,6 +30664,14 @@ export const deleteRouteServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouteServer",
+  iam: {
+    actions: ["ec2:DeleteRouteServer"],
+    resources: {
+      "ec2:DeleteRouteServer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRouteServer",
 }));
@@ -29119,6 +30704,14 @@ export const deleteRouteServerEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouteServerEndpoint",
+  iam: {
+    actions: ["ec2:DeleteRouteServerEndpoint"],
+    resources: {
+      "ec2:DeleteRouteServerEndpoint": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server-endpoint/${RouteServerEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRouteServerEndpoint",
 }));
@@ -29159,6 +30752,14 @@ export const deleteRouteServerPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouteServerPeer",
+  iam: {
+    actions: ["ec2:DeleteRouteServerPeer"],
+    resources: {
+      "ec2:DeleteRouteServerPeer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server-peer/${RouteServerPeerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRouteServerPeer",
 }));
@@ -29191,6 +30792,14 @@ export const deleteRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouteTable",
+  iam: {
+    actions: ["ec2:DeleteRouteTable"],
+    resources: {
+      "ec2:DeleteRouteTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-table/${RouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRouteTable",
 }));
@@ -29211,6 +30820,14 @@ export const deleteSecondaryNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecondaryNetwork",
+  iam: {
+    actions: ["ec2:DeleteSecondaryNetwork"],
+    resources: {
+      "ec2:DeleteSecondaryNetwork": [
+        "arn:${Partition}:ec2:${Region}:${Account}:secondary-network/${SecondaryNetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSecondaryNetwork",
 }));
@@ -29231,6 +30848,14 @@ export const deleteSecondarySubnet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecondarySubnet",
+  iam: {
+    actions: ["ec2:DeleteSecondarySubnet"],
+    resources: {
+      "ec2:DeleteSecondarySubnet": [
+        "arn:${Partition}:ec2:${Region}:${Account}:secondary-subnet/${SecondarySubnetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSecondarySubnet",
 }));
@@ -29273,6 +30898,14 @@ export const deleteSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityGroup",
+  iam: {
+    actions: ["ec2:DeleteSecurityGroup"],
+    resources: {
+      "ec2:DeleteSecurityGroup": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSecurityGroup",
 }));
@@ -29317,6 +30950,10 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  iam: {
+    actions: ["ec2:DeleteSnapshot"],
+    resources: { "ec2:DeleteSnapshot": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSnapshot",
 }));
@@ -29337,6 +30974,7 @@ export const deleteSpotDatafeedSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpotDatafeedSubscription",
+  iam: { actions: ["ec2:DeleteSpotDatafeedSubscription"] },
   telemetry: TELEMETRY,
   span: "DeleteSpotDatafeedSubscription",
 }));
@@ -29371,6 +31009,12 @@ export const deleteSubnet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubnet",
+  iam: {
+    actions: ["ec2:DeleteSubnet"],
+    resources: {
+      "ec2:DeleteSubnet": ["arn:${Partition}:ec2:${Region}:${Account}:subnet/${SubnetId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSubnet",
 }));
@@ -29403,6 +31047,7 @@ export const deleteSubnetCidrReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubnetCidrReservation",
+  iam: { actions: ["ec2:DeleteSubnetCidrReservation"] },
   telemetry: TELEMETRY,
   span: "DeleteSubnetCidrReservation",
 }));
@@ -29433,6 +31078,7 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  iam: { actions: ["ec2:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -29465,6 +31111,14 @@ export const deleteTrafficMirrorFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficMirrorFilter",
+  iam: {
+    actions: ["ec2:DeleteTrafficMirrorFilter"],
+    resources: {
+      "ec2:DeleteTrafficMirrorFilter": [
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter/${TrafficMirrorFilterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrafficMirrorFilter",
 }));
@@ -29497,6 +31151,15 @@ export const deleteTrafficMirrorFilterRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficMirrorFilterRule",
+  iam: {
+    actions: ["ec2:DeleteTrafficMirrorFilterRule"],
+    resources: {
+      "ec2:DeleteTrafficMirrorFilterRule": [
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter/${TrafficMirrorFilterId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter-rule/${TrafficMirrorFilterRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrafficMirrorFilterRule",
 }));
@@ -29529,6 +31192,14 @@ export const deleteTrafficMirrorSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficMirrorSession",
+  iam: {
+    actions: ["ec2:DeleteTrafficMirrorSession"],
+    resources: {
+      "ec2:DeleteTrafficMirrorSession": [
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-session/${TrafficMirrorSessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrafficMirrorSession",
 }));
@@ -29563,6 +31234,14 @@ export const deleteTrafficMirrorTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficMirrorTarget",
+  iam: {
+    actions: ["ec2:DeleteTrafficMirrorTarget"],
+    resources: {
+      "ec2:DeleteTrafficMirrorTarget": [
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-target/${TrafficMirrorTargetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrafficMirrorTarget",
 }));
@@ -29599,6 +31278,14 @@ export const deleteTransitGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGateway",
+  iam: {
+    actions: ["ec2:DeleteTransitGateway"],
+    resources: {
+      "ec2:DeleteTransitGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway/${TransitGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGateway",
 }));
@@ -29619,6 +31306,14 @@ export const deleteTransitGatewayClientVpnAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayClientVpnAttachment",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayClientVpnAttachment"],
+    resources: {
+      "ec2:DeleteTransitGatewayClientVpnAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayClientVpnAttachment",
 }));
@@ -29644,6 +31339,14 @@ export const deleteTransitGatewayConnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayConnect",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayConnect"],
+    resources: {
+      "ec2:DeleteTransitGatewayConnect": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayConnect",
 }));
@@ -29674,6 +31377,14 @@ export const deleteTransitGatewayConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayConnectPeer",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayConnectPeer"],
+    resources: {
+      "ec2:DeleteTransitGatewayConnectPeer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-connect-peer/${TransitGatewayConnectPeerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayConnectPeer",
 }));
@@ -29706,6 +31417,14 @@ export const deleteTransitGatewayMeteringPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayMeteringPolicy",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayMeteringPolicy"],
+    resources: {
+      "ec2:DeleteTransitGatewayMeteringPolicy": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-metering-policy/${TransitGatewayMeteringPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayMeteringPolicy",
 }));
@@ -29738,6 +31457,14 @@ export const deleteTransitGatewayMeteringPolicyEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayMeteringPolicyEntry",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayMeteringPolicyEntry"],
+    resources: {
+      "ec2:DeleteTransitGatewayMeteringPolicyEntry": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-metering-policy/${TransitGatewayMeteringPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayMeteringPolicyEntry",
 }));
@@ -29768,6 +31495,14 @@ export const deleteTransitGatewayMulticastDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayMulticastDomain",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayMulticastDomain"],
+    resources: {
+      "ec2:DeleteTransitGatewayMulticastDomain": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-multicast-domain/${TransitGatewayMulticastDomainId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayMulticastDomain",
 }));
@@ -29792,6 +31527,14 @@ export const deleteTransitGatewayPeeringAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayPeeringAttachment",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayPeeringAttachment"],
+    resources: {
+      "ec2:DeleteTransitGatewayPeeringAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayPeeringAttachment",
 }));
@@ -29824,6 +31567,14 @@ export const deleteTransitGatewayPolicyTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayPolicyTable",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayPolicyTable"],
+    resources: {
+      "ec2:DeleteTransitGatewayPolicyTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-policy-table/${TransitGatewayPolicyTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayPolicyTable",
 }));
@@ -29844,6 +31595,14 @@ export const deleteTransitGatewayPolicyTableEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayPolicyTableEntry",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayPolicyTableEntry"],
+    resources: {
+      "ec2:DeleteTransitGatewayPolicyTableEntry": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-policy-table/${TransitGatewayPolicyTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayPolicyTableEntry",
 }));
@@ -29874,6 +31633,15 @@ export const deleteTransitGatewayPrefixListReference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayPrefixListReference",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayPrefixListReference"],
+    resources: {
+      "ec2:DeleteTransitGatewayPrefixListReference": [
+        "arn:${Partition}:ec2:${Region}:${Account}:prefix-list/${PrefixListId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table/${TransitGatewayRouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayPrefixListReference",
 }));
@@ -29899,6 +31667,14 @@ export const deleteTransitGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayRoute",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayRoute"],
+    resources: {
+      "ec2:DeleteTransitGatewayRoute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table/${TransitGatewayRouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayRoute",
 }));
@@ -29939,6 +31715,14 @@ export const deleteTransitGatewayRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayRouteTable",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayRouteTable"],
+    resources: {
+      "ec2:DeleteTransitGatewayRouteTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table/${TransitGatewayRouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayRouteTable",
 }));
@@ -29977,6 +31761,14 @@ export const deleteTransitGatewayRouteTableAnnouncement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayRouteTableAnnouncement",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayRouteTableAnnouncement"],
+    resources: {
+      "ec2:DeleteTransitGatewayRouteTableAnnouncement": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table-announcement/${TransitGatewayRouteTableAnnouncementId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayRouteTableAnnouncement",
 }));
@@ -30007,6 +31799,14 @@ export const deleteTransitGatewayVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransitGatewayVpcAttachment",
+  iam: {
+    actions: ["ec2:DeleteTransitGatewayVpcAttachment"],
+    resources: {
+      "ec2:DeleteTransitGatewayVpcAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransitGatewayVpcAttachment",
 }));
@@ -30039,6 +31839,14 @@ export const deleteVerifiedAccessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedAccessEndpoint",
+  iam: {
+    actions: ["ec2:DeleteVerifiedAccessEndpoint"],
+    resources: {
+      "ec2:DeleteVerifiedAccessEndpoint": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-endpoint/${VerifiedAccessEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVerifiedAccessEndpoint",
 }));
@@ -30069,6 +31877,14 @@ export const deleteVerifiedAccessGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedAccessGroup",
+  iam: {
+    actions: ["ec2:DeleteVerifiedAccessGroup"],
+    resources: {
+      "ec2:DeleteVerifiedAccessGroup": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-group/${VerifiedAccessGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVerifiedAccessGroup",
 }));
@@ -30093,6 +31909,14 @@ export const deleteVerifiedAccessInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedAccessInstance",
+  iam: {
+    actions: ["ec2:DeleteVerifiedAccessInstance"],
+    resources: {
+      "ec2:DeleteVerifiedAccessInstance": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-instance/${VerifiedAccessInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVerifiedAccessInstance",
 }));
@@ -30121,6 +31945,14 @@ export const deleteVerifiedAccessTrustProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedAccessTrustProvider",
+  iam: {
+    actions: ["ec2:DeleteVerifiedAccessTrustProvider"],
+    resources: {
+      "ec2:DeleteVerifiedAccessTrustProvider": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-trust-provider/${VerifiedAccessTrustProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVerifiedAccessTrustProvider",
 }));
@@ -30159,6 +31991,12 @@ export const deleteVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVolume",
+  iam: {
+    actions: ["ec2:DeleteVolume"],
+    resources: {
+      "ec2:DeleteVolume": ["arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVolume",
 }));
@@ -30202,6 +32040,10 @@ export const deleteVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpc",
+  iam: {
+    actions: ["ec2:DeleteVpc"],
+    resources: { "ec2:DeleteVpc": ["arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpc",
 }));
@@ -30232,6 +32074,14 @@ export const deleteVpcBlockPublicAccessExclusion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcBlockPublicAccessExclusion",
+  iam: {
+    actions: ["ec2:DeleteVpcBlockPublicAccessExclusion"],
+    resources: {
+      "ec2:DeleteVpcBlockPublicAccessExclusion": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-block-public-access-exclusion/${VpcBlockPublicAccessExclusionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpcBlockPublicAccessExclusion",
 }));
@@ -30266,6 +32116,14 @@ export const deleteVpcEncryptionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEncryptionControl",
+  iam: {
+    actions: ["ec2:DeleteVpcEncryptionControl"],
+    resources: {
+      "ec2:DeleteVpcEncryptionControl": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-encryption-control/${VpcEncryptionControlId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpcEncryptionControl",
 }));
@@ -30286,6 +32144,7 @@ export const deleteVpcEndpointConnectionNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpointConnectionNotifications",
+  iam: { actions: ["ec2:DeleteVpcEndpointConnectionNotifications"] },
   telemetry: TELEMETRY,
   span: "DeleteVpcEndpointConnectionNotifications",
 }));
@@ -30318,6 +32177,14 @@ export const deleteVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoints",
+  iam: {
+    actions: ["ec2:DeleteVpcEndpoints"],
+    resources: {
+      "ec2:DeleteVpcEndpoints": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint/${VpcEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpcEndpoints",
 }));
@@ -30341,6 +32208,14 @@ export const deleteVpcEndpointServiceConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpointServiceConfigurations",
+  iam: {
+    actions: ["ec2:DeleteVpcEndpointServiceConfigurations"],
+    resources: {
+      "ec2:DeleteVpcEndpointServiceConfigurations": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpcEndpointServiceConfigurations",
 }));
@@ -30377,6 +32252,14 @@ export const deleteVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcPeeringConnection",
+  iam: {
+    actions: ["ec2:DeleteVpcPeeringConnection"],
+    resources: {
+      "ec2:DeleteVpcPeeringConnection": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-peering-connection/${VpcPeeringConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpcPeeringConnection",
 }));
@@ -30401,6 +32284,14 @@ export const deleteVpnConcentrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpnConcentrator",
+  iam: {
+    actions: ["ec2:DeleteVpnConcentrator"],
+    resources: {
+      "ec2:DeleteVpnConcentrator": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-concentrator/${VpnConcentratorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpnConcentrator",
 }));
@@ -30443,6 +32334,14 @@ export const deleteVpnConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpnConnection",
+  iam: {
+    actions: ["ec2:DeleteVpnConnection"],
+    resources: {
+      "ec2:DeleteVpnConnection": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpnConnection",
 }));
@@ -30471,6 +32370,14 @@ export const deleteVpnConnectionRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpnConnectionRoute",
+  iam: {
+    actions: ["ec2:DeleteVpnConnectionRoute"],
+    resources: {
+      "ec2:DeleteVpnConnectionRoute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpnConnectionRoute",
 }));
@@ -30504,6 +32411,14 @@ export const deleteVpnGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpnGateway",
+  iam: {
+    actions: ["ec2:DeleteVpnGateway"],
+    resources: {
+      "ec2:DeleteVpnGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-gateway/${VpnGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpnGateway",
 }));
@@ -30528,6 +32443,7 @@ export const deprovisionByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprovisionByoipCidr",
+  iam: { actions: ["ec2:DeprovisionByoipCidr"] },
   telemetry: TELEMETRY,
   span: "DeprovisionByoipCidr",
 }));
@@ -30554,6 +32470,10 @@ export const deprovisionIpamByoasn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprovisionIpamByoasn",
+  iam: {
+    actions: ["ec2:DeprovisionIpamByoasn"],
+    resources: { "ec2:DeprovisionIpamByoasn": ["arn:${Partition}:ec2::${Account}:ipam/${IpamId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeprovisionIpamByoasn",
 }));
@@ -30584,6 +32504,12 @@ export const deprovisionIpamPoolCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprovisionIpamPoolCidr",
+  iam: {
+    actions: ["ec2:DeprovisionIpamPoolCidr"],
+    resources: {
+      "ec2:DeprovisionIpamPoolCidr": ["arn:${Partition}:ec2::${Account}:ipam-pool/${IpamPoolId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeprovisionIpamPoolCidr",
 }));
@@ -30616,6 +32542,14 @@ export const deprovisionPublicIpv4PoolCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprovisionPublicIpv4PoolCidr",
+  iam: {
+    actions: ["ec2:DeprovisionPublicIpv4PoolCidr"],
+    resources: {
+      "ec2:DeprovisionPublicIpv4PoolCidr": [
+        "arn:${Partition}:ec2:${Region}:${Account}:ipv4pool-ec2/${Ipv4PoolEc2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeprovisionPublicIpv4PoolCidr",
 }));
@@ -30674,6 +32608,10 @@ export const deregisterImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterImage",
+  iam: {
+    actions: ["ec2:DeregisterImage"],
+    resources: { "ec2:DeregisterImage": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterImage",
 }));
@@ -30707,6 +32645,7 @@ export const deregisterInstanceEventNotificationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterInstanceEventNotificationAttributes",
+  iam: { actions: ["ec2:DeregisterInstanceEventNotificationAttributes"] },
   telemetry: TELEMETRY,
   span: "DeregisterInstanceEventNotificationAttributes",
 }));
@@ -30739,6 +32678,7 @@ export const deregisterTransitGatewayMulticastGroupMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTransitGatewayMulticastGroupMembers",
+  iam: { actions: ["ec2:DeregisterTransitGatewayMulticastGroupMembers"] },
   telemetry: TELEMETRY,
   span: "DeregisterTransitGatewayMulticastGroupMembers",
 }));
@@ -30771,6 +32711,7 @@ export const deregisterTransitGatewayMulticastGroupSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTransitGatewayMulticastGroupSources",
+  iam: { actions: ["ec2:DeregisterTransitGatewayMulticastGroupSources"] },
   telemetry: TELEMETRY,
   span: "DeregisterTransitGatewayMulticastGroupSources",
 }));
@@ -30811,6 +32752,7 @@ export const describeAccountAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
+  iam: { actions: ["ec2:DescribeAccountAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountAttributes",
 }));
@@ -30833,6 +32775,7 @@ export const describeAccountVpcEncryptionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountVpcEncryptionControl",
+  iam: { actions: ["ec2:DescribeAccountVpcEncryptionControl"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountVpcEncryptionControl",
 }));
@@ -30857,6 +32800,7 @@ export const describeAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddresses",
+  iam: { actions: ["ec2:DescribeAddresses"] },
   telemetry: TELEMETRY,
   span: "DescribeAddresses",
 }));
@@ -30888,6 +32832,7 @@ export const describeAddressesAttribute: API.PaginatedOperationMethod<
     items: "Addresses",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeAddressesAttribute"] },
   telemetry: TELEMETRY,
   span: "DescribeAddressesAttribute",
 })) as any;
@@ -30925,6 +32870,7 @@ export const describeAddressTransfers: API.PaginatedOperationMethod<
     items: "AddressTransfers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeAddressTransfers"] },
   telemetry: TELEMETRY,
   span: "DescribeAddressTransfers",
 })) as any;
@@ -30963,6 +32909,7 @@ export const describeAggregateIdFormat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAggregateIdFormat",
+  iam: { actions: ["ec2:DescribeAggregateIdFormat"] },
   telemetry: TELEMETRY,
   span: "DescribeAggregateIdFormat",
 }));
@@ -30989,6 +32936,7 @@ export const describeApplicationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationStatus",
+  iam: { actions: ["ec2:DescribeApplicationStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeApplicationStatus",
 }));
@@ -31023,6 +32971,7 @@ export const describeApplicationStatusCheckAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationStatusCheckAssociations",
+  iam: { actions: ["ec2:DescribeApplicationStatusCheckAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeApplicationStatusCheckAssociations",
 }));
@@ -31047,6 +32996,7 @@ export const describeApplicationStatusChecks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationStatusChecks",
+  iam: { actions: ["ec2:DescribeApplicationStatusChecks"] },
   telemetry: TELEMETRY,
   span: "DescribeApplicationStatusChecks",
 }));
@@ -31081,6 +33031,7 @@ export const describeAvailabilityZones: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAvailabilityZones",
+  iam: { actions: ["ec2:DescribeAvailabilityZones"] },
   telemetry: TELEMETRY,
   span: "DescribeAvailabilityZones",
 }));
@@ -31116,6 +33067,7 @@ export const describeAwsNetworkPerformanceMetricSubscriptions: API.PaginatedOper
     items: "Subscriptions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeAwsNetworkPerformanceMetricSubscriptions"] },
   telemetry: TELEMETRY,
   span: "DescribeAwsNetworkPerformanceMetricSubscriptions",
 })) as any;
@@ -31154,6 +33106,7 @@ export const describeBundleTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBundleTasks",
+  iam: { actions: ["ec2:DescribeBundleTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeBundleTasks",
 }));
@@ -31186,6 +33139,7 @@ export const describeByoipCidrs: API.PaginatedOperationMethod<
     items: "ByoipCidrs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeByoipCidrs"] },
   telemetry: TELEMETRY,
   span: "DescribeByoipCidrs",
 })) as any;
@@ -31218,6 +33172,7 @@ export const describeCapacityBlockExtensionHistory: API.PaginatedOperationMethod
     items: "CapacityBlockExtensions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCapacityBlockExtensionHistory"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityBlockExtensionHistory",
 })) as any;
@@ -31250,6 +33205,14 @@ export const describeCapacityBlockExtensionOfferings: API.PaginatedOperationMeth
     items: "CapacityBlockExtensionOfferings",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:DescribeCapacityBlockExtensionOfferings"],
+    resources: {
+      "ec2:DescribeCapacityBlockExtensionOfferings": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCapacityBlockExtensionOfferings",
 })) as any;
@@ -31285,6 +33248,7 @@ export const describeCapacityBlockOfferings: API.PaginatedOperationMethod<
     items: "CapacityBlockOfferings",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCapacityBlockOfferings"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityBlockOfferings",
 })) as any;
@@ -31316,6 +33280,7 @@ export const describeCapacityBlocks: API.PaginatedOperationMethod<
     items: "CapacityBlocks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCapacityBlocks"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityBlocks",
 })) as any;
@@ -31347,6 +33312,7 @@ export const describeCapacityBlockStatus: API.PaginatedOperationMethod<
     items: "CapacityBlockStatuses",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCapacityBlockStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityBlockStatus",
 })) as any;
@@ -31378,6 +33344,7 @@ export const describeCapacityManagerDataExports: API.PaginatedOperationMethod<
     items: "CapacityManagerDataExports",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCapacityManagerDataExports"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityManagerDataExports",
 })) as any;
@@ -31419,6 +33386,7 @@ export const describeCapacityReservationBillingRequests: API.PaginatedOperationM
     items: "CapacityReservationBillingRequests",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCapacityReservationBillingRequests"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityReservationBillingRequests",
 })) as any;
@@ -31449,6 +33417,7 @@ export const describeCapacityReservationCancellationQuotes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapacityReservationCancellationQuotes",
+  iam: { actions: ["ec2:DescribeCapacityReservationCancellationQuotes"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityReservationCancellationQuotes",
 }));
@@ -31516,6 +33485,7 @@ export const describeCapacityReservationFleets: API.PaginatedOperationMethod<
     items: "CapacityReservationFleets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCapacityReservationFleets"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityReservationFleets",
 })) as any;
@@ -31549,6 +33519,7 @@ export const describeCapacityReservations: API.PaginatedOperationMethod<
     items: "CapacityReservations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCapacityReservations"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityReservations",
 })) as any;
@@ -31590,6 +33561,7 @@ export const describeCapacityReservationTopology: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapacityReservationTopology",
+  iam: { actions: ["ec2:DescribeCapacityReservationTopology"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityReservationTopology",
 }));
@@ -31629,6 +33601,7 @@ export const describeCarrierGateways: API.PaginatedOperationMethod<
     items: "CarrierGateways",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCarrierGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeCarrierGateways",
 })) as any;
@@ -31664,6 +33637,7 @@ export const describeClassicLinkInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeClassicLinkInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeClassicLinkInstances",
 })) as any;
@@ -31695,6 +33669,14 @@ export const describeClientVpnAuthorizationRules: API.PaginatedOperationMethod<
     items: "AuthorizationRules",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:DescribeClientVpnAuthorizationRules"],
+    resources: {
+      "ec2:DescribeClientVpnAuthorizationRules": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeClientVpnAuthorizationRules",
 })) as any;
@@ -31733,6 +33715,14 @@ export const describeClientVpnConnections: API.PaginatedOperationMethod<
     items: "Connections",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:DescribeClientVpnConnections"],
+    resources: {
+      "ec2:DescribeClientVpnConnections": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeClientVpnConnections",
 })) as any;
@@ -31764,6 +33754,7 @@ export const describeClientVpnEndpoints: API.PaginatedOperationMethod<
     items: "ClientVpnEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeClientVpnEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeClientVpnEndpoints",
 })) as any;
@@ -31801,6 +33792,14 @@ export const describeClientVpnRoutes: API.PaginatedOperationMethod<
     items: "Routes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:DescribeClientVpnRoutes"],
+    resources: {
+      "ec2:DescribeClientVpnRoutes": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeClientVpnRoutes",
 })) as any;
@@ -31838,6 +33837,14 @@ export const describeClientVpnTargetNetworks: API.PaginatedOperationMethod<
     items: "ClientVpnTargetNetworks",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:DescribeClientVpnTargetNetworks"],
+    resources: {
+      "ec2:DescribeClientVpnTargetNetworks": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeClientVpnTargetNetworks",
 })) as any;
@@ -31869,6 +33876,7 @@ export const describeCoipPools: API.PaginatedOperationMethod<
     items: "CoipPools",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeCoipPools"] },
   telemetry: TELEMETRY,
   span: "DescribeCoipPools",
 })) as any;
@@ -31892,6 +33900,7 @@ export const describeConversionTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConversionTasks",
+  iam: { actions: ["ec2:DescribeConversionTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeConversionTasks",
 }));
@@ -31925,6 +33934,7 @@ export const describeCustomerGateways: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomerGateways",
+  iam: { actions: ["ec2:DescribeCustomerGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeCustomerGateways",
 }));
@@ -31960,6 +33970,7 @@ export const describeDeclarativePoliciesReports: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeclarativePoliciesReports",
+  iam: { actions: ["ec2:DescribeDeclarativePoliciesReports"] },
   telemetry: TELEMETRY,
   span: "DescribeDeclarativePoliciesReports",
 }));
@@ -32006,6 +34017,7 @@ export const describeDhcpOptions: API.PaginatedOperationMethod<
     items: "DhcpOptions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeDhcpOptions"] },
   telemetry: TELEMETRY,
   span: "DescribeDhcpOptions",
 })) as any;
@@ -32047,6 +34059,7 @@ export const describeEgressOnlyInternetGateways: API.PaginatedOperationMethod<
     items: "EgressOnlyInternetGateways",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeEgressOnlyInternetGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeEgressOnlyInternetGateways",
 })) as any;
@@ -32073,6 +34086,7 @@ export const describeElasticGpus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticGpus",
+  iam: { actions: ["ec2:DescribeElasticGpus"] },
   telemetry: TELEMETRY,
   span: "DescribeElasticGpus",
 }));
@@ -32104,6 +34118,7 @@ export const describeExportImageTasks: API.PaginatedOperationMethod<
     items: "ExportImageTasks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeExportImageTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeExportImageTasks",
 })) as any;
@@ -32128,6 +34143,7 @@ export const describeExportTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExportTasks",
+  iam: { actions: ["ec2:DescribeExportTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeExportTasks",
 }));
@@ -32159,6 +34175,7 @@ export const describeFastLaunchImages: API.PaginatedOperationMethod<
     items: "FastLaunchImages",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeFastLaunchImages"] },
   telemetry: TELEMETRY,
   span: "DescribeFastLaunchImages",
 })) as any;
@@ -32186,6 +34203,7 @@ export const describeFastSnapshotRestores: API.PaginatedOperationMethod<
     items: "FastSnapshotRestores",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeFastSnapshotRestores"] },
   telemetry: TELEMETRY,
   span: "DescribeFastSnapshotRestores",
 })) as any;
@@ -32217,6 +34235,12 @@ export const describeFleetHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetHistory",
+  iam: {
+    actions: ["ec2:DescribeFleetHistory"],
+    resources: {
+      "ec2:DescribeFleetHistory": ["arn:${Partition}:ec2:${Region}:${Account}:fleet/${FleetId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFleetHistory",
 }));
@@ -32248,6 +34272,12 @@ export const describeFleetInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetInstances",
+  iam: {
+    actions: ["ec2:DescribeFleetInstances"],
+    resources: {
+      "ec2:DescribeFleetInstances": ["arn:${Partition}:ec2:${Region}:${Account}:fleet/${FleetId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFleetInstances",
 }));
@@ -32285,6 +34315,7 @@ export const describeFleets: API.PaginatedOperationMethod<
     items: "Fleets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeFleets"] },
   telemetry: TELEMETRY,
   span: "DescribeFleets",
 })) as any;
@@ -32320,6 +34351,7 @@ export const describeFlowLogs: API.PaginatedOperationMethod<
     items: "FlowLogs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeFlowLogs"] },
   telemetry: TELEMETRY,
   span: "DescribeFlowLogs",
 })) as any;
@@ -32350,6 +34382,14 @@ export const describeFpgaImageAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFpgaImageAttribute",
+  iam: {
+    actions: ["ec2:DescribeFpgaImageAttribute"],
+    resources: {
+      "ec2:DescribeFpgaImageAttribute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:fpga-image/${FpgaImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFpgaImageAttribute",
 }));
@@ -32383,6 +34423,7 @@ export const describeFpgaImages: API.PaginatedOperationMethod<
     items: "FpgaImages",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeFpgaImages"] },
   telemetry: TELEMETRY,
   span: "DescribeFpgaImages",
 })) as any;
@@ -32421,6 +34462,7 @@ export const describeHostReservationOfferings: API.PaginatedOperationMethod<
     items: "OfferingSet",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeHostReservationOfferings"] },
   telemetry: TELEMETRY,
   span: "DescribeHostReservationOfferings",
 })) as any;
@@ -32449,6 +34491,7 @@ export const describeHostReservations: API.PaginatedOperationMethod<
     items: "HostReservationSet",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeHostReservations"] },
   telemetry: TELEMETRY,
   span: "DescribeHostReservations",
 })) as any;
@@ -32484,6 +34527,7 @@ export const describeHosts: API.PaginatedOperationMethod<
     items: "Hosts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeHosts"] },
   telemetry: TELEMETRY,
   span: "DescribeHosts",
 })) as any;
@@ -32515,6 +34559,7 @@ export const describeIamInstanceProfileAssociations: API.PaginatedOperationMetho
     items: "IamInstanceProfileAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIamInstanceProfileAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeIamInstanceProfileAssociations",
 })) as any;
@@ -32559,6 +34604,7 @@ export const describeIdentityIdFormat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityIdFormat",
+  iam: { actions: ["ec2:DescribeIdentityIdFormat"] },
   telemetry: TELEMETRY,
   span: "DescribeIdentityIdFormat",
 }));
@@ -32600,6 +34646,7 @@ export const describeIdFormat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdFormat",
+  iam: { actions: ["ec2:DescribeIdFormat"] },
   telemetry: TELEMETRY,
   span: "DescribeIdFormat",
 }));
@@ -32629,6 +34676,12 @@ export const describeImageAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageAttribute",
+  iam: {
+    actions: ["ec2:DescribeImageAttribute"],
+    resources: {
+      "ec2:DescribeImageAttribute": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeImageAttribute",
 }));
@@ -32663,6 +34716,7 @@ export const describeImageReferences: API.PaginatedOperationMethod<
     items: "ImageReferences",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeImageReferences"] },
   telemetry: TELEMETRY,
   span: "DescribeImageReferences",
 })) as any;
@@ -32728,6 +34782,7 @@ export const describeImages: API.PaginatedOperationMethod<
     items: "Images",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeImages"] },
   telemetry: TELEMETRY,
   span: "DescribeImages",
 })) as any;
@@ -32763,6 +34818,7 @@ export const describeImageUsageReportEntries: API.PaginatedOperationMethod<
     items: "ImageUsageReportEntries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeImageUsageReportEntries"] },
   telemetry: TELEMETRY,
   span: "DescribeImageUsageReportEntries",
 })) as any;
@@ -32798,6 +34854,7 @@ export const describeImageUsageReports: API.PaginatedOperationMethod<
     items: "ImageUsageReports",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeImageUsageReports"] },
   telemetry: TELEMETRY,
   span: "DescribeImageUsageReports",
 })) as any;
@@ -32829,6 +34886,7 @@ export const describeImportImageTasks: API.PaginatedOperationMethod<
     items: "ImportImageTasks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeImportImageTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeImportImageTasks",
 })) as any;
@@ -32860,6 +34918,7 @@ export const describeImportSnapshotTasks: API.PaginatedOperationMethod<
     items: "ImportSnapshotTasks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeImportSnapshotTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeImportSnapshotTasks",
 })) as any;
@@ -32892,6 +34951,14 @@ export const describeInstanceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceAttribute",
+  iam: {
+    actions: ["ec2:DescribeInstanceAttribute"],
+    resources: {
+      "ec2:DescribeInstanceAttribute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInstanceAttribute",
 }));
@@ -32923,6 +34990,7 @@ export const describeInstanceConnectEndpoints: API.PaginatedOperationMethod<
     items: "InstanceConnectEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInstanceConnectEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceConnectEndpoints",
 })) as any;
@@ -32978,6 +35046,7 @@ export const describeInstanceCreditSpecifications: API.PaginatedOperationMethod<
     items: "InstanceCreditSpecifications",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInstanceCreditSpecifications"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceCreditSpecifications",
 })) as any;
@@ -33007,6 +35076,7 @@ export const describeInstanceEventNotificationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceEventNotificationAttributes",
+  iam: { actions: ["ec2:DescribeInstanceEventNotificationAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceEventNotificationAttributes",
 }));
@@ -33048,6 +35118,7 @@ export const describeInstanceEventWindows: API.PaginatedOperationMethod<
     items: "InstanceEventWindows",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInstanceEventWindows"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceEventWindows",
 })) as any;
@@ -33101,6 +35172,7 @@ export const describeInstanceImageMetadata: API.PaginatedOperationMethod<
     items: "InstanceImageMetadata",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInstanceImageMetadata"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceImageMetadata",
 })) as any;
@@ -33176,6 +35248,7 @@ export const describeInstances: API.PaginatedOperationMethod<
     items: "Reservations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeInstances",
 })) as any;
@@ -33201,6 +35274,7 @@ export const describeInstanceSqlHaHistoryStates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceSqlHaHistoryStates",
+  iam: { actions: ["ec2:DescribeInstanceSqlHaHistoryStates"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceSqlHaHistoryStates",
 }));
@@ -33226,6 +35300,7 @@ export const describeInstanceSqlHaStates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceSqlHaStates",
+  iam: { actions: ["ec2:DescribeInstanceSqlHaStates"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceSqlHaStates",
 }));
@@ -33299,6 +35374,7 @@ export const describeInstanceStatus: API.PaginatedOperationMethod<
     items: "InstanceStatuses",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInstanceStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceStatus",
 })) as any;
@@ -33346,6 +35422,7 @@ export const describeInstanceTopology: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInstanceTopology"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceTopology",
 })) as any;
@@ -33375,6 +35452,7 @@ export const describeInstanceTypeOfferings: API.PaginatedOperationMethod<
     items: "InstanceTypeOfferings",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInstanceTypeOfferings"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceTypeOfferings",
 })) as any;
@@ -33405,6 +35483,7 @@ export const describeInstanceTypes: API.PaginatedOperationMethod<
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInstanceTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceTypes",
 })) as any;
@@ -33444,6 +35523,7 @@ export const describeInternetGateways: API.PaginatedOperationMethod<
     items: "InternetGateways",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeInternetGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeInternetGateways",
 })) as any;
@@ -33464,6 +35544,7 @@ export const describeIpamByoasn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIpamByoasn",
+  iam: { actions: ["ec2:DescribeIpamByoasn"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamByoasn",
 }));
@@ -33502,6 +35583,7 @@ export const describeIpamExternalResourceVerificationTokens: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIpamExternalResourceVerificationTokens",
+  iam: { actions: ["ec2:DescribeIpamExternalResourceVerificationTokens"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamExternalResourceVerificationTokens",
 }));
@@ -33522,6 +35604,7 @@ export const describeIpamInternetRegistryAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIpamInternetRegistryAssociations",
+  iam: { actions: ["ec2:DescribeIpamInternetRegistryAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamInternetRegistryAssociations",
 }));
@@ -33548,6 +35631,7 @@ export const describeIpamPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIpamPolicies",
+  iam: { actions: ["ec2:DescribeIpamPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamPolicies",
 }));
@@ -33579,6 +35663,7 @@ export const describeIpamPoolAllocations: API.PaginatedOperationMethod<
     items: "IpamPoolAllocations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIpamPoolAllocations"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamPoolAllocations",
 })) as any;
@@ -33610,6 +35695,7 @@ export const describeIpamPools: API.PaginatedOperationMethod<
     items: "IpamPools",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIpamPools"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamPools",
 })) as any;
@@ -33641,6 +35727,7 @@ export const describeIpamPrefixListResolvers: API.PaginatedOperationMethod<
     items: "IpamPrefixListResolvers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIpamPrefixListResolvers"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamPrefixListResolvers",
 })) as any;
@@ -33676,6 +35763,7 @@ export const describeIpamPrefixListResolverTargets: API.PaginatedOperationMethod
     items: "IpamPrefixListResolverTargets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIpamPrefixListResolverTargets"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamPrefixListResolverTargets",
 })) as any;
@@ -33707,6 +35795,7 @@ export const describeIpamResourceDiscoveries: API.PaginatedOperationMethod<
     items: "IpamResourceDiscoveries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIpamResourceDiscoveries"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamResourceDiscoveries",
 })) as any;
@@ -33742,6 +35831,7 @@ export const describeIpamResourceDiscoveryAssociations: API.PaginatedOperationMe
     items: "IpamResourceDiscoveryAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIpamResourceDiscoveryAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamResourceDiscoveryAssociations",
 })) as any;
@@ -33775,6 +35865,7 @@ export const describeIpams: API.PaginatedOperationMethod<
     items: "Ipams",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIpams"] },
   telemetry: TELEMETRY,
   span: "DescribeIpams",
 })) as any;
@@ -33806,6 +35897,7 @@ export const describeIpamScopes: API.PaginatedOperationMethod<
     items: "IpamScopes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIpamScopes"] },
   telemetry: TELEMETRY,
   span: "DescribeIpamScopes",
 })) as any;
@@ -33837,6 +35929,7 @@ export const describeIpv6Pools: API.PaginatedOperationMethod<
     items: "Ipv6Pools",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeIpv6Pools"] },
   telemetry: TELEMETRY,
   span: "DescribeIpv6Pools",
 })) as any;
@@ -33870,6 +35963,7 @@ export const describeKeyPairs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyPairs",
+  iam: { actions: ["ec2:DescribeKeyPairs"] },
   telemetry: TELEMETRY,
   span: "DescribeKeyPairs",
 }));
@@ -33911,6 +36005,7 @@ export const describeLaunchTemplates: API.PaginatedOperationMethod<
     items: "LaunchTemplates",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeLaunchTemplates"] },
   telemetry: TELEMETRY,
   span: "DescribeLaunchTemplates",
 })) as any;
@@ -33951,6 +36046,7 @@ export const describeLaunchTemplateVersions: API.PaginatedOperationMethod<
     items: "LaunchTemplateVersions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeLaunchTemplateVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeLaunchTemplateVersions",
 })) as any;
@@ -33979,6 +36075,7 @@ export const describeLocalGatewayRouteTables: API.PaginatedOperationMethod<
     items: "LocalGatewayRouteTables",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeLocalGatewayRouteTables"] },
   telemetry: TELEMETRY,
   span: "DescribeLocalGatewayRouteTables",
 })) as any;
@@ -34014,6 +36111,7 @@ export const describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations: AP
     items: "LocalGatewayRouteTableVirtualInterfaceGroupAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations",
 })) as any;
@@ -34049,6 +36147,7 @@ export const describeLocalGatewayRouteTableVpcAssociations: API.PaginatedOperati
     items: "LocalGatewayRouteTableVpcAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeLocalGatewayRouteTableVpcAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeLocalGatewayRouteTableVpcAssociations",
 })) as any;
@@ -34077,6 +36176,7 @@ export const describeLocalGateways: API.PaginatedOperationMethod<
     items: "LocalGateways",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeLocalGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeLocalGateways",
 })) as any;
@@ -34112,6 +36212,7 @@ export const describeLocalGatewayVirtualInterfaceGroups: API.PaginatedOperationM
     items: "LocalGatewayVirtualInterfaceGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeLocalGatewayVirtualInterfaceGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeLocalGatewayVirtualInterfaceGroups",
 })) as any;
@@ -34139,6 +36240,7 @@ export const describeLocalGatewayVirtualInterfaces: API.PaginatedOperationMethod
     items: "LocalGatewayVirtualInterfaces",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeLocalGatewayVirtualInterfaces"] },
   telemetry: TELEMETRY,
   span: "DescribeLocalGatewayVirtualInterfaces",
 })) as any;
@@ -34163,6 +36265,7 @@ export const describeLockedSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLockedSnapshots",
+  iam: { actions: ["ec2:DescribeLockedSnapshots"] },
   telemetry: TELEMETRY,
   span: "DescribeLockedSnapshots",
 }));
@@ -34194,6 +36297,7 @@ export const describeMacHosts: API.PaginatedOperationMethod<
     items: "MacHosts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeMacHosts"] },
   telemetry: TELEMETRY,
   span: "DescribeMacHosts",
 })) as any;
@@ -34227,6 +36331,7 @@ export const describeMacModificationTasks: API.PaginatedOperationMethod<
     items: "MacModificationTasks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeMacModificationTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeMacModificationTasks",
 })) as any;
@@ -34259,6 +36364,7 @@ export const describeManagedPrefixLists: API.PaginatedOperationMethod<
     items: "PrefixLists",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeManagedPrefixLists"] },
   telemetry: TELEMETRY,
   span: "DescribeManagedPrefixLists",
 })) as any;
@@ -34293,6 +36399,7 @@ export const describeMovingAddresses: API.PaginatedOperationMethod<
     items: "MovingAddressStatuses",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeMovingAddresses"] },
   telemetry: TELEMETRY,
   span: "DescribeMovingAddresses",
 })) as any;
@@ -34340,6 +36447,7 @@ export const describeNatGateways: API.PaginatedOperationMethod<
     items: "NatGateways",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeNatGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeNatGateways",
 })) as any;
@@ -34384,6 +36492,7 @@ export const describeNetworkAcls: API.PaginatedOperationMethod<
     items: "NetworkAcls",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeNetworkAcls"] },
   telemetry: TELEMETRY,
   span: "DescribeNetworkAcls",
 })) as any;
@@ -34423,6 +36532,7 @@ export const describeNetworkInsightsAccessScopeAnalyses: API.PaginatedOperationM
     items: "NetworkInsightsAccessScopeAnalyses",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeNetworkInsightsAccessScopeAnalyses"] },
   telemetry: TELEMETRY,
   span: "DescribeNetworkInsightsAccessScopeAnalyses",
 })) as any;
@@ -34454,6 +36564,7 @@ export const describeNetworkInsightsAccessScopes: API.PaginatedOperationMethod<
     items: "NetworkInsightsAccessScopes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeNetworkInsightsAccessScopes"] },
   telemetry: TELEMETRY,
   span: "DescribeNetworkInsightsAccessScopes",
 })) as any;
@@ -34485,6 +36596,7 @@ export const describeNetworkInsightsAnalyses: API.PaginatedOperationMethod<
     items: "NetworkInsightsAnalyses",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeNetworkInsightsAnalyses"] },
   telemetry: TELEMETRY,
   span: "DescribeNetworkInsightsAnalyses",
 })) as any;
@@ -34516,6 +36628,7 @@ export const describeNetworkInsightsPaths: API.PaginatedOperationMethod<
     items: "NetworkInsightsPaths",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeNetworkInsightsPaths"] },
   telemetry: TELEMETRY,
   span: "DescribeNetworkInsightsPaths",
 })) as any;
@@ -34549,6 +36662,7 @@ export const describeNetworkInterfaceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNetworkInterfaceAttribute",
+  iam: { actions: ["ec2:DescribeNetworkInterfaceAttribute"] },
   telemetry: TELEMETRY,
   span: "DescribeNetworkInterfaceAttribute",
 }));
@@ -34580,6 +36694,7 @@ export const describeNetworkInterfacePermissions: API.PaginatedOperationMethod<
     items: "NetworkInterfacePermissions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeNetworkInterfacePermissions"] },
   telemetry: TELEMETRY,
   span: "DescribeNetworkInterfacePermissions",
 })) as any;
@@ -34628,6 +36743,7 @@ export const describeNetworkInterfaces: API.PaginatedOperationMethod<
     items: "NetworkInterfaces",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeNetworkInterfaces"] },
   telemetry: TELEMETRY,
   span: "DescribeNetworkInterfaces",
 })) as any;
@@ -34654,6 +36770,7 @@ export const describeOutpostLags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOutpostLags",
+  iam: { actions: ["ec2:DescribeOutpostLags"] },
   telemetry: TELEMETRY,
   span: "DescribeOutpostLags",
 }));
@@ -34693,6 +36810,7 @@ export const describePlacementGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePlacementGroups",
+  iam: { actions: ["ec2:DescribePlacementGroups"] },
   telemetry: TELEMETRY,
   span: "DescribePlacementGroups",
 }));
@@ -34725,6 +36843,7 @@ export const describePrefixLists: API.PaginatedOperationMethod<
     items: "PrefixLists",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribePrefixLists"] },
   telemetry: TELEMETRY,
   span: "DescribePrefixLists",
 })) as any;
@@ -34771,6 +36890,7 @@ export const describePrincipalIdFormat: API.PaginatedOperationMethod<
     items: "Principals",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribePrincipalIdFormat"] },
   telemetry: TELEMETRY,
   span: "DescribePrincipalIdFormat",
 })) as any;
@@ -34802,6 +36922,7 @@ export const describePublicIpv4Pools: API.PaginatedOperationMethod<
     items: "PublicIpv4Pools",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribePublicIpv4Pools"] },
   telemetry: TELEMETRY,
   span: "DescribePublicIpv4Pools",
 })) as any;
@@ -34834,6 +36955,7 @@ export const describeRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegions",
+  iam: { actions: ["ec2:DescribeRegions"] },
   telemetry: TELEMETRY,
   span: "DescribeRegions",
 }));
@@ -34866,6 +36988,7 @@ export const describeReplaceRootVolumeTasks: API.PaginatedOperationMethod<
     items: "ReplaceRootVolumeTasks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeReplaceRootVolumeTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeReplaceRootVolumeTasks",
 })) as any;
@@ -34896,6 +37019,7 @@ export const describeReservedInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservedInstances",
+  iam: { actions: ["ec2:DescribeReservedInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedInstances",
 }));
@@ -34938,6 +37062,7 @@ export const describeReservedInstancesListings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservedInstancesListings",
+  iam: { actions: ["ec2:DescribeReservedInstancesListings"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedInstancesListings",
 }));
@@ -34977,6 +37102,7 @@ export const describeReservedInstancesModifications: API.PaginatedOperationMetho
     outputToken: "NextToken",
     items: "ReservedInstancesModifications",
   } as const,
+  iam: { actions: ["ec2:DescribeReservedInstancesModifications"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedInstancesModifications",
 })) as any;
@@ -35021,6 +37147,7 @@ export const describeReservedInstancesOfferings: API.PaginatedOperationMethod<
     items: "ReservedInstancesOfferings",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeReservedInstancesOfferings"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedInstancesOfferings",
 })) as any;
@@ -35056,6 +37183,7 @@ export const describeRouteServerEndpoints: API.PaginatedOperationMethod<
     items: "RouteServerEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeRouteServerEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeRouteServerEndpoints",
 })) as any;
@@ -35097,6 +37225,7 @@ export const describeRouteServerPeers: API.PaginatedOperationMethod<
     items: "RouteServerPeers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeRouteServerPeers"] },
   telemetry: TELEMETRY,
   span: "DescribeRouteServerPeers",
 })) as any;
@@ -35143,6 +37272,7 @@ export const describeRouteServers: API.PaginatedOperationMethod<
     items: "RouteServers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeRouteServers"] },
   telemetry: TELEMETRY,
   span: "DescribeRouteServers",
 })) as any;
@@ -35182,6 +37312,7 @@ export const describeRouteTables: API.PaginatedOperationMethod<
     items: "RouteTables",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeRouteTables"] },
   telemetry: TELEMETRY,
   span: "DescribeRouteTables",
 })) as any;
@@ -35214,6 +37345,7 @@ export const describeScheduledInstanceAvailability: API.PaginatedOperationMethod
     items: "ScheduledInstanceAvailabilitySet",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeScheduledInstanceAvailability"] },
   telemetry: TELEMETRY,
   span: "DescribeScheduledInstanceAvailability",
 })) as any;
@@ -35241,6 +37373,7 @@ export const describeScheduledInstances: API.PaginatedOperationMethod<
     items: "ScheduledInstanceSet",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeScheduledInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeScheduledInstances",
 })) as any;
@@ -35268,6 +37401,7 @@ export const describeSecondaryInterfaces: API.PaginatedOperationMethod<
     items: "SecondaryInterfaces",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSecondaryInterfaces"] },
   telemetry: TELEMETRY,
   span: "DescribeSecondaryInterfaces",
 })) as any;
@@ -35295,6 +37429,7 @@ export const describeSecondaryNetworks: API.PaginatedOperationMethod<
     items: "SecondaryNetworks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSecondaryNetworks"] },
   telemetry: TELEMETRY,
   span: "DescribeSecondaryNetworks",
 })) as any;
@@ -35322,6 +37457,7 @@ export const describeSecondarySubnets: API.PaginatedOperationMethod<
     items: "SecondarySubnets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSecondarySubnets"] },
   telemetry: TELEMETRY,
   span: "DescribeSecondarySubnets",
 })) as any;
@@ -35342,6 +37478,14 @@ export const describeSecurityGroupReferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityGroupReferences",
+  iam: {
+    actions: ["ec2:DescribeSecurityGroupReferences"],
+    resources: {
+      "ec2:DescribeSecurityGroupReferences": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSecurityGroupReferences",
 }));
@@ -35373,6 +37517,7 @@ export const describeSecurityGroupRules: API.PaginatedOperationMethod<
     items: "SecurityGroupRules",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSecurityGroupRules"] },
   telemetry: TELEMETRY,
   span: "DescribeSecurityGroupRules",
 })) as any;
@@ -35414,6 +37559,7 @@ export const describeSecurityGroups: API.PaginatedOperationMethod<
     items: "SecurityGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSecurityGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeSecurityGroups",
 })) as any;
@@ -35441,6 +37587,7 @@ export const describeSecurityGroupVpcAssociations: API.PaginatedOperationMethod<
     items: "SecurityGroupVpcAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSecurityGroupVpcAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeSecurityGroupVpcAssociations",
 })) as any;
@@ -35469,6 +37616,7 @@ export const describeServiceLinkVirtualInterfaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceLinkVirtualInterfaces",
+  iam: { actions: ["ec2:DescribeServiceLinkVirtualInterfaces"] },
   telemetry: TELEMETRY,
   span: "DescribeServiceLinkVirtualInterfaces",
 }));
@@ -35504,6 +37652,12 @@ export const describeSnapshotAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSnapshotAttribute",
+  iam: {
+    actions: ["ec2:DescribeSnapshotAttribute"],
+    resources: {
+      "ec2:DescribeSnapshotAttribute": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSnapshotAttribute",
 }));
@@ -35585,6 +37739,7 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSnapshots"] },
   telemetry: TELEMETRY,
   span: "DescribeSnapshots",
 })) as any;
@@ -35612,6 +37767,7 @@ export const describeSnapshotTierStatus: API.PaginatedOperationMethod<
     items: "SnapshotTierStatuses",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSnapshotTierStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeSnapshotTierStatus",
 })) as any;
@@ -35637,6 +37793,7 @@ export const describeSpotDatafeedSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpotDatafeedSubscription",
+  iam: { actions: ["ec2:DescribeSpotDatafeedSubscription"] },
   telemetry: TELEMETRY,
   span: "DescribeSpotDatafeedSubscription",
 }));
@@ -35661,6 +37818,14 @@ export const describeSpotFleetInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpotFleetInstances",
+  iam: {
+    actions: ["ec2:DescribeSpotFleetInstances"],
+    resources: {
+      "ec2:DescribeSpotFleetInstances": [
+        "arn:${Partition}:ec2:${Region}:${Account}:spot-fleet-request/${SpotFleetRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSpotFleetInstances",
 }));
@@ -35693,6 +37858,14 @@ export const describeSpotFleetRequestHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpotFleetRequestHistory",
+  iam: {
+    actions: ["ec2:DescribeSpotFleetRequestHistory"],
+    resources: {
+      "ec2:DescribeSpotFleetRequestHistory": [
+        "arn:${Partition}:ec2:${Region}:${Account}:spot-fleet-request/${SpotFleetRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSpotFleetRequestHistory",
 }));
@@ -35728,6 +37901,7 @@ export const describeSpotFleetRequests: API.PaginatedOperationMethod<
     items: "SpotFleetRequestConfigs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSpotFleetRequests"] },
   telemetry: TELEMETRY,
   span: "DescribeSpotFleetRequests",
 })) as any;
@@ -35783,6 +37957,7 @@ export const describeSpotInstanceRequests: API.PaginatedOperationMethod<
     items: "SpotInstanceRequests",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSpotInstanceRequests"] },
   telemetry: TELEMETRY,
   span: "DescribeSpotInstanceRequests",
 })) as any;
@@ -35815,6 +37990,7 @@ export const describeSpotPriceHistory: API.PaginatedOperationMethod<
     items: "SpotPriceHistory",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSpotPriceHistory"] },
   telemetry: TELEMETRY,
   span: "DescribeSpotPriceHistory",
 })) as any;
@@ -35853,6 +38029,7 @@ export const describeStaleSecurityGroups: API.PaginatedOperationMethod<
     items: "StaleSecurityGroupSet",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeStaleSecurityGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeStaleSecurityGroups",
 })) as any;
@@ -35895,6 +38072,7 @@ export const describeStoreImageTasks: API.PaginatedOperationMethod<
     items: "StoreImageTaskResults",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeStoreImageTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeStoreImageTasks",
 })) as any;
@@ -35932,6 +38110,7 @@ export const describeSubnets: API.PaginatedOperationMethod<
     items: "Subnets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeSubnets"] },
   telemetry: TELEMETRY,
   span: "DescribeSubnets",
 })) as any;
@@ -35973,6 +38152,7 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 })) as any;
@@ -35993,6 +38173,7 @@ export const describeTrafficMirrorFilterRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrafficMirrorFilterRules",
+  iam: { actions: ["ec2:DescribeTrafficMirrorFilterRules"] },
   telemetry: TELEMETRY,
   span: "DescribeTrafficMirrorFilterRules",
 }));
@@ -36024,6 +38205,7 @@ export const describeTrafficMirrorFilters: API.PaginatedOperationMethod<
     items: "TrafficMirrorFilters",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTrafficMirrorFilters"] },
   telemetry: TELEMETRY,
   span: "DescribeTrafficMirrorFilters",
 })) as any;
@@ -36055,6 +38237,7 @@ export const describeTrafficMirrorSessions: API.PaginatedOperationMethod<
     items: "TrafficMirrorSessions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTrafficMirrorSessions"] },
   telemetry: TELEMETRY,
   span: "DescribeTrafficMirrorSessions",
 })) as any;
@@ -36086,6 +38269,7 @@ export const describeTrafficMirrorTargets: API.PaginatedOperationMethod<
     items: "TrafficMirrorTargets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTrafficMirrorTargets"] },
   telemetry: TELEMETRY,
   span: "DescribeTrafficMirrorTargets",
 })) as any;
@@ -36124,6 +38308,7 @@ export const describeTransitGatewayAttachments: API.PaginatedOperationMethod<
     items: "TransitGatewayAttachments",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGatewayAttachments"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayAttachments",
 })) as any;
@@ -36155,6 +38340,7 @@ export const describeTransitGatewayConnectPeers: API.PaginatedOperationMethod<
     items: "TransitGatewayConnectPeers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGatewayConnectPeers"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayConnectPeers",
 })) as any;
@@ -36186,6 +38372,7 @@ export const describeTransitGatewayConnects: API.PaginatedOperationMethod<
     items: "TransitGatewayConnects",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGatewayConnects"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayConnects",
 })) as any;
@@ -36214,6 +38401,7 @@ export const describeTransitGatewayMeteringPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTransitGatewayMeteringPolicies",
+  iam: { actions: ["ec2:DescribeTransitGatewayMeteringPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayMeteringPolicies",
 }));
@@ -36249,6 +38437,7 @@ export const describeTransitGatewayMulticastDomains: API.PaginatedOperationMetho
     items: "TransitGatewayMulticastDomains",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGatewayMulticastDomains"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayMulticastDomains",
 })) as any;
@@ -36280,6 +38469,7 @@ export const describeTransitGatewayPeeringAttachments: API.PaginatedOperationMet
     items: "TransitGatewayPeeringAttachments",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGatewayPeeringAttachments"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayPeeringAttachments",
 })) as any;
@@ -36311,6 +38501,7 @@ export const describeTransitGatewayPolicyTables: API.PaginatedOperationMethod<
     items: "TransitGatewayPolicyTables",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGatewayPolicyTables"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayPolicyTables",
 })) as any;
@@ -36354,6 +38545,7 @@ export const describeTransitGatewayRouteTableAnnouncements: API.PaginatedOperati
     items: "TransitGatewayRouteTableAnnouncements",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGatewayRouteTableAnnouncements"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayRouteTableAnnouncements",
 })) as any;
@@ -36387,6 +38579,7 @@ export const describeTransitGatewayRouteTables: API.PaginatedOperationMethod<
     items: "TransitGatewayRouteTables",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGatewayRouteTables"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayRouteTables",
 })) as any;
@@ -36425,6 +38618,7 @@ export const describeTransitGateways: API.PaginatedOperationMethod<
     items: "TransitGateways",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGateways",
 })) as any;
@@ -36457,6 +38651,7 @@ export const describeTransitGatewayVpcAttachments: API.PaginatedOperationMethod<
     items: "TransitGatewayVpcAttachments",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTransitGatewayVpcAttachments"] },
   telemetry: TELEMETRY,
   span: "DescribeTransitGatewayVpcAttachments",
 })) as any;
@@ -36488,6 +38683,7 @@ export const describeTrunkInterfaceAssociations: API.PaginatedOperationMethod<
     items: "InterfaceAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeTrunkInterfaceAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeTrunkInterfaceAssociations",
 })) as any;
@@ -36519,6 +38715,7 @@ export const describeVerifiedAccessEndpoints: API.PaginatedOperationMethod<
     items: "VerifiedAccessEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVerifiedAccessEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeVerifiedAccessEndpoints",
 })) as any;
@@ -36550,6 +38747,7 @@ export const describeVerifiedAccessGroups: API.PaginatedOperationMethod<
     items: "VerifiedAccessGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVerifiedAccessGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeVerifiedAccessGroups",
 })) as any;
@@ -36589,6 +38787,7 @@ export const describeVerifiedAccessInstanceLoggingConfigurations: API.PaginatedO
     items: "LoggingConfigurations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVerifiedAccessInstanceLoggingConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeVerifiedAccessInstanceLoggingConfigurations",
 })) as any;
@@ -36620,6 +38819,7 @@ export const describeVerifiedAccessInstances: API.PaginatedOperationMethod<
     items: "VerifiedAccessInstances",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVerifiedAccessInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeVerifiedAccessInstances",
 })) as any;
@@ -36655,6 +38855,7 @@ export const describeVerifiedAccessTrustProviders: API.PaginatedOperationMethod<
     items: "VerifiedAccessTrustProviders",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVerifiedAccessTrustProviders"] },
   telemetry: TELEMETRY,
   span: "DescribeVerifiedAccessTrustProviders",
 })) as any;
@@ -36690,6 +38891,14 @@ export const describeVolumeAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVolumeAttribute",
+  iam: {
+    actions: ["ec2:DescribeVolumeAttribute"],
+    resources: {
+      "ec2:DescribeVolumeAttribute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVolumeAttribute",
 }));
@@ -36741,6 +38950,7 @@ export const describeVolumes: API.PaginatedOperationMethod<
     items: "Volumes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVolumes"] },
   telemetry: TELEMETRY,
   span: "DescribeVolumes",
 })) as any;
@@ -36775,6 +38985,7 @@ export const describeVolumesModifications: API.PaginatedOperationMethod<
     items: "VolumesModifications",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVolumesModifications"] },
   telemetry: TELEMETRY,
   span: "DescribeVolumesModifications",
 })) as any;
@@ -36845,6 +39056,7 @@ export const describeVolumeStatus: API.PaginatedOperationMethod<
     items: "VolumeStatuses",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVolumeStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeVolumeStatus",
 })) as any;
@@ -36875,6 +39087,12 @@ export const describeVpcAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcAttribute",
+  iam: {
+    actions: ["ec2:DescribeVpcAttribute"],
+    resources: {
+      "ec2:DescribeVpcAttribute": ["arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVpcAttribute",
 }));
@@ -36905,6 +39123,7 @@ export const describeVpcBlockPublicAccessExclusions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcBlockPublicAccessExclusions",
+  iam: { actions: ["ec2:DescribeVpcBlockPublicAccessExclusions"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcBlockPublicAccessExclusions",
 }));
@@ -36925,6 +39144,7 @@ export const describeVpcBlockPublicAccessOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcBlockPublicAccessOptions",
+  iam: { actions: ["ec2:DescribeVpcBlockPublicAccessOptions"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcBlockPublicAccessOptions",
 }));
@@ -36957,6 +39177,7 @@ export const describeVpcClassicLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcClassicLink",
+  iam: { actions: ["ec2:DescribeVpcClassicLink"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcClassicLink",
 }));
@@ -36994,6 +39215,7 @@ export const describeVpcClassicLinkDnsSupport: API.PaginatedOperationMethod<
     items: "Vpcs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVpcClassicLinkDnsSupport"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcClassicLinkDnsSupport",
 })) as any;
@@ -37020,6 +39242,7 @@ export const describeVpcEncryptionControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEncryptionControls",
+  iam: { actions: ["ec2:DescribeVpcEncryptionControls"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcEncryptionControls",
 }));
@@ -37041,6 +39264,7 @@ export const describeVpcEndpointAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpointAssociations",
+  iam: { actions: ["ec2:DescribeVpcEndpointAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpointAssociations",
 }));
@@ -37081,6 +39305,7 @@ export const describeVpcEndpointConnectionNotifications: API.PaginatedOperationM
     items: "ConnectionNotificationSet",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVpcEndpointConnectionNotifications"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpointConnectionNotifications",
 })) as any;
@@ -37109,6 +39334,7 @@ export const describeVpcEndpointConnections: API.PaginatedOperationMethod<
     items: "VpcEndpointConnections",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVpcEndpointConnections"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpointConnections",
 })) as any;
@@ -37143,6 +39369,7 @@ export const describeVpcEndpoints: API.PaginatedOperationMethod<
     items: "VpcEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVpcEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpoints",
 })) as any;
@@ -37174,6 +39401,7 @@ export const describeVpcEndpointServiceConfigurations: API.PaginatedOperationMet
     items: "ServiceConfigurations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVpcEndpointServiceConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpointServiceConfigurations",
 })) as any;
@@ -37212,6 +39440,14 @@ export const describeVpcEndpointServicePermissions: API.PaginatedOperationMethod
     items: "AllowedPrincipals",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:DescribeVpcEndpointServicePermissions"],
+    resources: {
+      "ec2:DescribeVpcEndpointServicePermissions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpointServicePermissions",
 })) as any;
@@ -37244,6 +39480,7 @@ export const describeVpcEndpointServices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpointServices",
+  iam: { actions: ["ec2:DescribeVpcEndpointServices"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpointServices",
 }));
@@ -37285,6 +39522,7 @@ export const describeVpcPeeringConnections: API.PaginatedOperationMethod<
     items: "VpcPeeringConnections",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVpcPeeringConnections"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcPeeringConnections",
 })) as any;
@@ -37326,6 +39564,7 @@ export const describeVpcs: API.PaginatedOperationMethod<
     items: "Vpcs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVpcs"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcs",
 })) as any;
@@ -37357,6 +39596,7 @@ export const describeVpnConcentrators: API.PaginatedOperationMethod<
     items: "VpnConcentrators",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:DescribeVpnConcentrators"] },
   telemetry: TELEMETRY,
   span: "DescribeVpnConcentrators",
 })) as any;
@@ -37384,6 +39624,7 @@ export const describeVpnConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpnConnections",
+  iam: { actions: ["ec2:DescribeVpnConnections"] },
   telemetry: TELEMETRY,
   span: "DescribeVpnConnections",
 }));
@@ -37412,6 +39653,7 @@ export const describeVpnGateways: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpnGateways",
+  iam: { actions: ["ec2:DescribeVpnGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeVpnGateways",
 }));
@@ -37450,6 +39692,15 @@ export const detachClassicLinkVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachClassicLinkVpc",
+  iam: {
+    actions: ["ec2:DetachClassicLinkVpc"],
+    resources: {
+      "ec2:DetachClassicLinkVpc": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachClassicLinkVpc",
 }));
@@ -37476,6 +39727,10 @@ export const detachImageWatermark: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachImageWatermark",
+  iam: {
+    actions: ["ec2:DetachImageWatermark"],
+    resources: { "ec2:DetachImageWatermark": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DetachImageWatermark",
 }));
@@ -37514,6 +39769,15 @@ export const detachInternetGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachInternetGateway",
+  iam: {
+    actions: ["ec2:DetachInternetGateway"],
+    resources: {
+      "ec2:DetachInternetGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:internet-gateway/${InternetGatewayId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachInternetGateway",
 }));
@@ -37546,6 +39810,15 @@ export const detachNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachNetworkInterface",
+  iam: {
+    actions: ["ec2:DetachNetworkInterface"],
+    resources: {
+      "ec2:DetachNetworkInterface": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachNetworkInterface",
 }));
@@ -37576,6 +39849,15 @@ export const detachVerifiedAccessTrustProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachVerifiedAccessTrustProvider",
+  iam: {
+    actions: ["ec2:DetachVerifiedAccessTrustProvider"],
+    resources: {
+      "ec2:DetachVerifiedAccessTrustProvider": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-instance/${VerifiedAccessInstanceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-trust-provider/${VerifiedAccessTrustProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachVerifiedAccessTrustProvider",
 }));
@@ -37626,6 +39908,7 @@ export const detachVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachVolume",
+  iam: { actions: ["ec2:DetachVolume"] },
   telemetry: TELEMETRY,
   span: "DetachVolume",
 }));
@@ -37666,6 +39949,15 @@ export const detachVpnGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachVpnGateway",
+  iam: {
+    actions: ["ec2:DetachVpnGateway"],
+    resources: {
+      "ec2:DetachVpnGateway": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-gateway/${VpnGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachVpnGateway",
 }));
@@ -37690,6 +39982,14 @@ export const disableAddressTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAddressTransfer",
+  iam: {
+    actions: ["ec2:DisableAddressTransfer"],
+    resources: {
+      "ec2:DisableAddressTransfer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:elastic-ip/${AllocationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableAddressTransfer",
 }));
@@ -37721,6 +40021,7 @@ export const disableAllowedImagesSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAllowedImagesSettings",
+  iam: { actions: ["ec2:DisableAllowedImagesSettings"] },
   telemetry: TELEMETRY,
   span: "DisableAllowedImagesSettings",
 }));
@@ -37741,6 +40042,7 @@ export const disableApplicationStatusCheckSuppression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableApplicationStatusCheckSuppression",
+  iam: { actions: ["ec2:DisableApplicationStatusCheckSuppression"] },
   telemetry: TELEMETRY,
   span: "DisableApplicationStatusCheckSuppression",
 }));
@@ -37773,6 +40075,7 @@ export const disableAwsNetworkPerformanceMetricSubscription: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAwsNetworkPerformanceMetricSubscription",
+  iam: { actions: ["ec2:DisableAwsNetworkPerformanceMetricSubscription"] },
   telemetry: TELEMETRY,
   span: "DisableAwsNetworkPerformanceMetricSubscription",
 }));
@@ -37798,6 +40101,7 @@ export const disableCapacityManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableCapacityManager",
+  iam: { actions: ["ec2:DisableCapacityManager"] },
   telemetry: TELEMETRY,
   span: "DisableCapacityManager",
 }));
@@ -37827,6 +40131,7 @@ export const disableEbsEncryptionByDefault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableEbsEncryptionByDefault",
+  iam: { actions: ["ec2:DisableEbsEncryptionByDefault"] },
   telemetry: TELEMETRY,
   span: "DisableEbsEncryptionByDefault",
 }));
@@ -37857,6 +40162,10 @@ export const disableFastLaunch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableFastLaunch",
+  iam: {
+    actions: ["ec2:DisableFastLaunch"],
+    resources: { "ec2:DisableFastLaunch": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DisableFastLaunch",
 }));
@@ -37881,6 +40190,12 @@ export const disableFastSnapshotRestores: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableFastSnapshotRestores",
+  iam: {
+    actions: ["ec2:DisableFastSnapshotRestores"],
+    resources: {
+      "ec2:DisableFastSnapshotRestores": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableFastSnapshotRestores",
 }));
@@ -37920,6 +40235,10 @@ export const disableImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableImage",
+  iam: {
+    actions: ["ec2:DisableImage"],
+    resources: { "ec2:DisableImage": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DisableImage",
 }));
@@ -37946,6 +40265,7 @@ export const disableImageBlockPublicAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableImageBlockPublicAccess",
+  iam: { actions: ["ec2:DisableImageBlockPublicAccess"] },
   telemetry: TELEMETRY,
   span: "DisableImageBlockPublicAccess",
 }));
@@ -37973,6 +40293,12 @@ export const disableImageDeprecation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableImageDeprecation",
+  iam: {
+    actions: ["ec2:DisableImageDeprecation"],
+    resources: {
+      "ec2:DisableImageDeprecation": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableImageDeprecation",
 }));
@@ -38005,6 +40331,14 @@ export const disableImageDeregistrationProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableImageDeregistrationProtection",
+  iam: {
+    actions: ["ec2:DisableImageDeregistrationProtection"],
+    resources: {
+      "ec2:DisableImageDeregistrationProtection": [
+        "arn:${Partition}:ec2:${Region}::image/${ImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableImageDeregistrationProtection",
 }));
@@ -38032,6 +40366,14 @@ export const disableInstanceSqlHaStandbyDetections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableInstanceSqlHaStandbyDetections",
+  iam: {
+    actions: ["ec2:DisableInstanceSqlHaStandbyDetections"],
+    resources: {
+      "ec2:DisableInstanceSqlHaStandbyDetections": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableInstanceSqlHaStandbyDetections",
 }));
@@ -38056,6 +40398,7 @@ export const disableIpamOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableIpamOrganizationAdminAccount",
+  iam: { actions: ["ec2:DisableIpamOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DisableIpamOrganizationAdminAccount",
 }));
@@ -38088,6 +40431,12 @@ export const disableIpamPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableIpamPolicy",
+  iam: {
+    actions: ["ec2:DisableIpamPolicy"],
+    resources: {
+      "ec2:DisableIpamPolicy": ["arn:${Partition}:ec2::${Account}:ipam-policy/${IpamPolicyId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableIpamPolicy",
 }));
@@ -38129,6 +40478,15 @@ export const disableRouteServerPropagation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableRouteServerPropagation",
+  iam: {
+    actions: ["ec2:DisableRouteServerPropagation"],
+    resources: {
+      "ec2:DisableRouteServerPropagation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:route-table/${RouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableRouteServerPropagation",
 }));
@@ -38152,6 +40510,7 @@ export const disableSerialConsoleAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSerialConsoleAccess",
+  iam: { actions: ["ec2:DisableSerialConsoleAccess"] },
   telemetry: TELEMETRY,
   span: "DisableSerialConsoleAccess",
 }));
@@ -38186,6 +40545,7 @@ export const disableSnapshotBlockPublicAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSnapshotBlockPublicAccess",
+  iam: { actions: ["ec2:DisableSnapshotBlockPublicAccess"] },
   telemetry: TELEMETRY,
   span: "DisableSnapshotBlockPublicAccess",
 }));
@@ -38219,6 +40579,7 @@ export const disableTransitGatewayRouteTablePropagation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableTransitGatewayRouteTablePropagation",
+  iam: { actions: ["ec2:DisableTransitGatewayRouteTablePropagation"] },
   telemetry: TELEMETRY,
   span: "DisableTransitGatewayRouteTablePropagation",
 }));
@@ -38244,6 +40605,15 @@ export const disableVgwRoutePropagation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableVgwRoutePropagation",
+  iam: {
+    actions: ["ec2:DisableVgwRoutePropagation"],
+    resources: {
+      "ec2:DisableVgwRoutePropagation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-table/${RouteTableId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-gateway/${VpnGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableVgwRoutePropagation",
 }));
@@ -38277,6 +40647,12 @@ export const disableVpcClassicLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableVpcClassicLink",
+  iam: {
+    actions: ["ec2:DisableVpcClassicLink"],
+    resources: {
+      "ec2:DisableVpcClassicLink": ["arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableVpcClassicLink",
 }));
@@ -38308,6 +40684,7 @@ export const disableVpcClassicLinkDnsSupport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableVpcClassicLinkDnsSupport",
+  iam: { actions: ["ec2:DisableVpcClassicLinkDnsSupport"] },
   telemetry: TELEMETRY,
   span: "DisableVpcClassicLinkDnsSupport",
 }));
@@ -38348,6 +40725,7 @@ export const disassociateAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAddress",
+  iam: { actions: ["ec2:DisassociateAddress"] },
   telemetry: TELEMETRY,
   span: "DisassociateAddress",
 }));
@@ -38374,6 +40752,7 @@ export const disassociateApplicationStatusCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplicationStatusCheck",
+  iam: { actions: ["ec2:DisassociateApplicationStatusCheck"] },
   telemetry: TELEMETRY,
   span: "DisassociateApplicationStatusCheck",
 }));
@@ -38415,6 +40794,14 @@ export const disassociateCapacityReservationBillingOwner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCapacityReservationBillingOwner",
+  iam: {
+    actions: ["ec2:DisassociateCapacityReservationBillingOwner"],
+    resources: {
+      "ec2:DisassociateCapacityReservationBillingOwner": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateCapacityReservationBillingOwner",
 }));
@@ -38458,6 +40845,14 @@ export const disassociateClientVpnTargetNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateClientVpnTargetNetwork",
+  iam: {
+    actions: ["ec2:DisassociateClientVpnTargetNetwork"],
+    resources: {
+      "ec2:DisassociateClientVpnTargetNetwork": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateClientVpnTargetNetwork",
 }));
@@ -38492,6 +40887,15 @@ export const disassociateEnclaveCertificateIamRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEnclaveCertificateIamRole",
+  iam: {
+    actions: ["ec2:DisassociateEnclaveCertificateIamRole"],
+    resources: {
+      "ec2:DisassociateEnclaveCertificateIamRole": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateEnclaveCertificateIamRole",
 }));
@@ -38519,6 +40923,14 @@ export const disassociateIamInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIamInstanceProfile",
+  iam: {
+    actions: ["ec2:DisassociateIamInstanceProfile"],
+    resources: {
+      "ec2:DisassociateIamInstanceProfile": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateIamInstanceProfile",
 }));
@@ -38547,6 +40959,14 @@ export const disassociateInstanceEventWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateInstanceEventWindow",
+  iam: {
+    actions: ["ec2:DisassociateInstanceEventWindow"],
+    resources: {
+      "ec2:DisassociateInstanceEventWindow": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance-event-window/${InstanceEventWindowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateInstanceEventWindow",
 }));
@@ -38572,6 +40992,7 @@ export const disassociateIpamByoasn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIpamByoasn",
+  iam: { actions: ["ec2:DisassociateIpamByoasn"] },
   telemetry: TELEMETRY,
   span: "DisassociateIpamByoasn",
 }));
@@ -38602,6 +41023,14 @@ export const disassociateIpamResourceDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIpamResourceDiscovery",
+  iam: {
+    actions: ["ec2:DisassociateIpamResourceDiscovery"],
+    resources: {
+      "ec2:DisassociateIpamResourceDiscovery": [
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery-association/${IpamResourceDiscoveryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateIpamResourceDiscovery",
 }));
@@ -38643,6 +41072,7 @@ export const disassociateNatGatewayAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateNatGatewayAddress",
+  iam: { actions: ["ec2:DisassociateNatGatewayAddress"] },
   telemetry: TELEMETRY,
   span: "DisassociateNatGatewayAddress",
 }));
@@ -38679,6 +41109,15 @@ export const disassociateRouteServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRouteServer",
+  iam: {
+    actions: ["ec2:DisassociateRouteServer"],
+    resources: {
+      "ec2:DisassociateRouteServer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateRouteServer",
 }));
@@ -38716,6 +41155,7 @@ export const disassociateRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRouteTable",
+  iam: { actions: ["ec2:DisassociateRouteTable"] },
   telemetry: TELEMETRY,
   span: "DisassociateRouteTable",
 }));
@@ -38743,6 +41183,7 @@ export const disassociateSecurityGroupVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSecurityGroupVpc",
+  iam: { actions: ["ec2:DisassociateSecurityGroupVpc"] },
   telemetry: TELEMETRY,
   span: "DisassociateSecurityGroupVpc",
 }));
@@ -38773,6 +41214,14 @@ export const disassociateSubnetCidrBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSubnetCidrBlock",
+  iam: {
+    actions: ["ec2:DisassociateSubnetCidrBlock"],
+    resources: {
+      "ec2:DisassociateSubnetCidrBlock": [
+        "arn:${Partition}:ec2:${Region}:${Account}:subnet/${SubnetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateSubnetCidrBlock",
 }));
@@ -38803,6 +41252,16 @@ export const disassociateTransitGatewayMulticastDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTransitGatewayMulticastDomain",
+  iam: {
+    actions: ["ec2:DisassociateTransitGatewayMulticastDomain"],
+    resources: {
+      "ec2:DisassociateTransitGatewayMulticastDomain": [
+        "arn:${Partition}:ec2:${Region}:${Account}:subnet/${SubnetId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-multicast-domain/${TransitGatewayMulticastDomainId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateTransitGatewayMulticastDomain",
 }));
@@ -38835,6 +41294,15 @@ export const disassociateTransitGatewayPolicyTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTransitGatewayPolicyTable",
+  iam: {
+    actions: ["ec2:DisassociateTransitGatewayPolicyTable"],
+    resources: {
+      "ec2:DisassociateTransitGatewayPolicyTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-policy-table/${TransitGatewayPolicyTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateTransitGatewayPolicyTable",
 }));
@@ -38865,6 +41333,15 @@ export const disassociateTransitGatewayRouteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTransitGatewayRouteTable",
+  iam: {
+    actions: ["ec2:DisassociateTransitGatewayRouteTable"],
+    resources: {
+      "ec2:DisassociateTransitGatewayRouteTable": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table/${TransitGatewayRouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateTransitGatewayRouteTable",
 }));
@@ -38889,6 +41366,7 @@ export const disassociateTrunkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTrunkInterface",
+  iam: { actions: ["ec2:DisassociateTrunkInterface"] },
   telemetry: TELEMETRY,
   span: "DisassociateTrunkInterface",
 }));
@@ -38929,6 +41407,7 @@ export const disassociateVpcCidrBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVpcCidrBlock",
+  iam: { actions: ["ec2:DisassociateVpcCidrBlock"] },
   telemetry: TELEMETRY,
   span: "DisassociateVpcCidrBlock",
 }));
@@ -38953,6 +41432,14 @@ export const enableAddressTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAddressTransfer",
+  iam: {
+    actions: ["ec2:EnableAddressTransfer"],
+    resources: {
+      "ec2:EnableAddressTransfer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:elastic-ip/${AllocationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableAddressTransfer",
 }));
@@ -38996,6 +41483,7 @@ export const enableAllowedImagesSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAllowedImagesSettings",
+  iam: { actions: ["ec2:EnableAllowedImagesSettings"] },
   telemetry: TELEMETRY,
   span: "EnableAllowedImagesSettings",
 }));
@@ -39022,6 +41510,7 @@ export const enableApplicationStatusCheckSuppression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableApplicationStatusCheckSuppression",
+  iam: { actions: ["ec2:EnableApplicationStatusCheckSuppression"] },
   telemetry: TELEMETRY,
   span: "EnableApplicationStatusCheckSuppression",
 }));
@@ -39054,6 +41543,7 @@ export const enableAwsNetworkPerformanceMetricSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAwsNetworkPerformanceMetricSubscription",
+  iam: { actions: ["ec2:EnableAwsNetworkPerformanceMetricSubscription"] },
   telemetry: TELEMETRY,
   span: "EnableAwsNetworkPerformanceMetricSubscription",
 }));
@@ -39075,6 +41565,7 @@ export const enableCapacityManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableCapacityManager",
+  iam: { actions: ["ec2:EnableCapacityManager"] },
   telemetry: TELEMETRY,
   span: "EnableCapacityManager",
 }));
@@ -39107,6 +41598,7 @@ export const enableEbsEncryptionByDefault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableEbsEncryptionByDefault",
+  iam: { actions: ["ec2:EnableEbsEncryptionByDefault"] },
   telemetry: TELEMETRY,
   span: "EnableEbsEncryptionByDefault",
 }));
@@ -39139,6 +41631,7 @@ export const enableFastLaunch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableFastLaunch",
+  iam: { actions: ["ec2:EnableFastLaunch"] },
   telemetry: TELEMETRY,
   span: "EnableFastLaunch",
 }));
@@ -39168,6 +41661,12 @@ export const enableFastSnapshotRestores: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableFastSnapshotRestores",
+  iam: {
+    actions: ["ec2:EnableFastSnapshotRestores"],
+    resources: {
+      "ec2:EnableFastSnapshotRestores": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableFastSnapshotRestores",
 }));
@@ -39201,6 +41700,10 @@ export const enableImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableImage",
+  iam: {
+    actions: ["ec2:EnableImage"],
+    resources: { "ec2:EnableImage": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "EnableImage",
 }));
@@ -39235,6 +41738,7 @@ export const enableImageBlockPublicAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableImageBlockPublicAccess",
+  iam: { actions: ["ec2:EnableImageBlockPublicAccess"] },
   telemetry: TELEMETRY,
   span: "EnableImageBlockPublicAccess",
 }));
@@ -39262,6 +41766,12 @@ export const enableImageDeprecation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableImageDeprecation",
+  iam: {
+    actions: ["ec2:EnableImageDeprecation"],
+    resources: {
+      "ec2:EnableImageDeprecation": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableImageDeprecation",
 }));
@@ -39292,6 +41802,14 @@ export const enableImageDeregistrationProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableImageDeregistrationProtection",
+  iam: {
+    actions: ["ec2:EnableImageDeregistrationProtection"],
+    resources: {
+      "ec2:EnableImageDeregistrationProtection": [
+        "arn:${Partition}:ec2:${Region}::image/${ImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableImageDeregistrationProtection",
 }));
@@ -39326,6 +41844,14 @@ export const enableInstanceSqlHaStandbyDetections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableInstanceSqlHaStandbyDetections",
+  iam: {
+    actions: ["ec2:EnableInstanceSqlHaStandbyDetections"],
+    resources: {
+      "ec2:EnableInstanceSqlHaStandbyDetections": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableInstanceSqlHaStandbyDetections",
 }));
@@ -39346,6 +41872,14 @@ export const enableIpamInternetRegistryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableIpamInternetRegistryAssociation",
+  iam: {
+    actions: ["ec2:EnableIpamInternetRegistryAssociation"],
+    resources: {
+      "ec2:EnableIpamInternetRegistryAssociation": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableIpamInternetRegistryAssociation",
 }));
@@ -39370,6 +41904,7 @@ export const enableIpamOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableIpamOrganizationAdminAccount",
+  iam: { actions: ["ec2:EnableIpamOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "EnableIpamOrganizationAdminAccount",
 }));
@@ -39404,6 +41939,12 @@ export const enableIpamPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableIpamPolicy",
+  iam: {
+    actions: ["ec2:EnableIpamPolicy"],
+    resources: {
+      "ec2:EnableIpamPolicy": ["arn:${Partition}:ec2::${Account}:ipam-policy/${IpamPolicyId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableIpamPolicy",
 }));
@@ -39437,6 +41978,7 @@ export const enableReachabilityAnalyzerOrganizationSharing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableReachabilityAnalyzerOrganizationSharing",
+  iam: { actions: ["ec2:EnableReachabilityAnalyzerOrganizationSharing"] },
   telemetry: TELEMETRY,
   span: "EnableReachabilityAnalyzerOrganizationSharing",
 }));
@@ -39465,6 +42007,15 @@ export const enableRouteServerPropagation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableRouteServerPropagation",
+  iam: {
+    actions: ["ec2:EnableRouteServerPropagation"],
+    resources: {
+      "ec2:EnableRouteServerPropagation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:route-table/${RouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableRouteServerPropagation",
 }));
@@ -39487,6 +42038,7 @@ export const enableSerialConsoleAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSerialConsoleAccess",
+  iam: { actions: ["ec2:EnableSerialConsoleAccess"] },
   telemetry: TELEMETRY,
   span: "EnableSerialConsoleAccess",
 }));
@@ -39528,6 +42080,7 @@ export const enableSnapshotBlockPublicAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSnapshotBlockPublicAccess",
+  iam: { actions: ["ec2:EnableSnapshotBlockPublicAccess"] },
   telemetry: TELEMETRY,
   span: "EnableSnapshotBlockPublicAccess",
 }));
@@ -39553,6 +42106,7 @@ export const enableTransitGatewayRouteTablePropagation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableTransitGatewayRouteTablePropagation",
+  iam: { actions: ["ec2:EnableTransitGatewayRouteTablePropagation"] },
   telemetry: TELEMETRY,
   span: "EnableTransitGatewayRouteTablePropagation",
 }));
@@ -39578,6 +42132,15 @@ export const enableVgwRoutePropagation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableVgwRoutePropagation",
+  iam: {
+    actions: ["ec2:EnableVgwRoutePropagation"],
+    resources: {
+      "ec2:EnableVgwRoutePropagation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-table/${RouteTableId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-gateway/${VpnGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableVgwRoutePropagation",
 }));
@@ -39599,6 +42162,12 @@ export const enableVolumeIO: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableVolumeIO",
+  iam: {
+    actions: ["ec2:EnableVolumeIO"],
+    resources: {
+      "ec2:EnableVolumeIO": ["arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableVolumeIO",
 }));
@@ -39636,6 +42205,12 @@ export const enableVpcClassicLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableVpcClassicLink",
+  iam: {
+    actions: ["ec2:EnableVpcClassicLink"],
+    resources: {
+      "ec2:EnableVpcClassicLink": ["arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableVpcClassicLink",
 }));
@@ -39669,6 +42244,7 @@ export const enableVpcClassicLinkDnsSupport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableVpcClassicLinkDnsSupport",
+  iam: { actions: ["ec2:EnableVpcClassicLinkDnsSupport"] },
   telemetry: TELEMETRY,
   span: "EnableVpcClassicLinkDnsSupport",
 }));
@@ -39701,6 +42277,14 @@ export const exportClientVpnClientCertificateRevocationList: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportClientVpnClientCertificateRevocationList",
+  iam: {
+    actions: ["ec2:ExportClientVpnClientCertificateRevocationList"],
+    resources: {
+      "ec2:ExportClientVpnClientCertificateRevocationList": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportClientVpnClientCertificateRevocationList",
 }));
@@ -39727,6 +42311,14 @@ export const exportClientVpnClientConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportClientVpnClientConfiguration",
+  iam: {
+    actions: ["ec2:ExportClientVpnClientConfiguration"],
+    resources: {
+      "ec2:ExportClientVpnClientConfiguration": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportClientVpnClientConfiguration",
 }));
@@ -39753,6 +42345,16 @@ export const exportImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportImage",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:ExportImage"],
+    resources: {
+      "ec2:ExportImage": [
+        "arn:${Partition}:ec2:${Region}:${Account}:export-image-task/${ExportImageTaskId}",
+        "arn:${Partition}:ec2:${Region}::image/${ImageId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "ExportImage",
 }));
@@ -39782,6 +42384,7 @@ export const exportTransitGatewayRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportTransitGatewayRoutes",
+  iam: { actions: ["ec2:ExportTransitGatewayRoutes"] },
   telemetry: TELEMETRY,
   span: "ExportTransitGatewayRoutes",
 }));
@@ -39814,6 +42417,14 @@ export const exportVerifiedAccessInstanceClientConfiguration: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportVerifiedAccessInstanceClientConfiguration",
+  iam: {
+    actions: ["ec2:ExportVerifiedAccessInstanceClientConfiguration"],
+    resources: {
+      "ec2:ExportVerifiedAccessInstanceClientConfiguration": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-instance/${VerifiedAccessInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportVerifiedAccessInstanceClientConfiguration",
 }));
@@ -39838,6 +42449,14 @@ export const getActiveVpnTunnelStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActiveVpnTunnelStatus",
+  iam: {
+    actions: ["ec2:GetActiveVpnTunnelStatus"],
+    resources: {
+      "ec2:GetActiveVpnTunnelStatus": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetActiveVpnTunnelStatus",
 }));
@@ -39867,6 +42486,7 @@ export const getAllowedImagesSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAllowedImagesSettings",
+  iam: { actions: ["ec2:GetAllowedImagesSettings"] },
   telemetry: TELEMETRY,
   span: "GetAllowedImagesSettings",
 }));
@@ -39894,6 +42514,14 @@ export const getAssociatedEnclaveCertificateIamRoles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedEnclaveCertificateIamRoles",
+  iam: {
+    actions: ["ec2:GetAssociatedEnclaveCertificateIamRoles"],
+    resources: {
+      "ec2:GetAssociatedEnclaveCertificateIamRoles": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssociatedEnclaveCertificateIamRoles",
 }));
@@ -39925,6 +42553,14 @@ export const getAssociatedIpv6PoolCidrs: API.PaginatedOperationMethod<
     items: "Ipv6CidrAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetAssociatedIpv6PoolCidrs"],
+    resources: {
+      "ec2:GetAssociatedIpv6PoolCidrs": [
+        "arn:${Partition}:ec2:${Region}:${Account}:ipv6pool-ec2/${Ipv6PoolEc2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssociatedIpv6PoolCidrs",
 })) as any;
@@ -39956,6 +42592,7 @@ export const getAwsNetworkPerformanceData: API.PaginatedOperationMethod<
     items: "DataResponses",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetAwsNetworkPerformanceData"] },
   telemetry: TELEMETRY,
   span: "GetAwsNetworkPerformanceData",
 })) as any;
@@ -39976,6 +42613,7 @@ export const getCapacityManagerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityManagerAttributes",
+  iam: { actions: ["ec2:GetCapacityManagerAttributes"] },
   telemetry: TELEMETRY,
   span: "GetCapacityManagerAttributes",
 }));
@@ -40008,6 +42646,7 @@ export const getCapacityManagerMetricData: API.PaginatedOperationMethod<
     items: "MetricDataResults",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetCapacityManagerMetricData"] },
   telemetry: TELEMETRY,
   span: "GetCapacityManagerMetricData",
 })) as any;
@@ -40040,6 +42679,7 @@ export const getCapacityManagerMetricDimensions: API.PaginatedOperationMethod<
     items: "MetricDimensionResults",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetCapacityManagerMetricDimensions"] },
   telemetry: TELEMETRY,
   span: "GetCapacityManagerMetricDimensions",
 })) as any;
@@ -40067,6 +42707,7 @@ export const getCapacityManagerMonitoredTagKeys: API.PaginatedOperationMethod<
     items: "CapacityManagerTagKeys",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetCapacityManagerMonitoredTagKeys"] },
   telemetry: TELEMETRY,
   span: "GetCapacityManagerMonitoredTagKeys",
 })) as any;
@@ -40120,6 +42761,14 @@ export const getCapacityReservationUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityReservationUsage",
+  iam: {
+    actions: ["ec2:GetCapacityReservationUsage"],
+    resources: {
+      "ec2:GetCapacityReservationUsage": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCapacityReservationUsage",
 }));
@@ -40164,6 +42813,14 @@ export const getCoipPoolUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoipPoolUsage",
+  iam: {
+    actions: ["ec2:GetCoipPoolUsage"],
+    resources: {
+      "ec2:GetCoipPoolUsage": [
+        "arn:${Partition}:ec2:${Region}:${Account}:coip-pool/${Ipv4PoolCoipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCoipPoolUsage",
 }));
@@ -40200,6 +42857,12 @@ export const getConsoleOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConsoleOutput",
+  iam: {
+    actions: ["ec2:GetConsoleOutput"],
+    resources: {
+      "ec2:GetConsoleOutput": ["arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConsoleOutput",
 }));
@@ -40235,6 +42898,14 @@ export const getConsoleScreenshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConsoleScreenshot",
+  iam: {
+    actions: ["ec2:GetConsoleScreenshot"],
+    resources: {
+      "ec2:GetConsoleScreenshot": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConsoleScreenshot",
 }));
@@ -40273,6 +42944,14 @@ export const getDeclarativePoliciesReportSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeclarativePoliciesReportSummary",
+  iam: {
+    actions: ["ec2:GetDeclarativePoliciesReportSummary"],
+    resources: {
+      "ec2:GetDeclarativePoliciesReportSummary": [
+        "arn:${Partition}:ec2:${Region}:${Account}:declarative-policies-report/${DeclarativePoliciesReportId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeclarativePoliciesReportSummary",
 }));
@@ -40301,6 +42980,7 @@ export const getDefaultCreditSpecification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultCreditSpecification",
+  iam: { actions: ["ec2:GetDefaultCreditSpecification"] },
   telemetry: TELEMETRY,
   span: "GetDefaultCreditSpecification",
 }));
@@ -40324,6 +43004,7 @@ export const getEbsDefaultKmsKeyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEbsDefaultKmsKeyId",
+  iam: { actions: ["ec2:GetEbsDefaultKmsKeyId"] },
   telemetry: TELEMETRY,
   span: "GetEbsDefaultKmsKeyId",
 }));
@@ -40348,6 +43029,7 @@ export const getEbsEncryptionByDefault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEbsEncryptionByDefault",
+  iam: { actions: ["ec2:GetEbsEncryptionByDefault"] },
   telemetry: TELEMETRY,
   span: "GetEbsEncryptionByDefault",
 }));
@@ -40370,6 +43052,7 @@ export const getEnabledIpamPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledIpamPolicy",
+  iam: { actions: ["ec2:GetEnabledIpamPolicy"] },
   telemetry: TELEMETRY,
   span: "GetEnabledIpamPolicy",
 }));
@@ -40404,6 +43087,14 @@ export const getFlowLogsIntegrationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowLogsIntegrationTemplate",
+  iam: {
+    actions: ["ec2:GetFlowLogsIntegrationTemplate"],
+    resources: {
+      "ec2:GetFlowLogsIntegrationTemplate": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-flow-log/${VpcFlowLogId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFlowLogsIntegrationTemplate",
 }));
@@ -40435,6 +43126,14 @@ export const getGroupsForCapacityReservation: API.PaginatedOperationMethod<
     items: "CapacityReservationGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetGroupsForCapacityReservation"],
+    resources: {
+      "ec2:GetGroupsForCapacityReservation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGroupsForCapacityReservation",
 })) as any;
@@ -40460,6 +43159,7 @@ export const getHostReservationPurchasePreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostReservationPurchasePreview",
+  iam: { actions: ["ec2:GetHostReservationPurchasePreview"] },
   telemetry: TELEMETRY,
   span: "GetHostReservationPurchasePreview",
 }));
@@ -40486,6 +43186,10 @@ export const getImageAncestry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImageAncestry",
+  iam: {
+    actions: ["ec2:GetImageAncestry"],
+    resources: { "ec2:GetImageAncestry": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetImageAncestry",
 }));
@@ -40510,6 +43214,7 @@ export const getImageBlockPublicAccessState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImageBlockPublicAccessState",
+  iam: { actions: ["ec2:GetImageBlockPublicAccessState"] },
   telemetry: TELEMETRY,
   span: "GetImageBlockPublicAccessState",
 }));
@@ -40564,6 +43269,7 @@ export const getInstanceMetadataDefaults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceMetadataDefaults",
+  iam: { actions: ["ec2:GetInstanceMetadataDefaults"] },
   telemetry: TELEMETRY,
   span: "GetInstanceMetadataDefaults",
 }));
@@ -40589,6 +43295,14 @@ export const getInstanceTpmEkPub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceTpmEkPub",
+  iam: {
+    actions: ["ec2:GetInstanceTpmEkPub"],
+    resources: {
+      "ec2:GetInstanceTpmEkPub": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInstanceTpmEkPub",
 }));
@@ -40631,6 +43345,7 @@ export const getInstanceTypesFromInstanceRequirements: API.PaginatedOperationMet
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetInstanceTypesFromInstanceRequirements"] },
   telemetry: TELEMETRY,
   span: "GetInstanceTypesFromInstanceRequirements",
 })) as any;
@@ -40667,6 +43382,14 @@ export const getInstanceUefiData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceUefiData",
+  iam: {
+    actions: ["ec2:GetInstanceUefiData"],
+    resources: {
+      "ec2:GetInstanceUefiData": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInstanceUefiData",
 }));
@@ -40698,6 +43421,12 @@ export const getIpamAddressHistory: API.PaginatedOperationMethod<
     items: "HistoryRecords",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetIpamAddressHistory"],
+    resources: {
+      "ec2:GetIpamAddressHistory": ["arn:${Partition}:ec2::${Account}:ipam-scope/${IpamScopeId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamAddressHistory",
 })) as any;
@@ -40735,6 +43464,14 @@ export const getIpamDiscoveredAccounts: API.PaginatedOperationMethod<
     items: "IpamDiscoveredAccounts",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetIpamDiscoveredAccounts"],
+    resources: {
+      "ec2:GetIpamDiscoveredAccounts": [
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery/${IpamResourceDiscoveryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamDiscoveredAccounts",
 })) as any;
@@ -40765,6 +43502,14 @@ export const getIpamDiscoveredPublicAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamDiscoveredPublicAddresses",
+  iam: {
+    actions: ["ec2:GetIpamDiscoveredPublicAddresses"],
+    resources: {
+      "ec2:GetIpamDiscoveredPublicAddresses": [
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery/${IpamResourceDiscoveryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamDiscoveredPublicAddresses",
 }));
@@ -40802,6 +43547,14 @@ export const getIpamDiscoveredResourceCidrs: API.PaginatedOperationMethod<
     items: "IpamDiscoveredResourceCidrs",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetIpamDiscoveredResourceCidrs"],
+    resources: {
+      "ec2:GetIpamDiscoveredResourceCidrs": [
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery/${IpamResourceDiscoveryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamDiscoveredResourceCidrs",
 })) as any;
@@ -40822,6 +43575,14 @@ export const getIpamDiscoveredRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamDiscoveredRoutes",
+  iam: {
+    actions: ["ec2:GetIpamDiscoveredRoutes"],
+    resources: {
+      "ec2:GetIpamDiscoveredRoutes": [
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery/${IpamResourceDiscoveryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamDiscoveredRoutes",
 }));
@@ -40842,6 +43603,14 @@ export const getIpamInternetRegistryAssociationAsns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamInternetRegistryAssociationAsns",
+  iam: {
+    actions: ["ec2:GetIpamInternetRegistryAssociationAsns"],
+    resources: {
+      "ec2:GetIpamInternetRegistryAssociationAsns": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamInternetRegistryAssociationAsns",
 }));
@@ -40862,6 +43631,14 @@ export const getIpamInternetRegistryAssociationCidrs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamInternetRegistryAssociationCidrs",
+  iam: {
+    actions: ["ec2:GetIpamInternetRegistryAssociationCidrs"],
+    resources: {
+      "ec2:GetIpamInternetRegistryAssociationCidrs": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamInternetRegistryAssociationCidrs",
 }));
@@ -40896,6 +43673,14 @@ export const getIpamPolicyAllocationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamPolicyAllocationRules",
+  iam: {
+    actions: ["ec2:GetIpamPolicyAllocationRules"],
+    resources: {
+      "ec2:GetIpamPolicyAllocationRules": [
+        "arn:${Partition}:ec2::${Account}:ipam-policy/${IpamPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamPolicyAllocationRules",
 }));
@@ -40930,6 +43715,14 @@ export const getIpamPolicyOrganizationTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamPolicyOrganizationTargets",
+  iam: {
+    actions: ["ec2:GetIpamPolicyOrganizationTargets"],
+    resources: {
+      "ec2:GetIpamPolicyOrganizationTargets": [
+        "arn:${Partition}:ec2::${Account}:ipam-policy/${IpamPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamPolicyOrganizationTargets",
 }));
@@ -40969,6 +43762,12 @@ export const getIpamPoolAllocations: API.PaginatedOperationMethod<
     items: "IpamPoolAllocations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetIpamPoolAllocations"],
+    resources: {
+      "ec2:GetIpamPoolAllocations": ["arn:${Partition}:ec2::${Account}:ipam-pool/${IpamPoolId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamPoolAllocations",
 })) as any;
@@ -41006,6 +43805,12 @@ export const getIpamPoolCidrs: API.PaginatedOperationMethod<
     items: "IpamPoolCidrs",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetIpamPoolCidrs"],
+    resources: {
+      "ec2:GetIpamPoolCidrs": ["arn:${Partition}:ec2::${Account}:ipam-pool/${IpamPoolId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamPoolCidrs",
 })) as any;
@@ -41043,6 +43848,14 @@ export const getIpamPrefixListResolverRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetIpamPrefixListResolverRules"],
+    resources: {
+      "ec2:GetIpamPrefixListResolverRules": [
+        "arn:${Partition}:ec2::${Account}:ipam-prefix-list-resolver/${IpamPrefixListResolverId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamPrefixListResolverRules",
 })) as any;
@@ -41074,6 +43887,14 @@ export const getIpamPrefixListResolverVersionEntries: API.PaginatedOperationMeth
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetIpamPrefixListResolverVersionEntries"],
+    resources: {
+      "ec2:GetIpamPrefixListResolverVersionEntries": [
+        "arn:${Partition}:ec2::${Account}:ipam-prefix-list-resolver/${IpamPrefixListResolverId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamPrefixListResolverVersionEntries",
 })) as any;
@@ -41138,6 +43959,14 @@ export const getIpamPrefixListResolverVersions: API.PaginatedOperationMethod<
     items: "IpamPrefixListResolverVersions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetIpamPrefixListResolverVersions"],
+    resources: {
+      "ec2:GetIpamPrefixListResolverVersions": [
+        "arn:${Partition}:ec2::${Account}:ipam-prefix-list-resolver/${IpamPrefixListResolverId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamPrefixListResolverVersions",
 })) as any;
@@ -41175,6 +44004,7 @@ export const getIpamResourceCidrs: API.PaginatedOperationMethod<
     items: "IpamResourceCidrs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetIpamResourceCidrs"] },
   telemetry: TELEMETRY,
   span: "GetIpamResourceCidrs",
 })) as any;
@@ -41195,6 +44025,14 @@ export const getIpamRouteOriginAuthorizations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamRouteOriginAuthorizations",
+  iam: {
+    actions: ["ec2:GetIpamRouteOriginAuthorizations"],
+    resources: {
+      "ec2:GetIpamRouteOriginAuthorizations": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamRouteOriginAuthorizations",
 }));
@@ -41215,6 +44053,12 @@ export const getIpamRouteProtectionFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamRouteProtectionFindings",
+  iam: {
+    actions: ["ec2:GetIpamRouteProtectionFindings"],
+    resources: {
+      "ec2:GetIpamRouteProtectionFindings": ["arn:${Partition}:ec2::${Account}:ipam/${IpamId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamRouteProtectionFindings",
 }));
@@ -41235,6 +44079,14 @@ export const getIpamRoutingPolicyRegistrationDeltas: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamRoutingPolicyRegistrationDeltas",
+  iam: {
+    actions: ["ec2:GetIpamRoutingPolicyRegistrationDeltas"],
+    resources: {
+      "ec2:GetIpamRoutingPolicyRegistrationDeltas": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamRoutingPolicyRegistrationDeltas",
 }));
@@ -41255,6 +44107,14 @@ export const getIpamRoutingPolicyRegistrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpamRoutingPolicyRegistrations",
+  iam: {
+    actions: ["ec2:GetIpamRoutingPolicyRegistrations"],
+    resources: {
+      "ec2:GetIpamRoutingPolicyRegistrations": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpamRoutingPolicyRegistrations",
 }));
@@ -41287,6 +44147,14 @@ export const getLaunchTemplateData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLaunchTemplateData",
+  iam: {
+    actions: ["ec2:GetLaunchTemplateData"],
+    resources: {
+      "ec2:GetLaunchTemplateData": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLaunchTemplateData",
 }));
@@ -41324,6 +44192,14 @@ export const getManagedPrefixListAssociations: API.PaginatedOperationMethod<
     items: "PrefixListAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetManagedPrefixListAssociations"],
+    resources: {
+      "ec2:GetManagedPrefixListAssociations": [
+        "arn:${Partition}:ec2:${Region}:${Account}:prefix-list/${PrefixListId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetManagedPrefixListAssociations",
 })) as any;
@@ -41363,6 +44239,14 @@ export const getManagedPrefixListEntries: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetManagedPrefixListEntries"],
+    resources: {
+      "ec2:GetManagedPrefixListEntries": [
+        "arn:${Partition}:ec2:${Region}:${Account}:prefix-list/${PrefixListId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetManagedPrefixListEntries",
 })) as any;
@@ -41384,6 +44268,7 @@ export const getManagedResourceVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedResourceVisibility",
+  iam: { actions: ["ec2:GetManagedResourceVisibility"] },
   telemetry: TELEMETRY,
   span: "GetManagedResourceVisibility",
 }));
@@ -41423,6 +44308,14 @@ export const getNetworkInsightsAccessScopeAnalysisFindings: API.PaginatedOperati
     items: "AnalysisFindings",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetNetworkInsightsAccessScopeAnalysisFindings"],
+    resources: {
+      "ec2:GetNetworkInsightsAccessScopeAnalysisFindings": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-access-scope-analysis/${NetworkInsightsAccessScopeAnalysisId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkInsightsAccessScopeAnalysisFindings",
 })) as any;
@@ -41447,6 +44340,14 @@ export const getNetworkInsightsAccessScopeContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkInsightsAccessScopeContent",
+  iam: {
+    actions: ["ec2:GetNetworkInsightsAccessScopeContent"],
+    resources: {
+      "ec2:GetNetworkInsightsAccessScopeContent": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-access-scope/${NetworkInsightsAccessScopeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkInsightsAccessScopeContent",
 }));
@@ -41493,6 +44394,12 @@ export const getPasswordData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPasswordData",
+  iam: {
+    actions: ["ec2:GetPasswordData"],
+    resources: {
+      "ec2:GetPasswordData": ["arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPasswordData",
 }));
@@ -41519,6 +44426,14 @@ export const getReservedInstancesExchangeQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReservedInstancesExchangeQuote",
+  iam: {
+    actions: ["ec2:GetReservedInstancesExchangeQuote"],
+    resources: {
+      "ec2:GetReservedInstancesExchangeQuote": [
+        "arn:${Partition}:ec2:${Region}:${Account}:reserved-instances/${ReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReservedInstancesExchangeQuote",
 }));
@@ -41547,6 +44462,14 @@ export const getRouteServerAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouteServerAssociations",
+  iam: {
+    actions: ["ec2:GetRouteServerAssociations"],
+    resources: {
+      "ec2:GetRouteServerAssociations": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRouteServerAssociations",
 }));
@@ -41586,6 +44509,7 @@ export const getRouteServerPropagations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouteServerPropagations",
+  iam: { actions: ["ec2:GetRouteServerPropagations"] },
   telemetry: TELEMETRY,
   span: "GetRouteServerPropagations",
 }));
@@ -41623,6 +44547,14 @@ export const getRouteServerRoutingDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouteServerRoutingDatabase",
+  iam: {
+    actions: ["ec2:GetRouteServerRoutingDatabase"],
+    resources: {
+      "ec2:GetRouteServerRoutingDatabase": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRouteServerRoutingDatabase",
 }));
@@ -41655,6 +44587,12 @@ export const getSecurityGroupsForVpc: API.PaginatedOperationMethod<
     items: "SecurityGroupForVpcs",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetSecurityGroupsForVpc"],
+    resources: {
+      "ec2:GetSecurityGroupsForVpc": ["arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSecurityGroupsForVpc",
 })) as any;
@@ -41678,6 +44616,7 @@ export const getSerialConsoleAccessStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSerialConsoleAccessStatus",
+  iam: { actions: ["ec2:GetSerialConsoleAccessStatus"] },
   telemetry: TELEMETRY,
   span: "GetSerialConsoleAccessStatus",
 }));
@@ -41702,6 +44641,7 @@ export const getSnapshotBlockPublicAccessState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshotBlockPublicAccessState",
+  iam: { actions: ["ec2:GetSnapshotBlockPublicAccessState"] },
   telemetry: TELEMETRY,
   span: "GetSnapshotBlockPublicAccessState",
 }));
@@ -41738,6 +44678,7 @@ export const getSpotPlacementScores: API.PaginatedOperationMethod<
     items: "SpotPlacementScores",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetSpotPlacementScores"] },
   telemetry: TELEMETRY,
   span: "GetSpotPlacementScores",
 })) as any;
@@ -41763,6 +44704,7 @@ export const getSubnetCidrReservations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubnetCidrReservations",
+  iam: { actions: ["ec2:GetSubnetCidrReservations"] },
   telemetry: TELEMETRY,
   span: "GetSubnetCidrReservations",
 }));
@@ -41822,6 +44764,7 @@ export const getTransitGatewayAttachmentPropagations: API.PaginatedOperationMeth
     items: "TransitGatewayAttachmentPropagations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetTransitGatewayAttachmentPropagations"] },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayAttachmentPropagations",
 })) as any;
@@ -41852,6 +44795,14 @@ export const getTransitGatewayMeteringPolicyEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransitGatewayMeteringPolicyEntries",
+  iam: {
+    actions: ["ec2:GetTransitGatewayMeteringPolicyEntries"],
+    resources: {
+      "ec2:GetTransitGatewayMeteringPolicyEntries": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-metering-policy/${TransitGatewayMeteringPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayMeteringPolicyEntries",
 }));
@@ -41899,6 +44850,14 @@ export const getTransitGatewayMulticastDomainAssociations: API.PaginatedOperatio
     items: "MulticastDomainAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetTransitGatewayMulticastDomainAssociations"],
+    resources: {
+      "ec2:GetTransitGatewayMulticastDomainAssociations": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-multicast-domain/${TransitGatewayMulticastDomainId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayMulticastDomainAssociations",
 })) as any;
@@ -41936,6 +44895,14 @@ export const getTransitGatewayPolicyTableAssociations: API.PaginatedOperationMet
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetTransitGatewayPolicyTableAssociations"],
+    resources: {
+      "ec2:GetTransitGatewayPolicyTableAssociations": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-policy-table/${TransitGatewayPolicyTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayPolicyTableAssociations",
 })) as any;
@@ -41973,6 +44940,14 @@ export const getTransitGatewayPolicyTableEntries: API.PaginatedOperationMethod<
     items: "TransitGatewayPolicyTableEntries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:GetTransitGatewayPolicyTableEntries"],
+    resources: {
+      "ec2:GetTransitGatewayPolicyTableEntries": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-policy-table/${TransitGatewayPolicyTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayPolicyTableEntries",
 })) as any;
@@ -42010,6 +44985,7 @@ export const getTransitGatewayPrefixListReferences: API.PaginatedOperationMethod
     items: "TransitGatewayPrefixListReferences",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetTransitGatewayPrefixListReferences"] },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayPrefixListReferences",
 })) as any;
@@ -42041,6 +45017,7 @@ export const getTransitGatewayRouteTableAssociations: API.PaginatedOperationMeth
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetTransitGatewayRouteTableAssociations"] },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayRouteTableAssociations",
 })) as any;
@@ -42072,6 +45049,7 @@ export const getTransitGatewayRouteTablePropagations: API.PaginatedOperationMeth
     items: "TransitGatewayRouteTablePropagations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetTransitGatewayRouteTablePropagations"] },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayRouteTablePropagations",
 })) as any;
@@ -42102,6 +45080,14 @@ export const getVerifiedAccessEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVerifiedAccessEndpointPolicy",
+  iam: {
+    actions: ["ec2:GetVerifiedAccessEndpointPolicy"],
+    resources: {
+      "ec2:GetVerifiedAccessEndpointPolicy": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-endpoint/${VerifiedAccessEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVerifiedAccessEndpointPolicy",
 }));
@@ -42126,6 +45112,14 @@ export const getVerifiedAccessEndpointTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVerifiedAccessEndpointTargets",
+  iam: {
+    actions: ["ec2:GetVerifiedAccessEndpointTargets"],
+    resources: {
+      "ec2:GetVerifiedAccessEndpointTargets": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-endpoint/${VerifiedAccessEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVerifiedAccessEndpointTargets",
 }));
@@ -42150,6 +45144,14 @@ export const getVerifiedAccessGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVerifiedAccessGroupPolicy",
+  iam: {
+    actions: ["ec2:GetVerifiedAccessGroupPolicy"],
+    resources: {
+      "ec2:GetVerifiedAccessGroupPolicy": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-group/${VerifiedAccessGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVerifiedAccessGroupPolicy",
 }));
@@ -42184,6 +45186,14 @@ export const getVpcResourcesBlockingEncryptionEnforcement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcResourcesBlockingEncryptionEnforcement",
+  iam: {
+    actions: ["ec2:GetVpcResourcesBlockingEncryptionEnforcement"],
+    resources: {
+      "ec2:GetVpcResourcesBlockingEncryptionEnforcement": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVpcResourcesBlockingEncryptionEnforcement",
 }));
@@ -42209,6 +45219,15 @@ export const getVpnConnectionDeviceSampleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpnConnectionDeviceSampleConfiguration",
+  iam: {
+    actions: ["ec2:GetVpnConnectionDeviceSampleConfiguration"],
+    resources: {
+      "ec2:GetVpnConnectionDeviceSampleConfiguration": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection-device-type/${VpnConnectionDeviceTypeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVpnConnectionDeviceSampleConfiguration",
 }));
@@ -42239,6 +45258,7 @@ export const getVpnConnectionDeviceTypes: API.PaginatedOperationMethod<
     items: "VpnConnectionDeviceTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:GetVpnConnectionDeviceTypes"] },
   telemetry: TELEMETRY,
   span: "GetVpnConnectionDeviceTypes",
 })) as any;
@@ -42263,6 +45283,14 @@ export const getVpnTunnelReplacementStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpnTunnelReplacementStatus",
+  iam: {
+    actions: ["ec2:GetVpnTunnelReplacementStatus"],
+    resources: {
+      "ec2:GetVpnTunnelReplacementStatus": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVpnTunnelReplacementStatus",
 }));
@@ -42297,6 +45325,14 @@ export const importClientVpnClientCertificateRevocationList: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportClientVpnClientCertificateRevocationList",
+  iam: {
+    actions: ["ec2:ImportClientVpnClientCertificateRevocationList"],
+    resources: {
+      "ec2:ImportClientVpnClientCertificateRevocationList": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportClientVpnClientCertificateRevocationList",
 }));
@@ -42335,6 +45371,10 @@ export const importImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportImage",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:ImportImage"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "ImportImage",
 }));
@@ -42372,6 +45412,7 @@ export const importInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportInstance",
+  iam: { actions: ["ec2:ImportInstance"] },
   telemetry: TELEMETRY,
   span: "ImportInstance",
 }));
@@ -42399,6 +45440,13 @@ export const importKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportKeyPair",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:ImportKeyPair"],
+    resources: {
+      "ec2:ImportKeyPair": ["arn:${Partition}:ec2:${Region}:${Account}:key-pair/${KeyPairName}"],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "ImportKeyPair",
 }));
@@ -42426,6 +45474,16 @@ export const importSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSnapshot",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:ImportSnapshot"],
+    resources: {
+      "ec2:ImportSnapshot": [
+        "arn:${Partition}:ec2:${Region}:${Account}:import-snapshot-task/${ImportSnapshotTaskId}",
+        "arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "ImportSnapshot",
 }));
@@ -42454,6 +45512,12 @@ export const importVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportVolume",
+  iam: {
+    actions: ["ec2:ImportVolume"],
+    resources: {
+      "ec2:ImportVolume": ["arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportVolume",
 }));
@@ -42487,6 +45551,7 @@ export const listImagesInRecycleBin: API.PaginatedOperationMethod<
     items: "Images",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:ListImagesInRecycleBin"] },
   telemetry: TELEMETRY,
   span: "ListImagesInRecycleBin",
 })) as any;
@@ -42518,6 +45583,7 @@ export const listSnapshotsInRecycleBin: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ec2:ListSnapshotsInRecycleBin"] },
   telemetry: TELEMETRY,
   span: "ListSnapshotsInRecycleBin",
 })) as any;
@@ -42542,6 +45608,7 @@ export const listVolumesInRecycleBin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVolumesInRecycleBin",
+  iam: { actions: ["ec2:ListVolumesInRecycleBin"] },
   telemetry: TELEMETRY,
   span: "ListVolumesInRecycleBin",
 }));
@@ -42580,6 +45647,10 @@ export const lockSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LockSnapshot",
+  iam: {
+    actions: ["ec2:LockSnapshot"],
+    resources: { "ec2:LockSnapshot": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"] },
+  },
   telemetry: TELEMETRY,
   span: "LockSnapshot",
 }));
@@ -42602,6 +45673,7 @@ export const modifyAccountVpcEncryptionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyAccountVpcEncryptionControl",
+  iam: { actions: ["ec2:ModifyAccountVpcEncryptionControl"] },
   telemetry: TELEMETRY,
   span: "ModifyAccountVpcEncryptionControl",
 }));
@@ -42632,6 +45704,14 @@ export const modifyAddressAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyAddressAttribute",
+  iam: {
+    actions: ["ec2:ModifyAddressAttribute"],
+    resources: {
+      "ec2:ModifyAddressAttribute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:elastic-ip/${AllocationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyAddressAttribute",
 }));
@@ -42656,6 +45736,7 @@ export const modifyApplicationStatusCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyApplicationStatusCheck",
+  iam: { actions: ["ec2:ModifyApplicationStatusCheck"] },
   telemetry: TELEMETRY,
   span: "ModifyApplicationStatusCheck",
 }));
@@ -42680,6 +45761,7 @@ export const modifyAvailabilityZoneGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyAvailabilityZoneGroup",
+  iam: { actions: ["ec2:ModifyAvailabilityZoneGroup"] },
   telemetry: TELEMETRY,
   span: "ModifyAvailabilityZoneGroup",
 }));
@@ -42734,6 +45816,14 @@ export const modifyCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCapacityReservation",
+  iam: {
+    actions: ["ec2:ModifyCapacityReservation"],
+    resources: {
+      "ec2:ModifyCapacityReservation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyCapacityReservation",
 }));
@@ -42764,6 +45854,14 @@ export const modifyCapacityReservationFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCapacityReservationFleet",
+  iam: {
+    actions: ["ec2:ModifyCapacityReservationFleet"],
+    resources: {
+      "ec2:ModifyCapacityReservationFleet": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation-fleet/${CapacityReservationFleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyCapacityReservationFleet",
 }));
@@ -42796,6 +45894,7 @@ export const modifyClientVpnEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClientVpnEndpoint",
+  iam: { actions: ["ec2:ModifyClientVpnEndpoint"] },
   telemetry: TELEMETRY,
   span: "ModifyClientVpnEndpoint",
 }));
@@ -42862,6 +45961,7 @@ export const modifyDefaultCreditSpecification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDefaultCreditSpecification",
+  iam: { actions: ["ec2:ModifyDefaultCreditSpecification"] },
   telemetry: TELEMETRY,
   span: "ModifyDefaultCreditSpecification",
 }));
@@ -42896,6 +45996,7 @@ export const modifyEbsDefaultKmsKeyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEbsDefaultKmsKeyId",
+  iam: { actions: ["ec2:ModifyEbsDefaultKmsKeyId"] },
   telemetry: TELEMETRY,
   span: "ModifyEbsDefaultKmsKeyId",
 }));
@@ -42946,6 +46047,7 @@ export const modifyFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyFleet",
+  iam: { actions: ["ec2:ModifyFleet"] },
   telemetry: TELEMETRY,
   span: "ModifyFleet",
 }));
@@ -42976,6 +46078,14 @@ export const modifyFpgaImageAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyFpgaImageAttribute",
+  iam: {
+    actions: ["ec2:ModifyFpgaImageAttribute"],
+    resources: {
+      "ec2:ModifyFpgaImageAttribute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:fpga-image/${FpgaImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyFpgaImageAttribute",
 }));
@@ -43005,6 +46115,14 @@ export const modifyHosts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyHosts",
+  iam: {
+    actions: ["ec2:ModifyHosts"],
+    resources: {
+      "ec2:ModifyHosts": [
+        "arn:${Partition}:ec2:${Region}:${Account}:dedicated-host/${DedicatedHostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyHosts",
 }));
@@ -43050,6 +46168,7 @@ export const modifyIdentityIdFormat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIdentityIdFormat",
+  iam: { actions: ["ec2:ModifyIdentityIdFormat"] },
   telemetry: TELEMETRY,
   span: "ModifyIdentityIdFormat",
 }));
@@ -43096,6 +46215,7 @@ export const modifyIdFormat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIdFormat",
+  iam: { actions: ["ec2:ModifyIdFormat"] },
   telemetry: TELEMETRY,
   span: "ModifyIdFormat",
 }));
@@ -43138,6 +46258,10 @@ export const modifyImageAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyImageAttribute",
+  iam: {
+    actions: ["ec2:ModifyImageAttribute"],
+    resources: { "ec2:ModifyImageAttribute": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "ModifyImageAttribute",
 }));
@@ -43179,6 +46303,7 @@ export const modifyInstanceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceAttribute",
+  iam: { actions: ["ec2:ModifyInstanceAttribute"] },
   telemetry: TELEMETRY,
   span: "ModifyInstanceAttribute",
 }));
@@ -43214,6 +46339,7 @@ export const modifyInstanceCapacityReservationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceCapacityReservationAttributes",
+  iam: { actions: ["ec2:ModifyInstanceCapacityReservationAttributes"] },
   telemetry: TELEMETRY,
   span: "ModifyInstanceCapacityReservationAttributes",
 }));
@@ -43248,6 +46374,7 @@ export const modifyInstanceConnectEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceConnectEndpoint",
+  iam: { actions: ["ec2:ModifyInstanceConnectEndpoint"] },
   telemetry: TELEMETRY,
   span: "ModifyInstanceConnectEndpoint",
 }));
@@ -43281,6 +46408,14 @@ export const modifyInstanceCpuOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceCpuOptions",
+  iam: {
+    actions: ["ec2:ModifyInstanceCpuOptions"],
+    resources: {
+      "ec2:ModifyInstanceCpuOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyInstanceCpuOptions",
 }));
@@ -43306,6 +46441,14 @@ export const modifyInstanceCreditSpecification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceCreditSpecification",
+  iam: {
+    actions: ["ec2:ModifyInstanceCreditSpecification"],
+    resources: {
+      "ec2:ModifyInstanceCreditSpecification": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyInstanceCreditSpecification",
 }));
@@ -43330,6 +46473,14 @@ export const modifyInstanceEventStartTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceEventStartTime",
+  iam: {
+    actions: ["ec2:ModifyInstanceEventStartTime"],
+    resources: {
+      "ec2:ModifyInstanceEventStartTime": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyInstanceEventStartTime",
 }));
@@ -43371,6 +46522,14 @@ export const modifyInstanceEventWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceEventWindow",
+  iam: {
+    actions: ["ec2:ModifyInstanceEventWindow"],
+    resources: {
+      "ec2:ModifyInstanceEventWindow": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance-event-window/${InstanceEventWindowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyInstanceEventWindow",
 }));
@@ -43401,6 +46560,14 @@ export const modifyInstanceMaintenanceOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceMaintenanceOptions",
+  iam: {
+    actions: ["ec2:ModifyInstanceMaintenanceOptions"],
+    resources: {
+      "ec2:ModifyInstanceMaintenanceOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyInstanceMaintenanceOptions",
 }));
@@ -43432,6 +46599,7 @@ export const modifyInstanceMetadataDefaults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceMetadataDefaults",
+  iam: { actions: ["ec2:ModifyInstanceMetadataDefaults"] },
   telemetry: TELEMETRY,
   span: "ModifyInstanceMetadataDefaults",
 }));
@@ -43462,6 +46630,14 @@ export const modifyInstanceMetadataOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceMetadataOptions",
+  iam: {
+    actions: ["ec2:ModifyInstanceMetadataOptions"],
+    resources: {
+      "ec2:ModifyInstanceMetadataOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyInstanceMetadataOptions",
 }));
@@ -43487,6 +46663,14 @@ export const modifyInstanceNetworkPerformanceOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceNetworkPerformanceOptions",
+  iam: {
+    actions: ["ec2:ModifyInstanceNetworkPerformanceOptions"],
+    resources: {
+      "ec2:ModifyInstanceNetworkPerformanceOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyInstanceNetworkPerformanceOptions",
 }));
@@ -43532,6 +46716,7 @@ export const modifyInstancePlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstancePlacement",
+  iam: { actions: ["ec2:ModifyInstancePlacement"] },
   telemetry: TELEMETRY,
   span: "ModifyInstancePlacement",
 }));
@@ -43556,6 +46741,10 @@ export const modifyIpam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpam",
+  iam: {
+    actions: ["ec2:ModifyIpam"],
+    resources: { "ec2:ModifyIpam": ["arn:${Partition}:ec2::${Account}:ipam/${IpamId}"] },
+  },
   telemetry: TELEMETRY,
   span: "ModifyIpam",
 }));
@@ -43584,6 +46773,7 @@ export const modifyIpamPolicyAllocationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpamPolicyAllocationRules",
+  iam: { actions: ["ec2:ModifyIpamPolicyAllocationRules"] },
   telemetry: TELEMETRY,
   span: "ModifyIpamPolicyAllocationRules",
 }));
@@ -43610,6 +46800,12 @@ export const modifyIpamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpamPool",
+  iam: {
+    actions: ["ec2:ModifyIpamPool"],
+    resources: {
+      "ec2:ModifyIpamPool": ["arn:${Partition}:ec2::${Account}:ipam-pool/${IpamPoolId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyIpamPool",
 }));
@@ -43630,6 +46826,14 @@ export const modifyIpamPoolAllocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpamPoolAllocation",
+  iam: {
+    actions: ["ec2:ModifyIpamPoolAllocation"],
+    resources: {
+      "ec2:ModifyIpamPoolAllocation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:ipam-pool-allocation/${IpamPoolAllocationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyIpamPoolAllocation",
 }));
@@ -43660,6 +46864,7 @@ export const modifyIpamPrefixListResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpamPrefixListResolver",
+  iam: { actions: ["ec2:ModifyIpamPrefixListResolver"] },
   telemetry: TELEMETRY,
   span: "ModifyIpamPrefixListResolver",
 }));
@@ -43688,6 +46893,14 @@ export const modifyIpamPrefixListResolverTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpamPrefixListResolverTarget",
+  iam: {
+    actions: ["ec2:ModifyIpamPrefixListResolverTarget"],
+    resources: {
+      "ec2:ModifyIpamPrefixListResolverTarget": [
+        "arn:${Partition}:ec2::${Account}:ipam-prefix-list-resolver-target/${IpamPrefixListResolverTargetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyIpamPrefixListResolverTarget",
 }));
@@ -43720,6 +46933,12 @@ export const modifyIpamResourceCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpamResourceCidr",
+  iam: {
+    actions: ["ec2:ModifyIpamResourceCidr"],
+    resources: {
+      "ec2:ModifyIpamResourceCidr": ["arn:${Partition}:ec2::${Account}:ipam-scope/${IpamScopeId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyIpamResourceCidr",
 }));
@@ -43750,6 +46969,14 @@ export const modifyIpamResourceDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpamResourceDiscovery",
+  iam: {
+    actions: ["ec2:ModifyIpamResourceDiscovery"],
+    resources: {
+      "ec2:ModifyIpamResourceDiscovery": [
+        "arn:${Partition}:ec2::${Account}:ipam-resource-discovery/${IpamResourceDiscoveryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyIpamResourceDiscovery",
 }));
@@ -43770,6 +46997,14 @@ export const modifyIpamRoutingPolicyRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpamRoutingPolicyRegistration",
+  iam: {
+    actions: ["ec2:ModifyIpamRoutingPolicyRegistration"],
+    resources: {
+      "ec2:ModifyIpamRoutingPolicyRegistration": [
+        "arn:${Partition}:ec2::${Account}:ipam-internet-registry-association/${IpamInternetRegistryAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyIpamRoutingPolicyRegistration",
 }));
@@ -43794,6 +47029,12 @@ export const modifyIpamScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpamScope",
+  iam: {
+    actions: ["ec2:ModifyIpamScope"],
+    resources: {
+      "ec2:ModifyIpamScope": ["arn:${Partition}:ec2::${Account}:ipam-scope/${IpamScopeId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyIpamScope",
 }));
@@ -43820,6 +47061,14 @@ export const modifyLaunchTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLaunchTemplate",
+  iam: {
+    actions: ["ec2:ModifyLaunchTemplate"],
+    resources: {
+      "ec2:ModifyLaunchTemplate": [
+        "arn:${Partition}:ec2:${Region}:${Account}:launch-template/${LaunchTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyLaunchTemplate",
 }));
@@ -43844,6 +47093,7 @@ export const modifyLocalGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLocalGatewayRoute",
+  iam: { actions: ["ec2:ModifyLocalGatewayRoute"] },
   telemetry: TELEMETRY,
   span: "ModifyLocalGatewayRoute",
 }));
@@ -43882,6 +47132,14 @@ export const modifyManagedPrefixList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyManagedPrefixList",
+  iam: {
+    actions: ["ec2:ModifyManagedPrefixList"],
+    resources: {
+      "ec2:ModifyManagedPrefixList": [
+        "arn:${Partition}:ec2:${Region}:${Account}:prefix-list/${PrefixListId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyManagedPrefixList",
 }));
@@ -43905,6 +47163,7 @@ export const modifyManagedResourceVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyManagedResourceVisibility",
+  iam: { actions: ["ec2:ModifyManagedResourceVisibility"] },
   telemetry: TELEMETRY,
   span: "ModifyManagedResourceVisibility",
 }));
@@ -43939,6 +47198,7 @@ export const modifyNetworkInterfaceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyNetworkInterfaceAttribute",
+  iam: { actions: ["ec2:ModifyNetworkInterfaceAttribute"] },
   telemetry: TELEMETRY,
   span: "ModifyNetworkInterfaceAttribute",
 }));
@@ -43963,6 +47223,14 @@ export const modifyPrivateDnsNameOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyPrivateDnsNameOptions",
+  iam: {
+    actions: ["ec2:ModifyPrivateDnsNameOptions"],
+    resources: {
+      "ec2:ModifyPrivateDnsNameOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyPrivateDnsNameOptions",
 }));
@@ -43987,6 +47255,14 @@ export const modifyPublicIpDnsNameOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyPublicIpDnsNameOptions",
+  iam: {
+    actions: ["ec2:ModifyPublicIpDnsNameOptions"],
+    resources: {
+      "ec2:ModifyPublicIpDnsNameOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyPublicIpDnsNameOptions",
 }));
@@ -44016,6 +47292,14 @@ export const modifyReservedInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReservedInstances",
+  iam: {
+    actions: ["ec2:ModifyReservedInstances"],
+    resources: {
+      "ec2:ModifyReservedInstances": [
+        "arn:${Partition}:ec2:${Region}:${Account}:reserved-instances/${ReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyReservedInstances",
 }));
@@ -44055,6 +47339,14 @@ export const modifyRouteServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyRouteServer",
+  iam: {
+    actions: ["ec2:ModifyRouteServer"],
+    resources: {
+      "ec2:ModifyRouteServer": [
+        "arn:${Partition}:ec2:${Region}:${Account}:route-server/${RouteServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyRouteServer",
 }));
@@ -44087,6 +47379,7 @@ export const modifySecurityGroupRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySecurityGroupRules",
+  iam: { actions: ["ec2:ModifySecurityGroupRules"] },
   telemetry: TELEMETRY,
   span: "ModifySecurityGroupRules",
 }));
@@ -44126,6 +47419,12 @@ export const modifySnapshotAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySnapshotAttribute",
+  iam: {
+    actions: ["ec2:ModifySnapshotAttribute"],
+    resources: {
+      "ec2:ModifySnapshotAttribute": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifySnapshotAttribute",
 }));
@@ -44154,6 +47453,12 @@ export const modifySnapshotTier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySnapshotTier",
+  iam: {
+    actions: ["ec2:ModifySnapshotTier"],
+    resources: {
+      "ec2:ModifySnapshotTier": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifySnapshotTier",
 }));
@@ -44207,6 +47512,7 @@ export const modifySpotFleetRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySpotFleetRequest",
+  iam: { actions: ["ec2:ModifySpotFleetRequest"] },
   telemetry: TELEMETRY,
   span: "ModifySpotFleetRequest",
 }));
@@ -44249,6 +47555,12 @@ export const modifySubnetAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySubnetAttribute",
+  iam: {
+    actions: ["ec2:ModifySubnetAttribute"],
+    resources: {
+      "ec2:ModifySubnetAttribute": ["arn:${Partition}:ec2:${Region}:${Account}:subnet/${SubnetId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifySubnetAttribute",
 }));
@@ -44276,6 +47588,14 @@ export const modifyTrafficMirrorFilterNetworkServices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTrafficMirrorFilterNetworkServices",
+  iam: {
+    actions: ["ec2:ModifyTrafficMirrorFilterNetworkServices"],
+    resources: {
+      "ec2:ModifyTrafficMirrorFilterNetworkServices": [
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter/${TrafficMirrorFilterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyTrafficMirrorFilterNetworkServices",
 }));
@@ -44309,6 +47629,15 @@ export const modifyTrafficMirrorFilterRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTrafficMirrorFilterRule",
+  iam: {
+    actions: ["ec2:ModifyTrafficMirrorFilterRule"],
+    resources: {
+      "ec2:ModifyTrafficMirrorFilterRule": [
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter/${TrafficMirrorFilterId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:traffic-mirror-filter-rule/${TrafficMirrorFilterRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyTrafficMirrorFilterRule",
 }));
@@ -44333,6 +47662,7 @@ export const modifyTrafficMirrorSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTrafficMirrorSession",
+  iam: { actions: ["ec2:ModifyTrafficMirrorSession"] },
   telemetry: TELEMETRY,
   span: "ModifyTrafficMirrorSession",
 }));
@@ -44357,6 +47687,7 @@ export const modifyTransitGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTransitGateway",
+  iam: { actions: ["ec2:ModifyTransitGateway"] },
   telemetry: TELEMETRY,
   span: "ModifyTransitGateway",
 }));
@@ -44428,6 +47759,7 @@ export const modifyTransitGatewayMeteringPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTransitGatewayMeteringPolicy",
+  iam: { actions: ["ec2:ModifyTransitGatewayMeteringPolicy"] },
   telemetry: TELEMETRY,
   span: "ModifyTransitGatewayMeteringPolicy",
 }));
@@ -44448,6 +47780,7 @@ export const modifyTransitGatewayPolicyTableEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTransitGatewayPolicyTableEntry",
+  iam: { actions: ["ec2:ModifyTransitGatewayPolicyTableEntry"] },
   telemetry: TELEMETRY,
   span: "ModifyTransitGatewayPolicyTableEntry",
 }));
@@ -44472,6 +47805,7 @@ export const modifyTransitGatewayPrefixListReference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTransitGatewayPrefixListReference",
+  iam: { actions: ["ec2:ModifyTransitGatewayPrefixListReference"] },
   telemetry: TELEMETRY,
   span: "ModifyTransitGatewayPrefixListReference",
 }));
@@ -44496,6 +47830,7 @@ export const modifyTransitGatewayVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTransitGatewayVpcAttachment",
+  iam: { actions: ["ec2:ModifyTransitGatewayVpcAttachment"] },
   telemetry: TELEMETRY,
   span: "ModifyTransitGatewayVpcAttachment",
 }));
@@ -44526,6 +47861,7 @@ export const modifyVerifiedAccessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVerifiedAccessEndpoint",
+  iam: { actions: ["ec2:ModifyVerifiedAccessEndpoint"] },
   telemetry: TELEMETRY,
   span: "ModifyVerifiedAccessEndpoint",
 }));
@@ -44556,6 +47892,14 @@ export const modifyVerifiedAccessEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVerifiedAccessEndpointPolicy",
+  iam: {
+    actions: ["ec2:ModifyVerifiedAccessEndpointPolicy"],
+    resources: {
+      "ec2:ModifyVerifiedAccessEndpointPolicy": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-endpoint/${VerifiedAccessEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVerifiedAccessEndpointPolicy",
 }));
@@ -44580,6 +47924,7 @@ export const modifyVerifiedAccessGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVerifiedAccessGroup",
+  iam: { actions: ["ec2:ModifyVerifiedAccessGroup"] },
   telemetry: TELEMETRY,
   span: "ModifyVerifiedAccessGroup",
 }));
@@ -44604,6 +47949,14 @@ export const modifyVerifiedAccessGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVerifiedAccessGroupPolicy",
+  iam: {
+    actions: ["ec2:ModifyVerifiedAccessGroupPolicy"],
+    resources: {
+      "ec2:ModifyVerifiedAccessGroupPolicy": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-group/${VerifiedAccessGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVerifiedAccessGroupPolicy",
 }));
@@ -44628,6 +47981,14 @@ export const modifyVerifiedAccessInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVerifiedAccessInstance",
+  iam: {
+    actions: ["ec2:ModifyVerifiedAccessInstance"],
+    resources: {
+      "ec2:ModifyVerifiedAccessInstance": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-instance/${VerifiedAccessInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVerifiedAccessInstance",
 }));
@@ -44660,6 +48021,14 @@ export const modifyVerifiedAccessInstanceLoggingConfiguration: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVerifiedAccessInstanceLoggingConfiguration",
+  iam: {
+    actions: ["ec2:ModifyVerifiedAccessInstanceLoggingConfiguration"],
+    resources: {
+      "ec2:ModifyVerifiedAccessInstanceLoggingConfiguration": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-instance/${VerifiedAccessInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVerifiedAccessInstanceLoggingConfiguration",
 }));
@@ -44688,6 +48057,14 @@ export const modifyVerifiedAccessTrustProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVerifiedAccessTrustProvider",
+  iam: {
+    actions: ["ec2:ModifyVerifiedAccessTrustProvider"],
+    resources: {
+      "ec2:ModifyVerifiedAccessTrustProvider": [
+        "arn:${Partition}:ec2:${Region}:${Account}:verified-access-trust-provider/${VerifiedAccessTrustProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVerifiedAccessTrustProvider",
 }));
@@ -44739,6 +48116,12 @@ export const modifyVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVolume",
+  iam: {
+    actions: ["ec2:ModifyVolume"],
+    resources: {
+      "ec2:ModifyVolume": ["arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVolume",
 }));
@@ -44777,6 +48160,12 @@ export const modifyVolumeAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVolumeAttribute",
+  iam: {
+    actions: ["ec2:ModifyVolumeAttribute"],
+    resources: {
+      "ec2:ModifyVolumeAttribute": ["arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVolumeAttribute",
 }));
@@ -44807,6 +48196,12 @@ export const modifyVpcAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcAttribute",
+  iam: {
+    actions: ["ec2:ModifyVpcAttribute"],
+    resources: {
+      "ec2:ModifyVpcAttribute": ["arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpcAttribute",
 }));
@@ -44827,6 +48222,14 @@ export const modifyVpcBlockPublicAccessExclusion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcBlockPublicAccessExclusion",
+  iam: {
+    actions: ["ec2:ModifyVpcBlockPublicAccessExclusion"],
+    resources: {
+      "ec2:ModifyVpcBlockPublicAccessExclusion": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-block-public-access-exclusion/${VpcBlockPublicAccessExclusionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpcBlockPublicAccessExclusion",
 }));
@@ -44847,6 +48250,7 @@ export const modifyVpcBlockPublicAccessOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcBlockPublicAccessOptions",
+  iam: { actions: ["ec2:ModifyVpcBlockPublicAccessOptions"] },
   telemetry: TELEMETRY,
   span: "ModifyVpcBlockPublicAccessOptions",
 }));
@@ -44879,6 +48283,14 @@ export const modifyVpcEncryptionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcEncryptionControl",
+  iam: {
+    actions: ["ec2:ModifyVpcEncryptionControl"],
+    resources: {
+      "ec2:ModifyVpcEncryptionControl": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-encryption-control/${VpcEncryptionControlId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpcEncryptionControl",
 }));
@@ -44906,6 +48318,7 @@ export const modifyVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcEndpoint",
+  iam: { actions: ["ec2:ModifyVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "ModifyVpcEndpoint",
 }));
@@ -44937,6 +48350,7 @@ export const modifyVpcEndpointConnectionNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcEndpointConnectionNotification",
+  iam: { actions: ["ec2:ModifyVpcEndpointConnectionNotification"] },
   telemetry: TELEMETRY,
   span: "ModifyVpcEndpointConnectionNotification",
 }));
@@ -44957,6 +48371,7 @@ export const modifyVpcEndpointPayerResponsibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcEndpointPayerResponsibility",
+  iam: { actions: ["ec2:ModifyVpcEndpointPayerResponsibility"] },
   telemetry: TELEMETRY,
   span: "ModifyVpcEndpointPayerResponsibility",
 }));
@@ -44990,6 +48405,14 @@ export const modifyVpcEndpointServiceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcEndpointServiceConfiguration",
+  iam: {
+    actions: ["ec2:ModifyVpcEndpointServiceConfiguration"],
+    resources: {
+      "ec2:ModifyVpcEndpointServiceConfiguration": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpcEndpointServiceConfiguration",
 }));
@@ -45022,6 +48445,14 @@ export const modifyVpcEndpointServicePayerResponsibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcEndpointServicePayerResponsibility",
+  iam: {
+    actions: ["ec2:ModifyVpcEndpointServicePayerResponsibility"],
+    resources: {
+      "ec2:ModifyVpcEndpointServicePayerResponsibility": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpcEndpointServicePayerResponsibility",
 }));
@@ -45058,6 +48489,14 @@ export const modifyVpcEndpointServicePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcEndpointServicePermissions",
+  iam: {
+    actions: ["ec2:ModifyVpcEndpointServicePermissions"],
+    resources: {
+      "ec2:ModifyVpcEndpointServicePermissions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpcEndpointServicePermissions",
 }));
@@ -45099,6 +48538,14 @@ export const modifyVpcPeeringConnectionOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcPeeringConnectionOptions",
+  iam: {
+    actions: ["ec2:ModifyVpcPeeringConnectionOptions"],
+    resources: {
+      "ec2:ModifyVpcPeeringConnectionOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-peering-connection/${VpcPeeringConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpcPeeringConnectionOptions",
 }));
@@ -45138,6 +48585,12 @@ export const modifyVpcTenancy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpcTenancy",
+  iam: {
+    actions: ["ec2:ModifyVpcTenancy"],
+    resources: {
+      "ec2:ModifyVpcTenancy": ["arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpcTenancy",
 }));
@@ -45199,6 +48652,14 @@ export const modifyVpnConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpnConnection",
+  iam: {
+    actions: ["ec2:ModifyVpnConnection"],
+    resources: {
+      "ec2:ModifyVpnConnection": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpnConnection",
 }));
@@ -45228,6 +48689,14 @@ export const modifyVpnConnectionOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpnConnectionOptions",
+  iam: {
+    actions: ["ec2:ModifyVpnConnectionOptions"],
+    resources: {
+      "ec2:ModifyVpnConnectionOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpnConnectionOptions",
 }));
@@ -45252,6 +48721,14 @@ export const modifyVpnTunnelCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpnTunnelCertificate",
+  iam: {
+    actions: ["ec2:ModifyVpnTunnelCertificate"],
+    resources: {
+      "ec2:ModifyVpnTunnelCertificate": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpnTunnelCertificate",
 }));
@@ -45279,6 +48756,14 @@ export const modifyVpnTunnelOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVpnTunnelOptions",
+  iam: {
+    actions: ["ec2:ModifyVpnTunnelOptions"],
+    resources: {
+      "ec2:ModifyVpnTunnelOptions": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyVpnTunnelOptions",
 }));
@@ -45308,6 +48793,12 @@ export const monitorInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MonitorInstances",
+  iam: {
+    actions: ["ec2:MonitorInstances"],
+    resources: {
+      "ec2:MonitorInstances": ["arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MonitorInstances",
 }));
@@ -45338,6 +48829,7 @@ export const moveAddressToVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MoveAddressToVpc",
+  iam: { actions: ["ec2:MoveAddressToVpc"] },
   telemetry: TELEMETRY,
   span: "MoveAddressToVpc",
 }));
@@ -45364,6 +48856,12 @@ export const moveByoipCidrToIpam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MoveByoipCidrToIpam",
+  iam: {
+    actions: ["ec2:MoveByoipCidrToIpam"],
+    resources: {
+      "ec2:MoveByoipCidrToIpam": ["arn:${Partition}:ec2::${Account}:ipam-pool/${IpamPoolId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MoveByoipCidrToIpam",
 }));
@@ -45403,6 +48901,14 @@ export const moveCapacityReservationInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MoveCapacityReservationInstances",
+  iam: {
+    actions: ["ec2:MoveCapacityReservationInstances"],
+    resources: {
+      "ec2:MoveCapacityReservationInstances": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MoveCapacityReservationInstances",
 }));
@@ -45440,6 +48946,7 @@ export const provisionByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionByoipCidr",
+  iam: { actions: ["ec2:ProvisionByoipCidr"] },
   telemetry: TELEMETRY,
   span: "ProvisionByoipCidr",
 }));
@@ -45464,6 +48971,10 @@ export const provisionIpamByoasn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionIpamByoasn",
+  iam: {
+    actions: ["ec2:ProvisionIpamByoasn"],
+    resources: { "ec2:ProvisionIpamByoasn": ["arn:${Partition}:ec2::${Account}:ipam/${IpamId}"] },
+  },
   telemetry: TELEMETRY,
   span: "ProvisionIpamByoasn",
 }));
@@ -45496,6 +49007,7 @@ export const provisionIpamPoolCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionIpamPoolCidr",
+  iam: { actions: ["ec2:ProvisionIpamPoolCidr"] },
   telemetry: TELEMETRY,
   span: "ProvisionIpamPoolCidr",
 }));
@@ -45528,6 +49040,15 @@ export const provisionPublicIpv4PoolCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionPublicIpv4PoolCidr",
+  iam: {
+    actions: ["ec2:ProvisionPublicIpv4PoolCidr"],
+    resources: {
+      "ec2:ProvisionPublicIpv4PoolCidr": [
+        "arn:${Partition}:ec2::${Account}:ipam-pool/${IpamPoolId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:ipv4pool-ec2/${Ipv4PoolEc2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ProvisionPublicIpv4PoolCidr",
 }));
@@ -45554,6 +49075,15 @@ export const purchaseCapacityBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseCapacityBlock",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:PurchaseCapacityBlock"],
+    resources: {
+      "ec2:PurchaseCapacityBlock": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "PurchaseCapacityBlock",
 }));
@@ -45579,6 +49109,14 @@ export const purchaseCapacityBlockExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseCapacityBlockExtension",
+  iam: {
+    actions: ["ec2:PurchaseCapacityBlockExtension"],
+    resources: {
+      "ec2:PurchaseCapacityBlockExtension": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PurchaseCapacityBlockExtension",
 }));
@@ -45602,6 +49140,15 @@ export const purchaseHostReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseHostReservation",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:PurchaseHostReservation"],
+    resources: {
+      "ec2:PurchaseHostReservation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:dedicated-host/${DedicatedHostId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "PurchaseHostReservation",
 }));
@@ -45638,6 +49185,7 @@ export const purchaseReservedInstancesOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedInstancesOffering",
+  iam: { actions: ["ec2:PurchaseReservedInstancesOffering"] },
   telemetry: TELEMETRY,
   span: "PurchaseReservedInstancesOffering",
 }));
@@ -45671,6 +49219,7 @@ export const purchaseScheduledInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseScheduledInstances",
+  iam: { actions: ["ec2:PurchaseScheduledInstances"] },
   telemetry: TELEMETRY,
   span: "PurchaseScheduledInstances",
 }));
@@ -45712,6 +49261,12 @@ export const rebootInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootInstances",
+  iam: {
+    actions: ["ec2:RebootInstances"],
+    resources: {
+      "ec2:RebootInstances": ["arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebootInstances",
 }));
@@ -45777,6 +49332,10 @@ export const registerImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterImage",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:RegisterImage"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterImage",
 }));
@@ -45812,6 +49371,7 @@ export const registerInstanceEventNotificationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterInstanceEventNotificationAttributes",
+  iam: { actions: ["ec2:RegisterInstanceEventNotificationAttributes"] },
   telemetry: TELEMETRY,
   span: "RegisterInstanceEventNotificationAttributes",
 }));
@@ -45856,6 +49416,15 @@ export const registerTransitGatewayMulticastGroupMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTransitGatewayMulticastGroupMembers",
+  iam: {
+    actions: ["ec2:RegisterTransitGatewayMulticastGroupMembers"],
+    resources: {
+      "ec2:RegisterTransitGatewayMulticastGroupMembers": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-multicast-domain/${TransitGatewayMulticastDomainId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterTransitGatewayMulticastGroupMembers",
 }));
@@ -45901,6 +49470,15 @@ export const registerTransitGatewayMulticastGroupSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTransitGatewayMulticastGroupSources",
+  iam: {
+    actions: ["ec2:RegisterTransitGatewayMulticastGroupSources"],
+    resources: {
+      "ec2:RegisterTransitGatewayMulticastGroupSources": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-multicast-domain/${TransitGatewayMulticastDomainId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterTransitGatewayMulticastGroupSources",
 }));
@@ -45935,6 +49513,14 @@ export const rejectCapacityReservationBillingOwnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectCapacityReservationBillingOwnership",
+  iam: {
+    actions: ["ec2:RejectCapacityReservationBillingOwnership"],
+    resources: {
+      "ec2:RejectCapacityReservationBillingOwnership": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectCapacityReservationBillingOwnership",
 }));
@@ -45955,6 +49541,14 @@ export const rejectTransitGatewayClientVpnAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectTransitGatewayClientVpnAttachment",
+  iam: {
+    actions: ["ec2:RejectTransitGatewayClientVpnAttachment"],
+    resources: {
+      "ec2:RejectTransitGatewayClientVpnAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectTransitGatewayClientVpnAttachment",
 }));
@@ -45987,6 +49581,7 @@ export const rejectTransitGatewayMulticastDomainAssociations: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectTransitGatewayMulticastDomainAssociations",
+  iam: { actions: ["ec2:RejectTransitGatewayMulticastDomainAssociations"] },
   telemetry: TELEMETRY,
   span: "RejectTransitGatewayMulticastDomainAssociations",
 }));
@@ -46017,6 +49612,14 @@ export const rejectTransitGatewayPeeringAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectTransitGatewayPeeringAttachment",
+  iam: {
+    actions: ["ec2:RejectTransitGatewayPeeringAttachment"],
+    resources: {
+      "ec2:RejectTransitGatewayPeeringAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectTransitGatewayPeeringAttachment",
 }));
@@ -46051,6 +49654,14 @@ export const rejectTransitGatewayVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectTransitGatewayVpcAttachment",
+  iam: {
+    actions: ["ec2:RejectTransitGatewayVpcAttachment"],
+    resources: {
+      "ec2:RejectTransitGatewayVpcAttachment": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-attachment/${TransitGatewayAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectTransitGatewayVpcAttachment",
 }));
@@ -46081,6 +49692,14 @@ export const rejectVpcEndpointConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectVpcEndpointConnections",
+  iam: {
+    actions: ["ec2:RejectVpcEndpointConnections"],
+    resources: {
+      "ec2:RejectVpcEndpointConnections": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectVpcEndpointConnections",
 }));
@@ -46116,6 +49735,14 @@ export const rejectVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectVpcPeeringConnection",
+  iam: {
+    actions: ["ec2:RejectVpcPeeringConnection"],
+    resources: {
+      "ec2:RejectVpcPeeringConnection": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-peering-connection/${VpcPeeringConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectVpcPeeringConnection",
 }));
@@ -46175,6 +49802,7 @@ export const releaseAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleaseAddress",
+  iam: { actions: ["ec2:ReleaseAddress"] },
   telemetry: TELEMETRY,
   span: "ReleaseAddress",
 }));
@@ -46209,6 +49837,14 @@ export const releaseHosts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleaseHosts",
+  iam: {
+    actions: ["ec2:ReleaseHosts"],
+    resources: {
+      "ec2:ReleaseHosts": [
+        "arn:${Partition}:ec2:${Region}:${Account}:dedicated-host/${DedicatedHostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReleaseHosts",
 }));
@@ -46235,6 +49871,12 @@ export const releaseIpamPoolAllocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleaseIpamPoolAllocation",
+  iam: {
+    actions: ["ec2:ReleaseIpamPoolAllocation"],
+    resources: {
+      "ec2:ReleaseIpamPoolAllocation": ["arn:${Partition}:ec2::${Account}:ipam-pool/${IpamPoolId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReleaseIpamPoolAllocation",
 }));
@@ -46260,6 +49902,16 @@ export const replaceIamInstanceProfileAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceIamInstanceProfileAssociation",
+  iam: {
+    actions: ["iam:PassRole", "ec2:ReplaceIamInstanceProfileAssociation"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ec2:ReplaceIamInstanceProfileAssociation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "ReplaceIamInstanceProfileAssociation",
 }));
@@ -46292,6 +49944,7 @@ export const replaceImageCriteriaInAllowedImagesSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceImageCriteriaInAllowedImagesSettings",
+  iam: { actions: ["ec2:ReplaceImageCriteriaInAllowedImagesSettings"] },
   telemetry: TELEMETRY,
   span: "ReplaceImageCriteriaInAllowedImagesSettings",
 }));
@@ -46339,6 +49992,14 @@ export const replaceImageInstanceTypeSpecification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceImageInstanceTypeSpecification",
+  iam: {
+    actions: ["ec2:ReplaceImageInstanceTypeSpecification"],
+    resources: {
+      "ec2:ReplaceImageInstanceTypeSpecification": [
+        "arn:${Partition}:ec2:${Region}::image/${ImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReplaceImageInstanceTypeSpecification",
 }));
@@ -46375,6 +50036,15 @@ export const replaceNetworkAclAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceNetworkAclAssociation",
+  iam: {
+    actions: ["ec2:ReplaceNetworkAclAssociation"],
+    resources: {
+      "ec2:ReplaceNetworkAclAssociation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-acl/${NaclId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:subnet/${SubnetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReplaceNetworkAclAssociation",
 }));
@@ -46406,6 +50076,14 @@ export const replaceNetworkAclEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceNetworkAclEntry",
+  iam: {
+    actions: ["ec2:ReplaceNetworkAclEntry"],
+    resources: {
+      "ec2:ReplaceNetworkAclEntry": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-acl/${NaclId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReplaceNetworkAclEntry",
 }));
@@ -46443,6 +50121,12 @@ export const replaceRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceRoute",
+  iam: {
+    actions: ["ec2:ReplaceRoute"],
+    resources: {
+      "ec2:ReplaceRoute": ["arn:${Partition}:ec2:${Region}:${Account}:route-table/${RouteTableId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReplaceRoute",
 }));
@@ -46478,6 +50162,7 @@ export const replaceRouteTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceRouteTableAssociation",
+  iam: { actions: ["ec2:ReplaceRouteTableAssociation"] },
   telemetry: TELEMETRY,
   span: "ReplaceRouteTableAssociation",
 }));
@@ -46502,6 +50187,7 @@ export const replaceTransitGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceTransitGatewayRoute",
+  iam: { actions: ["ec2:ReplaceTransitGatewayRoute"] },
   telemetry: TELEMETRY,
   span: "ReplaceTransitGatewayRoute",
 }));
@@ -46526,6 +50212,14 @@ export const replaceVpnTunnel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplaceVpnTunnel",
+  iam: {
+    actions: ["ec2:ReplaceVpnTunnel"],
+    resources: {
+      "ec2:ReplaceVpnTunnel": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpn-connection/${VpnConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReplaceVpnTunnel",
 }));
@@ -46555,6 +50249,14 @@ export const reportInstanceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportInstanceStatus",
+  iam: {
+    actions: ["ec2:ReportInstanceStatus"],
+    resources: {
+      "ec2:ReportInstanceStatus": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReportInstanceStatus",
 }));
@@ -46610,6 +50312,10 @@ export const requestSpotFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestSpotFleet",
+  iam: {
+    actions: ["ec2:CreateTags", "iam:PassRole", "ec2:RequestSpotFleet"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "RequestSpotFleet",
 }));
@@ -46643,6 +50349,14 @@ export const requestSpotInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestSpotInstances",
+  iam: {
+    actions: ["ec2:CreateTags", "iam:PassRole", "ec2:RequestSpotInstances"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "ec2:CreateTags": "TagSpecifications",
+    },
+  },
   telemetry: TELEMETRY,
   span: "RequestSpotInstances",
 }));
@@ -46667,6 +50381,14 @@ export const resetAddressAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetAddressAttribute",
+  iam: {
+    actions: ["ec2:ResetAddressAttribute"],
+    resources: {
+      "ec2:ResetAddressAttribute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:elastic-ip/${AllocationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetAddressAttribute",
 }));
@@ -46693,6 +50415,7 @@ export const resetEbsDefaultKmsKeyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEbsDefaultKmsKeyId",
+  iam: { actions: ["ec2:ResetEbsDefaultKmsKeyId"] },
   telemetry: TELEMETRY,
   span: "ResetEbsDefaultKmsKeyId",
 }));
@@ -46718,6 +50441,14 @@ export const resetFpgaImageAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetFpgaImageAttribute",
+  iam: {
+    actions: ["ec2:ResetFpgaImageAttribute"],
+    resources: {
+      "ec2:ResetFpgaImageAttribute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:fpga-image/${FpgaImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetFpgaImageAttribute",
 }));
@@ -46750,6 +50481,10 @@ export const resetImageAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetImageAttribute",
+  iam: {
+    actions: ["ec2:ResetImageAttribute"],
+    resources: { "ec2:ResetImageAttribute": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"] },
+  },
   telemetry: TELEMETRY,
   span: "ResetImageAttribute",
 }));
@@ -46783,6 +50518,14 @@ export const resetInstanceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetInstanceAttribute",
+  iam: {
+    actions: ["ec2:ResetInstanceAttribute"],
+    resources: {
+      "ec2:ResetInstanceAttribute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetInstanceAttribute",
 }));
@@ -46808,6 +50551,14 @@ export const resetNetworkInterfaceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetNetworkInterfaceAttribute",
+  iam: {
+    actions: ["ec2:ResetNetworkInterfaceAttribute"],
+    resources: {
+      "ec2:ResetNetworkInterfaceAttribute": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetNetworkInterfaceAttribute",
 }));
@@ -46843,6 +50594,12 @@ export const resetSnapshotAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetSnapshotAttribute",
+  iam: {
+    actions: ["ec2:ResetSnapshotAttribute"],
+    resources: {
+      "ec2:ResetSnapshotAttribute": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetSnapshotAttribute",
 }));
@@ -46869,6 +50626,7 @@ export const restoreAddressToClassic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreAddressToClassic",
+  iam: { actions: ["ec2:RestoreAddressToClassic"] },
   telemetry: TELEMETRY,
   span: "RestoreAddressToClassic",
 }));
@@ -46895,6 +50653,12 @@ export const restoreImageFromRecycleBin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreImageFromRecycleBin",
+  iam: {
+    actions: ["ec2:RestoreImageFromRecycleBin"],
+    resources: {
+      "ec2:RestoreImageFromRecycleBin": ["arn:${Partition}:ec2:${Region}::image/${ImageId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreImageFromRecycleBin",
 }));
@@ -46919,6 +50683,14 @@ export const restoreManagedPrefixListVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreManagedPrefixListVersion",
+  iam: {
+    actions: ["ec2:RestoreManagedPrefixListVersion"],
+    resources: {
+      "ec2:RestoreManagedPrefixListVersion": [
+        "arn:${Partition}:ec2:${Region}:${Account}:prefix-list/${PrefixListId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreManagedPrefixListVersion",
 }));
@@ -46944,6 +50716,14 @@ export const restoreSnapshotFromRecycleBin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreSnapshotFromRecycleBin",
+  iam: {
+    actions: ["ec2:RestoreSnapshotFromRecycleBin"],
+    resources: {
+      "ec2:RestoreSnapshotFromRecycleBin": [
+        "arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreSnapshotFromRecycleBin",
 }));
@@ -46973,6 +50753,12 @@ export const restoreSnapshotTier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreSnapshotTier",
+  iam: {
+    actions: ["ec2:RestoreSnapshotTier"],
+    resources: {
+      "ec2:RestoreSnapshotTier": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreSnapshotTier",
 }));
@@ -46998,6 +50784,14 @@ export const restoreVolumeFromRecycleBin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreVolumeFromRecycleBin",
+  iam: {
+    actions: ["ec2:RestoreVolumeFromRecycleBin"],
+    resources: {
+      "ec2:RestoreVolumeFromRecycleBin": [
+        "arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreVolumeFromRecycleBin",
 }));
@@ -47032,6 +50826,14 @@ export const revokeClientVpnIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeClientVpnIngress",
+  iam: {
+    actions: ["ec2:RevokeClientVpnIngress"],
+    resources: {
+      "ec2:RevokeClientVpnIngress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeClientVpnIngress",
 }));
@@ -47092,6 +50894,14 @@ export const revokeSecurityGroupEgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSecurityGroupEgress",
+  iam: {
+    actions: ["ec2:RevokeSecurityGroupEgress"],
+    resources: {
+      "ec2:RevokeSecurityGroupEgress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeSecurityGroupEgress",
 }));
@@ -47151,6 +50961,14 @@ export const revokeSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSecurityGroupIngress",
+  iam: {
+    actions: ["ec2:RevokeSecurityGroupIngress"],
+    resources: {
+      "ec2:RevokeSecurityGroupIngress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeSecurityGroupIngress",
 }));
@@ -47238,6 +51056,14 @@ export const runInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunInstances",
+  iam: {
+    actions: ["ec2:CreateTags", "iam:PassRole", "ec2:RunInstances"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "ec2:CreateTags": "TagSpecifications",
+    },
+  },
   telemetry: TELEMETRY,
   span: "RunInstances",
 }));
@@ -47269,6 +51095,7 @@ export const runScheduledInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunScheduledInstances",
+  iam: { actions: ["ec2:RunScheduledInstances"] },
   telemetry: TELEMETRY,
   span: "RunScheduledInstances",
 }));
@@ -47306,6 +51133,14 @@ export const searchLocalGatewayRoutes: API.PaginatedOperationMethod<
     items: "Routes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:SearchLocalGatewayRoutes"],
+    resources: {
+      "ec2:SearchLocalGatewayRoutes": [
+        "arn:${Partition}:ec2:${Region}:${Account}:local-gateway-route-table/${LocalGatewayRoutetableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchLocalGatewayRoutes",
 })) as any;
@@ -47343,6 +51178,14 @@ export const searchTransitGatewayMulticastGroups: API.PaginatedOperationMethod<
     items: "MulticastGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:SearchTransitGatewayMulticastGroups"],
+    resources: {
+      "ec2:SearchTransitGatewayMulticastGroups": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-multicast-domain/${TransitGatewayMulticastDomainId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchTransitGatewayMulticastGroups",
 })) as any;
@@ -47380,6 +51223,14 @@ export const searchTransitGatewayRoutes: API.PaginatedOperationMethod<
     items: "Routes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ec2:SearchTransitGatewayRoutes"],
+    resources: {
+      "ec2:SearchTransitGatewayRoutes": [
+        "arn:${Partition}:ec2:${Region}:${Account}:transit-gateway-route-table/${TransitGatewayRouteTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchTransitGatewayRoutes",
 })) as any;
@@ -47420,6 +51271,14 @@ export const sendDiagnosticInterrupt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDiagnosticInterrupt",
+  iam: {
+    actions: ["ec2:SendDiagnosticInterrupt"],
+    resources: {
+      "ec2:SendDiagnosticInterrupt": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendDiagnosticInterrupt",
 }));
@@ -47482,6 +51341,10 @@ export const startDeclarativePoliciesReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeclarativePoliciesReport",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:StartDeclarativePoliciesReport"],
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "StartDeclarativePoliciesReport",
 }));
@@ -47537,6 +51400,7 @@ export const startInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstances",
+  iam: { actions: ["ec2:StartInstances"] },
   telemetry: TELEMETRY,
   span: "StartInstances",
 }));
@@ -47567,6 +51431,16 @@ export const startNetworkInsightsAccessScopeAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkInsightsAccessScopeAnalysis",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:StartNetworkInsightsAccessScopeAnalysis"],
+    resources: {
+      "ec2:StartNetworkInsightsAccessScopeAnalysis": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-access-scope/${NetworkInsightsAccessScopeId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-access-scope-analysis/${NetworkInsightsAccessScopeAnalysisId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "StartNetworkInsightsAccessScopeAnalysis",
 }));
@@ -47593,6 +51467,16 @@ export const startNetworkInsightsAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkInsightsAnalysis",
+  iam: {
+    actions: ["ec2:CreateTags", "ec2:StartNetworkInsightsAnalysis"],
+    resources: {
+      "ec2:StartNetworkInsightsAnalysis": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-analysis/${NetworkInsightsAnalysisId}",
+        "arn:${Partition}:ec2:${Region}:${Account}:network-insights-path/${NetworkInsightsPathId}",
+      ],
+    },
+    conditional: { "ec2:CreateTags": "TagSpecifications" },
+  },
   telemetry: TELEMETRY,
   span: "StartNetworkInsightsAnalysis",
 }));
@@ -47636,6 +51520,14 @@ export const startVpcEndpointServicePrivateDnsVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVpcEndpointServicePrivateDnsVerification",
+  iam: {
+    actions: ["ec2:StartVpcEndpointServicePrivateDnsVerification"],
+    resources: {
+      "ec2:StartVpcEndpointServicePrivateDnsVerification": [
+        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartVpcEndpointServicePrivateDnsVerification",
 }));
@@ -47704,6 +51596,12 @@ export const stopInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInstances",
+  iam: {
+    actions: ["ec2:StopInstances"],
+    resources: {
+      "ec2:StopInstances": ["arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopInstances",
 }));
@@ -47728,6 +51626,14 @@ export const terminateClientVpnConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateClientVpnConnections",
+  iam: {
+    actions: ["ec2:TerminateClientVpnConnections"],
+    resources: {
+      "ec2:TerminateClientVpnConnections": [
+        "arn:${Partition}:ec2:${Region}:${Account}:client-vpn-endpoint/${ClientVpnEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateClientVpnConnections",
 }));
@@ -47832,6 +51738,14 @@ export const terminateInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateInstances",
+  iam: {
+    actions: ["ec2:TerminateInstances"],
+    resources: {
+      "ec2:TerminateInstances": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateInstances",
 }));
@@ -47863,6 +51777,14 @@ export const unassignIpv6Addresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnassignIpv6Addresses",
+  iam: {
+    actions: ["ec2:UnassignIpv6Addresses"],
+    resources: {
+      "ec2:UnassignIpv6Addresses": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnassignIpv6Addresses",
 }));
@@ -47896,6 +51818,14 @@ export const unassignPrivateIpAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnassignPrivateIpAddresses",
+  iam: {
+    actions: ["ec2:UnassignPrivateIpAddresses"],
+    resources: {
+      "ec2:UnassignPrivateIpAddresses": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnassignPrivateIpAddresses",
 }));
@@ -47926,6 +51856,14 @@ export const unassignPrivateNatGatewayAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnassignPrivateNatGatewayAddress",
+  iam: {
+    actions: ["ec2:UnassignPrivateNatGatewayAddress"],
+    resources: {
+      "ec2:UnassignPrivateNatGatewayAddress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:natgateway/${NatGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnassignPrivateNatGatewayAddress",
 }));
@@ -47952,6 +51890,10 @@ export const unlockSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlockSnapshot",
+  iam: {
+    actions: ["ec2:UnlockSnapshot"],
+    resources: { "ec2:UnlockSnapshot": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"] },
+  },
   telemetry: TELEMETRY,
   span: "UnlockSnapshot",
 }));
@@ -47984,6 +51926,14 @@ export const unmonitorInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnmonitorInstances",
+  iam: {
+    actions: ["ec2:UnmonitorInstances"],
+    resources: {
+      "ec2:UnmonitorInstances": [
+        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnmonitorInstances",
 }));
@@ -48004,6 +51954,7 @@ export const updateCapacityManagerMonitoredTagKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityManagerMonitoredTagKeys",
+  iam: { actions: ["ec2:UpdateCapacityManagerMonitoredTagKeys"] },
   telemetry: TELEMETRY,
   span: "UpdateCapacityManagerMonitoredTagKeys",
 }));
@@ -48029,6 +51980,7 @@ export const updateCapacityManagerOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityManagerOrganizationsAccess",
+  iam: { actions: ["ec2:UpdateCapacityManagerOrganizationsAccess"] },
   telemetry: TELEMETRY,
   span: "UpdateCapacityManagerOrganizationsAccess",
 }));
@@ -48061,6 +52013,14 @@ export const updateInterruptibleCapacityReservationAllocation: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInterruptibleCapacityReservationAllocation",
+  iam: {
+    actions: ["ec2:UpdateInterruptibleCapacityReservationAllocation"],
+    resources: {
+      "ec2:UpdateInterruptibleCapacityReservationAllocation": [
+        "arn:${Partition}:ec2:${Region}:${Account}:capacity-reservation/${CapacityReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInterruptibleCapacityReservationAllocation",
 }));
@@ -48088,6 +52048,14 @@ export const updateSecurityGroupRuleDescriptionsEgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityGroupRuleDescriptionsEgress",
+  iam: {
+    actions: ["ec2:UpdateSecurityGroupRuleDescriptionsEgress"],
+    resources: {
+      "ec2:UpdateSecurityGroupRuleDescriptionsEgress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSecurityGroupRuleDescriptionsEgress",
 }));
@@ -48115,6 +52083,14 @@ export const updateSecurityGroupRuleDescriptionsIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityGroupRuleDescriptionsIngress",
+  iam: {
+    actions: ["ec2:UpdateSecurityGroupRuleDescriptionsIngress"],
+    resources: {
+      "ec2:UpdateSecurityGroupRuleDescriptionsIngress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSecurityGroupRuleDescriptionsIngress",
 }));
@@ -48141,6 +52117,14 @@ export const validateSecurityGroupQuotasForInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateSecurityGroupQuotasForInterface",
+  iam: {
+    actions: ["ec2:ValidateSecurityGroupQuotasForInterface"],
+    resources: {
+      "ec2:ValidateSecurityGroupQuotasForInterface": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ValidateSecurityGroupQuotasForInterface",
 }));
@@ -48167,6 +52151,7 @@ export const withdrawByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WithdrawByoipCidr",
+  iam: { actions: ["ec2:WithdrawByoipCidr"] },
   telemetry: TELEMETRY,
   span: "WithdrawByoipCidr",
 }));

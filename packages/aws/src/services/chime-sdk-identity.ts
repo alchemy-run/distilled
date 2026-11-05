@@ -617,6 +617,10 @@ export const createAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstance",
+  iam: {
+    actions: ["chime:CreateAppInstance", "chime:TagResource"],
+    conditional: { "chime:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppInstance",
 }));
@@ -665,6 +669,16 @@ export const createAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceAdmin",
+  iam: {
+    actions: ["chime:CreateAppInstanceAdmin"],
+    resources: {
+      "chime:CreateAppInstanceAdmin": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppInstanceAdmin",
 }));
@@ -704,6 +718,10 @@ export const createAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceBot",
+  iam: {
+    actions: ["chime:CreateAppInstanceBot", "chime:TagResource"],
+    conditional: { "chime:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppInstanceBot",
 }));
@@ -743,6 +761,19 @@ export const createAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceUser",
+  iam: {
+    actions: [
+      "chime:CreateAppInstanceUser",
+      "chime:PutAppInstanceUserExpirationSettings",
+      "chime:TagResource",
+    ],
+    resources: {
+      "chime:PutAppInstanceUserExpirationSettings": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+    conditional: { "chime:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppInstanceUser",
 }));
@@ -779,6 +810,14 @@ export const deleteAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstance",
+  iam: {
+    actions: ["chime:DeleteAppInstance"],
+    resources: {
+      "chime:DeleteAppInstance": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAppInstance",
 }));
@@ -819,6 +858,16 @@ export const deleteAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceAdmin",
+  iam: {
+    actions: ["chime:DeleteAppInstanceAdmin"],
+    resources: {
+      "chime:DeleteAppInstanceAdmin": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAppInstanceAdmin",
 }));
@@ -857,6 +906,14 @@ export const deleteAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceBot",
+  iam: {
+    actions: ["chime:DeleteAppInstanceBot"],
+    resources: {
+      "chime:DeleteAppInstanceBot": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAppInstanceBot",
 }));
@@ -895,6 +952,14 @@ export const deleteAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceUser",
+  iam: {
+    actions: ["chime:DeleteAppInstanceUser"],
+    resources: {
+      "chime:DeleteAppInstanceUser": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAppInstanceUser",
 }));
@@ -929,6 +994,14 @@ export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAppInstanceUserEndpoint",
+  iam: {
+    actions: ["chime:DeregisterAppInstanceUserEndpoint"],
+    resources: {
+      "chime:DeregisterAppInstanceUserEndpoint": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterAppInstanceUserEndpoint",
 }));
@@ -963,6 +1036,14 @@ export const describeAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstance",
+  iam: {
+    actions: ["chime:DescribeAppInstance"],
+    resources: {
+      "chime:DescribeAppInstance": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAppInstance",
 }));
@@ -997,6 +1078,16 @@ export const describeAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceAdmin",
+  iam: {
+    actions: ["chime:DescribeAppInstanceAdmin"],
+    resources: {
+      "chime:DescribeAppInstanceAdmin": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAppInstanceAdmin",
 }));
@@ -1033,6 +1124,14 @@ export const describeAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceBot",
+  iam: {
+    actions: ["chime:DescribeAppInstanceBot"],
+    resources: {
+      "chime:DescribeAppInstanceBot": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAppInstanceBot",
 }));
@@ -1067,6 +1166,14 @@ export const describeAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceUser",
+  iam: {
+    actions: ["chime:DescribeAppInstanceUser"],
+    resources: {
+      "chime:DescribeAppInstanceUser": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAppInstanceUser",
 }));
@@ -1101,6 +1208,14 @@ export const describeAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceUserEndpoint",
+  iam: {
+    actions: ["chime:DescribeAppInstanceUserEndpoint"],
+    resources: {
+      "chime:DescribeAppInstanceUserEndpoint": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAppInstanceUserEndpoint",
 }));
@@ -1135,6 +1250,14 @@ export const getAppInstanceRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppInstanceRetentionSettings",
+  iam: {
+    actions: ["chime:GetAppInstanceRetentionSettings"],
+    resources: {
+      "chime:GetAppInstanceRetentionSettings": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAppInstanceRetentionSettings",
 }));
@@ -1177,6 +1300,16 @@ export const listAppInstanceAdmins: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["chime:ListAppInstanceAdmins"],
+    resources: {
+      "chime:ListAppInstanceAdmins": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAppInstanceAdmins",
 })) as any;
@@ -1219,6 +1352,14 @@ export const listAppInstanceBots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["chime:ListAppInstanceBots"],
+    resources: {
+      "chime:ListAppInstanceBots": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAppInstanceBots",
 })) as any;
@@ -1260,6 +1401,14 @@ export const listAppInstances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["chime:ListAppInstances"],
+    resources: {
+      "chime:ListAppInstances": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAppInstances",
 })) as any;
@@ -1300,6 +1449,14 @@ export const listAppInstanceUserEndpoints: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["chime:ListAppInstanceUserEndpoints"],
+    resources: {
+      "chime:ListAppInstanceUserEndpoints": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAppInstanceUserEndpoints",
 })) as any;
@@ -1341,6 +1498,14 @@ export const listAppInstanceUsers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["chime:ListAppInstanceUsers"],
+    resources: {
+      "chime:ListAppInstanceUsers": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAppInstanceUsers",
 })) as any;
@@ -1375,6 +1540,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["chime:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1410,6 +1576,14 @@ export const putAppInstanceRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppInstanceRetentionSettings",
+  iam: {
+    actions: ["chime:PutAppInstanceRetentionSettings"],
+    resources: {
+      "chime:PutAppInstanceRetentionSettings": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAppInstanceRetentionSettings",
 }));
@@ -1452,6 +1626,14 @@ export const putAppInstanceUserExpirationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppInstanceUserExpirationSettings",
+  iam: {
+    actions: ["chime:PutAppInstanceUserExpirationSettings"],
+    resources: {
+      "chime:PutAppInstanceUserExpirationSettings": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAppInstanceUserExpirationSettings",
 }));
@@ -1490,6 +1672,14 @@ export const registerAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAppInstanceUserEndpoint",
+  iam: {
+    actions: ["chime:RegisterAppInstanceUserEndpoint"],
+    resources: {
+      "chime:RegisterAppInstanceUserEndpoint": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterAppInstanceUserEndpoint",
 }));
@@ -1526,6 +1716,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["chime:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1560,6 +1751,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["chime:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1596,6 +1788,14 @@ export const updateAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstance",
+  iam: {
+    actions: ["chime:UpdateAppInstance"],
+    resources: {
+      "chime:UpdateAppInstance": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAppInstance",
 }));
@@ -1634,6 +1834,14 @@ export const updateAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceBot",
+  iam: {
+    actions: ["chime:UpdateAppInstanceBot"],
+    resources: {
+      "chime:UpdateAppInstanceBot": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAppInstanceBot",
 }));
@@ -1673,6 +1881,14 @@ export const updateAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceUser",
+  iam: {
+    actions: ["chime:UpdateAppInstanceUser"],
+    resources: {
+      "chime:UpdateAppInstanceUser": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAppInstanceUser",
 }));
@@ -1709,6 +1925,14 @@ export const updateAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceUserEndpoint",
+  iam: {
+    actions: ["chime:UpdateAppInstanceUserEndpoint"],
+    resources: {
+      "chime:UpdateAppInstanceUserEndpoint": [
+        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAppInstanceUserEndpoint",
 }));

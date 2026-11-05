@@ -370,6 +370,21 @@ export const createNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationRule",
+  iam: {
+    actions: [
+      "codestar-notifications:CreateNotificationRule",
+      "codestar-notifications:TagResource",
+    ],
+    resources: {
+      "codestar-notifications:CreateNotificationRule": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+      "codestar-notifications:TagResource": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+    },
+    conditional: { "codestar-notifications:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNotificationRule",
 }));
@@ -394,6 +409,14 @@ export const deleteNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationRule",
+  iam: {
+    actions: ["codestar-notifications:DeleteNotificationRule"],
+    resources: {
+      "codestar-notifications:DeleteNotificationRule": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNotificationRule",
 }));
@@ -414,6 +437,7 @@ export const deleteTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTarget",
+  iam: { actions: ["codestar-notifications:DeleteTarget"] },
   telemetry: TELEMETRY,
   span: "DeleteTarget",
 }));
@@ -437,6 +461,14 @@ export const describeNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotificationRule",
+  iam: {
+    actions: ["codestar-notifications:DescribeNotificationRule"],
+    resources: {
+      "codestar-notifications:DescribeNotificationRule": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNotificationRule",
 }));
@@ -464,6 +496,7 @@ export const listEventTypes: API.PaginatedOperationMethod<
     items: "EventTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["codestar-notifications:ListEventTypes"] },
   telemetry: TELEMETRY,
   span: "ListEventTypes",
 })) as any;
@@ -494,6 +527,7 @@ export const listNotificationRules: API.PaginatedOperationMethod<
     items: "NotificationRules",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["codestar-notifications:ListNotificationRules"] },
   telemetry: TELEMETRY,
   span: "ListNotificationRules",
 })) as any;
@@ -517,6 +551,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["codestar-notifications:ListTagsForResource"],
+    resources: {
+      "codestar-notifications:ListTagsForResource": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -544,6 +586,7 @@ export const listTargets: API.PaginatedOperationMethod<
     items: "Targets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["codestar-notifications:ListTargets"] },
   telemetry: TELEMETRY,
   span: "ListTargets",
 })) as any;
@@ -570,6 +613,14 @@ export const subscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Subscribe",
+  iam: {
+    actions: ["codestar-notifications:Subscribe"],
+    resources: {
+      "codestar-notifications:Subscribe": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "Subscribe",
 }));
@@ -600,6 +651,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["codestar-notifications:TagResource"],
+    resources: {
+      "codestar-notifications:TagResource": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -622,6 +681,14 @@ export const unsubscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Unsubscribe",
+  iam: {
+    actions: ["codestar-notifications:Unsubscribe"],
+    resources: {
+      "codestar-notifications:Unsubscribe": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "Unsubscribe",
 }));
@@ -653,6 +720,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["codestar-notifications:UntagResource"],
+    resources: {
+      "codestar-notifications:UntagResource": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -681,6 +756,14 @@ export const updateNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationRule",
+  iam: {
+    actions: ["codestar-notifications:UpdateNotificationRule"],
+    resources: {
+      "codestar-notifications:UpdateNotificationRule": [
+        "arn:${Partition}:codestar-notifications:${Region}:${Account}:notificationrule/${NotificationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNotificationRule",
 }));

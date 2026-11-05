@@ -3599,6 +3599,14 @@ export const associateMemberToFarm: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToFarm",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:AssociateMemberToFarm"],
+    resources: {
+      "deadline:AssociateMemberToFarm": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateMemberToFarm",
 }));
@@ -3634,6 +3642,14 @@ export const associateMemberToFleet: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToFleet",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:AssociateMemberToFleet"],
+    resources: {
+      "deadline:AssociateMemberToFleet": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateMemberToFleet",
 }));
@@ -3669,6 +3685,14 @@ export const associateMemberToJob: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToJob",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:AssociateMemberToJob"],
+    resources: {
+      "deadline:AssociateMemberToJob": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateMemberToJob",
 }));
@@ -3704,6 +3728,14 @@ export const associateMemberToQueue: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToQueue",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:AssociateMemberToQueue"],
+    resources: {
+      "deadline:AssociateMemberToQueue": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateMemberToQueue",
 }));
@@ -3737,6 +3769,14 @@ export const assumeFleetRoleForRead: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeFleetRoleForRead",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:AssumeFleetRoleForRead"],
+    resources: {
+      "deadline:AssumeFleetRoleForRead": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssumeFleetRoleForRead",
 }));
@@ -3772,6 +3812,14 @@ export const assumeFleetRoleForWorker: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeFleetRoleForWorker",
   endpointHostPrefix: "scheduling.",
+  iam: {
+    actions: ["deadline:AssumeFleetRoleForWorker"],
+    resources: {
+      "deadline:AssumeFleetRoleForWorker": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssumeFleetRoleForWorker",
 }));
@@ -3805,6 +3853,14 @@ export const assumeQueueRoleForRead: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForRead",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:AssumeQueueRoleForRead"],
+    resources: {
+      "deadline:AssumeQueueRoleForRead": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssumeQueueRoleForRead",
 }));
@@ -3838,6 +3894,14 @@ export const assumeQueueRoleForUser: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForUser",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:AssumeQueueRoleForUser"],
+    resources: {
+      "deadline:AssumeQueueRoleForUser": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssumeQueueRoleForUser",
 }));
@@ -3873,6 +3937,15 @@ export const assumeQueueRoleForWorker: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForWorker",
   endpointHostPrefix: "scheduling.",
+  iam: {
+    actions: ["deadline:AssumeQueueRoleForWorker"],
+    resources: {
+      "deadline:AssumeQueueRoleForWorker": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssumeQueueRoleForWorker",
 }));
@@ -3906,6 +3979,14 @@ export const batchGetJob: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetJob",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetJob"],
+    resources: {
+      "deadline:GetJob": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetJob",
 }));
@@ -3939,6 +4020,14 @@ export const batchGetJobEntity: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetJobEntity",
   endpointHostPrefix: "scheduling.",
+  iam: {
+    actions: ["deadline:BatchGetJobEntity"],
+    resources: {
+      "deadline:BatchGetJobEntity": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetJobEntity",
 }));
@@ -3972,6 +4061,14 @@ export const batchGetSession: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetSession",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetSession"],
+    resources: {
+      "deadline:GetSession": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetSession",
 }));
@@ -4005,6 +4102,14 @@ export const batchGetSessionAction: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetSessionAction",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetSessionAction"],
+    resources: {
+      "deadline:GetSessionAction": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetSessionAction",
 }));
@@ -4038,6 +4143,14 @@ export const batchGetStep: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetStep",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetStep"],
+    resources: {
+      "deadline:GetStep": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetStep",
 }));
@@ -4071,6 +4184,14 @@ export const batchGetTask: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetTask",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetTask"],
+    resources: {
+      "deadline:GetTask": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetTask",
 }));
@@ -4104,6 +4225,14 @@ export const batchGetWorker: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetWorker",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetWorker"],
+    resources: {
+      "deadline:GetWorker": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetWorker",
 }));
@@ -4141,6 +4270,14 @@ export const batchUpdateJob: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateJob",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateJob"],
+    resources: {
+      "deadline:UpdateJob": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateJob",
 }));
@@ -4174,6 +4311,14 @@ export const batchUpdateTask: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateTask",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateTask"],
+    resources: {
+      "deadline:UpdateTask": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateTask",
 }));
@@ -4207,6 +4352,17 @@ export const copyJobTemplate: API.OperationMethod<
   retry: Retry,
   operationName: "CopyJobTemplate",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CopyJobTemplate", "deadline:GetJobTemplate"],
+    resources: {
+      "deadline:CopyJobTemplate": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+      "deadline:GetJobTemplate": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CopyJobTemplate",
 }));
@@ -4244,6 +4400,15 @@ export const createBudget: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBudget",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateBudget", "deadline:TagResource"],
+    resources: {
+      "deadline:CreateBudget": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/budget/${BudgetId}",
+      ],
+    },
+    conditional: { "deadline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBudget",
 }));
@@ -4279,6 +4444,13 @@ export const createFarm: API.OperationMethod<
   retry: Retry,
   operationName: "CreateFarm",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateFarm", "deadline:TagResource"],
+    resources: {
+      "deadline:CreateFarm": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+    conditional: { "deadline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFarm",
 }));
@@ -4318,6 +4490,16 @@ export const createFleet: API.OperationMethod<
   retry: Retry,
   operationName: "CreateFleet",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateFleet", "iam:PassRole", "deadline:TagResource"],
+    resources: {
+      "deadline:CreateFleet": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "deadline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFleet",
 }));
@@ -4353,6 +4535,15 @@ export const createJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateJob",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateJob", "deadline:TagResource"],
+    resources: {
+      "deadline:CreateJob": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+    conditional: { "deadline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -4388,6 +4579,15 @@ export const createLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "CreateLicenseEndpoint",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateLicenseEndpoint", "deadline:TagResource"],
+    resources: {
+      "deadline:CreateLicenseEndpoint": [
+        "arn:${Partition}:deadline:${Region}:${Account}:license-endpoint/${LicenseEndpointId}",
+      ],
+    },
+    conditional: { "deadline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLicenseEndpoint",
 }));
@@ -4425,6 +4625,12 @@ export const createLimit: API.OperationMethod<
   retry: Retry,
   operationName: "CreateLimit",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateLimit"],
+    resources: {
+      "deadline:CreateLimit": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLimit",
 }));
@@ -4460,6 +4666,16 @@ export const createMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMonitor",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateMonitor", "iam:PassRole", "deadline:TagResource"],
+    resources: {
+      "deadline:CreateMonitor": [
+        "arn:${Partition}:deadline:${Region}:${Account}:monitor/${MonitorId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "deadline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMonitor",
 }));
@@ -4497,6 +4713,16 @@ export const createQueue: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueue",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateQueue", "iam:PassRole", "deadline:TagResource"],
+    resources: {
+      "deadline:CreateQueue": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "roleArn", "deadline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateQueue",
 }));
@@ -4532,6 +4758,14 @@ export const createQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueEnvironment",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateQueueEnvironment"],
+    resources: {
+      "deadline:CreateQueueEnvironment": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateQueueEnvironment",
 }));
@@ -4565,6 +4799,15 @@ export const createQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateQueueFleetAssociation"],
+    resources: {
+      "deadline:CreateQueueFleetAssociation": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateQueueFleetAssociation",
 }));
@@ -4598,6 +4841,15 @@ export const createQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateQueueLimitAssociation"],
+    resources: {
+      "deadline:CreateQueueLimitAssociation": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateQueueLimitAssociation",
 }));
@@ -4635,6 +4887,14 @@ export const createStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateStorageProfile",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:CreateStorageProfile"],
+    resources: {
+      "deadline:CreateStorageProfile": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateStorageProfile",
 }));
@@ -4672,6 +4932,15 @@ export const createWorker: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorker",
   endpointHostPrefix: "scheduling.",
+  iam: {
+    actions: ["deadline:CreateWorker", "deadline:ListTagsForResource", "deadline:TagResource"],
+    resources: {
+      "deadline:CreateWorker": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+    conditional: { "deadline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorker",
 }));
@@ -4707,6 +4976,14 @@ export const deleteBudget: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBudget",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteBudget"],
+    resources: {
+      "deadline:DeleteBudget": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/budget/${BudgetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBudget",
 }));
@@ -4742,6 +5019,12 @@ export const deleteFarm: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteFarm",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteFarm"],
+    resources: {
+      "deadline:DeleteFarm": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFarm",
 }));
@@ -4777,6 +5060,14 @@ export const deleteFleet: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteFleet",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteFleet"],
+    resources: {
+      "deadline:DeleteFleet": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFleet",
 }));
@@ -4812,6 +5103,14 @@ export const deleteLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteLicenseEndpoint",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteLicenseEndpoint"],
+    resources: {
+      "deadline:DeleteLicenseEndpoint": [
+        "arn:${Partition}:deadline:${Region}:${Account}:license-endpoint/${LicenseEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLicenseEndpoint",
 }));
@@ -4843,6 +5142,12 @@ export const deleteLimit: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteLimit",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteLimit"],
+    resources: {
+      "deadline:DeleteLimit": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLimit",
 }));
@@ -4876,6 +5181,14 @@ export const deleteMeteredProduct: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMeteredProduct",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteMeteredProduct"],
+    resources: {
+      "deadline:DeleteMeteredProduct": [
+        "arn:${Partition}:deadline:${Region}:${Account}:license-endpoint/${LicenseEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMeteredProduct",
 }));
@@ -4911,6 +5224,14 @@ export const deleteMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMonitor",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteMonitor"],
+    resources: {
+      "deadline:DeleteMonitor": [
+        "arn:${Partition}:deadline:${Region}:${Account}:monitor/${MonitorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMonitor",
 }));
@@ -4948,6 +5269,14 @@ export const deleteQueue: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueue",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteQueue"],
+    resources: {
+      "deadline:DeleteQueue": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQueue",
 }));
@@ -4979,6 +5308,14 @@ export const deleteQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueEnvironment",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteQueueEnvironment"],
+    resources: {
+      "deadline:DeleteQueueEnvironment": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQueueEnvironment",
 }));
@@ -5014,6 +5351,15 @@ export const deleteQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteQueueFleetAssociation"],
+    resources: {
+      "deadline:DeleteQueueFleetAssociation": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQueueFleetAssociation",
 }));
@@ -5049,6 +5395,15 @@ export const deleteQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteQueueLimitAssociation"],
+    resources: {
+      "deadline:DeleteQueueLimitAssociation": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQueueLimitAssociation",
 }));
@@ -5084,6 +5439,14 @@ export const deleteStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteStorageProfile",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteStorageProfile"],
+    resources: {
+      "deadline:DeleteStorageProfile": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStorageProfile",
 }));
@@ -5119,6 +5482,14 @@ export const deleteVolume: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteVolume",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteVolume"],
+    resources: {
+      "deadline:DeleteVolume": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVolume",
 }));
@@ -5154,6 +5525,14 @@ export const deleteWorker: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorker",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DeleteWorker"],
+    resources: {
+      "deadline:DeleteWorker": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorker",
 }));
@@ -5187,6 +5566,14 @@ export const disassociateMemberFromFarm: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromFarm",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DisassociateMemberFromFarm"],
+    resources: {
+      "deadline:DisassociateMemberFromFarm": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateMemberFromFarm",
 }));
@@ -5222,6 +5609,14 @@ export const disassociateMemberFromFleet: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromFleet",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DisassociateMemberFromFleet"],
+    resources: {
+      "deadline:DisassociateMemberFromFleet": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateMemberFromFleet",
 }));
@@ -5255,6 +5650,14 @@ export const disassociateMemberFromJob: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromJob",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DisassociateMemberFromJob"],
+    resources: {
+      "deadline:DisassociateMemberFromJob": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateMemberFromJob",
 }));
@@ -5290,6 +5693,14 @@ export const disassociateMemberFromQueue: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromQueue",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:DisassociateMemberFromQueue"],
+    resources: {
+      "deadline:DisassociateMemberFromQueue": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateMemberFromQueue",
 }));
@@ -5323,6 +5734,14 @@ export const getBudget: API.OperationMethod<
   retry: Retry,
   operationName: "GetBudget",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetBudget"],
+    resources: {
+      "deadline:GetBudget": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/budget/${BudgetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBudget",
 }));
@@ -5356,6 +5775,12 @@ export const getFarm: API.OperationMethod<
   retry: Retry,
   operationName: "GetFarm",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetFarm"],
+    resources: {
+      "deadline:GetFarm": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFarm",
 }));
@@ -5389,6 +5814,14 @@ export const getFleet: API.OperationMethod<
   retry: Retry,
   operationName: "GetFleet",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetFleet"],
+    resources: {
+      "deadline:GetFleet": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFleet",
 }));
@@ -5422,6 +5855,14 @@ export const getJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetJob",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetJob"],
+    resources: {
+      "deadline:GetJob": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -5455,6 +5896,14 @@ export const getLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "GetLicenseEndpoint",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetLicenseEndpoint"],
+    resources: {
+      "deadline:GetLicenseEndpoint": [
+        "arn:${Partition}:deadline:${Region}:${Account}:license-endpoint/${LicenseEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLicenseEndpoint",
 }));
@@ -5488,6 +5937,12 @@ export const getLimit: API.OperationMethod<
   retry: Retry,
   operationName: "GetLimit",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetLimit"],
+    resources: {
+      "deadline:GetLimit": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLimit",
 }));
@@ -5521,6 +5976,14 @@ export const getMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "GetMonitor",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetMonitor"],
+    resources: {
+      "deadline:GetMonitor": [
+        "arn:${Partition}:deadline:${Region}:${Account}:monitor/${MonitorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMonitor",
 }));
@@ -5554,6 +6017,14 @@ export const getMonitorSettings: API.OperationMethod<
   retry: Retry,
   operationName: "GetMonitorSettings",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetMonitorSettings"],
+    resources: {
+      "deadline:GetMonitorSettings": [
+        "arn:${Partition}:deadline:${Region}:${Account}:monitor/${MonitorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMonitorSettings",
 }));
@@ -5587,6 +6058,14 @@ export const getQueue: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueue",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetQueue"],
+    resources: {
+      "deadline:GetQueue": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueue",
 }));
@@ -5620,6 +6099,14 @@ export const getQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueEnvironment",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetQueueEnvironment"],
+    resources: {
+      "deadline:GetQueueEnvironment": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueueEnvironment",
 }));
@@ -5653,6 +6140,15 @@ export const getQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetQueueFleetAssociation"],
+    resources: {
+      "deadline:GetQueueFleetAssociation": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueueFleetAssociation",
 }));
@@ -5686,6 +6182,15 @@ export const getQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetQueueLimitAssociation"],
+    resources: {
+      "deadline:GetQueueLimitAssociation": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueueLimitAssociation",
 }));
@@ -5719,6 +6224,14 @@ export const getSession: API.OperationMethod<
   retry: Retry,
   operationName: "GetSession",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetSession"],
+    resources: {
+      "deadline:GetSession": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -5752,6 +6265,14 @@ export const getSessionAction: API.OperationMethod<
   retry: Retry,
   operationName: "GetSessionAction",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetSessionAction"],
+    resources: {
+      "deadline:GetSessionAction": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSessionAction",
 }));
@@ -5792,6 +6313,7 @@ export const getSessionsStatisticsAggregation: API.PaginatedOperationMethod<
     items: "statistics",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:GetSessionsStatisticsAggregation"] },
   telemetry: TELEMETRY,
   span: "GetSessionsStatisticsAggregation",
 })) as any;
@@ -5825,6 +6347,14 @@ export const getStep: API.OperationMethod<
   retry: Retry,
   operationName: "GetStep",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetStep"],
+    resources: {
+      "deadline:GetStep": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStep",
 }));
@@ -5858,6 +6388,14 @@ export const getStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageProfile",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetStorageProfile"],
+    resources: {
+      "deadline:GetStorageProfile": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStorageProfile",
 }));
@@ -5891,6 +6429,14 @@ export const getStorageProfileForQueue: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageProfileForQueue",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetStorageProfileForQueue"],
+    resources: {
+      "deadline:GetStorageProfileForQueue": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStorageProfileForQueue",
 }));
@@ -5924,6 +6470,14 @@ export const getTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetTask",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetTask"],
+    resources: {
+      "deadline:GetTask": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTask",
 }));
@@ -5957,6 +6511,14 @@ export const getVolume: API.OperationMethod<
   retry: Retry,
   operationName: "GetVolume",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetVolume"],
+    resources: {
+      "deadline:GetVolume": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVolume",
 }));
@@ -5990,6 +6552,14 @@ export const getWorker: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorker",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:GetWorker"],
+    resources: {
+      "deadline:GetWorker": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorker",
 }));
@@ -6021,6 +6591,7 @@ export const listAvailableMeteredProducts: API.PaginatedOperationMethod<
     items: "meteredProducts",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:ListAvailableMeteredProducts"] },
   telemetry: TELEMETRY,
   span: "ListAvailableMeteredProducts",
 })) as any;
@@ -6061,6 +6632,7 @@ export const listBudgets: API.PaginatedOperationMethod<
     items: "budgets",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:ListBudgets"] },
   telemetry: TELEMETRY,
   span: "ListBudgets",
 })) as any;
@@ -6101,6 +6673,12 @@ export const listFarmMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListFarmMembers"],
+    resources: {
+      "deadline:ListFarmMembers": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFarmMembers",
 })) as any;
@@ -6139,6 +6717,12 @@ export const listFarms: API.PaginatedOperationMethod<
     items: "farms",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListFarms"],
+    resources: {
+      "deadline:ListFarms": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFarms",
 })) as any;
@@ -6179,6 +6763,14 @@ export const listFleetMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListFleetMembers"],
+    resources: {
+      "deadline:ListFleetMembers": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFleetMembers",
 })) as any;
@@ -6219,6 +6811,14 @@ export const listFleets: API.PaginatedOperationMethod<
     items: "fleets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListFleets"],
+    resources: {
+      "deadline:ListFleets": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFleets",
 })) as any;
@@ -6259,6 +6859,14 @@ export const listJobMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListJobMembers"],
+    resources: {
+      "deadline:ListJobMembers": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobMembers",
 })) as any;
@@ -6299,6 +6907,14 @@ export const listJobParameterDefinitions: API.PaginatedOperationMethod<
     items: "jobParameterDefinitions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListJobParameterDefinitions"],
+    resources: {
+      "deadline:ListJobParameterDefinitions": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobParameterDefinitions",
 })) as any;
@@ -6339,6 +6955,14 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListJobs"],
+    resources: {
+      "deadline:ListJobs": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -6379,6 +7003,14 @@ export const listLicenseEndpoints: API.PaginatedOperationMethod<
     items: "licenseEndpoints",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListLicenseEndpoints"],
+    resources: {
+      "deadline:ListLicenseEndpoints": [
+        "arn:${Partition}:deadline:${Region}:${Account}:license-endpoint/${LicenseEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLicenseEndpoints",
 })) as any;
@@ -6419,6 +7051,12 @@ export const listLimits: API.PaginatedOperationMethod<
     items: "limits",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListLimits"],
+    resources: {
+      "deadline:ListLimits": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLimits",
 })) as any;
@@ -6459,6 +7097,7 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "memberships",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:ListMemberships"] },
   telemetry: TELEMETRY,
   span: "ListMemberships",
 })) as any;
@@ -6499,6 +7138,14 @@ export const listMeteredProducts: API.PaginatedOperationMethod<
     items: "meteredProducts",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListMeteredProducts"],
+    resources: {
+      "deadline:ListMeteredProducts": [
+        "arn:${Partition}:deadline:${Region}:${Account}:license-endpoint/${LicenseEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMeteredProducts",
 })) as any;
@@ -6537,6 +7184,14 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "monitors",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListMonitors"],
+    resources: {
+      "deadline:ListMonitors": [
+        "arn:${Partition}:deadline:${Region}:${Account}:monitor/${MonitorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMonitors",
 })) as any;
@@ -6577,6 +7232,14 @@ export const listQueueEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListQueueEnvironments"],
+    resources: {
+      "deadline:ListQueueEnvironments": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQueueEnvironments",
 })) as any;
@@ -6615,6 +7278,7 @@ export const listQueueFleetAssociations: API.PaginatedOperationMethod<
     items: "queueFleetAssociations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:ListQueueFleetAssociations"] },
   telemetry: TELEMETRY,
   span: "ListQueueFleetAssociations",
 })) as any;
@@ -6653,6 +7317,7 @@ export const listQueueLimitAssociations: API.PaginatedOperationMethod<
     items: "queueLimitAssociations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:ListQueueLimitAssociations"] },
   telemetry: TELEMETRY,
   span: "ListQueueLimitAssociations",
 })) as any;
@@ -6693,6 +7358,7 @@ export const listQueueMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:ListQueueMembers"] },
   telemetry: TELEMETRY,
   span: "ListQueueMembers",
 })) as any;
@@ -6733,6 +7399,14 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "queues",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListQueues"],
+    resources: {
+      "deadline:ListQueues": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQueues",
 })) as any;
@@ -6773,6 +7447,14 @@ export const listSessionActions: API.PaginatedOperationMethod<
     items: "sessionActions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListSessionActions"],
+    resources: {
+      "deadline:ListSessionActions": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSessionActions",
 })) as any;
@@ -6813,6 +7495,14 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListSessions"],
+    resources: {
+      "deadline:ListSessions": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -6853,6 +7543,7 @@ export const listSessionsForWorker: API.PaginatedOperationMethod<
     items: "sessions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:ListSessionsForWorker"] },
   telemetry: TELEMETRY,
   span: "ListSessionsForWorker",
 })) as any;
@@ -6893,6 +7584,14 @@ export const listStepConsumers: API.PaginatedOperationMethod<
     items: "consumers",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListStepConsumers"],
+    resources: {
+      "deadline:ListStepConsumers": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStepConsumers",
 })) as any;
@@ -6933,6 +7632,7 @@ export const listStepDependencies: API.PaginatedOperationMethod<
     items: "dependencies",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:ListStepDependencies"] },
   telemetry: TELEMETRY,
   span: "ListStepDependencies",
 })) as any;
@@ -6973,6 +7673,14 @@ export const listSteps: API.PaginatedOperationMethod<
     items: "steps",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListSteps"],
+    resources: {
+      "deadline:ListSteps": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSteps",
 })) as any;
@@ -7013,6 +7721,14 @@ export const listStorageProfiles: API.PaginatedOperationMethod<
     items: "storageProfiles",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListStorageProfiles"],
+    resources: {
+      "deadline:ListStorageProfiles": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStorageProfiles",
 })) as any;
@@ -7053,6 +7769,7 @@ export const listStorageProfilesForQueue: API.PaginatedOperationMethod<
     items: "storageProfiles",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["deadline:ListStorageProfilesForQueue"] },
   telemetry: TELEMETRY,
   span: "ListStorageProfilesForQueue",
 })) as any;
@@ -7086,6 +7803,7 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "management.",
+  iam: { actions: ["deadline:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -7126,6 +7844,14 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListTasks"],
+    resources: {
+      "deadline:ListTasks": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTasks",
 })) as any;
@@ -7166,6 +7892,14 @@ export const listVolumes: API.PaginatedOperationMethod<
     items: "volumes",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListVolumes"],
+    resources: {
+      "deadline:ListVolumes": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/volume/${VolumeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListVolumes",
 })) as any;
@@ -7206,6 +7940,14 @@ export const listWorkers: API.PaginatedOperationMethod<
     items: "workers",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["deadline:ListWorkers"],
+    resources: {
+      "deadline:ListWorkers": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkers",
 })) as any;
@@ -7239,6 +7981,14 @@ export const putMeteredProduct: API.OperationMethod<
   retry: Retry,
   operationName: "PutMeteredProduct",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:PutMeteredProduct"],
+    resources: {
+      "deadline:PutMeteredProduct": [
+        "arn:${Partition}:deadline:${Region}:${Account}:license-endpoint/${LicenseEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutMeteredProduct",
 }));
@@ -7272,6 +8022,14 @@ export const searchJobs: API.OperationMethod<
   retry: Retry,
   operationName: "SearchJobs",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:SearchJobs"],
+    resources: {
+      "deadline:SearchJobs": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchJobs",
 }));
@@ -7305,6 +8063,7 @@ export const searchSteps: API.OperationMethod<
   retry: Retry,
   operationName: "SearchSteps",
   endpointHostPrefix: "management.",
+  iam: { actions: ["deadline:SearchSteps"] },
   telemetry: TELEMETRY,
   span: "SearchSteps",
 }));
@@ -7338,6 +8097,7 @@ export const searchTasks: API.OperationMethod<
   retry: Retry,
   operationName: "SearchTasks",
   endpointHostPrefix: "management.",
+  iam: { actions: ["deadline:SearchTasks"] },
   telemetry: TELEMETRY,
   span: "SearchTasks",
 }));
@@ -7371,6 +8131,7 @@ export const searchWorkers: API.OperationMethod<
   retry: Retry,
   operationName: "SearchWorkers",
   endpointHostPrefix: "management.",
+  iam: { actions: ["deadline:SearchWorkers"] },
   telemetry: TELEMETRY,
   span: "SearchWorkers",
 }));
@@ -7404,6 +8165,7 @@ export const startSessionsStatisticsAggregation: API.OperationMethod<
   retry: Retry,
   operationName: "StartSessionsStatisticsAggregation",
   endpointHostPrefix: "management.",
+  iam: { actions: ["deadline:StartSessionsStatisticsAggregation"] },
   telemetry: TELEMETRY,
   span: "StartSessionsStatisticsAggregation",
 }));
@@ -7439,6 +8201,7 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "management.",
+  iam: { actions: ["deadline:TagResource"], conditional: { "deadline:TagResource": "tags" } },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -7474,6 +8237,7 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "management.",
+  iam: { actions: ["deadline:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -7511,6 +8275,14 @@ export const updateBudget: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateBudget",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateBudget"],
+    resources: {
+      "deadline:UpdateBudget": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/budget/${BudgetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBudget",
 }));
@@ -7546,6 +8318,12 @@ export const updateFarm: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateFarm",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateFarm"],
+    resources: {
+      "deadline:UpdateFarm": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFarm",
 }));
@@ -7585,6 +8363,16 @@ export const updateFleet: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateFleet",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["iam:PassRole", "deadline:UpdateFleet"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "deadline:UpdateFleet": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFleet",
 }));
@@ -7624,6 +8412,14 @@ export const updateJob: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateJob",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateJob"],
+    resources: {
+      "deadline:UpdateJob": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateJob",
 }));
@@ -7657,6 +8453,12 @@ export const updateLimit: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateLimit",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateLimit"],
+    resources: {
+      "deadline:UpdateLimit": ["arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLimit",
 }));
@@ -7692,6 +8494,16 @@ export const updateMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMonitor",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["iam:PassRole", "deadline:UpdateMonitor"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "deadline:UpdateMonitor": [
+        "arn:${Partition}:deadline:${Region}:${Account}:monitor/${MonitorId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMonitor",
 }));
@@ -7725,6 +8537,14 @@ export const updateMonitorSettings: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMonitorSettings",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateMonitorSettings"],
+    resources: {
+      "deadline:UpdateMonitorSettings": [
+        "arn:${Partition}:deadline:${Region}:${Account}:monitor/${MonitorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMonitorSettings",
 }));
@@ -7760,6 +8580,16 @@ export const updateQueue: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueue",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["iam:PassRole", "deadline:UpdateQueue"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "deadline:UpdateQueue": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueue",
 }));
@@ -7793,6 +8623,14 @@ export const updateQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueEnvironment",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateQueueEnvironment"],
+    resources: {
+      "deadline:UpdateQueueEnvironment": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueueEnvironment",
 }));
@@ -7826,6 +8664,15 @@ export const updateQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateQueueFleetAssociation"],
+    resources: {
+      "deadline:UpdateQueueFleetAssociation": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}",
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueueFleetAssociation",
 }));
@@ -7859,6 +8706,15 @@ export const updateQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateQueueLimitAssociation"],
+    resources: {
+      "deadline:UpdateQueueLimitAssociation": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueueLimitAssociation",
 }));
@@ -7894,6 +8750,14 @@ export const updateSession: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateSession",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateSession"],
+    resources: {
+      "deadline:UpdateSession": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSession",
 }));
@@ -7929,6 +8793,14 @@ export const updateStep: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateStep",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateStep"],
+    resources: {
+      "deadline:UpdateStep": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStep",
 }));
@@ -7964,6 +8836,14 @@ export const updateStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateStorageProfile",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateStorageProfile"],
+    resources: {
+      "deadline:UpdateStorageProfile": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStorageProfile",
 }));
@@ -7999,6 +8879,14 @@ export const updateTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTask",
   endpointHostPrefix: "management.",
+  iam: {
+    actions: ["deadline:UpdateTask"],
+    resources: {
+      "deadline:UpdateTask": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/queue/${QueueId}/job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTask",
 }));
@@ -8034,6 +8922,14 @@ export const updateWorker: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorker",
   endpointHostPrefix: "scheduling.",
+  iam: {
+    actions: ["deadline:UpdateWorker"],
+    resources: {
+      "deadline:UpdateWorker": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorker",
 }));
@@ -8069,6 +8965,14 @@ export const updateWorkerSchedule: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkerSchedule",
   endpointHostPrefix: "scheduling.",
+  iam: {
+    actions: ["deadline:UpdateWorkerSchedule"],
+    resources: {
+      "deadline:UpdateWorkerSchedule": [
+        "arn:${Partition}:deadline:${Region}:${Account}:farm/${FarmId}/fleet/${FleetId}/worker/${WorkerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkerSchedule",
 }));

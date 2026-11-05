@@ -4278,6 +4278,7 @@ export const associateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCertificate",
+  iam: { actions: ["mediaconvert:AssociateCertificate"] },
   telemetry: TELEMETRY,
   span: "AssociateCertificate",
 }));
@@ -4314,6 +4315,14 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
+  iam: {
+    actions: ["mediaconvert:CancelJob"],
+    resources: {
+      "mediaconvert:CancelJob": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:jobs/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelJob",
 }));
@@ -4350,6 +4359,11 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  iam: {
+    actions: ["mediaconvert:CreateJob", "iam:PassRole", "mediaconvert:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "mediaconvert:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -4386,6 +4400,10 @@ export const createJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobTemplate",
+  iam: {
+    actions: ["mediaconvert:CreateJobTemplate", "mediaconvert:TagResource"],
+    conditional: { "mediaconvert:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJobTemplate",
 }));
@@ -4422,6 +4440,10 @@ export const createPreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePreset",
+  iam: {
+    actions: ["mediaconvert:CreatePreset", "mediaconvert:TagResource"],
+    conditional: { "mediaconvert:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePreset",
 }));
@@ -4458,6 +4480,10 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  iam: {
+    actions: ["mediaconvert:CreateQueue", "mediaconvert:TagResource"],
+    conditional: { "mediaconvert:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateQueue",
 }));
@@ -4494,6 +4520,7 @@ export const createResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceShare",
+  iam: { actions: ["mediaconvert:CreateResourceShare"] },
   telemetry: TELEMETRY,
   span: "CreateResourceShare",
 }));
@@ -4530,6 +4557,14 @@ export const deleteJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTemplate",
+  iam: {
+    actions: ["mediaconvert:DeleteJobTemplate"],
+    resources: {
+      "mediaconvert:DeleteJobTemplate": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:jobTemplates/${JobTemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJobTemplate",
 }));
@@ -4566,6 +4601,7 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  iam: { actions: ["mediaconvert:DeletePolicy"] },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -4602,6 +4638,14 @@ export const deletePreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePreset",
+  iam: {
+    actions: ["mediaconvert:DeletePreset"],
+    resources: {
+      "mediaconvert:DeletePreset": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:presets/${PresetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePreset",
 }));
@@ -4638,6 +4682,14 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  iam: {
+    actions: ["mediaconvert:DeleteQueue"],
+    resources: {
+      "mediaconvert:DeleteQueue": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:queues/${QueueName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQueue",
 }));
@@ -4681,6 +4733,7 @@ export const describeEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:DescribeEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpoints",
 })) as any;
@@ -4717,6 +4770,7 @@ export const disassociateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCertificate",
+  iam: { actions: ["mediaconvert:DisassociateCertificate"] },
   telemetry: TELEMETRY,
   span: "DisassociateCertificate",
 }));
@@ -4753,6 +4807,12 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  iam: {
+    actions: ["mediaconvert:GetJob"],
+    resources: {
+      "mediaconvert:GetJob": ["arn:${Partition}:mediaconvert:${Region}:${Account}:jobs/${JobId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -4789,6 +4849,7 @@ export const getJobsQueryResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobsQueryResults",
+  iam: { actions: ["mediaconvert:GetJobsQueryResults"] },
   telemetry: TELEMETRY,
   span: "GetJobsQueryResults",
 }));
@@ -4825,6 +4886,14 @@ export const getJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobTemplate",
+  iam: {
+    actions: ["mediaconvert:GetJobTemplate", "mediaconvert:ListJobTemplates"],
+    resources: {
+      "mediaconvert:GetJobTemplate": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:jobTemplates/${JobTemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetJobTemplate",
 }));
@@ -4861,6 +4930,7 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: { actions: ["mediaconvert:GetPolicy"] },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -4897,6 +4967,14 @@ export const getPreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreset",
+  iam: {
+    actions: ["mediaconvert:GetPreset", "mediaconvert:ListPresets"],
+    resources: {
+      "mediaconvert:GetPreset": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:presets/${PresetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPreset",
 }));
@@ -4933,6 +5011,14 @@ export const getQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueue",
+  iam: {
+    actions: ["mediaconvert:GetQueue"],
+    resources: {
+      "mediaconvert:GetQueue": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:queues/${QueueName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueue",
 }));
@@ -4976,6 +5062,7 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -5019,6 +5106,7 @@ export const listJobTemplates: API.PaginatedOperationMethod<
     items: "JobTemplates",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListJobTemplates"] },
   telemetry: TELEMETRY,
   span: "ListJobTemplates",
 })) as any;
@@ -5062,6 +5150,7 @@ export const listPresets: API.PaginatedOperationMethod<
     items: "Presets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListPresets"] },
   telemetry: TELEMETRY,
   span: "ListPresets",
 })) as any;
@@ -5105,6 +5194,7 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "Queues",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListQueues"] },
   telemetry: TELEMETRY,
   span: "ListQueues",
 })) as any;
@@ -5141,6 +5231,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["mediaconvert:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5184,6 +5275,7 @@ export const listVersions: API.PaginatedOperationMethod<
     items: "Versions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListVersions"] },
   telemetry: TELEMETRY,
   span: "ListVersions",
 })) as any;
@@ -5222,6 +5314,7 @@ export const probe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Probe",
+  iam: { actions: ["mediaconvert:Probe"] },
   telemetry: TELEMETRY,
   span: "Probe",
 }));
@@ -5258,6 +5351,7 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
+  iam: { actions: ["mediaconvert:PutPolicy"] },
   telemetry: TELEMETRY,
   span: "PutPolicy",
 }));
@@ -5301,6 +5395,7 @@ export const searchJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:SearchJobs"] },
   telemetry: TELEMETRY,
   span: "SearchJobs",
 })) as any;
@@ -5337,6 +5432,7 @@ export const startJobsQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobsQuery",
+  iam: { actions: ["mediaconvert:CreateJobsQuery", "mediaconvert:StartJobsQuery"] },
   telemetry: TELEMETRY,
   span: "StartJobsQuery",
 }));
@@ -5373,6 +5469,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["mediaconvert:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5409,6 +5506,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["mediaconvert:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5445,6 +5543,7 @@ export const updateJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobTemplate",
+  iam: { actions: ["mediaconvert:UpdateJobTemplate"] },
   telemetry: TELEMETRY,
   span: "UpdateJobTemplate",
 }));
@@ -5481,6 +5580,14 @@ export const updatePreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreset",
+  iam: {
+    actions: ["mediaconvert:UpdatePreset"],
+    resources: {
+      "mediaconvert:UpdatePreset": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:presets/${PresetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePreset",
 }));
@@ -5517,6 +5624,14 @@ export const updateQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueue",
+  iam: {
+    actions: ["mediaconvert:UpdateQueue"],
+    resources: {
+      "mediaconvert:UpdateQueue": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:queues/${QueueName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueue",
 }));

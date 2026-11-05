@@ -369,6 +369,12 @@ export const completeSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteSnapshot",
+  iam: {
+    actions: ["ebs:CompleteSnapshot"],
+    resources: {
+      "ebs:CompleteSnapshot": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CompleteSnapshot",
 }));
@@ -408,6 +414,12 @@ export const getSnapshotBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshotBlock",
+  iam: {
+    actions: ["ebs:GetSnapshotBlock"],
+    resources: {
+      "ebs:GetSnapshotBlock": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSnapshotBlock",
 }));
@@ -454,6 +466,12 @@ export const listChangedBlocks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ebs:ListChangedBlocks"],
+    resources: {
+      "ebs:ListChangedBlocks": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListChangedBlocks",
 })) as any;
@@ -499,6 +517,12 @@ export const listSnapshotBlocks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ebs:ListSnapshotBlocks"],
+    resources: {
+      "ebs:ListSnapshotBlocks": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSnapshotBlocks",
 })) as any;
@@ -544,6 +568,12 @@ export const putSnapshotBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSnapshotBlock",
+  iam: {
+    actions: ["ebs:PutSnapshotBlock"],
+    resources: {
+      "ebs:PutSnapshotBlock": ["arn:${Partition}:ec2:${Region}::snapshot/${SnapshotId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSnapshotBlock",
 }));
@@ -591,6 +621,10 @@ export const startSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSnapshot",
+  iam: {
+    actions: ["ec2:CreateTags", "ebs:StartSnapshot"],
+    conditional: { "ec2:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartSnapshot",
 }));

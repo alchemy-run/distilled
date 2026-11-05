@@ -3781,6 +3781,14 @@ export const addBridgeOutputs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddBridgeOutputs",
+  iam: {
+    actions: ["mediaconnect:AddBridgeOutputs"],
+    resources: {
+      "mediaconnect:AddBridgeOutputs": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddBridgeOutputs",
 }));
@@ -3817,6 +3825,14 @@ export const addBridgeSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddBridgeSources",
+  iam: {
+    actions: ["mediaconnect:AddBridgeSources"],
+    resources: {
+      "mediaconnect:AddBridgeSources": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddBridgeSources",
 }));
@@ -3851,6 +3867,15 @@ export const addFlowMediaStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowMediaStreams",
+  iam: {
+    actions: ["mediaconnect:AddFlowMediaStreams", "mediaconnect:TagResource"],
+    resources: {
+      "mediaconnect:AddFlowMediaStreams": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}/mediaStream/${MediaStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddFlowMediaStreams",
 }));
@@ -3887,6 +3912,17 @@ export const addFlowOutputs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowOutputs",
+  iam: {
+    actions: ["mediaconnect:AddFlowOutputs", "iam:PassRole", "mediaconnect:TagResource"],
+    resources: {
+      "mediaconnect:AddFlowOutputs": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:output:${OutputId}:${OutputName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "AddFlowOutputs",
 }));
@@ -3921,6 +3957,17 @@ export const addFlowSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowSources",
+  iam: {
+    actions: ["mediaconnect:AddFlowSources", "iam:PassRole", "mediaconnect:TagResource"],
+    resources: {
+      "mediaconnect:AddFlowSources": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:source:${SourceId}:${SourceName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "AddFlowSources",
 }));
@@ -3955,6 +4002,17 @@ export const addFlowVpcInterfaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowVpcInterfaces",
+  iam: {
+    actions: ["mediaconnect:AddFlowVpcInterfaces", "iam:PassRole", "mediaconnect:TagResource"],
+    resources: {
+      "mediaconnect:AddFlowVpcInterfaces": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}/vpcInterface/${VpcInterfaceName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "AddFlowVpcInterfaces",
 }));
@@ -3987,6 +4045,14 @@ export const batchGetDestinationEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDestinationEndpoint",
+  iam: {
+    actions: ["mediaconnect:GetDestinationEndpoint"],
+    resources: {
+      "mediaconnect:GetDestinationEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:destinationEndpoint:${DestinationEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetDestinationEndpoint",
 }));
@@ -4019,6 +4085,14 @@ export const batchGetRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterInput",
+  iam: {
+    actions: ["mediaconnect:GetRouterInput"],
+    resources: {
+      "mediaconnect:GetRouterInput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetRouterInput",
 }));
@@ -4051,6 +4125,14 @@ export const batchGetRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterNetworkInterface",
+  iam: {
+    actions: ["mediaconnect:GetRouterNetworkInterface"],
+    resources: {
+      "mediaconnect:GetRouterNetworkInterface": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerNetworkInterface:${RouterNetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetRouterNetworkInterface",
 }));
@@ -4083,6 +4165,14 @@ export const batchGetRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterOutput",
+  iam: {
+    actions: ["mediaconnect:GetRouterOutput"],
+    resources: {
+      "mediaconnect:GetRouterOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerOutput:${RouterOutputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetRouterOutput",
 }));
@@ -4115,6 +4205,14 @@ export const batchGetSourceEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSourceEndpoint",
+  iam: {
+    actions: ["mediaconnect:GetSourceEndpoint"],
+    resources: {
+      "mediaconnect:GetSourceEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:sourceEndpoint:${SourceEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetSourceEndpoint",
 }));
@@ -4151,6 +4249,14 @@ export const connectEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConnectEndpoints",
+  iam: {
+    actions: ["mediaconnect:ConnectEndpoints"],
+    resources: {
+      "mediaconnect:ConnectEndpoints": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:destinationEndpoint:${DestinationEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ConnectEndpoints",
 }));
@@ -4187,6 +4293,24 @@ export const createBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBridge",
+  iam: {
+    actions: [
+      "mediaconnect:AddBridgeOutputs",
+      "mediaconnect:AddBridgeSources",
+      "mediaconnect:CreateBridge",
+    ],
+    resources: {
+      "mediaconnect:AddBridgeOutputs": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+      "mediaconnect:AddBridgeSources": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+      "mediaconnect:CreateBridge": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBridge",
 }));
@@ -4221,6 +4345,45 @@ export const createFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlow",
+  iam: {
+    actions: [
+      "mediaconnect:AddFlowMediaStreams",
+      "mediaconnect:AddFlowOutputs",
+      "mediaconnect:AddFlowSources",
+      "mediaconnect:AddFlowVpcInterfaces",
+      "mediaconnect:CreateFlow",
+      "mediaconnect:GrantFlowEntitlements",
+      "iam:PassRole",
+      "mediaconnect:TagResource",
+    ],
+    resources: {
+      "mediaconnect:AddFlowMediaStreams": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}/mediaStream/${MediaStreamName}",
+      ],
+      "mediaconnect:AddFlowOutputs": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:output:${OutputId}:${OutputName}",
+      ],
+      "mediaconnect:AddFlowSources": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:source:${SourceId}:${SourceName}",
+      ],
+      "mediaconnect:AddFlowVpcInterfaces": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}/vpcInterface/${VpcInterfaceName}",
+      ],
+      "mediaconnect:CreateFlow": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+      "mediaconnect:GrantFlowEntitlements": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:entitlement:${FlowId}:${EntitlementName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFlow",
 }));
@@ -4257,6 +4420,14 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
+  iam: {
+    actions: ["mediaconnect:CreateGateway"],
+    resources: {
+      "mediaconnect:CreateGateway": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:gateway:${GatewayId}:${GatewayName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGateway",
 }));
@@ -4293,6 +4464,30 @@ export const createRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterInput",
+  iam: {
+    actions: [
+      "mediaconnect:AssociateRouterNetworkInterface",
+      "mediaconnect:CreateRouterInput",
+      "iam:PassRole",
+      "mediaconnect:RegisterDestinationEndpoint",
+      "mediaconnect:TagResource",
+      "mediaconnect:UpdateFlowOutput",
+    ],
+    resources: {
+      "mediaconnect:CreateRouterInput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "mediaconnect:RegisterDestinationEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:destinationEndpoint:${DestinationEndpointId}",
+      ],
+      "mediaconnect:UpdateFlowOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:output:${OutputId}:${OutputName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "mediaconnect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRouterInput",
 }));
@@ -4329,6 +4524,15 @@ export const createRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterNetworkInterface",
+  iam: {
+    actions: ["mediaconnect:CreateRouterNetworkInterface", "mediaconnect:TagResource"],
+    resources: {
+      "mediaconnect:CreateRouterNetworkInterface": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerNetworkInterface:${RouterNetworkInterfaceId}",
+      ],
+    },
+    conditional: { "mediaconnect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRouterNetworkInterface",
 }));
@@ -4365,6 +4569,30 @@ export const createRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterOutput",
+  iam: {
+    actions: [
+      "mediaconnect:AssociateRouterNetworkInterface",
+      "mediaconnect:CreateRouterOutput",
+      "iam:PassRole",
+      "mediaconnect:RegisterSourceEndpoint",
+      "mediaconnect:TagResource",
+      "mediaconnect:UpdateFlowSource",
+    ],
+    resources: {
+      "mediaconnect:CreateRouterOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerOutput:${RouterOutputId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "mediaconnect:RegisterSourceEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:sourceEndpoint:${SourceEndpointId}",
+      ],
+      "mediaconnect:UpdateFlowSource": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:source:${SourceId}:${SourceName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "mediaconnect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRouterOutput",
 }));
@@ -4401,6 +4629,24 @@ export const deleteBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBridge",
+  iam: {
+    actions: [
+      "mediaconnect:DeleteBridge",
+      "mediaconnect:RemoveBridgeOutput",
+      "mediaconnect:RemoveBridgeSource",
+    ],
+    resources: {
+      "mediaconnect:DeleteBridge": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+      "mediaconnect:RemoveBridgeOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+      "mediaconnect:RemoveBridgeSource": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBridge",
 }));
@@ -4435,6 +4681,41 @@ export const deleteFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlow",
+  iam: {
+    actions: [
+      "mediaconnect:DeleteFlow",
+      "mediaconnect:RemoveFlowMediaStream",
+      "mediaconnect:RemoveFlowOutput",
+      "mediaconnect:RemoveFlowSource",
+      "mediaconnect:RemoveFlowVpcInterface",
+      "mediaconnect:RevokeFlowEntitlement",
+    ],
+    resources: {
+      "mediaconnect:DeleteFlow": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+      "mediaconnect:RemoveFlowMediaStream": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}/mediaStream/${MediaStreamName}",
+      ],
+      "mediaconnect:RemoveFlowOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:output:${OutputId}:${OutputName}",
+      ],
+      "mediaconnect:RemoveFlowSource": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:source:${SourceId}:${SourceName}",
+      ],
+      "mediaconnect:RemoveFlowVpcInterface": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}/vpcInterface/${VpcInterfaceName}",
+      ],
+      "mediaconnect:RevokeFlowEntitlement": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:entitlement:${FlowId}:${EntitlementName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFlow",
 }));
@@ -4471,6 +4752,14 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
+  iam: {
+    actions: ["mediaconnect:DeleteGateway"],
+    resources: {
+      "mediaconnect:DeleteGateway": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:gateway:${GatewayId}:${GatewayName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGateway",
 }));
@@ -4507,6 +4796,25 @@ export const deleteRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterInput",
+  iam: {
+    actions: [
+      "mediaconnect:DeleteRouterInput",
+      "mediaconnect:DeregisterDestinationEndpoint",
+      "mediaconnect:UpdateFlowOutput",
+    ],
+    resources: {
+      "mediaconnect:DeleteRouterInput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+      "mediaconnect:DeregisterDestinationEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:destinationEndpoint:${DestinationEndpointId}",
+      ],
+      "mediaconnect:UpdateFlowOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:output:${OutputId}:${OutputName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRouterInput",
 }));
@@ -4543,6 +4851,14 @@ export const deleteRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterNetworkInterface",
+  iam: {
+    actions: ["mediaconnect:DeleteRouterNetworkInterface"],
+    resources: {
+      "mediaconnect:DeleteRouterNetworkInterface": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerNetworkInterface:${RouterNetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRouterNetworkInterface",
 }));
@@ -4579,6 +4895,25 @@ export const deleteRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterOutput",
+  iam: {
+    actions: [
+      "mediaconnect:DeleteRouterOutput",
+      "mediaconnect:DeregisterSourceEndpoint",
+      "mediaconnect:UpdateFlowSource",
+    ],
+    resources: {
+      "mediaconnect:DeleteRouterOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerOutput:${RouterOutputId}",
+      ],
+      "mediaconnect:DeregisterSourceEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:sourceEndpoint:${SourceEndpointId}",
+      ],
+      "mediaconnect:UpdateFlowSource": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:source:${SourceId}:${SourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRouterOutput",
 }));
@@ -4615,6 +4950,14 @@ export const deregisterDestinationEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDestinationEndpoint",
+  iam: {
+    actions: ["mediaconnect:DeregisterDestinationEndpoint"],
+    resources: {
+      "mediaconnect:DeregisterDestinationEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:destinationEndpoint:${DestinationEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterDestinationEndpoint",
 }));
@@ -4651,6 +4994,14 @@ export const deregisterGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterGatewayInstance",
+  iam: {
+    actions: ["mediaconnect:DeregisterGatewayInstance"],
+    resources: {
+      "mediaconnect:DeregisterGatewayInstance": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:gateway:${GatewayId}:${GatewayName}:instance:${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterGatewayInstance",
 }));
@@ -4687,6 +5038,14 @@ export const deregisterSourceEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterSourceEndpoint",
+  iam: {
+    actions: ["mediaconnect:DeregisterSourceEndpoint"],
+    resources: {
+      "mediaconnect:DeregisterSourceEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:sourceEndpoint:${SourceEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterSourceEndpoint",
 }));
@@ -4723,6 +5082,14 @@ export const describeBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBridge",
+  iam: {
+    actions: ["mediaconnect:DescribeBridge"],
+    resources: {
+      "mediaconnect:DescribeBridge": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBridge",
 }));
@@ -4757,6 +5124,14 @@ export const describeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlow",
+  iam: {
+    actions: ["mediaconnect:DescribeFlow"],
+    resources: {
+      "mediaconnect:DescribeFlow": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFlow",
 }));
@@ -4791,6 +5166,14 @@ export const describeFlowSourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowSourceMetadata",
+  iam: {
+    actions: ["mediaconnect:DescribeFlowSourceMetadata"],
+    resources: {
+      "mediaconnect:DescribeFlowSourceMetadata": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFlowSourceMetadata",
 }));
@@ -4825,6 +5208,14 @@ export const describeFlowSourceThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowSourceThumbnail",
+  iam: {
+    actions: ["mediaconnect:DescribeFlowSourceThumbnail"],
+    resources: {
+      "mediaconnect:DescribeFlowSourceThumbnail": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFlowSourceThumbnail",
 }));
@@ -4861,6 +5252,14 @@ export const describeGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGateway",
+  iam: {
+    actions: ["mediaconnect:DescribeGateway"],
+    resources: {
+      "mediaconnect:DescribeGateway": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:gateway:${GatewayId}:${GatewayName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGateway",
 }));
@@ -4897,6 +5296,14 @@ export const describeGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayInstance",
+  iam: {
+    actions: ["mediaconnect:DescribeGatewayInstance"],
+    resources: {
+      "mediaconnect:DescribeGatewayInstance": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:gateway:${GatewayId}:${GatewayName}:instance:${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGatewayInstance",
 }));
@@ -4929,6 +5336,14 @@ export const describeOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOffering",
+  iam: {
+    actions: ["mediaconnect:DescribeOffering"],
+    resources: {
+      "mediaconnect:DescribeOffering": [
+        "arn:${Partition}:mediaconnect:${Region}:offering:${OfferingId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeOffering",
 }));
@@ -4961,6 +5376,14 @@ export const describeReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservation",
+  iam: {
+    actions: ["mediaconnect:DescribeReservation"],
+    resources: {
+      "mediaconnect:DescribeReservation": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:reservation:${ReservationId}:${ReservationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeReservation",
 }));
@@ -4997,6 +5420,14 @@ export const disconnectEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectEndpoints",
+  iam: {
+    actions: ["mediaconnect:DisconnectEndpoints"],
+    resources: {
+      "mediaconnect:DisconnectEndpoints": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:destinationEndpoint:${DestinationEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisconnectEndpoints",
 }));
@@ -5033,6 +5464,14 @@ export const getDestinationEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDestinationEndpoint",
+  iam: {
+    actions: ["mediaconnect:GetDestinationEndpoint"],
+    resources: {
+      "mediaconnect:GetDestinationEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:destinationEndpoint:${DestinationEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDestinationEndpoint",
 }));
@@ -5069,6 +5508,14 @@ export const getRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInput",
+  iam: {
+    actions: ["mediaconnect:GetRouterInput"],
+    resources: {
+      "mediaconnect:GetRouterInput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRouterInput",
 }));
@@ -5103,6 +5550,14 @@ export const getRouterInputSourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInputSourceMetadata",
+  iam: {
+    actions: ["mediaconnect:GetRouterInputSourceMetadata"],
+    resources: {
+      "mediaconnect:GetRouterInputSourceMetadata": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRouterInputSourceMetadata",
 }));
@@ -5137,6 +5592,14 @@ export const getRouterInputThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInputThumbnail",
+  iam: {
+    actions: ["mediaconnect:GetRouterInputThumbnail"],
+    resources: {
+      "mediaconnect:GetRouterInputThumbnail": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRouterInputThumbnail",
 }));
@@ -5173,6 +5636,14 @@ export const getRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterNetworkInterface",
+  iam: {
+    actions: ["mediaconnect:GetRouterNetworkInterface"],
+    resources: {
+      "mediaconnect:GetRouterNetworkInterface": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerNetworkInterface:${RouterNetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRouterNetworkInterface",
 }));
@@ -5209,6 +5680,14 @@ export const getRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterOutput",
+  iam: {
+    actions: ["mediaconnect:GetRouterOutput"],
+    resources: {
+      "mediaconnect:GetRouterOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerOutput:${RouterOutputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRouterOutput",
 }));
@@ -5243,6 +5722,14 @@ export const getSourceEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceEndpoint",
+  iam: {
+    actions: ["mediaconnect:GetSourceEndpoint"],
+    resources: {
+      "mediaconnect:GetSourceEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:sourceEndpoint:${SourceEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSourceEndpoint",
 }));
@@ -5279,6 +5766,21 @@ export const grantFlowEntitlements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GrantFlowEntitlements",
+  iam: {
+    actions: ["mediaconnect:GrantFlowEntitlements", "iam:PassRole", "mediaconnect:TagResource"],
+    resources: {
+      "mediaconnect:GrantFlowEntitlements": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:entitlement:${FlowId}:${EntitlementName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "mediaconnect:TagResource":
+        "Needed only when the request sets tags; not granted, since tagging can change tag-based access.",
+    },
+  },
   telemetry: TELEMETRY,
   span: "GrantFlowEntitlements",
 }));
@@ -5318,6 +5820,7 @@ export const listBridges: API.PaginatedOperationMethod<
     items: "Bridges",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListBridges"] },
   telemetry: TELEMETRY,
   span: "ListBridges",
 })) as any;
@@ -5357,6 +5860,7 @@ export const listDestinationEndpoints: API.PaginatedOperationMethod<
     items: "DestinationEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListDestinationEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListDestinationEndpoints",
 })) as any;
@@ -5394,6 +5898,7 @@ export const listEntitlements: API.PaginatedOperationMethod<
     items: "Entitlements",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListEntitlements"] },
   telemetry: TELEMETRY,
   span: "ListEntitlements",
 })) as any;
@@ -5431,6 +5936,7 @@ export const listFlows: API.PaginatedOperationMethod<
     items: "Flows",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListFlows"] },
   telemetry: TELEMETRY,
   span: "ListFlows",
 })) as any;
@@ -5470,6 +5976,7 @@ export const listGatewayInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListGatewayInstances"] },
   telemetry: TELEMETRY,
   span: "ListGatewayInstances",
 })) as any;
@@ -5509,6 +6016,7 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "Gateways",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListGateways"] },
   telemetry: TELEMETRY,
   span: "ListGateways",
 })) as any;
@@ -5546,6 +6054,7 @@ export const listOfferings: API.PaginatedOperationMethod<
     items: "Offerings",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListOfferings"] },
   telemetry: TELEMETRY,
   span: "ListOfferings",
 })) as any;
@@ -5583,6 +6092,7 @@ export const listReservations: API.PaginatedOperationMethod<
     items: "Reservations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListReservations"] },
   telemetry: TELEMETRY,
   span: "ListReservations",
 })) as any;
@@ -5622,6 +6132,7 @@ export const listRouterInputs: API.PaginatedOperationMethod<
     items: "RouterInputs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListRouterInputs"] },
   telemetry: TELEMETRY,
   span: "ListRouterInputs",
 })) as any;
@@ -5661,6 +6172,7 @@ export const listRouterNetworkInterfaces: API.PaginatedOperationMethod<
     items: "RouterNetworkInterfaces",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListRouterNetworkInterfaces"] },
   telemetry: TELEMETRY,
   span: "ListRouterNetworkInterfaces",
 })) as any;
@@ -5700,6 +6212,7 @@ export const listRouterOutputs: API.PaginatedOperationMethod<
     items: "RouterOutputs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListRouterOutputs"] },
   telemetry: TELEMETRY,
   span: "ListRouterOutputs",
 })) as any;
@@ -5739,6 +6252,7 @@ export const listSourceEndpoints: API.PaginatedOperationMethod<
     items: "SourceEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconnect:ListSourceEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListSourceEndpoints",
 })) as any;
@@ -5787,6 +6301,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["mediaconnect:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5821,6 +6336,14 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
+  iam: {
+    actions: ["mediaconnect:PurchaseOffering"],
+    resources: {
+      "mediaconnect:PurchaseOffering": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:reservation:${ReservationId}:${ReservationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PurchaseOffering",
 }));
@@ -5857,6 +6380,15 @@ export const registerDestinationEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDestinationEndpoint",
+  iam: {
+    actions: ["mediaconnect:RegisterDestinationEndpoint", "mediaconnect:TagResource"],
+    resources: {
+      "mediaconnect:RegisterDestinationEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:destinationEndpoint:${DestinationEndpointId}",
+      ],
+    },
+    conditional: { "mediaconnect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterDestinationEndpoint",
 }));
@@ -5893,6 +6425,15 @@ export const registerSourceEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterSourceEndpoint",
+  iam: {
+    actions: ["mediaconnect:RegisterSourceEndpoint", "mediaconnect:TagResource"],
+    resources: {
+      "mediaconnect:RegisterSourceEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:sourceEndpoint:${SourceEndpointId}",
+      ],
+    },
+    conditional: { "mediaconnect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterSourceEndpoint",
 }));
@@ -5929,6 +6470,14 @@ export const removeBridgeOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBridgeOutput",
+  iam: {
+    actions: ["mediaconnect:RemoveBridgeOutput"],
+    resources: {
+      "mediaconnect:RemoveBridgeOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveBridgeOutput",
 }));
@@ -5965,6 +6514,14 @@ export const removeBridgeSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBridgeSource",
+  iam: {
+    actions: ["mediaconnect:RemoveBridgeSource"],
+    resources: {
+      "mediaconnect:RemoveBridgeSource": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveBridgeSource",
 }));
@@ -5999,6 +6556,15 @@ export const removeFlowMediaStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowMediaStream",
+  iam: {
+    actions: ["mediaconnect:RemoveFlowMediaStream"],
+    resources: {
+      "mediaconnect:RemoveFlowMediaStream": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}/mediaStream/${MediaStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveFlowMediaStream",
 }));
@@ -6033,6 +6599,15 @@ export const removeFlowOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowOutput",
+  iam: {
+    actions: ["mediaconnect:RemoveFlowOutput"],
+    resources: {
+      "mediaconnect:RemoveFlowOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:output:${OutputId}:${OutputName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveFlowOutput",
 }));
@@ -6067,6 +6642,15 @@ export const removeFlowSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowSource",
+  iam: {
+    actions: ["mediaconnect:RemoveFlowSource"],
+    resources: {
+      "mediaconnect:RemoveFlowSource": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:source:${SourceId}:${SourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveFlowSource",
 }));
@@ -6101,6 +6685,15 @@ export const removeFlowVpcInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowVpcInterface",
+  iam: {
+    actions: ["mediaconnect:RemoveFlowVpcInterface"],
+    resources: {
+      "mediaconnect:RemoveFlowVpcInterface": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}/vpcInterface/${VpcInterfaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveFlowVpcInterface",
 }));
@@ -6137,6 +6730,14 @@ export const restartRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartRouterInput",
+  iam: {
+    actions: ["mediaconnect:RestartRouterInput"],
+    resources: {
+      "mediaconnect:RestartRouterInput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestartRouterInput",
 }));
@@ -6173,6 +6774,14 @@ export const restartRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartRouterOutput",
+  iam: {
+    actions: ["mediaconnect:RestartRouterOutput"],
+    resources: {
+      "mediaconnect:RestartRouterOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerOutput:${RouterOutputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestartRouterOutput",
 }));
@@ -6207,6 +6816,15 @@ export const revokeFlowEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeFlowEntitlement",
+  iam: {
+    actions: ["mediaconnect:RevokeFlowEntitlement"],
+    resources: {
+      "mediaconnect:RevokeFlowEntitlement": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:entitlement:${FlowId}:${EntitlementName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeFlowEntitlement",
 }));
@@ -6241,6 +6859,14 @@ export const startFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlow",
+  iam: {
+    actions: ["mediaconnect:StartFlow"],
+    resources: {
+      "mediaconnect:StartFlow": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartFlow",
 }));
@@ -6277,6 +6903,14 @@ export const startRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouterInput",
+  iam: {
+    actions: ["mediaconnect:StartRouterInput"],
+    resources: {
+      "mediaconnect:StartRouterInput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartRouterInput",
 }));
@@ -6313,6 +6947,14 @@ export const startRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouterOutput",
+  iam: {
+    actions: ["mediaconnect:StartRouterOutput"],
+    resources: {
+      "mediaconnect:StartRouterOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerOutput:${RouterOutputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartRouterOutput",
 }));
@@ -6347,6 +6989,14 @@ export const stopFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFlow",
+  iam: {
+    actions: ["mediaconnect:StopFlow"],
+    resources: {
+      "mediaconnect:StopFlow": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopFlow",
 }));
@@ -6383,6 +7033,14 @@ export const stopRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRouterInput",
+  iam: {
+    actions: ["mediaconnect:StopRouterInput"],
+    resources: {
+      "mediaconnect:StopRouterInput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopRouterInput",
 }));
@@ -6419,6 +7077,14 @@ export const stopRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRouterOutput",
+  iam: {
+    actions: ["mediaconnect:StopRouterOutput"],
+    resources: {
+      "mediaconnect:StopRouterOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerOutput:${RouterOutputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopRouterOutput",
 }));
@@ -6467,6 +7133,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["mediaconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -6503,6 +7170,14 @@ export const takeRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TakeRouterInput",
+  iam: {
+    actions: ["mediaconnect:TakeRouterInput"],
+    resources: {
+      "mediaconnect:TakeRouterInput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerOutput:${RouterOutputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TakeRouterInput",
 }));
@@ -6551,6 +7226,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["mediaconnect:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6587,6 +7263,14 @@ export const updateBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridge",
+  iam: {
+    actions: ["mediaconnect:UpdateBridge"],
+    resources: {
+      "mediaconnect:UpdateBridge": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBridge",
 }));
@@ -6623,6 +7307,14 @@ export const updateBridgeOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeOutput",
+  iam: {
+    actions: ["mediaconnect:UpdateBridgeOutput"],
+    resources: {
+      "mediaconnect:UpdateBridgeOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBridgeOutput",
 }));
@@ -6659,6 +7351,14 @@ export const updateBridgeSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeSource",
+  iam: {
+    actions: ["mediaconnect:UpdateBridgeSource"],
+    resources: {
+      "mediaconnect:UpdateBridgeSource": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBridgeSource",
 }));
@@ -6695,6 +7395,14 @@ export const updateBridgeState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeState",
+  iam: {
+    actions: ["mediaconnect:UpdateBridgeState"],
+    resources: {
+      "mediaconnect:UpdateBridgeState": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:bridge:${BridgeId}:${BridgeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBridgeState",
 }));
@@ -6731,6 +7439,14 @@ export const updateDestinationEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDestinationEndpoint",
+  iam: {
+    actions: ["mediaconnect:UpdateDestinationEndpoint"],
+    resources: {
+      "mediaconnect:UpdateDestinationEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:destinationEndpoint:${DestinationEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDestinationEndpoint",
 }));
@@ -6779,6 +7495,14 @@ export const updateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlow",
+  iam: {
+    actions: ["mediaconnect:UpdateFlow"],
+    resources: {
+      "mediaconnect:UpdateFlow": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFlow",
 }));
@@ -6813,6 +7537,16 @@ export const updateFlowEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowEntitlement",
+  iam: {
+    actions: ["iam:PassRole", "mediaconnect:UpdateFlowEntitlement"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "mediaconnect:UpdateFlowEntitlement": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "Encryption.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFlowEntitlement",
 }));
@@ -6847,6 +7581,15 @@ export const updateFlowMediaStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowMediaStream",
+  iam: {
+    actions: ["mediaconnect:UpdateFlowMediaStream"],
+    resources: {
+      "mediaconnect:UpdateFlowMediaStream": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}/mediaStream/${MediaStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFlowMediaStream",
 }));
@@ -6881,6 +7624,17 @@ export const updateFlowOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowOutput",
+  iam: {
+    actions: ["iam:PassRole", "mediaconnect:UpdateFlowOutput"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "mediaconnect:UpdateFlowOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:output:${OutputId}:${OutputName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "Encryption.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFlowOutput",
 }));
@@ -6929,6 +7683,17 @@ export const updateFlowSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowSource",
+  iam: {
+    actions: ["iam:PassRole", "mediaconnect:UpdateFlowSource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "mediaconnect:UpdateFlowSource": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:source:${SourceId}:${SourceName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "Decryption.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFlowSource",
 }));
@@ -6965,6 +7730,14 @@ export const updateGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInstance",
+  iam: {
+    actions: ["mediaconnect:UpdateGatewayInstance"],
+    resources: {
+      "mediaconnect:UpdateGatewayInstance": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:gateway:${GatewayId}:${GatewayName}:instance:${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayInstance",
 }));
@@ -7001,6 +7774,25 @@ export const updateRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterInput",
+  iam: {
+    actions: [
+      "mediaconnect:AssociateRouterNetworkInterface",
+      "iam:PassRole",
+      "mediaconnect:UpdateFlowOutput",
+      "mediaconnect:UpdateRouterInput",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "mediaconnect:UpdateFlowOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:output:${OutputId}:${OutputName}",
+      ],
+      "mediaconnect:UpdateRouterInput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerInput:${RouterInputId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRouterInput",
 }));
@@ -7035,6 +7827,14 @@ export const updateRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterNetworkInterface",
+  iam: {
+    actions: ["mediaconnect:UpdateRouterNetworkInterface"],
+    resources: {
+      "mediaconnect:UpdateRouterNetworkInterface": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerNetworkInterface:${RouterNetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRouterNetworkInterface",
 }));
@@ -7071,6 +7871,25 @@ export const updateRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterOutput",
+  iam: {
+    actions: [
+      "mediaconnect:AssociateRouterNetworkInterface",
+      "iam:PassRole",
+      "mediaconnect:UpdateFlowSource",
+      "mediaconnect:UpdateRouterOutput",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "mediaconnect:UpdateFlowSource": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:flow:${FlowId}:${FlowName}",
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:source:${SourceId}:${SourceName}",
+      ],
+      "mediaconnect:UpdateRouterOutput": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:routerOutput:${RouterOutputId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRouterOutput",
 }));
@@ -7107,6 +7926,14 @@ export const updateSourceEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceEndpoint",
+  iam: {
+    actions: ["mediaconnect:UpdateSourceEndpoint"],
+    resources: {
+      "mediaconnect:UpdateSourceEndpoint": [
+        "arn:${Partition}:mediaconnect:${Region}:${Account}:sourceEndpoint:${SourceEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSourceEndpoint",
 }));

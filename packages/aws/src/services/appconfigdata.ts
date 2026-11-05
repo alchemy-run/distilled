@@ -206,6 +206,14 @@ export const getLatestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLatestConfiguration",
+  iam: {
+    actions: ["appconfig:GetLatestConfiguration"],
+    resources: {
+      "appconfig:GetLatestConfiguration": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}/configuration/${ConfigurationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLatestConfiguration",
 }));
@@ -239,6 +247,14 @@ export const startConfigurationSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationSession",
+  iam: {
+    actions: ["appconfig:StartConfigurationSession"],
+    resources: {
+      "appconfig:StartConfigurationSession": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}/configuration/${ConfigurationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartConfigurationSession",
 }));

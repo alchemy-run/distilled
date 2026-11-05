@@ -3182,6 +3182,7 @@ export const allocateStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateStaticIp",
+  iam: { actions: ["lightsail:AllocateStaticIp"] },
   telemetry: TELEMETRY,
   span: "AllocateStaticIp",
 }));
@@ -3229,6 +3230,15 @@ export const attachCertificateToDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachCertificateToDistribution",
+  iam: {
+    actions: ["lightsail:AttachCertificateToDistribution"],
+    resources: {
+      "lightsail:AttachCertificateToDistribution": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Certificate/${Id}",
+        "arn:${Partition}:lightsail:${Region}:${Account}:Distribution/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachCertificateToDistribution",
 }));
@@ -3272,6 +3282,12 @@ export const attachDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachDisk",
+  iam: {
+    actions: ["lightsail:AttachDisk"],
+    resources: {
+      "lightsail:AttachDisk": ["arn:${Partition}:lightsail:${Region}:${Account}:Disk/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachDisk",
 }));
@@ -3317,6 +3333,14 @@ export const attachInstancesToLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachInstancesToLoadBalancer",
+  iam: {
+    actions: ["lightsail:AttachInstancesToLoadBalancer"],
+    resources: {
+      "lightsail:AttachInstancesToLoadBalancer": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:LoadBalancer/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachInstancesToLoadBalancer",
 }));
@@ -3365,6 +3389,14 @@ export const attachLoadBalancerTlsCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancerTlsCertificate",
+  iam: {
+    actions: ["lightsail:AttachLoadBalancerTlsCertificate"],
+    resources: {
+      "lightsail:AttachLoadBalancerTlsCertificate": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:LoadBalancer/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachLoadBalancerTlsCertificate",
 }));
@@ -3403,6 +3435,15 @@ export const attachStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachStaticIp",
+  iam: {
+    actions: ["lightsail:AttachStaticIp"],
+    resources: {
+      "lightsail:AttachStaticIp": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+        "arn:${Partition}:lightsail:${Region}:${Account}:StaticIp/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachStaticIp",
 }));
@@ -3445,6 +3486,14 @@ export const closeInstancePublicPorts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseInstancePublicPorts",
+  iam: {
+    actions: ["lightsail:CloseInstancePublicPorts"],
+    resources: {
+      "lightsail:CloseInstancePublicPorts": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CloseInstancePublicPorts",
 }));
@@ -3494,6 +3543,7 @@ export const copySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
+  iam: { actions: ["lightsail:CopySnapshot"] },
   telemetry: TELEMETRY,
   span: "CopySnapshot",
 }));
@@ -3531,6 +3581,10 @@ export const createBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucket",
+  iam: {
+    actions: ["lightsail:CreateBucket", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBucket",
 }));
@@ -3576,6 +3630,14 @@ export const createBucketAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketAccessKey",
+  iam: {
+    actions: ["lightsail:CreateBucketAccessKey"],
+    resources: {
+      "lightsail:CreateBucketAccessKey": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Bucket/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBucketAccessKey",
 }));
@@ -3622,6 +3684,10 @@ export const createCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificate",
+  iam: {
+    actions: ["lightsail:CreateCertificate", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCertificate",
 }));
@@ -3666,6 +3732,7 @@ export const createCloudFormationStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFormationStack",
+  iam: { actions: ["lightsail:CreateCloudFormationStack"] },
   telemetry: TELEMETRY,
   span: "CreateCloudFormationStack",
 }));
@@ -3710,6 +3777,10 @@ export const createContactMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactMethod",
+  iam: {
+    actions: ["lightsail:CreateContactMethod", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContactMethod",
 }));
@@ -3748,6 +3819,10 @@ export const createContainerService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerService",
+  iam: {
+    actions: ["lightsail:CreateContainerService", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContainerService",
 }));
@@ -3793,6 +3868,14 @@ export const createContainerServiceDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerServiceDeployment",
+  iam: {
+    actions: ["lightsail:CreateContainerServiceDeployment"],
+    resources: {
+      "lightsail:CreateContainerServiceDeployment": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:ContainerService/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateContainerServiceDeployment",
 }));
@@ -3845,6 +3928,7 @@ export const createContainerServiceRegistryLogin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerServiceRegistryLogin",
+  iam: { actions: ["lightsail:CreateContainerServiceRegistryLogin"] },
   telemetry: TELEMETRY,
   span: "CreateContainerServiceRegistryLogin",
 }));
@@ -3887,6 +3971,10 @@ export const createDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDisk",
+  iam: {
+    actions: ["lightsail:CreateDisk", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDisk",
 }));
@@ -3931,6 +4019,15 @@ export const createDiskFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDiskFromSnapshot",
+  iam: {
+    actions: ["lightsail:CreateDiskFromSnapshot", "lightsail:TagResource"],
+    resources: {
+      "lightsail:CreateDiskFromSnapshot": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:DiskSnapshot/${Id}",
+      ],
+    },
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDiskFromSnapshot",
 }));
@@ -3990,6 +4087,10 @@ export const createDiskSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDiskSnapshot",
+  iam: {
+    actions: ["lightsail:CreateDiskSnapshot", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDiskSnapshot",
 }));
@@ -4028,6 +4129,10 @@ export const createDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistribution",
+  iam: {
+    actions: ["lightsail:CreateDistribution", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDistribution",
 }));
@@ -4069,6 +4174,10 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  iam: {
+    actions: ["lightsail:CreateDomain", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -4113,6 +4222,14 @@ export const createDomainEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainEntry",
+  iam: {
+    actions: ["lightsail:CreateDomainEntry"],
+    resources: {
+      "lightsail:CreateDomainEntry": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Domain/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDomainEntry",
 }));
@@ -4152,6 +4269,14 @@ export const createGUISessionAccessDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGUISessionAccessDetails",
+  iam: {
+    actions: ["lightsail:CreateGUISessionAccessDetails"],
+    resources: {
+      "lightsail:CreateGUISessionAccessDetails": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGUISessionAccessDetails",
 }));
@@ -4193,6 +4318,10 @@ export const createInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstances",
+  iam: {
+    actions: ["lightsail:CreateInstances", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstances",
 }));
@@ -4236,6 +4365,15 @@ export const createInstancesFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstancesFromSnapshot",
+  iam: {
+    actions: ["lightsail:CreateInstancesFromSnapshot", "lightsail:TagResource"],
+    resources: {
+      "lightsail:CreateInstancesFromSnapshot": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:InstanceSnapshot/${Id}",
+      ],
+    },
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstancesFromSnapshot",
 }));
@@ -4278,6 +4416,15 @@ export const createInstanceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceSnapshot",
+  iam: {
+    actions: ["lightsail:CreateInstanceSnapshot", "lightsail:TagResource"],
+    resources: {
+      "lightsail:CreateInstanceSnapshot": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstanceSnapshot",
 }));
@@ -4324,6 +4471,10 @@ export const createKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyPair",
+  iam: {
+    actions: ["lightsail:CreateKeyPair", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateKeyPair",
 }));
@@ -4371,6 +4522,10 @@ export const createLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancer",
+  iam: {
+    actions: ["lightsail:CreateLoadBalancer", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLoadBalancer",
 }));
@@ -4415,6 +4570,14 @@ export const createLoadBalancerTlsCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancerTlsCertificate",
+  iam: {
+    actions: ["lightsail:CreateLoadBalancerTlsCertificate"],
+    resources: {
+      "lightsail:CreateLoadBalancerTlsCertificate": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:LoadBalancer/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLoadBalancerTlsCertificate",
 }));
@@ -4456,6 +4619,10 @@ export const createRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelationalDatabase",
+  iam: {
+    actions: ["lightsail:CreateRelationalDatabase", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRelationalDatabase",
 }));
@@ -4502,6 +4669,15 @@ export const createRelationalDatabaseFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelationalDatabaseFromSnapshot",
+  iam: {
+    actions: ["lightsail:CreateRelationalDatabaseFromSnapshot", "lightsail:TagResource"],
+    resources: {
+      "lightsail:CreateRelationalDatabaseFromSnapshot": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:RelationalDatabaseSnapshot/${Id}",
+      ],
+    },
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRelationalDatabaseFromSnapshot",
 }));
@@ -4544,6 +4720,10 @@ export const createRelationalDatabaseSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelationalDatabaseSnapshot",
+  iam: {
+    actions: ["lightsail:CreateRelationalDatabaseSnapshot", "lightsail:TagResource"],
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRelationalDatabaseSnapshot",
 }));
@@ -4585,6 +4765,12 @@ export const deleteAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlarm",
+  iam: {
+    actions: ["lightsail:DeleteAlarm"],
+    resources: {
+      "lightsail:DeleteAlarm": ["arn:${Partition}:lightsail:${Region}:${Account}:Alarm/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAlarm",
 }));
@@ -4621,6 +4807,7 @@ export const deleteAutoSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutoSnapshot",
+  iam: { actions: ["lightsail:DeleteAutoSnapshot"] },
   telemetry: TELEMETRY,
   span: "DeleteAutoSnapshot",
 }));
@@ -4658,6 +4845,12 @@ export const deleteBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucket",
+  iam: {
+    actions: ["lightsail:DeleteBucket"],
+    resources: {
+      "lightsail:DeleteBucket": ["arn:${Partition}:lightsail:${Region}:${Account}:Bucket/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBucket",
 }));
@@ -4697,6 +4890,14 @@ export const deleteBucketAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketAccessKey",
+  iam: {
+    actions: ["lightsail:DeleteBucketAccessKey"],
+    resources: {
+      "lightsail:DeleteBucketAccessKey": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Bucket/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBucketAccessKey",
 }));
@@ -4736,6 +4937,14 @@ export const deleteCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
+  iam: {
+    actions: ["lightsail:DeleteCertificate"],
+    resources: {
+      "lightsail:DeleteCertificate": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Certificate/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCertificate",
 }));
@@ -4777,6 +4986,7 @@ export const deleteContactMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactMethod",
+  iam: { actions: ["lightsail:DeleteContactMethod"] },
   telemetry: TELEMETRY,
   span: "DeleteContactMethod",
 }));
@@ -4812,6 +5022,14 @@ export const deleteContainerImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerImage",
+  iam: {
+    actions: ["lightsail:DeleteContainerImage"],
+    resources: {
+      "lightsail:DeleteContainerImage": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:ContainerService/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContainerImage",
 }));
@@ -4846,6 +5064,14 @@ export const deleteContainerService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerService",
+  iam: {
+    actions: ["lightsail:DeleteContainerService"],
+    resources: {
+      "lightsail:DeleteContainerService": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:ContainerService/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContainerService",
 }));
@@ -4891,6 +5117,12 @@ export const deleteDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDisk",
+  iam: {
+    actions: ["lightsail:DeleteDisk"],
+    resources: {
+      "lightsail:DeleteDisk": ["arn:${Partition}:lightsail:${Region}:${Account}:Disk/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDisk",
 }));
@@ -4939,6 +5171,14 @@ export const deleteDiskSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDiskSnapshot",
+  iam: {
+    actions: ["lightsail:DeleteDiskSnapshot"],
+    resources: {
+      "lightsail:DeleteDiskSnapshot": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:DiskSnapshot/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDiskSnapshot",
 }));
@@ -4973,6 +5213,14 @@ export const deleteDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistribution",
+  iam: {
+    actions: ["lightsail:DeleteDistribution"],
+    resources: {
+      "lightsail:DeleteDistribution": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Distribution/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDistribution",
 }));
@@ -5015,6 +5263,12 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  iam: {
+    actions: ["lightsail:DeleteDomain"],
+    resources: {
+      "lightsail:DeleteDomain": ["arn:${Partition}:lightsail:${Region}:${Account}:Domain/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -5057,6 +5311,14 @@ export const deleteDomainEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainEntry",
+  iam: {
+    actions: ["lightsail:DeleteDomainEntry"],
+    resources: {
+      "lightsail:DeleteDomainEntry": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Domain/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomainEntry",
 }));
@@ -5099,6 +5361,14 @@ export const deleteInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstance",
+  iam: {
+    actions: ["lightsail:DeleteInstance"],
+    resources: {
+      "lightsail:DeleteInstance": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstance",
 }));
@@ -5142,6 +5412,14 @@ export const deleteInstanceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceSnapshot",
+  iam: {
+    actions: ["lightsail:DeleteInstanceSnapshot"],
+    resources: {
+      "lightsail:DeleteInstanceSnapshot": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:InstanceSnapshot/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstanceSnapshot",
 }));
@@ -5189,6 +5467,12 @@ export const deleteKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyPair",
+  iam: {
+    actions: ["lightsail:DeleteKeyPair"],
+    resources: {
+      "lightsail:DeleteKeyPair": ["arn:${Partition}:lightsail:${Region}:${Account}:KeyPair/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteKeyPair",
 }));
@@ -5234,6 +5518,14 @@ export const deleteKnownHostKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnownHostKeys",
+  iam: {
+    actions: ["lightsail:DeleteKnownHostKeys"],
+    resources: {
+      "lightsail:DeleteKnownHostKeys": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteKnownHostKeys",
 }));
@@ -5278,6 +5570,14 @@ export const deleteLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancer",
+  iam: {
+    actions: ["lightsail:DeleteLoadBalancer"],
+    resources: {
+      "lightsail:DeleteLoadBalancer": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:LoadBalancer/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLoadBalancer",
 }));
@@ -5320,6 +5620,14 @@ export const deleteLoadBalancerTlsCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancerTlsCertificate",
+  iam: {
+    actions: ["lightsail:DeleteLoadBalancerTlsCertificate"],
+    resources: {
+      "lightsail:DeleteLoadBalancerTlsCertificate": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:LoadBalancer/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLoadBalancerTlsCertificate",
 }));
@@ -5362,6 +5670,14 @@ export const deleteRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelationalDatabase",
+  iam: {
+    actions: ["lightsail:DeleteRelationalDatabase"],
+    resources: {
+      "lightsail:DeleteRelationalDatabase": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:RelationalDatabase/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRelationalDatabase",
 }));
@@ -5404,6 +5720,14 @@ export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelationalDatabaseSnapshot",
+  iam: {
+    actions: ["lightsail:DeleteRelationalDatabaseSnapshot"],
+    resources: {
+      "lightsail:DeleteRelationalDatabaseSnapshot": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:RelationalDatabaseSnapshot/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRelationalDatabaseSnapshot",
 }));
@@ -5442,6 +5766,14 @@ export const detachCertificateFromDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachCertificateFromDistribution",
+  iam: {
+    actions: ["lightsail:DetachCertificateFromDistribution"],
+    resources: {
+      "lightsail:DetachCertificateFromDistribution": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Distribution/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachCertificateFromDistribution",
 }));
@@ -5486,6 +5818,12 @@ export const detachDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachDisk",
+  iam: {
+    actions: ["lightsail:DetachDisk"],
+    resources: {
+      "lightsail:DetachDisk": ["arn:${Partition}:lightsail:${Region}:${Account}:Disk/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachDisk",
 }));
@@ -5531,6 +5869,14 @@ export const detachInstancesFromLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachInstancesFromLoadBalancer",
+  iam: {
+    actions: ["lightsail:DetachInstancesFromLoadBalancer"],
+    resources: {
+      "lightsail:DetachInstancesFromLoadBalancer": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:LoadBalancer/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachInstancesFromLoadBalancer",
 }));
@@ -5569,6 +5915,14 @@ export const detachStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachStaticIp",
+  iam: {
+    actions: ["lightsail:DetachStaticIp"],
+    resources: {
+      "lightsail:DetachStaticIp": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:StaticIp/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachStaticIp",
 }));
@@ -5605,6 +5959,7 @@ export const disableAddOn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAddOn",
+  iam: { actions: ["lightsail:DisableAddOn"] },
   telemetry: TELEMETRY,
   span: "DisableAddOn",
 }));
@@ -5646,6 +6001,7 @@ export const downloadDefaultKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DownloadDefaultKeyPair",
+  iam: { actions: ["lightsail:DownloadDefaultKeyPair"] },
   telemetry: TELEMETRY,
   span: "DownloadDefaultKeyPair",
 }));
@@ -5683,6 +6039,7 @@ export const enableAddOn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAddOn",
+  iam: { actions: ["lightsail:EnableAddOn"] },
   telemetry: TELEMETRY,
   span: "EnableAddOn",
 }));
@@ -5735,6 +6092,7 @@ export const exportSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportSnapshot",
+  iam: { actions: ["lightsail:ExportSnapshot"] },
   telemetry: TELEMETRY,
   span: "ExportSnapshot",
 }));
@@ -5773,6 +6131,7 @@ export const getActiveNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActiveNames",
+  iam: { actions: ["lightsail:GetActiveNames"] },
   telemetry: TELEMETRY,
   span: "GetActiveNames",
 }));
@@ -5816,6 +6175,7 @@ export const getAlarms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlarms",
+  iam: { actions: ["lightsail:GetAlarms"] },
   telemetry: TELEMETRY,
   span: "GetAlarms",
 }));
@@ -5853,6 +6213,7 @@ export const getAutoSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoSnapshots",
+  iam: { actions: ["lightsail:GetAutoSnapshots"] },
   telemetry: TELEMETRY,
   span: "GetAutoSnapshots",
 }));
@@ -5899,6 +6260,7 @@ export const getBlueprints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprints",
+  iam: { actions: ["lightsail:GetBlueprints"] },
   telemetry: TELEMETRY,
   span: "GetBlueprints",
 }));
@@ -5937,6 +6299,7 @@ export const getBucketAccessKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAccessKeys",
+  iam: { actions: ["lightsail:GetBucketAccessKeys"] },
   telemetry: TELEMETRY,
   span: "GetBucketAccessKeys",
 }));
@@ -5975,6 +6338,7 @@ export const getBucketBundles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketBundles",
+  iam: { actions: ["lightsail:GetBucketBundles"] },
   telemetry: TELEMETRY,
   span: "GetBucketBundles",
 }));
@@ -6013,6 +6377,7 @@ export const getBucketMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetricData",
+  iam: { actions: ["lightsail:GetBucketMetricData"] },
   telemetry: TELEMETRY,
   span: "GetBucketMetricData",
 }));
@@ -6052,6 +6417,7 @@ export const getBuckets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBuckets",
+  iam: { actions: ["lightsail:GetBuckets"] },
   telemetry: TELEMETRY,
   span: "GetBuckets",
 }));
@@ -6098,6 +6464,7 @@ export const getBundles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBundles",
+  iam: { actions: ["lightsail:GetBundles"] },
   telemetry: TELEMETRY,
   span: "GetBundles",
 }));
@@ -6136,6 +6503,7 @@ export const getCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificates",
+  iam: { actions: ["lightsail:GetCertificates"] },
   telemetry: TELEMETRY,
   span: "GetCertificates",
 }));
@@ -6178,6 +6546,7 @@ export const getCloudFormationStackRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFormationStackRecords",
+  iam: { actions: ["lightsail:GetCloudFormationStackRecords"] },
   telemetry: TELEMETRY,
   span: "GetCloudFormationStackRecords",
 }));
@@ -6220,6 +6589,7 @@ export const getContactMethods: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactMethods",
+  iam: { actions: ["lightsail:GetContactMethods"] },
   telemetry: TELEMETRY,
   span: "GetContactMethods",
 }));
@@ -6251,6 +6621,7 @@ export const getContainerAPIMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerAPIMetadata",
+  iam: { actions: ["lightsail:GetContainerAPIMetadata"] },
   telemetry: TELEMETRY,
   span: "GetContainerAPIMetadata",
 }));
@@ -6290,6 +6661,7 @@ export const getContainerImages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerImages",
+  iam: { actions: ["lightsail:GetContainerImages"] },
   telemetry: TELEMETRY,
   span: "GetContainerImages",
 }));
@@ -6333,6 +6705,7 @@ export const getContainerLog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerLog",
+  iam: { actions: ["lightsail:GetContainerLog"] },
   telemetry: TELEMETRY,
   span: "GetContainerLog",
 }));
@@ -6378,6 +6751,7 @@ export const getContainerServiceDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerServiceDeployments",
+  iam: { actions: ["lightsail:GetContainerServiceDeployments"] },
   telemetry: TELEMETRY,
   span: "GetContainerServiceDeployments",
 }));
@@ -6416,6 +6790,7 @@ export const getContainerServiceMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerServiceMetricData",
+  iam: { actions: ["lightsail:GetContainerServiceMetricData"] },
   telemetry: TELEMETRY,
   span: "GetContainerServiceMetricData",
 }));
@@ -6454,6 +6829,7 @@ export const getContainerServicePowers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerServicePowers",
+  iam: { actions: ["lightsail:GetContainerServicePowers"] },
   telemetry: TELEMETRY,
   span: "GetContainerServicePowers",
 }));
@@ -6488,6 +6864,7 @@ export const getContainerServices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerServices",
+  iam: { actions: ["lightsail:GetContainerServices"] },
   telemetry: TELEMETRY,
   span: "GetContainerServices",
 }));
@@ -6523,6 +6900,7 @@ export const getCostEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostEstimate",
+  iam: { actions: ["lightsail:GetCostEstimate"] },
   telemetry: TELEMETRY,
   span: "GetCostEstimate",
 }));
@@ -6561,6 +6939,7 @@ export const getDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDisk",
+  iam: { actions: ["lightsail:GetDisk"] },
   telemetry: TELEMETRY,
   span: "GetDisk",
 }));
@@ -6599,6 +6978,7 @@ export const getDisks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDisks",
+  iam: { actions: ["lightsail:GetDisks"] },
   telemetry: TELEMETRY,
   span: "GetDisks",
 }));
@@ -6637,6 +7017,7 @@ export const getDiskSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiskSnapshot",
+  iam: { actions: ["lightsail:GetDiskSnapshot"] },
   telemetry: TELEMETRY,
   span: "GetDiskSnapshot",
 }));
@@ -6676,6 +7057,7 @@ export const getDiskSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiskSnapshots",
+  iam: { actions: ["lightsail:GetDiskSnapshots"] },
   telemetry: TELEMETRY,
   span: "GetDiskSnapshots",
 }));
@@ -6714,6 +7096,7 @@ export const getDistributionBundles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionBundles",
+  iam: { actions: ["lightsail:GetDistributionBundles"] },
   telemetry: TELEMETRY,
   span: "GetDistributionBundles",
 }));
@@ -6749,6 +7132,7 @@ export const getDistributionLatestCacheReset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionLatestCacheReset",
+  iam: { actions: ["lightsail:GetDistributionLatestCacheReset"] },
   telemetry: TELEMETRY,
   span: "GetDistributionLatestCacheReset",
 }));
@@ -6788,6 +7172,7 @@ export const getDistributionMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionMetricData",
+  iam: { actions: ["lightsail:GetDistributionMetricData"] },
   telemetry: TELEMETRY,
   span: "GetDistributionMetricData",
 }));
@@ -6823,6 +7208,7 @@ export const getDistributions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributions",
+  iam: { actions: ["lightsail:GetDistributions"] },
   telemetry: TELEMETRY,
   span: "GetDistributions",
 }));
@@ -6861,6 +7247,7 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  iam: { actions: ["lightsail:GetDomain"] },
   telemetry: TELEMETRY,
   span: "GetDomain",
 }));
@@ -6899,6 +7286,7 @@ export const getDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomains",
+  iam: { actions: ["lightsail:GetDomains"] },
   telemetry: TELEMETRY,
   span: "GetDomains",
 }));
@@ -6942,6 +7330,7 @@ export const getExportSnapshotRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportSnapshotRecords",
+  iam: { actions: ["lightsail:GetExportSnapshotRecords"] },
   telemetry: TELEMETRY,
   span: "GetExportSnapshotRecords",
 }));
@@ -6981,6 +7370,7 @@ export const getInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstance",
+  iam: { actions: ["lightsail:GetInstance"] },
   telemetry: TELEMETRY,
   span: "GetInstance",
 }));
@@ -7024,6 +7414,14 @@ export const getInstanceAccessDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceAccessDetails",
+  iam: {
+    actions: ["lightsail:GetInstanceAccessDetails"],
+    resources: {
+      "lightsail:GetInstanceAccessDetails": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInstanceAccessDetails",
 }));
@@ -7067,6 +7465,7 @@ export const getInstanceMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceMetricData",
+  iam: { actions: ["lightsail:GetInstanceMetricData"] },
   telemetry: TELEMETRY,
   span: "GetInstanceMetricData",
 }));
@@ -7106,6 +7505,7 @@ export const getInstancePortStates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstancePortStates",
+  iam: { actions: ["lightsail:GetInstancePortStates"] },
   telemetry: TELEMETRY,
   span: "GetInstancePortStates",
 }));
@@ -7145,6 +7545,7 @@ export const getInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstances",
+  iam: { actions: ["lightsail:GetInstances"] },
   telemetry: TELEMETRY,
   span: "GetInstances",
 }));
@@ -7183,6 +7584,7 @@ export const getInstanceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceSnapshot",
+  iam: { actions: ["lightsail:GetInstanceSnapshot"] },
   telemetry: TELEMETRY,
   span: "GetInstanceSnapshot",
 }));
@@ -7221,6 +7623,7 @@ export const getInstanceSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceSnapshots",
+  iam: { actions: ["lightsail:GetInstanceSnapshots"] },
   telemetry: TELEMETRY,
   span: "GetInstanceSnapshots",
 }));
@@ -7259,6 +7662,7 @@ export const getInstanceState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceState",
+  iam: { actions: ["lightsail:GetInstanceState"] },
   telemetry: TELEMETRY,
   span: "GetInstanceState",
 }));
@@ -7297,6 +7701,7 @@ export const getKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyPair",
+  iam: { actions: ["lightsail:GetKeyPair"] },
   telemetry: TELEMETRY,
   span: "GetKeyPair",
 }));
@@ -7335,6 +7740,7 @@ export const getKeyPairs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyPairs",
+  iam: { actions: ["lightsail:GetKeyPairs"] },
   telemetry: TELEMETRY,
   span: "GetKeyPairs",
 }));
@@ -7373,6 +7779,7 @@ export const getLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancer",
+  iam: { actions: ["lightsail:GetLoadBalancer"] },
   telemetry: TELEMETRY,
   span: "GetLoadBalancer",
 }));
@@ -7415,6 +7822,7 @@ export const getLoadBalancerMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancerMetricData",
+  iam: { actions: ["lightsail:GetLoadBalancerMetricData"] },
   telemetry: TELEMETRY,
   span: "GetLoadBalancerMetricData",
 }));
@@ -7453,6 +7861,7 @@ export const getLoadBalancers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancers",
+  iam: { actions: ["lightsail:GetLoadBalancers"] },
   telemetry: TELEMETRY,
   span: "GetLoadBalancers",
 }));
@@ -7497,6 +7906,7 @@ export const getLoadBalancerTlsCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancerTlsCertificates",
+  iam: { actions: ["lightsail:GetLoadBalancerTlsCertificates"] },
   telemetry: TELEMETRY,
   span: "GetLoadBalancerTlsCertificates",
 }));
@@ -7535,6 +7945,7 @@ export const getLoadBalancerTlsPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancerTlsPolicies",
+  iam: { actions: ["lightsail:GetLoadBalancerTlsPolicies"] },
   telemetry: TELEMETRY,
   span: "GetLoadBalancerTlsPolicies",
 }));
@@ -7574,6 +7985,7 @@ export const getOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperation",
+  iam: { actions: ["lightsail:GetOperation"] },
   telemetry: TELEMETRY,
   span: "GetOperation",
 }));
@@ -7616,6 +8028,7 @@ export const getOperations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperations",
+  iam: { actions: ["lightsail:GetOperations"] },
   telemetry: TELEMETRY,
   span: "GetOperations",
 }));
@@ -7654,6 +8067,7 @@ export const getOperationsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperationsForResource",
+  iam: { actions: ["lightsail:GetOperationsForResource"] },
   telemetry: TELEMETRY,
   span: "GetOperationsForResource",
 }));
@@ -7728,6 +8142,7 @@ export const getRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegions",
+  iam: { actions: ["lightsail:GetRegions"] },
   telemetry: TELEMETRY,
   span: "GetRegions",
 }));
@@ -7766,6 +8181,7 @@ export const getRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabase",
+  iam: { actions: ["lightsail:GetRelationalDatabase"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabase",
 }));
@@ -7808,6 +8224,7 @@ export const getRelationalDatabaseBlueprints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseBlueprints",
+  iam: { actions: ["lightsail:GetRelationalDatabaseBlueprints"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseBlueprints",
 }));
@@ -7850,6 +8267,7 @@ export const getRelationalDatabaseBundles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseBundles",
+  iam: { actions: ["lightsail:GetRelationalDatabaseBundles"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseBundles",
 }));
@@ -7888,6 +8306,7 @@ export const getRelationalDatabaseEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseEvents",
+  iam: { actions: ["lightsail:GetRelationalDatabaseEvents"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseEvents",
 }));
@@ -7926,6 +8345,7 @@ export const getRelationalDatabaseLogEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseLogEvents",
+  iam: { actions: ["lightsail:GetRelationalDatabaseLogEvents"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseLogEvents",
 }));
@@ -7964,6 +8384,7 @@ export const getRelationalDatabaseLogStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseLogStreams",
+  iam: { actions: ["lightsail:GetRelationalDatabaseLogStreams"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseLogStreams",
 }));
@@ -8007,6 +8428,14 @@ export const getRelationalDatabaseMasterUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseMasterUserPassword",
+  iam: {
+    actions: ["lightsail:GetRelationalDatabaseMasterUserPassword"],
+    resources: {
+      "lightsail:GetRelationalDatabaseMasterUserPassword": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:RelationalDatabase/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseMasterUserPassword",
 }));
@@ -8049,6 +8478,7 @@ export const getRelationalDatabaseMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseMetricData",
+  iam: { actions: ["lightsail:GetRelationalDatabaseMetricData"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseMetricData",
 }));
@@ -8092,6 +8522,7 @@ export const getRelationalDatabaseParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseParameters",
+  iam: { actions: ["lightsail:GetRelationalDatabaseParameters"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseParameters",
 }));
@@ -8130,6 +8561,7 @@ export const getRelationalDatabases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabases",
+  iam: { actions: ["lightsail:GetRelationalDatabases"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabases",
 }));
@@ -8168,6 +8600,7 @@ export const getRelationalDatabaseSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseSnapshot",
+  iam: { actions: ["lightsail:GetRelationalDatabaseSnapshot"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseSnapshot",
 }));
@@ -8206,6 +8639,7 @@ export const getRelationalDatabaseSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseSnapshots",
+  iam: { actions: ["lightsail:GetRelationalDatabaseSnapshots"] },
   telemetry: TELEMETRY,
   span: "GetRelationalDatabaseSnapshots",
 }));
@@ -8241,6 +8675,7 @@ export const getSetupHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSetupHistory",
+  iam: { actions: ["lightsail:GetSetupHistory"] },
   telemetry: TELEMETRY,
   span: "GetSetupHistory",
 }));
@@ -8279,6 +8714,7 @@ export const getStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStaticIp",
+  iam: { actions: ["lightsail:GetStaticIp"] },
   telemetry: TELEMETRY,
   span: "GetStaticIp",
 }));
@@ -8317,6 +8753,7 @@ export const getStaticIps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStaticIps",
+  iam: { actions: ["lightsail:GetStaticIps"] },
   telemetry: TELEMETRY,
   span: "GetStaticIps",
 }));
@@ -8355,6 +8792,7 @@ export const importKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportKeyPair",
+  iam: { actions: ["lightsail:ImportKeyPair"] },
   telemetry: TELEMETRY,
   span: "ImportKeyPair",
 }));
@@ -8393,6 +8831,7 @@ export const isVpcPeered: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsVpcPeered",
+  iam: { actions: ["lightsail:IsVpcPeered"] },
   telemetry: TELEMETRY,
   span: "IsVpcPeered",
 }));
@@ -8436,6 +8875,14 @@ export const openInstancePublicPorts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OpenInstancePublicPorts",
+  iam: {
+    actions: ["lightsail:OpenInstancePublicPorts"],
+    resources: {
+      "lightsail:OpenInstancePublicPorts": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "OpenInstancePublicPorts",
 }));
@@ -8474,6 +8921,7 @@ export const peerVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PeerVpc",
+  iam: { actions: ["lightsail:PeerVpc"] },
   telemetry: TELEMETRY,
   span: "PeerVpc",
 }));
@@ -8526,6 +8974,13 @@ export const putAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlarm",
+  iam: {
+    actions: ["lightsail:PutAlarm", "lightsail:TagResource"],
+    resources: {
+      "lightsail:PutAlarm": ["arn:${Partition}:lightsail:${Region}:${Account}:Alarm/${Id}"],
+    },
+    conditional: { "lightsail:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutAlarm",
 }));
@@ -8573,6 +9028,14 @@ export const putInstancePublicPorts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInstancePublicPorts",
+  iam: {
+    actions: ["lightsail:PutInstancePublicPorts"],
+    resources: {
+      "lightsail:PutInstancePublicPorts": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutInstancePublicPorts",
 }));
@@ -8615,6 +9078,14 @@ export const rebootInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootInstance",
+  iam: {
+    actions: ["lightsail:RebootInstance"],
+    resources: {
+      "lightsail:RebootInstance": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebootInstance",
 }));
@@ -8657,6 +9128,14 @@ export const rebootRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootRelationalDatabase",
+  iam: {
+    actions: ["lightsail:RebootRelationalDatabase"],
+    resources: {
+      "lightsail:RebootRelationalDatabase": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:RelationalDatabase/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebootRelationalDatabase",
 }));
@@ -8696,6 +9175,14 @@ export const registerContainerImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterContainerImage",
+  iam: {
+    actions: ["lightsail:RegisterContainerImage"],
+    resources: {
+      "lightsail:RegisterContainerImage": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:ContainerService/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterContainerImage",
 }));
@@ -8734,6 +9221,14 @@ export const releaseStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleaseStaticIp",
+  iam: {
+    actions: ["lightsail:ReleaseStaticIp"],
+    resources: {
+      "lightsail:ReleaseStaticIp": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:StaticIp/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReleaseStaticIp",
 }));
@@ -8772,6 +9267,14 @@ export const resetDistributionCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDistributionCache",
+  iam: {
+    actions: ["lightsail:ResetDistributionCache"],
+    resources: {
+      "lightsail:ResetDistributionCache": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Distribution/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetDistributionCache",
 }));
@@ -8821,6 +9324,7 @@ export const sendContactMethodVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendContactMethodVerification",
+  iam: { actions: ["lightsail:SendContactMethodVerification"] },
   telemetry: TELEMETRY,
   span: "SendContactMethodVerification",
 }));
@@ -8863,6 +9367,7 @@ export const setIpAddressType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIpAddressType",
+  iam: { actions: ["lightsail:SetIpAddressType"] },
   telemetry: TELEMETRY,
   span: "SetIpAddressType",
 }));
@@ -8901,6 +9406,15 @@ export const setResourceAccessForBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetResourceAccessForBucket",
+  iam: {
+    actions: ["lightsail:SetResourceAccessForBucket"],
+    resources: {
+      "lightsail:SetResourceAccessForBucket": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Bucket/${Id}",
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetResourceAccessForBucket",
 }));
@@ -8939,6 +9453,14 @@ export const setupInstanceHttps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetupInstanceHttps",
+  iam: {
+    actions: ["lightsail:SetupInstanceHttps"],
+    resources: {
+      "lightsail:SetupInstanceHttps": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetupInstanceHttps",
 }));
@@ -8975,6 +9497,14 @@ export const startGUISession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGUISession",
+  iam: {
+    actions: ["lightsail:StartGUISession"],
+    resources: {
+      "lightsail:StartGUISession": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartGUISession",
 }));
@@ -9022,6 +9552,12 @@ export const startInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstance",
+  iam: {
+    actions: ["lightsail:StartInstance"],
+    resources: {
+      "lightsail:StartInstance": ["arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartInstance",
 }));
@@ -9065,6 +9601,14 @@ export const startRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRelationalDatabase",
+  iam: {
+    actions: ["lightsail:StartRelationalDatabase"],
+    resources: {
+      "lightsail:StartRelationalDatabase": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:RelationalDatabase/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartRelationalDatabase",
 }));
@@ -9101,6 +9645,14 @@ export const stopGUISession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopGUISession",
+  iam: {
+    actions: ["lightsail:StopGUISession"],
+    resources: {
+      "lightsail:StopGUISession": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopGUISession",
 }));
@@ -9147,6 +9699,12 @@ export const stopInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInstance",
+  iam: {
+    actions: ["lightsail:StopInstance"],
+    resources: {
+      "lightsail:StopInstance": ["arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopInstance",
 }));
@@ -9193,6 +9751,14 @@ export const stopRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRelationalDatabase",
+  iam: {
+    actions: ["lightsail:StopRelationalDatabase"],
+    resources: {
+      "lightsail:StopRelationalDatabase": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:RelationalDatabase/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopRelationalDatabase",
 }));
@@ -9237,6 +9803,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["lightsail:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -9281,6 +9848,12 @@ export const testAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestAlarm",
+  iam: {
+    actions: ["lightsail:TestAlarm"],
+    resources: {
+      "lightsail:TestAlarm": ["arn:${Partition}:lightsail:${Region}:${Account}:Alarm/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestAlarm",
 }));
@@ -9319,6 +9892,7 @@ export const unpeerVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnpeerVpc",
+  iam: { actions: ["lightsail:UnpeerVpc"] },
   telemetry: TELEMETRY,
   span: "UnpeerVpc",
 }));
@@ -9362,6 +9936,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["lightsail:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -9399,6 +9974,12 @@ export const updateBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucket",
+  iam: {
+    actions: ["lightsail:UpdateBucket"],
+    resources: {
+      "lightsail:UpdateBucket": ["arn:${Partition}:lightsail:${Region}:${Account}:Bucket/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBucket",
 }));
@@ -9447,6 +10028,14 @@ export const updateBucketBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketBundle",
+  iam: {
+    actions: ["lightsail:UpdateBucketBundle"],
+    resources: {
+      "lightsail:UpdateBucketBundle": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Bucket/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBucketBundle",
 }));
@@ -9482,6 +10071,14 @@ export const updateContainerService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerService",
+  iam: {
+    actions: ["lightsail:UpdateContainerService"],
+    resources: {
+      "lightsail:UpdateContainerService": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:ContainerService/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContainerService",
 }));
@@ -9518,6 +10115,14 @@ export const updateDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistribution",
+  iam: {
+    actions: ["lightsail:UpdateDistribution"],
+    resources: {
+      "lightsail:UpdateDistribution": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Distribution/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDistribution",
 }));
@@ -9563,6 +10168,14 @@ export const updateDistributionBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionBundle",
+  iam: {
+    actions: ["lightsail:UpdateDistributionBundle"],
+    resources: {
+      "lightsail:UpdateDistributionBundle": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Distribution/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDistributionBundle",
 }));
@@ -9605,6 +10218,14 @@ export const updateDomainEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainEntry",
+  iam: {
+    actions: ["lightsail:UpdateDomainEntry"],
+    resources: {
+      "lightsail:UpdateDomainEntry": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Domain/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDomainEntry",
 }));
@@ -9648,6 +10269,14 @@ export const updateInstanceMetadataOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceMetadataOptions",
+  iam: {
+    actions: ["lightsail:UpdateInstanceMetadataOptions"],
+    resources: {
+      "lightsail:UpdateInstanceMetadataOptions": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:Instance/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInstanceMetadataOptions",
 }));
@@ -9691,6 +10320,14 @@ export const updateLoadBalancerAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoadBalancerAttribute",
+  iam: {
+    actions: ["lightsail:UpdateLoadBalancerAttribute"],
+    resources: {
+      "lightsail:UpdateLoadBalancerAttribute": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:LoadBalancer/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLoadBalancerAttribute",
 }));
@@ -9736,6 +10373,14 @@ export const updateRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelationalDatabase",
+  iam: {
+    actions: ["lightsail:UpdateRelationalDatabase"],
+    resources: {
+      "lightsail:UpdateRelationalDatabase": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:RelationalDatabase/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRelationalDatabase",
 }));
@@ -9785,6 +10430,14 @@ export const updateRelationalDatabaseParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelationalDatabaseParameters",
+  iam: {
+    actions: ["lightsail:UpdateRelationalDatabaseParameters"],
+    resources: {
+      "lightsail:UpdateRelationalDatabaseParameters": [
+        "arn:${Partition}:lightsail:${Region}:${Account}:RelationalDatabase/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRelationalDatabaseParameters",
 }));

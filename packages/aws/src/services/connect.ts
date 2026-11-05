@@ -9681,6 +9681,14 @@ export const activateEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateEvaluationForm",
+  iam: {
+    actions: ["connect:ActivateEvaluationForm"],
+    resources: {
+      "connect:ActivateEvaluationForm": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ActivateEvaluationForm",
 }));
@@ -9714,6 +9722,14 @@ export const associateAnalyticsDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAnalyticsDataSet",
+  iam: {
+    actions: ["connect:AssociateAnalyticsDataSet"],
+    resources: {
+      "connect:AssociateAnalyticsDataSet": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateAnalyticsDataSet",
 }));
@@ -9752,6 +9768,14 @@ export const associateApprovedOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApprovedOrigin",
+  iam: {
+    actions: ["connect:AssociateApprovedOrigin"],
+    resources: {
+      "connect:AssociateApprovedOrigin": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateApprovedOrigin",
 }));
@@ -9791,6 +9815,14 @@ export const associateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBot",
+  iam: {
+    actions: ["connect:AssociateBot"],
+    resources: {
+      "connect:AssociateBot": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateBot",
 }));
@@ -9857,6 +9889,16 @@ export const associateContactWithUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateContactWithUser",
+  iam: {
+    actions: ["connect:AssociateContactWithUser"],
+    resources: {
+      "connect:AssociateContactWithUser": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateContactWithUser",
 }));
@@ -9890,6 +9932,14 @@ export const associateDefaultVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDefaultVocabulary",
+  iam: {
+    actions: ["connect:AssociateDefaultVocabulary"],
+    resources: {
+      "connect:AssociateDefaultVocabulary": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateDefaultVocabulary",
 }));
@@ -9979,6 +10029,14 @@ export const associateEmailAddressAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEmailAddressAlias",
+  iam: {
+    actions: ["connect:AssociateEmailAddressAlias"],
+    resources: {
+      "connect:AssociateEmailAddressAlias": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/email-address/${EmailAddressId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateEmailAddressAlias",
 }));
@@ -10013,6 +10071,15 @@ export const associateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFlow",
+  iam: {
+    actions: ["connect:AssociateFlow"],
+    resources: {
+      "connect:AssociateFlow": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateFlow",
 }));
@@ -10091,6 +10158,14 @@ export const associateInstanceStorageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateInstanceStorageConfig",
+  iam: {
+    actions: ["connect:AssociateInstanceStorageConfig"],
+    resources: {
+      "connect:AssociateInstanceStorageConfig": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateInstanceStorageConfig",
 }));
@@ -10129,6 +10204,14 @@ export const associateLambdaFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLambdaFunction",
+  iam: {
+    actions: ["connect:AssociateLambdaFunction"],
+    resources: {
+      "connect:AssociateLambdaFunction": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateLambdaFunction",
 }));
@@ -10168,6 +10251,14 @@ export const associateLexBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLexBot",
+  iam: {
+    actions: ["connect:AssociateLexBot"],
+    resources: {
+      "connect:AssociateLexBot": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateLexBot",
 }));
@@ -10207,6 +10298,15 @@ export const associatePhoneNumberContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePhoneNumberContactFlow",
+  iam: {
+    actions: ["connect:AssociatePhoneNumberContactFlow"],
+    resources: {
+      "connect:AssociatePhoneNumberContactFlow": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/${PhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociatePhoneNumberContactFlow",
 }));
@@ -10255,6 +10355,14 @@ export const associateQueueEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateQueueEmailAddresses",
+  iam: {
+    actions: ["connect:AssociateQueueEmailAddresses"],
+    resources: {
+      "connect:AssociateQueueEmailAddresses": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateQueueEmailAddresses",
 }));
@@ -10289,6 +10397,15 @@ export const associateQueueQuickConnects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateQueueQuickConnects",
+  iam: {
+    actions: ["connect:AssociateQueueQuickConnects"],
+    resources: {
+      "connect:AssociateQueueQuickConnects": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/transfer-destination/${QuickConnectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateQueueQuickConnects",
 }));
@@ -10321,6 +10438,15 @@ export const associateRoutingProfileQueues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRoutingProfileQueues",
+  iam: {
+    actions: ["connect:AssociateRoutingProfileQueues"],
+    resources: {
+      "connect:AssociateRoutingProfileQueues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateRoutingProfileQueues",
 }));
@@ -10359,6 +10485,14 @@ export const associateSecurityKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSecurityKey",
+  iam: {
+    actions: ["connect:AssociateSecurityKey"],
+    resources: {
+      "connect:AssociateSecurityKey": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateSecurityKey",
 }));
@@ -10395,6 +10529,7 @@ export const associateSecurityProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSecurityProfiles",
+  iam: { actions: ["connect:AssociateSecurityProfiles"] },
   telemetry: TELEMETRY,
   span: "AssociateSecurityProfiles",
 }));
@@ -10430,6 +10565,16 @@ export const associateTrafficDistributionGroupUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTrafficDistributionGroupUser",
+  iam: {
+    actions: ["connect:AssociateTrafficDistributionGroupUser"],
+    resources: {
+      "connect:AssociateTrafficDistributionGroupUser": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateTrafficDistributionGroupUser",
 }));
@@ -10462,6 +10607,15 @@ export const associateUserProficiencies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUserProficiencies",
+  iam: {
+    actions: ["connect:AssociateUserProficiencies"],
+    resources: {
+      "connect:AssociateUserProficiencies": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateUserProficiencies",
 }));
@@ -10499,6 +10653,7 @@ export const associateWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWorkspace",
+  iam: { actions: ["connect:AssociateWorkspace"] },
   telemetry: TELEMETRY,
   span: "AssociateWorkspace",
 }));
@@ -10532,6 +10687,14 @@ export const batchAssociateAnalyticsDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateAnalyticsDataSet",
+  iam: {
+    actions: ["connect:BatchAssociateAnalyticsDataSet"],
+    resources: {
+      "connect:BatchAssociateAnalyticsDataSet": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchAssociateAnalyticsDataSet",
 }));
@@ -10577,6 +10740,14 @@ export const batchCreateDataTableValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateDataTableValue",
+  iam: {
+    actions: ["connect:BatchCreateDataTableValue"],
+    resources: {
+      "connect:BatchCreateDataTableValue": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateDataTableValue",
 }));
@@ -10615,6 +10786,14 @@ export const batchDeleteDataTableValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteDataTableValue",
+  iam: {
+    actions: ["connect:BatchDeleteDataTableValue"],
+    resources: {
+      "connect:BatchDeleteDataTableValue": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteDataTableValue",
 }));
@@ -10651,6 +10830,14 @@ export const batchDescribeDataTableValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeDataTableValue",
+  iam: {
+    actions: ["connect:BatchDescribeDataTableValue"],
+    resources: {
+      "connect:BatchDescribeDataTableValue": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDescribeDataTableValue",
 }));
@@ -10684,6 +10871,14 @@ export const batchDisassociateAnalyticsDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateAnalyticsDataSet",
+  iam: {
+    actions: ["connect:BatchDisassociateAnalyticsDataSet"],
+    resources: {
+      "connect:BatchDisassociateAnalyticsDataSet": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateAnalyticsDataSet",
 }));
@@ -10717,6 +10912,14 @@ export const batchGetAttachedFileMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAttachedFileMetadata",
+  iam: {
+    actions: ["connect:BatchGetAttachedFileMetadata"],
+    resources: {
+      "connect:BatchGetAttachedFileMetadata": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/file/${FileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetAttachedFileMetadata",
 }));
@@ -10751,6 +10954,14 @@ export const batchGetFlowAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFlowAssociation",
+  iam: {
+    actions: ["connect:BatchGetFlowAssociation"],
+    resources: {
+      "connect:BatchGetFlowAssociation": [
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetFlowAssociation",
 }));
@@ -10791,6 +11002,7 @@ export const batchPutContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutContact",
+  iam: { actions: ["connect:BatchPutContact"] },
   telemetry: TELEMETRY,
   span: "BatchPutContact",
 }));
@@ -10829,6 +11041,14 @@ export const batchUpdateDataTableValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateDataTableValue",
+  iam: {
+    actions: ["connect:BatchUpdateDataTableValue"],
+    resources: {
+      "connect:BatchUpdateDataTableValue": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateDataTableValue",
 }));
@@ -10889,6 +11109,17 @@ export const claimPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClaimPhoneNumber",
+  iam: {
+    actions: ["connect:ClaimPhoneNumber", "connect:TagResource"],
+    resources: {
+      "connect:ClaimPhoneNumber": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/*",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ClaimPhoneNumber",
 }));
@@ -10922,6 +11153,14 @@ export const completeAttachedFileUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteAttachedFileUpload",
+  iam: {
+    actions: ["connect:CompleteAttachedFileUpload"],
+    resources: {
+      "connect:CompleteAttachedFileUpload": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/file/${FileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CompleteAttachedFileUpload",
 }));
@@ -10958,6 +11197,15 @@ export const createAgentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentStatus",
+  iam: {
+    actions: ["connect:CreateAgentStatus", "connect:TagResource"],
+    resources: {
+      "connect:CreateAgentStatus": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-state/${AgentStatusId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgentStatus",
 }));
@@ -11001,6 +11249,15 @@ export const createAttachedFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAttachedFile",
+  iam: {
+    actions: ["connect:CreateAttachedFile", "connect:TagResource"],
+    resources: {
+      "connect:CreateAttachedFile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/file/${FileId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAttachedFile",
 }));
@@ -11091,6 +11348,7 @@ export const createContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContact",
+  iam: { actions: ["connect:CreateContact"] },
   telemetry: TELEMETRY,
   span: "CreateContact",
 }));
@@ -11132,6 +11390,15 @@ export const createContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlow",
+  iam: {
+    actions: ["connect:CreateContactFlow", "connect:TagResource"],
+    resources: {
+      "connect:CreateContactFlow": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContactFlow",
 }));
@@ -11212,6 +11479,15 @@ export const createContactFlowModule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlowModule",
+  iam: {
+    actions: ["connect:CreateContactFlowModule", "connect:TagResource"],
+    resources: {
+      "connect:CreateContactFlowModule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContactFlowModule",
 }));
@@ -11250,6 +11526,14 @@ export const createContactFlowModuleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlowModuleAlias",
+  iam: {
+    actions: ["connect:CreateContactFlowModuleAlias"],
+    resources: {
+      "connect:CreateContactFlowModuleAlias": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateContactFlowModuleAlias",
 }));
@@ -11287,6 +11571,14 @@ export const createContactFlowModuleVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlowModuleVersion",
+  iam: {
+    actions: ["connect:CreateContactFlowModuleVersion"],
+    resources: {
+      "connect:CreateContactFlowModuleVersion": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateContactFlowModuleVersion",
 }));
@@ -11325,6 +11617,14 @@ export const createContactFlowVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlowVersion",
+  iam: {
+    actions: ["connect:CreateContactFlowVersion"],
+    resources: {
+      "connect:CreateContactFlowVersion": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateContactFlowVersion",
 }));
@@ -11367,6 +11667,15 @@ export const createDataTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataTable",
+  iam: {
+    actions: ["connect:CreateDataTable", "connect:TagResource"],
+    resources: {
+      "connect:CreateDataTable": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataTable",
 }));
@@ -11410,6 +11719,14 @@ export const createDataTableAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataTableAttribute",
+  iam: {
+    actions: ["connect:CreateDataTableAttribute"],
+    resources: {
+      "connect:CreateDataTableAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataTableAttribute",
 }));
@@ -11454,6 +11771,15 @@ export const createEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEmailAddress",
+  iam: {
+    actions: ["connect:CreateEmailAddress", "connect:TagResource"],
+    resources: {
+      "connect:CreateEmailAddress": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEmailAddress",
 }));
@@ -11490,6 +11816,15 @@ export const createEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluationForm",
+  iam: {
+    actions: ["connect:CreateEvaluationForm", "connect:TagResource"],
+    resources: {
+      "connect:CreateEvaluationForm": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEvaluationForm",
 }));
@@ -11529,6 +11864,15 @@ export const createExtractionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtractionDefinition",
+  iam: {
+    actions: ["connect:CreateExtractionDefinition", "connect:TagResource"],
+    resources: {
+      "connect:CreateExtractionDefinition": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/extraction-definition/${ExtractionDefinitionId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateExtractionDefinition",
 }));
@@ -11567,6 +11911,15 @@ export const createHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHoursOfOperation",
+  iam: {
+    actions: ["connect:CreateHoursOfOperation", "connect:TagResource"],
+    resources: {
+      "connect:CreateHoursOfOperation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateHoursOfOperation",
 }));
@@ -11603,6 +11956,15 @@ export const createHoursOfOperationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHoursOfOperationOverride",
+  iam: {
+    actions: ["connect:CreateHoursOfOperationOverride"],
+    resources: {
+      "connect:CreateHoursOfOperationOverride": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateHoursOfOperationOverride",
 }));
@@ -11646,6 +12008,10 @@ export const createInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstance",
+  iam: {
+    actions: ["connect:CreateInstance", "connect:TagResource"],
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstance",
 }));
@@ -11678,6 +12044,16 @@ export const createIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegrationAssociation",
+  iam: {
+    actions: ["connect:CreateIntegrationAssociation", "connect:TagResource"],
+    resources: {
+      "connect:CreateIntegrationAssociation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/integration-association/${IntegrationAssociationId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIntegrationAssociation",
 }));
@@ -11717,6 +12093,15 @@ export const createMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMetric",
+  iam: {
+    actions: ["connect:CreateMetric", "connect:TagResource"],
+    resources: {
+      "connect:CreateMetric": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMetric",
 }));
@@ -11753,6 +12138,10 @@ export const createNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotification",
+  iam: {
+    actions: ["connect:CreateNotification", "connect:TagResource"],
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNotification",
 }));
@@ -11789,6 +12178,15 @@ export const createParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParticipant",
+  iam: {
+    actions: ["connect:CreateParticipant"],
+    resources: {
+      "connect:CreateParticipant": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateParticipant",
 }));
@@ -11825,6 +12223,15 @@ export const createPersistentContactAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePersistentContactAssociation",
+  iam: {
+    actions: ["connect:CreatePersistentContactAssociation"],
+    resources: {
+      "connect:CreatePersistentContactAssociation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePersistentContactAssociation",
 }));
@@ -11879,6 +12286,14 @@ export const createPredefinedAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePredefinedAttribute",
+  iam: {
+    actions: ["connect:CreatePredefinedAttribute"],
+    resources: {
+      "connect:CreatePredefinedAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePredefinedAttribute",
 }));
@@ -11915,6 +12330,15 @@ export const createPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrompt",
+  iam: {
+    actions: ["connect:CreatePrompt", "connect:TagResource"],
+    resources: {
+      "connect:CreatePrompt": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/prompt/${PromptId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePrompt",
 }));
@@ -11950,6 +12374,14 @@ export const createPushNotificationRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePushNotificationRegistration",
+  iam: {
+    actions: ["connect:CreatePushNotificationRegistration"],
+    resources: {
+      "connect:CreatePushNotificationRegistration": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePushNotificationRegistration",
 }));
@@ -12000,6 +12432,10 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  iam: {
+    actions: ["connect:CreateQueue", "connect:TagResource"],
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateQueue",
 }));
@@ -12036,6 +12472,10 @@ export const createQuickConnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuickConnect",
+  iam: {
+    actions: ["connect:CreateQuickConnect", "connect:TagResource"],
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateQuickConnect",
 }));
@@ -12072,6 +12512,16 @@ export const createRoutingProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoutingProfile",
+  iam: {
+    actions: ["connect:CreateRoutingProfile", "connect:TagResource"],
+    resources: {
+      "connect:CreateRoutingProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRoutingProfile",
 }));
@@ -12111,6 +12561,15 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  iam: {
+    actions: ["connect:CreateRule", "connect:TagResource"],
+    resources: {
+      "connect:CreateRule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/rule/${RuleId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRule",
 }));
@@ -12151,6 +12610,10 @@ export const createSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityProfile",
+  iam: {
+    actions: ["connect:CreateSecurityProfile", "connect:TagResource"],
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSecurityProfile",
 }));
@@ -12185,6 +12648,14 @@ export const createTaskTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTaskTemplate",
+  iam: {
+    actions: ["connect:CreateTaskTemplate", "connect:TagResource"],
+    resources: {
+      "connect:CreateTaskTemplate": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/task-template/${TaskTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTaskTemplate",
 }));
@@ -12229,6 +12700,7 @@ export const createTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestCase",
+  iam: { actions: ["connect:TagResource"], conditional: { "connect:TagResource": "Tags" } },
   telemetry: TELEMETRY,
   span: "CreateTestCase",
 }));
@@ -12277,6 +12749,16 @@ export const createTrafficDistributionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficDistributionGroup",
+  iam: {
+    actions: ["connect:CreateTrafficDistributionGroup", "connect:TagResource"],
+    resources: {
+      "connect:CreateTrafficDistributionGroup": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrafficDistributionGroup",
 }));
@@ -12309,6 +12791,17 @@ export const createUseCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUseCase",
+  iam: {
+    actions: ["connect:CreateUseCase", "connect:TagResource"],
+    resources: {
+      "connect:CreateUseCase": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/integration-association/${IntegrationAssociationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/use-case/${UseCaseId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateUseCase",
 }));
@@ -12364,6 +12857,10 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  iam: {
+    actions: ["connect:CreateUser", "connect:TagResource"],
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -12400,6 +12897,10 @@ export const createUserHierarchyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserHierarchyGroup",
+  iam: {
+    actions: ["connect:CreateUserHierarchyGroup", "connect:TagResource"],
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateUserHierarchyGroup",
 }));
@@ -12447,6 +12948,15 @@ export const createView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateView",
+  iam: {
+    actions: ["connect:CreateView", "connect:TagResource"],
+    resources: {
+      "connect:CreateView": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateView",
 }));
@@ -12490,6 +13000,14 @@ export const createViewVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateViewVersion",
+  iam: {
+    actions: ["connect:CreateViewVersion"],
+    resources: {
+      "connect:CreateViewVersion": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateViewVersion",
 }));
@@ -12528,6 +13046,15 @@ export const createVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVocabulary",
+  iam: {
+    actions: ["connect:CreateVocabulary", "connect:TagResource"],
+    resources: {
+      "connect:CreateVocabulary": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/vocabulary/${VocabularyId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVocabulary",
 }));
@@ -12569,6 +13096,15 @@ export const createWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspace",
+  iam: {
+    actions: ["connect:CreateWorkspace", "connect:TagResource"],
+    resources: {
+      "connect:CreateWorkspace": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspace",
 }));
@@ -12611,6 +13147,7 @@ export const createWorkspacePage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspacePage",
+  iam: { actions: ["connect:CreateWorkspacePage"] },
   telemetry: TELEMETRY,
   span: "CreateWorkspacePage",
 }));
@@ -12644,6 +13181,14 @@ export const deactivateEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateEvaluationForm",
+  iam: {
+    actions: ["connect:DeactivateEvaluationForm"],
+    resources: {
+      "connect:DeactivateEvaluationForm": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeactivateEvaluationForm",
 }));
@@ -12679,6 +13224,14 @@ export const deleteAttachedFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttachedFile",
+  iam: {
+    actions: ["connect:DeleteAttachedFile"],
+    resources: {
+      "connect:DeleteAttachedFile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/file/${FileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAttachedFile",
 }));
@@ -12754,6 +13307,14 @@ export const deleteContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactEvaluation",
+  iam: {
+    actions: ["connect:DeleteContactEvaluation"],
+    resources: {
+      "connect:DeleteContactEvaluation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-evaluation/${EvaluationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContactEvaluation",
 }));
@@ -12788,6 +13349,14 @@ export const deleteContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlow",
+  iam: {
+    actions: ["connect:DeleteContactFlow"],
+    resources: {
+      "connect:DeleteContactFlow": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContactFlow",
 }));
@@ -12856,6 +13425,14 @@ export const deleteContactFlowModule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlowModule",
+  iam: {
+    actions: ["connect:DeleteContactFlowModule"],
+    resources: {
+      "connect:DeleteContactFlowModule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContactFlowModule",
 }));
@@ -12891,6 +13468,14 @@ export const deleteContactFlowModuleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlowModuleAlias",
+  iam: {
+    actions: ["connect:DeleteContactFlowModuleAlias"],
+    resources: {
+      "connect:DeleteContactFlowModuleAlias": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContactFlowModuleAlias",
 }));
@@ -12925,6 +13510,14 @@ export const deleteContactFlowModuleVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlowModuleVersion",
+  iam: {
+    actions: ["connect:DeleteContactFlowModuleVersion"],
+    resources: {
+      "connect:DeleteContactFlowModuleVersion": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContactFlowModuleVersion",
 }));
@@ -12959,6 +13552,14 @@ export const deleteContactFlowVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlowVersion",
+  iam: {
+    actions: ["connect:DeleteContactFlowVersion"],
+    resources: {
+      "connect:DeleteContactFlowVersion": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContactFlowVersion",
 }));
@@ -12999,6 +13600,14 @@ export const deleteDataTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataTable",
+  iam: {
+    actions: ["connect:DeleteDataTable"],
+    resources: {
+      "connect:DeleteDataTable": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataTable",
 }));
@@ -13035,6 +13644,14 @@ export const deleteDataTableAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataTableAttribute",
+  iam: {
+    actions: ["connect:DeleteDataTableAttribute"],
+    resources: {
+      "connect:DeleteDataTableAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataTableAttribute",
 }));
@@ -13071,6 +13688,14 @@ export const deleteEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailAddress",
+  iam: {
+    actions: ["connect:DeleteEmailAddress"],
+    resources: {
+      "connect:DeleteEmailAddress": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/email-address/${EmailAddressId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEmailAddress",
 }));
@@ -13107,6 +13732,14 @@ export const deleteEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluationForm",
+  iam: {
+    actions: ["connect:DeleteEvaluationForm"],
+    resources: {
+      "connect:DeleteEvaluationForm": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEvaluationForm",
 }));
@@ -13139,6 +13772,14 @@ export const deleteExtractionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtractionDefinition",
+  iam: {
+    actions: ["connect:DeleteExtractionDefinition"],
+    resources: {
+      "connect:DeleteExtractionDefinition": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/extraction-definition/${ExtractionDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteExtractionDefinition",
 }));
@@ -13171,6 +13812,14 @@ export const deleteHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHoursOfOperation",
+  iam: {
+    actions: ["connect:DeleteHoursOfOperation"],
+    resources: {
+      "connect:DeleteHoursOfOperation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteHoursOfOperation",
 }));
@@ -13203,6 +13852,15 @@ export const deleteHoursOfOperationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHoursOfOperationOverride",
+  iam: {
+    actions: ["connect:DeleteHoursOfOperationOverride"],
+    resources: {
+      "connect:DeleteHoursOfOperationOverride": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteHoursOfOperationOverride",
 }));
@@ -13234,6 +13892,14 @@ export const deleteInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstance",
+  iam: {
+    actions: ["connect:DeleteInstance"],
+    resources: {
+      "connect:DeleteInstance": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstance",
 }));
@@ -13265,6 +13931,15 @@ export const deleteIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegrationAssociation",
+  iam: {
+    actions: ["connect:DeleteIntegrationAssociation"],
+    resources: {
+      "connect:DeleteIntegrationAssociation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/integration-association/${IntegrationAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntegrationAssociation",
 }));
@@ -13301,6 +13976,14 @@ export const deleteMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetric",
+  iam: {
+    actions: ["connect:DeleteMetric"],
+    resources: {
+      "connect:DeleteMetric": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMetric",
 }));
@@ -13335,6 +14018,14 @@ export const deleteNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotification",
+  iam: {
+    actions: ["connect:DeleteNotification"],
+    resources: {
+      "connect:DeleteNotification": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/notification/${NotificationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNotification",
 }));
@@ -13369,6 +14060,14 @@ export const deletePredefinedAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePredefinedAttribute",
+  iam: {
+    actions: ["connect:DeletePredefinedAttribute"],
+    resources: {
+      "connect:DeletePredefinedAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePredefinedAttribute",
 }));
@@ -13401,6 +14100,14 @@ export const deletePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrompt",
+  iam: {
+    actions: ["connect:DeletePrompt"],
+    resources: {
+      "connect:DeletePrompt": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/prompt/${PromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePrompt",
 }));
@@ -13433,6 +14140,14 @@ export const deletePushNotificationRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePushNotificationRegistration",
+  iam: {
+    actions: ["connect:DeletePushNotificationRegistration"],
+    resources: {
+      "connect:DeletePushNotificationRegistration": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePushNotificationRegistration",
 }));
@@ -13467,6 +14182,14 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  iam: {
+    actions: ["connect:DeleteQueue"],
+    resources: {
+      "connect:DeleteQueue": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQueue",
 }));
@@ -13509,6 +14232,14 @@ export const deleteQuickConnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuickConnect",
+  iam: {
+    actions: ["connect:DeleteQuickConnect"],
+    resources: {
+      "connect:DeleteQuickConnect": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/transfer-destination/${QuickConnectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQuickConnect",
 }));
@@ -13543,6 +14274,14 @@ export const deleteRoutingProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoutingProfile",
+  iam: {
+    actions: ["connect:DeleteRoutingProfile"],
+    resources: {
+      "connect:DeleteRoutingProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRoutingProfile",
 }));
@@ -13575,6 +14314,14 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  iam: {
+    actions: ["connect:DeleteRule"],
+    resources: {
+      "connect:DeleteRule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRule",
 }));
@@ -13611,6 +14358,14 @@ export const deleteSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityProfile",
+  iam: {
+    actions: ["connect:DeleteSecurityProfile"],
+    resources: {
+      "connect:DeleteSecurityProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/security-profile/${SecurityProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSecurityProfile",
 }));
@@ -13677,6 +14432,14 @@ export const deleteTaskTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTaskTemplate",
+  iam: {
+    actions: ["connect:DeleteTaskTemplate"],
+    resources: {
+      "connect:DeleteTaskTemplate": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/task-template/${TaskTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTaskTemplate",
 }));
@@ -13746,6 +14509,14 @@ export const deleteTrafficDistributionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficDistributionGroup",
+  iam: {
+    actions: ["connect:DeleteTrafficDistributionGroup"],
+    resources: {
+      "connect:DeleteTrafficDistributionGroup": [
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrafficDistributionGroup",
 }));
@@ -13776,6 +14547,15 @@ export const deleteUseCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUseCase",
+  iam: {
+    actions: ["connect:DeleteUseCase"],
+    resources: {
+      "connect:DeleteUseCase": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/use-case/${UseCaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUseCase",
 }));
@@ -13821,6 +14601,14 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  iam: {
+    actions: ["connect:DeleteUser"],
+    resources: {
+      "connect:DeleteUser": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -13856,6 +14644,14 @@ export const deleteUserHierarchyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserHierarchyGroup",
+  iam: {
+    actions: ["connect:DeleteUserHierarchyGroup"],
+    resources: {
+      "connect:DeleteUserHierarchyGroup": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-group/${HierarchyGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUserHierarchyGroup",
 }));
@@ -13892,6 +14688,14 @@ export const deleteView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteView",
+  iam: {
+    actions: ["connect:DeleteView"],
+    resources: {
+      "connect:DeleteView": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteView",
 }));
@@ -13928,6 +14732,14 @@ export const deleteViewVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteViewVersion",
+  iam: {
+    actions: ["connect:DeleteViewVersion"],
+    resources: {
+      "connect:DeleteViewVersion": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}:${ViewVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteViewVersion",
 }));
@@ -13962,6 +14774,14 @@ export const deleteVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVocabulary",
+  iam: {
+    actions: ["connect:DeleteVocabulary"],
+    resources: {
+      "connect:DeleteVocabulary": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/vocabulary/${VocabularyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVocabulary",
 }));
@@ -13996,6 +14816,14 @@ export const deleteWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspace",
+  iam: {
+    actions: ["connect:DeleteWorkspace"],
+    resources: {
+      "connect:DeleteWorkspace": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspace",
 }));
@@ -14028,6 +14856,14 @@ export const deleteWorkspaceMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceMedia",
+  iam: {
+    actions: ["connect:DeleteWorkspaceMedia"],
+    resources: {
+      "connect:DeleteWorkspaceMedia": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspaceMedia",
 }));
@@ -14065,6 +14901,14 @@ export const deleteWorkspacePage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspacePage",
+  iam: {
+    actions: ["connect:DeleteWorkspacePage"],
+    resources: {
+      "connect:DeleteWorkspacePage": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspacePage",
 }));
@@ -14097,6 +14941,14 @@ export const describeAgentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgentStatus",
+  iam: {
+    actions: ["connect:DescribeAgentStatus"],
+    resources: {
+      "connect:DescribeAgentStatus": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-state/${AgentStatusId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAgentStatus",
 }));
@@ -14131,6 +14983,14 @@ export const describeAttachedFilesConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttachedFilesConfiguration",
+  iam: {
+    actions: ["connect:DescribeAttachedFilesConfiguration"],
+    resources: {
+      "connect:DescribeAttachedFilesConfiguration": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAttachedFilesConfiguration",
 }));
@@ -14166,6 +15026,14 @@ export const describeAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuthenticationProfile",
+  iam: {
+    actions: ["connect:DescribeAuthenticationProfile"],
+    resources: {
+      "connect:DescribeAuthenticationProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/authentication-profile/${AuthenticationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAuthenticationProfile",
 }));
@@ -14225,6 +15093,14 @@ export const describeContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContact",
+  iam: {
+    actions: ["connect:DescribeContact"],
+    resources: {
+      "connect:DescribeContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeContact",
 }));
@@ -14255,6 +15131,14 @@ export const describeContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactEvaluation",
+  iam: {
+    actions: ["connect:DescribeContactEvaluation"],
+    resources: {
+      "connect:DescribeContactEvaluation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-evaluation/${EvaluationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeContactEvaluation",
 }));
@@ -14303,6 +15187,14 @@ export const describeContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactFlow",
+  iam: {
+    actions: ["connect:DescribeContactFlow"],
+    resources: {
+      "connect:DescribeContactFlow": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeContactFlow",
 }));
@@ -14375,6 +15267,14 @@ export const describeContactFlowModule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactFlowModule",
+  iam: {
+    actions: ["connect:DescribeContactFlowModule"],
+    resources: {
+      "connect:DescribeContactFlowModule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeContactFlowModule",
 }));
@@ -14410,6 +15310,14 @@ export const describeContactFlowModuleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactFlowModuleAlias",
+  iam: {
+    actions: ["connect:DescribeContactFlowModuleAlias"],
+    resources: {
+      "connect:DescribeContactFlowModuleAlias": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeContactFlowModuleAlias",
 }));
@@ -14446,6 +15354,14 @@ export const describeDataTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataTable",
+  iam: {
+    actions: ["connect:DescribeDataTable"],
+    resources: {
+      "connect:DescribeDataTable": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataTable",
 }));
@@ -14481,6 +15397,14 @@ export const describeDataTableAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataTableAttribute",
+  iam: {
+    actions: ["connect:DescribeDataTableAttribute"],
+    resources: {
+      "connect:DescribeDataTableAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataTableAttribute",
 }));
@@ -14515,6 +15439,14 @@ export const describeEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEmailAddress",
+  iam: {
+    actions: ["connect:DescribeEmailAddress"],
+    resources: {
+      "connect:DescribeEmailAddress": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/email-address/${EmailAddressId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEmailAddress",
 }));
@@ -14546,6 +15478,14 @@ export const describeEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEvaluationForm",
+  iam: {
+    actions: ["connect:DescribeEvaluationForm"],
+    resources: {
+      "connect:DescribeEvaluationForm": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEvaluationForm",
 }));
@@ -14578,6 +15518,14 @@ export const describeExtractionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExtractionDefinition",
+  iam: {
+    actions: ["connect:DescribeExtractionDefinition"],
+    resources: {
+      "connect:DescribeExtractionDefinition": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/extraction-definition/${ExtractionDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeExtractionDefinition",
 }));
@@ -14610,6 +15558,14 @@ export const describeHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHoursOfOperation",
+  iam: {
+    actions: ["connect:DescribeHoursOfOperation"],
+    resources: {
+      "connect:DescribeHoursOfOperation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeHoursOfOperation",
 }));
@@ -14642,6 +15598,15 @@ export const describeHoursOfOperationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHoursOfOperationOverride",
+  iam: {
+    actions: ["connect:DescribeHoursOfOperationOverride"],
+    resources: {
+      "connect:DescribeHoursOfOperationOverride": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeHoursOfOperationOverride",
 }));
@@ -14672,6 +15637,14 @@ export const describeInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstance",
+  iam: {
+    actions: ["connect:DescribeInstance"],
+    resources: {
+      "connect:DescribeInstance": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInstance",
 }));
@@ -14706,6 +15679,14 @@ export const describeInstanceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceAttribute",
+  iam: {
+    actions: ["connect:DescribeInstanceAttribute"],
+    resources: {
+      "connect:DescribeInstanceAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInstanceAttribute",
 }));
@@ -14741,6 +15722,14 @@ export const describeInstanceStorageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceStorageConfig",
+  iam: {
+    actions: ["connect:DescribeInstanceStorageConfig"],
+    resources: {
+      "connect:DescribeInstanceStorageConfig": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInstanceStorageConfig",
 }));
@@ -14775,6 +15764,15 @@ export const describeMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetric",
+  iam: {
+    actions: ["connect:DescribeMetric"],
+    resources: {
+      "connect:DescribeMetric": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}:${MetricQualifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMetric",
 }));
@@ -14809,6 +15807,14 @@ export const describeNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotification",
+  iam: {
+    actions: ["connect:DescribeNotification"],
+    resources: {
+      "connect:DescribeNotification": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/notification/${NotificationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNotification",
 }));
@@ -14847,6 +15853,14 @@ export const describePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePhoneNumber",
+  iam: {
+    actions: ["connect:DescribePhoneNumber"],
+    resources: {
+      "connect:DescribePhoneNumber": [
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/${PhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePhoneNumber",
 }));
@@ -14892,6 +15906,14 @@ export const describePredefinedAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePredefinedAttribute",
+  iam: {
+    actions: ["connect:DescribePredefinedAttribute"],
+    resources: {
+      "connect:DescribePredefinedAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePredefinedAttribute",
 }));
@@ -14924,6 +15946,14 @@ export const describePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePrompt",
+  iam: {
+    actions: ["connect:DescribePrompt"],
+    resources: {
+      "connect:DescribePrompt": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/prompt/${PromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePrompt",
 }));
@@ -14956,6 +15986,14 @@ export const describeQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQueue",
+  iam: {
+    actions: ["connect:DescribeQueue"],
+    resources: {
+      "connect:DescribeQueue": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeQueue",
 }));
@@ -14988,6 +16026,14 @@ export const describeQuickConnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuickConnect",
+  iam: {
+    actions: ["connect:DescribeQuickConnect"],
+    resources: {
+      "connect:DescribeQuickConnect": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/transfer-destination/${QuickConnectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeQuickConnect",
 }));
@@ -15024,6 +16070,14 @@ export const describeRoutingProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoutingProfile",
+  iam: {
+    actions: ["connect:DescribeRoutingProfile"],
+    resources: {
+      "connect:DescribeRoutingProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRoutingProfile",
 }));
@@ -15056,6 +16110,14 @@ export const describeRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRule",
+  iam: {
+    actions: ["connect:DescribeRule"],
+    resources: {
+      "connect:DescribeRule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRule",
 }));
@@ -15092,6 +16154,14 @@ export const describeSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityProfile",
+  iam: {
+    actions: ["connect:DescribeSecurityProfile"],
+    resources: {
+      "connect:DescribeSecurityProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/security-profile/${SecurityProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSecurityProfile",
 }));
@@ -15158,6 +16228,14 @@ export const describeTrafficDistributionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrafficDistributionGroup",
+  iam: {
+    actions: ["connect:DescribeTrafficDistributionGroup"],
+    resources: {
+      "connect:DescribeTrafficDistributionGroup": [
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTrafficDistributionGroup",
 }));
@@ -15192,6 +16270,14 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  iam: {
+    actions: ["connect:DescribeUser"],
+    resources: {
+      "connect:DescribeUser": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeUser",
 }));
@@ -15224,6 +16310,14 @@ export const describeUserHierarchyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserHierarchyGroup",
+  iam: {
+    actions: ["connect:DescribeUserHierarchyGroup"],
+    resources: {
+      "connect:DescribeUserHierarchyGroup": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-group/${HierarchyGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeUserHierarchyGroup",
 }));
@@ -15256,6 +16350,14 @@ export const describeUserHierarchyStructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserHierarchyStructure",
+  iam: {
+    actions: ["connect:DescribeUserHierarchyStructure"],
+    resources: {
+      "connect:DescribeUserHierarchyStructure": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeUserHierarchyStructure",
 }));
@@ -15299,6 +16401,17 @@ export const describeView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeView",
+  iam: {
+    actions: ["connect:DescribeView"],
+    resources: {
+      "connect:DescribeView": [
+        "arn:${Partition}:connect:${Region}:aws:view/${ViewId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
+        "arn:${Partition}:connect:${Region}:aws:view/${ViewId}:${ViewQualifier}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}:${ViewQualifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeView",
 }));
@@ -15331,6 +16444,14 @@ export const describeVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVocabulary",
+  iam: {
+    actions: ["connect:DescribeVocabulary"],
+    resources: {
+      "connect:DescribeVocabulary": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/vocabulary/${VocabularyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVocabulary",
 }));
@@ -15365,6 +16486,14 @@ export const describeWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspace",
+  iam: {
+    actions: ["connect:DescribeWorkspace"],
+    resources: {
+      "connect:DescribeWorkspace": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspace",
 }));
@@ -15397,6 +16526,14 @@ export const disassociateAnalyticsDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAnalyticsDataSet",
+  iam: {
+    actions: ["connect:DisassociateAnalyticsDataSet"],
+    resources: {
+      "connect:DisassociateAnalyticsDataSet": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateAnalyticsDataSet",
 }));
@@ -15431,6 +16568,14 @@ export const disassociateApprovedOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApprovedOrigin",
+  iam: {
+    actions: ["connect:DisassociateApprovedOrigin"],
+    resources: {
+      "connect:DisassociateApprovedOrigin": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateApprovedOrigin",
 }));
@@ -15463,6 +16608,14 @@ export const disassociateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBot",
+  iam: {
+    actions: ["connect:DisassociateBot"],
+    resources: {
+      "connect:DisassociateBot": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateBot",
 }));
@@ -15552,6 +16705,14 @@ export const disassociateEmailAddressAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEmailAddressAlias",
+  iam: {
+    actions: ["connect:DisassociateEmailAddressAlias"],
+    resources: {
+      "connect:DisassociateEmailAddressAlias": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/email-address/${EmailAddressId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateEmailAddressAlias",
 }));
@@ -15586,6 +16747,12 @@ export const disassociateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFlow",
+  iam: {
+    actions: ["connect:DisassociateFlow"],
+    resources: {
+      "connect:DisassociateFlow": ["arn:${Partition}:connect:${Region}:${Account}:phone-number/*"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateFlow",
 }));
@@ -15654,6 +16821,14 @@ export const disassociateInstanceStorageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateInstanceStorageConfig",
+  iam: {
+    actions: ["connect:DisassociateInstanceStorageConfig"],
+    resources: {
+      "connect:DisassociateInstanceStorageConfig": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateInstanceStorageConfig",
 }));
@@ -15688,6 +16863,14 @@ export const disassociateLambdaFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLambdaFunction",
+  iam: {
+    actions: ["connect:DisassociateLambdaFunction"],
+    resources: {
+      "connect:DisassociateLambdaFunction": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateLambdaFunction",
 }));
@@ -15722,6 +16905,14 @@ export const disassociateLexBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLexBot",
+  iam: {
+    actions: ["connect:DisassociateLexBot"],
+    resources: {
+      "connect:DisassociateLexBot": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateLexBot",
 }));
@@ -15760,6 +16951,14 @@ export const disassociatePhoneNumberContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePhoneNumberContactFlow",
+  iam: {
+    actions: ["connect:DisassociatePhoneNumberContactFlow"],
+    resources: {
+      "connect:DisassociatePhoneNumberContactFlow": [
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/${PhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociatePhoneNumberContactFlow",
 }));
@@ -15802,6 +17001,14 @@ export const disassociateQueueEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateQueueEmailAddresses",
+  iam: {
+    actions: ["connect:DisassociateQueueEmailAddresses"],
+    resources: {
+      "connect:DisassociateQueueEmailAddresses": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateQueueEmailAddresses",
 }));
@@ -15834,6 +17041,15 @@ export const disassociateQueueQuickConnects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateQueueQuickConnects",
+  iam: {
+    actions: ["connect:DisassociateQueueQuickConnects"],
+    resources: {
+      "connect:DisassociateQueueQuickConnects": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/transfer-destination/${QuickConnectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateQueueQuickConnects",
 }));
@@ -15869,6 +17085,14 @@ export const disassociateRoutingProfileQueues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRoutingProfileQueues",
+  iam: {
+    actions: ["connect:DisassociateRoutingProfileQueues"],
+    resources: {
+      "connect:DisassociateRoutingProfileQueues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateRoutingProfileQueues",
 }));
@@ -15903,6 +17127,14 @@ export const disassociateSecurityKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSecurityKey",
+  iam: {
+    actions: ["connect:DisassociateSecurityKey"],
+    resources: {
+      "connect:DisassociateSecurityKey": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateSecurityKey",
 }));
@@ -15939,6 +17171,7 @@ export const disassociateSecurityProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSecurityProfiles",
+  iam: { actions: ["connect:DisassociateSecurityProfiles"] },
   telemetry: TELEMETRY,
   span: "DisassociateSecurityProfiles",
 }));
@@ -15974,6 +17207,16 @@ export const disassociateTrafficDistributionGroupUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTrafficDistributionGroupUser",
+  iam: {
+    actions: ["connect:DisassociateTrafficDistributionGroupUser"],
+    resources: {
+      "connect:DisassociateTrafficDistributionGroupUser": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateTrafficDistributionGroupUser",
 }));
@@ -16006,6 +17249,15 @@ export const disassociateUserProficiencies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUserProficiencies",
+  iam: {
+    actions: ["connect:DisassociateUserProficiencies"],
+    resources: {
+      "connect:DisassociateUserProficiencies": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateUserProficiencies",
 }));
@@ -16040,6 +17292,14 @@ export const disassociateWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWorkspace",
+  iam: {
+    actions: ["connect:DisassociateWorkspace"],
+    resources: {
+      "connect:DisassociateWorkspace": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateWorkspace",
 }));
@@ -16076,6 +17336,14 @@ export const dismissUserContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DismissUserContact",
+  iam: {
+    actions: ["connect:DismissUserContact"],
+    resources: {
+      "connect:DismissUserContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DismissUserContact",
 }));
@@ -16120,6 +17388,14 @@ export const evaluateDataTableValues: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:EvaluateDataTableValues"],
+    resources: {
+      "connect:EvaluateDataTableValues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EvaluateDataTableValues",
 })) as any;
@@ -16153,6 +17429,14 @@ export const getAttachedFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttachedFile",
+  iam: {
+    actions: ["connect:GetAttachedFile"],
+    resources: {
+      "connect:GetAttachedFile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/file/${FileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAttachedFile",
 }));
@@ -16177,6 +17461,14 @@ export const getContactAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactAttributes",
+  iam: {
+    actions: ["connect:GetContactAttributes"],
+    resources: {
+      "connect:GetContactAttributes": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContactAttributes",
 }));
@@ -16231,6 +17523,15 @@ export const getContactMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactMetrics",
+  iam: {
+    actions: ["connect:GetContactMetrics"],
+    resources: {
+      "connect:GetContactMetrics": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContactMetrics",
 }));
@@ -16267,6 +17568,14 @@ export const getCrossRegionRouting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCrossRegionRouting",
+  iam: {
+    actions: ["connect:GetCrossRegionRouting"],
+    resources: {
+      "connect:GetCrossRegionRouting": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCrossRegionRouting",
 }));
@@ -16328,6 +17637,15 @@ export const getCurrentMetricData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:GetCurrentMetricData"],
+    resources: {
+      "connect:GetCurrentMetricData": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCurrentMetricData",
 })) as any;
@@ -16366,6 +17684,17 @@ export const getCurrentUserData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:GetCurrentUserData"],
+    resources: {
+      "connect:GetCurrentUserData": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-group/${HierarchyGroupId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCurrentUserData",
 })) as any;
@@ -16398,6 +17727,15 @@ export const getEffectiveHoursOfOperations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEffectiveHoursOfOperations",
+  iam: {
+    actions: ["connect:GetEffectiveHoursOfOperations"],
+    resources: {
+      "connect:GetEffectiveHoursOfOperations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEffectiveHoursOfOperations",
 }));
@@ -16432,6 +17770,14 @@ export const getEvaluationFormValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluationFormValidation",
+  iam: {
+    actions: ["connect:GetEvaluationFormValidation"],
+    resources: {
+      "connect:GetEvaluationFormValidation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEvaluationFormValidation",
 }));
@@ -16476,6 +17822,14 @@ export const getFederationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFederationToken",
+  iam: {
+    actions: ["connect:GetFederationToken"],
+    resources: {
+      "connect:GetFederationToken": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFederationToken",
 }));
@@ -16510,6 +17864,14 @@ export const getFlowAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowAssociation",
+  iam: {
+    actions: ["connect:GetFlowAssociation"],
+    resources: {
+      "connect:GetFlowAssociation": [
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFlowAssociation",
 }));
@@ -16556,6 +17918,14 @@ export const getMetricData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:GetMetricData"],
+    resources: {
+      "connect:GetMetricData": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMetricData",
 })) as any;
@@ -16625,6 +17995,17 @@ export const getMetricDataV2: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:GetMetricDataV2"],
+    resources: {
+      "connect:GetMetricDataV2": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-group/${HierarchyGroupId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMetricDataV2",
 })) as any;
@@ -16657,6 +18038,14 @@ export const getPromptFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPromptFile",
+  iam: {
+    actions: ["connect:GetPromptFile"],
+    resources: {
+      "connect:GetPromptFile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/prompt/${PromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPromptFile",
 }));
@@ -16689,6 +18078,14 @@ export const getTaskTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaskTemplate",
+  iam: {
+    actions: ["connect:GetTaskTemplate"],
+    resources: {
+      "connect:GetTaskTemplate": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/task-template/${TaskTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTaskTemplate",
 }));
@@ -16755,6 +18152,14 @@ export const getTrafficDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficDistribution",
+  iam: {
+    actions: ["connect:GetTrafficDistribution"],
+    resources: {
+      "connect:GetTrafficDistribution": [
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrafficDistribution",
 }));
@@ -16805,6 +18210,16 @@ export const importPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPhoneNumber",
+  iam: {
+    actions: ["connect:ImportPhoneNumber", "connect:TagResource"],
+    resources: {
+      "connect:ImportPhoneNumber": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/*",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportPhoneNumber",
 }));
@@ -16837,6 +18252,14 @@ export const importWorkspaceMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportWorkspaceMedia",
+  iam: {
+    actions: ["connect:ImportWorkspaceMedia"],
+    resources: {
+      "connect:ImportWorkspaceMedia": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportWorkspaceMedia",
 }));
@@ -16876,6 +18299,14 @@ export const listAgentStatuses: API.PaginatedOperationMethod<
     items: "AgentStatusSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListAgentStatuses"],
+    resources: {
+      "connect:ListAgentStatuses": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-state/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAgentStatuses",
 })) as any;
@@ -16908,6 +18339,14 @@ export const listAnalyticsDataAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnalyticsDataAssociations",
+  iam: {
+    actions: ["connect:ListAnalyticsDataAssociations"],
+    resources: {
+      "connect:ListAnalyticsDataAssociations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAnalyticsDataAssociations",
 }));
@@ -16940,6 +18379,14 @@ export const listAnalyticsDataLakeDataSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnalyticsDataLakeDataSets",
+  iam: {
+    actions: ["connect:ListAnalyticsDataLakeDataSets"],
+    resources: {
+      "connect:ListAnalyticsDataLakeDataSets": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAnalyticsDataLakeDataSets",
 }));
@@ -16981,6 +18428,14 @@ export const listApprovedOrigins: API.PaginatedOperationMethod<
     items: "Origins",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListApprovedOrigins"],
+    resources: {
+      "connect:ListApprovedOrigins": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApprovedOrigins",
 })) as any;
@@ -17013,6 +18468,14 @@ export const listAssociatedContacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedContacts",
+  iam: {
+    actions: ["connect:ListAssociatedContacts"],
+    resources: {
+      "connect:ListAssociatedContacts": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociatedContacts",
 }));
@@ -17054,6 +18517,14 @@ export const listAttachedFilesConfigurations: API.PaginatedOperationMethod<
     items: "AttachedFilesConfigurations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListAttachedFilesConfigurations"],
+    resources: {
+      "connect:ListAttachedFilesConfigurations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAttachedFilesConfigurations",
 })) as any;
@@ -17097,6 +18568,14 @@ export const listAuthenticationProfiles: API.PaginatedOperationMethod<
     items: "AuthenticationProfileSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListAuthenticationProfiles"],
+    resources: {
+      "connect:ListAuthenticationProfiles": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAuthenticationProfiles",
 })) as any;
@@ -17138,6 +18617,12 @@ export const listBots: API.PaginatedOperationMethod<
     items: "LexBots",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListBots"],
+    resources: {
+      "connect:ListBots": ["arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBots",
 })) as any;
@@ -17216,6 +18701,14 @@ export const listContactEvaluations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "EvaluationSummaryList",
   } as const,
+  iam: {
+    actions: ["connect:ListContactEvaluations"],
+    resources: {
+      "connect:ListContactEvaluations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContactEvaluations",
 })) as any;
@@ -17299,6 +18792,14 @@ export const listContactFlowModuleAliases: API.PaginatedOperationMethod<
     items: "ContactFlowModuleAliasSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListContactFlowModuleAliases"],
+    resources: {
+      "connect:ListContactFlowModuleAliases": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContactFlowModuleAliases",
 })) as any;
@@ -17340,6 +18841,14 @@ export const listContactFlowModules: API.PaginatedOperationMethod<
     items: "ContactFlowModulesSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListContactFlowModules"],
+    resources: {
+      "connect:ListContactFlowModules": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContactFlowModules",
 })) as any;
@@ -17381,6 +18890,14 @@ export const listContactFlowModuleVersions: API.PaginatedOperationMethod<
     items: "ContactFlowModuleVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListContactFlowModuleVersions"],
+    resources: {
+      "connect:ListContactFlowModuleVersions": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContactFlowModuleVersions",
 })) as any;
@@ -17426,6 +18943,14 @@ export const listContactFlows: API.PaginatedOperationMethod<
     items: "ContactFlowSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListContactFlows"],
+    resources: {
+      "connect:ListContactFlows": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContactFlows",
 })) as any;
@@ -17467,6 +18992,14 @@ export const listContactFlowVersions: API.PaginatedOperationMethod<
     items: "ContactFlowVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListContactFlowVersions"],
+    resources: {
+      "connect:ListContactFlowVersions": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContactFlowVersions",
 })) as any;
@@ -17509,6 +19042,14 @@ export const listContactReferences: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "ReferenceSummaryList",
   } as const,
+  iam: {
+    actions: ["connect:ListContactReferences"],
+    resources: {
+      "connect:ListContactReferences": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContactReferences",
 })) as any;
@@ -17552,6 +19093,14 @@ export const listDataTableAttributes: API.PaginatedOperationMethod<
     items: "Attributes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListDataTableAttributes"],
+    resources: {
+      "connect:ListDataTableAttributes": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataTableAttributes",
 })) as any;
@@ -17594,6 +19143,14 @@ export const listDataTablePrimaryValues: API.PaginatedOperationMethod<
     items: "PrimaryValuesList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListDataTablePrimaryValues"],
+    resources: {
+      "connect:ListDataTablePrimaryValues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataTablePrimaryValues",
 })) as any;
@@ -17636,6 +19193,14 @@ export const listDataTables: API.PaginatedOperationMethod<
     items: "DataTableSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListDataTables"],
+    resources: {
+      "connect:ListDataTables": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataTables",
 })) as any;
@@ -17678,6 +19243,14 @@ export const listDataTableValues: API.PaginatedOperationMethod<
     items: "Values",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListDataTableValues"],
+    resources: {
+      "connect:ListDataTableValues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataTableValues",
 })) as any;
@@ -17715,6 +19288,14 @@ export const listDefaultVocabularies: API.PaginatedOperationMethod<
     items: "DefaultVocabularyList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListDefaultVocabularies"],
+    resources: {
+      "connect:ListDefaultVocabularies": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDefaultVocabularies",
 })) as any;
@@ -17754,6 +19335,7 @@ export const listEntitySecurityProfiles: API.PaginatedOperationMethod<
     items: "SecurityProfiles",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["connect:ListEntitySecurityProfiles"] },
   telemetry: TELEMETRY,
   span: "ListEntitySecurityProfiles",
 })) as any;
@@ -17791,6 +19373,14 @@ export const listEvaluationFormAIVersions: API.PaginatedOperationMethod<
     items: "AIVersionSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListEvaluationFormAIVersions"],
+    resources: {
+      "connect:ListEvaluationFormAIVersions": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEvaluationFormAIVersions",
 })) as any;
@@ -17828,6 +19418,14 @@ export const listEvaluationForms: API.PaginatedOperationMethod<
     items: "EvaluationFormSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListEvaluationForms"],
+    resources: {
+      "connect:ListEvaluationForms": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEvaluationForms",
 })) as any;
@@ -17865,6 +19463,14 @@ export const listEvaluationFormVersions: API.PaginatedOperationMethod<
     items: "EvaluationFormVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListEvaluationFormVersions"],
+    resources: {
+      "connect:ListEvaluationFormVersions": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEvaluationFormVersions",
 })) as any;
@@ -17904,6 +19510,14 @@ export const listExtractionDefinitions: API.PaginatedOperationMethod<
     items: "ExtractionDefinitionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListExtractionDefinitions"],
+    resources: {
+      "connect:ListExtractionDefinitions": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExtractionDefinitions",
 })) as any;
@@ -17945,6 +19559,14 @@ export const listFlowAssociations: API.PaginatedOperationMethod<
     items: "FlowAssociationSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListFlowAssociations"],
+    resources: {
+      "connect:ListFlowAssociations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFlowAssociations",
 })) as any;
@@ -17984,6 +19606,15 @@ export const listHoursOfOperationOverrides: API.PaginatedOperationMethod<
     items: "HoursOfOperationOverrideList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListHoursOfOperationOverrides"],
+    resources: {
+      "connect:ListHoursOfOperationOverrides": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListHoursOfOperationOverrides",
 })) as any;
@@ -18026,6 +19657,14 @@ export const listHoursOfOperations: API.PaginatedOperationMethod<
     items: "HoursOfOperationSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListHoursOfOperations"],
+    resources: {
+      "connect:ListHoursOfOperations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListHoursOfOperations",
 })) as any;
@@ -18067,6 +19706,14 @@ export const listInstanceAttributes: API.PaginatedOperationMethod<
     items: "Attributes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListInstanceAttributes"],
+    resources: {
+      "connect:ListInstanceAttributes": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInstanceAttributes",
 })) as any;
@@ -18098,6 +19745,7 @@ export const listInstances: API.PaginatedOperationMethod<
     items: "InstanceSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["connect:ListInstances"] },
   telemetry: TELEMETRY,
   span: "ListInstances",
 })) as any;
@@ -18139,6 +19787,14 @@ export const listInstanceStorageConfigs: API.PaginatedOperationMethod<
     items: "StorageConfigs",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListInstanceStorageConfigs"],
+    resources: {
+      "connect:ListInstanceStorageConfigs": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInstanceStorageConfigs",
 })) as any;
@@ -18176,6 +19832,14 @@ export const listIntegrationAssociations: API.PaginatedOperationMethod<
     items: "IntegrationAssociationSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListIntegrationAssociations"],
+    resources: {
+      "connect:ListIntegrationAssociations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIntegrationAssociations",
 })) as any;
@@ -18218,6 +19882,14 @@ export const listLambdaFunctions: API.PaginatedOperationMethod<
     items: "LambdaFunctions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListLambdaFunctions"],
+    resources: {
+      "connect:ListLambdaFunctions": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLambdaFunctions",
 })) as any;
@@ -18260,6 +19932,14 @@ export const listLexBots: API.PaginatedOperationMethod<
     items: "LexBots",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListLexBots"],
+    resources: {
+      "connect:ListLexBots": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLexBots",
 })) as any;
@@ -18301,6 +19981,14 @@ export const listMetrics: API.PaginatedOperationMethod<
     items: "MetricSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListMetrics"],
+    resources: {
+      "connect:ListMetrics": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMetrics",
 })) as any;
@@ -18335,6 +20023,14 @@ export const listNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotifications",
+  iam: {
+    actions: ["connect:ListNotifications"],
+    resources: {
+      "connect:ListNotifications": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNotifications",
 }));
@@ -18385,6 +20081,14 @@ export const listPhoneNumbers: API.PaginatedOperationMethod<
     items: "PhoneNumberSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListPhoneNumbers"],
+    resources: {
+      "connect:ListPhoneNumbers": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/phone-number/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPhoneNumbers",
 })) as any;
@@ -18434,6 +20138,14 @@ export const listPhoneNumbersV2: API.PaginatedOperationMethod<
     items: "ListPhoneNumbersSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListPhoneNumbersV2"],
+    resources: {
+      "connect:ListPhoneNumbersV2": [
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPhoneNumbersV2",
 })) as any;
@@ -18486,6 +20198,14 @@ export const listPredefinedAttributes: API.PaginatedOperationMethod<
     items: "PredefinedAttributeSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListPredefinedAttributes"],
+    resources: {
+      "connect:ListPredefinedAttributes": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPredefinedAttributes",
 })) as any;
@@ -18525,6 +20245,14 @@ export const listPrompts: API.PaginatedOperationMethod<
     items: "PromptSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListPrompts"],
+    resources: {
+      "connect:ListPrompts": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPrompts",
 })) as any;
@@ -18569,6 +20297,14 @@ export const listQueueEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQueueEmailAddresses",
+  iam: {
+    actions: ["connect:ListQueueEmailAddresses"],
+    resources: {
+      "connect:ListQueueEmailAddresses": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQueueEmailAddresses",
 }));
@@ -18608,6 +20344,14 @@ export const listQueueQuickConnects: API.PaginatedOperationMethod<
     items: "QuickConnectSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListQueueQuickConnects"],
+    resources: {
+      "connect:ListQueueQuickConnects": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQueueQuickConnects",
 })) as any;
@@ -18654,6 +20398,14 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "QueueSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListQueues"],
+    resources: {
+      "connect:ListQueues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQueues",
 })) as any;
@@ -18693,6 +20445,14 @@ export const listQuickConnects: API.PaginatedOperationMethod<
     items: "QuickConnectSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListQuickConnects"],
+    resources: {
+      "connect:ListQuickConnects": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/transfer-destination/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQuickConnects",
 })) as any;
@@ -18737,6 +20497,14 @@ export const listRealtimeContactAnalysisSegmentsV2: API.PaginatedOperationMethod
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListRealtimeContactAnalysisSegmentsV2"],
+    resources: {
+      "connect:ListRealtimeContactAnalysisSegmentsV2": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRealtimeContactAnalysisSegmentsV2",
 })) as any;
@@ -18835,6 +20603,14 @@ export const listRoutingProfileManualAssignmentQueues: API.PaginatedOperationMet
     items: "RoutingProfileManualAssignmentQueueConfigSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListRoutingProfileManualAssignmentQueues"],
+    resources: {
+      "connect:ListRoutingProfileManualAssignmentQueues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoutingProfileManualAssignmentQueues",
 })) as any;
@@ -18874,6 +20650,14 @@ export const listRoutingProfileQueues: API.PaginatedOperationMethod<
     items: "RoutingProfileQueueConfigSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListRoutingProfileQueues"],
+    resources: {
+      "connect:ListRoutingProfileQueues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoutingProfileQueues",
 })) as any;
@@ -18915,6 +20699,14 @@ export const listRoutingProfiles: API.PaginatedOperationMethod<
     items: "RoutingProfileSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListRoutingProfiles"],
+    resources: {
+      "connect:ListRoutingProfiles": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoutingProfiles",
 })) as any;
@@ -18954,6 +20746,12 @@ export const listRules: API.PaginatedOperationMethod<
     items: "RuleSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListRules"],
+    resources: {
+      "connect:ListRules": ["arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRules",
 })) as any;
@@ -18995,6 +20793,14 @@ export const listSecurityKeys: API.PaginatedOperationMethod<
     items: "SecurityKeys",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListSecurityKeys"],
+    resources: {
+      "connect:ListSecurityKeys": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSecurityKeys",
 })) as any;
@@ -19034,6 +20840,14 @@ export const listSecurityProfileAIAgents: API.PaginatedOperationMethod<
     items: "AllowedAIAgents",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListSecurityProfileAIAgents"],
+    resources: {
+      "connect:ListSecurityProfileAIAgents": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/security-profile/${SecurityProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSecurityProfileAIAgents",
 })) as any;
@@ -19073,6 +20887,14 @@ export const listSecurityProfileApplications: API.PaginatedOperationMethod<
     items: "Applications",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListSecurityProfileApplications"],
+    resources: {
+      "connect:ListSecurityProfileApplications": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/security-profile/${SecurityProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSecurityProfileApplications",
 })) as any;
@@ -19112,6 +20934,15 @@ export const listSecurityProfileFlowModules: API.PaginatedOperationMethod<
     items: "AllowedFlowModules",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListSecurityProfileFlowModules"],
+    resources: {
+      "connect:ListSecurityProfileFlowModules": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/security-profile/${SecurityProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSecurityProfileFlowModules",
 })) as any;
@@ -19155,6 +20986,14 @@ export const listSecurityProfilePermissions: API.PaginatedOperationMethod<
     items: "Permissions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListSecurityProfilePermissions"],
+    resources: {
+      "connect:ListSecurityProfilePermissions": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/security-profile/${SecurityProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSecurityProfilePermissions",
 })) as any;
@@ -19198,6 +21037,14 @@ export const listSecurityProfiles: API.PaginatedOperationMethod<
     items: "SecurityProfileSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListSecurityProfiles"],
+    resources: {
+      "connect:ListSecurityProfiles": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSecurityProfiles",
 })) as any;
@@ -19233,6 +21080,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["connect:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -19272,6 +21120,14 @@ export const listTaskTemplates: API.PaginatedOperationMethod<
     items: "TaskTemplates",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListTaskTemplates"],
+    resources: {
+      "connect:ListTaskTemplates": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTaskTemplates",
 })) as any;
@@ -19418,6 +21274,14 @@ export const listTrafficDistributionGroups: API.PaginatedOperationMethod<
     items: "TrafficDistributionGroupSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListTrafficDistributionGroups"],
+    resources: {
+      "connect:ListTrafficDistributionGroups": [
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTrafficDistributionGroups",
 })) as any;
@@ -19457,6 +21321,14 @@ export const listTrafficDistributionGroupUsers: API.PaginatedOperationMethod<
     items: "TrafficDistributionGroupUserSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListTrafficDistributionGroupUsers"],
+    resources: {
+      "connect:ListTrafficDistributionGroupUsers": [
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTrafficDistributionGroupUsers",
 })) as any;
@@ -19494,6 +21366,14 @@ export const listUseCases: API.PaginatedOperationMethod<
     items: "UseCaseSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListUseCases"],
+    resources: {
+      "connect:ListUseCases": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUseCases",
 })) as any;
@@ -19535,6 +21415,14 @@ export const listUserHierarchyGroups: API.PaginatedOperationMethod<
     items: "UserHierarchyGroupSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListUserHierarchyGroups"],
+    resources: {
+      "connect:ListUserHierarchyGroups": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUserHierarchyGroups",
 })) as any;
@@ -19569,6 +21457,14 @@ export const listUserNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserNotifications",
+  iam: {
+    actions: ["connect:ListUserNotifications"],
+    resources: {
+      "connect:ListUserNotifications": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUserNotifications",
 }));
@@ -19608,6 +21504,15 @@ export const listUserProficiencies: API.PaginatedOperationMethod<
     items: "UserProficiencyList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListUserProficiencies"],
+    resources: {
+      "connect:ListUserProficiencies": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUserProficiencies",
 })) as any;
@@ -19647,6 +21552,12 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "UserSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListUsers"],
+    resources: {
+      "connect:ListUsers": ["arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -19690,6 +21601,12 @@ export const listViews: API.PaginatedOperationMethod<
     items: "ViewsSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListViews"],
+    resources: {
+      "connect:ListViews": ["arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListViews",
 })) as any;
@@ -19733,6 +21650,15 @@ export const listViewVersions: API.PaginatedOperationMethod<
     items: "ViewVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListViewVersions"],
+    resources: {
+      "connect:ListViewVersions": [
+        "arn:${Partition}:connect:${Region}:aws:view/${ViewId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListViewVersions",
 })) as any;
@@ -19767,6 +21693,14 @@ export const listWorkspaceMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkspaceMedia",
+  iam: {
+    actions: ["connect:ListWorkspaceMedia"],
+    resources: {
+      "connect:ListWorkspaceMedia": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkspaceMedia",
 }));
@@ -19808,6 +21742,14 @@ export const listWorkspacePages: API.PaginatedOperationMethod<
     items: "WorkspacePageList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListWorkspacePages"],
+    resources: {
+      "connect:ListWorkspacePages": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkspacePages",
 })) as any;
@@ -19849,6 +21791,14 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "WorkspaceSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:ListWorkspaces"],
+    resources: {
+      "connect:ListWorkspaces": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkspaces",
 })) as any;
@@ -19886,6 +21836,16 @@ export const monitorContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MonitorContact",
+  iam: {
+    actions: ["connect:MonitorContact"],
+    resources: {
+      "connect:MonitorContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MonitorContact",
 }));
@@ -19924,6 +21884,7 @@ export const pauseContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseContact",
+  iam: { actions: ["connect:PauseContact"] },
   telemetry: TELEMETRY,
   span: "PauseContact",
 }));
@@ -19962,6 +21923,16 @@ export const putUserStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUserStatus",
+  iam: {
+    actions: ["connect:PutUserStatus"],
+    resources: {
+      "connect:PutUserStatus": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-state/${AgentStatusId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutUserStatus",
 }));
@@ -20021,6 +21992,14 @@ export const releasePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleasePhoneNumber",
+  iam: {
+    actions: ["connect:ReleasePhoneNumber"],
+    resources: {
+      "connect:ReleasePhoneNumber": [
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/${PhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReleasePhoneNumber",
 }));
@@ -20063,6 +22042,14 @@ export const replicateInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplicateInstance",
+  iam: {
+    actions: ["connect:ReplicateInstance"],
+    resources: {
+      "connect:ReplicateInstance": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReplicateInstance",
 }));
@@ -20099,6 +22086,7 @@ export const resumeContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeContact",
+  iam: { actions: ["connect:ResumeContact"] },
   telemetry: TELEMETRY,
   span: "ResumeContact",
 }));
@@ -20133,6 +22121,14 @@ export const resumeContactRecording: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeContactRecording",
+  iam: {
+    actions: ["connect:ResumeContactRecording"],
+    resources: {
+      "connect:ResumeContactRecording": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResumeContactRecording",
 }));
@@ -20172,6 +22168,17 @@ export const searchAgentStatuses: API.PaginatedOperationMethod<
     items: "AgentStatuses",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeAgentStatus", "connect:SearchAgentStatuses"],
+    resources: {
+      "connect:DescribeAgentStatus": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-state/${AgentStatusId}",
+      ],
+      "connect:SearchAgentStatuses": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchAgentStatuses",
 })) as any;
@@ -20211,6 +22218,14 @@ export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
     items: "AvailableNumbersList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:SearchAvailablePhoneNumbers"],
+    resources: {
+      "connect:SearchAvailablePhoneNumbers": [
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchAvailablePhoneNumbers",
 })) as any;
@@ -20259,6 +22274,17 @@ export const searchContactEvaluations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchContactEvaluations",
+  iam: {
+    actions: ["connect:DescribeContactEvaluation", "connect:SearchContactEvaluations"],
+    resources: {
+      "connect:DescribeContactEvaluation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-evaluation/${EvaluationId}",
+      ],
+      "connect:SearchContactEvaluations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchContactEvaluations",
 }));
@@ -20298,6 +22324,17 @@ export const searchContactFlowModules: API.PaginatedOperationMethod<
     items: "ContactFlowModules",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeContactFlowModule", "connect:SearchContactFlowModules"],
+    resources: {
+      "connect:DescribeContactFlowModule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+      "connect:SearchContactFlowModules": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchContactFlowModules",
 })) as any;
@@ -20337,6 +22374,17 @@ export const searchContactFlows: API.PaginatedOperationMethod<
     items: "ContactFlows",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeContactFlow", "connect:SearchContactFlows"],
+    resources: {
+      "connect:DescribeContactFlow": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+      "connect:SearchContactFlows": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchContactFlows",
 })) as any;
@@ -20376,6 +22424,20 @@ export const searchContacts: API.PaginatedOperationMethod<
     items: "Contacts",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeContact", "connect:GetContactAttributes", "connect:SearchContacts"],
+    resources: {
+      "connect:DescribeContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+      "connect:GetContactAttributes": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+      "connect:SearchContacts": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchContacts",
 })) as any;
@@ -20417,6 +22479,17 @@ export const searchDataTables: API.PaginatedOperationMethod<
     items: "DataTables",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeDataTable", "connect:SearchDataTables"],
+    resources: {
+      "connect:DescribeDataTable": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+      "connect:SearchDataTables": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchDataTables",
 })) as any;
@@ -20451,6 +22524,17 @@ export const searchEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchEmailAddresses",
+  iam: {
+    actions: ["connect:DescribeEmailAddress", "connect:SearchEmailAddresses"],
+    resources: {
+      "connect:DescribeEmailAddress": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/email-address/${EmailAddressId}",
+      ],
+      "connect:SearchEmailAddresses": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchEmailAddresses",
 }));
@@ -20501,6 +22585,17 @@ export const searchEvaluationForms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchEvaluationForms",
+  iam: {
+    actions: ["connect:DescribeEvaluationForm", "connect:SearchEvaluationForms"],
+    resources: {
+      "connect:DescribeEvaluationForm": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+      "connect:SearchEvaluationForms": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchEvaluationForms",
 }));
@@ -20540,6 +22635,22 @@ export const searchHoursOfOperationOverrides: API.PaginatedOperationMethod<
     items: "HoursOfOperationOverrides",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: [
+      "connect:DescribeHoursOfOperationOverride",
+      "connect:SearchHoursOfOperationOverrides",
+    ],
+    resources: {
+      "connect:DescribeHoursOfOperationOverride": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+      "connect:SearchHoursOfOperationOverrides": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchHoursOfOperationOverrides",
 })) as any;
@@ -20579,6 +22690,17 @@ export const searchHoursOfOperations: API.PaginatedOperationMethod<
     items: "HoursOfOperations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeHoursOfOperation", "connect:SearchHoursOfOperations"],
+    resources: {
+      "connect:DescribeHoursOfOperation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+      ],
+      "connect:SearchHoursOfOperations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchHoursOfOperations",
 })) as any;
@@ -20620,6 +22742,18 @@ export const searchMetrics: API.PaginatedOperationMethod<
     items: "Metrics",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeMetric", "connect:SearchMetrics"],
+    resources: {
+      "connect:DescribeMetric": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}:${MetricQualifier}",
+      ],
+      "connect:SearchMetrics": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchMetrics",
 })) as any;
@@ -20654,6 +22788,17 @@ export const searchNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchNotifications",
+  iam: {
+    actions: ["connect:DescribeNotification", "connect:SearchNotifications"],
+    resources: {
+      "connect:DescribeNotification": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/notification/${NotificationId}",
+      ],
+      "connect:SearchNotifications": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchNotifications",
 }));
@@ -20706,6 +22851,17 @@ export const searchPredefinedAttributes: API.PaginatedOperationMethod<
     items: "PredefinedAttributes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribePredefinedAttribute", "connect:SearchPredefinedAttributes"],
+    resources: {
+      "connect:DescribePredefinedAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+      "connect:SearchPredefinedAttributes": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchPredefinedAttributes",
 })) as any;
@@ -20745,6 +22901,17 @@ export const searchPrompts: API.PaginatedOperationMethod<
     items: "Prompts",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribePrompt", "connect:SearchPrompts"],
+    resources: {
+      "connect:DescribePrompt": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/prompt/${PromptId}",
+      ],
+      "connect:SearchPrompts": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchPrompts",
 })) as any;
@@ -20784,6 +22951,17 @@ export const searchQueues: API.PaginatedOperationMethod<
     items: "Queues",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeQueue", "connect:SearchQueues"],
+    resources: {
+      "connect:DescribeQueue": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+      "connect:SearchQueues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchQueues",
 })) as any;
@@ -20823,6 +23001,17 @@ export const searchQuickConnects: API.PaginatedOperationMethod<
     items: "QuickConnects",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeQuickConnect", "connect:SearchQuickConnects"],
+    resources: {
+      "connect:DescribeQuickConnect": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/transfer-destination/${QuickConnectId}",
+      ],
+      "connect:SearchQuickConnects": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchQuickConnects",
 })) as any;
@@ -20864,6 +23053,14 @@ export const searchResourceTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:SearchResourceTags"],
+    resources: {
+      "connect:SearchResourceTags": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchResourceTags",
 })) as any;
@@ -20906,6 +23103,17 @@ export const searchRoutingProfiles: API.PaginatedOperationMethod<
     items: "RoutingProfiles",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeRoutingProfile", "connect:SearchRoutingProfiles"],
+    resources: {
+      "connect:DescribeRoutingProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+      "connect:SearchRoutingProfiles": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchRoutingProfiles",
 })) as any;
@@ -20947,6 +23155,17 @@ export const searchRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeRule", "connect:SearchRules"],
+    resources: {
+      "connect:DescribeRule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/rule/${RuleId}",
+      ],
+      "connect:SearchRules": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchRules",
 })) as any;
@@ -20990,6 +23209,17 @@ export const searchSecurityProfiles: API.PaginatedOperationMethod<
     items: "SecurityProfiles",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeSecurityProfile", "connect:SearchSecurityProfiles"],
+    resources: {
+      "connect:DescribeSecurityProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/security-profile/${SecurityProfileId}",
+      ],
+      "connect:SearchSecurityProfiles": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchSecurityProfiles",
 })) as any;
@@ -21073,6 +23303,17 @@ export const searchUserHierarchyGroups: API.PaginatedOperationMethod<
     items: "UserHierarchyGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeUserHierarchyGroup", "connect:SearchUserHierarchyGroups"],
+    resources: {
+      "connect:DescribeUserHierarchyGroup": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-group/${HierarchyGroupId}",
+      ],
+      "connect:SearchUserHierarchyGroups": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchUserHierarchyGroups",
 })) as any;
@@ -21114,6 +23355,21 @@ export const searchUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeUser", "connect:ListUserProficiencies", "connect:SearchUsers"],
+    resources: {
+      "connect:DescribeUser": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+      "connect:ListUserProficiencies": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+      "connect:SearchUsers": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchUsers",
 })) as any;
@@ -21155,6 +23411,20 @@ export const searchViews: API.PaginatedOperationMethod<
     items: "Views",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeView", "connect:SearchViews"],
+    resources: {
+      "connect:DescribeView": [
+        "arn:${Partition}:connect:${Region}:aws:view/${ViewId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
+        "arn:${Partition}:connect:${Region}:aws:view/${ViewId}:${ViewQualifier}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}:${ViewQualifier}",
+      ],
+      "connect:SearchViews": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchViews",
 })) as any;
@@ -21193,6 +23463,14 @@ export const searchVocabularies: API.PaginatedOperationMethod<
     items: "VocabularySummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:SearchVocabularies"],
+    resources: {
+      "connect:SearchVocabularies": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/vocabulary/${VocabularyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchVocabularies",
 })) as any;
@@ -21234,6 +23512,14 @@ export const searchWorkspaceAssociations: API.PaginatedOperationMethod<
     items: "WorkspaceAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:SearchWorkspaceAssociations"],
+    resources: {
+      "connect:SearchWorkspaceAssociations": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchWorkspaceAssociations",
 })) as any;
@@ -21275,6 +23561,17 @@ export const searchWorkspaces: API.PaginatedOperationMethod<
     items: "Workspaces",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["connect:DescribeWorkspace", "connect:SearchWorkspaces"],
+    resources: {
+      "connect:DescribeWorkspace": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+      "connect:SearchWorkspaces": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchWorkspaces",
 })) as any;
@@ -21319,6 +23616,7 @@ export const sendChatIntegrationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendChatIntegrationEvent",
+  iam: { actions: ["connect:SendChatIntegrationEvent"] },
   telemetry: TELEMETRY,
   span: "SendChatIntegrationEvent",
 }));
@@ -21359,6 +23657,14 @@ export const sendOutboundEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendOutboundEmail",
+  iam: {
+    actions: ["connect:SendOutboundEmail"],
+    resources: {
+      "connect:SendOutboundEmail": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendOutboundEmail",
 }));
@@ -21396,6 +23702,14 @@ export const sendOutboundWebNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendOutboundWebNotification",
+  iam: {
+    actions: ["connect:SendOutboundWebNotification"],
+    resources: {
+      "connect:SendOutboundWebNotification": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendOutboundWebNotification",
 }));
@@ -21478,6 +23792,15 @@ export const startAttachedFileUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAttachedFileUpload",
+  iam: {
+    actions: ["connect:StartAttachedFileUpload", "connect:TagResource"],
+    resources: {
+      "connect:StartAttachedFileUpload": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/file/${FileId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartAttachedFileUpload",
 }));
@@ -21536,6 +23859,7 @@ export const startChatContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChatContact",
+  iam: { actions: ["connect:StartChatContact"] },
   telemetry: TELEMETRY,
   span: "StartChatContact",
 }));
@@ -21579,6 +23903,14 @@ export const startContactConversationalAnalyticsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactConversationalAnalyticsJob",
+  iam: {
+    actions: ["connect:StartContactConversationalAnalyticsJob"],
+    resources: {
+      "connect:StartContactConversationalAnalyticsJob": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartContactConversationalAnalyticsJob",
 }));
@@ -21615,6 +23947,17 @@ export const startContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactEvaluation",
+  iam: {
+    actions: ["connect:StartContactEvaluation", "connect:TagResource"],
+    resources: {
+      "connect:StartContactEvaluation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-evaluation/${EvaluationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+    conditional: { "connect:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartContactEvaluation",
 }));
@@ -21652,6 +23995,15 @@ export const startContactMediaProcessing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactMediaProcessing",
+  iam: {
+    actions: ["connect:StartContactMediaProcessing"],
+    resources: {
+      "connect:StartContactMediaProcessing": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartContactMediaProcessing",
 }));
@@ -21699,6 +24051,14 @@ export const startContactRecording: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactRecording",
+  iam: {
+    actions: ["connect:StartContactRecording"],
+    resources: {
+      "connect:StartContactRecording": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartContactRecording",
 }));
@@ -21741,6 +24101,14 @@ export const startContactStreaming: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactStreaming",
+  iam: {
+    actions: ["connect:StartContactStreaming"],
+    resources: {
+      "connect:StartContactStreaming": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartContactStreaming",
 }));
@@ -21778,6 +24146,7 @@ export const startEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEmailContact",
+  iam: { actions: ["connect:StartEmailContact"] },
   telemetry: TELEMETRY,
   span: "StartEmailContact",
 }));
@@ -21816,6 +24185,14 @@ export const startEvaluationFormValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEvaluationFormValidation",
+  iam: {
+    actions: ["connect:StartEvaluationFormValidation"],
+    resources: {
+      "connect:StartEvaluationFormValidation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartEvaluationFormValidation",
 }));
@@ -21874,6 +24251,7 @@ export const startOutboundChatContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOutboundChatContact",
+  iam: { actions: ["connect:StartOutboundChatContact"] },
   telemetry: TELEMETRY,
   span: "StartOutboundChatContact",
 }));
@@ -21911,6 +24289,7 @@ export const startOutboundEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOutboundEmailContact",
+  iam: { actions: ["connect:StartOutboundEmailContact"] },
   telemetry: TELEMETRY,
   span: "StartOutboundEmailContact",
 }));
@@ -21966,6 +24345,7 @@ export const startOutboundVoiceContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOutboundVoiceContact",
+  iam: { actions: ["connect:StartOutboundVoiceContact"] },
   telemetry: TELEMETRY,
   span: "StartOutboundVoiceContact",
 }));
@@ -22001,6 +24381,15 @@ export const startScreenSharing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartScreenSharing",
+  iam: {
+    actions: ["connect:StartScreenSharing"],
+    resources: {
+      "connect:StartScreenSharing": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartScreenSharing",
 }));
@@ -22067,6 +24456,7 @@ export const startTaskContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTaskContact",
+  iam: { actions: ["connect:StartTaskContact"] },
   telemetry: TELEMETRY,
   span: "StartTaskContact",
 }));
@@ -22139,6 +24529,14 @@ export const startWebRTCContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWebRTCContact",
+  iam: {
+    actions: ["connect:StartWebRTCContact"],
+    resources: {
+      "connect:StartWebRTCContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartWebRTCContact",
 }));
@@ -22186,6 +24584,14 @@ export const stopContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContact",
+  iam: {
+    actions: ["connect:StopContact"],
+    resources: {
+      "connect:StopContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopContact",
 }));
@@ -22220,6 +24626,15 @@ export const stopContactMediaProcessing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContactMediaProcessing",
+  iam: {
+    actions: ["connect:StopContactMediaProcessing"],
+    resources: {
+      "connect:StopContactMediaProcessing": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopContactMediaProcessing",
 }));
@@ -22255,6 +24670,14 @@ export const stopContactRecording: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContactRecording",
+  iam: {
+    actions: ["connect:StopContactRecording"],
+    resources: {
+      "connect:StopContactRecording": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopContactRecording",
 }));
@@ -22286,6 +24709,14 @@ export const stopContactStreaming: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContactStreaming",
+  iam: {
+    actions: ["connect:StopContactStreaming"],
+    resources: {
+      "connect:StopContactStreaming": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopContactStreaming",
 }));
@@ -22357,6 +24788,14 @@ export const submitContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitContactEvaluation",
+  iam: {
+    actions: ["connect:SubmitContactEvaluation"],
+    resources: {
+      "connect:SubmitContactEvaluation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-evaluation/${EvaluationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SubmitContactEvaluation",
 }));
@@ -22395,6 +24834,14 @@ export const suspendContactRecording: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendContactRecording",
+  iam: {
+    actions: ["connect:SuspendContactRecording"],
+    resources: {
+      "connect:SuspendContactRecording": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SuspendContactRecording",
 }));
@@ -22430,6 +24877,14 @@ export const tagContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagContact",
+  iam: {
+    actions: ["connect:TagContact"],
+    resources: {
+      "connect:TagContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagContact",
 }));
@@ -22468,6 +24923,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["connect:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -22521,6 +24977,16 @@ export const transferContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferContact",
+  iam: {
+    actions: ["connect:TransferContact"],
+    resources: {
+      "connect:TransferContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TransferContact",
 }));
@@ -22556,6 +25022,14 @@ export const untagContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagContact",
+  iam: {
+    actions: ["connect:UntagContact"],
+    resources: {
+      "connect:UntagContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagContact",
 }));
@@ -22588,6 +25062,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["connect:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -22624,6 +25099,14 @@ export const updateAgentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentStatus",
+  iam: {
+    actions: ["connect:UpdateAgentStatus"],
+    resources: {
+      "connect:UpdateAgentStatus": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-state/${AgentStatusId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentStatus",
 }));
@@ -22658,6 +25141,14 @@ export const updateAttachedFilesConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttachedFilesConfiguration",
+  iam: {
+    actions: ["connect:UpdateAttachedFilesConfiguration"],
+    resources: {
+      "connect:UpdateAttachedFilesConfiguration": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAttachedFilesConfiguration",
 }));
@@ -22693,6 +25184,14 @@ export const updateAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthenticationProfile",
+  iam: {
+    actions: ["connect:UpdateAuthenticationProfile"],
+    resources: {
+      "connect:UpdateAuthenticationProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/authentication-profile/${AuthenticationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAuthenticationProfile",
 }));
@@ -22736,6 +25235,14 @@ export const updateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContact",
+  iam: {
+    actions: ["connect:UpdateContact"],
+    resources: {
+      "connect:UpdateContact": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContact",
 }));
@@ -22778,6 +25285,14 @@ export const updateContactAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactAttributes",
+  iam: {
+    actions: ["connect:UpdateContactAttributes"],
+    resources: {
+      "connect:UpdateContactAttributes": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactAttributes",
 }));
@@ -22812,6 +25327,14 @@ export const updateContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactEvaluation",
+  iam: {
+    actions: ["connect:UpdateContactEvaluation"],
+    resources: {
+      "connect:UpdateContactEvaluation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-evaluation/${EvaluationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactEvaluation",
 }));
@@ -22891,6 +25414,14 @@ export const updateContactFlowContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowContent",
+  iam: {
+    actions: ["connect:UpdateContactFlowContent"],
+    resources: {
+      "connect:UpdateContactFlowContent": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactFlowContent",
 }));
@@ -22925,6 +25456,14 @@ export const updateContactFlowMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowMetadata",
+  iam: {
+    actions: ["connect:UpdateContactFlowMetadata"],
+    resources: {
+      "connect:UpdateContactFlowMetadata": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactFlowMetadata",
 }));
@@ -22963,6 +25502,14 @@ export const updateContactFlowModuleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowModuleAlias",
+  iam: {
+    actions: ["connect:UpdateContactFlowModuleAlias"],
+    resources: {
+      "connect:UpdateContactFlowModuleAlias": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactFlowModuleAlias",
 }));
@@ -23001,6 +25548,14 @@ export const updateContactFlowModuleContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowModuleContent",
+  iam: {
+    actions: ["connect:UpdateContactFlowModuleContent"],
+    resources: {
+      "connect:UpdateContactFlowModuleContent": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactFlowModuleContent",
 }));
@@ -23037,6 +25592,14 @@ export const updateContactFlowModuleMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowModuleMetadata",
+  iam: {
+    actions: ["connect:UpdateContactFlowModuleMetadata"],
+    resources: {
+      "connect:UpdateContactFlowModuleMetadata": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactFlowModuleMetadata",
 }));
@@ -23074,6 +25637,14 @@ export const updateContactFlowName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowName",
+  iam: {
+    actions: ["connect:UpdateContactFlowName"],
+    resources: {
+      "connect:UpdateContactFlowName": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactFlowName",
 }));
@@ -23118,6 +25689,14 @@ export const updateContactRoutingData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactRoutingData",
+  iam: {
+    actions: ["connect:UpdateContactRoutingData"],
+    resources: {
+      "connect:UpdateContactRoutingData": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactRoutingData",
 }));
@@ -23152,6 +25731,14 @@ export const updateContactSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactSchedule",
+  iam: {
+    actions: ["connect:UpdateContactSchedule"],
+    resources: {
+      "connect:UpdateContactSchedule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContactSchedule",
 }));
@@ -23259,6 +25846,14 @@ export const updateCrossRegionRouting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrossRegionRouting",
+  iam: {
+    actions: ["connect:UpdateCrossRegionRouting"],
+    resources: {
+      "connect:UpdateCrossRegionRouting": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCrossRegionRouting",
 }));
@@ -23302,6 +25897,14 @@ export const updateDataTableAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataTableAttribute",
+  iam: {
+    actions: ["connect:UpdateDataTableAttribute"],
+    resources: {
+      "connect:UpdateDataTableAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataTableAttribute",
 }));
@@ -23342,6 +25945,14 @@ export const updateDataTableMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataTableMetadata",
+  iam: {
+    actions: ["connect:UpdateDataTableMetadata"],
+    resources: {
+      "connect:UpdateDataTableMetadata": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataTableMetadata",
 }));
@@ -23380,6 +25991,14 @@ export const updateDataTablePrimaryValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataTablePrimaryValues",
+  iam: {
+    actions: ["connect:UpdateDataTablePrimaryValues"],
+    resources: {
+      "connect:UpdateDataTablePrimaryValues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataTablePrimaryValues",
 }));
@@ -23417,6 +26036,14 @@ export const updateEmailAddressMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmailAddressMetadata",
+  iam: {
+    actions: ["connect:UpdateEmailAddressMetadata"],
+    resources: {
+      "connect:UpdateEmailAddressMetadata": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/email-address/${EmailAddressId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEmailAddressMetadata",
 }));
@@ -23455,6 +26082,14 @@ export const updateEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEvaluationForm",
+  iam: {
+    actions: ["connect:UpdateEvaluationForm"],
+    resources: {
+      "connect:UpdateEvaluationForm": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEvaluationForm",
 }));
@@ -23489,6 +26124,14 @@ export const updateExtractionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtractionDefinition",
+  iam: {
+    actions: ["connect:UpdateExtractionDefinition"],
+    resources: {
+      "connect:UpdateExtractionDefinition": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/extraction-definition/${ExtractionDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateExtractionDefinition",
 }));
@@ -23523,6 +26166,14 @@ export const updateHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHoursOfOperation",
+  iam: {
+    actions: ["connect:UpdateHoursOfOperation"],
+    resources: {
+      "connect:UpdateHoursOfOperation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateHoursOfOperation",
 }));
@@ -23559,6 +26210,15 @@ export const updateHoursOfOperationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHoursOfOperationOverride",
+  iam: {
+    actions: ["connect:UpdateHoursOfOperationOverride"],
+    resources: {
+      "connect:UpdateHoursOfOperationOverride": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateHoursOfOperationOverride",
 }));
@@ -23593,6 +26253,14 @@ export const updateInstanceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceAttribute",
+  iam: {
+    actions: ["connect:UpdateInstanceAttribute"],
+    resources: {
+      "connect:UpdateInstanceAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInstanceAttribute",
 }));
@@ -23627,6 +26295,14 @@ export const updateInstanceStorageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceStorageConfig",
+  iam: {
+    actions: ["connect:UpdateInstanceStorageConfig"],
+    resources: {
+      "connect:UpdateInstanceStorageConfig": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInstanceStorageConfig",
 }));
@@ -23661,6 +26337,15 @@ export const updateMetricContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMetricContent",
+  iam: {
+    actions: ["connect:UpdateMetricContent"],
+    resources: {
+      "connect:UpdateMetricContent": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}:${MetricQualifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMetricContent",
 }));
@@ -23697,6 +26382,15 @@ export const updateMetricMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMetricMetadata",
+  iam: {
+    actions: ["connect:UpdateMetricMetadata"],
+    resources: {
+      "connect:UpdateMetricMetadata": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}:${MetricQualifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMetricMetadata",
 }));
@@ -23731,6 +26425,14 @@ export const updateNotificationContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationContent",
+  iam: {
+    actions: ["connect:UpdateNotificationContent"],
+    resources: {
+      "connect:UpdateNotificationContent": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/notification/${NotificationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNotificationContent",
 }));
@@ -23811,6 +26513,14 @@ export const updateParticipantAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParticipantAuthentication",
+  iam: {
+    actions: ["connect:UpdateParticipantAuthentication"],
+    resources: {
+      "connect:UpdateParticipantAuthentication": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateParticipantAuthentication",
 }));
@@ -23857,6 +26567,15 @@ export const updateParticipantRoleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParticipantRoleConfig",
+  iam: {
+    actions: ["connect:UpdateParticipantRoleConfig"],
+    resources: {
+      "connect:UpdateParticipantRoleConfig": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateParticipantRoleConfig",
 }));
@@ -23899,6 +26618,16 @@ export const updatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumber",
+  iam: {
+    actions: ["connect:UpdatePhoneNumber"],
+    resources: {
+      "connect:UpdatePhoneNumber": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/${PhoneNumberId}",
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePhoneNumber",
 }));
@@ -23939,6 +26668,14 @@ export const updatePhoneNumberMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumberMetadata",
+  iam: {
+    actions: ["connect:UpdatePhoneNumberMetadata"],
+    resources: {
+      "connect:UpdatePhoneNumberMetadata": [
+        "arn:${Partition}:connect:${Region}:${Account}:phone-number/${PhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePhoneNumberMetadata",
 }));
@@ -23989,6 +26726,14 @@ export const updatePredefinedAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePredefinedAttribute",
+  iam: {
+    actions: ["connect:UpdatePredefinedAttribute"],
+    resources: {
+      "connect:UpdatePredefinedAttribute": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePredefinedAttribute",
 }));
@@ -24021,6 +26766,14 @@ export const updatePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrompt",
+  iam: {
+    actions: ["connect:UpdatePrompt"],
+    resources: {
+      "connect:UpdatePrompt": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/prompt/${PromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePrompt",
 }));
@@ -24053,6 +26806,15 @@ export const updateQueueHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueHoursOfOperation",
+  iam: {
+    actions: ["connect:UpdateQueueHoursOfOperation"],
+    resources: {
+      "connect:UpdateQueueHoursOfOperation": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueueHoursOfOperation",
 }));
@@ -24085,6 +26847,14 @@ export const updateQueueMaxContacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueMaxContacts",
+  iam: {
+    actions: ["connect:UpdateQueueMaxContacts"],
+    resources: {
+      "connect:UpdateQueueMaxContacts": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueueMaxContacts",
 }));
@@ -24119,6 +26889,14 @@ export const updateQueueName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueName",
+  iam: {
+    actions: ["connect:UpdateQueueName"],
+    resources: {
+      "connect:UpdateQueueName": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueueName",
 }));
@@ -24165,6 +26943,7 @@ export const updateQueueOutboundCallerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueOutboundCallerConfig",
+  iam: { actions: ["connect:UpdateQueueOutboundCallerConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateQueueOutboundCallerConfig",
 }));
@@ -24201,6 +26980,14 @@ export const updateQueueOutboundEmailConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueOutboundEmailConfig",
+  iam: {
+    actions: ["connect:UpdateQueueOutboundEmailConfig"],
+    resources: {
+      "connect:UpdateQueueOutboundEmailConfig": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueueOutboundEmailConfig",
 }));
@@ -24233,6 +27020,14 @@ export const updateQueueStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueStatus",
+  iam: {
+    actions: ["connect:UpdateQueueStatus"],
+    resources: {
+      "connect:UpdateQueueStatus": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueueStatus",
 }));
@@ -24265,6 +27060,7 @@ export const updateQuickConnectConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickConnectConfig",
+  iam: { actions: ["connect:UpdateQuickConnectConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateQuickConnectConfig",
 }));
@@ -24297,6 +27093,14 @@ export const updateQuickConnectName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickConnectName",
+  iam: {
+    actions: ["connect:UpdateQuickConnectName"],
+    resources: {
+      "connect:UpdateQuickConnectName": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/transfer-destination/${QuickConnectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQuickConnectName",
 }));
@@ -24338,6 +27142,14 @@ export const updateRoutingProfileAgentAvailabilityTimer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileAgentAvailabilityTimer",
+  iam: {
+    actions: ["connect:UpdateRoutingProfileAgentAvailabilityTimer"],
+    resources: {
+      "connect:UpdateRoutingProfileAgentAvailabilityTimer": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoutingProfileAgentAvailabilityTimer",
 }));
@@ -24370,6 +27182,14 @@ export const updateRoutingProfileConcurrency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileConcurrency",
+  iam: {
+    actions: ["connect:UpdateRoutingProfileConcurrency"],
+    resources: {
+      "connect:UpdateRoutingProfileConcurrency": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoutingProfileConcurrency",
 }));
@@ -24402,6 +27222,15 @@ export const updateRoutingProfileDefaultOutboundQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileDefaultOutboundQueue",
+  iam: {
+    actions: ["connect:UpdateRoutingProfileDefaultOutboundQueue"],
+    resources: {
+      "connect:UpdateRoutingProfileDefaultOutboundQueue": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoutingProfileDefaultOutboundQueue",
 }));
@@ -24436,6 +27265,14 @@ export const updateRoutingProfileName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileName",
+  iam: {
+    actions: ["connect:UpdateRoutingProfileName"],
+    resources: {
+      "connect:UpdateRoutingProfileName": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoutingProfileName",
 }));
@@ -24468,6 +27305,14 @@ export const updateRoutingProfileQueues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileQueues",
+  iam: {
+    actions: ["connect:UpdateRoutingProfileQueues"],
+    resources: {
+      "connect:UpdateRoutingProfileQueues": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoutingProfileQueues",
 }));
@@ -24505,6 +27350,14 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  iam: {
+    actions: ["connect:UpdateRule"],
+    resources: {
+      "connect:UpdateRule": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRule",
 }));
@@ -24541,6 +27394,7 @@ export const updateSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityProfile",
+  iam: { actions: ["connect:UpdateSecurityProfile"] },
   telemetry: TELEMETRY,
   span: "UpdateSecurityProfile",
 }));
@@ -24576,6 +27430,14 @@ export const updateTaskTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTaskTemplate",
+  iam: {
+    actions: ["connect:UpdateTaskTemplate"],
+    resources: {
+      "connect:UpdateTaskTemplate": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/task-template/${TaskTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTaskTemplate",
 }));
@@ -24667,6 +27529,14 @@ export const updateTrafficDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficDistribution",
+  iam: {
+    actions: ["connect:UpdateTrafficDistribution"],
+    resources: {
+      "connect:UpdateTrafficDistribution": [
+        "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrafficDistribution",
 }));
@@ -24703,6 +27573,14 @@ export const updateUserConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserConfig",
+  iam: {
+    actions: ["connect:UpdateUserPhoneConfig"],
+    resources: {
+      "connect:UpdateUserPhoneConfig": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserConfig",
 }));
@@ -24735,6 +27613,7 @@ export const updateUserHierarchy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserHierarchy",
+  iam: { actions: ["connect:UpdateUserHierarchy"] },
   telemetry: TELEMETRY,
   span: "UpdateUserHierarchy",
 }));
@@ -24769,6 +27648,14 @@ export const updateUserHierarchyGroupName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserHierarchyGroupName",
+  iam: {
+    actions: ["connect:UpdateUserHierarchyGroupName"],
+    resources: {
+      "connect:UpdateUserHierarchyGroupName": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-group/${HierarchyGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserHierarchyGroupName",
 }));
@@ -24803,6 +27690,14 @@ export const updateUserHierarchyStructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserHierarchyStructure",
+  iam: {
+    actions: ["connect:UpdateUserHierarchyStructure"],
+    resources: {
+      "connect:UpdateUserHierarchyStructure": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserHierarchyStructure",
 }));
@@ -24841,6 +27736,14 @@ export const updateUserIdentityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserIdentityInfo",
+  iam: {
+    actions: ["connect:UpdateUserIdentityInfo"],
+    resources: {
+      "connect:UpdateUserIdentityInfo": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserIdentityInfo",
 }));
@@ -24875,6 +27778,14 @@ export const updateUserNotificationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserNotificationStatus",
+  iam: {
+    actions: ["connect:UpdateUserNotificationStatus"],
+    resources: {
+      "connect:UpdateUserNotificationStatus": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserNotificationStatus",
 }));
@@ -24909,6 +27820,14 @@ export const updateUserPhoneConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPhoneConfig",
+  iam: {
+    actions: ["connect:UpdateUserPhoneConfig"],
+    resources: {
+      "connect:UpdateUserPhoneConfig": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserPhoneConfig",
 }));
@@ -24941,6 +27860,15 @@ export const updateUserProficiencies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserProficiencies",
+  iam: {
+    actions: ["connect:UpdateUserProficiencies"],
+    resources: {
+      "connect:UpdateUserProficiencies": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserProficiencies",
 }));
@@ -24973,6 +27901,15 @@ export const updateUserRoutingProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserRoutingProfile",
+  iam: {
+    actions: ["connect:UpdateUserRoutingProfile"],
+    resources: {
+      "connect:UpdateUserRoutingProfile": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserRoutingProfile",
 }));
@@ -25005,6 +27942,15 @@ export const updateUserSecurityProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserSecurityProfiles",
+  iam: {
+    actions: ["connect:UpdateUserSecurityProfiles"],
+    resources: {
+      "connect:UpdateUserSecurityProfiles": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/security-profile/${SecurityProfileId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserSecurityProfiles",
 }));
@@ -25046,6 +27992,14 @@ export const updateViewContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateViewContent",
+  iam: {
+    actions: ["connect:UpdateViewContent"],
+    resources: {
+      "connect:UpdateViewContent": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateViewContent",
 }));
@@ -25085,6 +28039,14 @@ export const updateViewMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateViewMetadata",
+  iam: {
+    actions: ["connect:UpdateViewMetadata"],
+    resources: {
+      "connect:UpdateViewMetadata": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateViewMetadata",
 }));
@@ -25121,6 +28083,14 @@ export const updateWorkspaceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceMetadata",
+  iam: {
+    actions: ["connect:UpdateWorkspaceMetadata"],
+    resources: {
+      "connect:UpdateWorkspaceMetadata": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspaceMetadata",
 }));
@@ -25159,6 +28129,7 @@ export const updateWorkspacePage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspacePage",
+  iam: { actions: ["connect:UpdateWorkspacePage"] },
   telemetry: TELEMETRY,
   span: "UpdateWorkspacePage",
 }));
@@ -25193,6 +28164,14 @@ export const updateWorkspaceTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceTheme",
+  iam: {
+    actions: ["connect:UpdateWorkspaceTheme"],
+    resources: {
+      "connect:UpdateWorkspaceTheme": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspaceTheme",
 }));
@@ -25228,6 +28207,14 @@ export const updateWorkspaceVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceVisibility",
+  iam: {
+    actions: ["connect:UpdateWorkspaceVisibility"],
+    resources: {
+      "connect:UpdateWorkspaceVisibility": [
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspaceVisibility",
 }));

@@ -1246,6 +1246,7 @@ export const getListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListing",
+  iam: { actions: ["aws-marketplace:GetListing"] },
   telemetry: TELEMETRY,
   span: "GetListing",
 }));
@@ -1266,6 +1267,7 @@ export const getOffer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOffer",
+  iam: { actions: ["aws-marketplace:GetOffer"] },
   telemetry: TELEMETRY,
   span: "GetOffer",
 }));
@@ -1286,6 +1288,7 @@ export const getOfferSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOfferSet",
+  iam: { actions: ["aws-marketplace:GetOfferSet"] },
   telemetry: TELEMETRY,
   span: "GetOfferSet",
 }));
@@ -1313,6 +1316,7 @@ export const getOfferTerms: API.PaginatedOperationMethod<
     items: "offerTerms",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:GetOfferTerms"] },
   telemetry: TELEMETRY,
   span: "GetOfferTerms",
 })) as any;
@@ -1333,6 +1337,7 @@ export const getProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProduct",
+  iam: { actions: ["aws-marketplace:GetProduct"] },
   telemetry: TELEMETRY,
   span: "GetProduct",
 }));
@@ -1360,6 +1365,7 @@ export const listFulfillmentOptions: API.PaginatedOperationMethod<
     items: "fulfillmentOptions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:ListFulfillmentOptions"] },
   telemetry: TELEMETRY,
   span: "ListFulfillmentOptions",
 })) as any;
@@ -1388,6 +1394,7 @@ export const listPurchaseOptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "purchaseOptions",
   } as const,
+  iam: { actions: ["aws-marketplace:ListPrivateListings", "aws-marketplace:ListPurchaseOptions"] },
   telemetry: TELEMETRY,
   span: "ListPurchaseOptions",
 })) as any;
@@ -1414,6 +1421,7 @@ export const searchFacets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "listingFacets",
   } as const,
+  iam: { actions: ["aws-marketplace:SearchFacets"] },
   telemetry: TELEMETRY,
   span: "SearchFacets",
 })) as any;
@@ -1441,6 +1449,7 @@ export const searchListings: API.PaginatedOperationMethod<
     items: "listingSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:SearchListings"] },
   telemetry: TELEMETRY,
   span: "SearchListings",
 })) as any;
