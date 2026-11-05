@@ -16,13 +16,13 @@
     },
     "cancelTagSyncTask": {
       "iam": {
-        "reason": "resource-groups:DeleteGroup: AWS lists it for the operation, but the ResourceGroups Bindings suite calls it successfully without it.",
+        "reason": "resource - groups:DeleteGroup: AWS lists it for the operation, but the ResourceGroups Bindings suite calls it successfully without it.",
         "remove": ["resource-groups:DeleteGroup"]
       }
     },
     "searchResources": {
       "iam": {
-        "reason": "cloudformation:DescribeStacks: See the note: Documented minimum permissions: the search reads through the Resource Groups Tagging API and (for stack queries) CloudFormation. cloudformation:ListStackResources: See the note: Documented minimum permissions: the search reads through the Resource Groups Tagging API and (for stack queries) CloudFormation. tag:GetResources: See the note: Documented minimum permissions: the search reads through the Resource Groups Tagging API and (for stack queries) CloudFormation.",
+        "reason": "Documented minimum permissions: the search reads through the Resource Groups Tagging API and (for stack queries) CloudFormation.",
         "add": [
           "cloudformation:DescribeStacks",
           "cloudformation:ListStackResources",

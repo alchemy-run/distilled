@@ -25,7 +25,7 @@
   "operations": {
     "acceptDataGrant": {
       "iam": {
-        "reason": "aws-marketplace:Subscribe: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "reason": "aws - marketplace:Subscribe: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
         "conditional": {
           "aws-marketplace:Subscribe": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
         }
@@ -33,7 +33,7 @@
     },
     "createDataGrant": {
       "iam": {
-        "reason": "dataexchange:CreateJob: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:PublishDataSet: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:PublishToDataGrant: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:StartJob: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "reason": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
         "conditional": {
           "dataexchange:CreateJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
           "dataexchange:PublishDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
@@ -52,7 +52,7 @@
     },
     "deleteDataGrant": {
       "iam": {
-        "reason": "dataexchange:CreateJob: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:DeleteDataSet: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:StartJob: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "reason": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
         "conditional": {
           "dataexchange:CreateJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
           "dataexchange:DeleteDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
@@ -62,7 +62,7 @@
     },
     "getDataGrant": {
       "iam": {
-        "reason": "dataexchange:GetDataSet: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "reason": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
         "conditional": {
           "dataexchange:GetDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
         }
@@ -78,7 +78,7 @@
     },
     "getReceivedDataGrant": {
       "iam": {
-        "reason": "dataexchange:GetDataSet: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "reason": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
         "conditional": {
           "dataexchange:GetDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
         }
@@ -86,13 +86,13 @@
     },
     "listDataGrants": {
       "iam": {
-        "reason": "dataexchange:ListDataSets: AWS lists it for the operation, but the DataExchange Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the DataExchange Bindings suite calls it successfully without it.",
         "remove": ["dataexchange:ListDataSets"]
       }
     },
     "listReceivedDataGrants": {
       "iam": {
-        "reason": "dataexchange:ListDataSets: AWS lists it for the operation, but the DataExchange Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the DataExchange Bindings suite calls it successfully without it.",
         "remove": ["dataexchange:ListDataSets"]
       }
     }

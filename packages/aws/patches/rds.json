@@ -17,13 +17,13 @@
     },
     "copyDBSnapshot": {
       "iam": {
-        "reason": "rds:CopyCustomDBEngineVersion: AWS lists it for the operation, but the RDS Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the RDS Bindings suite calls it successfully without it.",
         "remove": ["rds:CopyCustomDBEngineVersion"]
       }
     },
     "stopDBInstance": {
       "iam": {
-        "reason": "rds:AddTagsToResource: Needed only when the request names a DBSnapshotIdentifier (a snapshot taken on stop). rds:CreateDBSnapshot: Needed only when the request names a DBSnapshotIdentifier (a snapshot taken on stop).",
+        "reason": "Needed only when the request names a DBSnapshotIdentifier (a snapshot taken on stop).",
         "conditional": {
           "rds:AddTagsToResource": "Needed only when the request names a DBSnapshotIdentifier (a snapshot taken on stop).",
           "rds:CreateDBSnapshot": "Needed only when the request names a DBSnapshotIdentifier (a snapshot taken on stop)."

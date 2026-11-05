@@ -5,7 +5,7 @@
     },
     "startIdMappingJob": {
       "iam": {
-        "reason": "entityresolution:UseIdNamespace: Needed only when the job reads an ID namespace; not granted unless asked.",
+        "reason": "Needed only when the job reads an ID namespace; not granted unless asked.",
         "conditional": {
           "entityresolution:UseIdNamespace": "Needed only when the job reads an ID namespace; not granted unless asked."
         }

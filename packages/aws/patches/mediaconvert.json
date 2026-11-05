@@ -11,7 +11,7 @@
   "operations": {
     "getJob": {
       "iam": {
-        "reason": "mediaconvert:ListJobs: AWS lists it for the operation, but the MediaConvert Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the MediaConvert Bindings suite calls it successfully without it.",
         "remove": ["mediaconvert:ListJobs"]
       }
     },

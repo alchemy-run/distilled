@@ -63,7 +63,7 @@
   "operations": {
     "listHostedZonesByVPC": {
       "iam": {
-        "reason": "ec2:DescribeVpcs: See the note: Route 53 verifies the VPC on the caller's behalf via ec2:DescribeVpcs — without that grant every call fails with AccessDeniedException (\"Failed to verify the given VPC by calling ec2:DescribeVpcs\").",
+        "reason": "Route 53 verifies the VPC on the caller's behalf via ec2:DescribeVpcs — without that grant every call fails with AccessDeniedException (\"Failed to verify the given VPC by calling ec2:DescribeVpcs\").",
         "add": ["ec2:DescribeVpcs"]
       }
     }

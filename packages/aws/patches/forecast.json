@@ -2,13 +2,13 @@
   "operations": {
     "createWhatIfForecast": {
       "iam": {
-        "reason": "iam:PassRole: The request can name an S3 role for its data source or destination; the builder's PassRole is limited to forecast.amazonaws.com.",
+        "reason": "The request can name an S3 role for its data source or destination; the builder's PassRole is limited to forecast.amazonaws.com.",
         "add": ["iam:PassRole"]
       }
     },
     "createWhatIfForecastExport": {
       "iam": {
-        "reason": "iam:PassRole: The request can name an S3 role for its data source or destination; the builder's PassRole is limited to forecast.amazonaws.com.",
+        "reason": "The request can name an S3 role for its data source or destination; the builder's PassRole is limited to forecast.amazonaws.com.",
         "add": ["iam:PassRole"]
       }
     }

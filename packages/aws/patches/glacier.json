@@ -2,7 +2,7 @@
   "operations": {
     "initiateJob": {
       "iam": {
-        "reason": "glacier:GetJobOutput: Reading the job's output is the separate GetJobOutput binding.",
+        "reason": "Reading the job's output is the separate GetJobOutput binding.",
         "remove": ["glacier:GetJobOutput"]
       }
     }

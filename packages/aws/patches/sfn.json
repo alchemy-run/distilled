@@ -2,13 +2,13 @@
   "operations": {
     "startExecution": {
       "iam": {
-        "reason": "states:DescribeExecution: AWS lists it for the operation, but the StepFunctions Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the StepFunctions Bindings suite calls it successfully without it.",
         "remove": ["states:DescribeExecution"]
       }
     },
     "testState": {
       "iam": {
-        "reason": "states:RevealSecrets: AWS lists it for the operation, but the StepFunctions Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the StepFunctions Bindings suite calls it successfully without it.",
         "remove": ["states:RevealSecrets"]
       }
     }

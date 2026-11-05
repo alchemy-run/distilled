@@ -20,7 +20,7 @@
     },
     "syncResource": {
       "iam": {
-        "reason": "cloudformation:DescribeStacks: See the note: The target is an arbitrary external resource, so nothing here supports resource-level scoping. cloudformation:UpdateStack: See the note: The target is an arbitrary external resource, so nothing here supports resource-level scoping. tag:GetResources: See the note: The target is an arbitrary external resource, so nothing here supports resource-level scoping. tag:TagResources: See the note: The target is an arbitrary external resource, so nothing here supports resource-level scoping. tag:UntagResources: See the note: The target is an arbitrary external resource, so nothing here supports resource-level scoping.",
+        "reason": "The target is an arbitrary external resource, so nothing here supports resource-level scoping.",
         "add": [
           "cloudformation:DescribeStacks",
           "cloudformation:UpdateStack",
