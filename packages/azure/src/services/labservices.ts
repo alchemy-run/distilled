@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.LabServices" },
+  prefix: "Labservices",
+  service: "Labservices",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface DeleteLabRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2346,6 +2367,8 @@ export const DeleteLab: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLab",
 }));
 
 export type DeleteLabPlanError = AzureOpError;
@@ -2361,6 +2384,8 @@ export const DeleteLabPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLabPlan",
 }));
 
 export type DeleteScheduleError = AzureOpError;
@@ -2376,6 +2401,8 @@ export const DeleteSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedule",
 }));
 
 export type DeleteUserError = AzureOpError;
@@ -2391,6 +2418,8 @@ export const DeleteUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type GetImageError = AzureOpError;
@@ -2406,6 +2435,8 @@ export const GetImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImage",
 }));
 
 export type GetLabError = AzureOpError;
@@ -2421,6 +2452,8 @@ export const GetLab: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLab",
 }));
 
 export type GetLabPlanError = AzureOpError;
@@ -2436,6 +2469,8 @@ export const GetLabPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLabPlan",
 }));
 
 export type GetOperationResultError = AzureOpError;
@@ -2451,6 +2486,8 @@ export const GetOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationResult",
 }));
 
 export type GetScheduleError = AzureOpError;
@@ -2466,6 +2503,8 @@ export const GetSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchedule",
 }));
 
 export type GetUserError = AzureOpError;
@@ -2481,6 +2520,8 @@ export const GetUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetVirtualMachineError = AzureOpError;
@@ -2496,6 +2537,8 @@ export const GetVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachine",
 }));
 
 export type ImagesCreateOrUpdateError = AzureOpError;
@@ -2511,6 +2554,8 @@ export const ImagesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImagesCreateOrUpdate",
 }));
 
 export type InviteUserError = AzureOpError;
@@ -2526,6 +2571,8 @@ export const InviteUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteUser",
 }));
 
 export type LabPlansCreateOrUpdateError = AzureOpError;
@@ -2541,6 +2588,8 @@ export const LabPlansCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LabPlansCreateOrUpdate",
 }));
 
 export type LabPlansSaveImageError = AzureOpError;
@@ -2556,6 +2605,8 @@ export const LabPlansSaveImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LabPlansSaveImage",
 }));
 
 export type LabsCreateOrUpdateError = AzureOpError;
@@ -2571,6 +2622,8 @@ export const LabsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LabsCreateOrUpdate",
 }));
 
 export type ListImageByLabPlanError = AzureOpError;
@@ -2586,6 +2639,8 @@ export const ListImageByLabPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImageByLabPlan",
 }));
 
 export type ListLabByResourceGroupError = AzureOpError;
@@ -2601,6 +2656,8 @@ export const ListLabByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabByResourceGroup",
 }));
 
 export type ListLabBySubscriptionError = AzureOpError;
@@ -2616,6 +2673,8 @@ export const ListLabBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabBySubscription",
 }));
 
 export type ListLabPlanByResourceGroupError = AzureOpError;
@@ -2631,6 +2690,8 @@ export const ListLabPlanByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabPlanByResourceGroup",
 }));
 
 export type ListLabPlanBySubscriptionError = AzureOpError;
@@ -2646,6 +2707,8 @@ export const ListLabPlanBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabPlanBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2661,6 +2724,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListScheduleByLabError = AzureOpError;
@@ -2676,6 +2741,8 @@ export const ListScheduleByLab: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduleByLab",
 }));
 
 export type ListSkusError = AzureOpError;
@@ -2691,6 +2758,8 @@ export const ListSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkus",
 }));
 
 export type ListUsageByLocationError = AzureOpError;
@@ -2706,6 +2775,8 @@ export const ListUsageByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsageByLocation",
 }));
 
 export type ListUserByLabError = AzureOpError;
@@ -2721,6 +2792,8 @@ export const ListUserByLab: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserByLab",
 }));
 
 export type ListVirtualMachineByLabError = AzureOpError;
@@ -2736,6 +2809,8 @@ export const ListVirtualMachineByLab: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineByLab",
 }));
 
 export type PublishLabError = AzureOpError;
@@ -2751,6 +2826,8 @@ export const PublishLab: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishLab",
 }));
 
 export type RedeployVirtualMachineError = AzureOpError;
@@ -2766,6 +2843,8 @@ export const RedeployVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeployVirtualMachine",
 }));
 
 export type ResetVirtualMachinePasswordError = AzureOpError;
@@ -2781,6 +2860,8 @@ export const ResetVirtualMachinePassword: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetVirtualMachinePassword",
 }));
 
 export type SchedulesCreateOrUpdateError = AzureOpError;
@@ -2796,6 +2877,8 @@ export const SchedulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SchedulesCreateOrUpdate",
 }));
 
 export type StartVirtualMachineError = AzureOpError;
@@ -2811,6 +2894,8 @@ export const StartVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVirtualMachine",
 }));
 
 export type StopVirtualMachineError = AzureOpError;
@@ -2826,6 +2911,8 @@ export const StopVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopVirtualMachine",
 }));
 
 export type SyncLabGroupError = AzureOpError;
@@ -2841,6 +2928,8 @@ export const SyncLabGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncLabGroup",
 }));
 
 export type UpdateImageError = AzureOpError;
@@ -2856,6 +2945,8 @@ export const UpdateImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateImage",
 }));
 
 export type UpdateLabError = AzureOpError;
@@ -2871,6 +2962,8 @@ export const UpdateLab: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLab",
 }));
 
 export type UpdateLabPlanError = AzureOpError;
@@ -2886,6 +2979,8 @@ export const UpdateLabPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLabPlan",
 }));
 
 export type UpdateScheduleError = AzureOpError;
@@ -2901,6 +2996,8 @@ export const UpdateSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSchedule",
 }));
 
 export type UpdateUserError = AzureOpError;
@@ -2916,6 +3013,8 @@ export const UpdateUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UsersCreateOrUpdateError = AzureOpError;
@@ -2931,6 +3030,8 @@ export const UsersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersCreateOrUpdate",
 }));
 
 export type VirtualMachinesReimageError = AzureOpError;
@@ -2946,6 +3047,8 @@ export const VirtualMachinesReimage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesReimage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

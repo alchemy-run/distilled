@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Chat",
+  propagate: "w3c",
+} as const;
+
 /** Array of streaming chunks. */
 export type AppendStreamRequestChunksList = Array<unknown>;
 export interface AppendStreamRequest {
@@ -425,6 +438,8 @@ export const appendStream: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppendStream",
 }));
 
 export type ChatUnfurlError = SlackOpError;
@@ -440,6 +455,8 @@ export const chatUnfurl: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChatUnfurl",
 }));
 
 export type DeleteChatError = SlackOpError;
@@ -455,6 +472,8 @@ export const deleteChat: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChat",
 }));
 
 export type DeleteScheduledMessageError = SlackOpError;
@@ -470,6 +489,8 @@ export const deleteScheduledMessage: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledMessage",
 }));
 
 export type GetPermalinkError = SlackOpError;
@@ -485,6 +506,8 @@ export const getPermalink: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermalink",
 }));
 
 export type ListScheduledMessagesError = SlackOpError;
@@ -502,6 +525,8 @@ export const listScheduledMessages: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListScheduledMessages",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -526,6 +551,8 @@ export const meMessage: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MeMessage",
 }));
 
 export type PostEphemeralError = SlackOpError;
@@ -541,6 +568,8 @@ export const postEphemeral: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostEphemeral",
 }));
 
 export type PostMessageError = SlackOpError;
@@ -556,6 +585,8 @@ export const postMessage: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostMessage",
 }));
 
 export type ScheduleMessageError = SlackOpError;
@@ -571,6 +602,8 @@ export const scheduleMessage: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduleMessage",
 }));
 
 export type StartStreamError = SlackOpError;
@@ -586,6 +619,8 @@ export const startStream: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartStream",
 }));
 
 export type StopStreamError = SlackOpError;
@@ -601,6 +636,8 @@ export const stopStream: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopStream",
 }));
 
 export type UpdateChatError = SlackOpError;
@@ -616,6 +653,8 @@ export const updateChat: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChat",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

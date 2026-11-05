@@ -27,6 +27,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneId: "zone_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "ResourceTagging",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -86,6 +100,7 @@ export type AccountTagsGetRequestResourceType =
   | "account_ruleset"
   | "ai_gateway"
   | "ai_search_instance"
+  | "ai_search_namespace"
   | "alerting_policy"
   | "alerting_webhook"
   | "cloudflared_tunnel"
@@ -246,6 +261,21 @@ export interface AccountTagsGetResultAISearchInstance {
   /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
   tags: AccountTagsGetResultAISearchInstanceTagsMap;
   type: AccountTagsGetResultAISearchInstanceType;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null;
+}
+export type AccountTagsGetResultAISearchNamespaceTagsMap = { [key: string]: string | undefined };
+export type AccountTagsGetResultAISearchNamespaceType = "ai_search_namespace";
+export interface AccountTagsGetResultAISearchNamespace {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: AccountTagsGetResultAISearchNamespaceTagsMap;
+  type: AccountTagsGetResultAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null;
 }
@@ -846,6 +876,7 @@ export type AccountTagsGetResult =
   | AccountTagsGetResultAccountRuleset
   | AccountTagsGetResultAIGateway
   | AccountTagsGetResultAISearchInstance
+  | AccountTagsGetResultAISearchNamespace
   | AccountTagsGetResultAlertingPolicy
   | AccountTagsGetResultAlertingWebhook
   | AccountTagsGetResultAPIGatewayOperation
@@ -1042,6 +1073,21 @@ export interface ZoneTagsGetResultAISearchInstance {
   /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
   tags: ZoneTagsGetResultAISearchInstanceTagsMap;
   type: ZoneTagsGetResultAISearchInstanceType;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null;
+}
+export type ZoneTagsGetResultAISearchNamespaceTagsMap = { [key: string]: string | undefined };
+export type ZoneTagsGetResultAISearchNamespaceType = "ai_search_namespace";
+export interface ZoneTagsGetResultAISearchNamespace {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: ZoneTagsGetResultAISearchNamespaceTagsMap;
+  type: ZoneTagsGetResultAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null;
 }
@@ -1637,6 +1683,7 @@ export type ZoneTagsGetResult =
   | ZoneTagsGetResultAccountRuleset
   | ZoneTagsGetResultAIGateway
   | ZoneTagsGetResultAISearchInstance
+  | ZoneTagsGetResultAISearchNamespace
   | ZoneTagsGetResultAlertingPolicy
   | ZoneTagsGetResultAlertingWebhook
   | ZoneTagsGetResultAPIGatewayOperation
@@ -1699,6 +1746,7 @@ export type ListRequestType =
   | "account_ruleset"
   | "ai_gateway"
   | "ai_search_instance"
+  | "ai_search_namespace"
   | "alerting_policy"
   | "alerting_webhook"
   | "api_gateway_operation"
@@ -1876,6 +1924,21 @@ export interface ListResultItemAISearchInstance {
   /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
   tags: ListResultItemAISearchInstanceTagsMap;
   type: ListResultItemAISearchInstanceType;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null;
+}
+export type ListResultItemAISearchNamespaceTagsMap = { [key: string]: string | undefined };
+export type ListResultItemAISearchNamespaceType = "ai_search_namespace";
+export interface ListResultItemAISearchNamespace {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: ListResultItemAISearchNamespaceTagsMap;
+  type: ListResultItemAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null;
 }
@@ -2468,6 +2531,7 @@ export type ListResultItem =
   | ListResultItemAccountRuleset
   | ListResultItemAIGateway
   | ListResultItemAISearchInstance
+  | ListResultItemAISearchNamespace
   | ListResultItemAlertingPolicy
   | ListResultItemAlertingWebhook
   | ListResultItemAPIGatewayOperation
@@ -2521,6 +2585,7 @@ export type ValuesListRequestType =
   | "account_ruleset"
   | "ai_gateway"
   | "ai_search_instance"
+  | "ai_search_namespace"
   | "alerting_policy"
   | "alerting_webhook"
   | "api_gateway_operation"
@@ -2583,6 +2648,7 @@ export type AccountTagsUpdateRequestResourceType =
   | "account_ruleset"
   | "ai_gateway"
   | "ai_search_instance"
+  | "ai_search_namespace"
   | "alerting_policy"
   | "alerting_webhook"
   | "cloudflared_tunnel"
@@ -2748,6 +2814,21 @@ export interface AccountTagsUpdateResultAISearchInstance {
   /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
   tags: AccountTagsUpdateResultAISearchInstanceTagsMap;
   type: AccountTagsUpdateResultAISearchInstanceType;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null;
+}
+export type AccountTagsUpdateResultAISearchNamespaceTagsMap = { [key: string]: string | undefined };
+export type AccountTagsUpdateResultAISearchNamespaceType = "ai_search_namespace";
+export interface AccountTagsUpdateResultAISearchNamespace {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: AccountTagsUpdateResultAISearchNamespaceTagsMap;
+  type: AccountTagsUpdateResultAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null;
 }
@@ -3351,6 +3432,7 @@ export type AccountTagsUpdateResult =
   | AccountTagsUpdateResultAccountRuleset
   | AccountTagsUpdateResultAIGateway
   | AccountTagsUpdateResultAISearchInstance
+  | AccountTagsUpdateResultAISearchNamespace
   | AccountTagsUpdateResultAlertingPolicy
   | AccountTagsUpdateResultAlertingWebhook
   | AccountTagsUpdateResultAPIGatewayOperation
@@ -3538,6 +3620,21 @@ export interface ZoneTagsUpdateResultAISearchInstance {
   /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
   tags: ZoneTagsUpdateResultAISearchInstanceTagsMap;
   type: ZoneTagsUpdateResultAISearchInstanceType;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null;
+}
+export type ZoneTagsUpdateResultAISearchNamespaceTagsMap = { [key: string]: string | undefined };
+export type ZoneTagsUpdateResultAISearchNamespaceType = "ai_search_namespace";
+export interface ZoneTagsUpdateResultAISearchNamespace {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: ZoneTagsUpdateResultAISearchNamespaceTagsMap;
+  type: ZoneTagsUpdateResultAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null;
 }
@@ -4135,6 +4232,7 @@ export type ZoneTagsUpdateResult =
   | ZoneTagsUpdateResultAccountRuleset
   | ZoneTagsUpdateResultAIGateway
   | ZoneTagsUpdateResultAISearchInstance
+  | ZoneTagsUpdateResultAISearchNamespace
   | ZoneTagsUpdateResultAlertingPolicy
   | ZoneTagsUpdateResultAlertingWebhook
   | ZoneTagsUpdateResultAPIGatewayOperation
@@ -4186,6 +4284,8 @@ export const deleteAccountTag: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountTag",
 }));
 
 export type DeleteZoneTagError = Forbidden | CloudflareOpError;
@@ -4201,6 +4301,8 @@ export const deleteZoneTag: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZoneTag",
 }));
 
 export type GetAccountTagError = Forbidden | CloudflareOpError;
@@ -4216,6 +4318,8 @@ export const getAccountTag: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountTag",
 }));
 
 export type GetSummaryError = CloudflareOpError;
@@ -4231,6 +4335,8 @@ export const getSummary: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSummary",
 }));
 
 export type GetZoneTagError = ZoneTagResourceNotFound | Forbidden | CloudflareOpError;
@@ -4246,6 +4352,8 @@ export const getZoneTag: API.OperationMethod<
   errors: [ZoneTagResourceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZoneTag",
 }));
 
 export type ListKeysError = CloudflareOpError;
@@ -4263,6 +4371,8 @@ export const listKeys: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListKeys",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -4288,6 +4398,8 @@ export const listResourceTaggings: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResourceTaggings",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -4313,6 +4425,8 @@ export const listValues: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListValues",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -4336,6 +4450,8 @@ export const putAccountTag: API.OperationMethod<
   errors: [Forbidden, TagPreconditionFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAccountTag",
 }));
 
 export type PutZoneTagError =
@@ -4361,6 +4477,8 @@ export const putZoneTag: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutZoneTag",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -4423,6 +4541,7 @@ function __c1(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
@@ -4470,6 +4589,7 @@ function __c1(j: number): any {
               "account_ruleset",
               "ai_gateway",
               "ai_search_instance",
+              "ai_search_namespace",
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",
@@ -4561,6 +4681,7 @@ function __c3(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
@@ -4608,6 +4729,7 @@ function __c3(j: number): any {
               "account_ruleset",
               "ai_gateway",
               "ai_search_instance",
+              "ai_search_namespace",
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",
@@ -4731,6 +4853,7 @@ function __c7(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
@@ -4778,6 +4901,7 @@ function __c7(j: number): any {
               "account_ruleset",
               "ai_gateway",
               "ai_search_instance",
+              "ai_search_namespace",
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",
@@ -4893,6 +5017,7 @@ function __c10(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
@@ -4940,6 +5065,7 @@ function __c10(j: number): any {
               "account_ruleset",
               "ai_gateway",
               "ai_search_instance",
+              "ai_search_namespace",
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",
@@ -5053,6 +5179,7 @@ function __c13(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
@@ -5100,6 +5227,7 @@ function __c13(j: number): any {
               "account_ruleset",
               "ai_gateway",
               "ai_search_instance",
+              "ai_search_namespace",
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",

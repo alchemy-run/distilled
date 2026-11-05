@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -69,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SecurityAgent",
+  service: "SecurityAgent",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2563,7 +2579,7 @@ export type AddArtifactError =
  * Uploads an artifact to an agent space. Artifacts provide additional context for security testing, such as architecture diagrams, API specifications, or configuration files.
  */
 export const addArtifact: API.OperationMethod<
-  AddArtifactInput,
+  AddArtifactInput & RegionInput,
   AddArtifactOutput,
   AddArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2580,6 +2596,8 @@ export const addArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddArtifact",
+  telemetry: TELEMETRY,
+  span: "AddArtifact",
 }));
 
 export type BatchCreateSecurityRequirementsError =
@@ -2595,7 +2613,7 @@ export type BatchCreateSecurityRequirementsError =
  * Batch creates security requirements in a customer managed pack.
  */
 export const batchCreateSecurityRequirements: API.OperationMethod<
-  BatchCreateSecurityRequirementsInput,
+  BatchCreateSecurityRequirementsInput & RegionInput,
   BatchCreateSecurityRequirementsOutput,
   BatchCreateSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -2614,6 +2632,8 @@ export const batchCreateSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "BatchCreateSecurityRequirements",
 }));
 
 export type BatchDeleteCodeReviewsError = CommonErrors;
@@ -2621,7 +2641,7 @@ export type BatchDeleteCodeReviewsError = CommonErrors;
  * Deletes one or more code reviews from an agent space.
  */
 export const batchDeleteCodeReviews: API.OperationMethod<
-  BatchDeleteCodeReviewsInput,
+  BatchDeleteCodeReviewsInput & RegionInput,
   BatchDeleteCodeReviewsOutput,
   BatchDeleteCodeReviewsError,
   Credentials | HttpClient.HttpClient
@@ -2632,6 +2652,8 @@ export const batchDeleteCodeReviews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteCodeReviews",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteCodeReviews",
 }));
 
 export type BatchDeletePentestsError = CommonErrors;
@@ -2639,7 +2661,7 @@ export type BatchDeletePentestsError = CommonErrors;
  * Deletes one or more pentests from an agent space.
  */
 export const batchDeletePentests: API.OperationMethod<
-  BatchDeletePentestsInput,
+  BatchDeletePentestsInput & RegionInput,
   BatchDeletePentestsOutput,
   BatchDeletePentestsError,
   Credentials | HttpClient.HttpClient
@@ -2650,6 +2672,8 @@ export const batchDeletePentests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeletePentests",
+  telemetry: TELEMETRY,
+  span: "BatchDeletePentests",
 }));
 
 export type BatchDeleteSecurityRequirementsError =
@@ -2664,7 +2688,7 @@ export type BatchDeleteSecurityRequirementsError =
  * Batch deletes security requirements from a customer managed pack.
  */
 export const batchDeleteSecurityRequirements: API.OperationMethod<
-  BatchDeleteSecurityRequirementsInput,
+  BatchDeleteSecurityRequirementsInput & RegionInput,
   BatchDeleteSecurityRequirementsOutput,
   BatchDeleteSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -2682,6 +2706,8 @@ export const batchDeleteSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteSecurityRequirements",
 }));
 
 export type BatchDeleteThreatModelsError = CommonErrors;
@@ -2689,7 +2715,7 @@ export type BatchDeleteThreatModelsError = CommonErrors;
  * Deletes one or more threat models from an agent space.
  */
 export const batchDeleteThreatModels: API.OperationMethod<
-  BatchDeleteThreatModelsInput,
+  BatchDeleteThreatModelsInput & RegionInput,
   BatchDeleteThreatModelsOutput,
   BatchDeleteThreatModelsError,
   Credentials | HttpClient.HttpClient
@@ -2700,6 +2726,8 @@ export const batchDeleteThreatModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteThreatModels",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteThreatModels",
 }));
 
 export type BatchGetAgentSpacesError = CommonErrors;
@@ -2707,7 +2735,7 @@ export type BatchGetAgentSpacesError = CommonErrors;
  * Retrieves information about one or more agent spaces.
  */
 export const batchGetAgentSpaces: API.OperationMethod<
-  BatchGetAgentSpacesInput,
+  BatchGetAgentSpacesInput & RegionInput,
   BatchGetAgentSpacesOutput,
   BatchGetAgentSpacesError,
   Credentials | HttpClient.HttpClient
@@ -2718,6 +2746,8 @@ export const batchGetAgentSpaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAgentSpaces",
+  telemetry: TELEMETRY,
+  span: "BatchGetAgentSpaces",
 }));
 
 export type BatchGetArtifactMetadataError =
@@ -2731,7 +2761,7 @@ export type BatchGetArtifactMetadataError =
  * Retrieves metadata for one or more artifacts in an agent space.
  */
 export const batchGetArtifactMetadata: API.OperationMethod<
-  BatchGetArtifactMetadataInput,
+  BatchGetArtifactMetadataInput & RegionInput,
   BatchGetArtifactMetadataOutput,
   BatchGetArtifactMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2748,6 +2778,8 @@ export const batchGetArtifactMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetArtifactMetadata",
+  telemetry: TELEMETRY,
+  span: "BatchGetArtifactMetadata",
 }));
 
 export type BatchGetCodeReviewJobsError = CommonErrors;
@@ -2755,7 +2787,7 @@ export type BatchGetCodeReviewJobsError = CommonErrors;
  * Retrieves information about one or more code review jobs in an agent space.
  */
 export const batchGetCodeReviewJobs: API.OperationMethod<
-  BatchGetCodeReviewJobsInput,
+  BatchGetCodeReviewJobsInput & RegionInput,
   BatchGetCodeReviewJobsOutput,
   BatchGetCodeReviewJobsError,
   Credentials | HttpClient.HttpClient
@@ -2766,6 +2798,8 @@ export const batchGetCodeReviewJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeReviewJobs",
+  telemetry: TELEMETRY,
+  span: "BatchGetCodeReviewJobs",
 }));
 
 export type BatchGetCodeReviewJobTasksError = CommonErrors;
@@ -2773,7 +2807,7 @@ export type BatchGetCodeReviewJobTasksError = CommonErrors;
  * Retrieves information about one or more tasks within a code review job.
  */
 export const batchGetCodeReviewJobTasks: API.OperationMethod<
-  BatchGetCodeReviewJobTasksInput,
+  BatchGetCodeReviewJobTasksInput & RegionInput,
   BatchGetCodeReviewJobTasksOutput,
   BatchGetCodeReviewJobTasksError,
   Credentials | HttpClient.HttpClient
@@ -2784,6 +2818,8 @@ export const batchGetCodeReviewJobTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeReviewJobTasks",
+  telemetry: TELEMETRY,
+  span: "BatchGetCodeReviewJobTasks",
 }));
 
 export type BatchGetCodeReviewsError = CommonErrors;
@@ -2791,7 +2827,7 @@ export type BatchGetCodeReviewsError = CommonErrors;
  * Retrieves information about one or more code reviews in an agent space.
  */
 export const batchGetCodeReviews: API.OperationMethod<
-  BatchGetCodeReviewsInput,
+  BatchGetCodeReviewsInput & RegionInput,
   BatchGetCodeReviewsOutput,
   BatchGetCodeReviewsError,
   Credentials | HttpClient.HttpClient
@@ -2802,6 +2838,8 @@ export const batchGetCodeReviews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeReviews",
+  telemetry: TELEMETRY,
+  span: "BatchGetCodeReviews",
 }));
 
 export type BatchGetFindingsError = CommonErrors;
@@ -2809,7 +2847,7 @@ export type BatchGetFindingsError = CommonErrors;
  * Retrieves information about one or more security findings in an agent space.
  */
 export const batchGetFindings: API.OperationMethod<
-  BatchGetFindingsInput,
+  BatchGetFindingsInput & RegionInput,
   BatchGetFindingsOutput,
   BatchGetFindingsError,
   Credentials | HttpClient.HttpClient
@@ -2820,6 +2858,8 @@ export const batchGetFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFindings",
+  telemetry: TELEMETRY,
+  span: "BatchGetFindings",
 }));
 
 export type BatchGetPentestJobsError = CommonErrors;
@@ -2827,7 +2867,7 @@ export type BatchGetPentestJobsError = CommonErrors;
  * Retrieves information about one or more pentest jobs in an agent space.
  */
 export const batchGetPentestJobs: API.OperationMethod<
-  BatchGetPentestJobsInput,
+  BatchGetPentestJobsInput & RegionInput,
   BatchGetPentestJobsOutput,
   BatchGetPentestJobsError,
   Credentials | HttpClient.HttpClient
@@ -2838,6 +2878,8 @@ export const batchGetPentestJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPentestJobs",
+  telemetry: TELEMETRY,
+  span: "BatchGetPentestJobs",
 }));
 
 export type BatchGetPentestJobTasksError = CommonErrors;
@@ -2845,7 +2887,7 @@ export type BatchGetPentestJobTasksError = CommonErrors;
  * Retrieves information about one or more tasks within a pentest job.
  */
 export const batchGetPentestJobTasks: API.OperationMethod<
-  BatchGetPentestJobTasksInput,
+  BatchGetPentestJobTasksInput & RegionInput,
   BatchGetPentestJobTasksOutput,
   BatchGetPentestJobTasksError,
   Credentials | HttpClient.HttpClient
@@ -2856,6 +2898,8 @@ export const batchGetPentestJobTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPentestJobTasks",
+  telemetry: TELEMETRY,
+  span: "BatchGetPentestJobTasks",
 }));
 
 export type BatchGetPentestsError = CommonErrors;
@@ -2863,7 +2907,7 @@ export type BatchGetPentestsError = CommonErrors;
  * Retrieves information about one or more pentests in an agent space.
  */
 export const batchGetPentests: API.OperationMethod<
-  BatchGetPentestsInput,
+  BatchGetPentestsInput & RegionInput,
   BatchGetPentestsOutput,
   BatchGetPentestsError,
   Credentials | HttpClient.HttpClient
@@ -2874,6 +2918,8 @@ export const batchGetPentests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPentests",
+  telemetry: TELEMETRY,
+  span: "BatchGetPentests",
 }));
 
 export type BatchGetSecurityRequirementsError =
@@ -2887,7 +2933,7 @@ export type BatchGetSecurityRequirementsError =
  * Batch retrieves security requirements from a pack.
  */
 export const batchGetSecurityRequirements: API.OperationMethod<
-  BatchGetSecurityRequirementsInput,
+  BatchGetSecurityRequirementsInput & RegionInput,
   BatchGetSecurityRequirementsOutput,
   BatchGetSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -2904,6 +2950,8 @@ export const batchGetSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "BatchGetSecurityRequirements",
 }));
 
 export type BatchGetTargetDomainsError = CommonErrors;
@@ -2911,7 +2959,7 @@ export type BatchGetTargetDomainsError = CommonErrors;
  * Retrieves information about one or more target domains.
  */
 export const batchGetTargetDomains: API.OperationMethod<
-  BatchGetTargetDomainsInput,
+  BatchGetTargetDomainsInput & RegionInput,
   BatchGetTargetDomainsOutput,
   BatchGetTargetDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2922,6 +2970,8 @@ export const batchGetTargetDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTargetDomains",
+  telemetry: TELEMETRY,
+  span: "BatchGetTargetDomains",
 }));
 
 export type BatchGetThreatModelJobsError = CommonErrors;
@@ -2929,7 +2979,7 @@ export type BatchGetThreatModelJobsError = CommonErrors;
  * Retrieves information about one or more threat model jobs in an agent space.
  */
 export const batchGetThreatModelJobs: API.OperationMethod<
-  BatchGetThreatModelJobsInput,
+  BatchGetThreatModelJobsInput & RegionInput,
   BatchGetThreatModelJobsOutput,
   BatchGetThreatModelJobsError,
   Credentials | HttpClient.HttpClient
@@ -2940,6 +2990,8 @@ export const batchGetThreatModelJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreatModelJobs",
+  telemetry: TELEMETRY,
+  span: "BatchGetThreatModelJobs",
 }));
 
 export type BatchGetThreatModelJobTasksError = CommonErrors;
@@ -2947,7 +2999,7 @@ export type BatchGetThreatModelJobTasksError = CommonErrors;
  * Retrieves information about one or more tasks within a threat model job.
  */
 export const batchGetThreatModelJobTasks: API.OperationMethod<
-  BatchGetThreatModelJobTasksInput,
+  BatchGetThreatModelJobTasksInput & RegionInput,
   BatchGetThreatModelJobTasksOutput,
   BatchGetThreatModelJobTasksError,
   Credentials | HttpClient.HttpClient
@@ -2958,6 +3010,8 @@ export const batchGetThreatModelJobTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreatModelJobTasks",
+  telemetry: TELEMETRY,
+  span: "BatchGetThreatModelJobTasks",
 }));
 
 export type BatchGetThreatModelsError = CommonErrors;
@@ -2965,7 +3019,7 @@ export type BatchGetThreatModelsError = CommonErrors;
  * Retrieves information about one or more threat models in an agent space.
  */
 export const batchGetThreatModels: API.OperationMethod<
-  BatchGetThreatModelsInput,
+  BatchGetThreatModelsInput & RegionInput,
   BatchGetThreatModelsOutput,
   BatchGetThreatModelsError,
   Credentials | HttpClient.HttpClient
@@ -2976,6 +3030,8 @@ export const batchGetThreatModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreatModels",
+  telemetry: TELEMETRY,
+  span: "BatchGetThreatModels",
 }));
 
 export type BatchGetThreatsError = CommonErrors;
@@ -2983,7 +3039,7 @@ export type BatchGetThreatsError = CommonErrors;
  * Retrieves information about one or more threats.
  */
 export const batchGetThreats: API.OperationMethod<
-  BatchGetThreatsInput,
+  BatchGetThreatsInput & RegionInput,
   BatchGetThreatsOutput,
   BatchGetThreatsError,
   Credentials | HttpClient.HttpClient
@@ -2994,6 +3050,8 @@ export const batchGetThreats: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreats",
+  telemetry: TELEMETRY,
+  span: "BatchGetThreats",
 }));
 
 export type BatchUpdateSecurityRequirementsError =
@@ -3008,7 +3066,7 @@ export type BatchUpdateSecurityRequirementsError =
  * Batch updates security requirements within a customer managed pack.
  */
 export const batchUpdateSecurityRequirements: API.OperationMethod<
-  BatchUpdateSecurityRequirementsInput,
+  BatchUpdateSecurityRequirementsInput & RegionInput,
   BatchUpdateSecurityRequirementsOutput,
   BatchUpdateSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -3026,6 +3084,8 @@ export const batchUpdateSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateSecurityRequirements",
 }));
 
 export type CreateAgentSpaceError = CommonErrors;
@@ -3033,7 +3093,7 @@ export type CreateAgentSpaceError = CommonErrors;
  * Creates a new agent space. An agent space is a dedicated workspace for securing a specific application.
  */
 export const createAgentSpace: API.OperationMethod<
-  CreateAgentSpaceInput,
+  CreateAgentSpaceInput & RegionInput,
   CreateAgentSpaceOutput,
   CreateAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -3044,6 +3104,8 @@ export const createAgentSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentSpace",
+  telemetry: TELEMETRY,
+  span: "CreateAgentSpace",
 }));
 
 export type CreateApplicationError = CommonErrors;
@@ -3051,7 +3113,7 @@ export type CreateApplicationError = CommonErrors;
  * Creates a new application. An application is the top-level organizational unit that supports IAM Identity Center integration.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3062,6 +3124,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateCodeReviewError = CommonErrors;
@@ -3069,7 +3133,7 @@ export type CreateCodeReviewError = CommonErrors;
  * Creates a new code review configuration in an agent space. A code review defines the parameters for automated security-focused code analysis.
  */
 export const createCodeReview: API.OperationMethod<
-  CreateCodeReviewInput,
+  CreateCodeReviewInput & RegionInput,
   CreateCodeReviewOutput,
   CreateCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -3080,6 +3144,8 @@ export const createCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeReview",
+  telemetry: TELEMETRY,
+  span: "CreateCodeReview",
 }));
 
 export type CreateIntegrationError =
@@ -3094,7 +3160,7 @@ export type CreateIntegrationError =
  * Creates a new integration with a third-party provider, such as GitHub, for code review and remediation.
  */
 export const createIntegration: API.OperationMethod<
-  CreateIntegrationInput,
+  CreateIntegrationInput & RegionInput,
   CreateIntegrationOutput,
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3112,6 +3178,8 @@ export const createIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateIntegration",
 }));
 
 export type CreateMembershipError = CommonErrors;
@@ -3119,7 +3187,7 @@ export type CreateMembershipError = CommonErrors;
  * Creates a new membership, granting a user access to an agent space within an application.
  */
 export const createMembership: API.OperationMethod<
-  CreateMembershipRequest,
+  CreateMembershipRequest & RegionInput,
   CreateMembershipResponse,
   CreateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3130,6 +3198,8 @@ export const createMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
+  telemetry: TELEMETRY,
+  span: "CreateMembership",
 }));
 
 export type CreatePentestError = CommonErrors;
@@ -3137,7 +3207,7 @@ export type CreatePentestError = CommonErrors;
  * Creates a new pentest configuration in an agent space. A pentest defines the security test parameters, including target assets, risk type exclusions, and logging configuration.
  */
 export const createPentest: API.OperationMethod<
-  CreatePentestInput,
+  CreatePentestInput & RegionInput,
   CreatePentestOutput,
   CreatePentestError,
   Credentials | HttpClient.HttpClient
@@ -3148,6 +3218,8 @@ export const createPentest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePentest",
+  telemetry: TELEMETRY,
+  span: "CreatePentest",
 }));
 
 export type CreatePrivateConnectionError =
@@ -3162,7 +3234,7 @@ export type CreatePrivateConnectionError =
  * Creates a private connection for reaching a self-hosted provider instance over private networking using Amazon VPC Lattice.
  */
 export const createPrivateConnection: API.OperationMethod<
-  CreatePrivateConnectionInput,
+  CreatePrivateConnectionInput & RegionInput,
   CreatePrivateConnectionOutput,
   CreatePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3180,6 +3252,8 @@ export const createPrivateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateConnection",
+  telemetry: TELEMETRY,
+  span: "CreatePrivateConnection",
 }));
 
 export type CreateSecurityRequirementPackError =
@@ -3194,7 +3268,7 @@ export type CreateSecurityRequirementPackError =
  * Creates a customer managed security requirement pack.
  */
 export const createSecurityRequirementPack: API.OperationMethod<
-  CreateSecurityRequirementPackInput,
+  CreateSecurityRequirementPackInput & RegionInput,
   CreateSecurityRequirementPackOutput,
   CreateSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
@@ -3212,6 +3286,8 @@ export const createSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityRequirementPack",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityRequirementPack",
 }));
 
 export type CreateTargetDomainError = CommonErrors;
@@ -3219,7 +3295,7 @@ export type CreateTargetDomainError = CommonErrors;
  * Creates a new target domain for penetration testing. A target domain is a web domain that must be registered and verified before it can be tested.
  */
 export const createTargetDomain: API.OperationMethod<
-  CreateTargetDomainInput,
+  CreateTargetDomainInput & RegionInput,
   CreateTargetDomainOutput,
   CreateTargetDomainError,
   Credentials | HttpClient.HttpClient
@@ -3230,6 +3306,8 @@ export const createTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetDomain",
+  telemetry: TELEMETRY,
+  span: "CreateTargetDomain",
 }));
 
 export type CreateThreatError = CommonErrors;
@@ -3237,7 +3315,7 @@ export type CreateThreatError = CommonErrors;
  * Creates a new threat under a threat model job.
  */
 export const createThreat: API.OperationMethod<
-  CreateThreatInput,
+  CreateThreatInput & RegionInput,
   CreateThreatOutput,
   CreateThreatError,
   Credentials | HttpClient.HttpClient
@@ -3248,6 +3326,8 @@ export const createThreat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreat",
+  telemetry: TELEMETRY,
+  span: "CreateThreat",
 }));
 
 export type CreateThreatModelError = CommonErrors;
@@ -3255,7 +3335,7 @@ export type CreateThreatModelError = CommonErrors;
  * Creates a new threat model configuration in an agent space. A threat model defines the parameters for automated threat analysis.
  */
 export const createThreatModel: API.OperationMethod<
-  CreateThreatModelInput,
+  CreateThreatModelInput & RegionInput,
   CreateThreatModelOutput,
   CreateThreatModelError,
   Credentials | HttpClient.HttpClient
@@ -3266,6 +3346,8 @@ export const createThreatModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreatModel",
+  telemetry: TELEMETRY,
+  span: "CreateThreatModel",
 }));
 
 export type DeleteAgentSpaceError = CommonErrors;
@@ -3273,7 +3355,7 @@ export type DeleteAgentSpaceError = CommonErrors;
  * Deletes an agent space and all of its associated resources, including pentests, findings, and artifacts.
  */
 export const deleteAgentSpace: API.OperationMethod<
-  DeleteAgentSpaceInput,
+  DeleteAgentSpaceInput & RegionInput,
   DeleteAgentSpaceOutput,
   DeleteAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -3284,6 +3366,8 @@ export const deleteAgentSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentSpace",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentSpace",
 }));
 
 export type DeleteApplicationError = CommonErrors;
@@ -3291,7 +3375,7 @@ export type DeleteApplicationError = CommonErrors;
  * Deletes an application and its associated configuration, including IAM Identity Center settings.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3302,6 +3386,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteArtifactError =
@@ -3315,7 +3401,7 @@ export type DeleteArtifactError =
  * Deletes an artifact from an agent space.
  */
 export const deleteArtifact: API.OperationMethod<
-  DeleteArtifactInput,
+  DeleteArtifactInput & RegionInput,
   DeleteArtifactOutput,
   DeleteArtifactError,
   Credentials | HttpClient.HttpClient
@@ -3332,6 +3418,8 @@ export const deleteArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArtifact",
+  telemetry: TELEMETRY,
+  span: "DeleteArtifact",
 }));
 
 export type DeleteIntegrationError =
@@ -3346,7 +3434,7 @@ export type DeleteIntegrationError =
  * Deletes an integration with a third-party provider.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationInput,
+  DeleteIntegrationInput & RegionInput,
   DeleteIntegrationOutput,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3364,6 +3452,8 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteMembershipError = CommonErrors;
@@ -3371,7 +3461,7 @@ export type DeleteMembershipError = CommonErrors;
  * Deletes a membership, revoking a user's access to an agent space.
  */
 export const deleteMembership: API.OperationMethod<
-  DeleteMembershipRequest,
+  DeleteMembershipRequest & RegionInput,
   DeleteMembershipResponse,
   DeleteMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3382,6 +3472,8 @@ export const deleteMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteMembership",
 }));
 
 export type DeletePrivateConnectionError =
@@ -3396,7 +3488,7 @@ export type DeletePrivateConnectionError =
  * Deletes a private connection.
  */
 export const deletePrivateConnection: API.OperationMethod<
-  DeletePrivateConnectionInput,
+  DeletePrivateConnectionInput & RegionInput,
   DeletePrivateConnectionOutput,
   DeletePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3414,6 +3506,8 @@ export const deletePrivateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivateConnection",
+  telemetry: TELEMETRY,
+  span: "DeletePrivateConnection",
 }));
 
 export type DeleteSecurityRequirementPackError =
@@ -3428,7 +3522,7 @@ export type DeleteSecurityRequirementPackError =
  * Deletes a customer managed security requirement pack and all its associated security requirements.
  */
 export const deleteSecurityRequirementPack: API.OperationMethod<
-  DeleteSecurityRequirementPackInput,
+  DeleteSecurityRequirementPackInput & RegionInput,
   DeleteSecurityRequirementPackOutput,
   DeleteSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
@@ -3446,6 +3540,8 @@ export const deleteSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityRequirementPack",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityRequirementPack",
 }));
 
 export type DeleteTargetDomainError = CommonErrors;
@@ -3453,7 +3549,7 @@ export type DeleteTargetDomainError = CommonErrors;
  * Deletes a target domain registration. After deletion, the domain can no longer be used for penetration testing.
  */
 export const deleteTargetDomain: API.OperationMethod<
-  DeleteTargetDomainInput,
+  DeleteTargetDomainInput & RegionInput,
   DeleteTargetDomainOutput,
   DeleteTargetDomainError,
   Credentials | HttpClient.HttpClient
@@ -3464,6 +3560,8 @@ export const deleteTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteTargetDomain",
 }));
 
 export type DescribePrivateConnectionError =
@@ -3477,7 +3575,7 @@ export type DescribePrivateConnectionError =
  * Retrieves the details of a private connection.
  */
 export const describePrivateConnection: API.OperationMethod<
-  DescribePrivateConnectionInput,
+  DescribePrivateConnectionInput & RegionInput,
   DescribePrivateConnectionOutput,
   DescribePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3494,6 +3592,8 @@ export const describePrivateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePrivateConnection",
+  telemetry: TELEMETRY,
+  span: "DescribePrivateConnection",
 }));
 
 export type GetApplicationError = CommonErrors;
@@ -3501,7 +3601,7 @@ export type GetApplicationError = CommonErrors;
  * Retrieves information about an application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3512,6 +3612,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetArtifactError =
@@ -3525,7 +3627,7 @@ export type GetArtifactError =
  * Retrieves an artifact from an agent space.
  */
 export const getArtifact: API.OperationMethod<
-  GetArtifactInput,
+  GetArtifactInput & RegionInput,
   GetArtifactOutput,
   GetArtifactError,
   Credentials | HttpClient.HttpClient
@@ -3542,6 +3644,8 @@ export const getArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArtifact",
+  telemetry: TELEMETRY,
+  span: "GetArtifact",
 }));
 
 export type GetIntegrationError =
@@ -3555,7 +3659,7 @@ export type GetIntegrationError =
  * Retrieves information about an integration.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationInput,
+  GetIntegrationInput & RegionInput,
   GetIntegrationOutput,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3572,6 +3676,8 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetSecurityRequirementPackError =
@@ -3585,7 +3691,7 @@ export type GetSecurityRequirementPackError =
  * Retrieves information about a security requirement pack.
  */
 export const getSecurityRequirementPack: API.OperationMethod<
-  GetSecurityRequirementPackInput,
+  GetSecurityRequirementPackInput & RegionInput,
   GetSecurityRequirementPackOutput,
   GetSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
@@ -3602,6 +3708,8 @@ export const getSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityRequirementPack",
+  telemetry: TELEMETRY,
+  span: "GetSecurityRequirementPack",
 }));
 
 export type ImportSecurityRequirementsError =
@@ -3617,7 +3725,7 @@ export type ImportSecurityRequirementsError =
  * Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the provided source files.
  */
 export const importSecurityRequirements: API.OperationMethod<
-  ImportSecurityRequirementsInput,
+  ImportSecurityRequirementsInput & RegionInput,
   ImportSecurityRequirementsOutput,
   ImportSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -3636,6 +3744,8 @@ export const importSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "ImportSecurityRequirements",
 }));
 
 export type InitiateProviderRegistrationError =
@@ -3650,7 +3760,7 @@ export type InitiateProviderRegistrationError =
  * Initiates the OAuth registration flow with a third-party provider. Returns a redirect URL and CSRF state token for completing the authorization.
  */
 export const initiateProviderRegistration: API.OperationMethod<
-  InitiateProviderRegistrationInput,
+  InitiateProviderRegistrationInput & RegionInput,
   InitiateProviderRegistrationOutput,
   InitiateProviderRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -3668,6 +3778,8 @@ export const initiateProviderRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateProviderRegistration",
+  telemetry: TELEMETRY,
+  span: "InitiateProviderRegistration",
 }));
 
 export type ListActorMessagesError = CommonErrors;
@@ -3675,7 +3787,7 @@ export type ListActorMessagesError = CommonErrors;
  * Returns a paginated list of the email MFA messages received for an actor at its server-generated email address, most recent first.
  */
 export const listActorMessages: API.PaginatedOperationMethod<
-  ListActorMessagesInput,
+  ListActorMessagesInput & RegionInput,
   ListActorMessagesOutput,
   ListActorMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -3693,6 +3805,8 @@ export const listActorMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActorMessages",
 })) as any;
 
 export type ListAgentSpacesError = CommonErrors;
@@ -3700,7 +3814,7 @@ export type ListAgentSpacesError = CommonErrors;
  * Returns a paginated list of agent space summaries in your account.
  */
 export const listAgentSpaces: API.PaginatedOperationMethod<
-  ListAgentSpacesInput,
+  ListAgentSpacesInput & RegionInput,
   ListAgentSpacesOutput,
   ListAgentSpacesError,
   Credentials | HttpClient.HttpClient,
@@ -3718,6 +3832,8 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
     items: "agentSpaceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentSpaces",
 })) as any;
 
 export type ListApplicationsError = CommonErrors;
@@ -3725,7 +3841,7 @@ export type ListApplicationsError = CommonErrors;
  * Returns a paginated list of application summaries in your account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -3743,6 +3859,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applicationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListArtifactsError =
@@ -3756,7 +3874,7 @@ export type ListArtifactsError =
  * Returns a paginated list of artifact summaries for the specified agent space.
  */
 export const listArtifacts: API.PaginatedOperationMethod<
-  ListArtifactsInput,
+  ListArtifactsInput & RegionInput,
   ListArtifactsOutput,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -3780,6 +3898,8 @@ export const listArtifacts: API.PaginatedOperationMethod<
     items: "artifactSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArtifacts",
 })) as any;
 
 export type ListCodeReviewJobsForCodeReviewError = CommonErrors;
@@ -3787,7 +3907,7 @@ export type ListCodeReviewJobsForCodeReviewError = CommonErrors;
  * Returns a paginated list of code review job summaries for the specified code review configuration.
  */
 export const listCodeReviewJobsForCodeReview: API.PaginatedOperationMethod<
-  ListCodeReviewJobsForCodeReviewInput,
+  ListCodeReviewJobsForCodeReviewInput & RegionInput,
   ListCodeReviewJobsForCodeReviewOutput,
   ListCodeReviewJobsForCodeReviewError,
   Credentials | HttpClient.HttpClient,
@@ -3805,6 +3925,8 @@ export const listCodeReviewJobsForCodeReview: API.PaginatedOperationMethod<
     items: "codeReviewJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeReviewJobsForCodeReview",
 })) as any;
 
 export type ListCodeReviewJobTasksError = CommonErrors;
@@ -3812,7 +3934,7 @@ export type ListCodeReviewJobTasksError = CommonErrors;
  * Returns a paginated list of task summaries for the specified code review job, optionally filtered by step name or category.
  */
 export const listCodeReviewJobTasks: API.PaginatedOperationMethod<
-  ListCodeReviewJobTasksInput,
+  ListCodeReviewJobTasksInput & RegionInput,
   ListCodeReviewJobTasksOutput,
   ListCodeReviewJobTasksError,
   Credentials | HttpClient.HttpClient,
@@ -3830,6 +3952,8 @@ export const listCodeReviewJobTasks: API.PaginatedOperationMethod<
     items: "codeReviewJobTaskSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeReviewJobTasks",
 })) as any;
 
 export type ListCodeReviewsError = CommonErrors;
@@ -3837,7 +3961,7 @@ export type ListCodeReviewsError = CommonErrors;
  * Returns a paginated list of code review summaries for the specified agent space.
  */
 export const listCodeReviews: API.PaginatedOperationMethod<
-  ListCodeReviewsInput,
+  ListCodeReviewsInput & RegionInput,
   ListCodeReviewsOutput,
   ListCodeReviewsError,
   Credentials | HttpClient.HttpClient,
@@ -3855,6 +3979,8 @@ export const listCodeReviews: API.PaginatedOperationMethod<
     items: "codeReviewSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeReviews",
 })) as any;
 
 export type ListDiscoveredEndpointsError = CommonErrors;
@@ -3862,7 +3988,7 @@ export type ListDiscoveredEndpointsError = CommonErrors;
  * Returns a paginated list of endpoints discovered during a pentest job execution.
  */
 export const listDiscoveredEndpoints: API.PaginatedOperationMethod<
-  ListDiscoveredEndpointsInput,
+  ListDiscoveredEndpointsInput & RegionInput,
   ListDiscoveredEndpointsOutput,
   ListDiscoveredEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -3880,6 +4006,8 @@ export const listDiscoveredEndpoints: API.PaginatedOperationMethod<
     items: "discoveredEndpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveredEndpoints",
 })) as any;
 
 export type ListFindingsError = CommonErrors;
@@ -3887,7 +4015,7 @@ export type ListFindingsError = CommonErrors;
  * Lists the security findings for a pentest job.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsInput,
+  ListFindingsInput & RegionInput,
   ListFindingsOutput,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -3905,6 +4033,8 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findingsSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListIntegratedResourcesError =
@@ -3918,7 +4048,7 @@ export type ListIntegratedResourcesError =
  * Lists the integrated resources for an agent space, optionally filtered by integration or resource type.
  */
 export const listIntegratedResources: API.PaginatedOperationMethod<
-  ListIntegratedResourcesInput,
+  ListIntegratedResourcesInput & RegionInput,
   ListIntegratedResourcesOutput,
   ListIntegratedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3942,6 +4072,8 @@ export const listIntegratedResources: API.PaginatedOperationMethod<
     items: "integratedResourceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntegratedResources",
 })) as any;
 
 export type ListIntegrationsError =
@@ -3955,7 +4087,7 @@ export type ListIntegrationsError =
  * Lists the integrations in your account, optionally filtered by provider or provider type.
  */
 export const listIntegrations: API.PaginatedOperationMethod<
-  ListIntegrationsInput,
+  ListIntegrationsInput & RegionInput,
   ListIntegrationsOutput,
   ListIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -3979,6 +4111,8 @@ export const listIntegrations: API.PaginatedOperationMethod<
     items: "integrationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntegrations",
 })) as any;
 
 export type ListMembershipsError = CommonErrors;
@@ -3986,7 +4120,7 @@ export type ListMembershipsError = CommonErrors;
  * Returns a paginated list of membership summaries for the specified agent space within an application.
  */
 export const listMemberships: API.PaginatedOperationMethod<
-  ListMembershipsRequest,
+  ListMembershipsRequest & RegionInput,
   ListMembershipsResponse,
   ListMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -4004,6 +4138,8 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "membershipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemberships",
 })) as any;
 
 export type ListPentestJobsForPentestError = CommonErrors;
@@ -4011,7 +4147,7 @@ export type ListPentestJobsForPentestError = CommonErrors;
  * Returns a paginated list of pentest job summaries for the specified pentest configuration.
  */
 export const listPentestJobsForPentest: API.PaginatedOperationMethod<
-  ListPentestJobsForPentestInput,
+  ListPentestJobsForPentestInput & RegionInput,
   ListPentestJobsForPentestOutput,
   ListPentestJobsForPentestError,
   Credentials | HttpClient.HttpClient,
@@ -4029,6 +4165,8 @@ export const listPentestJobsForPentest: API.PaginatedOperationMethod<
     items: "pentestJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPentestJobsForPentest",
 })) as any;
 
 export type ListPentestJobTasksError = CommonErrors;
@@ -4036,7 +4174,7 @@ export type ListPentestJobTasksError = CommonErrors;
  * Returns a paginated list of task summaries for the specified pentest job, optionally filtered by step name or category.
  */
 export const listPentestJobTasks: API.PaginatedOperationMethod<
-  ListPentestJobTasksInput,
+  ListPentestJobTasksInput & RegionInput,
   ListPentestJobTasksOutput,
   ListPentestJobTasksError,
   Credentials | HttpClient.HttpClient,
@@ -4054,6 +4192,8 @@ export const listPentestJobTasks: API.PaginatedOperationMethod<
     items: "taskSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPentestJobTasks",
 })) as any;
 
 export type ListPentestsError = CommonErrors;
@@ -4061,7 +4201,7 @@ export type ListPentestsError = CommonErrors;
  * Returns a paginated list of pentest summaries for the specified agent space.
  */
 export const listPentests: API.PaginatedOperationMethod<
-  ListPentestsInput,
+  ListPentestsInput & RegionInput,
   ListPentestsOutput,
   ListPentestsError,
   Credentials | HttpClient.HttpClient,
@@ -4079,6 +4219,8 @@ export const listPentests: API.PaginatedOperationMethod<
     items: "pentestSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPentests",
 })) as any;
 
 export type ListPrivateConnectionsError =
@@ -4091,7 +4233,7 @@ export type ListPrivateConnectionsError =
  * Lists the private connections in your account.
  */
 export const listPrivateConnections: API.PaginatedOperationMethod<
-  ListPrivateConnectionsInput,
+  ListPrivateConnectionsInput & RegionInput,
   ListPrivateConnectionsOutput,
   ListPrivateConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4114,6 +4256,8 @@ export const listPrivateConnections: API.PaginatedOperationMethod<
     items: "privateConnections",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrivateConnections",
 })) as any;
 
 export type ListSecurityRequirementPacksError =
@@ -4126,7 +4270,7 @@ export type ListSecurityRequirementPacksError =
  * Lists all security requirement packs in the caller's account.
  */
 export const listSecurityRequirementPacks: API.PaginatedOperationMethod<
-  ListSecurityRequirementPacksInput,
+  ListSecurityRequirementPacksInput & RegionInput,
   ListSecurityRequirementPacksOutput,
   ListSecurityRequirementPacksError,
   Credentials | HttpClient.HttpClient,
@@ -4149,6 +4293,8 @@ export const listSecurityRequirementPacks: API.PaginatedOperationMethod<
     items: "securityRequirementPackSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityRequirementPacks",
 })) as any;
 
 export type ListSecurityRequirementsError =
@@ -4162,7 +4308,7 @@ export type ListSecurityRequirementsError =
  * Lists security requirements within a pack.
  */
 export const listSecurityRequirements: API.PaginatedOperationMethod<
-  ListSecurityRequirementsInput,
+  ListSecurityRequirementsInput & RegionInput,
   ListSecurityRequirementsOutput,
   ListSecurityRequirementsError,
   Credentials | HttpClient.HttpClient,
@@ -4186,6 +4332,8 @@ export const listSecurityRequirements: API.PaginatedOperationMethod<
     items: "securityRequirementSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityRequirements",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -4193,7 +4341,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Returns the tags associated with the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4204,6 +4352,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetDomainsError = CommonErrors;
@@ -4211,7 +4361,7 @@ export type ListTargetDomainsError = CommonErrors;
  * Returns a paginated list of target domain summaries in your account.
  */
 export const listTargetDomains: API.PaginatedOperationMethod<
-  ListTargetDomainsInput,
+  ListTargetDomainsInput & RegionInput,
   ListTargetDomainsOutput,
   ListTargetDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -4229,6 +4379,8 @@ export const listTargetDomains: API.PaginatedOperationMethod<
     items: "targetDomainSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetDomains",
 })) as any;
 
 export type ListThreatModelJobsError = CommonErrors;
@@ -4236,7 +4388,7 @@ export type ListThreatModelJobsError = CommonErrors;
  * Returns a paginated list of threat model job summaries for the specified threat model.
  */
 export const listThreatModelJobs: API.PaginatedOperationMethod<
-  ListThreatModelJobsInput,
+  ListThreatModelJobsInput & RegionInput,
   ListThreatModelJobsOutput,
   ListThreatModelJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4254,6 +4406,8 @@ export const listThreatModelJobs: API.PaginatedOperationMethod<
     items: "threatModelJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreatModelJobs",
 })) as any;
 
 export type ListThreatModelJobTasksError = CommonErrors;
@@ -4261,7 +4415,7 @@ export type ListThreatModelJobTasksError = CommonErrors;
  * Returns a paginated list of task summaries for the specified threat model job.
  */
 export const listThreatModelJobTasks: API.PaginatedOperationMethod<
-  ListThreatModelJobTasksInput,
+  ListThreatModelJobTasksInput & RegionInput,
   ListThreatModelJobTasksOutput,
   ListThreatModelJobTasksError,
   Credentials | HttpClient.HttpClient,
@@ -4279,6 +4433,8 @@ export const listThreatModelJobTasks: API.PaginatedOperationMethod<
     items: "threatModelJobTaskSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreatModelJobTasks",
 })) as any;
 
 export type ListThreatModelsError = CommonErrors;
@@ -4286,7 +4442,7 @@ export type ListThreatModelsError = CommonErrors;
  * Returns a paginated list of threat model summaries for the specified agent space.
  */
 export const listThreatModels: API.PaginatedOperationMethod<
-  ListThreatModelsInput,
+  ListThreatModelsInput & RegionInput,
   ListThreatModelsOutput,
   ListThreatModelsError,
   Credentials | HttpClient.HttpClient,
@@ -4304,6 +4460,8 @@ export const listThreatModels: API.PaginatedOperationMethod<
     items: "threatModelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreatModels",
 })) as any;
 
 export type ListThreatsError = CommonErrors;
@@ -4311,7 +4469,7 @@ export type ListThreatsError = CommonErrors;
  * Returns a paginated list of threats for a threat model job.
  */
 export const listThreats: API.PaginatedOperationMethod<
-  ListThreatsInput,
+  ListThreatsInput & RegionInput,
   ListThreatsOutput,
   ListThreatsError,
   Credentials | HttpClient.HttpClient,
@@ -4329,6 +4487,8 @@ export const listThreats: API.PaginatedOperationMethod<
     items: "threats",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreats",
 })) as any;
 
 export type StartCodeRemediationError = CommonErrors;
@@ -4336,7 +4496,7 @@ export type StartCodeRemediationError = CommonErrors;
  * Initiates code remediation for one or more security findings. This creates pull requests in integrated repositories to fix the identified vulnerabilities.
  */
 export const startCodeRemediation: API.OperationMethod<
-  StartCodeRemediationInput,
+  StartCodeRemediationInput & RegionInput,
   StartCodeRemediationOutput,
   StartCodeRemediationError,
   Credentials | HttpClient.HttpClient
@@ -4347,6 +4507,8 @@ export const startCodeRemediation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeRemediation",
+  telemetry: TELEMETRY,
+  span: "StartCodeRemediation",
 }));
 
 export type StartCodeReviewJobError = CommonErrors;
@@ -4354,7 +4516,7 @@ export type StartCodeReviewJobError = CommonErrors;
  * Starts a new code review job for a code review configuration. The job executes the security-focused code analysis defined in the code review.
  */
 export const startCodeReviewJob: API.OperationMethod<
-  StartCodeReviewJobInput,
+  StartCodeReviewJobInput & RegionInput,
   StartCodeReviewJobOutput,
   StartCodeReviewJobError,
   Credentials | HttpClient.HttpClient
@@ -4365,6 +4527,8 @@ export const startCodeReviewJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeReviewJob",
+  telemetry: TELEMETRY,
+  span: "StartCodeReviewJob",
 }));
 
 export type StartPentestJobError = CommonErrors;
@@ -4372,7 +4536,7 @@ export type StartPentestJobError = CommonErrors;
  * Starts a new pentest job for a pentest configuration. The job executes the security tests defined in the pentest.
  */
 export const startPentestJob: API.OperationMethod<
-  StartPentestJobInput,
+  StartPentestJobInput & RegionInput,
   StartPentestJobOutput,
   StartPentestJobError,
   Credentials | HttpClient.HttpClient
@@ -4383,6 +4547,8 @@ export const startPentestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPentestJob",
+  telemetry: TELEMETRY,
+  span: "StartPentestJob",
 }));
 
 export type StartThreatModelJobError = CommonErrors;
@@ -4390,7 +4556,7 @@ export type StartThreatModelJobError = CommonErrors;
  * Starts a new threat model job for a threat model configuration.
  */
 export const startThreatModelJob: API.OperationMethod<
-  StartThreatModelJobInput,
+  StartThreatModelJobInput & RegionInput,
   StartThreatModelJobOutput,
   StartThreatModelJobError,
   Credentials | HttpClient.HttpClient
@@ -4401,6 +4567,8 @@ export const startThreatModelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartThreatModelJob",
+  telemetry: TELEMETRY,
+  span: "StartThreatModelJob",
 }));
 
 export type StopCodeReviewJobError = CommonErrors;
@@ -4408,7 +4576,7 @@ export type StopCodeReviewJobError = CommonErrors;
  * Stops a running code review job. The job transitions to a stopping state and then to stopped after cleanup completes.
  */
 export const stopCodeReviewJob: API.OperationMethod<
-  StopCodeReviewJobInput,
+  StopCodeReviewJobInput & RegionInput,
   StopCodeReviewJobOutput,
   StopCodeReviewJobError,
   Credentials | HttpClient.HttpClient
@@ -4419,6 +4587,8 @@ export const stopCodeReviewJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCodeReviewJob",
+  telemetry: TELEMETRY,
+  span: "StopCodeReviewJob",
 }));
 
 export type StopPentestJobError = CommonErrors;
@@ -4426,7 +4596,7 @@ export type StopPentestJobError = CommonErrors;
  * Stops a running pentest job. The job transitions to a stopping state and then to stopped after cleanup completes.
  */
 export const stopPentestJob: API.OperationMethod<
-  StopPentestJobInput,
+  StopPentestJobInput & RegionInput,
   StopPentestJobOutput,
   StopPentestJobError,
   Credentials | HttpClient.HttpClient
@@ -4437,6 +4607,8 @@ export const stopPentestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPentestJob",
+  telemetry: TELEMETRY,
+  span: "StopPentestJob",
 }));
 
 export type StopThreatModelJobError = CommonErrors;
@@ -4444,7 +4616,7 @@ export type StopThreatModelJobError = CommonErrors;
  * Stops a running threat model job.
  */
 export const stopThreatModelJob: API.OperationMethod<
-  StopThreatModelJobInput,
+  StopThreatModelJobInput & RegionInput,
   StopThreatModelJobOutput,
   StopThreatModelJobError,
   Credentials | HttpClient.HttpClient
@@ -4455,6 +4627,8 @@ export const stopThreatModelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopThreatModelJob",
+  telemetry: TELEMETRY,
+  span: "StopThreatModelJob",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -4462,7 +4636,7 @@ export type TagResourceError = CommonErrors;
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4473,6 +4647,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -4480,7 +4656,7 @@ export type UntagResourceError = CommonErrors;
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4491,6 +4667,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentSpaceError = CommonErrors;
@@ -4498,7 +4676,7 @@ export type UpdateAgentSpaceError = CommonErrors;
  * Updates the configuration of an existing agent space, including its name, description, AWS resources, target domains, and code review settings.
  */
 export const updateAgentSpace: API.OperationMethod<
-  UpdateAgentSpaceInput,
+  UpdateAgentSpaceInput & RegionInput,
   UpdateAgentSpaceOutput,
   UpdateAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -4509,6 +4687,8 @@ export const updateAgentSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentSpace",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentSpace",
 }));
 
 export type UpdateApplicationError = CommonErrors;
@@ -4516,7 +4696,7 @@ export type UpdateApplicationError = CommonErrors;
  * Updates the configuration of an existing application, including the IAM role and default KMS key.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4527,6 +4707,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateCodeReviewError = CommonErrors;
@@ -4534,7 +4716,7 @@ export type UpdateCodeReviewError = CommonErrors;
  * Updates an existing code review configuration.
  */
 export const updateCodeReview: API.OperationMethod<
-  UpdateCodeReviewInput,
+  UpdateCodeReviewInput & RegionInput,
   UpdateCodeReviewOutput,
   UpdateCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -4545,6 +4727,8 @@ export const updateCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeReview",
+  telemetry: TELEMETRY,
+  span: "UpdateCodeReview",
 }));
 
 export type UpdateFindingError = CommonErrors;
@@ -4552,7 +4736,7 @@ export type UpdateFindingError = CommonErrors;
  * Updates the status or risk level of a security finding.
  */
 export const updateFinding: API.OperationMethod<
-  UpdateFindingInput,
+  UpdateFindingInput & RegionInput,
   UpdateFindingOutput,
   UpdateFindingError,
   Credentials | HttpClient.HttpClient
@@ -4563,6 +4747,8 @@ export const updateFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFinding",
+  telemetry: TELEMETRY,
+  span: "UpdateFinding",
 }));
 
 export type UpdateIntegratedResourcesError =
@@ -4577,7 +4763,7 @@ export type UpdateIntegratedResourcesError =
  * Updates the integrated resources for an agent space, including their capabilities.
  */
 export const updateIntegratedResources: API.OperationMethod<
-  UpdateIntegratedResourcesInput,
+  UpdateIntegratedResourcesInput & RegionInput,
   UpdateIntegratedResourcesOutput,
   UpdateIntegratedResourcesError,
   Credentials | HttpClient.HttpClient
@@ -4595,6 +4781,8 @@ export const updateIntegratedResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegratedResources",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegratedResources",
 }));
 
 export type UpdateIntegrationError =
@@ -4609,7 +4797,7 @@ export type UpdateIntegrationError =
  * Creates an integration's webhook, or rotates the HMAC signing secret of an existing one. The secret is returned only once, in this response, and cannot be retrieved again.
  */
 export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationInput,
+  UpdateIntegrationInput & RegionInput,
   UpdateIntegrationOutput,
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4627,6 +4815,8 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegration",
 }));
 
 export type UpdatePentestError = CommonErrors;
@@ -4634,7 +4824,7 @@ export type UpdatePentestError = CommonErrors;
  * Updates an existing pentest configuration.
  */
 export const updatePentest: API.OperationMethod<
-  UpdatePentestInput,
+  UpdatePentestInput & RegionInput,
   UpdatePentestOutput,
   UpdatePentestError,
   Credentials | HttpClient.HttpClient
@@ -4645,6 +4835,8 @@ export const updatePentest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePentest",
+  telemetry: TELEMETRY,
+  span: "UpdatePentest",
 }));
 
 export type UpdatePrivateConnectionCertificateError =
@@ -4659,7 +4851,7 @@ export type UpdatePrivateConnectionCertificateError =
  * Updates the certificate associated with a private connection. Certificates can be added or replaced but not removed.
  */
 export const updatePrivateConnectionCertificate: API.OperationMethod<
-  UpdatePrivateConnectionCertificateInput,
+  UpdatePrivateConnectionCertificateInput & RegionInput,
   UpdatePrivateConnectionCertificateOutput,
   UpdatePrivateConnectionCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4677,6 +4869,8 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrivateConnectionCertificate",
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateConnectionCertificate",
 }));
 
 export type UpdateSecurityRequirementPackError =
@@ -4691,7 +4885,7 @@ export type UpdateSecurityRequirementPackError =
  * Updates a security requirement pack. For customer managed packs, both metadata and status can be updated. For AWS managed packs, only status can be updated.
  */
 export const updateSecurityRequirementPack: API.OperationMethod<
-  UpdateSecurityRequirementPackInput,
+  UpdateSecurityRequirementPackInput & RegionInput,
   UpdateSecurityRequirementPackOutput,
   UpdateSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
@@ -4709,6 +4903,8 @@ export const updateSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityRequirementPack",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityRequirementPack",
 }));
 
 export type UpdateTargetDomainError = CommonErrors;
@@ -4716,7 +4912,7 @@ export type UpdateTargetDomainError = CommonErrors;
  * Updates the verification method for a target domain.
  */
 export const updateTargetDomain: API.OperationMethod<
-  UpdateTargetDomainInput,
+  UpdateTargetDomainInput & RegionInput,
   UpdateTargetDomainOutput,
   UpdateTargetDomainError,
   Credentials | HttpClient.HttpClient
@@ -4727,6 +4923,8 @@ export const updateTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateTargetDomain",
 }));
 
 export type UpdateThreatError = CommonErrors;
@@ -4734,7 +4932,7 @@ export type UpdateThreatError = CommonErrors;
  * Updates a threat.
  */
 export const updateThreat: API.OperationMethod<
-  UpdateThreatInput,
+  UpdateThreatInput & RegionInput,
   UpdateThreatOutput,
   UpdateThreatError,
   Credentials | HttpClient.HttpClient
@@ -4745,6 +4943,8 @@ export const updateThreat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreat",
+  telemetry: TELEMETRY,
+  span: "UpdateThreat",
 }));
 
 export type UpdateThreatModelError = CommonErrors;
@@ -4752,7 +4952,7 @@ export type UpdateThreatModelError = CommonErrors;
  * Updates an existing threat model configuration.
  */
 export const updateThreatModel: API.OperationMethod<
-  UpdateThreatModelInput,
+  UpdateThreatModelInput & RegionInput,
   UpdateThreatModelOutput,
   UpdateThreatModelError,
   Credentials | HttpClient.HttpClient
@@ -4763,6 +4963,8 @@ export const updateThreatModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreatModel",
+  telemetry: TELEMETRY,
+  span: "UpdateThreatModel",
 }));
 
 export type VerifyTargetDomainError = CommonErrors;
@@ -4770,7 +4972,7 @@ export type VerifyTargetDomainError = CommonErrors;
  * Initiates verification of a target domain. This checks whether the domain ownership verification token has been properly configured.
  */
 export const verifyTargetDomain: API.OperationMethod<
-  VerifyTargetDomainInput,
+  VerifyTargetDomainInput & RegionInput,
   VerifyTargetDomainOutput,
   VerifyTargetDomainError,
   Credentials | HttpClient.HttpClient
@@ -4781,6 +4983,8 @@ export const verifyTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyTargetDomain",
+  telemetry: TELEMETRY,
+  span: "VerifyTargetDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

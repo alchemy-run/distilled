@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudsearchdomain.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudSearchDomain",
+  service: "CloudSearchDomain",
+  propagate: TxXray.propagate,
+} as const;
 
 export class DocumentServiceException
   extends /*@__PURE__*/ S.TaggedError<DocumentServiceException>()("DocumentServiceException", {
@@ -222,7 +238,7 @@ export type SearchError = SearchException | CommonErrors;
  * The endpoint for submitting `Search` requests is domain-specific. You submit search requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
  */
 export const search: API.OperationMethod<
-  SearchRequest,
+  SearchRequest & RegionInput,
   SearchResponse,
   SearchError,
   Credentials | HttpClient.HttpClient
@@ -233,6 +249,8 @@ export const search: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Search",
+  telemetry: TELEMETRY,
+  span: "Search",
 }));
 
 export type SuggestError = SearchException | CommonErrors;
@@ -244,7 +262,7 @@ export type SuggestError = SearchException | CommonErrors;
  * The endpoint for submitting `Suggest` requests is domain-specific. You submit suggest requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
  */
 export const suggest: API.OperationMethod<
-  SuggestRequest,
+  SuggestRequest & RegionInput,
   SuggestResponse,
   SuggestError,
   Credentials | HttpClient.HttpClient
@@ -255,6 +273,8 @@ export const suggest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Suggest",
+  telemetry: TELEMETRY,
+  span: "Suggest",
 }));
 
 export type UploadDocumentsError = DocumentServiceException | CommonErrors;
@@ -267,7 +287,7 @@ export type UploadDocumentsError = DocumentServiceException | CommonErrors;
  * For more information about uploading data for indexing, see Uploading Data in the *Amazon CloudSearch Developer Guide*.
  */
 export const uploadDocuments: API.OperationMethod<
-  UploadDocumentsRequest,
+  UploadDocumentsRequest & RegionInput,
   UploadDocumentsResponse,
   UploadDocumentsError,
   Credentials | HttpClient.HttpClient
@@ -278,6 +298,8 @@ export const uploadDocuments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadDocuments",
+  telemetry: TELEMETRY,
+  span: "UploadDocuments",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

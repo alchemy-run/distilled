@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://appmesh.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppMesh",
+  service: "AppMesh",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1253,7 +1269,7 @@ export type CreateGatewayRouteError =
  * For more information about gateway routes, see Gateway routes.
  */
 export const createGatewayRoute: API.OperationMethod<
-  CreateGatewayRouteInput,
+  CreateGatewayRouteInput & RegionInput,
   CreateGatewayRouteOutput,
   CreateGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -1273,6 +1289,8 @@ export const createGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayRoute",
+  telemetry: TELEMETRY,
+  span: "CreateGatewayRoute",
 }));
 
 export type CreateMeshError =
@@ -1296,7 +1314,7 @@ export type CreateMeshError =
  * For more information about service meshes, see Service meshes.
  */
 export const createMesh: API.OperationMethod<
-  CreateMeshInput,
+  CreateMeshInput & RegionInput,
   CreateMeshOutput,
   CreateMeshError,
   Credentials | HttpClient.HttpClient
@@ -1316,6 +1334,8 @@ export const createMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMesh",
+  telemetry: TELEMETRY,
+  span: "CreateMesh",
 }));
 
 export type CreateRouteError =
@@ -1337,7 +1357,7 @@ export type CreateRouteError =
  * For more information about routes, see Routes.
  */
 export const createRoute: API.OperationMethod<
-  CreateRouteInput,
+  CreateRouteInput & RegionInput,
   CreateRouteOutput,
   CreateRouteError,
   Credentials | HttpClient.HttpClient
@@ -1357,6 +1377,8 @@ export const createRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoute",
+  telemetry: TELEMETRY,
+  span: "CreateRoute",
 }));
 
 export type CreateVirtualGatewayError =
@@ -1380,7 +1402,7 @@ export type CreateVirtualGatewayError =
  * For more information about virtual gateways, see Virtual gateways.
  */
 export const createVirtualGateway: API.OperationMethod<
-  CreateVirtualGatewayInput,
+  CreateVirtualGatewayInput & RegionInput,
   CreateVirtualGatewayOutput,
   CreateVirtualGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1400,6 +1422,8 @@ export const createVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualGateway",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualGateway",
 }));
 
 export type CreateVirtualNodeError =
@@ -1442,7 +1466,7 @@ export type CreateVirtualNodeError =
  * image in the App Mesh User Guide.
  */
 export const createVirtualNode: API.OperationMethod<
-  CreateVirtualNodeInput,
+  CreateVirtualNodeInput & RegionInput,
   CreateVirtualNodeOutput,
   CreateVirtualNodeError,
   Credentials | HttpClient.HttpClient
@@ -1462,6 +1486,8 @@ export const createVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualNode",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualNode",
 }));
 
 export type CreateVirtualRouterError =
@@ -1486,7 +1512,7 @@ export type CreateVirtualRouterError =
  * For more information about virtual routers, see Virtual routers.
  */
 export const createVirtualRouter: API.OperationMethod<
-  CreateVirtualRouterInput,
+  CreateVirtualRouterInput & RegionInput,
   CreateVirtualRouterOutput,
   CreateVirtualRouterError,
   Credentials | HttpClient.HttpClient
@@ -1506,6 +1532,8 @@ export const createVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualRouter",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualRouter",
 }));
 
 export type CreateVirtualServiceError =
@@ -1530,7 +1558,7 @@ export type CreateVirtualServiceError =
  * For more information about virtual services, see Virtual services.
  */
 export const createVirtualService: API.OperationMethod<
-  CreateVirtualServiceInput,
+  CreateVirtualServiceInput & RegionInput,
   CreateVirtualServiceOutput,
   CreateVirtualServiceError,
   Credentials | HttpClient.HttpClient
@@ -1550,6 +1578,8 @@ export const createVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualService",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualService",
 }));
 
 export type DeleteGatewayRouteError =
@@ -1565,7 +1595,7 @@ export type DeleteGatewayRouteError =
  * Deletes an existing gateway route.
  */
 export const deleteGatewayRoute: API.OperationMethod<
-  DeleteGatewayRouteInput,
+  DeleteGatewayRouteInput & RegionInput,
   DeleteGatewayRouteOutput,
   DeleteGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -1584,6 +1614,8 @@ export const deleteGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayRoute",
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayRoute",
 }));
 
 export type DeleteMeshError =
@@ -1602,7 +1634,7 @@ export type DeleteMeshError =
  * nodes) in the service mesh before you can delete the mesh itself.
  */
 export const deleteMesh: API.OperationMethod<
-  DeleteMeshInput,
+  DeleteMeshInput & RegionInput,
   DeleteMeshOutput,
   DeleteMeshError,
   Credentials | HttpClient.HttpClient
@@ -1621,6 +1653,8 @@ export const deleteMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMesh",
+  telemetry: TELEMETRY,
+  span: "DeleteMesh",
 }));
 
 export type DeleteRouteError =
@@ -1636,7 +1670,7 @@ export type DeleteRouteError =
  * Deletes an existing route.
  */
 export const deleteRoute: API.OperationMethod<
-  DeleteRouteInput,
+  DeleteRouteInput & RegionInput,
   DeleteRouteOutput,
   DeleteRouteError,
   Credentials | HttpClient.HttpClient
@@ -1655,6 +1689,8 @@ export const deleteRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoute",
+  telemetry: TELEMETRY,
+  span: "DeleteRoute",
 }));
 
 export type DeleteVirtualGatewayError =
@@ -1671,7 +1707,7 @@ export type DeleteVirtualGatewayError =
  * routes are associated to it.
  */
 export const deleteVirtualGateway: API.OperationMethod<
-  DeleteVirtualGatewayInput,
+  DeleteVirtualGatewayInput & RegionInput,
   DeleteVirtualGatewayOutput,
   DeleteVirtualGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1690,6 +1726,8 @@ export const deleteVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualGateway",
 }));
 
 export type DeleteVirtualNodeError =
@@ -1708,7 +1746,7 @@ export type DeleteVirtualNodeError =
  * before you can delete the virtual node itself.
  */
 export const deleteVirtualNode: API.OperationMethod<
-  DeleteVirtualNodeInput,
+  DeleteVirtualNodeInput & RegionInput,
   DeleteVirtualNodeOutput,
   DeleteVirtualNodeError,
   Credentials | HttpClient.HttpClient
@@ -1727,6 +1765,8 @@ export const deleteVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualNode",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualNode",
 }));
 
 export type DeleteVirtualRouterError =
@@ -1745,7 +1785,7 @@ export type DeleteVirtualRouterError =
  * router itself.
  */
 export const deleteVirtualRouter: API.OperationMethod<
-  DeleteVirtualRouterInput,
+  DeleteVirtualRouterInput & RegionInput,
   DeleteVirtualRouterOutput,
   DeleteVirtualRouterError,
   Credentials | HttpClient.HttpClient
@@ -1764,6 +1804,8 @@ export const deleteVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualRouter",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualRouter",
 }));
 
 export type DeleteVirtualServiceError =
@@ -1779,7 +1821,7 @@ export type DeleteVirtualServiceError =
  * Deletes an existing virtual service.
  */
 export const deleteVirtualService: API.OperationMethod<
-  DeleteVirtualServiceInput,
+  DeleteVirtualServiceInput & RegionInput,
   DeleteVirtualServiceOutput,
   DeleteVirtualServiceError,
   Credentials | HttpClient.HttpClient
@@ -1798,6 +1840,8 @@ export const deleteVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualService",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualService",
 }));
 
 export type DescribeGatewayRouteError =
@@ -1812,7 +1856,7 @@ export type DescribeGatewayRouteError =
  * Describes an existing gateway route.
  */
 export const describeGatewayRoute: API.OperationMethod<
-  DescribeGatewayRouteInput,
+  DescribeGatewayRouteInput & RegionInput,
   DescribeGatewayRouteOutput,
   DescribeGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -1830,6 +1874,8 @@ export const describeGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayRoute",
+  telemetry: TELEMETRY,
+  span: "DescribeGatewayRoute",
 }));
 
 export type DescribeMeshError =
@@ -1844,7 +1890,7 @@ export type DescribeMeshError =
  * Describes an existing service mesh.
  */
 export const describeMesh: API.OperationMethod<
-  DescribeMeshInput,
+  DescribeMeshInput & RegionInput,
   DescribeMeshOutput,
   DescribeMeshError,
   Credentials | HttpClient.HttpClient
@@ -1862,6 +1908,8 @@ export const describeMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMesh",
+  telemetry: TELEMETRY,
+  span: "DescribeMesh",
 }));
 
 export type DescribeRouteError =
@@ -1876,7 +1924,7 @@ export type DescribeRouteError =
  * Describes an existing route.
  */
 export const describeRoute: API.OperationMethod<
-  DescribeRouteInput,
+  DescribeRouteInput & RegionInput,
   DescribeRouteOutput,
   DescribeRouteError,
   Credentials | HttpClient.HttpClient
@@ -1894,6 +1942,8 @@ export const describeRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoute",
+  telemetry: TELEMETRY,
+  span: "DescribeRoute",
 }));
 
 export type DescribeVirtualGatewayError =
@@ -1908,7 +1958,7 @@ export type DescribeVirtualGatewayError =
  * Describes an existing virtual gateway.
  */
 export const describeVirtualGateway: API.OperationMethod<
-  DescribeVirtualGatewayInput,
+  DescribeVirtualGatewayInput & RegionInput,
   DescribeVirtualGatewayOutput,
   DescribeVirtualGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1926,6 +1976,8 @@ export const describeVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualGateway",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualGateway",
 }));
 
 export type DescribeVirtualNodeError =
@@ -1940,7 +1992,7 @@ export type DescribeVirtualNodeError =
  * Describes an existing virtual node.
  */
 export const describeVirtualNode: API.OperationMethod<
-  DescribeVirtualNodeInput,
+  DescribeVirtualNodeInput & RegionInput,
   DescribeVirtualNodeOutput,
   DescribeVirtualNodeError,
   Credentials | HttpClient.HttpClient
@@ -1958,6 +2010,8 @@ export const describeVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualNode",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualNode",
 }));
 
 export type DescribeVirtualRouterError =
@@ -1972,7 +2026,7 @@ export type DescribeVirtualRouterError =
  * Describes an existing virtual router.
  */
 export const describeVirtualRouter: API.OperationMethod<
-  DescribeVirtualRouterInput,
+  DescribeVirtualRouterInput & RegionInput,
   DescribeVirtualRouterOutput,
   DescribeVirtualRouterError,
   Credentials | HttpClient.HttpClient
@@ -1990,6 +2044,8 @@ export const describeVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualRouter",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualRouter",
 }));
 
 export type DescribeVirtualServiceError =
@@ -2004,7 +2060,7 @@ export type DescribeVirtualServiceError =
  * Describes an existing virtual service.
  */
 export const describeVirtualService: API.OperationMethod<
-  DescribeVirtualServiceInput,
+  DescribeVirtualServiceInput & RegionInput,
   DescribeVirtualServiceOutput,
   DescribeVirtualServiceError,
   Credentials | HttpClient.HttpClient
@@ -2022,6 +2078,8 @@ export const describeVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualService",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualService",
 }));
 
 export type ListGatewayRoutesError =
@@ -2037,7 +2095,7 @@ export type ListGatewayRoutesError =
  * gateway.
  */
 export const listGatewayRoutes: API.PaginatedOperationMethod<
-  ListGatewayRoutesInput,
+  ListGatewayRoutesInput & RegionInput,
   ListGatewayRoutesOutput,
   ListGatewayRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -2062,6 +2120,8 @@ export const listGatewayRoutes: API.PaginatedOperationMethod<
     items: "gatewayRoutes",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGatewayRoutes",
 })) as any;
 
 export type ListMeshesError =
@@ -2076,7 +2136,7 @@ export type ListMeshesError =
  * Returns a list of existing service meshes.
  */
 export const listMeshes: API.PaginatedOperationMethod<
-  ListMeshesInput,
+  ListMeshesInput & RegionInput,
   ListMeshesOutput,
   ListMeshesError,
   Credentials | HttpClient.HttpClient,
@@ -2101,6 +2161,8 @@ export const listMeshes: API.PaginatedOperationMethod<
     items: "meshes",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMeshes",
 })) as any;
 
 export type ListRoutesError =
@@ -2115,7 +2177,7 @@ export type ListRoutesError =
  * Returns a list of existing routes in a service mesh.
  */
 export const listRoutes: API.PaginatedOperationMethod<
-  ListRoutesInput,
+  ListRoutesInput & RegionInput,
   ListRoutesOutput,
   ListRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -2140,6 +2202,8 @@ export const listRoutes: API.PaginatedOperationMethod<
     items: "routes",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoutes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2154,7 +2218,7 @@ export type ListTagsForResourceError =
  * List the tags for an App Mesh resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2179,6 +2243,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListVirtualGatewaysError =
@@ -2193,7 +2259,7 @@ export type ListVirtualGatewaysError =
  * Returns a list of existing virtual gateways in a service mesh.
  */
 export const listVirtualGateways: API.PaginatedOperationMethod<
-  ListVirtualGatewaysInput,
+  ListVirtualGatewaysInput & RegionInput,
   ListVirtualGatewaysOutput,
   ListVirtualGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -2218,6 +2284,8 @@ export const listVirtualGateways: API.PaginatedOperationMethod<
     items: "virtualGateways",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualGateways",
 })) as any;
 
 export type ListVirtualNodesError =
@@ -2232,7 +2300,7 @@ export type ListVirtualNodesError =
  * Returns a list of existing virtual nodes.
  */
 export const listVirtualNodes: API.PaginatedOperationMethod<
-  ListVirtualNodesInput,
+  ListVirtualNodesInput & RegionInput,
   ListVirtualNodesOutput,
   ListVirtualNodesError,
   Credentials | HttpClient.HttpClient,
@@ -2257,6 +2325,8 @@ export const listVirtualNodes: API.PaginatedOperationMethod<
     items: "virtualNodes",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNodes",
 })) as any;
 
 export type ListVirtualRoutersError =
@@ -2271,7 +2341,7 @@ export type ListVirtualRoutersError =
  * Returns a list of existing virtual routers in a service mesh.
  */
 export const listVirtualRouters: API.PaginatedOperationMethod<
-  ListVirtualRoutersInput,
+  ListVirtualRoutersInput & RegionInput,
   ListVirtualRoutersOutput,
   ListVirtualRoutersError,
   Credentials | HttpClient.HttpClient,
@@ -2296,6 +2366,8 @@ export const listVirtualRouters: API.PaginatedOperationMethod<
     items: "virtualRouters",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualRouters",
 })) as any;
 
 export type ListVirtualServicesError =
@@ -2310,7 +2382,7 @@ export type ListVirtualServicesError =
  * Returns a list of existing virtual services in a service mesh.
  */
 export const listVirtualServices: API.PaginatedOperationMethod<
-  ListVirtualServicesInput,
+  ListVirtualServicesInput & RegionInput,
   ListVirtualServicesOutput,
   ListVirtualServicesError,
   Credentials | HttpClient.HttpClient,
@@ -2335,6 +2407,8 @@ export const listVirtualServices: API.PaginatedOperationMethod<
     items: "virtualServices",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualServices",
 })) as any;
 
 export type TagResourceError =
@@ -2353,7 +2427,7 @@ export type TagResourceError =
  * deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2372,6 +2446,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2386,7 +2462,7 @@ export type UntagResourceError =
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2404,6 +2480,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGatewayRouteError =
@@ -2421,7 +2499,7 @@ export type UpdateGatewayRouteError =
  * service mesh.
  */
 export const updateGatewayRoute: API.OperationMethod<
-  UpdateGatewayRouteInput,
+  UpdateGatewayRouteInput & RegionInput,
   UpdateGatewayRouteOutput,
   UpdateGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -2441,6 +2519,8 @@ export const updateGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayRoute",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayRoute",
 }));
 
 export type UpdateMeshError =
@@ -2456,7 +2536,7 @@ export type UpdateMeshError =
  * Updates an existing service mesh.
  */
 export const updateMesh: API.OperationMethod<
-  UpdateMeshInput,
+  UpdateMeshInput & RegionInput,
   UpdateMeshOutput,
   UpdateMeshError,
   Credentials | HttpClient.HttpClient
@@ -2475,6 +2555,8 @@ export const updateMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMesh",
+  telemetry: TELEMETRY,
+  span: "UpdateMesh",
 }));
 
 export type UpdateRouteError =
@@ -2491,7 +2573,7 @@ export type UpdateRouteError =
  * Updates an existing route for a specified service mesh and virtual router.
  */
 export const updateRoute: API.OperationMethod<
-  UpdateRouteInput,
+  UpdateRouteInput & RegionInput,
   UpdateRouteOutput,
   UpdateRouteError,
   Credentials | HttpClient.HttpClient
@@ -2511,6 +2593,8 @@ export const updateRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoute",
+  telemetry: TELEMETRY,
+  span: "UpdateRoute",
 }));
 
 export type UpdateVirtualGatewayError =
@@ -2527,7 +2611,7 @@ export type UpdateVirtualGatewayError =
  * Updates an existing virtual gateway in a specified service mesh.
  */
 export const updateVirtualGateway: API.OperationMethod<
-  UpdateVirtualGatewayInput,
+  UpdateVirtualGatewayInput & RegionInput,
   UpdateVirtualGatewayOutput,
   UpdateVirtualGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2547,6 +2631,8 @@ export const updateVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualGateway",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualGateway",
 }));
 
 export type UpdateVirtualNodeError =
@@ -2563,7 +2649,7 @@ export type UpdateVirtualNodeError =
  * Updates an existing virtual node in a specified service mesh.
  */
 export const updateVirtualNode: API.OperationMethod<
-  UpdateVirtualNodeInput,
+  UpdateVirtualNodeInput & RegionInput,
   UpdateVirtualNodeOutput,
   UpdateVirtualNodeError,
   Credentials | HttpClient.HttpClient
@@ -2583,6 +2669,8 @@ export const updateVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualNode",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualNode",
 }));
 
 export type UpdateVirtualRouterError =
@@ -2599,7 +2687,7 @@ export type UpdateVirtualRouterError =
  * Updates an existing virtual router in a specified service mesh.
  */
 export const updateVirtualRouter: API.OperationMethod<
-  UpdateVirtualRouterInput,
+  UpdateVirtualRouterInput & RegionInput,
   UpdateVirtualRouterOutput,
   UpdateVirtualRouterError,
   Credentials | HttpClient.HttpClient
@@ -2619,6 +2707,8 @@ export const updateVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualRouter",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualRouter",
 }));
 
 export type UpdateVirtualServiceError =
@@ -2635,7 +2725,7 @@ export type UpdateVirtualServiceError =
  * Updates an existing virtual service in a specified service mesh.
  */
 export const updateVirtualService: API.OperationMethod<
-  UpdateVirtualServiceInput,
+  UpdateVirtualServiceInput & RegionInput,
   UpdateVirtualServiceOutput,
   UpdateVirtualServiceError,
   Credentials | HttpClient.HttpClient
@@ -2655,6 +2745,8 @@ export const updateVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualService",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

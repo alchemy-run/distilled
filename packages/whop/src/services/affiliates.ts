@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Affiliates",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -404,6 +417,8 @@ export const archiveAffiliate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveAffiliate",
 }));
 
 export type CreateAffiliateError =
@@ -424,6 +439,8 @@ export const createAffiliate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAffiliate",
 }));
 
 export type CreateOverrideAffiliateError =
@@ -444,6 +461,8 @@ export const createOverrideAffiliate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverrideAffiliate",
 }));
 
 export type DeleteOverrideAffiliateError =
@@ -464,6 +483,8 @@ export const deleteOverrideAffiliate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOverrideAffiliate",
 }));
 
 export type GetAffiliateError =
@@ -484,6 +505,8 @@ export const getAffiliate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAffiliate",
 }));
 
 export type GetOverrideAffiliateError =
@@ -504,6 +527,8 @@ export const getOverrideAffiliate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverrideAffiliate",
 }));
 
 export type ListAffiliateError =
@@ -526,6 +551,8 @@ export const listAffiliate: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAffiliate",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -558,6 +585,8 @@ export const listOverridesAffiliate: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOverridesAffiliate",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -588,6 +617,8 @@ export const unarchiveAffiliate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveAffiliate",
 }));
 
 export type UpdateOverrideAffiliateError =
@@ -608,6 +639,8 @@ export const updateOverrideAffiliate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOverrideAffiliate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

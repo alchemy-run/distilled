@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Logs",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -339,6 +352,8 @@ export const createAccessPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessPolicy",
 }));
 
 export type CreateAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -354,6 +369,8 @@ export const createAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessToken",
 }));
 
 export type CreateLogsInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -369,6 +386,8 @@ export const createLogsInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsInstance",
 }));
 
 export type DeleteAccessPolicyError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -384,6 +403,8 @@ export const deleteAccessPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicy",
 }));
 
 export type DeleteAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -399,6 +420,8 @@ export const deleteAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessToken",
 }));
 
 export type DeleteAllAccessPoliciesError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -414,6 +437,8 @@ export const deleteAllAccessPolicies: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAllAccessPolicies",
 }));
 
 export type DeleteAllAccessTokensError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -429,6 +454,8 @@ export const deleteAllAccessTokens: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAllAccessTokens",
 }));
 
 export type DeleteAllExpiredAccessTokensError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -444,6 +471,8 @@ export const deleteAllExpiredAccessTokens: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAllExpiredAccessTokens",
 }));
 
 export type DeleteLogsInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -459,6 +488,8 @@ export const deleteLogsInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogsInstance",
 }));
 
 export type GetAccessPolicyError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -474,6 +505,8 @@ export const getAccessPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPolicy",
 }));
 
 export type GetAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -489,6 +522,8 @@ export const getAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessToken",
 }));
 
 export type GetLogsInstanceError = BadRequest | NotFound | StackitOpError;
@@ -504,6 +539,8 @@ export const getLogsInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsInstance",
 }));
 
 export type ListAccessPoliciesError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -519,6 +556,8 @@ export const listAccessPolicies: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicies",
 }));
 
 export type ListAccessTokensError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -534,6 +573,8 @@ export const listAccessTokens: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessTokens",
 }));
 
 export type ListLogsInstancesError = BadRequest | StackitOpError;
@@ -549,6 +590,8 @@ export const listLogsInstances: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsInstances",
 }));
 
 export type UpdateAccessPolicyError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -564,6 +607,8 @@ export const updateAccessPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessPolicy",
 }));
 
 export type UpdateAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -579,6 +624,8 @@ export const updateAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessToken",
 }));
 
 export type UpdateLogsInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -594,6 +641,8 @@ export const updateLogsInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

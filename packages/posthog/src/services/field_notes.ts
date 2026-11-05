@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "FieldNotes",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `pending` - Pending * `acknowledged` - Acknowledged * `resolved` - Resolved * `dismissed` - Dismissed */
 export type FieldNoteStatusEnum = "pending" | "acknowledged" | "resolved" | "dismissed";
 /** Structured element metadata (inferred selectors, attributes, component hints). */
@@ -228,6 +241,8 @@ export const createFieldNote: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFieldNote",
 }));
 
 export type FieldNotesDestroyError = PosthogOpError;
@@ -243,6 +258,8 @@ export const fieldNotesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FieldNotesDestroy",
 }));
 
 export type GetFieldNoteError = PosthogOpError;
@@ -258,6 +275,8 @@ export const getFieldNote: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldNote",
 }));
 
 export type ListFieldNotesError = PosthogOpError;
@@ -273,6 +292,8 @@ export const listFieldNotes: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFieldNotes",
 }));
 
 export type UpdateFieldNoteError = PosthogOpError;
@@ -288,6 +309,8 @@ export const updateFieldNote: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFieldNote",
 }));
 
 export type UpdateFieldNotesPartialError = PosthogOpError;
@@ -303,6 +326,8 @@ export const updateFieldNotesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFieldNotesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

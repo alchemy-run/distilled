@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Dremio",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -304,6 +317,8 @@ export const createDremioInstance: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDremioInstance",
 }));
 
 export type CreateDremioUserError = BadRequest | Conflict | StackitOpError;
@@ -319,6 +334,8 @@ export const createDremioUser: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDremioUser",
 }));
 
 export type DeleteDremioInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -334,6 +351,8 @@ export const deleteDremioInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDremioInstance",
 }));
 
 export type DeleteDremioUserError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -349,6 +368,8 @@ export const deleteDremioUser: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDremioUser",
 }));
 
 export type GetDremioInstanceError = BadRequest | NotFound | StackitOpError;
@@ -364,6 +385,8 @@ export const getDremioInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDremioInstance",
 }));
 
 export type GetDremioUserError = BadRequest | NotFound | StackitOpError;
@@ -379,6 +402,8 @@ export const getDremioUser: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDremioUser",
 }));
 
 export type ListDremioInstancesError = BadRequest | StackitOpError;
@@ -394,6 +419,8 @@ export const listDremioInstances: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDremioInstances",
 }));
 
 export type ListDremioUsersError = BadRequest | StackitOpError;
@@ -409,6 +436,8 @@ export const listDremioUsers: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDremioUsers",
 }));
 
 export type UpdateDremioInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -424,6 +453,8 @@ export const updateDremioInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDremioInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

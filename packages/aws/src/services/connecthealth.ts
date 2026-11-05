@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -8,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConnectHealth",
+  service: "ConnectHealth",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -570,7 +586,7 @@ export type ActivateSubscriptionError =
  * Activates a Subscription to enable billing for a user.
  */
 export const activateSubscription: API.OperationMethod<
-  ActivateSubscriptionInput,
+  ActivateSubscriptionInput & RegionInput,
   ActivateSubscriptionOutput,
   ActivateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -586,6 +602,8 @@ export const activateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateSubscription",
+  telemetry: TELEMETRY,
+  span: "ActivateSubscription",
 }));
 
 export type CreateDomainError = ServiceQuotaExceededException | CommonErrors;
@@ -593,7 +611,7 @@ export type CreateDomainError = ServiceQuotaExceededException | CommonErrors;
  * Creates a new Domain for managing HealthAgent resources.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainInput,
+  CreateDomainInput & RegionInput,
   CreateDomainOutput,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -604,6 +622,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateSubscriptionError =
@@ -617,7 +637,7 @@ export type CreateSubscriptionError =
  * Creates a new Subscription within a Domain for billing and user management.
  */
 export const createSubscription: API.OperationMethod<
-  CreateSubscriptionInput,
+  CreateSubscriptionInput & RegionInput,
   CreateSubscriptionOutput,
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -634,6 +654,8 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type DeactivateSubscriptionError =
@@ -646,7 +668,7 @@ export type DeactivateSubscriptionError =
  * Deactivates a Subscription to stop billing for a user.
  */
 export const deactivateSubscription: API.OperationMethod<
-  DeactivateSubscriptionInput,
+  DeactivateSubscriptionInput & RegionInput,
   DeactivateSubscriptionOutput,
   DeactivateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -662,6 +684,8 @@ export const deactivateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateSubscription",
+  telemetry: TELEMETRY,
+  span: "DeactivateSubscription",
 }));
 
 export type DeleteDomainError = ResourceNotFoundException | CommonErrors;
@@ -669,7 +693,7 @@ export type DeleteDomainError = ResourceNotFoundException | CommonErrors;
  * Deletes a Domain and all associated resources.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainInput,
+  DeleteDomainInput & RegionInput,
   DeleteDomainOutput,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -680,6 +704,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type GetDomainError = ResourceNotFoundException | CommonErrors;
@@ -687,7 +713,7 @@ export type GetDomainError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a Domain.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainInput,
+  GetDomainInput & RegionInput,
   GetDomainOutput,
   GetDomainError,
   Credentials | HttpClient.HttpClient
@@ -698,6 +724,8 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetMedicalScribeListeningSessionError =
@@ -711,7 +739,7 @@ export type GetMedicalScribeListeningSessionError =
  * Retrieves details about an existing Medical Scribe listening session
  */
 export const getMedicalScribeListeningSession: API.OperationMethod<
-  GetMedicalScribeListeningSessionInput,
+  GetMedicalScribeListeningSessionInput & RegionInput,
   GetMedicalScribeListeningSessionOutput,
   GetMedicalScribeListeningSessionError,
   Credentials | HttpClient.HttpClient
@@ -729,6 +757,8 @@ export const getMedicalScribeListeningSession: API.OperationMethod<
   retry: Retry,
   operationName: "GetMedicalScribeListeningSession",
   endpointHostPrefix: "streaming.",
+  telemetry: TELEMETRY,
+  span: "GetMedicalScribeListeningSession",
 }));
 
 export type GetPatientInsightsJobError =
@@ -742,7 +772,7 @@ export type GetPatientInsightsJobError =
  * Get details of a started patient insights job.
  */
 export const getPatientInsightsJob: API.OperationMethod<
-  GetPatientInsightsJobRequest,
+  GetPatientInsightsJobRequest & RegionInput,
   GetPatientInsightsJobResponse,
   GetPatientInsightsJobError,
   Credentials | HttpClient.HttpClient
@@ -760,6 +790,8 @@ export const getPatientInsightsJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetPatientInsightsJob",
   endpointHostPrefix: "runtime.",
+  telemetry: TELEMETRY,
+  span: "GetPatientInsightsJob",
 }));
 
 export type GetSubscriptionError =
@@ -772,7 +804,7 @@ export type GetSubscriptionError =
  * Retrieves information about a Subscription.
  */
 export const getSubscription: API.OperationMethod<
-  GetSubscriptionInput,
+  GetSubscriptionInput & RegionInput,
   GetSubscriptionOutput,
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -788,6 +820,8 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type ListDomainsError = CommonErrors;
@@ -795,7 +829,7 @@ export type ListDomainsError = CommonErrors;
  * Lists Domains for a given account.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsInput,
+  ListDomainsInput & RegionInput,
   ListDomainsOutput,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -813,6 +847,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "domains",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListSubscriptionsError =
@@ -825,7 +861,7 @@ export type ListSubscriptionsError =
  * Lists all Subscriptions within a Domain.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsInput,
+  ListSubscriptionsInput & RegionInput,
   ListSubscriptionsOutput,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -848,6 +884,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -855,7 +893,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Lists the tags associated with the specified resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -866,6 +904,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartMedicalScribeListeningSessionError =
@@ -880,7 +920,7 @@ export type StartMedicalScribeListeningSessionError =
  * Starts a new Medical Scribe listening session for real-time audio transcription
  */
 export const startMedicalScribeListeningSession: API.OperationMethod<
-  StartMedicalScribeListeningSessionInput,
+  StartMedicalScribeListeningSessionInput & RegionInput,
   StartMedicalScribeListeningSessionOutput,
   StartMedicalScribeListeningSessionError,
   Credentials | HttpClient.HttpClient
@@ -899,6 +939,8 @@ export const startMedicalScribeListeningSession: API.OperationMethod<
   retry: Retry,
   operationName: "StartMedicalScribeListeningSession",
   endpointHostPrefix: "streaming.",
+  telemetry: TELEMETRY,
+  span: "StartMedicalScribeListeningSession",
 }));
 
 export type StartPatientInsightsJobError =
@@ -913,7 +955,7 @@ export type StartPatientInsightsJobError =
  * Starts a new patient insights job.
  */
 export const startPatientInsightsJob: API.OperationMethod<
-  StartPatientInsightsJobRequest,
+  StartPatientInsightsJobRequest & RegionInput,
   StartPatientInsightsJobResponse,
   StartPatientInsightsJobError,
   Credentials | HttpClient.HttpClient
@@ -932,6 +974,8 @@ export const startPatientInsightsJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartPatientInsightsJob",
   endpointHostPrefix: "runtime.",
+  telemetry: TELEMETRY,
+  span: "StartPatientInsightsJob",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -939,7 +983,7 @@ export type TagResourceError = CommonErrors;
  * Associates the specified tags with the specified resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -950,6 +994,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -957,7 +1003,7 @@ export type UntagResourceError = CommonErrors;
  * Removes the specified tags from the specified resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -968,6 +1014,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

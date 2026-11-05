@@ -1,3 +1,5 @@
+import type { Request } from "@distilled.cloud/s3/client/request";
+import { toBase64 } from "@distilled.cloud/s3/util/base64";
 /**
  * Legacy Signature Version 2 request signing, used by SimpleDB only. It is
  * reached through the `AwsAuthSigv2` trait, so programs that do not use
@@ -8,7 +10,6 @@ import { pipe } from "effect/Function";
 import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
-import type { Request } from "./client/request.ts";
 import type { ResolvedCredentials } from "./credentials-service.ts";
 
 /**
@@ -72,7 +73,7 @@ export const signV2 = (
       return crypto.subtle.sign("HMAC", key, new TextEncoder().encode(stringToSign));
     }),
     (signatureBytes) => {
-      const signature = Buffer.from(signatureBytes).toString("base64");
+      const signature = toBase64(new Uint8Array(signatureBytes));
       const signedBody = `${canonical}&Signature=${rfc3986(signature)}`;
       const contentTypeV2 =
         resolvedRequest.headers["Content-Type"] ??

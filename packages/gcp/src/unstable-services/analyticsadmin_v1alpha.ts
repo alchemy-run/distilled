@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "analyticsadmin" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Analyticsadmin",
+  service: "analyticsadmin",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3089,6 +3108,8 @@ export const acknowledgeUserDataCollectionProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgeUserDataCollectionProperties",
 }));
 
 export type ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsError =
@@ -3117,6 +3138,8 @@ export const approvePropertiesDisplayVideo360AdvertiserLinkProposals: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApprovePropertiesDisplayVideo360AdvertiserLinkProposals",
 }));
 
 export type ArchivePropertiesAudiencesError =
@@ -3137,6 +3160,8 @@ export const archivePropertiesAudiences: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchivePropertiesAudiences",
 }));
 
 export type ArchivePropertiesCustomDimensionsError =
@@ -3157,6 +3182,8 @@ export const archivePropertiesCustomDimensions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchivePropertiesCustomDimensions",
 }));
 
 export type ArchivePropertiesCustomMetricsError =
@@ -3177,6 +3204,8 @@ export const archivePropertiesCustomMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchivePropertiesCustomMetrics",
 }));
 
 export type BatchCreateAccountsAccessBindingsError =
@@ -3201,6 +3230,8 @@ export const batchCreateAccountsAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreateAccountsAccessBindings",
 }));
 
 export type BatchCreatePropertiesAccessBindingsError =
@@ -3225,6 +3256,8 @@ export const batchCreatePropertiesAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreatePropertiesAccessBindings",
 }));
 
 export type BatchDeleteAccountsAccessBindingsError =
@@ -3245,6 +3278,8 @@ export const batchDeleteAccountsAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteAccountsAccessBindings",
 }));
 
 export type BatchDeletePropertiesAccessBindingsError =
@@ -3265,6 +3300,8 @@ export const batchDeletePropertiesAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeletePropertiesAccessBindings",
 }));
 
 export type BatchGetAccountsAccessBindingsError = NotFound | Forbidden | GcpOpError;
@@ -3284,6 +3321,8 @@ export const batchGetAccountsAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetAccountsAccessBindings",
 }));
 
 export type BatchGetPropertiesAccessBindingsError = NotFound | Forbidden | GcpOpError;
@@ -3303,6 +3342,8 @@ export const batchGetPropertiesAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetPropertiesAccessBindings",
 }));
 
 export type BatchUpdateAccountsAccessBindingsError =
@@ -3327,6 +3368,8 @@ export const batchUpdateAccountsAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateAccountsAccessBindings",
 }));
 
 export type BatchUpdatePropertiesAccessBindingsError =
@@ -3351,6 +3394,8 @@ export const batchUpdatePropertiesAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdatePropertiesAccessBindings",
 }));
 
 export type CancelPropertiesDisplayVideo360AdvertiserLinkProposalsError =
@@ -3379,6 +3424,8 @@ export const cancelPropertiesDisplayVideo360AdvertiserLinkProposals: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPropertiesDisplayVideo360AdvertiserLinkProposals",
 }));
 
 export type CreateAccountsAccessBindingsError =
@@ -3399,6 +3446,8 @@ export const createAccountsAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsAccessBindings",
 }));
 
 export type CreatePropertiesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3414,6 +3463,8 @@ export const createProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProperties",
 }));
 
 export type CreatePropertiesAccessBindingsError =
@@ -3434,6 +3485,8 @@ export const createPropertiesAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesAccessBindings",
 }));
 
 export type CreatePropertiesAdSenseLinksError =
@@ -3454,6 +3507,8 @@ export const createPropertiesAdSenseLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesAdSenseLinks",
 }));
 
 export type CreatePropertiesAudiencesError =
@@ -3474,6 +3529,8 @@ export const createPropertiesAudiences: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesAudiences",
 }));
 
 export type CreatePropertiesBigQueryLinksError =
@@ -3494,6 +3551,8 @@ export const createPropertiesBigQueryLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesBigQueryLinks",
 }));
 
 export type CreatePropertiesCalculatedMetricsError =
@@ -3514,6 +3573,8 @@ export const createPropertiesCalculatedMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesCalculatedMetrics",
 }));
 
 export type CreatePropertiesChannelGroupsError =
@@ -3534,6 +3595,8 @@ export const createPropertiesChannelGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesChannelGroups",
 }));
 
 export type CreatePropertiesConversionEventsError =
@@ -3554,6 +3617,8 @@ export const createPropertiesConversionEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesConversionEvents",
 }));
 
 export type CreatePropertiesCustomDimensionsError =
@@ -3574,6 +3639,8 @@ export const createPropertiesCustomDimensions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesCustomDimensions",
 }));
 
 export type CreatePropertiesCustomMetricsError =
@@ -3594,6 +3661,8 @@ export const createPropertiesCustomMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesCustomMetrics",
 }));
 
 export type CreatePropertiesDataStreamsError =
@@ -3614,6 +3683,8 @@ export const createPropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesDataStreams",
 }));
 
 export type CreatePropertiesDataStreamsEventCreateRulesError =
@@ -3638,6 +3709,8 @@ export const createPropertiesDataStreamsEventCreateRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesDataStreamsEventCreateRules",
 }));
 
 export type CreatePropertiesDataStreamsEventEditRulesError =
@@ -3658,6 +3731,8 @@ export const createPropertiesDataStreamsEventEditRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesDataStreamsEventEditRules",
 }));
 
 export type CreatePropertiesDataStreamsMeasurementProtocolSecretsError =
@@ -3686,6 +3761,8 @@ export const createPropertiesDataStreamsMeasurementProtocolSecrets: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesDataStreamsMeasurementProtocolSecrets",
 }));
 
 export type CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaError =
@@ -3714,6 +3791,8 @@ export const createPropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesDataStreamsSKAdNetworkConversionValueSchema",
 }));
 
 export type CreatePropertiesDisplayVideo360AdvertiserLinkProposalsError =
@@ -3742,6 +3821,8 @@ export const createPropertiesDisplayVideo360AdvertiserLinkProposals: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesDisplayVideo360AdvertiserLinkProposals",
 }));
 
 export type CreatePropertiesDisplayVideo360AdvertiserLinksError =
@@ -3770,6 +3851,8 @@ export const createPropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesDisplayVideo360AdvertiserLinks",
 }));
 
 export type CreatePropertiesExpandedDataSetsError =
@@ -3790,6 +3873,8 @@ export const createPropertiesExpandedDataSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesExpandedDataSets",
 }));
 
 export type CreatePropertiesFirebaseLinksError =
@@ -3810,6 +3895,8 @@ export const createPropertiesFirebaseLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesFirebaseLinks",
 }));
 
 export type CreatePropertiesGoogleAdsLinksError =
@@ -3830,6 +3917,8 @@ export const createPropertiesGoogleAdsLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesGoogleAdsLinks",
 }));
 
 export type CreatePropertiesKeyEventsError =
@@ -3850,6 +3939,8 @@ export const createPropertiesKeyEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesKeyEvents",
 }));
 
 export type CreatePropertiesReportingDataAnnotationsError =
@@ -3874,6 +3965,8 @@ export const createPropertiesReportingDataAnnotations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesReportingDataAnnotations",
 }));
 
 export type CreatePropertiesRollupPropertySourceLinksError =
@@ -3898,6 +3991,8 @@ export const createPropertiesRollupPropertySourceLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesRollupPropertySourceLinks",
 }));
 
 export type CreatePropertiesSearchAds360LinksError =
@@ -3918,6 +4013,8 @@ export const createPropertiesSearchAds360Links: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesSearchAds360Links",
 }));
 
 export type CreatePropertiesSubpropertyEventFiltersError =
@@ -3942,6 +4039,8 @@ export const createPropertiesSubpropertyEventFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesSubpropertyEventFilters",
 }));
 
 export type CreateRollupPropertyPropertiesError =
@@ -3966,6 +4065,8 @@ export const createRollupPropertyProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRollupPropertyProperties",
 }));
 
 export type DeleteAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3981,6 +4082,8 @@ export const deleteAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccounts",
 }));
 
 export type DeleteAccountsAccessBindingsError =
@@ -4001,6 +4104,8 @@ export const deleteAccountsAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsAccessBindings",
 }));
 
 export type DeletePropertiesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4016,6 +4121,8 @@ export const deleteProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProperties",
 }));
 
 export type DeletePropertiesAccessBindingsError =
@@ -4036,6 +4143,8 @@ export const deletePropertiesAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesAccessBindings",
 }));
 
 export type DeletePropertiesAdSenseLinksError =
@@ -4056,6 +4165,8 @@ export const deletePropertiesAdSenseLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesAdSenseLinks",
 }));
 
 export type DeletePropertiesBigQueryLinksError =
@@ -4076,6 +4187,8 @@ export const deletePropertiesBigQueryLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesBigQueryLinks",
 }));
 
 export type DeletePropertiesCalculatedMetricsError =
@@ -4096,6 +4209,8 @@ export const deletePropertiesCalculatedMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesCalculatedMetrics",
 }));
 
 export type DeletePropertiesChannelGroupsError =
@@ -4116,6 +4231,8 @@ export const deletePropertiesChannelGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesChannelGroups",
 }));
 
 export type DeletePropertiesConversionEventsError =
@@ -4136,6 +4253,8 @@ export const deletePropertiesConversionEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesConversionEvents",
 }));
 
 export type DeletePropertiesDataStreamsError =
@@ -4156,6 +4275,8 @@ export const deletePropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesDataStreams",
 }));
 
 export type DeletePropertiesDataStreamsEventCreateRulesError =
@@ -4180,6 +4301,8 @@ export const deletePropertiesDataStreamsEventCreateRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesDataStreamsEventCreateRules",
 }));
 
 export type DeletePropertiesDataStreamsEventEditRulesError =
@@ -4200,6 +4323,8 @@ export const deletePropertiesDataStreamsEventEditRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesDataStreamsEventEditRules",
 }));
 
 export type DeletePropertiesDataStreamsMeasurementProtocolSecretsError =
@@ -4224,6 +4349,8 @@ export const deletePropertiesDataStreamsMeasurementProtocolSecrets: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesDataStreamsMeasurementProtocolSecrets",
 }));
 
 export type DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaError =
@@ -4248,6 +4375,8 @@ export const deletePropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesDataStreamsSKAdNetworkConversionValueSchema",
 }));
 
 export type DeletePropertiesDisplayVideo360AdvertiserLinkProposalsError =
@@ -4272,6 +4401,8 @@ export const deletePropertiesDisplayVideo360AdvertiserLinkProposals: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesDisplayVideo360AdvertiserLinkProposals",
 }));
 
 export type DeletePropertiesDisplayVideo360AdvertiserLinksError =
@@ -4296,6 +4427,8 @@ export const deletePropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesDisplayVideo360AdvertiserLinks",
 }));
 
 export type DeletePropertiesExpandedDataSetsError =
@@ -4316,6 +4449,8 @@ export const deletePropertiesExpandedDataSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesExpandedDataSets",
 }));
 
 export type DeletePropertiesFirebaseLinksError =
@@ -4336,6 +4471,8 @@ export const deletePropertiesFirebaseLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesFirebaseLinks",
 }));
 
 export type DeletePropertiesGoogleAdsLinksError =
@@ -4356,6 +4493,8 @@ export const deletePropertiesGoogleAdsLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesGoogleAdsLinks",
 }));
 
 export type DeletePropertiesKeyEventsError =
@@ -4376,6 +4515,8 @@ export const deletePropertiesKeyEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesKeyEvents",
 }));
 
 export type DeletePropertiesReportingDataAnnotationsError =
@@ -4396,6 +4537,8 @@ export const deletePropertiesReportingDataAnnotations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesReportingDataAnnotations",
 }));
 
 export type DeletePropertiesRollupPropertySourceLinksError =
@@ -4416,6 +4559,8 @@ export const deletePropertiesRollupPropertySourceLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesRollupPropertySourceLinks",
 }));
 
 export type DeletePropertiesSearchAds360LinksError =
@@ -4436,6 +4581,8 @@ export const deletePropertiesSearchAds360Links: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesSearchAds360Links",
 }));
 
 export type DeletePropertiesSubpropertyEventFiltersError =
@@ -4456,6 +4603,8 @@ export const deletePropertiesSubpropertyEventFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesSubpropertyEventFilters",
 }));
 
 export type GetAccountsError = NotFound | Forbidden | GcpOpError;
@@ -4471,6 +4620,8 @@ export const getAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccounts",
 }));
 
 export type GetAccountsAccessBindingsError = NotFound | Forbidden | GcpOpError;
@@ -4486,6 +4637,8 @@ export const getAccountsAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsAccessBindings",
 }));
 
 export type GetAttributionSettingsPropertiesError = NotFound | Forbidden | GcpOpError;
@@ -4501,6 +4654,8 @@ export const getAttributionSettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttributionSettingsProperties",
 }));
 
 export type GetDataRedactionSettingsPropertiesDataStreamsError = NotFound | Forbidden | GcpOpError;
@@ -4520,6 +4675,8 @@ export const getDataRedactionSettingsPropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataRedactionSettingsPropertiesDataStreams",
 }));
 
 export type GetDataRetentionSettingsPropertiesError = NotFound | Forbidden | GcpOpError;
@@ -4535,6 +4692,8 @@ export const getDataRetentionSettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataRetentionSettingsProperties",
 }));
 
 export type GetDataSharingSettingsAccountsError = NotFound | Forbidden | GcpOpError;
@@ -4550,6 +4709,8 @@ export const getDataSharingSettingsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataSharingSettingsAccounts",
 }));
 
 export type GetEnhancedMeasurementSettingsPropertiesDataStreamsError =
@@ -4576,6 +4737,8 @@ export const getEnhancedMeasurementSettingsPropertiesDataStreams: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnhancedMeasurementSettingsPropertiesDataStreams",
 }));
 
 export type GetGlobalSiteTagPropertiesDataStreamsError = NotFound | Forbidden | GcpOpError;
@@ -4591,6 +4754,8 @@ export const getGlobalSiteTagPropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGlobalSiteTagPropertiesDataStreams",
 }));
 
 export type GetGoogleSignalsSettingsPropertiesError = NotFound | Forbidden | GcpOpError;
@@ -4606,6 +4771,8 @@ export const getGoogleSignalsSettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleSignalsSettingsProperties",
 }));
 
 export type GetPropertiesError = NotFound | Forbidden | GcpOpError;
@@ -4621,6 +4788,8 @@ export const getProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProperties",
 }));
 
 export type GetPropertiesAccessBindingsError = NotFound | Forbidden | GcpOpError;
@@ -4636,6 +4805,8 @@ export const getPropertiesAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesAccessBindings",
 }));
 
 export type GetPropertiesAdSenseLinksError = NotFound | Forbidden | GcpOpError;
@@ -4651,6 +4822,8 @@ export const getPropertiesAdSenseLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesAdSenseLinks",
 }));
 
 export type GetPropertiesAudiencesError = NotFound | Forbidden | GcpOpError;
@@ -4666,6 +4839,8 @@ export const getPropertiesAudiences: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesAudiences",
 }));
 
 export type GetPropertiesBigQueryLinksError = NotFound | Forbidden | GcpOpError;
@@ -4681,6 +4856,8 @@ export const getPropertiesBigQueryLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesBigQueryLinks",
 }));
 
 export type GetPropertiesCalculatedMetricsError = NotFound | Forbidden | GcpOpError;
@@ -4696,6 +4873,8 @@ export const getPropertiesCalculatedMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesCalculatedMetrics",
 }));
 
 export type GetPropertiesChannelGroupsError = NotFound | Forbidden | GcpOpError;
@@ -4711,6 +4890,8 @@ export const getPropertiesChannelGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesChannelGroups",
 }));
 
 export type GetPropertiesConversionEventsError = NotFound | Forbidden | GcpOpError;
@@ -4726,6 +4907,8 @@ export const getPropertiesConversionEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesConversionEvents",
 }));
 
 export type GetPropertiesCustomDimensionsError = NotFound | Forbidden | GcpOpError;
@@ -4741,6 +4924,8 @@ export const getPropertiesCustomDimensions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesCustomDimensions",
 }));
 
 export type GetPropertiesCustomMetricsError = NotFound | Forbidden | GcpOpError;
@@ -4756,6 +4941,8 @@ export const getPropertiesCustomMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesCustomMetrics",
 }));
 
 export type GetPropertiesDataStreamsError = NotFound | Forbidden | GcpOpError;
@@ -4771,6 +4958,8 @@ export const getPropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesDataStreams",
 }));
 
 export type GetPropertiesDataStreamsEventCreateRulesError = NotFound | Forbidden | GcpOpError;
@@ -4786,6 +4975,8 @@ export const getPropertiesDataStreamsEventCreateRules: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesDataStreamsEventCreateRules",
 }));
 
 export type GetPropertiesDataStreamsEventEditRulesError = NotFound | Forbidden | GcpOpError;
@@ -4801,6 +4992,8 @@ export const getPropertiesDataStreamsEventEditRules: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesDataStreamsEventEditRules",
 }));
 
 export type GetPropertiesDataStreamsMeasurementProtocolSecretsError =
@@ -4827,6 +5020,8 @@ export const getPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesDataStreamsMeasurementProtocolSecrets",
 }));
 
 export type GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaError =
@@ -4853,6 +5048,8 @@ export const getPropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Opera
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesDataStreamsSKAdNetworkConversionValueSchema",
 }));
 
 export type GetPropertiesDisplayVideo360AdvertiserLinkProposalsError =
@@ -4879,6 +5076,8 @@ export const getPropertiesDisplayVideo360AdvertiserLinkProposals: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesDisplayVideo360AdvertiserLinkProposals",
 }));
 
 export type GetPropertiesDisplayVideo360AdvertiserLinksError = NotFound | Forbidden | GcpOpError;
@@ -4902,6 +5101,8 @@ export const getPropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesDisplayVideo360AdvertiserLinks",
 }));
 
 export type GetPropertiesExpandedDataSetsError = NotFound | Forbidden | GcpOpError;
@@ -4917,6 +5118,8 @@ export const getPropertiesExpandedDataSets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesExpandedDataSets",
 }));
 
 export type GetPropertiesKeyEventsError = NotFound | Forbidden | GcpOpError;
@@ -4932,6 +5135,8 @@ export const getPropertiesKeyEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesKeyEvents",
 }));
 
 export type GetPropertiesReportingDataAnnotationsError = NotFound | Forbidden | GcpOpError;
@@ -4951,6 +5156,8 @@ export const getPropertiesReportingDataAnnotations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesReportingDataAnnotations",
 }));
 
 export type GetPropertiesRollupPropertySourceLinksError = NotFound | Forbidden | GcpOpError;
@@ -4970,6 +5177,8 @@ export const getPropertiesRollupPropertySourceLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesRollupPropertySourceLinks",
 }));
 
 export type GetPropertiesSearchAds360LinksError = NotFound | Forbidden | GcpOpError;
@@ -4985,6 +5194,8 @@ export const getPropertiesSearchAds360Links: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesSearchAds360Links",
 }));
 
 export type GetPropertiesSubpropertyEventFiltersError = NotFound | Forbidden | GcpOpError;
@@ -5004,6 +5215,8 @@ export const getPropertiesSubpropertyEventFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesSubpropertyEventFilters",
 }));
 
 export type GetPropertiesSubpropertySyncConfigsError = NotFound | Forbidden | GcpOpError;
@@ -5019,6 +5232,8 @@ export const getPropertiesSubpropertySyncConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesSubpropertySyncConfigs",
 }));
 
 export type GetReportingIdentitySettingsPropertiesError = NotFound | Forbidden | GcpOpError;
@@ -5038,6 +5253,8 @@ export const getReportingIdentitySettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportingIdentitySettingsProperties",
 }));
 
 export type GetUserProvidedDataSettingsPropertiesError = NotFound | Forbidden | GcpOpError;
@@ -5053,6 +5270,8 @@ export const getUserProvidedDataSettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserProvidedDataSettingsProperties",
 }));
 
 export type ListAccountsError = NotFound | Forbidden | GcpOpError;
@@ -5069,6 +5288,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5090,6 +5311,8 @@ export const listAccountsAccessBindings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAccessBindings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5111,6 +5334,8 @@ export const listAccountSummaries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountSummaries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5128,6 +5353,8 @@ export const listProperties: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProperties",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5149,6 +5376,8 @@ export const listPropertiesAccessBindings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesAccessBindings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5170,6 +5399,8 @@ export const listPropertiesAdSenseLinks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesAdSenseLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5187,6 +5418,8 @@ export const listPropertiesAudiences: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesAudiences",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5208,6 +5441,8 @@ export const listPropertiesBigQueryLinks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesBigQueryLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5229,6 +5464,8 @@ export const listPropertiesCalculatedMetrics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesCalculatedMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5250,6 +5487,8 @@ export const listPropertiesChannelGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesChannelGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5271,6 +5510,8 @@ export const listPropertiesConversionEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesConversionEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5292,6 +5533,8 @@ export const listPropertiesCustomDimensions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesCustomDimensions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5313,6 +5556,8 @@ export const listPropertiesCustomMetrics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesCustomMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5330,6 +5575,8 @@ export const listPropertiesDataStreams: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesDataStreams",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5351,6 +5598,8 @@ export const listPropertiesDataStreamsEventCreateRules: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesDataStreamsEventCreateRules",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5372,6 +5621,8 @@ export const listPropertiesDataStreamsEventEditRules: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesDataStreamsEventEditRules",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5400,6 +5651,8 @@ export const listPropertiesDataStreamsMeasurementProtocolSecrets: API.PaginatedO
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesDataStreamsMeasurementProtocolSecrets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5428,6 +5681,8 @@ export const listPropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Pagi
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesDataStreamsSKAdNetworkConversionValueSchema",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5456,6 +5711,8 @@ export const listPropertiesDisplayVideo360AdvertiserLinkProposals: API.Paginated
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesDisplayVideo360AdvertiserLinkProposals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5477,6 +5734,8 @@ export const listPropertiesDisplayVideo360AdvertiserLinks: API.PaginatedOperatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesDisplayVideo360AdvertiserLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5498,6 +5757,8 @@ export const listPropertiesExpandedDataSets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesExpandedDataSets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5519,6 +5780,8 @@ export const listPropertiesFirebaseLinks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesFirebaseLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5540,6 +5803,8 @@ export const listPropertiesGoogleAdsLinks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesGoogleAdsLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5557,6 +5822,8 @@ export const listPropertiesKeyEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesKeyEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5578,6 +5845,8 @@ export const listPropertiesReportingDataAnnotations: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesReportingDataAnnotations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5599,6 +5868,8 @@ export const listPropertiesRollupPropertySourceLinks: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesRollupPropertySourceLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5620,6 +5891,8 @@ export const listPropertiesSearchAds360Links: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesSearchAds360Links",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5641,6 +5914,8 @@ export const listPropertiesSubpropertyEventFilters: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesSubpropertyEventFilters",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5662,6 +5937,8 @@ export const listPropertiesSubpropertySyncConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesSubpropertySyncConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5678,6 +5955,8 @@ export const patchAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccounts",
 }));
 
 export type PatchAccountsAccessBindingsError =
@@ -5698,6 +5977,8 @@ export const patchAccountsAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsAccessBindings",
 }));
 
 export type PatchPropertiesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5713,6 +5994,8 @@ export const patchProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProperties",
 }));
 
 export type PatchPropertiesAccessBindingsError =
@@ -5733,6 +6016,8 @@ export const patchPropertiesAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesAccessBindings",
 }));
 
 export type PatchPropertiesAudiencesError =
@@ -5753,6 +6038,8 @@ export const patchPropertiesAudiences: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesAudiences",
 }));
 
 export type PatchPropertiesBigQueryLinksError =
@@ -5773,6 +6060,8 @@ export const patchPropertiesBigQueryLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesBigQueryLinks",
 }));
 
 export type PatchPropertiesCalculatedMetricsError =
@@ -5793,6 +6082,8 @@ export const patchPropertiesCalculatedMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesCalculatedMetrics",
 }));
 
 export type PatchPropertiesChannelGroupsError =
@@ -5813,6 +6104,8 @@ export const patchPropertiesChannelGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesChannelGroups",
 }));
 
 export type PatchPropertiesConversionEventsError =
@@ -5833,6 +6126,8 @@ export const patchPropertiesConversionEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesConversionEvents",
 }));
 
 export type PatchPropertiesCustomDimensionsError =
@@ -5853,6 +6148,8 @@ export const patchPropertiesCustomDimensions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesCustomDimensions",
 }));
 
 export type PatchPropertiesCustomMetricsError =
@@ -5873,6 +6170,8 @@ export const patchPropertiesCustomMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesCustomMetrics",
 }));
 
 export type PatchPropertiesDataStreamsError =
@@ -5893,6 +6192,8 @@ export const patchPropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesDataStreams",
 }));
 
 export type PatchPropertiesDataStreamsEventCreateRulesError =
@@ -5913,6 +6214,8 @@ export const patchPropertiesDataStreamsEventCreateRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesDataStreamsEventCreateRules",
 }));
 
 export type PatchPropertiesDataStreamsEventEditRulesError =
@@ -5933,6 +6236,8 @@ export const patchPropertiesDataStreamsEventEditRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesDataStreamsEventEditRules",
 }));
 
 export type PatchPropertiesDataStreamsMeasurementProtocolSecretsError =
@@ -5961,6 +6266,8 @@ export const patchPropertiesDataStreamsMeasurementProtocolSecrets: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesDataStreamsMeasurementProtocolSecrets",
 }));
 
 export type PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaError =
@@ -5989,6 +6296,8 @@ export const patchPropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Ope
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesDataStreamsSKAdNetworkConversionValueSchema",
 }));
 
 export type PatchPropertiesDisplayVideo360AdvertiserLinksError =
@@ -6017,6 +6326,8 @@ export const patchPropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesDisplayVideo360AdvertiserLinks",
 }));
 
 export type PatchPropertiesExpandedDataSetsError =
@@ -6037,6 +6348,8 @@ export const patchPropertiesExpandedDataSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesExpandedDataSets",
 }));
 
 export type PatchPropertiesGoogleAdsLinksError =
@@ -6057,6 +6370,8 @@ export const patchPropertiesGoogleAdsLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesGoogleAdsLinks",
 }));
 
 export type PatchPropertiesKeyEventsError =
@@ -6077,6 +6392,8 @@ export const patchPropertiesKeyEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesKeyEvents",
 }));
 
 export type PatchPropertiesReportingDataAnnotationsError =
@@ -6101,6 +6418,8 @@ export const patchPropertiesReportingDataAnnotations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesReportingDataAnnotations",
 }));
 
 export type PatchPropertiesSearchAds360LinksError =
@@ -6121,6 +6440,8 @@ export const patchPropertiesSearchAds360Links: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesSearchAds360Links",
 }));
 
 export type PatchPropertiesSubpropertyEventFiltersError =
@@ -6145,6 +6466,8 @@ export const patchPropertiesSubpropertyEventFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesSubpropertyEventFilters",
 }));
 
 export type PatchPropertiesSubpropertySyncConfigsError =
@@ -6165,6 +6488,8 @@ export const patchPropertiesSubpropertySyncConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesSubpropertySyncConfigs",
 }));
 
 export type ProvisionAccountTicketAccountsError =
@@ -6189,6 +6514,8 @@ export const provisionAccountTicketAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionAccountTicketAccounts",
 }));
 
 export type ProvisionSubpropertyPropertiesError =
@@ -6213,6 +6540,8 @@ export const provisionSubpropertyProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionSubpropertyProperties",
 }));
 
 export type ReorderPropertiesDataStreamsEventEditRulesError =
@@ -6233,6 +6562,8 @@ export const reorderPropertiesDataStreamsEventEditRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderPropertiesDataStreamsEventEditRules",
 }));
 
 export type RunAccessReportAccountsError =
@@ -6257,6 +6588,8 @@ export const runAccessReportAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunAccessReportAccounts",
 }));
 
 export type RunAccessReportPropertiesError =
@@ -6281,6 +6614,8 @@ export const runAccessReportProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunAccessReportProperties",
 }));
 
 export type SearchChangeHistoryEventsAccountsError =
@@ -6305,6 +6640,8 @@ export const searchChangeHistoryEventsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchChangeHistoryEventsAccounts",
 }));
 
 export type SubmitUserDeletionPropertiesError =
@@ -6329,6 +6666,8 @@ export const submitUserDeletionProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitUserDeletionProperties",
 }));
 
 export type UpdateAttributionSettingsPropertiesError =
@@ -6349,6 +6688,8 @@ export const updateAttributionSettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttributionSettingsProperties",
 }));
 
 export type UpdateDataRedactionSettingsPropertiesDataStreamsError =
@@ -6373,6 +6714,8 @@ export const updateDataRedactionSettingsPropertiesDataStreams: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataRedactionSettingsPropertiesDataStreams",
 }));
 
 export type UpdateDataRetentionSettingsPropertiesError =
@@ -6393,6 +6736,8 @@ export const updateDataRetentionSettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataRetentionSettingsProperties",
 }));
 
 export type UpdateEnhancedMeasurementSettingsPropertiesDataStreamsError =
@@ -6421,6 +6766,8 @@ export const updateEnhancedMeasurementSettingsPropertiesDataStreams: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnhancedMeasurementSettingsPropertiesDataStreams",
 }));
 
 export type UpdateGoogleSignalsSettingsPropertiesError =
@@ -6441,6 +6788,8 @@ export const updateGoogleSignalsSettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGoogleSignalsSettingsProperties",
 }));
 
 export type UpdateReportingIdentitySettingsPropertiesError =
@@ -6465,6 +6814,8 @@ export const updateReportingIdentitySettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReportingIdentitySettingsProperties",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

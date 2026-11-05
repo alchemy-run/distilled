@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "TelemetryLink",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -351,6 +364,8 @@ export const createFolderBackflushJob: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFolderBackflushJob",
 }));
 
 export type CreateOrganizationBackflushJobError = BadRequest | Conflict | StackitOpError;
@@ -366,6 +381,8 @@ export const createOrganizationBackflushJob: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationBackflushJob",
 }));
 
 export type CreateOrUpdateFolderTelemetryLinkError =
@@ -385,6 +402,8 @@ export const createOrUpdateFolderTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateFolderTelemetryLink",
 }));
 
 export type CreateOrUpdateOrganizationTelemetryLinkError =
@@ -404,6 +423,8 @@ export const createOrUpdateOrganizationTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateOrganizationTelemetryLink",
 }));
 
 export type CreateOrUpdateProjectTelemetryLinkError =
@@ -423,6 +444,8 @@ export const createOrUpdateProjectTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateProjectTelemetryLink",
 }));
 
 export type CreateProjectBackflushJobError = BadRequest | Conflict | StackitOpError;
@@ -438,6 +461,8 @@ export const createProjectBackflushJob: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBackflushJob",
 }));
 
 export type DeleteFolderTelemetryLinkError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -453,6 +478,8 @@ export const deleteFolderTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFolderTelemetryLink",
 }));
 
 export type DeleteOrganizationTelemetryLinkError =
@@ -472,6 +499,8 @@ export const deleteOrganizationTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationTelemetryLink",
 }));
 
 export type DeleteProjectTelemetryLinkError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -487,6 +516,8 @@ export const deleteProjectTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectTelemetryLink",
 }));
 
 export type GetFolderBackflushJobError = BadRequest | NotFound | StackitOpError;
@@ -502,6 +533,8 @@ export const getFolderBackflushJob: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFolderBackflushJob",
 }));
 
 export type GetFolderTelemetryLinkError = BadRequest | NotFound | StackitOpError;
@@ -517,6 +550,8 @@ export const getFolderTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFolderTelemetryLink",
 }));
 
 export type GetOrganizationBackflushJobError = BadRequest | NotFound | StackitOpError;
@@ -532,6 +567,8 @@ export const getOrganizationBackflushJob: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationBackflushJob",
 }));
 
 export type GetOrganizationTelemetryLinkError = BadRequest | NotFound | StackitOpError;
@@ -547,6 +584,8 @@ export const getOrganizationTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationTelemetryLink",
 }));
 
 export type GetProjectBackflushJobError = BadRequest | NotFound | StackitOpError;
@@ -562,6 +601,8 @@ export const getProjectBackflushJob: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBackflushJob",
 }));
 
 export type GetProjectTelemetryLinkError = BadRequest | NotFound | StackitOpError;
@@ -577,6 +618,8 @@ export const getProjectTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectTelemetryLink",
 }));
 
 export type ListFolderBackflushJobsError = BadRequest | StackitOpError;
@@ -592,6 +635,8 @@ export const listFolderBackflushJobs: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFolderBackflushJobs",
 }));
 
 export type ListOrganizationBackflushJobsError = BadRequest | StackitOpError;
@@ -607,6 +652,8 @@ export const listOrganizationBackflushJobs: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationBackflushJobs",
 }));
 
 export type ListProjectBackflushJobsError = BadRequest | StackitOpError;
@@ -622,6 +669,8 @@ export const listProjectBackflushJobs: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectBackflushJobs",
 }));
 
 export type PartialUpdateFolderTelemetryLinkError =
@@ -641,6 +690,8 @@ export const partialUpdateFolderTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateFolderTelemetryLink",
 }));
 
 export type PartialUpdateOrganizationTelemetryLinkError =
@@ -660,6 +711,8 @@ export const partialUpdateOrganizationTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateOrganizationTelemetryLink",
 }));
 
 export type PartialUpdateProjectTelemetryLinkError =
@@ -679,6 +732,8 @@ export const partialUpdateProjectTelemetryLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateProjectTelemetryLink",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -93,6 +95,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cognito-idp.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CognitoIdentityProvider",
+  service: "CognitoIdentityProvider",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2554,7 +2571,7 @@ export type AddCustomAttributesError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const addCustomAttributes: API.OperationMethod<
-  AddCustomAttributesRequest,
+  AddCustomAttributesRequest & RegionInput,
   AddCustomAttributesResponse,
   AddCustomAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2573,6 +2590,8 @@ export const addCustomAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCustomAttributes",
+  telemetry: TELEMETRY,
+  span: "AddCustomAttributes",
 }));
 
 export type AddUserPoolClientSecretError =
@@ -2587,7 +2606,7 @@ export type AddUserPoolClientSecretError =
  * Creates a new client secret for an existing confidential user pool app client. Supports up to 2 active secrets per app client for zero-downtime credential rotation workflows.
  */
 export const addUserPoolClientSecret: API.OperationMethod<
-  AddUserPoolClientSecretRequest,
+  AddUserPoolClientSecretRequest & RegionInput,
   AddUserPoolClientSecretResponse,
   AddUserPoolClientSecretError,
   Credentials | HttpClient.HttpClient
@@ -2605,6 +2624,8 @@ export const addUserPoolClientSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddUserPoolClientSecret",
+  telemetry: TELEMETRY,
+  span: "AddUserPoolClientSecret",
 }));
 
 export type AdminAddUserToGroupError =
@@ -2632,7 +2653,7 @@ export type AdminAddUserToGroupError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminAddUserToGroup: API.OperationMethod<
-  AdminAddUserToGroupRequest,
+  AdminAddUserToGroupRequest & RegionInput,
   AdminAddUserToGroupResponse,
   AdminAddUserToGroupError,
   Credentials | HttpClient.HttpClient
@@ -2651,6 +2672,8 @@ export const adminAddUserToGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminAddUserToGroup",
+  telemetry: TELEMETRY,
+  span: "AdminAddUserToGroup",
 }));
 
 export type AdminConfirmSignUpError =
@@ -2689,7 +2712,7 @@ export type AdminConfirmSignUpError =
  * `CreateUserPool` or `UpdateUserPool` request.
  */
 export const adminConfirmSignUp: API.OperationMethod<
-  AdminConfirmSignUpRequest,
+  AdminConfirmSignUpRequest & RegionInput,
   AdminConfirmSignUpResponse,
   AdminConfirmSignUpError,
   Credentials | HttpClient.HttpClient
@@ -2713,6 +2736,8 @@ export const adminConfirmSignUp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminConfirmSignUp",
+  telemetry: TELEMETRY,
+  span: "AdminConfirmSignUp",
 }));
 
 export type AdminCreateUserError =
@@ -2783,7 +2808,7 @@ export type AdminCreateUserError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminCreateUser: API.OperationMethod<
-  AdminCreateUserRequest,
+  AdminCreateUserRequest & RegionInput,
   AdminCreateUserResponse,
   AdminCreateUserError,
   Credentials | HttpClient.HttpClient
@@ -2812,6 +2837,8 @@ export const adminCreateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminCreateUser",
+  telemetry: TELEMETRY,
+  span: "AdminCreateUser",
 }));
 
 export type AdminDeleteSoftwareTokenError =
@@ -2843,7 +2870,7 @@ export type AdminDeleteSoftwareTokenError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminDeleteSoftwareToken: API.OperationMethod<
-  AdminDeleteSoftwareTokenRequest,
+  AdminDeleteSoftwareTokenRequest & RegionInput,
   AdminDeleteSoftwareTokenResponse,
   AdminDeleteSoftwareTokenError,
   Credentials | HttpClient.HttpClient
@@ -2863,6 +2890,8 @@ export const adminDeleteSoftwareToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDeleteSoftwareToken",
+  telemetry: TELEMETRY,
+  span: "AdminDeleteSoftwareToken",
 }));
 
 export type AdminDeleteUserError =
@@ -2888,7 +2917,7 @@ export type AdminDeleteUserError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminDeleteUser: API.OperationMethod<
-  AdminDeleteUserRequest,
+  AdminDeleteUserRequest & RegionInput,
   AdminDeleteUserResponse,
   AdminDeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -2907,6 +2936,8 @@ export const adminDeleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDeleteUser",
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUser",
 }));
 
 export type AdminDeleteUserAttributesError =
@@ -2934,7 +2965,7 @@ export type AdminDeleteUserAttributesError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminDeleteUserAttributes: API.OperationMethod<
-  AdminDeleteUserAttributesRequest,
+  AdminDeleteUserAttributesRequest & RegionInput,
   AdminDeleteUserAttributesResponse,
   AdminDeleteUserAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2953,6 +2984,8 @@ export const adminDeleteUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDeleteUserAttributes",
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUserAttributes",
 }));
 
 export type AdminDisableProviderForUserError =
@@ -3005,7 +3038,7 @@ export type AdminDisableProviderForUserError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminDisableProviderForUser: API.OperationMethod<
-  AdminDisableProviderForUserRequest,
+  AdminDisableProviderForUserRequest & RegionInput,
   AdminDisableProviderForUserResponse,
   AdminDisableProviderForUserError,
   Credentials | HttpClient.HttpClient
@@ -3025,6 +3058,8 @@ export const adminDisableProviderForUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDisableProviderForUser",
+  telemetry: TELEMETRY,
+  span: "AdminDisableProviderForUser",
 }));
 
 export type AdminDisableUserError =
@@ -3052,7 +3087,7 @@ export type AdminDisableUserError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminDisableUser: API.OperationMethod<
-  AdminDisableUserRequest,
+  AdminDisableUserRequest & RegionInput,
   AdminDisableUserResponse,
   AdminDisableUserError,
   Credentials | HttpClient.HttpClient
@@ -3071,6 +3106,8 @@ export const adminDisableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDisableUser",
+  telemetry: TELEMETRY,
+  span: "AdminDisableUser",
 }));
 
 export type AdminEnableUserError =
@@ -3097,7 +3134,7 @@ export type AdminEnableUserError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminEnableUser: API.OperationMethod<
-  AdminEnableUserRequest,
+  AdminEnableUserRequest & RegionInput,
   AdminEnableUserResponse,
   AdminEnableUserError,
   Credentials | HttpClient.HttpClient
@@ -3116,6 +3153,8 @@ export const adminEnableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminEnableUser",
+  telemetry: TELEMETRY,
+  span: "AdminEnableUser",
 }));
 
 export type AdminForgetDeviceError =
@@ -3144,7 +3183,7 @@ export type AdminForgetDeviceError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminForgetDevice: API.OperationMethod<
-  AdminForgetDeviceRequest,
+  AdminForgetDeviceRequest & RegionInput,
   AdminForgetDeviceResponse,
   AdminForgetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -3164,6 +3203,8 @@ export const adminForgetDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminForgetDevice",
+  telemetry: TELEMETRY,
+  span: "AdminForgetDevice",
 }));
 
 export type AdminGetDeviceError =
@@ -3190,7 +3231,7 @@ export type AdminGetDeviceError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminGetDevice: API.OperationMethod<
-  AdminGetDeviceRequest,
+  AdminGetDeviceRequest & RegionInput,
   AdminGetDeviceResponse,
   AdminGetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -3209,6 +3250,8 @@ export const adminGetDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminGetDevice",
+  telemetry: TELEMETRY,
+  span: "AdminGetDevice",
 }));
 
 export type AdminGetUserError =
@@ -3238,7 +3281,7 @@ export type AdminGetUserError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminGetUser: API.OperationMethod<
-  AdminGetUserRequest,
+  AdminGetUserRequest & RegionInput,
   AdminGetUserResponse,
   AdminGetUserError,
   Credentials | HttpClient.HttpClient
@@ -3257,6 +3300,8 @@ export const adminGetUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminGetUser",
+  telemetry: TELEMETRY,
+  span: "AdminGetUser",
 }));
 
 export type AdminGetUserAuthFactorsError =
@@ -3288,7 +3333,7 @@ export type AdminGetUserAuthFactorsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminGetUserAuthFactors: API.OperationMethod<
-  AdminGetUserAuthFactorsRequest,
+  AdminGetUserAuthFactorsRequest & RegionInput,
   AdminGetUserAuthFactorsResponse,
   AdminGetUserAuthFactorsError,
   Credentials | HttpClient.HttpClient
@@ -3307,6 +3352,8 @@ export const adminGetUserAuthFactors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminGetUserAuthFactors",
+  telemetry: TELEMETRY,
+  span: "AdminGetUserAuthFactors",
 }));
 
 export type AdminInitiateAuthError =
@@ -3365,7 +3412,7 @@ export type AdminInitiateAuthError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminInitiateAuth: API.OperationMethod<
-  AdminInitiateAuthRequest,
+  AdminInitiateAuthRequest & RegionInput,
   AdminInitiateAuthResponse,
   AdminInitiateAuthError,
   Credentials | HttpClient.HttpClient
@@ -3396,6 +3443,8 @@ export const adminInitiateAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminInitiateAuth",
+  telemetry: TELEMETRY,
+  span: "AdminInitiateAuth",
 }));
 
 export type AdminLinkProviderForUserError =
@@ -3437,7 +3486,7 @@ export type AdminLinkProviderForUserError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminLinkProviderForUser: API.OperationMethod<
-  AdminLinkProviderForUserRequest,
+  AdminLinkProviderForUserRequest & RegionInput,
   AdminLinkProviderForUserResponse,
   AdminLinkProviderForUserError,
   Credentials | HttpClient.HttpClient
@@ -3458,6 +3507,8 @@ export const adminLinkProviderForUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminLinkProviderForUser",
+  telemetry: TELEMETRY,
+  span: "AdminLinkProviderForUser",
 }));
 
 export type AdminListDevicesError =
@@ -3486,7 +3537,7 @@ export type AdminListDevicesError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminListDevices: API.OperationMethod<
-  AdminListDevicesRequest,
+  AdminListDevicesRequest & RegionInput,
   AdminListDevicesResponse,
   AdminListDevicesError,
   Credentials | HttpClient.HttpClient
@@ -3505,6 +3556,8 @@ export const adminListDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminListDevices",
+  telemetry: TELEMETRY,
+  span: "AdminListDevices",
 }));
 
 export type AdminListGroupsForUserError =
@@ -3532,7 +3585,7 @@ export type AdminListGroupsForUserError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminListGroupsForUser: API.PaginatedOperationMethod<
-  AdminListGroupsForUserRequest,
+  AdminListGroupsForUserRequest & RegionInput,
   AdminListGroupsForUserResponse,
   AdminListGroupsForUserError,
   Credentials | HttpClient.HttpClient,
@@ -3558,6 +3611,8 @@ export const adminListGroupsForUser: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "AdminListGroupsForUser",
 })) as any;
 
 export type AdminListUserAuthEventsError =
@@ -3585,7 +3640,7 @@ export type AdminListUserAuthEventsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminListUserAuthEvents: API.PaginatedOperationMethod<
-  AdminListUserAuthEventsRequest,
+  AdminListUserAuthEventsRequest & RegionInput,
   AdminListUserAuthEventsResponse,
   AdminListUserAuthEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3612,6 +3667,8 @@ export const adminListUserAuthEvents: API.PaginatedOperationMethod<
     items: "AuthEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "AdminListUserAuthEvents",
 })) as any;
 
 export type AdminRemoveUserFromGroupError =
@@ -3639,7 +3696,7 @@ export type AdminRemoveUserFromGroupError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminRemoveUserFromGroup: API.OperationMethod<
-  AdminRemoveUserFromGroupRequest,
+  AdminRemoveUserFromGroupRequest & RegionInput,
   AdminRemoveUserFromGroupResponse,
   AdminRemoveUserFromGroupError,
   Credentials | HttpClient.HttpClient
@@ -3658,6 +3715,8 @@ export const adminRemoveUserFromGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminRemoveUserFromGroup",
+  telemetry: TELEMETRY,
+  span: "AdminRemoveUserFromGroup",
 }));
 
 export type AdminResetUserPasswordError =
@@ -3715,7 +3774,7 @@ export type AdminResetUserPasswordError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminResetUserPassword: API.OperationMethod<
-  AdminResetUserPasswordRequest,
+  AdminResetUserPasswordRequest & RegionInput,
   AdminResetUserPasswordResponse,
   AdminResetUserPasswordError,
   Credentials | HttpClient.HttpClient
@@ -3741,6 +3800,8 @@ export const adminResetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminResetUserPassword",
+  telemetry: TELEMETRY,
+  span: "AdminResetUserPassword",
 }));
 
 export type AdminRespondToAuthChallengeError =
@@ -3806,7 +3867,7 @@ export type AdminRespondToAuthChallengeError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminRespondToAuthChallenge: API.OperationMethod<
-  AdminRespondToAuthChallengeRequest,
+  AdminRespondToAuthChallengeRequest & RegionInput,
   AdminRespondToAuthChallengeResponse,
   AdminRespondToAuthChallengeError,
   Credentials | HttpClient.HttpClient
@@ -3841,6 +3902,8 @@ export const adminRespondToAuthChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminRespondToAuthChallenge",
+  telemetry: TELEMETRY,
+  span: "AdminRespondToAuthChallenge",
 }));
 
 export type AdminSetUserMFAPreferenceError =
@@ -3871,7 +3934,7 @@ export type AdminSetUserMFAPreferenceError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminSetUserMFAPreference: API.OperationMethod<
-  AdminSetUserMFAPreferenceRequest,
+  AdminSetUserMFAPreferenceRequest & RegionInput,
   AdminSetUserMFAPreferenceResponse,
   AdminSetUserMFAPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -3891,6 +3954,8 @@ export const adminSetUserMFAPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminSetUserMFAPreference",
+  telemetry: TELEMETRY,
+  span: "AdminSetUserMFAPreference",
 }));
 
 export type AdminSetUserPasswordError =
@@ -3946,7 +4011,7 @@ export type AdminSetUserPasswordError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminSetUserPassword: API.OperationMethod<
-  AdminSetUserPasswordRequest,
+  AdminSetUserPasswordRequest & RegionInput,
   AdminSetUserPasswordResponse,
   AdminSetUserPasswordError,
   Credentials | HttpClient.HttpClient
@@ -3967,6 +4032,8 @@ export const adminSetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminSetUserPassword",
+  telemetry: TELEMETRY,
+  span: "AdminSetUserPassword",
 }));
 
 export type AdminSetUserSettingsError =
@@ -3993,7 +4060,7 @@ export type AdminSetUserSettingsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminSetUserSettings: API.OperationMethod<
-  AdminSetUserSettingsRequest,
+  AdminSetUserSettingsRequest & RegionInput,
   AdminSetUserSettingsResponse,
   AdminSetUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4011,6 +4078,8 @@ export const adminSetUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminSetUserSettings",
+  telemetry: TELEMETRY,
+  span: "AdminSetUserSettings",
 }));
 
 export type AdminUpdateAuthEventFeedbackError =
@@ -4047,7 +4116,7 @@ export type AdminUpdateAuthEventFeedbackError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminUpdateAuthEventFeedback: API.OperationMethod<
-  AdminUpdateAuthEventFeedbackRequest,
+  AdminUpdateAuthEventFeedbackRequest & RegionInput,
   AdminUpdateAuthEventFeedbackResponse,
   AdminUpdateAuthEventFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -4067,6 +4136,8 @@ export const adminUpdateAuthEventFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUpdateAuthEventFeedback",
+  telemetry: TELEMETRY,
+  span: "AdminUpdateAuthEventFeedback",
 }));
 
 export type AdminUpdateDeviceStatusError =
@@ -4098,7 +4169,7 @@ export type AdminUpdateDeviceStatusError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminUpdateDeviceStatus: API.OperationMethod<
-  AdminUpdateDeviceStatusRequest,
+  AdminUpdateDeviceStatusRequest & RegionInput,
   AdminUpdateDeviceStatusResponse,
   AdminUpdateDeviceStatusError,
   Credentials | HttpClient.HttpClient
@@ -4118,6 +4189,8 @@ export const adminUpdateDeviceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUpdateDeviceStatus",
+  telemetry: TELEMETRY,
+  span: "AdminUpdateDeviceStatus",
 }));
 
 export type AdminUpdateUserAttributesError =
@@ -4176,7 +4249,7 @@ export type AdminUpdateUserAttributesError =
  * Developer Guide.
  */
 export const adminUpdateUserAttributes: API.OperationMethod<
-  AdminUpdateUserAttributesRequest,
+  AdminUpdateUserAttributesRequest & RegionInput,
   AdminUpdateUserAttributesResponse,
   AdminUpdateUserAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4202,6 +4275,8 @@ export const adminUpdateUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUpdateUserAttributes",
+  telemetry: TELEMETRY,
+  span: "AdminUpdateUserAttributes",
 }));
 
 export type AdminUserGlobalSignOutError =
@@ -4250,7 +4325,7 @@ export type AdminUserGlobalSignOutError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const adminUserGlobalSignOut: API.OperationMethod<
-  AdminUserGlobalSignOutRequest,
+  AdminUserGlobalSignOutRequest & RegionInput,
   AdminUserGlobalSignOutResponse,
   AdminUserGlobalSignOutError,
   Credentials | HttpClient.HttpClient
@@ -4269,6 +4344,8 @@ export const adminUserGlobalSignOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUserGlobalSignOut",
+  telemetry: TELEMETRY,
+  span: "AdminUserGlobalSignOut",
 }));
 
 export type AssociateSoftwareTokenError =
@@ -4296,7 +4373,7 @@ export type AssociateSoftwareTokenError =
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
 export const associateSoftwareToken: API.OperationMethod<
-  AssociateSoftwareTokenRequest,
+  AssociateSoftwareTokenRequest & RegionInput,
   AssociateSoftwareTokenResponse,
   AssociateSoftwareTokenError,
   Credentials | HttpClient.HttpClient
@@ -4316,6 +4393,8 @@ export const associateSoftwareToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSoftwareToken",
+  telemetry: TELEMETRY,
+  span: "AssociateSoftwareToken",
 }));
 
 export type ChangePasswordError =
@@ -4344,7 +4423,7 @@ export type ChangePasswordError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const changePassword: API.OperationMethod<
-  ChangePasswordRequest,
+  ChangePasswordRequest & RegionInput,
   ChangePasswordResponse,
   ChangePasswordError,
   Credentials | HttpClient.HttpClient
@@ -4369,6 +4448,8 @@ export const changePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangePassword",
+  telemetry: TELEMETRY,
+  span: "ChangePassword",
 }));
 
 export type CompleteWebAuthnRegistrationError =
@@ -4394,7 +4475,7 @@ export type CompleteWebAuthnRegistrationError =
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
 export const completeWebAuthnRegistration: API.OperationMethod<
-  CompleteWebAuthnRegistrationRequest,
+  CompleteWebAuthnRegistrationRequest & RegionInput,
   CompleteWebAuthnRegistrationResponse,
   CompleteWebAuthnRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -4420,6 +4501,8 @@ export const completeWebAuthnRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteWebAuthnRegistration",
+  telemetry: TELEMETRY,
+  span: "CompleteWebAuthnRegistration",
 }));
 
 export type ConfirmDeviceError =
@@ -4453,7 +4536,7 @@ export type ConfirmDeviceError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const confirmDevice: API.OperationMethod<
-  ConfirmDeviceRequest,
+  ConfirmDeviceRequest & RegionInput,
   ConfirmDeviceResponse,
   ConfirmDeviceError,
   Credentials | HttpClient.HttpClient
@@ -4480,6 +4563,8 @@ export const confirmDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmDevice",
+  telemetry: TELEMETRY,
+  span: "ConfirmDevice",
 }));
 
 export type ConfirmForgotPasswordError =
@@ -4512,7 +4597,7 @@ export type ConfirmForgotPasswordError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const confirmForgotPassword: API.OperationMethod<
-  ConfirmForgotPasswordRequest,
+  ConfirmForgotPasswordRequest & RegionInput,
   ConfirmForgotPasswordResponse,
   ConfirmForgotPasswordError,
   Credentials | HttpClient.HttpClient
@@ -4542,6 +4627,8 @@ export const confirmForgotPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmForgotPassword",
+  telemetry: TELEMETRY,
+  span: "ConfirmForgotPassword",
 }));
 
 export type ConfirmSignUpError =
@@ -4580,7 +4667,7 @@ export type ConfirmSignUpError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const confirmSignUp: API.OperationMethod<
-  ConfirmSignUpRequest,
+  ConfirmSignUpRequest & RegionInput,
   ConfirmSignUpResponse,
   ConfirmSignUpError,
   Credentials | HttpClient.HttpClient
@@ -4608,6 +4695,8 @@ export const confirmSignUp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmSignUp",
+  telemetry: TELEMETRY,
+  span: "ConfirmSignUp",
 }));
 
 export type CreateGroupError =
@@ -4635,7 +4724,7 @@ export type CreateGroupError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -4655,6 +4744,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateIdentityProviderError =
@@ -4682,7 +4773,7 @@ export type CreateIdentityProviderError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createIdentityProvider: API.OperationMethod<
-  CreateIdentityProviderRequest,
+  CreateIdentityProviderRequest & RegionInput,
   CreateIdentityProviderResponse,
   CreateIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -4701,6 +4792,8 @@ export const createIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProvider",
 }));
 
 export type CreateManagedLoginBrandingError =
@@ -4743,7 +4836,7 @@ export type CreateManagedLoginBrandingError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createManagedLoginBranding: API.OperationMethod<
-  CreateManagedLoginBrandingRequest,
+  CreateManagedLoginBrandingRequest & RegionInput,
   CreateManagedLoginBrandingResponse,
   CreateManagedLoginBrandingError,
   Credentials | HttpClient.HttpClient
@@ -4764,6 +4857,8 @@ export const createManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedLoginBranding",
+  telemetry: TELEMETRY,
+  span: "CreateManagedLoginBranding",
 }));
 
 export type CreateResourceServerError =
@@ -4791,7 +4886,7 @@ export type CreateResourceServerError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createResourceServer: API.OperationMethod<
-  CreateResourceServerRequest,
+  CreateResourceServerRequest & RegionInput,
   CreateResourceServerResponse,
   CreateResourceServerError,
   Credentials | HttpClient.HttpClient
@@ -4810,6 +4905,8 @@ export const createResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceServer",
+  telemetry: TELEMETRY,
+  span: "CreateResourceServer",
 }));
 
 export type CreateTermsError =
@@ -4850,7 +4947,7 @@ export type CreateTermsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createTerms: API.OperationMethod<
-  CreateTermsRequest,
+  CreateTermsRequest & RegionInput,
   CreateTermsResponse,
   CreateTermsError,
   Credentials | HttpClient.HttpClient
@@ -4871,6 +4968,8 @@ export const createTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTerms",
+  telemetry: TELEMETRY,
+  span: "CreateTerms",
 }));
 
 export type CreateUserImportJobError =
@@ -4898,7 +4997,7 @@ export type CreateUserImportJobError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createUserImportJob: API.OperationMethod<
-  CreateUserImportJobRequest,
+  CreateUserImportJobRequest & RegionInput,
   CreateUserImportJobResponse,
   CreateUserImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4918,6 +5017,8 @@ export const createUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateUserImportJob",
 }));
 
 export type CreateUserPoolError =
@@ -4967,7 +5068,7 @@ export type CreateUserPoolError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createUserPool: API.OperationMethod<
-  CreateUserPoolRequest,
+  CreateUserPoolRequest & RegionInput,
   CreateUserPoolResponse,
   CreateUserPoolError,
   Credentials | HttpClient.HttpClient
@@ -4990,6 +5091,8 @@ export const createUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPool",
+  telemetry: TELEMETRY,
+  span: "CreateUserPool",
 }));
 
 export type CreateUserPoolClientError =
@@ -5025,7 +5128,7 @@ export type CreateUserPoolClientError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createUserPoolClient: API.OperationMethod<
-  CreateUserPoolClientRequest,
+  CreateUserPoolClientRequest & RegionInput,
   CreateUserPoolClientResponse,
   CreateUserPoolClientError,
   Credentials | HttpClient.HttpClient
@@ -5047,6 +5150,8 @@ export const createUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPoolClient",
+  telemetry: TELEMETRY,
+  span: "CreateUserPoolClient",
 }));
 
 export type CreateUserPoolDomainError =
@@ -5084,7 +5189,7 @@ export type CreateUserPoolDomainError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createUserPoolDomain: API.OperationMethod<
-  CreateUserPoolDomainRequest,
+  CreateUserPoolDomainRequest & RegionInput,
   CreateUserPoolDomainResponse,
   CreateUserPoolDomainError,
   Credentials | HttpClient.HttpClient
@@ -5104,6 +5209,8 @@ export const createUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPoolDomain",
+  telemetry: TELEMETRY,
+  span: "CreateUserPoolDomain",
 }));
 
 export type CreateUserPoolReplicaError =
@@ -5133,7 +5240,7 @@ export type CreateUserPoolReplicaError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const createUserPoolReplica: API.OperationMethod<
-  CreateUserPoolReplicaRequest,
+  CreateUserPoolReplicaRequest & RegionInput,
   CreateUserPoolReplicaResponse,
   CreateUserPoolReplicaError,
   Credentials | HttpClient.HttpClient
@@ -5154,6 +5261,8 @@ export const createUserPoolReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPoolReplica",
+  telemetry: TELEMETRY,
+  span: "CreateUserPoolReplica",
 }));
 
 export type DeleteGroupError =
@@ -5182,7 +5291,7 @@ export type DeleteGroupError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -5200,6 +5309,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteIdentityProviderError =
@@ -5227,7 +5338,7 @@ export type DeleteIdentityProviderError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const deleteIdentityProvider: API.OperationMethod<
-  DeleteIdentityProviderRequest,
+  DeleteIdentityProviderRequest & RegionInput,
   DeleteIdentityProviderResponse,
   DeleteIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -5246,6 +5357,8 @@ export const deleteIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProvider",
 }));
 
 export type DeleteManagedLoginBrandingError =
@@ -5274,7 +5387,7 @@ export type DeleteManagedLoginBrandingError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const deleteManagedLoginBranding: API.OperationMethod<
-  DeleteManagedLoginBrandingRequest,
+  DeleteManagedLoginBrandingRequest & RegionInput,
   DeleteManagedLoginBrandingResponse,
   DeleteManagedLoginBrandingError,
   Credentials | HttpClient.HttpClient
@@ -5293,6 +5406,8 @@ export const deleteManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedLoginBranding",
+  telemetry: TELEMETRY,
+  span: "DeleteManagedLoginBranding",
 }));
 
 export type DeleteResourceServerError =
@@ -5321,7 +5436,7 @@ export type DeleteResourceServerError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const deleteResourceServer: API.OperationMethod<
-  DeleteResourceServerRequest,
+  DeleteResourceServerRequest & RegionInput,
   DeleteResourceServerResponse,
   DeleteResourceServerError,
   Credentials | HttpClient.HttpClient
@@ -5339,6 +5454,8 @@ export const deleteResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceServer",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceServer",
 }));
 
 export type DeleteTermsError =
@@ -5364,7 +5481,7 @@ export type DeleteTermsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const deleteTerms: API.OperationMethod<
-  DeleteTermsRequest,
+  DeleteTermsRequest & RegionInput,
   DeleteTermsResponse,
   DeleteTermsError,
   Credentials | HttpClient.HttpClient
@@ -5383,6 +5500,8 @@ export const deleteTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTerms",
+  telemetry: TELEMETRY,
+  span: "DeleteTerms",
 }));
 
 export type DeleteUserError =
@@ -5409,7 +5528,7 @@ export type DeleteUserError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -5431,6 +5550,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserAttributesError =
@@ -5458,7 +5579,7 @@ export type DeleteUserAttributesError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const deleteUserAttributes: API.OperationMethod<
-  DeleteUserAttributesRequest,
+  DeleteUserAttributesRequest & RegionInput,
   DeleteUserAttributesResponse,
   DeleteUserAttributesError,
   Credentials | HttpClient.HttpClient
@@ -5480,6 +5601,8 @@ export const deleteUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserAttributes",
+  telemetry: TELEMETRY,
+  span: "DeleteUserAttributes",
 }));
 
 export type DeleteUserPoolError =
@@ -5505,7 +5628,7 @@ export type DeleteUserPoolError =
  * before all user data is permanently deleted.
  */
 export const deleteUserPool: API.OperationMethod<
-  DeleteUserPoolRequest,
+  DeleteUserPoolRequest & RegionInput,
   DeleteUserPoolResponse,
   DeleteUserPoolError,
   Credentials | HttpClient.HttpClient
@@ -5524,6 +5647,8 @@ export const deleteUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPool",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPool",
 }));
 
 export type DeleteUserPoolClientError =
@@ -5540,7 +5665,7 @@ export type DeleteUserPoolClientError =
  * sign in to the associated application.
  */
 export const deleteUserPoolClient: API.OperationMethod<
-  DeleteUserPoolClientRequest,
+  DeleteUserPoolClientRequest & RegionInput,
   DeleteUserPoolClientResponse,
   DeleteUserPoolClientError,
   Credentials | HttpClient.HttpClient
@@ -5559,6 +5684,8 @@ export const deleteUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolClient",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPoolClient",
 }));
 
 export type DeleteUserPoolClientSecretError =
@@ -5572,7 +5699,7 @@ export type DeleteUserPoolClientSecretError =
  * Deletes a specific client secret from a user pool app client. You cannot delete the last remaining secret for an app client.
  */
 export const deleteUserPoolClientSecret: API.OperationMethod<
-  DeleteUserPoolClientSecretRequest,
+  DeleteUserPoolClientSecretRequest & RegionInput,
   DeleteUserPoolClientSecretResponse,
   DeleteUserPoolClientSecretError,
   Credentials | HttpClient.HttpClient
@@ -5589,6 +5716,8 @@ export const deleteUserPoolClientSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolClientSecret",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPoolClientSecret",
 }));
 
 export type DeleteUserPoolDomainError =
@@ -5605,7 +5734,7 @@ export type DeleteUserPoolDomainError =
  * longer available.
  */
 export const deleteUserPoolDomain: API.OperationMethod<
-  DeleteUserPoolDomainRequest,
+  DeleteUserPoolDomainRequest & RegionInput,
   DeleteUserPoolDomainResponse,
   DeleteUserPoolDomainError,
   Credentials | HttpClient.HttpClient
@@ -5623,6 +5752,8 @@ export const deleteUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPoolDomain",
 }));
 
 export type DeleteUserPoolReplicaError =
@@ -5648,7 +5779,7 @@ export type DeleteUserPoolReplicaError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const deleteUserPoolReplica: API.OperationMethod<
-  DeleteUserPoolReplicaRequest,
+  DeleteUserPoolReplicaRequest & RegionInput,
   DeleteUserPoolReplicaResponse,
   DeleteUserPoolReplicaError,
   Credentials | HttpClient.HttpClient
@@ -5666,6 +5797,8 @@ export const deleteUserPoolReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolReplica",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPoolReplica",
 }));
 
 export type DeleteWebAuthnCredentialError =
@@ -5691,7 +5824,7 @@ export type DeleteWebAuthnCredentialError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const deleteWebAuthnCredential: API.OperationMethod<
-  DeleteWebAuthnCredentialRequest,
+  DeleteWebAuthnCredentialRequest & RegionInput,
   DeleteWebAuthnCredentialResponse,
   DeleteWebAuthnCredentialError,
   Credentials | HttpClient.HttpClient
@@ -5712,6 +5845,8 @@ export const deleteWebAuthnCredential: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebAuthnCredential",
+  telemetry: TELEMETRY,
+  span: "DeleteWebAuthnCredential",
 }));
 
 export type DescribeIdentityProviderError =
@@ -5726,7 +5861,7 @@ export type DescribeIdentityProviderError =
  * IdP.
  */
 export const describeIdentityProvider: API.OperationMethod<
-  DescribeIdentityProviderRequest,
+  DescribeIdentityProviderRequest & RegionInput,
   DescribeIdentityProviderResponse,
   DescribeIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -5743,6 +5878,8 @@ export const describeIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityProvider",
 }));
 
 export type DescribeManagedLoginBrandingError =
@@ -5758,7 +5895,7 @@ export type DescribeManagedLoginBrandingError =
  * style.
  */
 export const describeManagedLoginBranding: API.OperationMethod<
-  DescribeManagedLoginBrandingRequest,
+  DescribeManagedLoginBrandingRequest & RegionInput,
   DescribeManagedLoginBrandingResponse,
   DescribeManagedLoginBrandingError,
   Credentials | HttpClient.HttpClient
@@ -5776,6 +5913,8 @@ export const describeManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedLoginBranding",
+  telemetry: TELEMETRY,
+  span: "DescribeManagedLoginBranding",
 }));
 
 export type DescribeManagedLoginBrandingByClientError =
@@ -5791,7 +5930,7 @@ export type DescribeManagedLoginBrandingByClientError =
  * assigned to the app client.
  */
 export const describeManagedLoginBrandingByClient: API.OperationMethod<
-  DescribeManagedLoginBrandingByClientRequest,
+  DescribeManagedLoginBrandingByClientRequest & RegionInput,
   DescribeManagedLoginBrandingByClientResponse,
   DescribeManagedLoginBrandingByClientError,
   Credentials | HttpClient.HttpClient
@@ -5809,6 +5948,8 @@ export const describeManagedLoginBrandingByClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedLoginBrandingByClient",
+  telemetry: TELEMETRY,
+  span: "DescribeManagedLoginBrandingByClient",
 }));
 
 export type DescribeResourceServerError =
@@ -5823,7 +5964,7 @@ export type DescribeResourceServerError =
  * Describes a resource server. For more information about resource servers, see Access control with resource servers.
  */
 export const describeResourceServer: API.OperationMethod<
-  DescribeResourceServerRequest,
+  DescribeResourceServerRequest & RegionInput,
   DescribeResourceServerResponse,
   DescribeResourceServerError,
   Credentials | HttpClient.HttpClient
@@ -5841,6 +5982,8 @@ export const describeResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceServer",
+  telemetry: TELEMETRY,
+  span: "DescribeResourceServer",
 }));
 
 export type DescribeRiskConfigurationError =
@@ -5859,7 +6002,7 @@ export type DescribeRiskConfigurationError =
  * threat protection, see Threat protection.
  */
 export const describeRiskConfiguration: API.OperationMethod<
-  DescribeRiskConfigurationRequest,
+  DescribeRiskConfigurationRequest & RegionInput,
   DescribeRiskConfigurationResponse,
   DescribeRiskConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5878,6 +6021,8 @@ export const describeRiskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRiskConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeRiskConfiguration",
 }));
 
 export type DescribeTermsError =
@@ -5902,7 +6047,7 @@ export type DescribeTermsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const describeTerms: API.OperationMethod<
-  DescribeTermsRequest,
+  DescribeTermsRequest & RegionInput,
   DescribeTermsResponse,
   DescribeTermsError,
   Credentials | HttpClient.HttpClient
@@ -5920,6 +6065,8 @@ export const describeTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTerms",
+  telemetry: TELEMETRY,
+  span: "DescribeTerms",
 }));
 
 export type DescribeTermsByClientError =
@@ -5951,7 +6098,7 @@ export type DescribeTermsByClientError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const describeTermsByClient: API.OperationMethod<
-  DescribeTermsByClientRequest,
+  DescribeTermsByClientRequest & RegionInput,
   DescribeTermsByClientResponse,
   DescribeTermsByClientError,
   Credentials | HttpClient.HttpClient
@@ -5969,6 +6116,8 @@ export const describeTermsByClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTermsByClient",
+  telemetry: TELEMETRY,
+  span: "DescribeTermsByClient",
 }));
 
 export type DescribeUserImportJobError =
@@ -5983,7 +6132,7 @@ export type DescribeUserImportJobError =
  * Describes a user import job. For more information about user CSV import, see Importing users from a CSV file.
  */
 export const describeUserImportJob: API.OperationMethod<
-  DescribeUserImportJobRequest,
+  DescribeUserImportJobRequest & RegionInput,
   DescribeUserImportJobResponse,
   DescribeUserImportJobError,
   Credentials | HttpClient.HttpClient
@@ -6001,6 +6150,8 @@ export const describeUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserImportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeUserImportJob",
 }));
 
 export type DescribeUserPoolError =
@@ -6028,7 +6179,7 @@ export type DescribeUserPoolError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const describeUserPool: API.OperationMethod<
-  DescribeUserPoolRequest,
+  DescribeUserPoolRequest & RegionInput,
   DescribeUserPoolResponse,
   DescribeUserPoolError,
   Credentials | HttpClient.HttpClient
@@ -6047,6 +6198,8 @@ export const describeUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserPool",
+  telemetry: TELEMETRY,
+  span: "DescribeUserPool",
 }));
 
 export type DescribeUserPoolClientError =
@@ -6073,7 +6226,7 @@ export type DescribeUserPoolClientError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const describeUserPoolClient: API.OperationMethod<
-  DescribeUserPoolClientRequest,
+  DescribeUserPoolClientRequest & RegionInput,
   DescribeUserPoolClientResponse,
   DescribeUserPoolClientError,
   Credentials | HttpClient.HttpClient
@@ -6091,6 +6244,8 @@ export const describeUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserPoolClient",
+  telemetry: TELEMETRY,
+  span: "DescribeUserPoolClient",
 }));
 
 export type DescribeUserPoolDomainError =
@@ -6120,7 +6275,7 @@ export type DescribeUserPoolDomainError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const describeUserPoolDomain: API.OperationMethod<
-  DescribeUserPoolDomainRequest,
+  DescribeUserPoolDomainRequest & RegionInput,
   DescribeUserPoolDomainResponse,
   DescribeUserPoolDomainError,
   Credentials | HttpClient.HttpClient
@@ -6137,6 +6292,8 @@ export const describeUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserPoolDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeUserPoolDomain",
 }));
 
 export type ForgetDeviceError =
@@ -6164,7 +6321,7 @@ export type ForgetDeviceError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const forgetDevice: API.OperationMethod<
-  ForgetDeviceRequest,
+  ForgetDeviceRequest & RegionInput,
   ForgetDeviceResponse,
   ForgetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -6187,6 +6344,8 @@ export const forgetDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ForgetDevice",
+  telemetry: TELEMETRY,
+  span: "ForgetDevice",
 }));
 
 export type ForgotPasswordError =
@@ -6244,7 +6403,7 @@ export type ForgotPasswordError =
  * Developer Guide.
  */
 export const forgotPassword: API.OperationMethod<
-  ForgotPasswordRequest,
+  ForgotPasswordRequest & RegionInput,
   ForgotPasswordResponse,
   ForgotPasswordError,
   Credentials | HttpClient.HttpClient
@@ -6272,6 +6431,8 @@ export const forgotPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ForgotPassword",
+  telemetry: TELEMETRY,
+  span: "ForgotPassword",
 }));
 
 export type GetClientTokenError =
@@ -6300,7 +6461,7 @@ export type GetClientTokenError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const getClientToken: API.OperationMethod<
-  GetClientTokenRequest,
+  GetClientTokenRequest & RegionInput,
   GetClientTokenResponse,
   GetClientTokenError,
   Credentials | HttpClient.HttpClient
@@ -6319,6 +6480,8 @@ export const getClientToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClientToken",
+  telemetry: TELEMETRY,
+  span: "GetClientToken",
 }));
 
 export type GetCSVHeaderError =
@@ -6348,7 +6511,7 @@ export type GetCSVHeaderError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const getCSVHeader: API.OperationMethod<
-  GetCSVHeaderRequest,
+  GetCSVHeaderRequest & RegionInput,
   GetCSVHeaderResponse,
   GetCSVHeaderError,
   Credentials | HttpClient.HttpClient
@@ -6366,6 +6529,8 @@ export const getCSVHeader: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCSVHeader",
+  telemetry: TELEMETRY,
+  span: "GetCSVHeader",
 }));
 
 export type GetDeviceError =
@@ -6393,7 +6558,7 @@ export type GetDeviceError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const getDevice: API.OperationMethod<
-  GetDeviceRequest,
+  GetDeviceRequest & RegionInput,
   GetDeviceResponse,
   GetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -6416,6 +6581,8 @@ export const getDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetGroupError =
@@ -6443,7 +6610,7 @@ export type GetGroupError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -6461,6 +6628,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetIdentityProviderByIdentifierError =
@@ -6476,7 +6645,7 @@ export type GetIdentityProviderByIdentifierError =
  * that IdP. For more information about IdPs, see Third-party IdP sign-in.
  */
 export const getIdentityProviderByIdentifier: API.OperationMethod<
-  GetIdentityProviderByIdentifierRequest,
+  GetIdentityProviderByIdentifierRequest & RegionInput,
   GetIdentityProviderByIdentifierResponse,
   GetIdentityProviderByIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -6493,6 +6662,8 @@ export const getIdentityProviderByIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityProviderByIdentifier",
+  telemetry: TELEMETRY,
+  span: "GetIdentityProviderByIdentifier",
 }));
 
 export type GetLogDeliveryConfigurationError =
@@ -6517,7 +6688,7 @@ export type GetLogDeliveryConfigurationError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const getLogDeliveryConfiguration: API.OperationMethod<
-  GetLogDeliveryConfigurationRequest,
+  GetLogDeliveryConfigurationRequest & RegionInput,
   GetLogDeliveryConfigurationResponse,
   GetLogDeliveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6534,6 +6705,8 @@ export const getLogDeliveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogDeliveryConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLogDeliveryConfiguration",
 }));
 
 export type GetProvisionedLimitError =
@@ -6557,7 +6730,7 @@ export type GetProvisionedLimitError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const getProvisionedLimit: API.OperationMethod<
-  GetProvisionedLimitRequest,
+  GetProvisionedLimitRequest & RegionInput,
   GetProvisionedLimitResponse,
   GetProvisionedLimitError,
   Credentials | HttpClient.HttpClient
@@ -6574,6 +6747,8 @@ export const getProvisionedLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedLimit",
+  telemetry: TELEMETRY,
+  span: "GetProvisionedLimit",
 }));
 
 export type GetSigningCertificateError =
@@ -6603,7 +6778,7 @@ export type GetSigningCertificateError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const getSigningCertificate: API.OperationMethod<
-  GetSigningCertificateRequest,
+  GetSigningCertificateRequest & RegionInput,
   GetSigningCertificateResponse,
   GetSigningCertificateError,
   Credentials | HttpClient.HttpClient
@@ -6619,6 +6794,8 @@ export const getSigningCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningCertificate",
+  telemetry: TELEMETRY,
+  span: "GetSigningCertificate",
 }));
 
 export type GetTokensFromRefreshTokenError =
@@ -6643,7 +6820,7 @@ export type GetTokensFromRefreshTokenError =
  * tokens only.
  */
 export const getTokensFromRefreshToken: API.OperationMethod<
-  GetTokensFromRefreshTokenRequest,
+  GetTokensFromRefreshTokenRequest & RegionInput,
   GetTokensFromRefreshTokenResponse,
   GetTokensFromRefreshTokenError,
   Credentials | HttpClient.HttpClient
@@ -6667,6 +6844,8 @@ export const getTokensFromRefreshToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTokensFromRefreshToken",
+  telemetry: TELEMETRY,
+  span: "GetTokensFromRefreshToken",
 }));
 
 export type GetUICustomizationError =
@@ -6685,7 +6864,7 @@ export type GetUICustomizationError =
  * the user pool. For more information, see Hosted UI (classic) branding.
  */
 export const getUICustomization: API.OperationMethod<
-  GetUICustomizationRequest,
+  GetUICustomizationRequest & RegionInput,
   GetUICustomizationResponse,
   GetUICustomizationError,
   Credentials | HttpClient.HttpClient
@@ -6703,6 +6882,8 @@ export const getUICustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUICustomization",
+  telemetry: TELEMETRY,
+  span: "GetUICustomization",
 }));
 
 export type GetUserError =
@@ -6728,7 +6909,7 @@ export type GetUserError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -6750,6 +6931,8 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserAttributeVerificationCodeError =
@@ -6801,7 +6984,7 @@ export type GetUserAttributeVerificationCodeError =
  * Developer Guide.
  */
 export const getUserAttributeVerificationCode: API.OperationMethod<
-  GetUserAttributeVerificationCodeRequest,
+  GetUserAttributeVerificationCodeRequest & RegionInput,
   GetUserAttributeVerificationCodeResponse,
   GetUserAttributeVerificationCodeError,
   Credentials | HttpClient.HttpClient
@@ -6831,6 +7014,8 @@ export const getUserAttributeVerificationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserAttributeVerificationCode",
+  telemetry: TELEMETRY,
+  span: "GetUserAttributeVerificationCode",
 }));
 
 export type GetUserAuthFactorsError =
@@ -6862,7 +7047,7 @@ export type GetUserAuthFactorsError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const getUserAuthFactors: API.OperationMethod<
-  GetUserAuthFactorsRequest,
+  GetUserAuthFactorsRequest & RegionInput,
   GetUserAuthFactorsResponse,
   GetUserAuthFactorsError,
   Credentials | HttpClient.HttpClient
@@ -6884,6 +7069,8 @@ export const getUserAuthFactors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserAuthFactors",
+  telemetry: TELEMETRY,
+  span: "GetUserAuthFactors",
 }));
 
 export type GetUserPoolMfaConfigError =
@@ -6919,7 +7106,7 @@ export type GetUserPoolMfaConfigError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const getUserPoolMfaConfig: API.OperationMethod<
-  GetUserPoolMfaConfigRequest,
+  GetUserPoolMfaConfigRequest & RegionInput,
   GetUserPoolMfaConfigResponse,
   GetUserPoolMfaConfigError,
   Credentials | HttpClient.HttpClient
@@ -6936,6 +7123,8 @@ export const getUserPoolMfaConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserPoolMfaConfig",
+  telemetry: TELEMETRY,
+  span: "GetUserPoolMfaConfig",
 }));
 
 export type GlobalSignOutError =
@@ -6983,7 +7172,7 @@ export type GlobalSignOutError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const globalSignOut: API.OperationMethod<
-  GlobalSignOutRequest,
+  GlobalSignOutRequest & RegionInput,
   GlobalSignOutResponse,
   GlobalSignOutError,
   Credentials | HttpClient.HttpClient
@@ -7004,6 +7193,8 @@ export const globalSignOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GlobalSignOut",
+  telemetry: TELEMETRY,
+  span: "GlobalSignOut",
 }));
 
 export type InitiateAuthError =
@@ -7057,7 +7248,7 @@ export type InitiateAuthError =
  * Developer Guide.
  */
 export const initiateAuth: API.OperationMethod<
-  InitiateAuthRequest,
+  InitiateAuthRequest & RegionInput,
   InitiateAuthResponse,
   InitiateAuthError,
   Credentials | HttpClient.HttpClient
@@ -7088,6 +7279,8 @@ export const initiateAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateAuth",
+  telemetry: TELEMETRY,
+  span: "InitiateAuth",
 }));
 
 export type ListDevicesError =
@@ -7115,7 +7308,7 @@ export type ListDevicesError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const listDevices: API.OperationMethod<
-  ListDevicesRequest,
+  ListDevicesRequest & RegionInput,
   ListDevicesResponse,
   ListDevicesError,
   Credentials | HttpClient.HttpClient
@@ -7138,6 +7331,8 @@ export const listDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevices",
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 }));
 
 export type ListGroupsError =
@@ -7162,7 +7357,7 @@ export type ListGroupsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -7187,6 +7382,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListIdentityProvidersError =
@@ -7211,7 +7408,7 @@ export type ListIdentityProvidersError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listIdentityProviders: API.PaginatedOperationMethod<
-  ListIdentityProvidersRequest,
+  ListIdentityProvidersRequest & RegionInput,
   ListIdentityProvidersResponse,
   ListIdentityProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -7235,6 +7432,8 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
     items: "Providers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviders",
 })) as any;
 
 export type ListResourceServersError =
@@ -7260,7 +7459,7 @@ export type ListResourceServersError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listResourceServers: API.PaginatedOperationMethod<
-  ListResourceServersRequest,
+  ListResourceServersRequest & RegionInput,
   ListResourceServersResponse,
   ListResourceServersError,
   Credentials | HttpClient.HttpClient,
@@ -7285,6 +7484,8 @@ export const listResourceServers: API.PaginatedOperationMethod<
     items: "ResourceServers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceServers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -7301,7 +7502,7 @@ export type ListTagsForResourceError =
  * resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -7319,6 +7520,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTermsError =
@@ -7343,7 +7546,7 @@ export type ListTermsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listTerms: API.OperationMethod<
-  ListTermsRequest,
+  ListTermsRequest & RegionInput,
   ListTermsResponse,
   ListTermsError,
   Credentials | HttpClient.HttpClient
@@ -7361,6 +7564,8 @@ export const listTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTerms",
+  telemetry: TELEMETRY,
+  span: "ListTerms",
 }));
 
 export type ListUserImportJobsError =
@@ -7387,7 +7592,7 @@ export type ListUserImportJobsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listUserImportJobs: API.OperationMethod<
-  ListUserImportJobsRequest,
+  ListUserImportJobsRequest & RegionInput,
   ListUserImportJobsResponse,
   ListUserImportJobsError,
   Credentials | HttpClient.HttpClient
@@ -7405,6 +7610,8 @@ export const listUserImportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserImportJobs",
+  telemetry: TELEMETRY,
+  span: "ListUserImportJobs",
 }));
 
 export type ListUserPoolClientsError =
@@ -7430,7 +7637,7 @@ export type ListUserPoolClientsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listUserPoolClients: API.PaginatedOperationMethod<
-  ListUserPoolClientsRequest,
+  ListUserPoolClientsRequest & RegionInput,
   ListUserPoolClientsResponse,
   ListUserPoolClientsError,
   Credentials | HttpClient.HttpClient,
@@ -7455,6 +7662,8 @@ export const listUserPoolClients: API.PaginatedOperationMethod<
     items: "UserPoolClients",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserPoolClients",
 })) as any;
 
 export type ListUserPoolClientSecretsError =
@@ -7468,7 +7677,7 @@ export type ListUserPoolClientSecretsError =
  * Lists all client secrets associated with a user pool app client. Returns metadata about the secrets. The response does not include pagination tokens as there are only 2 secrets at any given time and we return both with every ListUserPoolClientSecrets call. For security reasons, the response never reveals the actual secret value in ClientSecretValue.
  */
 export const listUserPoolClientSecrets: API.OperationMethod<
-  ListUserPoolClientSecretsRequest,
+  ListUserPoolClientSecretsRequest & RegionInput,
   ListUserPoolClientSecretsResponse,
   ListUserPoolClientSecretsError,
   Credentials | HttpClient.HttpClient
@@ -7485,6 +7694,8 @@ export const listUserPoolClientSecrets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserPoolClientSecrets",
+  telemetry: TELEMETRY,
+  span: "ListUserPoolClientSecrets",
 }));
 
 export type ListUserPoolReplicasError =
@@ -7511,7 +7722,7 @@ export type ListUserPoolReplicasError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listUserPoolReplicas: API.OperationMethod<
-  ListUserPoolReplicasRequest,
+  ListUserPoolReplicasRequest & RegionInput,
   ListUserPoolReplicasResponse,
   ListUserPoolReplicasError,
   Credentials | HttpClient.HttpClient
@@ -7529,6 +7740,8 @@ export const listUserPoolReplicas: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserPoolReplicas",
+  telemetry: TELEMETRY,
+  span: "ListUserPoolReplicas",
 }));
 
 export type ListUserPoolsError =
@@ -7551,7 +7764,7 @@ export type ListUserPoolsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listUserPools: API.PaginatedOperationMethod<
-  ListUserPoolsRequest,
+  ListUserPoolsRequest & RegionInput,
   ListUserPoolsResponse,
   ListUserPoolsError,
   Credentials | HttpClient.HttpClient,
@@ -7574,6 +7787,8 @@ export const listUserPools: API.PaginatedOperationMethod<
     items: "UserPools",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserPools",
 })) as any;
 
 export type ListUsersError =
@@ -7603,7 +7818,7 @@ export type ListUsersError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -7628,6 +7843,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type ListUsersInGroupError =
@@ -7653,7 +7870,7 @@ export type ListUsersInGroupError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const listUsersInGroup: API.PaginatedOperationMethod<
-  ListUsersInGroupRequest,
+  ListUsersInGroupRequest & RegionInput,
   ListUsersInGroupResponse,
   ListUsersInGroupError,
   Credentials | HttpClient.HttpClient,
@@ -7678,6 +7895,8 @@ export const listUsersInGroup: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsersInGroup",
 })) as any;
 
 export type ListWebAuthnCredentialsError =
@@ -7702,7 +7921,7 @@ export type ListWebAuthnCredentialsError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const listWebAuthnCredentials: API.OperationMethod<
-  ListWebAuthnCredentialsRequest,
+  ListWebAuthnCredentialsRequest & RegionInput,
   ListWebAuthnCredentialsResponse,
   ListWebAuthnCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -7722,6 +7941,8 @@ export const listWebAuthnCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebAuthnCredentials",
+  telemetry: TELEMETRY,
+  span: "ListWebAuthnCredentials",
 }));
 
 export type ResendConfirmationCodeError =
@@ -7772,7 +7993,7 @@ export type ResendConfirmationCodeError =
  * Developer Guide.
  */
 export const resendConfirmationCode: API.OperationMethod<
-  ResendConfirmationCodeRequest,
+  ResendConfirmationCodeRequest & RegionInput,
   ResendConfirmationCodeResponse,
   ResendConfirmationCodeError,
   Credentials | HttpClient.HttpClient
@@ -7800,6 +8021,8 @@ export const resendConfirmationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendConfirmationCode",
+  telemetry: TELEMETRY,
+  span: "ResendConfirmationCode",
 }));
 
 export type RespondToAuthChallengeError =
@@ -7861,7 +8084,7 @@ export type RespondToAuthChallengeError =
  * Developer Guide.
  */
 export const respondToAuthChallenge: API.OperationMethod<
-  RespondToAuthChallengeRequest,
+  RespondToAuthChallengeRequest & RegionInput,
   RespondToAuthChallengeResponse,
   RespondToAuthChallengeError,
   Credentials | HttpClient.HttpClient
@@ -7897,6 +8120,8 @@ export const respondToAuthChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondToAuthChallenge",
+  telemetry: TELEMETRY,
+  span: "RespondToAuthChallenge",
 }));
 
 export type RevokeTokenError =
@@ -7920,7 +8145,7 @@ export type RevokeTokenError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const revokeToken: API.OperationMethod<
-  RevokeTokenRequest,
+  RevokeTokenRequest & RegionInput,
   RevokeTokenResponse,
   RevokeTokenError,
   Credentials | HttpClient.HttpClient
@@ -7940,6 +8165,8 @@ export const revokeToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeToken",
+  telemetry: TELEMETRY,
+  span: "RevokeToken",
 }));
 
 export type SetLogDeliveryConfigurationError =
@@ -7957,7 +8184,7 @@ export type SetLogDeliveryConfigurationError =
  * pool logs.
  */
 export const setLogDeliveryConfiguration: API.OperationMethod<
-  SetLogDeliveryConfigurationRequest,
+  SetLogDeliveryConfigurationRequest & RegionInput,
   SetLogDeliveryConfigurationResponse,
   SetLogDeliveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7975,6 +8202,8 @@ export const setLogDeliveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLogDeliveryConfiguration",
+  telemetry: TELEMETRY,
+  span: "SetLogDeliveryConfiguration",
 }));
 
 export type SetRiskConfigurationError =
@@ -8016,7 +8245,7 @@ export type SetRiskConfigurationError =
  * maintain consistency across replicas.
  */
 export const setRiskConfiguration: API.OperationMethod<
-  SetRiskConfigurationRequest,
+  SetRiskConfigurationRequest & RegionInput,
   SetRiskConfigurationResponse,
   SetRiskConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8037,6 +8266,8 @@ export const setRiskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRiskConfiguration",
+  telemetry: TELEMETRY,
+  span: "SetRiskConfiguration",
 }));
 
 export type SetUICustomizationError =
@@ -8067,7 +8298,7 @@ export type SetUICustomizationError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const setUICustomization: API.OperationMethod<
-  SetUICustomizationRequest,
+  SetUICustomizationRequest & RegionInput,
   SetUICustomizationResponse,
   SetUICustomizationError,
   Credentials | HttpClient.HttpClient
@@ -8085,6 +8316,8 @@ export const setUICustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUICustomization",
+  telemetry: TELEMETRY,
+  span: "SetUICustomization",
 }));
 
 export type SetUserMFAPreferenceError =
@@ -8117,7 +8350,7 @@ export type SetUserMFAPreferenceError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const setUserMFAPreference: API.OperationMethod<
-  SetUserMFAPreferenceRequest,
+  SetUserMFAPreferenceRequest & RegionInput,
   SetUserMFAPreferenceResponse,
   SetUserMFAPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -8138,6 +8371,8 @@ export const setUserMFAPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUserMFAPreference",
+  telemetry: TELEMETRY,
+  span: "SetUserMFAPreference",
 }));
 
 export type SetUserPoolMfaConfigError =
@@ -8174,7 +8409,7 @@ export type SetUserPoolMfaConfigError =
  * Developer Guide.
  */
 export const setUserPoolMfaConfig: API.OperationMethod<
-  SetUserPoolMfaConfigRequest,
+  SetUserPoolMfaConfigRequest & RegionInput,
   SetUserPoolMfaConfigResponse,
   SetUserPoolMfaConfigError,
   Credentials | HttpClient.HttpClient
@@ -8196,6 +8431,8 @@ export const setUserPoolMfaConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUserPoolMfaConfig",
+  telemetry: TELEMETRY,
+  span: "SetUserPoolMfaConfig",
 }));
 
 export type SetUserSettingsError =
@@ -8222,7 +8459,7 @@ export type SetUserSettingsError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const setUserSettings: API.OperationMethod<
-  SetUserSettingsRequest,
+  SetUserSettingsRequest & RegionInput,
   SetUserSettingsResponse,
   SetUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -8243,6 +8480,8 @@ export const setUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUserSettings",
+  telemetry: TELEMETRY,
+  span: "SetUserSettings",
 }));
 
 export type SignUpError =
@@ -8297,7 +8536,7 @@ export type SignUpError =
  * state.
  */
 export const signUp: API.OperationMethod<
-  SignUpRequest,
+  SignUpRequest & RegionInput,
   SignUpResponse,
   SignUpError,
   Credentials | HttpClient.HttpClient
@@ -8326,6 +8565,8 @@ export const signUp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignUp",
+  telemetry: TELEMETRY,
+  span: "SignUp",
 }));
 
 export type StartUserImportJobError =
@@ -8343,7 +8584,7 @@ export type StartUserImportJobError =
  * see Importing users from a CSV file.
  */
 export const startUserImportJob: API.OperationMethod<
-  StartUserImportJobRequest,
+  StartUserImportJobRequest & RegionInput,
   StartUserImportJobResponse,
   StartUserImportJobError,
   Credentials | HttpClient.HttpClient
@@ -8362,6 +8603,8 @@ export const startUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUserImportJob",
+  telemetry: TELEMETRY,
+  span: "StartUserImportJob",
 }));
 
 export type StartWebAuthnRegistrationError =
@@ -8385,7 +8628,7 @@ export type StartWebAuthnRegistrationError =
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
 export const startWebAuthnRegistration: API.OperationMethod<
-  StartWebAuthnRegistrationRequest,
+  StartWebAuthnRegistrationRequest & RegionInput,
   StartWebAuthnRegistrationResponse,
   StartWebAuthnRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -8407,6 +8650,8 @@ export const startWebAuthnRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWebAuthnRegistration",
+  telemetry: TELEMETRY,
+  span: "StartWebAuthnRegistration",
 }));
 
 export type StopUserImportJobError =
@@ -8424,7 +8669,7 @@ export type StopUserImportJobError =
  * users from a CSV file, see Importing users from a CSV file.
  */
 export const stopUserImportJob: API.OperationMethod<
-  StopUserImportJobRequest,
+  StopUserImportJobRequest & RegionInput,
   StopUserImportJobResponse,
   StopUserImportJobError,
   Credentials | HttpClient.HttpClient
@@ -8443,6 +8688,8 @@ export const stopUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopUserImportJob",
+  telemetry: TELEMETRY,
+  span: "StopUserImportJob",
 }));
 
 export type TagResourceError =
@@ -8473,7 +8720,7 @@ export type TagResourceError =
  * many as 50 tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8491,6 +8738,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -8505,7 +8754,7 @@ export type UntagResourceError =
  * Given tag IDs that you previously assigned to a user pool, removes them.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8523,6 +8772,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAuthEventFeedbackError =
@@ -8557,7 +8808,7 @@ export type UpdateAuthEventFeedbackError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const updateAuthEventFeedback: API.OperationMethod<
-  UpdateAuthEventFeedbackRequest,
+  UpdateAuthEventFeedbackRequest & RegionInput,
   UpdateAuthEventFeedbackResponse,
   UpdateAuthEventFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -8577,6 +8828,8 @@ export const updateAuthEventFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthEventFeedback",
+  telemetry: TELEMETRY,
+  span: "UpdateAuthEventFeedback",
 }));
 
 export type UpdateDeviceStatusError =
@@ -8608,7 +8861,7 @@ export type UpdateDeviceStatusError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const updateDeviceStatus: API.OperationMethod<
-  UpdateDeviceStatusRequest,
+  UpdateDeviceStatusRequest & RegionInput,
   UpdateDeviceStatusResponse,
   UpdateDeviceStatusError,
   Credentials | HttpClient.HttpClient
@@ -8631,6 +8884,8 @@ export const updateDeviceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceStatus",
 }));
 
 export type UpdateGroupError =
@@ -8656,7 +8911,7 @@ export type UpdateGroupError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -8674,6 +8929,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateIdentityProviderError =
@@ -8702,7 +8959,7 @@ export type UpdateIdentityProviderError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateIdentityProvider: API.OperationMethod<
-  UpdateIdentityProviderRequest,
+  UpdateIdentityProviderRequest & RegionInput,
   UpdateIdentityProviderResponse,
   UpdateIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -8721,6 +8978,8 @@ export const updateIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProvider",
 }));
 
 export type UpdateManagedLoginBrandingError =
@@ -8756,7 +9015,7 @@ export type UpdateManagedLoginBrandingError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateManagedLoginBranding: API.OperationMethod<
-  UpdateManagedLoginBrandingRequest,
+  UpdateManagedLoginBrandingRequest & RegionInput,
   UpdateManagedLoginBrandingResponse,
   UpdateManagedLoginBrandingError,
   Credentials | HttpClient.HttpClient
@@ -8775,6 +9034,8 @@ export const updateManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedLoginBranding",
+  telemetry: TELEMETRY,
+  span: "UpdateManagedLoginBranding",
 }));
 
 export type UpdateProvisionedLimitError =
@@ -8804,7 +9065,7 @@ export type UpdateProvisionedLimitError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateProvisionedLimit: API.OperationMethod<
-  UpdateProvisionedLimitRequest,
+  UpdateProvisionedLimitRequest & RegionInput,
   UpdateProvisionedLimitResponse,
   UpdateProvisionedLimitError,
   Credentials | HttpClient.HttpClient
@@ -8822,6 +9083,8 @@ export const updateProvisionedLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedLimit",
+  telemetry: TELEMETRY,
+  span: "UpdateProvisionedLimit",
 }));
 
 export type UpdateResourceServerError =
@@ -8850,7 +9113,7 @@ export type UpdateResourceServerError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateResourceServer: API.OperationMethod<
-  UpdateResourceServerRequest,
+  UpdateResourceServerRequest & RegionInput,
   UpdateResourceServerResponse,
   UpdateResourceServerError,
   Credentials | HttpClient.HttpClient
@@ -8868,6 +9131,8 @@ export const updateResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceServer",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceServer",
 }));
 
 export type UpdateTermsError =
@@ -8907,7 +9172,7 @@ export type UpdateTermsError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateTerms: API.OperationMethod<
-  UpdateTermsRequest,
+  UpdateTermsRequest & RegionInput,
   UpdateTermsResponse,
   UpdateTermsError,
   Credentials | HttpClient.HttpClient
@@ -8927,6 +9192,8 @@ export const updateTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTerms",
+  telemetry: TELEMETRY,
+  span: "UpdateTerms",
 }));
 
 export type UpdateUserAttributesError =
@@ -8983,7 +9250,7 @@ export type UpdateUserAttributesError =
  * Developer Guide.
  */
 export const updateUserAttributes: API.OperationMethod<
-  UpdateUserAttributesRequest,
+  UpdateUserAttributesRequest & RegionInput,
   UpdateUserAttributesResponse,
   UpdateUserAttributesError,
   Credentials | HttpClient.HttpClient
@@ -9015,6 +9282,8 @@ export const updateUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateUserAttributes",
 }));
 
 export type UpdateUserPoolError =
@@ -9073,7 +9342,7 @@ export type UpdateUserPoolError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateUserPool: API.OperationMethod<
-  UpdateUserPoolRequest,
+  UpdateUserPoolRequest & RegionInput,
   UpdateUserPoolResponse,
   UpdateUserPoolError,
   Credentials | HttpClient.HttpClient
@@ -9099,6 +9368,8 @@ export const updateUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPool",
+  telemetry: TELEMETRY,
+  span: "UpdateUserPool",
 }));
 
 export type UpdateUserPoolClientError =
@@ -9136,7 +9407,7 @@ export type UpdateUserPoolClientError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateUserPoolClient: API.OperationMethod<
-  UpdateUserPoolClientRequest,
+  UpdateUserPoolClientRequest & RegionInput,
   UpdateUserPoolClientResponse,
   UpdateUserPoolClientError,
   Credentials | HttpClient.HttpClient
@@ -9158,6 +9429,8 @@ export const updateUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPoolClient",
+  telemetry: TELEMETRY,
+  span: "UpdateUserPoolClient",
 }));
 
 export type UpdateUserPoolDomainError =
@@ -9205,7 +9478,7 @@ export type UpdateUserPoolDomainError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateUserPoolDomain: API.OperationMethod<
-  UpdateUserPoolDomainRequest,
+  UpdateUserPoolDomainRequest & RegionInput,
   UpdateUserPoolDomainResponse,
   UpdateUserPoolDomainError,
   Credentials | HttpClient.HttpClient
@@ -9225,6 +9498,8 @@ export const updateUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPoolDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateUserPoolDomain",
 }));
 
 export type UpdateUserPoolReplicaError =
@@ -9251,7 +9526,7 @@ export type UpdateUserPoolReplicaError =
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
 export const updateUserPoolReplica: API.OperationMethod<
-  UpdateUserPoolReplicaRequest,
+  UpdateUserPoolReplicaRequest & RegionInput,
   UpdateUserPoolReplicaResponse,
   UpdateUserPoolReplicaError,
   Credentials | HttpClient.HttpClient
@@ -9269,6 +9544,8 @@ export const updateUserPoolReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPoolReplica",
+  telemetry: TELEMETRY,
+  span: "UpdateUserPoolReplica",
 }));
 
 export type VerifySoftwareTokenError =
@@ -9299,7 +9576,7 @@ export type VerifySoftwareTokenError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const verifySoftwareToken: API.OperationMethod<
-  VerifySoftwareTokenRequest,
+  VerifySoftwareTokenRequest & RegionInput,
   VerifySoftwareTokenResponse,
   VerifySoftwareTokenError,
   Credentials | HttpClient.HttpClient
@@ -9325,6 +9602,8 @@ export const verifySoftwareToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySoftwareToken",
+  telemetry: TELEMETRY,
+  span: "VerifySoftwareToken",
 }));
 
 export type VerifyUserAttributeError =
@@ -9360,7 +9639,7 @@ export type VerifyUserAttributeError =
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
 export const verifyUserAttribute: API.OperationMethod<
-  VerifyUserAttributeRequest,
+  VerifyUserAttributeRequest & RegionInput,
   VerifyUserAttributeResponse,
   VerifyUserAttributeError,
   Credentials | HttpClient.HttpClient
@@ -9386,6 +9665,8 @@ export const verifyUserAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyUserAttribute",
+  telemetry: TELEMETRY,
+  span: "VerifyUserAttribute",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -18,8 +18,10 @@
  *   index.js, services/*.js
  *                       real entry chunks; they import the group chunks directly.
  *   _chunks/*.js        lazily imported code (AWS protocols, credential providers).
- *   services.full/*.js  the service entry chunks, for bundlers; services/*.js
- *                       are then Node's lazy stubs (see lazy-services.ts).
+ *   services.lazy/*.js  lazy stubs of the service entry chunks, which a Node
+ *                       process opts in to with the `distilled-lazy`
+ *                       condition (see lazy-services.ts); every other
+ *                       condition resolves services/*.js.
  *
  * SDK chunks import core through `@distilled.cloud/core/_bundle/<group>`, never
  * through core's facades. Each source module lands in exactly one chunk, so
@@ -30,39 +32,42 @@
  * outside G also imports G's virtual entry, which reaches all of G. The build
  * fails if a group still splits.
  *
+ * Memory: one rolldown graph holds every module it bundles, so the groups and
+ * the other entries build first, then each service in a build of its own
+ * (several at once, within BATCH_BYTES of source), and every SDK package in a
+ * process of its own. Building every package peaks at about the largest
+ * service plus its package's groups instead of all of them.
+ *
  *   node scripts/bundle-lib.ts [packages/<pkg> ...]   (core is always rebuilt)
  */
+// Before rolldown loads: its allocator reads its settings at load.
+import "./bundle-lib-memory.ts";
+import { spawnSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
+  mkdtempSync,
   readdirSync,
   readFileSync,
   rmSync,
   statSync,
   writeFileSync,
 } from "node:fs";
-import { createRequire } from "node:module";
+import { tmpdir } from "node:os";
 import { dirname, isAbsolute, join, relative } from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
+import {
+  type InputOptions,
+  type OutputOptions,
+  type Plugin,
+  rolldown,
+  RUNTIME_MODULE_ID,
+} from "rolldown";
+import { parseAst } from "rolldown/parseAst";
+import { datafyOperations } from "../packages/dev/src/codegen/datafy.ts";
+import { lazyExports, lazyServices, stubTargets } from "./lazy-services.ts";
 
 const ROOT = join(import.meta.dirname, "..");
-const require = createRequire(join(ROOT, "packages", "core", "package.json"));
-const { rolldown, RUNTIME_MODULE_ID } = (await import(
-  pathToFileURL(require.resolve("rolldown")).href
-)) as {
-  rolldown: any;
-  RUNTIME_MODULE_ID: string;
-};
-const { parseAst } = (await import(pathToFileURL(require.resolve("rolldown/parseAst")).href)) as {
-  parseAst: (code: string, options: object, filename: string) => any;
-};
-const { datafyOperations } = (await import(
-  pathToFileURL(join(ROOT, "packages", "core", "src", "codegen", "datafy.ts")).href
-)) as typeof import("../packages/core/src/codegen/datafy.ts");
-
-const { lazyServices, lazyExports } = (await import(
-  pathToFileURL(join(ROOT, "scripts", "lazy-services.ts")).href
-)) as typeof import("./lazy-services.ts");
 
 /** Core modules by group, in load order. Modules not listed are entries of their own. */
 const CORE_GROUPS: Record<string, string[]> = {
@@ -77,13 +82,13 @@ const CORE_GROUPS: Record<string, string[]> = {
     "response-validation",
     "response-validation-strict",
     "schema-lite-impl",
+    "schema-lite-typed",
   ],
   // REST/JSON SDKs (everything but AWS).
   rest: [
     "errors",
     "schema-lite",
     "error-category",
-    "debug",
     "protocol-http",
     "protocol-rest",
     "retry-after",
@@ -96,6 +101,10 @@ const CORE_GROUPS: Record<string, string[]> = {
 const SDK_GROUP = "sdk";
 const VIRTUAL = "distilled-bundle:";
 const CORE_VIRTUAL = "\0distilled-core:";
+/** A grouped core module, in a service's build: aliases re-exported by the SDK group chunk. */
+const CORE_REF = "\0distilled-core-ref:";
+/** A grouped module, in a service's build: re-exports of the built group chunk. */
+const GROUP_REF = "\0distilled-group:";
 
 interface Plan {
   readonly name: string;
@@ -110,6 +119,12 @@ interface Plan {
   readonly serviceDirs: string[];
   /** lib paths (relative to lib/) that must not be touched */
   readonly keep: (rel: string) => boolean;
+  /**
+   * Modules that are one `export * from "<package>"` line (module -> that
+   * specifier). They ship as that line, and the package's own imports of
+   * them import the other package instead.
+   */
+  readonly aliases: Map<string, string>;
 }
 
 interface Built {
@@ -149,7 +164,7 @@ const corePlan = (): Plan => {
   const src = join(dir, "src");
   const all = walk(src)
     .map((p) => rel(src, p))
-    .filter((p) => isSource(p) && !p.startsWith("codegen/") && !p.startsWith("fixtures/"))
+    .filter((p) => isSource(p) && !p.startsWith("fixtures/"))
     .map(noExt);
   const grouped = new Set(Object.values(CORE_GROUPS).flat());
   for (const m of grouped)
@@ -161,8 +176,8 @@ const corePlan = (): Plan => {
     direct: all.filter((m) => !grouped.has(m)),
     deep: [],
     serviceDirs: [],
-    // codegen runs from src (bun condition); its tsc output is left alone.
-    keep: (p) => p.startsWith("codegen/") || p.startsWith("fixtures/"),
+    keep: (p) => p.startsWith("fixtures/"),
+    aliases: new Map(),
   };
 };
 
@@ -173,7 +188,65 @@ const exportTargets = (value: unknown, out: string[] = []): string[] => {
   return out;
 };
 
+/** Short export names in order: a, b, ..., _, aa, ba, ... (no `$`, so no clash with `<module>$<name>`). */
+const SHORT_NAMES: string[] = [];
+const shortName = (i: number): string => {
+  const first = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+  const rest = `${first}0123456789`;
+  for (let n = SHORT_NAMES.length; SHORT_NAMES.length <= i; n++) {
+    let name = first[n % first.length]!;
+    for (let k = Math.floor(n / first.length); k > 0; k = Math.floor((k - 1) / rest.length))
+      name += rest[(k - 1) % rest.length]!;
+    if (!["do", "if", "in"].includes(name)) SHORT_NAMES.push(name);
+  }
+  return SHORT_NAMES[i]!;
+};
+
 const isService = (plan: Plan, m: string) => plan.serviceDirs.some((d) => m.startsWith(`${d}/`));
+
+/**
+ * The package a module re-exports, if the module is only
+ * `export * from "<package>"` (`@distilled.cloud/aws`'s modules that
+ * re-export `@distilled.cloud/s3`). Re-exports of core stay ordinary
+ * modules: SDK builds route core to its group chunks.
+ */
+const aliasOf = (file: string): string | undefined => {
+  const ast = parseAst(readFileSync(file, "utf8"), { sourceType: "module", lang: "ts" }, file);
+  const [n, ...rest] = ast.body;
+  if (rest.length > 0 || n?.type !== "ExportAllDeclaration" || n.exported) return undefined;
+  const spec: string = n.source.value;
+  return spec.startsWith(".") || spec.startsWith("@distilled.cloud/core") ? undefined : spec;
+};
+
+const ALIAS = "\0distilled-alias:";
+
+/**
+ * What an alias module's importers import: when the workspace package it
+ * names publishes the module as a facade of one of its `_bundle/` chunks,
+ * that facade's line pointed at the chunk, so a service imports the chunk
+ * by name (as it imports core's) instead of through the facade.
+ */
+const facades = new Map<string, string | undefined>();
+const facadeOf = (spec: string): string | undefined => {
+  if (!facades.has(spec)) facades.set(spec, readFacade(spec));
+  return facades.get(spec);
+};
+const readFacade = (spec: string): string | undefined => {
+  const m = /^(@distilled\.cloud\/[^/]+)(\/.+)?$/.exec(spec);
+  if (!m) return undefined;
+  const dir = join(ROOT, "packages", m[1]!.slice("@distilled.cloud/".length));
+  if (!existsSync(join(dir, "package.json"))) return undefined;
+  const pkg = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
+  if (!pkg.exports?.["./_bundle/*"]) return undefined;
+  const entry = pkg.exports[`.${m[2] ?? ""}`];
+  const target: unknown = typeof entry === "string" ? entry : entry?.default;
+  const file = typeof target === "string" && target.startsWith("./lib/") && join(dir, target);
+  if (!file || !existsSync(file)) return undefined;
+  const line = /^export \{([^}]*)\} from "(?:\.\.?\/)+_bundle\/([\w.-]+)\.js";\n?$/.exec(
+    readFileSync(file, "utf8"),
+  );
+  return line ? `export {${line[1]}} from "${m[1]}/_bundle/${line[2]}";` : undefined;
+};
 
 const sdkPlan = (dir: string): Plan | undefined => {
   const pkg = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
@@ -194,6 +267,13 @@ const sdkPlan = (dir: string): Plan | undefined => {
       if (m && existsSync(join(src, `${m[1]}.ts`))) publicMods.add(m[1]!);
     }
   }
+  // Package `imports` (`#md5`, ...) stay bare in the bundle (see `external`) so
+  // the consumer's bundler picks the variant; their targets stay entries.
+  for (const value of Object.values(pkg.imports ?? {}))
+    for (const t of exportTargets(value)) {
+      const m = /^\.\/lib\/(.+)\.js$/.exec(t);
+      if (m && existsSync(join(src, `${m[1]}.ts`))) publicMods.add(m[1]!);
+    }
   const services = [...serviceDirs].flatMap((d) =>
     walk(join(src, d))
       .map((p) => rel(src, p))
@@ -201,6 +281,14 @@ const sdkPlan = (dir: string): Plan | undefined => {
       .map(noExt),
   );
   const inServiceDir = (m: string) => [...serviceDirs].some((d) => m.startsWith(`${d}/`));
+  const aliases = new Map<string, string>();
+  for (const file of walk(src)) {
+    const m = noExt(rel(src, file));
+    if (!isSource(rel(src, file)) || inServiceDir(m)) continue;
+    const spec = aliasOf(file);
+    if (spec) aliases.set(m, spec);
+  }
+  for (const m of aliases.keys()) publicMods.delete(m);
   const direct = [...publicMods].filter((m) => m === "index" || m.startsWith("index."));
   // The group is what a program (credentials + one service) loads anyway:
   // credentials and every module a service imports, with their static
@@ -214,7 +302,7 @@ const sdkPlan = (dir: string): Plan | undefined => {
       /^(?:import|export)[^;]*? from "(\.[^"]+)";/gm,
     )) {
       const target = noExt(rel(src, join(src, dirname(s), m[1]!)));
-      if (!inServiceDir(target)) roots.add(target);
+      if (!inServiceDir(target) && !aliases.has(target)) roots.add(target);
     }
   const group = [...roots];
   const deep = [...publicMods].filter(
@@ -228,6 +316,7 @@ const sdkPlan = (dir: string): Plan | undefined => {
     deep,
     serviceDirs: [...serviceDirs],
     keep: () => false,
+    aliases,
   };
 };
 
@@ -255,17 +344,23 @@ const importsOf = (file: string): Imports => {
   };
   if (code.includes("import(")) visit(ast);
   for (const node of ast.body) {
+    if (
+      node.type !== "ImportDeclaration" &&
+      node.type !== "ExportNamedDeclaration" &&
+      node.type !== "ExportAllDeclaration"
+    )
+      continue;
     const src = node.source?.value;
     if (typeof src !== "string" || !src.startsWith(".")) continue;
     if (node.type === "ImportDeclaration") {
       if (node.importKind === "type") continue;
       const specs = node.specifiers ?? [];
       if (specs.length > 0 && specs.every((s: any) => s.importKind === "type")) continue;
-    } else if (node.type === "ExportNamedDeclaration" || node.type === "ExportAllDeclaration") {
+    } else {
       if (node.exportKind === "type") continue;
-      const specs = node.specifiers ?? [];
-      if (specs.length > 0 && specs.every((s: any) => s.exportKind === "type")) continue;
-    } else continue;
+      const specs = node.type === "ExportNamedDeclaration" ? node.specifiers : [];
+      if (specs.length > 0 && specs.every((s) => s.exportKind === "type")) continue;
+    }
     out.push(src);
   }
   return { static: out, dynamic: dynamic.filter((d) => d.startsWith(".")) };
@@ -276,7 +371,7 @@ const graphOf = (plan: Plan): Map<string, Imports> => {
   const graph = new Map<string, Imports>();
   for (const file of walk(src)) {
     const r = rel(src, file);
-    if (!isSource(r) || isService(plan, r) || r.startsWith("codegen/")) continue;
+    if (!isSource(r) || isService(plan, r)) continue;
     const m = noExt(r);
     const i = importsOf(file);
     const local = (s: string) => noExt(rel(src, join(dirname(file), s)));
@@ -292,7 +387,7 @@ const assignGroups = (plan: Plan, graph: Map<string, Imports>): Map<string, stri
     const stack = [...mods];
     while (stack.length) {
       const m = stack.pop()!;
-      if (groupOf.has(m) || (direct.has(m) && !mods.includes(m))) continue;
+      if (groupOf.has(m) || plan.aliases.has(m) || (direct.has(m) && !mods.includes(m))) continue;
       groupOf.set(m, g);
       for (const d of graph.get(m)?.static ?? []) stack.push(d);
     }
@@ -317,7 +412,11 @@ const barrelOf = (src: string, file: string): { code: string; targets: string[] 
     return s.replace(/\.ts$/, ".js");
   };
   for (const n of ast.body) {
-    if (n.exportKind === "type" || n.importKind === "type") continue;
+    if (
+      ("exportKind" in n && n.exportKind === "type") ||
+      ("importKind" in n && n.importKind === "type")
+    )
+      continue;
     if (n.type === "ExportAllDeclaration") {
       lines.push(
         `export * ${n.exported ? `as ${name(n.exported)} ` : ""}from "${spec(n.source.value)}";`,
@@ -346,19 +445,28 @@ const barrelOf = (src: string, file: string): { code: string; targets: string[] 
 
 //#region rolldown
 
+/**
+ * Source bytes of the services that build at once (see buildPackage): what
+ * bounds bundle-lib's memory. Lower trades time for memory; a service larger
+ * than this builds alone.
+ */
+const BATCH_BYTES = Number(process.env.BUNDLE_LIB_BATCH_BYTES ?? 8 * 1024 * 1024);
+
 const COMMON_INPUT = {
   logLevel: "warn",
   treeshake: { moduleSideEffects: true },
   // Same tsconfig semantics as tsc: ESNext target, define class fields.
   transform: { target: "esnext" },
-};
+} satisfies InputOptions;
 
 const external = (id: string) =>
   !id.startsWith(".") &&
   !isAbsolute(id) &&
   !id.startsWith("\0") &&
   !id.startsWith(VIRTUAL) &&
-  !id.startsWith("@distilled.cloud/core");
+  !id.startsWith("@distilled.cloud/core") &&
+  // Rolldown asks before any plugin resolves the id; see aliasImports.
+  !(id.startsWith("@distilled.cloud/") && facadeOf(id));
 
 /** SDK builds: route `@distilled.cloud/core/<m>` straight to core's group chunks. */
 const corePlugin = (core: Plan, built: Built) => ({
@@ -383,7 +491,7 @@ const corePlugin = (core: Plan, built: Built) => ({
 });
 
 /** Export names of every grouped public module (one in-memory build). */
-const exportNames = async (plan: Plan, plugins: object[]): Promise<Map<string, string[]>> => {
+const exportNames = async (plan: Plan, plugins: Plugin[]): Promise<Map<string, string[]>> => {
   const mods = [...plan.groups.values()].flat();
   const out = new Map<string, string[]>();
   if (mods.length === 0) return out;
@@ -521,9 +629,9 @@ const reannotate = (pretty: string, min: string, map: any): string => {
  * strings, regexes and comments can hold such characters, and `\uXXXX` means
  * the same there.
  */
-const toLatin1 = (lib: string, output: any[]) => {
+const toLatin1 = (lib: string, output: { type: string; fileName: string; latin1?: boolean }[]) => {
   for (const c of output) {
-    if (c.type !== "chunk" || !/[^\x00-\xff]/.test(c.code)) continue;
+    if (c.type !== "chunk" || c.latin1) continue;
     const file = join(lib, c.fileName);
     const code = readFileSync(file, "utf8");
     writeFileSync(
@@ -531,6 +639,38 @@ const toLatin1 = (lib: string, output: any[]) => {
       code.replace(/[^\x00-\xff]/g, (ch) => `\\u${ch.charCodeAt(0).toString(16).padStart(4, "0")}`),
     );
   }
+};
+
+/**
+ * Bundle a package's browser entry and one service the way a browser bundler
+ * does (the `browser` condition and package.json field): no `node:` import
+ * and no missing export may remain.
+ */
+const checkBrowser = async (plan: Plan, lib: string) => {
+  const service = plan.serviceDirs.includes("services")
+    ? readdirSync(join(lib, "services")).find((f) => f.endsWith(".js"))
+    : undefined;
+  const input = [
+    join(lib, "index.browser.js"),
+    ...(service ? [join(lib, "services", service)] : []),
+  ];
+  const nodeImports = new Set<string>();
+  const bundle = await rolldown({
+    input: input.filter((f) => existsSync(f)),
+    cwd: plan.dir,
+    platform: "browser",
+    logLevel: "silent",
+    external: (id: string) => {
+      if (id.startsWith("node:")) nodeImports.add(id);
+      return id.startsWith("node:") || id === "effect" || id.startsWith("effect/");
+    },
+  });
+  await bundle.generate({ format: "es" });
+  await bundle.close();
+  if (nodeImports.size)
+    throw new Error(
+      `bundle-lib: ${plan.name}: the browser build reaches ${[...nodeImports].sort().join(", ")}`,
+    );
 };
 
 const buildPackage = async (
@@ -548,7 +688,36 @@ const buildPackage = async (
     else plan.direct.push(d);
   }
   const dynamicTargets = new Set([...graph.values()].flatMap((i) => i.dynamic));
-  const plugins: object[] = core ? [corePlugin(corePlan, core)] : [];
+  const pkgName = `@distilled.cloud/${plan.name}`;
+  /**
+   * Imports of another workspace package, and the package's own imports of
+   * an alias module, as `facadeOf` names them: the build sees the names they
+   * export (so `export * from` such a package can be grouped) and the
+   * output imports that package's group chunk.
+   */
+  const aliasImports = {
+    name: "distilled-aliases",
+    resolveId(source: string, importer: string | undefined) {
+      let spec: string | undefined = source;
+      if (source.startsWith(".")) {
+        if (!importer || !inside(src, importer)) return;
+        spec = plan.aliases.get(noExt(rel(src, join(dirname(importer), source))));
+        if (!spec) return;
+      } else if (
+        !source.startsWith("@distilled.cloud/") ||
+        source.startsWith("@distilled.cloud/core") ||
+        source === pkgName ||
+        source.startsWith(`${pkgName}/`)
+      )
+        return;
+      if (facadeOf(spec)) return ALIAS + spec;
+      if (spec !== source) return { id: spec, external: true };
+    },
+    load(id: string) {
+      if (id.startsWith(ALIAS)) return facadeOf(id.slice(ALIAS.length));
+    },
+  };
+  const plugins: Plugin[] = [aliasImports, ...(core ? [corePlugin(corePlan, core)] : [])];
   // Core modules that services and the SDK group import. The SDK group
   // imports all of them, so the re-export shims that route them to core's
   // chunks live in that chunk instead of a chunk of their own. Lazily loaded
@@ -566,6 +735,20 @@ const buildPackage = async (
           if (m[1] !== "@distilled.cloud/core" && !corePlan.direct.includes(m[1]!.slice(22)))
             coreRefs.add(m[1]!);
 
+  // Services reach core through the SDK group chunk, as they did when the
+  // whole package was one build: `sdk.js` re-exports every core name a
+  // service uses under a short alias, so each service has one short import.
+  // Aliases are fixed up front (every service build and the group build
+  // agree on them); the group exports only the ones services import.
+  const coreAlias = new Map<string, string>();
+  if (core && plan.groups.get(SDK_GROUP)?.length)
+    for (const r of [...coreRefs].sort()) {
+      const m = r.slice("@distilled.cloud/core/".length);
+      for (const e of core.exportsOf.get(m) ?? [])
+        coreAlias.set(`${m}\0${e}`, shortName(coreAlias.size));
+    }
+  const usedAliases = new Set<string>();
+
   const barrels = new Map<string, string>();
   const targets: string[] = [];
   for (const m of plan.direct) {
@@ -576,7 +759,7 @@ const buildPackage = async (
     targets.push(...b.targets);
   }
   for (const t of targets) {
-    if (barrels.has(t) || plan.direct.includes(t)) continue;
+    if (barrels.has(t) || plan.direct.includes(t) || plan.aliases.has(t)) continue;
     if ([...plan.groups.values()].some((mods) => mods.includes(t))) continue;
     const g = groupOf.get(t);
     if (g) plan.groups.get(g)!.push(t);
@@ -587,6 +770,7 @@ const buildPackage = async (
   const groupNames = [...plan.groups.keys()].filter((g) => plan.groups.get(g)!.length > 0);
   const fileOf = (g: string) => `_bundle/${g}`;
 
+  const datafied = new Map<string, string>();
   const bundlePlugin = {
     name: "distilled-bundle",
     resolveId(source: string) {
@@ -596,6 +780,12 @@ const buildPackage = async (
       if (!id.startsWith("\0" + VIRTUAL)) return;
       const g = id.slice(VIRTUAL.length + 1);
       const lines: string[] = g === SDK_GROUP ? [...coreRefs].map((r) => `import "${r}";`) : [];
+      if (g === SDK_GROUP)
+        for (const [k, alias] of coreAlias) {
+          if (!usedAliases.has(alias)) continue;
+          const [m, e] = k.split("\0") as [string, string];
+          lines.push(`export { ${e} as ${alias} } from "@distilled.cloud/core/${m}";`);
+        }
       // Rolldown's helpers (`__exportAll` for namespace objects) go in the
       // first group's chunk, which every chunk of the package already imports,
       // instead of a chunk of their own.
@@ -614,11 +804,17 @@ const buildPackage = async (
     transform(code: string, id: string) {
       if (!inside(src, id) || !id.endsWith(".ts")) return;
       const m = noExt(rel(src, id));
-      // Service modules ship as data operations (see core/codegen/datafy.ts);
+      // Service modules ship as data operations (see dev/codegen/datafy.ts);
       // this is the same rewrite strip-lib-docs applies to tsc's output, done
       // here on the source because the bundled, minified output no longer
       // has the shape datafy reads.
-      if (isService(plan, m)) code = datafyOperations(code, id, { aliases: false }).code;
+      // Each `generate()` rebuilds the graph; datafy a service once per build.
+      if (isService(plan, m)) {
+        let d = datafied.get(id);
+        if (d === undefined)
+          datafied.set(id, (d = datafyOperations(code, id, { aliases: false }).code));
+        code = d;
+      }
       const own = groupOf.get(m);
       const deps = graph.get(m);
       // Services are not in the parsed graph (too big to parse twice); they import the SDK group.
@@ -630,7 +826,7 @@ const buildPackage = async (
       // A grouped module that is also imported lazily is an entry of its own;
       // it must reach the whole group too, or the group splits.
       if (own && dynamicTargets.has(m)) needs.add(own);
-      if (needs.size === 0) return;
+      if (needs.size === 0) return isService(plan, m) ? { code, map: null } : undefined;
       // Appended, not prepended: line/column mappings stay valid.
       return {
         code: `${code}\n${[...needs].map((g) => `import "${VIRTUAL}${g}";`).join("\n")}\n`,
@@ -639,21 +835,36 @@ const buildPackage = async (
     },
   };
 
-  const input: Record<string, string> = {};
-  for (const g of groupNames) input[fileOf(g)] = VIRTUAL + g;
-  for (const m of plan.direct) if (!barrels.has(m)) input[m] = join(src, `${m}.ts`);
+  // One rolldown graph holds every module of its build: a whole provider at
+  // once peaks at 2-4 GB. So each service builds on its own, then the groups
+  // and the other entries. A service imports only grouped modules and
+  // core, so it reaches the groups the way SDKs reach core: through the built
+  // group chunk's exports. A one-entry build writes one chunk, the same
+  // whatever else builds. Services build concurrently while their source
+  // stays under BATCH_BYTES; memory peaks at about the largest service
+  // (~0.8 GB for Cloudflare's 7 MB zero_trust).
+  const shared: Record<string, string> = {};
+  for (const g of groupNames) shared[fileOf(g)] = VIRTUAL + g;
+  const services: { m: string; size: number }[] = [];
+  for (const m of plan.direct) {
+    if (barrels.has(m)) continue;
+    const file = join(src, `${m}.ts`);
+    // A module of a service directory that imports ungrouped code (AWS
+    // middleware) builds with the groups, where that code has one chunk.
+    const ownImports = isService(plan, m)
+      ? [...readFileSync(file, "utf8").matchAll(/(?:from|import)\s*\(?\s*"(\.\.?\/[^"]+)"/g)]
+      : [];
+    if (
+      isService(plan, m) &&
+      ownImports.every((i) => {
+        const target = noExt(rel(src, join(dirname(file), i[1]!)));
+        return groupOf.has(target) || plan.aliases.has(target);
+      })
+    )
+      services.push({ m, size: statSync(file).size });
+    else shared[m] = file;
+  }
 
-  const bundle = await rolldown({
-    ...COMMON_INPUT,
-    input,
-    external,
-    plugins: [
-      bundlePlugin,
-      ...plugins,
-      ...(process.env.BUNDLE_LIB_DEBUG ? [debugPlugin(src, groupOf)] : []),
-    ],
-    preserveEntrySignatures: "allow-extension",
-  });
   const outputOptions = {
     dir: lib,
     format: "es",
@@ -663,7 +874,7 @@ const buildPackage = async (
     // Maps point at `src/`, which every package publishes.
     sourcemapExcludeSources: true,
     comments: { legal: true, annotation: true, jsdoc: false },
-  };
+  } satisfies OutputOptions;
   // V8 keeps every module's source text in the heap: whitespace and long
   // local names cost memory in every process (S3 -27%, Resend -22% import
   // heap with the bundling). Function and class names stay (`.name`, stack
@@ -673,28 +884,251 @@ const buildPackage = async (
     ? JSON.parse(process.env.BUNDLE_LIB_MINIFY)
     : { compress: false, mangle: { keepNames: true }, codegen: { removeWhitespace: true } };
   const key = (c: any) => `${c.name}|${c.moduleIds.join(",")}`;
-  const pretty = minify
-    ? new Map(
-        (await bundle.generate({ ...outputOptions, sourcemap: false })).output
-          .filter((c: any) => c.type === "chunk")
-          .map((c: any) => [key(c), c.code]),
-      )
-    : undefined;
-  const { output } = await bundle.generate({ ...outputOptions, minify });
-  await bundle.close();
   mkdirSync(lib, { recursive: true });
-  for (const c of output) {
-    const file = join(lib, c.fileName);
-    mkdirSync(dirname(file), { recursive: true });
-    if (c.type !== "chunk") {
-      // Chunk source maps are written below, after reannotate shifts them.
-      if (!c.fileName.endsWith(".js.map")) writeFileSync(file, c.source);
-      continue;
+  // What the checks below read of each chunk; code is not kept between builds.
+  const output: {
+    type: string;
+    fileName: string;
+    isEntry?: boolean;
+    name?: string;
+    moduleIds?: string[];
+    rendered?: Record<string, number>;
+    sourcemapFileName?: string | null;
+    latin1?: boolean;
+  }[] = [];
+  // Other entries name a service through the package (`@distilled.cloud/axiom/edge_ingest`),
+  // the file its own build writes, instead of bundling a second copy of it.
+  const pkgJson = JSON.parse(readFileSync(join(plan.dir, "package.json"), "utf8"));
+  const selfRefs = new Map<string, string>();
+  for (const [k, v] of Object.entries<any>(pkgJson.exports ?? {}))
+    if (k.endsWith("/*"))
+      for (const t of exportTargets(v)) {
+        const d = /^\.\/lib\/(.+)\/\*\.js$/.exec(t)?.[1];
+        if (d && plan.serviceDirs.includes(d) && !selfRefs.has(d))
+          selfRefs.set(d, `${pkgJson.name}/${k.slice(2, -1)}`);
+      }
+  const separate = new Set(services.map((x) => x.m));
+  const servicesByPackage = {
+    name: "distilled-services-by-package",
+    resolveId(source: string, importer: string | undefined) {
+      if (!importer || !source.startsWith(".") || !inside(src, importer)) return;
+      const m = noExt(rel(src, join(dirname(importer), source)));
+      if (!separate.has(m)) return;
+      const d = plan.serviceDirs.find((x) => m.startsWith(`${x}/`))!;
+      if (!selfRefs.has(d)) throw new Error(`${plan.name}: no wildcard export for ${d}/`);
+      return { id: selfRefs.get(d) + m.slice(d.length + 1), external: true };
+    },
+  };
+  /** Grouped modules of a service build: re-exports of the built group chunks. */
+  const builtGroups = (service: string) => ({
+    name: "distilled-built-groups",
+    resolveId(source: string, importer: string | undefined) {
+      if (source.startsWith(VIRTUAL)) {
+        const to = rel(
+          dirname(join(lib, service)),
+          join(lib, fileOf(source.slice(VIRTUAL.length))),
+        );
+        return { id: `${to.startsWith(".") ? to : `./${to}`}.js`, external: true };
+      }
+      const c = source.startsWith("@distilled.cloud/core/")
+        ? source.slice("@distilled.cloud/core/".length)
+        : undefined;
+      if (c !== undefined && core?.exportsOf.has(c) && coreAlias.size) return CORE_REF + c;
+      if (!importer || !source.startsWith(".") || !inside(src, importer)) return;
+      const m = noExt(rel(src, join(dirname(importer), source)));
+      if (groupOf.has(m)) return GROUP_REF + m;
+    },
+    load(id: string) {
+      if (id.startsWith(CORE_REF)) {
+        const m = id.slice(CORE_REF.length);
+        const names = core!.exportsOf.get(m)!;
+        const group = `${VIRTUAL}${SDK_GROUP}`;
+        return names.length
+          ? `export { ${names.map((e) => `${coreAlias.get(`${m}\0${e}`)} as ${e}`).join(", ")} } from "${group}";`
+          : `import "${group}";`;
+      }
+      if (!id.startsWith(GROUP_REF)) return;
+      const m = id.slice(GROUP_REF.length);
+      const names = exportsOf.get(m)!;
+      const group = `${VIRTUAL}${groupOf.get(m)}`;
+      return names.length
+        ? `export { ${names.map((e) => `${exportName(m, e)} as ${e}`).join(", ")} } from "${group}";`
+        : `import "${group}";`;
+    },
+  });
+  // Browser twin. A group module with a `.browser` sibling in the group
+  // (`credentials` next to `credentials.browser`) is Node-only; so is any
+  // module that reaches a `node:` import. A second build, written under
+  // `lib/_browser/`, holds the group and every other entry of the shared build
+  // with each Node-only group module swapped for its sibling. Chunks of one
+  // build agree on the names they import from each other; services and
+  // facades import the group only by its fixed aliases, which the twin group
+  // exports too. The package.json `browser` field sends each of those files
+  // to its twin, so a browser bundler loads the twins and Node, which never
+  // reads that field, loads the same files as without them.
+  const sdkGroup = plan.groups.get(SDK_GROUP) ?? [];
+  const nodeOnly = new Set(sdkGroup.filter((m) => sdkGroup.includes(`${m}.browser`)));
+  const twinOf = (m: string) => (nodeOnly.has(m) ? `${m}.browser` : m);
+  // Scans the sources itself: the parsed graph leaves out the modules of
+  // wildcard-exported directories. Type-only imports do not count.
+  const reachesNode = (m: string, seen = new Set<string>()): boolean => {
+    m = twinOf(m);
+    const file = join(src, `${m}.ts`);
+    if (seen.has(m) || !existsSync(file)) return false;
+    seen.add(m);
+    const code = readFileSync(file, "utf8");
+    if (/^\s*(?:import|export)\s+(?!type\b)[^;]*?from\s*"node:|\bimport\(\s*"node:/m.test(code))
+      return true;
+    return [
+      ...code.matchAll(
+        /^\s*(?:import|export)\s+(?!type\b)[^;]*?from\s*"(\.\.?\/[^"]+)"|^\s*import\s*"(\.\.?\/[^"]+)"|\bimport\(\s*"(\.\.?\/[^"]+)"\s*\)/gm,
+      ),
+    ].some((i) => reachesNode(noExt(rel(src, join(dirname(file), i[1] ?? i[2] ?? i[3]!))), seen));
+  };
+  const twinEntries = nodeOnly.size
+    ? Object.entries(shared).filter(
+        ([m, v]) =>
+          !v.startsWith(VIRTUAL) &&
+          !nodeOnly.has(m) &&
+          !sdkGroup.includes(`${m}.browser`) &&
+          !existsSync(join(src, `${m}.browser.ts`)) &&
+          !reachesNode(m),
+      )
+    : [];
+  const browserMap = Object.fromEntries(
+    [fileOf(SDK_GROUP), ...twinEntries.map(([m]) => m)]
+      .sort()
+      .map((m) => [`./lib/${m}.js`, `./lib/_browser/${m}.js`]),
+  );
+  const browserTwin = {
+    name: "distilled-browser-twin",
+    resolveId(source: string, importer: string | undefined) {
+      if (!importer || !source.startsWith(".") || !inside(src, importer)) return;
+      const m = noExt(rel(src, join(dirname(importer), source)));
+      if (nodeOnly.has(m)) return join(src, `${m}.browser.ts`);
+    },
+    load(id: string) {
+      if (id !== `\0${VIRTUAL}${SDK_GROUP}`) return;
+      // A Node-only module's line keeps the names its sibling also exports;
+      // any other group module that reaches Node is left out.
+      return (bundlePlugin.load(id) as string)
+        .split("\n")
+        .flatMap((line) => {
+          const file = /^(?:export \{[^}]*\} from|import) "([^"]+)";$/.exec(line)?.[1];
+          if (!file || !inside(src, file)) return [line];
+          const m = noExt(rel(src, file));
+          if (!nodeOnly.has(m)) return reachesNode(m) ? [] : [line];
+          const has = new Set(exportsOf.get(`${m}.browser`) ?? []);
+          const names = exportsOf.get(m)!.filter((e) => has.has(e));
+          return names.length
+            ? [
+                `export { ${names.map((e) => `${e} as ${exportName(m, e)}`).join(", ")} } from ${JSON.stringify(join(src, `${m}.browser.ts`))};`,
+              ]
+            : [];
+        })
+        .join("\n");
+    },
+  };
+  const build = async (service?: string, twin = false) => {
+    const bundle = await rolldown({
+      ...COMMON_INPUT,
+      input: service
+        ? { [service]: join(src, `${service}.ts`) }
+        : twin
+          ? { [fileOf(SDK_GROUP)]: VIRTUAL + SDK_GROUP, ...Object.fromEntries(twinEntries) }
+          : shared,
+      external,
+      plugins: [
+        ...(service
+          ? [builtGroups(service)]
+          : twin
+            ? [browserTwin, servicesByPackage]
+            : [servicesByPackage]),
+        bundlePlugin,
+        ...plugins,
+      ],
+      preserveEntrySignatures: "allow-extension",
+    });
+    const options = twin ? { ...outputOptions, dir: join(lib, "_browser") } : outputOptions;
+    const out = (fileName: string) => (twin ? `_browser/${fileName}` : fileName);
+    const pretty = minify
+      ? new Map(
+          (await bundle.generate({ ...options, sourcemap: false })).output
+            .filter((c: any) => c.type === "chunk")
+            .map((c: any) => [key(c), c.code]),
+        )
+      : undefined;
+    const generated = (await bundle.generate({ ...options, minify })).output;
+    await bundle.close();
+    if (service) datafied.delete(join(src, `${service}.ts`));
+    const chunks = generated.filter((c: any) => c.type === "chunk");
+    if (service) {
+      const stray = chunks
+        .flatMap((c: any) => c.moduleIds as string[])
+        .find((id: string) => inside(src, id) && noExt(rel(src, id)) !== service);
+      if (chunks.length !== 1 || stray)
+        throw new Error(
+          `${plan.name}: ${service} ${stray ? `bundles ${rel(src, stray)}` : `built ${chunks.length} chunks`}; a service may import only grouped modules and core`,
+        );
+      // Rolldown 1.2 reports no imported bindings; read them off the import statements.
+      const code = (chunks[0] as any).code as string;
+      for (const im of code.matchAll(/import\s*\{([^}]*)\}\s*from\s*"([^"]+)"/g)) {
+        if (!im[2]!.endsWith(`_bundle/${SDK_GROUP}.js`)) continue;
+        for (const spec of im[1]!.split(",")) {
+          const name = spec.trim().split(/\s+as\s+/)[0]!;
+          if (name) usedAliases.add(name);
+        }
+      }
     }
-    const map = c.map ? JSON.parse(c.map.toString()) : undefined;
-    // `c.code` already ends with the sourceMappingURL comment.
-    writeFileSync(file, pretty ? reannotate(pretty.get(key(c))!, c.code, map) : c.code);
-    if (map) writeFileSync(`${file}.map`, JSON.stringify(map));
+    for (const c of generated) {
+      const file = join(lib, out(c.fileName));
+      mkdirSync(dirname(file), { recursive: true });
+      if (c.type !== "chunk") {
+        output.push({ type: c.type, fileName: out(c.fileName) });
+        // Chunk source maps are written below, after reannotate shifts them.
+        if (!c.fileName.endsWith(".js.map")) writeFileSync(file, c.source);
+        continue;
+      }
+      const map = c.map ? JSON.parse(c.map.toString()) : undefined;
+      // `c.code` already ends with the sourceMappingURL comment.
+      writeFileSync(file, pretty ? reannotate(pretty.get(key(c))!, c.code, map) : c.code);
+      if (map) writeFileSync(`${file}.map`, JSON.stringify(map));
+      output.push({
+        type: c.type,
+        fileName: out(c.fileName),
+        isEntry: c.isEntry,
+        name: c.name,
+        moduleIds: c.moduleIds,
+        rendered: Object.fromEntries(
+          c.moduleIds.map((id: string) => [id, c.modules[id]?.renderedLength ?? 0]),
+        ),
+        sourcemapFileName: c.sourcemapFileName && out(c.sourcemapFileName),
+        latin1: !/[^\x00-\xff]/.test(c.code),
+      });
+    }
+  };
+  // Largest first; start the next while the running builds' source fits the budget.
+  const queue = services.sort((x, y) => y.size - x.size);
+  const running = new Set<Promise<void>>();
+  let inFlight = 0;
+  for (const { m, size } of queue) {
+    while (running.size > 0 && inFlight + size > BATCH_BYTES) await Promise.race(running);
+    inFlight += size;
+    const p: Promise<void> = build(m).finally(() => {
+      inFlight -= size;
+      running.delete(p);
+    });
+    running.add(p);
+  }
+  await Promise.all(running);
+  // A package whose public modules are all aliases has nothing else to build.
+  if (Object.keys(shared).length > 0) await build();
+  if (nodeOnly.size) {
+    if (JSON.stringify(pkgJson.browser) !== JSON.stringify(browserMap))
+      throw new Error(
+        `bundle-lib: ${plan.name}: ${[...nodeOnly].join(", ")} ha${nodeOnly.size > 1 ? "ve" : "s"} a .browser sibling, so package.json needs, after "exports":\n"browser": ${JSON.stringify(browserMap, null, 2)}`,
+      );
+    await build(undefined, true);
   }
 
   // A group that split into several chunks would duplicate nothing, but costs modules; fail loudly.
@@ -704,14 +1138,13 @@ const buildPackage = async (
     written.add(c.fileName);
     if (c.type !== "chunk") continue;
     if (c.sourcemapFileName) written.add(c.sourcemapFileName);
+    if (c.fileName.startsWith("_browser/")) continue;
     const own = groupNames.find((g) => c.isEntry && c.name === fileOf(g));
-    for (const id of c.moduleIds as string[]) {
+    for (const id of c.moduleIds!) {
       if (!inside(src, id)) continue;
       const g = groupOf.get(noExt(rel(src, id)));
       if (g && g !== own)
-        problems.push(
-          `${rel(src, id)} (group ${g}) in ${c.fileName}: ${c.modules[id]?.renderedLength} B`,
-        );
+        problems.push(`${rel(src, id)} (group ${g}) in ${c.fileName}: ${c.rendered![id]} B`);
     }
   }
   // Rolldown never duplicates a module, so this is about module count only;
@@ -721,7 +1154,7 @@ const buildPackage = async (
     console.warn(
       `bundle-lib: ${plan.name}: group code outside its chunk:\n  ${big.slice(0, 20).join("\n  ")}`,
     );
-  if (output.some((c: any) => c.moduleIds?.length === 1 && c.moduleIds[0] === RUNTIME_MODULE_ID))
+  if (output.some((c) => c.moduleIds?.length === 1 && c.moduleIds[0] === RUNTIME_MODULE_ID))
     throw new Error(`${plan.name}: rolldown runtime got a chunk of its own`);
   toLatin1(lib, output);
 
@@ -746,6 +1179,11 @@ const buildPackage = async (
     writeFileSync(join(lib, `${m}.js`), code);
     written.add(`${m}.js`);
   }
+  for (const [m, spec] of plan.aliases) {
+    if (!existsSync(join(lib, `${m}.d.ts`))) continue;
+    writeFileSync(join(lib, `${m}.js`), `export * from ${JSON.stringify(spec)};\n`);
+    written.add(`${m}.js`);
+  }
 
   if (plan.serviceDirs.length) {
     const r = lazyServices(plan.dir, plan.serviceDirs);
@@ -756,12 +1194,19 @@ const buildPackage = async (
     );
     written.add(".lazy.json");
     const pkg = JSON.parse(readFileSync(join(plan.dir, "package.json"), "utf8"));
+    const bad = stubTargets(pkg.exports, r.dirs, r.twins);
     if (JSON.stringify(lazyExports(pkg.exports, r.dirs, r.twins)) !== JSON.stringify(pkg.exports))
       staleExports.push(rel(ROOT, plan.dir));
+    else if (bad.length)
+      throw new Error(
+        `bundle-lib: ${plan.name}: exports ${bad.join(", ")} reach a lazy stub without the distilled-lazy condition`,
+      );
     console.log(
       `bundle-lib: ${plan.name}: ${r.stubs} lazy service stubs${r.kept ? `, ${r.kept} kept whole` : ""}${r.twins.length ? `, twins: ${r.twins.join(", ")}` : ""}`,
     );
   }
+
+  if (nodeOnly.size) await checkBrowser(plan, lib);
 
   // Drop tsc's per-file output that no entry point reaches any more.
   let removed = 0;
@@ -787,17 +1232,84 @@ const dirs = (
   args.length
     ? args.map((p) => join(ROOT, p))
     : readdirSync(join(ROOT, "packages")).map((p) => join(ROOT, "packages", p))
-).filter((d) => !d.endsWith(join("packages", "core")) && existsSync(join(d, "lib")));
+)
+  // core has its own plan; dev (the unpublished generator) ships no lib to bundle.
+  .filter(
+    (d) =>
+      !d.endsWith(join("packages", "core")) &&
+      !d.endsWith(join("packages", "dev")) &&
+      existsSync(join(d, "lib")),
+  );
 
 /** Packages whose package.json `exports` do not match their lazy service layout. */
 const staleExports: string[] = [];
-const core = corePlan();
-const coreBuilt = await buildPackage(core, core, undefined);
-for (const dir of dirs) {
-  const plan = sdkPlan(dir);
-  if (plan) await buildPackage(plan, core, coreBuilt);
+/** A child's exit code for "built, but its `exports` need rewriting". */
+const STALE_EXIT = 3;
+/** Set in a child process: the file the parent wrote core's build to. */
+const childOf = process.env.BUNDLE_LIB_CORE;
+if (childOf) {
+  const c = JSON.parse(readFileSync(childOf, "utf8"));
+  const core: Plan = { ...corePlan(), direct: c.direct };
+  const built: Built = { groupOf: new Map(c.groupOf), exportsOf: new Map(c.exportsOf) };
+  for (const dir of dirs) {
+    const plan = sdkPlan(dir);
+    if (plan) await buildPackage(plan, core, built);
+  }
+  if (staleExports.length) process.exitCode = STALE_EXIT;
+} else {
+  const core = corePlan();
+  const coreBuilt = await buildPackage(core, core, undefined);
+  // A package's workspace dependencies build first, named on the command
+  // line or not: alias modules read the facades of the package they
+  // re-export (see facadeOf), so `bundle-lib packages/aws` also bundles
+  // packages/s3.
+  const deps = (d: string) =>
+    Object.keys(JSON.parse(readFileSync(join(d, "package.json"), "utf8")).dependencies ?? {});
+  const sdks: string[] = [];
+  const seen = new Set<string>();
+  const visit = (d: string) => {
+    if (seen.has(d) || !existsSync(join(d, "lib")) || !sdkPlan(d)) return;
+    seen.add(d);
+    for (const name of deps(d)) {
+      if (!name.startsWith("@distilled.cloud/") || name === "@distilled.cloud/core") continue;
+      const dep = join(ROOT, "packages", name.slice("@distilled.cloud/".length));
+      if (existsSync(join(dep, "package.json"))) visit(dep);
+    }
+    sdks.push(d);
+  };
+  for (const d of dirs) visit(d);
+  if (sdks.length <= 1) for (const dir of sdks) await buildPackage(sdkPlan(dir)!, core, coreBuilt);
+  else {
+    // A process keeps the memory it peaked at: build each package in a
+    // process of its own, so building every SDK peaks at the largest one
+    // instead of what they add up to.
+    const tmp = mkdtempSync(join(tmpdir(), "bundle-lib-"));
+    const file = join(tmp, "core.json");
+    writeFileSync(
+      file,
+      JSON.stringify({
+        direct: core.direct,
+        groupOf: [...coreBuilt.groupOf],
+        exportsOf: [...coreBuilt.exportsOf],
+      }),
+    );
+    try {
+      for (const dir of sdks) {
+        const r = spawnSync(
+          process.execPath,
+          [...process.execArgv, fileURLToPath(import.meta.url), rel(ROOT, dir)],
+          { stdio: "inherit", env: { ...process.env, BUNDLE_LIB_CORE: file } },
+        );
+        if (r.status === STALE_EXIT) staleExports.push(rel(ROOT, dir));
+        else if (r.status !== 0)
+          throw new Error(`bundle-lib: ${rel(ROOT, dir)} failed (${r.status ?? r.signal})`);
+      }
+    } finally {
+      rmSync(tmp, { recursive: true, force: true });
+    }
+  }
 }
-if (staleExports.length)
+if (staleExports.length && !childOf)
   throw new Error(
-    `bundle-lib: package.json exports do not route Node to the lazy service stubs; run: node scripts/lazy-services.ts --exports ${staleExports.join(" ")}`,
+    `bundle-lib: package.json exports do not match the lazy service layout; run: node scripts/lazy-services.ts --exports ${staleExports.join(" ")}`,
   );

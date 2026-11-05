@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -80,6 +82,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://access-analyzer.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AccessAnalyzer",
+  service: "AccessAnalyzer",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1390,7 +1406,7 @@ export type ApplyArchiveRuleError =
  * Retroactively applies the archive rule to existing findings that meet the archive rule criteria.
  */
 export const applyArchiveRule: API.OperationMethod<
-  ApplyArchiveRuleRequest,
+  ApplyArchiveRuleRequest & RegionInput,
   ApplyArchiveRuleResponse,
   ApplyArchiveRuleError,
   Credentials | HttpClient.HttpClient
@@ -1407,6 +1423,8 @@ export const applyArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyArchiveRule",
+  telemetry: TELEMETRY,
+  span: "ApplyArchiveRule",
 }));
 
 export type CancelPolicyGenerationError =
@@ -1419,7 +1437,7 @@ export type CancelPolicyGenerationError =
  * Cancels the requested policy generation.
  */
 export const cancelPolicyGeneration: API.OperationMethod<
-  CancelPolicyGenerationRequest,
+  CancelPolicyGenerationRequest & RegionInput,
   CancelPolicyGenerationResponse,
   CancelPolicyGenerationError,
   Credentials | HttpClient.HttpClient
@@ -1435,6 +1453,8 @@ export const cancelPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPolicyGeneration",
+  telemetry: TELEMETRY,
+  span: "CancelPolicyGeneration",
 }));
 
 export type CheckAccessNotGrantedError =
@@ -1449,7 +1469,7 @@ export type CheckAccessNotGrantedError =
  * Checks whether the specified access isn't allowed by a policy.
  */
 export const checkAccessNotGranted: API.OperationMethod<
-  CheckAccessNotGrantedRequest,
+  CheckAccessNotGrantedRequest & RegionInput,
   CheckAccessNotGrantedResponse,
   CheckAccessNotGrantedError,
   Credentials | HttpClient.HttpClient
@@ -1467,6 +1487,8 @@ export const checkAccessNotGranted: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckAccessNotGranted",
+  telemetry: TELEMETRY,
+  span: "CheckAccessNotGranted",
 }));
 
 export type CheckNoNewAccessError =
@@ -1483,7 +1505,7 @@ export type CheckNoNewAccessError =
  * You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference policies in this repository are meant to be passed to the `existingPolicyDocument` request parameter.
  */
 export const checkNoNewAccess: API.OperationMethod<
-  CheckNoNewAccessRequest,
+  CheckNoNewAccessRequest & RegionInput,
   CheckNoNewAccessResponse,
   CheckNoNewAccessError,
   Credentials | HttpClient.HttpClient
@@ -1501,6 +1523,8 @@ export const checkNoNewAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckNoNewAccess",
+  telemetry: TELEMETRY,
+  span: "CheckNoNewAccess",
 }));
 
 export type CheckNoPublicAccessError =
@@ -1515,7 +1539,7 @@ export type CheckNoPublicAccessError =
  * Checks whether a resource policy can grant public access to the specified resource type.
  */
 export const checkNoPublicAccess: API.OperationMethod<
-  CheckNoPublicAccessRequest,
+  CheckNoPublicAccessRequest & RegionInput,
   CheckNoPublicAccessResponse,
   CheckNoPublicAccessError,
   Credentials | HttpClient.HttpClient
@@ -1533,6 +1557,8 @@ export const checkNoPublicAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckNoPublicAccess",
+  telemetry: TELEMETRY,
+  span: "CheckNoPublicAccess",
 }));
 
 export type CreateAccessPreviewError =
@@ -1548,7 +1574,7 @@ export type CreateAccessPreviewError =
  * Creates an access preview that allows you to preview IAM Access Analyzer findings for your resource before deploying resource permissions.
  */
 export const createAccessPreview: API.OperationMethod<
-  CreateAccessPreviewRequest,
+  CreateAccessPreviewRequest & RegionInput,
   CreateAccessPreviewResponse,
   CreateAccessPreviewError,
   Credentials | HttpClient.HttpClient
@@ -1567,6 +1593,8 @@ export const createAccessPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPreview",
+  telemetry: TELEMETRY,
+  span: "CreateAccessPreview",
 }));
 
 export type CreateAnalyzerError =
@@ -1581,7 +1609,7 @@ export type CreateAnalyzerError =
  * Creates an analyzer for your account.
  */
 export const createAnalyzer: API.OperationMethod<
-  CreateAnalyzerRequest,
+  CreateAnalyzerRequest & RegionInput,
   CreateAnalyzerResponse,
   CreateAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -1599,6 +1627,8 @@ export const createAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnalyzer",
+  telemetry: TELEMETRY,
+  span: "CreateAnalyzer",
 }));
 
 export type CreateArchiveRuleError =
@@ -1616,7 +1646,7 @@ export type CreateArchiveRuleError =
  * To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the **IAM User Guide**.
  */
 export const createArchiveRule: API.OperationMethod<
-  CreateArchiveRuleRequest,
+  CreateArchiveRuleRequest & RegionInput,
   CreateArchiveRuleResponse,
   CreateArchiveRuleError,
   Credentials | HttpClient.HttpClient
@@ -1635,6 +1665,8 @@ export const createArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArchiveRule",
+  telemetry: TELEMETRY,
+  span: "CreateArchiveRule",
 }));
 
 export type CreateServiceLinkedAnalyzerError =
@@ -1651,7 +1683,7 @@ export type CreateServiceLinkedAnalyzerError =
  * Service-linked analyzers enable Amazon Web Services services to create and manage analyzers on behalf of customers. The lifecycle of these analyzers is managed by the calling service.
  */
 export const createServiceLinkedAnalyzer: API.OperationMethod<
-  CreateServiceLinkedAnalyzerRequest,
+  CreateServiceLinkedAnalyzerRequest & RegionInput,
   CreateServiceLinkedAnalyzerResponse,
   CreateServiceLinkedAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -1669,6 +1701,8 @@ export const createServiceLinkedAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLinkedAnalyzer",
+  telemetry: TELEMETRY,
+  span: "CreateServiceLinkedAnalyzer",
 }));
 
 export type DeleteAnalyzerError =
@@ -1682,7 +1716,7 @@ export type DeleteAnalyzerError =
  * Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled for the account or organization in the current or specific Region. All findings that were generated by the analyzer are deleted. You cannot undo this action.
  */
 export const deleteAnalyzer: API.OperationMethod<
-  DeleteAnalyzerRequest,
+  DeleteAnalyzerRequest & RegionInput,
   DeleteAnalyzerResponse,
   DeleteAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -1699,6 +1733,8 @@ export const deleteAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalyzer",
+  telemetry: TELEMETRY,
+  span: "DeleteAnalyzer",
 }));
 
 export type DeleteArchiveRuleError =
@@ -1712,7 +1748,7 @@ export type DeleteArchiveRuleError =
  * Deletes the specified archive rule.
  */
 export const deleteArchiveRule: API.OperationMethod<
-  DeleteArchiveRuleRequest,
+  DeleteArchiveRuleRequest & RegionInput,
   DeleteArchiveRuleResponse,
   DeleteArchiveRuleError,
   Credentials | HttpClient.HttpClient
@@ -1729,6 +1765,8 @@ export const deleteArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchiveRule",
+  telemetry: TELEMETRY,
+  span: "DeleteArchiveRule",
 }));
 
 export type DeleteServiceLinkedAnalyzerError =
@@ -1745,7 +1783,7 @@ export type DeleteServiceLinkedAnalyzerError =
  * When invoked by a customer, IAM Access Analyzer performs a callback to the managing service to verify whether the analyzer is still in use and can be deleted. If the service indicates the analyzer is still in use, the deletion is rejected with `ConflictException`.
  */
 export const deleteServiceLinkedAnalyzer: API.OperationMethod<
-  DeleteServiceLinkedAnalyzerRequest,
+  DeleteServiceLinkedAnalyzerRequest & RegionInput,
   DeleteServiceLinkedAnalyzerResponse,
   DeleteServiceLinkedAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -1763,6 +1801,8 @@ export const deleteServiceLinkedAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedAnalyzer",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceLinkedAnalyzer",
 }));
 
 export type GenerateFindingRecommendationError =
@@ -1775,7 +1815,7 @@ export type GenerateFindingRecommendationError =
  * Creates a recommendation for an unused permissions finding.
  */
 export const generateFindingRecommendation: API.OperationMethod<
-  GenerateFindingRecommendationRequest,
+  GenerateFindingRecommendationRequest & RegionInput,
   GenerateFindingRecommendationResponse,
   GenerateFindingRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -1791,6 +1831,8 @@ export const generateFindingRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateFindingRecommendation",
+  telemetry: TELEMETRY,
+  span: "GenerateFindingRecommendation",
 }));
 
 export type GetAccessPreviewError =
@@ -1804,7 +1846,7 @@ export type GetAccessPreviewError =
  * Retrieves information about an access preview for the specified analyzer.
  */
 export const getAccessPreview: API.OperationMethod<
-  GetAccessPreviewRequest,
+  GetAccessPreviewRequest & RegionInput,
   GetAccessPreviewResponse,
   GetAccessPreviewError,
   Credentials | HttpClient.HttpClient
@@ -1821,6 +1863,8 @@ export const getAccessPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPreview",
+  telemetry: TELEMETRY,
+  span: "GetAccessPreview",
 }));
 
 export type GetAnalyzedResourceError =
@@ -1836,7 +1880,7 @@ export type GetAnalyzedResourceError =
  * This action is supported only for external access analyzers.
  */
 export const getAnalyzedResource: API.OperationMethod<
-  GetAnalyzedResourceRequest,
+  GetAnalyzedResourceRequest & RegionInput,
   GetAnalyzedResourceResponse,
   GetAnalyzedResourceError,
   Credentials | HttpClient.HttpClient
@@ -1853,6 +1897,8 @@ export const getAnalyzedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalyzedResource",
+  telemetry: TELEMETRY,
+  span: "GetAnalyzedResource",
 }));
 
 export type GetAnalyzerError =
@@ -1866,7 +1912,7 @@ export type GetAnalyzerError =
  * Retrieves information about the specified analyzer.
  */
 export const getAnalyzer: API.OperationMethod<
-  GetAnalyzerRequest,
+  GetAnalyzerRequest & RegionInput,
   GetAnalyzerResponse,
   GetAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -1883,6 +1929,8 @@ export const getAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalyzer",
+  telemetry: TELEMETRY,
+  span: "GetAnalyzer",
 }));
 
 export type GetArchiveRuleError =
@@ -1898,7 +1946,7 @@ export type GetArchiveRuleError =
  * To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the **IAM User Guide**.
  */
 export const getArchiveRule: API.OperationMethod<
-  GetArchiveRuleRequest,
+  GetArchiveRuleRequest & RegionInput,
   GetArchiveRuleResponse,
   GetArchiveRuleError,
   Credentials | HttpClient.HttpClient
@@ -1915,6 +1963,8 @@ export const getArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveRule",
+  telemetry: TELEMETRY,
+  span: "GetArchiveRule",
 }));
 
 export type GetFindingError =
@@ -1930,7 +1980,7 @@ export type GetFindingError =
  * GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers.
  */
 export const getFinding: API.OperationMethod<
-  GetFindingRequest,
+  GetFindingRequest & RegionInput,
   GetFindingResponse,
   GetFindingError,
   Credentials | HttpClient.HttpClient
@@ -1947,6 +1997,8 @@ export const getFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFinding",
+  telemetry: TELEMETRY,
+  span: "GetFinding",
 }));
 
 export type GetFindingRecommendationError =
@@ -1960,7 +2012,7 @@ export type GetFindingRecommendationError =
  * Retrieves information about a finding recommendation for the specified analyzer.
  */
 export const getFindingRecommendation: API.PaginatedOperationMethod<
-  GetFindingRecommendationRequest,
+  GetFindingRecommendationRequest & RegionInput,
   GetFindingRecommendationResponse,
   GetFindingRecommendationError,
   Credentials | HttpClient.HttpClient,
@@ -1984,6 +2036,8 @@ export const getFindingRecommendation: API.PaginatedOperationMethod<
     items: "recommendedSteps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindingRecommendation",
 })) as any;
 
 export type GetFindingsStatisticsError =
@@ -1997,7 +2051,7 @@ export type GetFindingsStatisticsError =
  * Retrieves a list of aggregated finding statistics for an external access or unused access analyzer.
  */
 export const getFindingsStatistics: API.OperationMethod<
-  GetFindingsStatisticsRequest,
+  GetFindingsStatisticsRequest & RegionInput,
   GetFindingsStatisticsResponse,
   GetFindingsStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2014,6 +2068,8 @@ export const getFindingsStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsStatistics",
+  telemetry: TELEMETRY,
+  span: "GetFindingsStatistics",
 }));
 
 export type GetFindingV2Error =
@@ -2027,7 +2083,7 @@ export type GetFindingV2Error =
  * Retrieves information about the specified finding. GetFinding and GetFindingV2 both use `access-analyzer:GetFinding` in the `Action` element of an IAM policy statement. You must have permission to perform the `access-analyzer:GetFinding` action.
  */
 export const getFindingV2: API.PaginatedOperationMethod<
-  GetFindingV2Request,
+  GetFindingV2Request & RegionInput,
   GetFindingV2Response,
   GetFindingV2Error,
   Credentials | HttpClient.HttpClient,
@@ -2051,6 +2107,8 @@ export const getFindingV2: API.PaginatedOperationMethod<
     items: "findingDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindingV2",
 })) as any;
 
 export type GetGeneratedPolicyError =
@@ -2063,7 +2121,7 @@ export type GetGeneratedPolicyError =
  * Retrieves the policy that was generated using `StartPolicyGeneration`.
  */
 export const getGeneratedPolicy: API.OperationMethod<
-  GetGeneratedPolicyRequest,
+  GetGeneratedPolicyRequest & RegionInput,
   GetGeneratedPolicyResponse,
   GetGeneratedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2079,6 +2137,8 @@ export const getGeneratedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeneratedPolicy",
+  telemetry: TELEMETRY,
+  span: "GetGeneratedPolicy",
 }));
 
 export type ListAccessPreviewFindingsError =
@@ -2093,7 +2153,7 @@ export type ListAccessPreviewFindingsError =
  * Retrieves a list of access preview findings generated by the specified access preview.
  */
 export const listAccessPreviewFindings: API.PaginatedOperationMethod<
-  ListAccessPreviewFindingsRequest,
+  ListAccessPreviewFindingsRequest & RegionInput,
   ListAccessPreviewFindingsResponse,
   ListAccessPreviewFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -2118,6 +2178,8 @@ export const listAccessPreviewFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessPreviewFindings",
 })) as any;
 
 export type ListAccessPreviewsError =
@@ -2131,7 +2193,7 @@ export type ListAccessPreviewsError =
  * Retrieves a list of access previews for the specified analyzer.
  */
 export const listAccessPreviews: API.PaginatedOperationMethod<
-  ListAccessPreviewsRequest,
+  ListAccessPreviewsRequest & RegionInput,
   ListAccessPreviewsResponse,
   ListAccessPreviewsError,
   Credentials | HttpClient.HttpClient,
@@ -2155,6 +2217,8 @@ export const listAccessPreviews: API.PaginatedOperationMethod<
     items: "accessPreviews",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessPreviews",
 })) as any;
 
 export type ListAnalyzedResourcesError =
@@ -2168,7 +2232,7 @@ export type ListAnalyzedResourcesError =
  * Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer.
  */
 export const listAnalyzedResources: API.PaginatedOperationMethod<
-  ListAnalyzedResourcesRequest,
+  ListAnalyzedResourcesRequest & RegionInput,
   ListAnalyzedResourcesResponse,
   ListAnalyzedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2192,6 +2256,8 @@ export const listAnalyzedResources: API.PaginatedOperationMethod<
     items: "analyzedResources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalyzedResources",
 })) as any;
 
 export type ListAnalyzersError =
@@ -2204,7 +2270,7 @@ export type ListAnalyzersError =
  * Retrieves a list of analyzers.
  */
 export const listAnalyzers: API.PaginatedOperationMethod<
-  ListAnalyzersRequest,
+  ListAnalyzersRequest & RegionInput,
   ListAnalyzersResponse,
   ListAnalyzersError,
   Credentials | HttpClient.HttpClient,
@@ -2227,6 +2293,8 @@ export const listAnalyzers: API.PaginatedOperationMethod<
     items: "analyzers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalyzers",
 })) as any;
 
 export type ListArchiveRulesError =
@@ -2239,7 +2307,7 @@ export type ListArchiveRulesError =
  * Retrieves a list of archive rules created for the specified analyzer.
  */
 export const listArchiveRules: API.PaginatedOperationMethod<
-  ListArchiveRulesRequest,
+  ListArchiveRulesRequest & RegionInput,
   ListArchiveRulesResponse,
   ListArchiveRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2262,6 +2330,8 @@ export const listArchiveRules: API.PaginatedOperationMethod<
     items: "archiveRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArchiveRules",
 })) as any;
 
 export type ListFindingsError =
@@ -2279,7 +2349,7 @@ export type ListFindingsError =
  * ListFindings is supported only for external access analyzers. You must use ListFindingsV2 for internal and unused access analyzers.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsRequest,
+  ListFindingsRequest & RegionInput,
   ListFindingsResponse,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -2303,6 +2373,8 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListFindingsV2Error =
@@ -2318,7 +2390,7 @@ export type ListFindingsV2Error =
  * To learn about filter keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys in the **IAM User Guide**.
  */
 export const listFindingsV2: API.PaginatedOperationMethod<
-  ListFindingsV2Request,
+  ListFindingsV2Request & RegionInput,
   ListFindingsV2Response,
   ListFindingsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -2342,6 +2414,8 @@ export const listFindingsV2: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindingsV2",
 })) as any;
 
 export type ListPolicyGenerationsError =
@@ -2354,7 +2428,7 @@ export type ListPolicyGenerationsError =
  * Lists all of the policy generations requested in the last seven days.
  */
 export const listPolicyGenerations: API.PaginatedOperationMethod<
-  ListPolicyGenerationsRequest,
+  ListPolicyGenerationsRequest & RegionInput,
   ListPolicyGenerationsResponse,
   ListPolicyGenerationsError,
   Credentials | HttpClient.HttpClient,
@@ -2377,6 +2451,8 @@ export const listPolicyGenerations: API.PaginatedOperationMethod<
     items: "policyGenerations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyGenerations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2390,7 +2466,7 @@ export type ListTagsForResourceError =
  * Retrieves a list of tags applied to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2407,6 +2483,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartPolicyGenerationError =
@@ -2421,7 +2499,7 @@ export type StartPolicyGenerationError =
  * Starts the policy generation request.
  */
 export const startPolicyGeneration: API.OperationMethod<
-  StartPolicyGenerationRequest,
+  StartPolicyGenerationRequest & RegionInput,
   StartPolicyGenerationResponse,
   StartPolicyGenerationError,
   Credentials | HttpClient.HttpClient
@@ -2439,6 +2517,8 @@ export const startPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPolicyGeneration",
+  telemetry: TELEMETRY,
+  span: "StartPolicyGeneration",
 }));
 
 export type StartResourceScanError =
@@ -2454,7 +2534,7 @@ export type StartResourceScanError =
  * This action is supported only for external access analyzers.
  */
 export const startResourceScan: API.OperationMethod<
-  StartResourceScanRequest,
+  StartResourceScanRequest & RegionInput,
   StartResourceScanResponse,
   StartResourceScanError,
   Credentials | HttpClient.HttpClient
@@ -2471,6 +2551,8 @@ export const startResourceScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceScan",
+  telemetry: TELEMETRY,
+  span: "StartResourceScan",
 }));
 
 export type TagResourceError =
@@ -2484,7 +2566,7 @@ export type TagResourceError =
  * Adds a tag to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2501,6 +2583,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2514,7 +2598,7 @@ export type UntagResourceError =
  * Removes a tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2531,6 +2615,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAnalyzerError =
@@ -2547,7 +2633,7 @@ export type UpdateAnalyzerError =
  * This action is not supported for external access analyzers.
  */
 export const updateAnalyzer: API.OperationMethod<
-  UpdateAnalyzerRequest,
+  UpdateAnalyzerRequest & RegionInput,
   UpdateAnalyzerResponse,
   UpdateAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -2565,6 +2651,8 @@ export const updateAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalyzer",
+  telemetry: TELEMETRY,
+  span: "UpdateAnalyzer",
 }));
 
 export type UpdateArchiveRuleError =
@@ -2578,7 +2666,7 @@ export type UpdateArchiveRuleError =
  * Updates the criteria and values for the specified archive rule.
  */
 export const updateArchiveRule: API.OperationMethod<
-  UpdateArchiveRuleRequest,
+  UpdateArchiveRuleRequest & RegionInput,
   UpdateArchiveRuleResponse,
   UpdateArchiveRuleError,
   Credentials | HttpClient.HttpClient
@@ -2595,6 +2683,8 @@ export const updateArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArchiveRule",
+  telemetry: TELEMETRY,
+  span: "UpdateArchiveRule",
 }));
 
 export type UpdateFindingsError =
@@ -2608,7 +2698,7 @@ export type UpdateFindingsError =
  * Updates the status for the specified findings.
  */
 export const updateFindings: API.OperationMethod<
-  UpdateFindingsRequest,
+  UpdateFindingsRequest & RegionInput,
   UpdateFindingsResponse,
   UpdateFindingsError,
   Credentials | HttpClient.HttpClient
@@ -2625,6 +2715,8 @@ export const updateFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindings",
+  telemetry: TELEMETRY,
+  span: "UpdateFindings",
 }));
 
 export type ValidatePolicyError =
@@ -2637,7 +2729,7 @@ export type ValidatePolicyError =
  * Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
  */
 export const validatePolicy: API.PaginatedOperationMethod<
-  ValidatePolicyRequest,
+  ValidatePolicyRequest & RegionInput,
   ValidatePolicyResponse,
   ValidatePolicyError,
   Credentials | HttpClient.HttpClient,
@@ -2660,6 +2752,8 @@ export const validatePolicy: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ValidatePolicy",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

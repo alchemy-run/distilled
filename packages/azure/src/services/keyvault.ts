@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.KeyVault" },
+  prefix: "Keyvault",
+  service: "Keyvault",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckManagedHsmMhsmNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2353,6 +2374,8 @@ export const CheckManagedHsmMhsmNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckManagedHsmMhsmNameAvailability",
 }));
 
 export type CheckVaultNameAvailabilityError = AzureOpError;
@@ -2368,6 +2391,8 @@ export const CheckVaultNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckVaultNameAvailability",
 }));
 
 export type CreateKeyIfNotExistError = AzureOpError;
@@ -2383,6 +2408,8 @@ export const CreateKeyIfNotExist: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKeyIfNotExist",
 }));
 
 export type CreateManagedHsmKeyIfNotExistError = AzureOpError;
@@ -2398,6 +2425,8 @@ export const CreateManagedHsmKeyIfNotExist: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManagedHsmKeyIfNotExist",
 }));
 
 export type DeleteManagedHsmError = AzureOpError;
@@ -2413,6 +2442,8 @@ export const DeleteManagedHsm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagedHsm",
 }));
 
 export type DeleteMHSMPrivateEndpointConnectionError = AzureOpError;
@@ -2428,6 +2459,8 @@ export const DeleteMHSMPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMHSMPrivateEndpointConnection",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -2443,6 +2476,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteVaultError = AzureOpError;
@@ -2458,6 +2493,8 @@ export const DeleteVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVault",
 }));
 
 export type GetKeyError = AzureOpError;
@@ -2473,6 +2510,8 @@ export const GetKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKey",
 }));
 
 export type GetKeyVersionError = AzureOpError;
@@ -2488,6 +2527,8 @@ export const GetKeyVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyVersion",
 }));
 
 export type GetManagedHsmError = AzureOpError;
@@ -2503,6 +2544,8 @@ export const GetManagedHsm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedHsm",
 }));
 
 export type GetManagedHsmDeletedError = AzureOpError;
@@ -2518,6 +2561,8 @@ export const GetManagedHsmDeleted: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedHsmDeleted",
 }));
 
 export type GetManagedHsmKeyError = AzureOpError;
@@ -2533,6 +2578,8 @@ export const GetManagedHsmKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedHsmKey",
 }));
 
 export type GetManagedHsmKeyVersionError = AzureOpError;
@@ -2548,6 +2595,8 @@ export const GetManagedHsmKeyVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedHsmKeyVersion",
 }));
 
 export type GetMHSMPrivateEndpointConnectionError = AzureOpError;
@@ -2563,6 +2612,8 @@ export const GetMHSMPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMHSMPrivateEndpointConnection",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -2578,6 +2629,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetSecretError = AzureOpError;
@@ -2593,6 +2646,8 @@ export const GetSecret: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecret",
 }));
 
 export type GetVaultError = AzureOpError;
@@ -2608,6 +2663,8 @@ export const GetVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVault",
 }));
 
 export type GetVaultDeletedError = AzureOpError;
@@ -2623,6 +2680,8 @@ export const GetVaultDeleted: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVaultDeleted",
 }));
 
 export type ListKeysError = AzureOpError;
@@ -2638,6 +2697,8 @@ export const ListKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKeys",
 }));
 
 export type ListKeyVersionsError = AzureOpError;
@@ -2653,6 +2714,8 @@ export const ListKeyVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKeyVersions",
 }));
 
 export type ListManagedHsmByResourceGroupError = AzureOpError;
@@ -2668,6 +2731,8 @@ export const ListManagedHsmByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedHsmByResourceGroup",
 }));
 
 export type ListManagedHsmBySubscriptionError = AzureOpError;
@@ -2683,6 +2748,8 @@ export const ListManagedHsmBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedHsmBySubscription",
 }));
 
 export type ListManagedHsmDeletedError = AzureOpError;
@@ -2698,6 +2765,8 @@ export const ListManagedHsmDeleted: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedHsmDeleted",
 }));
 
 export type ListManagedHsmKeysError = AzureOpError;
@@ -2713,6 +2782,8 @@ export const ListManagedHsmKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedHsmKeys",
 }));
 
 export type ListManagedHsmKeyVersionsError = AzureOpError;
@@ -2728,6 +2799,8 @@ export const ListManagedHsmKeyVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedHsmKeyVersions",
 }));
 
 export type ListMHSMPrivateEndpointConnectionByResourceError = AzureOpError;
@@ -2743,6 +2816,8 @@ export const ListMHSMPrivateEndpointConnectionByResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMHSMPrivateEndpointConnectionByResource",
 }));
 
 export type ListMHSMPrivateLinkResourceByMHSMResourceError = AzureOpError;
@@ -2758,6 +2833,8 @@ export const ListMHSMPrivateLinkResourceByMHSMResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMHSMPrivateLinkResourceByMHSMResource",
 }));
 
 export type ListMHSMRegionByResourceError = AzureOpError;
@@ -2773,6 +2850,8 @@ export const ListMHSMRegionByResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMHSMRegionByResource",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2788,6 +2867,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByResourceError = AzureOpError;
@@ -2803,6 +2884,8 @@ export const ListPrivateEndpointConnectionByResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByResource",
 }));
 
 export type ListPrivateLinkResourceByVaultError = AzureOpError;
@@ -2818,6 +2901,8 @@ export const ListPrivateLinkResourceByVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByVault",
 }));
 
 export type ListSecretsError = AzureOpError;
@@ -2833,6 +2918,8 @@ export const ListSecrets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecrets",
 }));
 
 export type ListVaultByResourceGroupError = AzureOpError;
@@ -2848,6 +2935,8 @@ export const ListVaultByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVaultByResourceGroup",
 }));
 
 export type ListVaultBySubscriptionError = AzureOpError;
@@ -2863,6 +2952,8 @@ export const ListVaultBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVaultBySubscription",
 }));
 
 export type ListVaultDeletedError = AzureOpError;
@@ -2878,6 +2969,8 @@ export const ListVaultDeleted: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVaultDeleted",
 }));
 
 export type ListVaultsError = AzureOpError;
@@ -2893,6 +2986,8 @@ export const ListVaults: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "ListVaults", attributes: { "azure.resource_provider.namespace": null } },
 }));
 
 export type ManagedHsmsCreateOrUpdateError = AzureOpError;
@@ -2908,6 +3003,8 @@ export const ManagedHsmsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ManagedHsmsCreateOrUpdate",
 }));
 
 export type PurgeManagedHsmDeletedError = AzureOpError;
@@ -2923,6 +3020,8 @@ export const PurgeManagedHsmDeleted: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeManagedHsmDeleted",
 }));
 
 export type PurgeVaultDeletedError = AzureOpError;
@@ -2938,6 +3037,8 @@ export const PurgeVaultDeleted: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeVaultDeleted",
 }));
 
 export type PutMHSMPrivateEndpointConnectionError = AzureOpError;
@@ -2953,6 +3054,8 @@ export const PutMHSMPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMHSMPrivateEndpointConnection",
 }));
 
 export type PutPrivateEndpointConnectionError = AzureOpError;
@@ -2968,6 +3071,8 @@ export const PutPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPrivateEndpointConnection",
 }));
 
 export type SecretsCreateOrUpdateError = AzureOpError;
@@ -2983,6 +3088,8 @@ export const SecretsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecretsCreateOrUpdate",
 }));
 
 export type UpdateManagedHsmError = AzureOpError;
@@ -2998,6 +3105,8 @@ export const UpdateManagedHsm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManagedHsm",
 }));
 
 export type UpdateSecretError = AzureOpError;
@@ -3013,6 +3122,8 @@ export const UpdateSecret: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecret",
 }));
 
 export type UpdateVaultError = AzureOpError;
@@ -3028,6 +3139,8 @@ export const UpdateVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVault",
 }));
 
 export type UpdateVaultAccessPolicyError = AzureOpError;
@@ -3043,6 +3156,8 @@ export const UpdateVaultAccessPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVaultAccessPolicy",
 }));
 
 export type VaultsCreateOrUpdateError = AzureOpError;
@@ -3058,6 +3173,8 @@ export const VaultsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VaultsCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Compute" },
+  prefix: "Compute",
+  service: "Compute",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type ApproveVirtualMachineScaleSetRollingUpgradeRequestInstanceIdsList = Array<string>;
 export interface ApproveVirtualMachineScaleSetRollingUpgradeRequest {
@@ -10461,6 +10482,8 @@ export const ApproveVirtualMachineScaleSetRollingUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveVirtualMachineScaleSetRollingUpgrade",
 }));
 
 export type ApproveVirtualMachineScaleSetVMRollingUpgradeError = AzureOpError;
@@ -10480,6 +10503,8 @@ export const ApproveVirtualMachineScaleSetVMRollingUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveVirtualMachineScaleSetVMRollingUpgrade",
 }));
 
 export type AvailabilitySetsCreateOrUpdateError = AzureOpError;
@@ -10495,6 +10520,8 @@ export const AvailabilitySetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AvailabilitySetsCreateOrUpdate",
 }));
 
 export type BulkVirtualMachineBulkOperationDeallocateError = AzureOpError;
@@ -10510,6 +10537,8 @@ export const BulkVirtualMachineBulkOperationDeallocate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkVirtualMachineBulkOperationDeallocate",
 }));
 
 export type BulkVirtualMachineBulkOperationHibernateError = AzureOpError;
@@ -10525,6 +10554,8 @@ export const BulkVirtualMachineBulkOperationHibernate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkVirtualMachineBulkOperationHibernate",
 }));
 
 export type CancelAvailabilitySetMigrationToVirtualMachineScaleSetError = AzureOpError;
@@ -10548,6 +10579,8 @@ export const CancelAvailabilitySetMigrationToVirtualMachineScaleSet: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelAvailabilitySetMigrationToVirtualMachineScaleSet",
 }));
 
 export type CancelVirtualMachineScaleSetRollingUpgradeError = AzureOpError;
@@ -10563,6 +10596,8 @@ export const CancelVirtualMachineScaleSetRollingUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelVirtualMachineScaleSetRollingUpgrade",
 }));
 
 export type CapacityReservationGroupsCreateOrUpdateError = AzureOpError;
@@ -10578,6 +10613,8 @@ export const CapacityReservationGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CapacityReservationGroupsCreateOrUpdate",
 }));
 
 export type CapacityReservationsCreateOrUpdateError = AzureOpError;
@@ -10593,6 +10630,8 @@ export const CapacityReservationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CapacityReservationsCreateOrUpdate",
 }));
 
 export type CaptureVirtualMachineError = AzureOpError;
@@ -10608,6 +10647,8 @@ export const CaptureVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CaptureVirtualMachine",
 }));
 
 export type ContainerServicesCreateOrUpdateError = AzureOpError;
@@ -10623,6 +10664,11 @@ export const ContainerServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ContainerServicesCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.ContainerService" },
+  },
 }));
 
 export type ConvertAvailabilitySetToVirtualMachineScaleSetError = AzureOpError;
@@ -10646,6 +10692,8 @@ export const ConvertAvailabilitySetToVirtualMachineScaleSet: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertAvailabilitySetToVirtualMachineScaleSet",
 }));
 
 export type ConvertVirtualMachineScaleSetToSinglePlacementGroupError = AzureOpError;
@@ -10669,6 +10717,8 @@ export const ConvertVirtualMachineScaleSetToSinglePlacementGroup: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertVirtualMachineScaleSetToSinglePlacementGroup",
 }));
 
 export type ConvertVirtualMachineToManagedDisksError = AzureOpError;
@@ -10684,6 +10734,8 @@ export const ConvertVirtualMachineToManagedDisks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertVirtualMachineToManagedDisks",
 }));
 
 export type CreateRestorePointError = AzureOpError;
@@ -10699,6 +10751,8 @@ export const CreateRestorePoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRestorePoint",
 }));
 
 export type CreateSshPublicKeyError = AzureOpError;
@@ -10714,6 +10768,8 @@ export const CreateSshPublicKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSshPublicKey",
 }));
 
 export type DedicatedHostGroupsCreateOrUpdateError = AzureOpError;
@@ -10729,6 +10785,8 @@ export const DedicatedHostGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DedicatedHostGroupsCreateOrUpdate",
 }));
 
 export type DedicatedHostsCreateOrUpdateError = AzureOpError;
@@ -10744,6 +10802,8 @@ export const DedicatedHostsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DedicatedHostsCreateOrUpdate",
 }));
 
 export type DeleteAvailabilitySetError = AzureOpError;
@@ -10759,6 +10819,8 @@ export const DeleteAvailabilitySet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAvailabilitySet",
 }));
 
 export type DeleteCapacityReservationError = AzureOpError;
@@ -10774,6 +10836,8 @@ export const DeleteCapacityReservation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCapacityReservation",
 }));
 
 export type DeleteCapacityReservationGroupError = AzureOpError;
@@ -10789,6 +10853,8 @@ export const DeleteCapacityReservationGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCapacityReservationGroup",
 }));
 
 export type DeleteContainerServiceError = AzureOpError;
@@ -10804,6 +10870,11 @@ export const DeleteContainerService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteContainerService",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.ContainerService" },
+  },
 }));
 
 export type DeleteDedicatedHostError = AzureOpError;
@@ -10819,6 +10890,8 @@ export const DeleteDedicatedHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedHost",
 }));
 
 export type DeleteDedicatedHostGroupError = AzureOpError;
@@ -10834,6 +10907,8 @@ export const DeleteDedicatedHostGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedHostGroup",
 }));
 
 export type DeleteImageError = AzureOpError;
@@ -10849,6 +10924,8 @@ export const DeleteImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type DeleteInterconnectBlockError = AzureOpError;
@@ -10864,6 +10941,8 @@ export const DeleteInterconnectBlock: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInterconnectBlock",
 }));
 
 export type DeleteProximityPlacementGroupError = AzureOpError;
@@ -10879,6 +10958,8 @@ export const DeleteProximityPlacementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProximityPlacementGroup",
 }));
 
 export type DeleteRestorePointError = AzureOpError;
@@ -10894,6 +10975,8 @@ export const DeleteRestorePoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRestorePoint",
 }));
 
 export type DeleteRestorePointCollectionError = AzureOpError;
@@ -10909,6 +10992,8 @@ export const DeleteRestorePointCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRestorePointCollection",
 }));
 
 export type DeleteSshPublicKeyError = AzureOpError;
@@ -10924,6 +11009,8 @@ export const DeleteSshPublicKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSshPublicKey",
 }));
 
 export type DeleteVirtualMachineError = AzureOpError;
@@ -10939,6 +11026,8 @@ export const DeleteVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachine",
 }));
 
 export type DeleteVirtualMachineDiagnosticRunCommandError = AzureOpError;
@@ -10954,6 +11043,8 @@ export const DeleteVirtualMachineDiagnosticRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineDiagnosticRunCommand",
 }));
 
 export type DeleteVirtualMachineExtensionError = AzureOpError;
@@ -10969,6 +11060,8 @@ export const DeleteVirtualMachineExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineExtension",
 }));
 
 export type DeleteVirtualMachineRunCommandError = AzureOpError;
@@ -10984,6 +11077,8 @@ export const DeleteVirtualMachineRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineRunCommand",
 }));
 
 export type DeleteVirtualMachineScaleSetError = AzureOpError;
@@ -10999,6 +11094,8 @@ export const DeleteVirtualMachineScaleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineScaleSet",
 }));
 
 export type DeleteVirtualMachineScaleSetExtensionError = AzureOpError;
@@ -11014,6 +11111,8 @@ export const DeleteVirtualMachineScaleSetExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineScaleSetExtension",
 }));
 
 export type DeleteVirtualMachineScaleSetInstancesError = AzureOpError;
@@ -11029,6 +11128,8 @@ export const DeleteVirtualMachineScaleSetInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineScaleSetInstances",
 }));
 
 export type DeleteVirtualMachineScaleSetVMError = AzureOpError;
@@ -11044,6 +11145,8 @@ export const DeleteVirtualMachineScaleSetVM: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineScaleSetVM",
 }));
 
 export type DeleteVirtualMachineScaleSetVMDiagnosticRunCommandError = AzureOpError;
@@ -11067,6 +11170,8 @@ export const DeleteVirtualMachineScaleSetVMDiagnosticRunCommand: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineScaleSetVMDiagnosticRunCommand",
 }));
 
 export type DeleteVirtualMachineScaleSetVMExtensionError = AzureOpError;
@@ -11082,6 +11187,8 @@ export const DeleteVirtualMachineScaleSetVMExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineScaleSetVMExtension",
 }));
 
 export type DeleteVirtualMachineScaleSetVMRunCommandError = AzureOpError;
@@ -11097,6 +11204,8 @@ export const DeleteVirtualMachineScaleSetVMRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineScaleSetVMRunCommand",
 }));
 
 export type ExportLogAnalyticsRequestRateByIntervalError = AzureOpError;
@@ -11112,6 +11221,8 @@ export const ExportLogAnalyticsRequestRateByInterval: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportLogAnalyticsRequestRateByInterval",
 }));
 
 export type ExportLogAnalyticsThrottledRequestsError = AzureOpError;
@@ -11127,6 +11238,8 @@ export const ExportLogAnalyticsThrottledRequests: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportLogAnalyticsThrottledRequests",
 }));
 
 export type GenerateSshPublicKeyKeyPairError = AzureOpError;
@@ -11142,6 +11255,8 @@ export const GenerateSshPublicKeyKeyPair: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateSshPublicKeyKeyPair",
 }));
 
 export type GetAvailabilitySetError = AzureOpError;
@@ -11157,6 +11272,8 @@ export const GetAvailabilitySet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAvailabilitySet",
 }));
 
 export type GetCapacityReservationError = AzureOpError;
@@ -11172,6 +11289,8 @@ export const GetCapacityReservation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCapacityReservation",
 }));
 
 export type GetCapacityReservationGroupError = AzureOpError;
@@ -11187,6 +11306,8 @@ export const GetCapacityReservationGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCapacityReservationGroup",
 }));
 
 export type GetContainerServiceError = AzureOpError;
@@ -11202,6 +11323,11 @@ export const GetContainerService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetContainerService",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.ContainerService" },
+  },
 }));
 
 export type GetDedicatedHostError = AzureOpError;
@@ -11217,6 +11343,8 @@ export const GetDedicatedHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedHost",
 }));
 
 export type GetDedicatedHostGroupError = AzureOpError;
@@ -11232,6 +11360,8 @@ export const GetDedicatedHostGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedHostGroup",
 }));
 
 export type GetImageError = AzureOpError;
@@ -11247,6 +11377,8 @@ export const GetImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImage",
 }));
 
 export type GetInterconnectBlockError = AzureOpError;
@@ -11262,6 +11394,8 @@ export const GetInterconnectBlock: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInterconnectBlock",
 }));
 
 export type GetProximityPlacementGroupError = AzureOpError;
@@ -11277,6 +11411,8 @@ export const GetProximityPlacementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProximityPlacementGroup",
 }));
 
 export type GetRestorePointError = AzureOpError;
@@ -11292,6 +11428,8 @@ export const GetRestorePoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRestorePoint",
 }));
 
 export type GetRestorePointCollectionError = AzureOpError;
@@ -11307,6 +11445,8 @@ export const GetRestorePointCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRestorePointCollection",
 }));
 
 export type GetSpotPlacementScoreError = AzureOpError;
@@ -11322,6 +11462,8 @@ export const GetSpotPlacementScore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpotPlacementScore",
 }));
 
 export type GetSshPublicKeyError = AzureOpError;
@@ -11337,6 +11479,8 @@ export const GetSshPublicKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSshPublicKey",
 }));
 
 export type GetVirtualMachineError = AzureOpError;
@@ -11352,6 +11496,8 @@ export const GetVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachine",
 }));
 
 export type GetVirtualMachineBootDiagnosticsDataError = AzureOpError;
@@ -11367,6 +11513,8 @@ export const GetVirtualMachineBootDiagnosticsData: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineBootDiagnosticsData",
 }));
 
 export type GetVirtualMachineDiagnosticRunCommandByVirtualMachineError = AzureOpError;
@@ -11390,6 +11538,8 @@ export const GetVirtualMachineDiagnosticRunCommandByVirtualMachine: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineDiagnosticRunCommandByVirtualMachine",
 }));
 
 export type GetVirtualMachineExtensionError = AzureOpError;
@@ -11405,6 +11555,8 @@ export const GetVirtualMachineExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineExtension",
 }));
 
 export type GetVirtualMachineExtensionImageError = AzureOpError;
@@ -11420,6 +11572,8 @@ export const GetVirtualMachineExtensionImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineExtensionImage",
 }));
 
 export type GetVirtualMachineImageError = AzureOpError;
@@ -11435,6 +11589,8 @@ export const GetVirtualMachineImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineImage",
 }));
 
 export type GetVirtualMachineImagesEdgeZoneError = AzureOpError;
@@ -11450,6 +11606,8 @@ export const GetVirtualMachineImagesEdgeZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineImagesEdgeZone",
 }));
 
 export type GetVirtualMachineRunCommandError = AzureOpError;
@@ -11465,6 +11623,8 @@ export const GetVirtualMachineRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineRunCommand",
 }));
 
 export type GetVirtualMachineRunCommandByVirtualMachineError = AzureOpError;
@@ -11488,6 +11648,8 @@ export const GetVirtualMachineRunCommandByVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineRunCommandByVirtualMachine",
 }));
 
 export type GetVirtualMachineScaleSetError = AzureOpError;
@@ -11503,6 +11665,8 @@ export const GetVirtualMachineScaleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSet",
 }));
 
 export type GetVirtualMachineScaleSetExtensionError = AzureOpError;
@@ -11518,6 +11682,8 @@ export const GetVirtualMachineScaleSetExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetExtension",
 }));
 
 export type GetVirtualMachineScaleSetInstanceViewError = AzureOpError;
@@ -11533,6 +11699,8 @@ export const GetVirtualMachineScaleSetInstanceView: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetInstanceView",
 }));
 
 export type GetVirtualMachineScaleSetLifeCycleHookEventError = AzureOpError;
@@ -11556,6 +11724,8 @@ export const GetVirtualMachineScaleSetLifeCycleHookEvent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetLifeCycleHookEvent",
 }));
 
 export type GetVirtualMachineScaleSetOSUpgradeHistoryError = AzureOpError;
@@ -11571,6 +11741,8 @@ export const GetVirtualMachineScaleSetOSUpgradeHistory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetOSUpgradeHistory",
 }));
 
 export type GetVirtualMachineScaleSetRollingUpgradeLatestError = AzureOpError;
@@ -11594,6 +11766,8 @@ export const GetVirtualMachineScaleSetRollingUpgradeLatest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetRollingUpgradeLatest",
 }));
 
 export type GetVirtualMachineScaleSetVMError = AzureOpError;
@@ -11609,6 +11783,8 @@ export const GetVirtualMachineScaleSetVM: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetVM",
 }));
 
 export type GetVirtualMachineScaleSetVMBootDiagnosticsDataError = AzureOpError;
@@ -11628,6 +11804,8 @@ export const GetVirtualMachineScaleSetVMBootDiagnosticsData: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetVMBootDiagnosticsData",
 }));
 
 export type GetVirtualMachineScaleSetVMDiagnosticRunCommandError = AzureOpError;
@@ -11651,6 +11829,8 @@ export const GetVirtualMachineScaleSetVMDiagnosticRunCommand: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetVMDiagnosticRunCommand",
 }));
 
 export type GetVirtualMachineScaleSetVMExtensionError = AzureOpError;
@@ -11666,6 +11846,8 @@ export const GetVirtualMachineScaleSetVMExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetVMExtension",
 }));
 
 export type GetVirtualMachineScaleSetVMInstanceViewError = AzureOpError;
@@ -11681,6 +11863,8 @@ export const GetVirtualMachineScaleSetVMInstanceView: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetVMInstanceView",
 }));
 
 export type GetVirtualMachineScaleSetVMRunCommandError = AzureOpError;
@@ -11696,6 +11880,8 @@ export const GetVirtualMachineScaleSetVMRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineScaleSetVMRunCommand",
 }));
 
 export type ImagesCreateOrUpdateError = AzureOpError;
@@ -11711,6 +11897,8 @@ export const ImagesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImagesCreateOrUpdate",
 }));
 
 export type InstallVirtualMachinePatchesError = AzureOpError;
@@ -11726,6 +11914,8 @@ export const InstallVirtualMachinePatches: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallVirtualMachinePatches",
 }));
 
 export type InterconnectBlocksCreateOrUpdateError = AzureOpError;
@@ -11741,6 +11931,8 @@ export const InterconnectBlocksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InterconnectBlocksCreateOrUpdate",
 }));
 
 export type ListAvailabilitySetAvailableSizesError = AzureOpError;
@@ -11756,6 +11948,8 @@ export const ListAvailabilitySetAvailableSizes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilitySetAvailableSizes",
 }));
 
 export type ListAvailabilitySetBySubscriptionError = AzureOpError;
@@ -11771,6 +11965,8 @@ export const ListAvailabilitySetBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilitySetBySubscription",
 }));
 
 export type ListAvailabilitySetsError = AzureOpError;
@@ -11786,6 +11982,8 @@ export const ListAvailabilitySets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilitySets",
 }));
 
 export type ListCapacityReservationByCapacityReservationGroupError = AzureOpError;
@@ -11805,6 +12003,8 @@ export const ListCapacityReservationByCapacityReservationGroup: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapacityReservationByCapacityReservationGroup",
 }));
 
 export type ListCapacityReservationGroupByResourceGroupError = AzureOpError;
@@ -11824,6 +12024,8 @@ export const ListCapacityReservationGroupByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapacityReservationGroupByResourceGroup",
 }));
 
 export type ListCapacityReservationGroupBySubscriptionError = AzureOpError;
@@ -11843,6 +12045,8 @@ export const ListCapacityReservationGroupBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapacityReservationGroupBySubscription",
 }));
 
 export type ListContainerServiceByResourceGroupError = AzureOpError;
@@ -11858,6 +12062,11 @@ export const ListContainerServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListContainerServiceByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.ContainerService" },
+  },
 }));
 
 export type ListContainerServicesError = AzureOpError;
@@ -11873,6 +12082,11 @@ export const ListContainerServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListContainerServices",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.ContainerService" },
+  },
 }));
 
 export type ListDedicatedHostAvailableSizesError = AzureOpError;
@@ -11888,6 +12102,8 @@ export const ListDedicatedHostAvailableSizes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedHostAvailableSizes",
 }));
 
 export type ListDedicatedHostByHostGroupError = AzureOpError;
@@ -11903,6 +12119,8 @@ export const ListDedicatedHostByHostGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedHostByHostGroup",
 }));
 
 export type ListDedicatedHostGroupByResourceGroupError = AzureOpError;
@@ -11918,6 +12136,8 @@ export const ListDedicatedHostGroupByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedHostGroupByResourceGroup",
 }));
 
 export type ListDedicatedHostGroupBySubscriptionError = AzureOpError;
@@ -11933,6 +12153,8 @@ export const ListDedicatedHostGroupBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedHostGroupBySubscription",
 }));
 
 export type ListImageByResourceGroupError = AzureOpError;
@@ -11948,6 +12170,8 @@ export const ListImageByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImageByResourceGroup",
 }));
 
 export type ListImagesError = AzureOpError;
@@ -11963,6 +12187,8 @@ export const ListImages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImages",
 }));
 
 export type ListInterconnectBlockByResourceGroupError = AzureOpError;
@@ -11978,6 +12204,8 @@ export const ListInterconnectBlockByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInterconnectBlockByResourceGroup",
 }));
 
 export type ListInterconnectBlockBySubscriptionError = AzureOpError;
@@ -11993,6 +12221,8 @@ export const ListInterconnectBlockBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInterconnectBlockBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -12008,6 +12238,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProximityPlacementGroupByResourceGroupError = AzureOpError;
@@ -12027,6 +12259,8 @@ export const ListProximityPlacementGroupByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProximityPlacementGroupByResourceGroup",
 }));
 
 export type ListProximityPlacementGroupBySubscriptionError = AzureOpError;
@@ -12042,6 +12276,8 @@ export const ListProximityPlacementGroupBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProximityPlacementGroupBySubscription",
 }));
 
 export type ListRestorePointCollectionAllError = AzureOpError;
@@ -12057,6 +12293,8 @@ export const ListRestorePointCollectionAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorePointCollectionAll",
 }));
 
 export type ListRestorePointCollectionsError = AzureOpError;
@@ -12072,6 +12310,8 @@ export const ListRestorePointCollections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorePointCollections",
 }));
 
 export type ListSshPublicKeyByResourceGroupError = AzureOpError;
@@ -12087,6 +12327,8 @@ export const ListSshPublicKeyByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSshPublicKeyByResourceGroup",
 }));
 
 export type ListSshPublicKeyBySubscriptionError = AzureOpError;
@@ -12102,6 +12344,8 @@ export const ListSshPublicKeyBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSshPublicKeyBySubscription",
 }));
 
 export type ListUsageError = AzureOpError;
@@ -12117,6 +12361,8 @@ export const ListUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsage",
 }));
 
 export type ListVirtualMachineAllError = AzureOpError;
@@ -12132,6 +12378,8 @@ export const ListVirtualMachineAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineAll",
 }));
 
 export type ListVirtualMachineAvailableSizesError = AzureOpError;
@@ -12147,6 +12395,8 @@ export const ListVirtualMachineAvailableSizes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineAvailableSizes",
 }));
 
 export type ListVirtualMachineByLocationError = AzureOpError;
@@ -12162,6 +12412,8 @@ export const ListVirtualMachineByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineByLocation",
 }));
 
 export type ListVirtualMachineExtensionImageTypesError = AzureOpError;
@@ -12177,6 +12429,8 @@ export const ListVirtualMachineExtensionImageTypes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineExtensionImageTypes",
 }));
 
 export type ListVirtualMachineExtensionImageVersionsError = AzureOpError;
@@ -12192,6 +12446,8 @@ export const ListVirtualMachineExtensionImageVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineExtensionImageVersions",
 }));
 
 export type ListVirtualMachineExtensionsError = AzureOpError;
@@ -12207,6 +12463,8 @@ export const ListVirtualMachineExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineExtensions",
 }));
 
 export type ListVirtualMachineImageByEdgeZoneError = AzureOpError;
@@ -12222,6 +12480,8 @@ export const ListVirtualMachineImageByEdgeZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImageByEdgeZone",
 }));
 
 export type ListVirtualMachineImageOffersError = AzureOpError;
@@ -12237,6 +12497,8 @@ export const ListVirtualMachineImageOffers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImageOffers",
 }));
 
 export type ListVirtualMachineImagePublishersError = AzureOpError;
@@ -12252,6 +12514,8 @@ export const ListVirtualMachineImagePublishers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImagePublishers",
 }));
 
 export type ListVirtualMachineImagesError = AzureOpError;
@@ -12267,6 +12531,8 @@ export const ListVirtualMachineImages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImages",
 }));
 
 export type ListVirtualMachineImagesEdgeZoneError = AzureOpError;
@@ -12282,6 +12548,8 @@ export const ListVirtualMachineImagesEdgeZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImagesEdgeZone",
 }));
 
 export type ListVirtualMachineImagesEdgeZoneOffersError = AzureOpError;
@@ -12297,6 +12565,8 @@ export const ListVirtualMachineImagesEdgeZoneOffers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImagesEdgeZoneOffers",
 }));
 
 export type ListVirtualMachineImagesEdgeZonePublishersError = AzureOpError;
@@ -12312,6 +12582,8 @@ export const ListVirtualMachineImagesEdgeZonePublishers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImagesEdgeZonePublishers",
 }));
 
 export type ListVirtualMachineImagesEdgeZoneSkusError = AzureOpError;
@@ -12327,6 +12599,8 @@ export const ListVirtualMachineImagesEdgeZoneSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImagesEdgeZoneSkus",
 }));
 
 export type ListVirtualMachineImageSkusError = AzureOpError;
@@ -12342,6 +12616,8 @@ export const ListVirtualMachineImageSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImageSkus",
 }));
 
 export type ListVirtualMachineRunCommandByVirtualMachineError = AzureOpError;
@@ -12361,6 +12637,8 @@ export const ListVirtualMachineRunCommandByVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineRunCommandByVirtualMachine",
 }));
 
 export type ListVirtualMachineRunCommandsError = AzureOpError;
@@ -12376,6 +12654,8 @@ export const ListVirtualMachineRunCommands: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineRunCommands",
 }));
 
 export type ListVirtualMachinesError = AzureOpError;
@@ -12391,6 +12671,8 @@ export const ListVirtualMachines: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachines",
 }));
 
 export type ListVirtualMachineScaleSetAllError = AzureOpError;
@@ -12406,6 +12688,8 @@ export const ListVirtualMachineScaleSetAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSetAll",
 }));
 
 export type ListVirtualMachineScaleSetByLocationError = AzureOpError;
@@ -12421,6 +12705,8 @@ export const ListVirtualMachineScaleSetByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSetByLocation",
 }));
 
 export type ListVirtualMachineScaleSetExtensionsError = AzureOpError;
@@ -12436,6 +12722,8 @@ export const ListVirtualMachineScaleSetExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSetExtensions",
 }));
 
 export type ListVirtualMachineScaleSetLifeCycleHookEventsError = AzureOpError;
@@ -12455,6 +12743,8 @@ export const ListVirtualMachineScaleSetLifeCycleHookEvents: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSetLifeCycleHookEvents",
 }));
 
 export type ListVirtualMachineScaleSetsError = AzureOpError;
@@ -12470,6 +12760,8 @@ export const ListVirtualMachineScaleSets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSets",
 }));
 
 export type ListVirtualMachineScaleSetSkusError = AzureOpError;
@@ -12485,6 +12777,8 @@ export const ListVirtualMachineScaleSetSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSetSkus",
 }));
 
 export type ListVirtualMachineScaleSetVMDiagnosticRunCommandsError = AzureOpError;
@@ -12504,6 +12798,8 @@ export const ListVirtualMachineScaleSetVMDiagnosticRunCommands: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSetVMDiagnosticRunCommands",
 }));
 
 export type ListVirtualMachineScaleSetVMExtensionsError = AzureOpError;
@@ -12519,6 +12815,8 @@ export const ListVirtualMachineScaleSetVMExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSetVMExtensions",
 }));
 
 export type ListVirtualMachineScaleSetVMRunCommandsError = AzureOpError;
@@ -12534,6 +12832,8 @@ export const ListVirtualMachineScaleSetVMRunCommands: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSetVMRunCommands",
 }));
 
 export type ListVirtualMachineScaleSetVMsError = AzureOpError;
@@ -12549,6 +12849,8 @@ export const ListVirtualMachineScaleSetVMs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineScaleSetVMs",
 }));
 
 export type ListVirtualMachineSizesError = AzureOpError;
@@ -12564,6 +12866,8 @@ export const ListVirtualMachineSizes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineSizes",
 }));
 
 export type MigrateVirtualMachineScaleSetVMAvailabilityZoneError = AzureOpError;
@@ -12587,6 +12891,8 @@ export const MigrateVirtualMachineScaleSetVMAvailabilityZone: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateVirtualMachineScaleSetVMAvailabilityZone",
 }));
 
 export type MigrateVirtualMachineToVMScaleSetError = AzureOpError;
@@ -12602,6 +12908,8 @@ export const MigrateVirtualMachineToVMScaleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateVirtualMachineToVMScaleSet",
 }));
 
 export type PostSpotPlacementScoreError = AzureOpError;
@@ -12617,6 +12925,8 @@ export const PostSpotPlacementScore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSpotPlacementScore",
 }));
 
 export type ProximityPlacementGroupsCreateOrUpdateError = AzureOpError;
@@ -12632,6 +12942,8 @@ export const ProximityPlacementGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProximityPlacementGroupsCreateOrUpdate",
 }));
 
 export type RedeployDedicatedHostError = AzureOpError;
@@ -12647,6 +12959,8 @@ export const RedeployDedicatedHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeployDedicatedHost",
 }));
 
 export type RedeployVirtualMachineError = AzureOpError;
@@ -12662,6 +12976,8 @@ export const RedeployVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeployVirtualMachine",
 }));
 
 export type RedeployVirtualMachineScaleSetError = AzureOpError;
@@ -12677,6 +12993,8 @@ export const RedeployVirtualMachineScaleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeployVirtualMachineScaleSet",
 }));
 
 export type RedeployVirtualMachineScaleSetVMError = AzureOpError;
@@ -12692,6 +13010,8 @@ export const RedeployVirtualMachineScaleSetVM: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeployVirtualMachineScaleSetVM",
 }));
 
 export type RestartDedicatedHostError = AzureOpError;
@@ -12707,6 +13027,8 @@ export const RestartDedicatedHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartDedicatedHost",
 }));
 
 export type RestartVirtualMachineError = AzureOpError;
@@ -12722,6 +13044,8 @@ export const RestartVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartVirtualMachine",
 }));
 
 export type RestartVirtualMachineScaleSetError = AzureOpError;
@@ -12737,6 +13061,8 @@ export const RestartVirtualMachineScaleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartVirtualMachineScaleSet",
 }));
 
 export type RestartVirtualMachineScaleSetVMError = AzureOpError;
@@ -12752,6 +13078,8 @@ export const RestartVirtualMachineScaleSetVM: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartVirtualMachineScaleSetVM",
 }));
 
 export type RestorePointCollectionsCreateOrUpdateError = AzureOpError;
@@ -12767,6 +13095,8 @@ export const RestorePointCollectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestorePointCollectionsCreateOrUpdate",
 }));
 
 export type RunVirtualMachineCommandError = AzureOpError;
@@ -12782,6 +13112,8 @@ export const RunVirtualMachineCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunVirtualMachineCommand",
 }));
 
 export type RunVirtualMachineScaleSetVMCommandError = AzureOpError;
@@ -12797,6 +13129,8 @@ export const RunVirtualMachineScaleSetVMCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunVirtualMachineScaleSetVMCommand",
 }));
 
 export type ScaleVirtualMachineScaleSetOutError = AzureOpError;
@@ -12812,6 +13146,8 @@ export const ScaleVirtualMachineScaleSetOut: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScaleVirtualMachineScaleSetOut",
 }));
 
 export type SetVirtualMachineScaleSetOrchestrationServiceStateError = AzureOpError;
@@ -12835,6 +13171,8 @@ export const SetVirtualMachineScaleSetOrchestrationServiceState: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetVirtualMachineScaleSetOrchestrationServiceState",
 }));
 
 export type StartAvailabilitySetMigrationToVirtualMachineScaleSetError = AzureOpError;
@@ -12858,6 +13196,8 @@ export const StartAvailabilitySetMigrationToVirtualMachineScaleSet: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartAvailabilitySetMigrationToVirtualMachineScaleSet",
 }));
 
 export type StartVirtualMachineError = AzureOpError;
@@ -12873,6 +13213,8 @@ export const StartVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVirtualMachine",
 }));
 
 export type StartVirtualMachineScaleSetError = AzureOpError;
@@ -12888,6 +13230,8 @@ export const StartVirtualMachineScaleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVirtualMachineScaleSet",
 }));
 
 export type StartVirtualMachineScaleSetRollingUpgradeExtensionUpgradeError = AzureOpError;
@@ -12911,6 +13255,8 @@ export const StartVirtualMachineScaleSetRollingUpgradeExtensionUpgrade: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVirtualMachineScaleSetRollingUpgradeExtensionUpgrade",
 }));
 
 export type StartVirtualMachineScaleSetRollingUpgradeOSUpgradeError = AzureOpError;
@@ -12934,6 +13280,8 @@ export const StartVirtualMachineScaleSetRollingUpgradeOSUpgrade: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVirtualMachineScaleSetRollingUpgradeOSUpgrade",
 }));
 
 export type StartVirtualMachineScaleSetVMError = AzureOpError;
@@ -12949,6 +13297,8 @@ export const StartVirtualMachineScaleSetVM: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVirtualMachineScaleSetVM",
 }));
 
 export type UpdateAvailabilitySetError = AzureOpError;
@@ -12964,6 +13314,8 @@ export const UpdateAvailabilitySet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAvailabilitySet",
 }));
 
 export type UpdateCapacityReservationError = AzureOpError;
@@ -12979,6 +13331,8 @@ export const UpdateCapacityReservation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCapacityReservation",
 }));
 
 export type UpdateCapacityReservationGroupError = AzureOpError;
@@ -12994,6 +13348,8 @@ export const UpdateCapacityReservationGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCapacityReservationGroup",
 }));
 
 export type UpdateDedicatedHostError = AzureOpError;
@@ -13009,6 +13365,8 @@ export const UpdateDedicatedHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDedicatedHost",
 }));
 
 export type UpdateDedicatedHostGroupError = AzureOpError;
@@ -13024,6 +13382,8 @@ export const UpdateDedicatedHostGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDedicatedHostGroup",
 }));
 
 export type UpdateImageError = AzureOpError;
@@ -13039,6 +13399,8 @@ export const UpdateImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateImage",
 }));
 
 export type UpdateInterconnectBlockError = AzureOpError;
@@ -13054,6 +13416,8 @@ export const UpdateInterconnectBlock: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInterconnectBlock",
 }));
 
 export type UpdateProximityPlacementGroupError = AzureOpError;
@@ -13069,6 +13433,8 @@ export const UpdateProximityPlacementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProximityPlacementGroup",
 }));
 
 export type UpdateRestorePointCollectionError = AzureOpError;
@@ -13084,6 +13450,8 @@ export const UpdateRestorePointCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRestorePointCollection",
 }));
 
 export type UpdateSshPublicKeyError = AzureOpError;
@@ -13099,6 +13467,8 @@ export const UpdateSshPublicKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSshPublicKey",
 }));
 
 export type UpdateVirtualMachineError = AzureOpError;
@@ -13114,6 +13484,8 @@ export const UpdateVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachine",
 }));
 
 export type UpdateVirtualMachineDiagnosticRunCommandError = AzureOpError;
@@ -13129,6 +13501,8 @@ export const UpdateVirtualMachineDiagnosticRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineDiagnosticRunCommand",
 }));
 
 export type UpdateVirtualMachineExtensionError = AzureOpError;
@@ -13144,6 +13518,8 @@ export const UpdateVirtualMachineExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineExtension",
 }));
 
 export type UpdateVirtualMachineRunCommandError = AzureOpError;
@@ -13159,6 +13535,8 @@ export const UpdateVirtualMachineRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineRunCommand",
 }));
 
 export type UpdateVirtualMachineScaleSetError = AzureOpError;
@@ -13174,6 +13552,8 @@ export const UpdateVirtualMachineScaleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineScaleSet",
 }));
 
 export type UpdateVirtualMachineScaleSetExtensionError = AzureOpError;
@@ -13189,6 +13569,8 @@ export const UpdateVirtualMachineScaleSetExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineScaleSetExtension",
 }));
 
 export type UpdateVirtualMachineScaleSetInstancesError = AzureOpError;
@@ -13204,6 +13586,8 @@ export const UpdateVirtualMachineScaleSetInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineScaleSetInstances",
 }));
 
 export type UpdateVirtualMachineScaleSetLifeCycleHookEventError = AzureOpError;
@@ -13227,6 +13611,8 @@ export const UpdateVirtualMachineScaleSetLifeCycleHookEvent: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineScaleSetLifeCycleHookEvent",
 }));
 
 export type UpdateVirtualMachineScaleSetVMError = AzureOpError;
@@ -13242,6 +13628,8 @@ export const UpdateVirtualMachineScaleSetVM: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineScaleSetVM",
 }));
 
 export type UpdateVirtualMachineScaleSetVMDiagnosticRunCommandError = AzureOpError;
@@ -13265,6 +13653,8 @@ export const UpdateVirtualMachineScaleSetVMDiagnosticRunCommand: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineScaleSetVMDiagnosticRunCommand",
 }));
 
 export type UpdateVirtualMachineScaleSetVMExtensionError = AzureOpError;
@@ -13280,6 +13670,8 @@ export const UpdateVirtualMachineScaleSetVMExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineScaleSetVMExtension",
 }));
 
 export type UpdateVirtualMachineScaleSetVMRunCommandError = AzureOpError;
@@ -13295,6 +13687,8 @@ export const UpdateVirtualMachineScaleSetVMRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineScaleSetVMRunCommand",
 }));
 
 export type ValidateAvailabilitySetMigrationToVirtualMachineScaleSetError = AzureOpError;
@@ -13318,6 +13712,8 @@ export const ValidateAvailabilitySetMigrationToVirtualMachineScaleSet: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAvailabilitySetMigrationToVirtualMachineScaleSet",
 }));
 
 export type VirtualMachineBulkOperationsBulkCancelError = AzureOpError;
@@ -13333,6 +13729,8 @@ export const VirtualMachineBulkOperationsBulkCancel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineBulkOperationsBulkCancel",
 }));
 
 export type VirtualMachineBulkOperationsBulkDeleteError = AzureOpError;
@@ -13348,6 +13746,8 @@ export const VirtualMachineBulkOperationsBulkDelete: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineBulkOperationsBulkDelete",
 }));
 
 export type VirtualMachineBulkOperationsBulkGetOperationsStatusError = AzureOpError;
@@ -13367,6 +13767,8 @@ export const VirtualMachineBulkOperationsBulkGetOperationsStatus: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineBulkOperationsBulkGetOperationsStatus",
 }));
 
 export type VirtualMachineBulkOperationsBulkStartError = AzureOpError;
@@ -13382,6 +13784,8 @@ export const VirtualMachineBulkOperationsBulkStart: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineBulkOperationsBulkStart",
 }));
 
 export type VirtualMachineDiagnosticRunCommandsCreateOrUpdateError = AzureOpError;
@@ -13405,6 +13809,8 @@ export const VirtualMachineDiagnosticRunCommandsCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineDiagnosticRunCommandsCreateOrUpdate",
 }));
 
 export type VirtualMachineDiagnosticRunCommandsDiagnosticListByVirtualMachineError = AzureOpError;
@@ -13424,6 +13830,8 @@ export const VirtualMachineDiagnosticRunCommandsDiagnosticListByVirtualMachine: 
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineDiagnosticRunCommandsDiagnosticListByVirtualMachine",
 }));
 
 export type VirtualMachineExtensionsCreateOrUpdateError = AzureOpError;
@@ -13439,6 +13847,8 @@ export const VirtualMachineExtensionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineExtensionsCreateOrUpdate",
 }));
 
 export type VirtualMachineRunCommandsCreateOrUpdateError = AzureOpError;
@@ -13454,6 +13864,8 @@ export const VirtualMachineRunCommandsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineRunCommandsCreateOrUpdate",
 }));
 
 export type VirtualMachinesAssessPatchesError = AzureOpError;
@@ -13469,6 +13881,8 @@ export const VirtualMachinesAssessPatches: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesAssessPatches",
 }));
 
 export type VirtualMachinesAttachDetachDataDisksError = AzureOpError;
@@ -13484,6 +13898,8 @@ export const VirtualMachinesAttachDetachDataDisks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesAttachDetachDataDisks",
 }));
 
 export type VirtualMachineScaleSetExtensionsCreateOrUpdateError = AzureOpError;
@@ -13507,6 +13923,8 @@ export const VirtualMachineScaleSetExtensionsCreateOrUpdate: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetExtensionsCreateOrUpdate",
 }));
 
 export type VirtualMachineScaleSetsCreateOrUpdateError = AzureOpError;
@@ -13522,6 +13940,8 @@ export const VirtualMachineScaleSetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetsCreateOrUpdate",
 }));
 
 export type VirtualMachineScaleSetsDeallocateError = AzureOpError;
@@ -13537,6 +13957,8 @@ export const VirtualMachineScaleSetsDeallocate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetsDeallocate",
 }));
 
 export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkError =
@@ -13557,6 +13979,8 @@ export const VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDoma
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk",
 }));
 
 export type VirtualMachineScaleSetsPerformMaintenanceError = AzureOpError;
@@ -13572,6 +13996,8 @@ export const VirtualMachineScaleSetsPerformMaintenance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetsPerformMaintenance",
 }));
 
 export type VirtualMachineScaleSetsPowerOffError = AzureOpError;
@@ -13587,6 +14013,8 @@ export const VirtualMachineScaleSetsPowerOff: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetsPowerOff",
 }));
 
 export type VirtualMachineScaleSetsReapplyError = AzureOpError;
@@ -13602,6 +14030,8 @@ export const VirtualMachineScaleSetsReapply: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetsReapply",
 }));
 
 export type VirtualMachineScaleSetsReimageError = AzureOpError;
@@ -13617,6 +14047,8 @@ export const VirtualMachineScaleSetsReimage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetsReimage",
 }));
 
 export type VirtualMachineScaleSetsReimageAllError = AzureOpError;
@@ -13632,6 +14064,8 @@ export const VirtualMachineScaleSetsReimageAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetsReimageAll",
 }));
 
 export type VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateError = AzureOpError;
@@ -13655,6 +14089,8 @@ export const VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdate: API.Op
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdate",
 }));
 
 export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateError = AzureOpError;
@@ -13678,6 +14114,8 @@ export const VirtualMachineScaleSetVMExtensionsCreateOrUpdate: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMExtensionsCreateOrUpdate",
 }));
 
 export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateError = AzureOpError;
@@ -13701,6 +14139,8 @@ export const VirtualMachineScaleSetVMRunCommandsCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMRunCommandsCreateOrUpdate",
 }));
 
 export type VirtualMachineScaleSetVMsAttachDetachDataDisksError = AzureOpError;
@@ -13724,6 +14164,8 @@ export const VirtualMachineScaleSetVMsAttachDetachDataDisks: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMsAttachDetachDataDisks",
 }));
 
 export type VirtualMachineScaleSetVMsDeallocateError = AzureOpError;
@@ -13739,6 +14181,8 @@ export const VirtualMachineScaleSetVMsDeallocate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMsDeallocate",
 }));
 
 export type VirtualMachineScaleSetVMsPerformMaintenanceError = AzureOpError;
@@ -13758,6 +14202,8 @@ export const VirtualMachineScaleSetVMsPerformMaintenance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMsPerformMaintenance",
 }));
 
 export type VirtualMachineScaleSetVMsPowerOffError = AzureOpError;
@@ -13773,6 +14219,8 @@ export const VirtualMachineScaleSetVMsPowerOff: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMsPowerOff",
 }));
 
 export type VirtualMachineScaleSetVMsReimageError = AzureOpError;
@@ -13788,6 +14236,8 @@ export const VirtualMachineScaleSetVMsReimage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMsReimage",
 }));
 
 export type VirtualMachineScaleSetVMsReimageAllError = AzureOpError;
@@ -13803,6 +14253,8 @@ export const VirtualMachineScaleSetVMsReimageAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMsReimageAll",
 }));
 
 export type VirtualMachineScaleSetVMsSimulateEvictionError = AzureOpError;
@@ -13822,6 +14274,8 @@ export const VirtualMachineScaleSetVMsSimulateEviction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineScaleSetVMsSimulateEviction",
 }));
 
 export type VirtualMachinesCreateOrUpdateError = AzureOpError;
@@ -13837,6 +14291,8 @@ export const VirtualMachinesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesCreateOrUpdate",
 }));
 
 export type VirtualMachinesDeallocateError = AzureOpError;
@@ -13852,6 +14308,8 @@ export const VirtualMachinesDeallocate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesDeallocate",
 }));
 
 export type VirtualMachinesGeneralizeError = AzureOpError;
@@ -13867,6 +14325,8 @@ export const VirtualMachinesGeneralize: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesGeneralize",
 }));
 
 export type VirtualMachinesInstanceViewError = AzureOpError;
@@ -13882,6 +14342,8 @@ export const VirtualMachinesInstanceView: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesInstanceView",
 }));
 
 export type VirtualMachinesPerformMaintenanceError = AzureOpError;
@@ -13897,6 +14359,8 @@ export const VirtualMachinesPerformMaintenance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesPerformMaintenance",
 }));
 
 export type VirtualMachinesPowerOffError = AzureOpError;
@@ -13912,6 +14376,8 @@ export const VirtualMachinesPowerOff: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesPowerOff",
 }));
 
 export type VirtualMachinesReapplyError = AzureOpError;
@@ -13927,6 +14393,8 @@ export const VirtualMachinesReapply: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesReapply",
 }));
 
 export type VirtualMachinesReimageError = AzureOpError;
@@ -13942,6 +14410,8 @@ export const VirtualMachinesReimage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesReimage",
 }));
 
 export type VirtualMachinesSimulateEvictionError = AzureOpError;
@@ -13957,6 +14427,8 @@ export const VirtualMachinesSimulateEviction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesSimulateEviction",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

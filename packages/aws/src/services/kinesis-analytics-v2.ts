@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -76,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kinesisanalytics.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KinesisAnalyticsV2",
+  service: "KinesisAnalyticsV2",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CodeValidationException
   extends /*@__PURE__*/ S.TaggedError<CodeValidationException>()("CodeValidationException", {
@@ -1199,7 +1216,7 @@ export type AddApplicationCloudWatchLoggingOptionError =
  * Adds an Amazon CloudWatch log stream to monitor application configuration errors.
  */
 export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
-  AddApplicationCloudWatchLoggingOptionRequest,
+  AddApplicationCloudWatchLoggingOptionRequest & RegionInput,
   AddApplicationCloudWatchLoggingOptionResponse,
   AddApplicationCloudWatchLoggingOptionError,
   Credentials | HttpClient.HttpClient
@@ -1217,6 +1234,8 @@ export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationCloudWatchLoggingOption",
+  telemetry: TELEMETRY,
+  span: "AddApplicationCloudWatchLoggingOption",
 }));
 
 export type AddApplicationInputError =
@@ -1239,7 +1258,7 @@ export type AddApplicationInputError =
  * to find the current application version.
  */
 export const addApplicationInput: API.OperationMethod<
-  AddApplicationInputRequest,
+  AddApplicationInputRequest & RegionInput,
   AddApplicationInputResponse,
   AddApplicationInputError,
   Credentials | HttpClient.HttpClient
@@ -1257,6 +1276,8 @@ export const addApplicationInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationInput",
+  telemetry: TELEMETRY,
+  span: "AddApplicationInput",
 }));
 
 export type AddApplicationInputProcessingConfigurationError =
@@ -1272,7 +1293,7 @@ export type AddApplicationInputProcessingConfigurationError =
  * application's SQL code executes. Currently, the only input processor available is Amazon Lambda.
  */
 export const addApplicationInputProcessingConfiguration: API.OperationMethod<
-  AddApplicationInputProcessingConfigurationRequest,
+  AddApplicationInputProcessingConfigurationRequest & RegionInput,
   AddApplicationInputProcessingConfigurationResponse,
   AddApplicationInputProcessingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1289,6 +1310,8 @@ export const addApplicationInputProcessingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationInputProcessingConfiguration",
+  telemetry: TELEMETRY,
+  span: "AddApplicationInputProcessingConfiguration",
 }));
 
 export type AddApplicationOutputError =
@@ -1317,7 +1340,7 @@ export type AddApplicationOutputError =
  * version.
  */
 export const addApplicationOutput: API.OperationMethod<
-  AddApplicationOutputRequest,
+  AddApplicationOutputRequest & RegionInput,
   AddApplicationOutputResponse,
   AddApplicationOutputError,
   Credentials | HttpClient.HttpClient
@@ -1334,6 +1357,8 @@ export const addApplicationOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationOutput",
+  telemetry: TELEMETRY,
+  span: "AddApplicationOutput",
 }));
 
 export type AddApplicationReferenceDataSourceError =
@@ -1353,7 +1378,7 @@ export type AddApplicationReferenceDataSourceError =
  * in the resulting in-application table.
  */
 export const addApplicationReferenceDataSource: API.OperationMethod<
-  AddApplicationReferenceDataSourceRequest,
+  AddApplicationReferenceDataSourceRequest & RegionInput,
   AddApplicationReferenceDataSourceResponse,
   AddApplicationReferenceDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1370,6 +1395,8 @@ export const addApplicationReferenceDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationReferenceDataSource",
+  telemetry: TELEMETRY,
+  span: "AddApplicationReferenceDataSource",
 }));
 
 export type AddApplicationVpcConfigurationError =
@@ -1391,7 +1418,7 @@ export type AddApplicationVpcConfigurationError =
  * Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
  */
 export const addApplicationVpcConfiguration: API.OperationMethod<
-  AddApplicationVpcConfigurationRequest,
+  AddApplicationVpcConfigurationRequest & RegionInput,
   AddApplicationVpcConfigurationResponse,
   AddApplicationVpcConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1408,6 +1435,8 @@ export const addApplicationVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationVpcConfiguration",
+  telemetry: TELEMETRY,
+  span: "AddApplicationVpcConfiguration",
 }));
 
 export type CreateApplicationError =
@@ -1426,7 +1455,7 @@ export type CreateApplicationError =
  * Application.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1446,6 +1475,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateApplicationPresignedUrlError =
@@ -1470,7 +1501,7 @@ export type CreateApplicationPresignedUrlError =
  * If you first try to use the URL after the 3-minute limit expires, the service returns an HTTP 403 Forbidden error.
  */
 export const createApplicationPresignedUrl: API.OperationMethod<
-  CreateApplicationPresignedUrlRequest,
+  CreateApplicationPresignedUrlRequest & RegionInput,
   CreateApplicationPresignedUrlResponse,
   CreateApplicationPresignedUrlError,
   Credentials | HttpClient.HttpClient
@@ -1481,6 +1512,8 @@ export const createApplicationPresignedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationPresignedUrl",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationPresignedUrl",
 }));
 
 export type CreateApplicationSnapshotError =
@@ -1496,7 +1529,7 @@ export type CreateApplicationSnapshotError =
  * Creates a snapshot of the application's state data.
  */
 export const createApplicationSnapshot: API.OperationMethod<
-  CreateApplicationSnapshotRequest,
+  CreateApplicationSnapshotRequest & RegionInput,
   CreateApplicationSnapshotResponse,
   CreateApplicationSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1515,6 +1548,8 @@ export const createApplicationSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationSnapshot",
 }));
 
 export type DeleteApplicationError =
@@ -1529,7 +1564,7 @@ export type DeleteApplicationError =
  * Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1547,6 +1582,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationCloudWatchLoggingOptionError =
@@ -1561,7 +1598,7 @@ export type DeleteApplicationCloudWatchLoggingOptionError =
  * Deletes an Amazon CloudWatch log stream from an SQL-based Kinesis Data Analytics application.
  */
 export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
-  DeleteApplicationCloudWatchLoggingOptionRequest,
+  DeleteApplicationCloudWatchLoggingOptionRequest & RegionInput,
   DeleteApplicationCloudWatchLoggingOptionResponse,
   DeleteApplicationCloudWatchLoggingOptionError,
   Credentials | HttpClient.HttpClient
@@ -1579,6 +1616,8 @@ export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationCloudWatchLoggingOption",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationCloudWatchLoggingOption",
 }));
 
 export type DeleteApplicationInputProcessingConfigurationError =
@@ -1592,7 +1631,7 @@ export type DeleteApplicationInputProcessingConfigurationError =
  * Deletes an InputProcessingConfiguration from an input.
  */
 export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
-  DeleteApplicationInputProcessingConfigurationRequest,
+  DeleteApplicationInputProcessingConfigurationRequest & RegionInput,
   DeleteApplicationInputProcessingConfigurationResponse,
   DeleteApplicationInputProcessingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1617,6 +1656,8 @@ export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationInputProcessingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationInputProcessingConfiguration",
 }));
 
 export type DeleteApplicationOutputError =
@@ -1632,7 +1673,7 @@ export type DeleteApplicationOutputError =
  * the corresponding in-application stream to the external output destination.
  */
 export const deleteApplicationOutput: API.OperationMethod<
-  DeleteApplicationOutputRequest,
+  DeleteApplicationOutputRequest & RegionInput,
   DeleteApplicationOutputResponse,
   DeleteApplicationOutputError,
   Credentials | HttpClient.HttpClient
@@ -1649,6 +1690,8 @@ export const deleteApplicationOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationOutput",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationOutput",
 }));
 
 export type DeleteApplicationReferenceDataSourceError =
@@ -1665,7 +1708,7 @@ export type DeleteApplicationReferenceDataSourceError =
  * that you created using the AddApplicationReferenceDataSource operation.
  */
 export const deleteApplicationReferenceDataSource: API.OperationMethod<
-  DeleteApplicationReferenceDataSourceRequest,
+  DeleteApplicationReferenceDataSourceRequest & RegionInput,
   DeleteApplicationReferenceDataSourceResponse,
   DeleteApplicationReferenceDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1682,6 +1725,8 @@ export const deleteApplicationReferenceDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationReferenceDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationReferenceDataSource",
 }));
 
 export type DeleteApplicationSnapshotError =
@@ -1696,7 +1741,7 @@ export type DeleteApplicationSnapshotError =
  * Deletes a snapshot of application state.
  */
 export const deleteApplicationSnapshot: API.OperationMethod<
-  DeleteApplicationSnapshotRequest,
+  DeleteApplicationSnapshotRequest & RegionInput,
   DeleteApplicationSnapshotResponse,
   DeleteApplicationSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1714,6 +1759,8 @@ export const deleteApplicationSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationSnapshot",
 }));
 
 export type DeleteApplicationVpcConfigurationError =
@@ -1727,7 +1774,7 @@ export type DeleteApplicationVpcConfigurationError =
  * Removes a VPC configuration from a Managed Service for Apache Flink application.
  */
 export const deleteApplicationVpcConfiguration: API.OperationMethod<
-  DeleteApplicationVpcConfigurationRequest,
+  DeleteApplicationVpcConfigurationRequest & RegionInput,
   DeleteApplicationVpcConfigurationResponse,
   DeleteApplicationVpcConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1744,6 +1791,8 @@ export const deleteApplicationVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationVpcConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationVpcConfiguration",
 }));
 
 export type DescribeApplicationError =
@@ -1758,7 +1807,7 @@ export type DescribeApplicationError =
  * use the ListApplications operation.
  */
 export const describeApplication: API.OperationMethod<
-  DescribeApplicationRequest,
+  DescribeApplicationRequest & RegionInput,
   DescribeApplicationResponse,
   DescribeApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1769,6 +1818,8 @@ export const describeApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplication",
+  telemetry: TELEMETRY,
+  span: "DescribeApplication",
 }));
 
 export type DescribeApplicationOperationError =
@@ -1782,7 +1833,7 @@ export type DescribeApplicationOperationError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const describeApplicationOperation: API.OperationMethod<
-  DescribeApplicationOperationRequest,
+  DescribeApplicationOperationRequest & RegionInput,
   DescribeApplicationOperationResponse,
   DescribeApplicationOperationError,
   Credentials | HttpClient.HttpClient
@@ -1793,6 +1844,8 @@ export const describeApplicationOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationOperation",
 }));
 
 export type DescribeApplicationSnapshotError =
@@ -1804,7 +1857,7 @@ export type DescribeApplicationSnapshotError =
  * Returns information about a snapshot of application state data.
  */
 export const describeApplicationSnapshot: API.OperationMethod<
-  DescribeApplicationSnapshotRequest,
+  DescribeApplicationSnapshotRequest & RegionInput,
   DescribeApplicationSnapshotResponse,
   DescribeApplicationSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1815,6 +1868,8 @@ export const describeApplicationSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationSnapshot",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationSnapshot",
 }));
 
 export type DescribeApplicationVersionError =
@@ -1828,7 +1883,7 @@ export type DescribeApplicationVersionError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const describeApplicationVersion: API.OperationMethod<
-  DescribeApplicationVersionRequest,
+  DescribeApplicationVersionRequest & RegionInput,
   DescribeApplicationVersionResponse,
   DescribeApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1839,6 +1894,8 @@ export const describeApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationVersion",
 }));
 
 export type DiscoverInputSchemaError =
@@ -1860,7 +1917,7 @@ export type DiscoverInputSchemaError =
  * operation to infer a schema and show it in the console user interface.
  */
 export const discoverInputSchema: API.OperationMethod<
-  DiscoverInputSchemaRequest,
+  DiscoverInputSchemaRequest & RegionInput,
   DiscoverInputSchemaResponse,
   DiscoverInputSchemaError,
   Credentials | HttpClient.HttpClient
@@ -1878,6 +1935,8 @@ export const discoverInputSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DiscoverInputSchema",
+  telemetry: TELEMETRY,
+  span: "DiscoverInputSchema",
 }));
 
 export type ListApplicationOperationsError =
@@ -1894,7 +1953,7 @@ export type ListApplicationOperationsError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const listApplicationOperations: API.PaginatedOperationMethod<
-  ListApplicationOperationsRequest,
+  ListApplicationOperationsRequest & RegionInput,
   ListApplicationOperationsResponse,
   ListApplicationOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1912,6 +1971,8 @@ export const listApplicationOperations: API.PaginatedOperationMethod<
     items: "ApplicationOperationInfoList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationOperations",
 })) as any;
 
 export type ListApplicationsError = InvalidRequestException | CommonErrors;
@@ -1924,7 +1985,7 @@ export type ListApplicationsError = InvalidRequestException | CommonErrors;
  * DescribeApplication.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1942,6 +2003,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "ApplicationSummaries",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListApplicationSnapshotsError =
@@ -1952,7 +2015,7 @@ export type ListApplicationSnapshotsError =
  * Lists information about the current application snapshots.
  */
 export const listApplicationSnapshots: API.PaginatedOperationMethod<
-  ListApplicationSnapshotsRequest,
+  ListApplicationSnapshotsRequest & RegionInput,
   ListApplicationSnapshotsResponse,
   ListApplicationSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -1970,6 +2033,8 @@ export const listApplicationSnapshots: API.PaginatedOperationMethod<
     items: "SnapshotSummaries",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationSnapshots",
 })) as any;
 
 export type ListApplicationVersionsError =
@@ -1986,7 +2051,7 @@ export type ListApplicationVersionsError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const listApplicationVersions: API.PaginatedOperationMethod<
-  ListApplicationVersionsRequest,
+  ListApplicationVersionsRequest & RegionInput,
   ListApplicationVersionsResponse,
   ListApplicationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2004,6 +2069,8 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
     items: "ApplicationVersionSummaries",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2016,7 +2083,7 @@ export type ListTagsForResourceError =
  * Using Tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2027,6 +2094,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RollbackApplicationError =
@@ -2048,7 +2117,7 @@ export type RollbackApplicationError =
  * If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request.
  */
 export const rollbackApplication: API.OperationMethod<
-  RollbackApplicationRequest,
+  RollbackApplicationRequest & RegionInput,
   RollbackApplicationResponse,
   RollbackApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2066,6 +2135,8 @@ export const rollbackApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackApplication",
+  telemetry: TELEMETRY,
+  span: "RollbackApplication",
 }));
 
 export type StartApplicationError =
@@ -2080,7 +2151,7 @@ export type StartApplicationError =
  * start your application.
  */
 export const startApplication: API.OperationMethod<
-  StartApplicationRequest,
+  StartApplicationRequest & RegionInput,
   StartApplicationResponse,
   StartApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2097,6 +2168,8 @@ export const startApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplication",
+  telemetry: TELEMETRY,
+  span: "StartApplication",
 }));
 
 export type StopApplicationError =
@@ -2118,7 +2191,7 @@ export type StopApplicationError =
  * to `true`.
  */
 export const stopApplication: API.OperationMethod<
-  StopApplicationRequest,
+  StopApplicationRequest & RegionInput,
   StopApplicationResponse,
   StopApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2136,6 +2209,8 @@ export const stopApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
+  telemetry: TELEMETRY,
+  span: "StopApplication",
 }));
 
 export type TagResourceError =
@@ -2151,7 +2226,7 @@ export type TagResourceError =
  * For more information, see Using Tagging.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2168,6 +2243,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2182,7 +2259,7 @@ export type UntagResourceError =
  * Using Tagging.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2199,6 +2276,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -2219,7 +2298,7 @@ export type UpdateApplicationError =
  * your application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2239,6 +2318,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateApplicationMaintenanceConfigurationError =
@@ -2269,7 +2350,7 @@ export type UpdateApplicationMaintenanceConfigurationError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const updateApplicationMaintenanceConfiguration: API.OperationMethod<
-  UpdateApplicationMaintenanceConfigurationRequest,
+  UpdateApplicationMaintenanceConfigurationRequest & RegionInput,
   UpdateApplicationMaintenanceConfigurationResponse,
   UpdateApplicationMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2286,6 +2367,8 @@ export const updateApplicationMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationMaintenanceConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

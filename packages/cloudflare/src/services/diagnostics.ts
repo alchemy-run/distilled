@@ -37,6 +37,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   waitTime: "wait_time",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Diagnostics",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class EndpointHealthcheckNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<EndpointHealthcheckNotFound>()("EndpointHealthcheckNotFound", {
@@ -263,6 +277,8 @@ export const createEndpointHealthcheck: API.OperationMethod<
   errors: [InvalidHealthcheckEndpoint, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndpointHealthcheck",
 }));
 
 export type CreateTracerouteError = CloudflareOpError;
@@ -280,6 +296,8 @@ export const createTraceroute: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateTraceroute",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -301,6 +319,8 @@ export const deleteEndpointHealthcheck: API.OperationMethod<
   errors: [EndpointHealthcheckNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEndpointHealthcheck",
 }));
 
 export type GetEndpointHealthcheckError =
@@ -319,6 +339,8 @@ export const getEndpointHealthcheck: API.OperationMethod<
   errors: [EndpointHealthcheckNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpointHealthcheck",
 }));
 
 export type ListEndpointHealthchecksError = Forbidden | CloudflareOpError;
@@ -334,6 +356,8 @@ export const listEndpointHealthchecks: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEndpointHealthchecks",
 }));
 
 export type UpdateEndpointHealthcheckError =
@@ -359,6 +383,8 @@ export const updateEndpointHealthcheck: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEndpointHealthcheck",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

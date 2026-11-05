@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ssm-contacts.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SSMContacts",
+  service: "SSMContacts",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -769,7 +786,7 @@ export type AcceptPageError =
  * Used to acknowledge an engagement to a contact channel during an incident.
  */
 export const acceptPage: API.OperationMethod<
-  AcceptPageRequest,
+  AcceptPageRequest & RegionInput,
   AcceptPageResult,
   AcceptPageError,
   Credentials | HttpClient.HttpClient
@@ -787,6 +804,8 @@ export const acceptPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPage",
+  telemetry: TELEMETRY,
+  span: "AcceptPage",
 }));
 
 export type ActivateContactChannelError =
@@ -802,7 +821,7 @@ export type ActivateContactChannelError =
  * contact channel has been activated.
  */
 export const activateContactChannel: API.OperationMethod<
-  ActivateContactChannelRequest,
+  ActivateContactChannelRequest & RegionInput,
   ActivateContactChannelResult,
   ActivateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -820,6 +839,8 @@ export const activateContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateContactChannel",
+  telemetry: TELEMETRY,
+  span: "ActivateContactChannel",
 }));
 
 export type CreateContactError =
@@ -838,7 +859,7 @@ export type CreateContactError =
  * incident.
  */
 export const createContact: API.OperationMethod<
-  CreateContactRequest,
+  CreateContactRequest & RegionInput,
   CreateContactResult,
   CreateContactError,
   Credentials | HttpClient.HttpClient
@@ -858,6 +879,8 @@ export const createContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContact",
+  telemetry: TELEMETRY,
+  span: "CreateContact",
 }));
 
 export type CreateContactChannelError =
@@ -873,7 +896,7 @@ export type CreateContactChannelError =
  * A contact channel is the method that Incident Manager uses to engage your contact.
  */
 export const createContactChannel: API.OperationMethod<
-  CreateContactChannelRequest,
+  CreateContactChannelRequest & RegionInput,
   CreateContactChannelResult,
   CreateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -892,6 +915,8 @@ export const createContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactChannel",
+  telemetry: TELEMETRY,
+  span: "CreateContactChannel",
 }));
 
 export type CreateRotationError =
@@ -908,7 +933,7 @@ export type CreateRotationError =
  * Creates a rotation in an on-call schedule.
  */
 export const createRotation: API.OperationMethod<
-  CreateRotationRequest,
+  CreateRotationRequest & RegionInput,
   CreateRotationResult,
   CreateRotationError,
   Credentials | HttpClient.HttpClient
@@ -928,6 +953,8 @@ export const createRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRotation",
+  telemetry: TELEMETRY,
+  span: "CreateRotation",
 }));
 
 export type CreateRotationOverrideError =
@@ -944,7 +971,7 @@ export type CreateRotationOverrideError =
  * Creates an override for a rotation in an on-call schedule.
  */
 export const createRotationOverride: API.OperationMethod<
-  CreateRotationOverrideRequest,
+  CreateRotationOverrideRequest & RegionInput,
   CreateRotationOverrideResult,
   CreateRotationOverrideError,
   Credentials | HttpClient.HttpClient
@@ -964,6 +991,8 @@ export const createRotationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRotationOverride",
+  telemetry: TELEMETRY,
+  span: "CreateRotationOverride",
 }));
 
 export type DeactivateContactChannelError =
@@ -979,7 +1008,7 @@ export type DeactivateContactChannelError =
  * the channel.
  */
 export const deactivateContactChannel: API.OperationMethod<
-  DeactivateContactChannelRequest,
+  DeactivateContactChannelRequest & RegionInput,
   DeactivateContactChannelResult,
   DeactivateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -997,6 +1026,8 @@ export const deactivateContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateContactChannel",
+  telemetry: TELEMETRY,
+  span: "DeactivateContactChannel",
 }));
 
 export type DeleteContactError =
@@ -1016,7 +1047,7 @@ export type DeleteContactError =
  * different existing contact.
  */
 export const deleteContact: API.OperationMethod<
-  DeleteContactRequest,
+  DeleteContactRequest & RegionInput,
   DeleteContactResult,
   DeleteContactError,
   Credentials | HttpClient.HttpClient
@@ -1035,6 +1066,8 @@ export const deleteContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContact",
+  telemetry: TELEMETRY,
+  span: "DeleteContact",
 }));
 
 export type DeleteContactChannelError =
@@ -1053,7 +1086,7 @@ export type DeleteContactChannelError =
  * incident.
  */
 export const deleteContactChannel: API.OperationMethod<
-  DeleteContactChannelRequest,
+  DeleteContactChannelRequest & RegionInput,
   DeleteContactChannelResult,
   DeleteContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -1071,6 +1104,8 @@ export const deleteContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteContactChannel",
 }));
 
 export type DeleteRotationError =
@@ -1088,7 +1123,7 @@ export type DeleteRotationError =
  * schedule, this operation deletes it from all of them.
  */
 export const deleteRotation: API.OperationMethod<
-  DeleteRotationRequest,
+  DeleteRotationRequest & RegionInput,
   DeleteRotationResult,
   DeleteRotationError,
   Credentials | HttpClient.HttpClient
@@ -1108,6 +1143,8 @@ export const deleteRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRotation",
+  telemetry: TELEMETRY,
+  span: "DeleteRotation",
 }));
 
 export type DeleteRotationOverrideError =
@@ -1123,7 +1160,7 @@ export type DeleteRotationOverrideError =
  * Deletes an existing override for an on-call rotation.
  */
 export const deleteRotationOverride: API.OperationMethod<
-  DeleteRotationOverrideRequest,
+  DeleteRotationOverrideRequest & RegionInput,
   DeleteRotationOverrideResult,
   DeleteRotationOverrideError,
   Credentials | HttpClient.HttpClient
@@ -1142,6 +1179,8 @@ export const deleteRotationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRotationOverride",
+  telemetry: TELEMETRY,
+  span: "DeleteRotationOverride",
 }));
 
 export type DescribeEngagementError =
@@ -1158,7 +1197,7 @@ export type DescribeEngagementError =
  * Use this command to describe the engagement that occurred during an incident.
  */
 export const describeEngagement: API.OperationMethod<
-  DescribeEngagementRequest,
+  DescribeEngagementRequest & RegionInput,
   DescribeEngagementResult,
   DescribeEngagementError,
   Credentials | HttpClient.HttpClient
@@ -1177,6 +1216,8 @@ export const describeEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEngagement",
+  telemetry: TELEMETRY,
+  span: "DescribeEngagement",
 }));
 
 export type DescribePageError =
@@ -1192,7 +1233,7 @@ export type DescribePageError =
  * Lists details of the engagement to a contact channel.
  */
 export const describePage: API.OperationMethod<
-  DescribePageRequest,
+  DescribePageRequest & RegionInput,
   DescribePageResult,
   DescribePageError,
   Credentials | HttpClient.HttpClient
@@ -1211,6 +1252,8 @@ export const describePage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePage",
+  telemetry: TELEMETRY,
+  span: "DescribePage",
 }));
 
 export type GetContactError =
@@ -1226,7 +1269,7 @@ export type GetContactError =
  * Retrieves information about the specified contact or escalation plan.
  */
 export const getContact: API.OperationMethod<
-  GetContactRequest,
+  GetContactRequest & RegionInput,
   GetContactResult,
   GetContactError,
   Credentials | HttpClient.HttpClient
@@ -1245,6 +1288,8 @@ export const getContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContact",
+  telemetry: TELEMETRY,
+  span: "GetContact",
 }));
 
 export type GetContactChannelError =
@@ -1260,7 +1305,7 @@ export type GetContactChannelError =
  * List details about a specific contact channel.
  */
 export const getContactChannel: API.OperationMethod<
-  GetContactChannelRequest,
+  GetContactChannelRequest & RegionInput,
   GetContactChannelResult,
   GetContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -1279,6 +1324,8 @@ export const getContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactChannel",
+  telemetry: TELEMETRY,
+  span: "GetContactChannel",
 }));
 
 export type GetContactPolicyError =
@@ -1294,7 +1341,7 @@ export type GetContactPolicyError =
  * plan.
  */
 export const getContactPolicy: API.OperationMethod<
-  GetContactPolicyRequest,
+  GetContactPolicyRequest & RegionInput,
   GetContactPolicyResult,
   GetContactPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1312,6 +1359,8 @@ export const getContactPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactPolicy",
+  telemetry: TELEMETRY,
+  span: "GetContactPolicy",
 }));
 
 export type GetRotationError =
@@ -1327,7 +1376,7 @@ export type GetRotationError =
  * Retrieves information about an on-call rotation.
  */
 export const getRotation: API.OperationMethod<
-  GetRotationRequest,
+  GetRotationRequest & RegionInput,
   GetRotationResult,
   GetRotationError,
   Credentials | HttpClient.HttpClient
@@ -1346,6 +1395,8 @@ export const getRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRotation",
+  telemetry: TELEMETRY,
+  span: "GetRotation",
 }));
 
 export type GetRotationOverrideError =
@@ -1361,7 +1412,7 @@ export type GetRotationOverrideError =
  * Retrieves information about an override to an on-call rotation.
  */
 export const getRotationOverride: API.OperationMethod<
-  GetRotationOverrideRequest,
+  GetRotationOverrideRequest & RegionInput,
   GetRotationOverrideResult,
   GetRotationOverrideError,
   Credentials | HttpClient.HttpClient
@@ -1380,6 +1431,8 @@ export const getRotationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRotationOverride",
+  telemetry: TELEMETRY,
+  span: "GetRotationOverride",
 }));
 
 export type ListContactChannelsError =
@@ -1395,7 +1448,7 @@ export type ListContactChannelsError =
  * Lists all contact channels for the specified contact.
  */
 export const listContactChannels: API.PaginatedOperationMethod<
-  ListContactChannelsRequest,
+  ListContactChannelsRequest & RegionInput,
   ListContactChannelsResult,
   ListContactChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1421,6 +1474,8 @@ export const listContactChannels: API.PaginatedOperationMethod<
     items: "ContactChannels",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactChannels",
 })) as any;
 
 export type ListContactsError =
@@ -1434,7 +1489,7 @@ export type ListContactsError =
  * Lists all contacts and escalation plans in Incident Manager.
  */
 export const listContacts: API.PaginatedOperationMethod<
-  ListContactsRequest,
+  ListContactsRequest & RegionInput,
   ListContactsResult,
   ListContactsError,
   Credentials | HttpClient.HttpClient,
@@ -1458,6 +1513,8 @@ export const listContacts: API.PaginatedOperationMethod<
     items: "Contacts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContacts",
 })) as any;
 
 export type ListEngagementsError =
@@ -1471,7 +1528,7 @@ export type ListEngagementsError =
  * Lists all engagements that have happened in an incident.
  */
 export const listEngagements: API.PaginatedOperationMethod<
-  ListEngagementsRequest,
+  ListEngagementsRequest & RegionInput,
   ListEngagementsResult,
   ListEngagementsError,
   Credentials | HttpClient.HttpClient,
@@ -1495,6 +1552,8 @@ export const listEngagements: API.PaginatedOperationMethod<
     items: "Engagements",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagements",
 })) as any;
 
 export type ListPageReceiptsError =
@@ -1509,7 +1568,7 @@ export type ListPageReceiptsError =
  * Lists all of the engagements to contact channels that have been acknowledged.
  */
 export const listPageReceipts: API.PaginatedOperationMethod<
-  ListPageReceiptsRequest,
+  ListPageReceiptsRequest & RegionInput,
   ListPageReceiptsResult,
   ListPageReceiptsError,
   Credentials | HttpClient.HttpClient,
@@ -1534,6 +1593,8 @@ export const listPageReceipts: API.PaginatedOperationMethod<
     items: "Receipts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPageReceipts",
 })) as any;
 
 export type ListPageResolutionsError =
@@ -1552,7 +1613,7 @@ export type ListPageResolutionsError =
  * contact.
  */
 export const listPageResolutions: API.PaginatedOperationMethod<
-  ListPageResolutionsRequest,
+  ListPageResolutionsRequest & RegionInput,
   ListPageResolutionsResult,
   ListPageResolutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1576,6 +1637,8 @@ export const listPageResolutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PageResolutions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPageResolutions",
 })) as any;
 
 export type ListPagesByContactError =
@@ -1590,7 +1653,7 @@ export type ListPagesByContactError =
  * Lists the engagements to a contact's contact channels.
  */
 export const listPagesByContact: API.PaginatedOperationMethod<
-  ListPagesByContactRequest,
+  ListPagesByContactRequest & RegionInput,
   ListPagesByContactResult,
   ListPagesByContactError,
   Credentials | HttpClient.HttpClient,
@@ -1615,6 +1678,8 @@ export const listPagesByContact: API.PaginatedOperationMethod<
     items: "Pages",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPagesByContact",
 })) as any;
 
 export type ListPagesByEngagementError =
@@ -1629,7 +1694,7 @@ export type ListPagesByEngagementError =
  * Lists the engagements to contact channels that occurred by engaging a contact.
  */
 export const listPagesByEngagement: API.PaginatedOperationMethod<
-  ListPagesByEngagementRequest,
+  ListPagesByEngagementRequest & RegionInput,
   ListPagesByEngagementResult,
   ListPagesByEngagementError,
   Credentials | HttpClient.HttpClient,
@@ -1654,6 +1719,8 @@ export const listPagesByEngagement: API.PaginatedOperationMethod<
     items: "Pages",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPagesByEngagement",
 })) as any;
 
 export type ListPreviewRotationShiftsError =
@@ -1669,7 +1736,7 @@ export type ListPreviewRotationShiftsError =
  * The Incident Manager primarily uses this operation to populate the **Preview** calendar. It is not typically run by end users.
  */
 export const listPreviewRotationShifts: API.PaginatedOperationMethod<
-  ListPreviewRotationShiftsRequest,
+  ListPreviewRotationShiftsRequest & RegionInput,
   ListPreviewRotationShiftsResult,
   ListPreviewRotationShiftsError,
   Credentials | HttpClient.HttpClient,
@@ -1693,6 +1760,8 @@ export const listPreviewRotationShifts: API.PaginatedOperationMethod<
     items: "RotationShifts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPreviewRotationShifts",
 })) as any;
 
 export type ListRotationOverridesError =
@@ -1708,7 +1777,7 @@ export type ListRotationOverridesError =
  * Retrieves a list of overrides currently specified for an on-call rotation.
  */
 export const listRotationOverrides: API.PaginatedOperationMethod<
-  ListRotationOverridesRequest,
+  ListRotationOverridesRequest & RegionInput,
   ListRotationOverridesResult,
   ListRotationOverridesError,
   Credentials | HttpClient.HttpClient,
@@ -1734,6 +1803,8 @@ export const listRotationOverrides: API.PaginatedOperationMethod<
     items: "RotationOverrides",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRotationOverrides",
 })) as any;
 
 export type ListRotationsError =
@@ -1748,7 +1819,7 @@ export type ListRotationsError =
  * Retrieves a list of on-call rotations.
  */
 export const listRotations: API.PaginatedOperationMethod<
-  ListRotationsRequest,
+  ListRotationsRequest & RegionInput,
   ListRotationsResult,
   ListRotationsError,
   Credentials | HttpClient.HttpClient,
@@ -1773,6 +1844,8 @@ export const listRotations: API.PaginatedOperationMethod<
     items: "Rotations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRotations",
 })) as any;
 
 export type ListRotationShiftsError =
@@ -1789,7 +1862,7 @@ export type ListRotationShiftsError =
  * Returns a list of shifts generated by an existing rotation in the system.
  */
 export const listRotationShifts: API.PaginatedOperationMethod<
-  ListRotationShiftsRequest,
+  ListRotationShiftsRequest & RegionInput,
   ListRotationShiftsResult,
   ListRotationShiftsError,
   Credentials | HttpClient.HttpClient,
@@ -1816,6 +1889,8 @@ export const listRotationShifts: API.PaginatedOperationMethod<
     items: "RotationShifts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRotationShifts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1830,7 +1905,7 @@ export type ListTagsForResourceError =
  * Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1848,6 +1923,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutContactPolicyError =
@@ -1865,7 +1942,7 @@ export type PutContactPolicyError =
  * cross-account functionality.
  */
 export const putContactPolicy: API.OperationMethod<
-  PutContactPolicyRequest,
+  PutContactPolicyRequest & RegionInput,
   PutContactPolicyResult,
   PutContactPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1884,6 +1961,8 @@ export const putContactPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContactPolicy",
+  telemetry: TELEMETRY,
+  span: "PutContactPolicy",
 }));
 
 export type SendActivationCodeError =
@@ -1902,7 +1981,7 @@ export type SendActivationCodeError =
  * Incident Manager can't engage a contact channel until it has been activated.
  */
 export const sendActivationCode: API.OperationMethod<
-  SendActivationCodeRequest,
+  SendActivationCodeRequest & RegionInput,
   SendActivationCodeResult,
   SendActivationCodeError,
   Credentials | HttpClient.HttpClient
@@ -1922,6 +2001,8 @@ export const sendActivationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendActivationCode",
+  telemetry: TELEMETRY,
+  span: "SendActivationCode",
 }));
 
 export type StartEngagementError =
@@ -1938,7 +2019,7 @@ export type StartEngagementError =
  * contact specified in the incident.
  */
 export const startEngagement: API.OperationMethod<
-  StartEngagementRequest,
+  StartEngagementRequest & RegionInput,
   StartEngagementResult,
   StartEngagementError,
   Credentials | HttpClient.HttpClient
@@ -1957,6 +2038,8 @@ export const startEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEngagement",
+  telemetry: TELEMETRY,
+  span: "StartEngagement",
 }));
 
 export type StopEngagementError =
@@ -1972,7 +2055,7 @@ export type StopEngagementError =
  * engagement plan. Further contacts aren't engaged.
  */
 export const stopEngagement: API.OperationMethod<
-  StopEngagementRequest,
+  StopEngagementRequest & RegionInput,
   StopEngagementResult,
   StopEngagementError,
   Credentials | HttpClient.HttpClient
@@ -1990,6 +2073,8 @@ export const stopEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEngagement",
+  telemetry: TELEMETRY,
+  span: "StopEngagement",
 }));
 
 export type TagResourceError =
@@ -2006,7 +2091,7 @@ export type TagResourceError =
  * first region of your replication set.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2025,6 +2110,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2039,7 +2126,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2057,6 +2144,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateContactError =
@@ -2073,7 +2162,7 @@ export type UpdateContactError =
  * Updates the contact or escalation plan specified.
  */
 export const updateContact: API.OperationMethod<
-  UpdateContactRequest,
+  UpdateContactRequest & RegionInput,
   UpdateContactResult,
   UpdateContactError,
   Credentials | HttpClient.HttpClient
@@ -2093,6 +2182,8 @@ export const updateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContact",
+  telemetry: TELEMETRY,
+  span: "UpdateContact",
 }));
 
 export type UpdateContactChannelError =
@@ -2109,7 +2200,7 @@ export type UpdateContactChannelError =
  * Updates a contact's contact channel.
  */
 export const updateContactChannel: API.OperationMethod<
-  UpdateContactChannelRequest,
+  UpdateContactChannelRequest & RegionInput,
   UpdateContactChannelResult,
   UpdateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -2129,6 +2220,8 @@ export const updateContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateContactChannel",
 }));
 
 export type UpdateRotationError =
@@ -2145,7 +2238,7 @@ export type UpdateRotationError =
  * Updates the information specified for an on-call rotation.
  */
 export const updateRotation: API.OperationMethod<
-  UpdateRotationRequest,
+  UpdateRotationRequest & RegionInput,
   UpdateRotationResult,
   UpdateRotationError,
   Credentials | HttpClient.HttpClient
@@ -2165,6 +2258,8 @@ export const updateRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRotation",
+  telemetry: TELEMETRY,
+  span: "UpdateRotation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "tasks" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Tasks",
+  service: "tasks",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -299,6 +318,8 @@ export const clearTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearTasks",
 }));
 
 export type DeleteTasklistsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -314,6 +335,8 @@ export const deleteTasklists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTasklists",
 }));
 
 export type DeleteTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -329,6 +352,8 @@ export const deleteTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTasks",
 }));
 
 export type GetTasklistsError = NotFound | Forbidden | GcpOpError;
@@ -344,6 +369,8 @@ export const getTasklists: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasklists",
 }));
 
 export type GetTasksError = NotFound | Forbidden | GcpOpError;
@@ -355,6 +382,8 @@ export const getTasks: API.OperationMethod<GetTasksRequest, Task, GetTasksError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTasks",
   }));
 
 export type InsertTasklistsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -370,6 +399,8 @@ export const insertTasklists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertTasklists",
 }));
 
 export type InsertTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -385,6 +416,8 @@ export const insertTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertTasks",
 }));
 
 export type ListTasklistsError = NotFound | Forbidden | GcpOpError;
@@ -401,6 +434,8 @@ export const listTasklists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasklists",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -418,6 +453,8 @@ export const listTasks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -430,6 +467,8 @@ export const moveTasks: API.OperationMethod<MoveTasksRequest, Task, MoveTasksErr
     errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "MoveTasks",
   }));
 
 export type PatchTasklistsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -445,6 +484,8 @@ export const patchTasklists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTasklists",
 }));
 
 export type PatchTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -460,6 +501,8 @@ export const patchTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTasks",
 }));
 
 export type UpdateTasklistsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -475,6 +518,8 @@ export const updateTasklists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTasklists",
 }));
 
 export type UpdateTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -490,6 +535,8 @@ export const updateTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTasks",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

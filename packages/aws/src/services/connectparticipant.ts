@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -82,6 +84,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://participant.connect.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConnectParticipant",
+  service: "ConnectParticipant",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -426,7 +442,7 @@ export type CancelParticipantAuthenticationError =
  * authentication.
  */
 export const cancelParticipantAuthentication: API.OperationMethod<
-  CancelParticipantAuthenticationRequest,
+  CancelParticipantAuthenticationRequest & RegionInput,
   CancelParticipantAuthenticationResponse,
   CancelParticipantAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -442,6 +458,8 @@ export const cancelParticipantAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelParticipantAuthentication",
+  telemetry: TELEMETRY,
+  span: "CancelParticipantAuthentication",
 }));
 
 export type CompleteAttachmentUploadError =
@@ -466,7 +484,7 @@ export type CompleteAttachmentUploadError =
  * authentication.
  */
 export const completeAttachmentUpload: API.OperationMethod<
-  CompleteAttachmentUploadRequest,
+  CompleteAttachmentUploadRequest & RegionInput,
   CompleteAttachmentUploadResponse,
   CompleteAttachmentUploadError,
   Credentials | HttpClient.HttpClient
@@ -484,6 +502,8 @@ export const completeAttachmentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteAttachmentUpload",
+  telemetry: TELEMETRY,
+  span: "CompleteAttachmentUpload",
 }));
 
 export type CreateParticipantConnectionError =
@@ -559,7 +579,7 @@ export type CreateParticipantConnectionError =
  * authentication.
  */
 export const createParticipantConnection: API.OperationMethod<
-  CreateParticipantConnectionRequest,
+  CreateParticipantConnectionRequest & RegionInput,
   CreateParticipantConnectionResponse,
   CreateParticipantConnectionError,
   Credentials | HttpClient.HttpClient
@@ -575,6 +595,8 @@ export const createParticipantConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParticipantConnection",
+  telemetry: TELEMETRY,
+  span: "CreateParticipantConnection",
 }));
 
 export type DescribeViewError =
@@ -590,7 +612,7 @@ export type DescribeViewError =
  * For security recommendations, see Connect Customer Chat security best practices.
  */
 export const describeView: API.OperationMethod<
-  DescribeViewRequest,
+  DescribeViewRequest & RegionInput,
   DescribeViewResponse,
   DescribeViewError,
   Credentials | HttpClient.HttpClient
@@ -607,6 +629,8 @@ export const describeView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeView",
+  telemetry: TELEMETRY,
+  span: "DescribeView",
 }));
 
 export type DisconnectParticipantError =
@@ -627,7 +651,7 @@ export type DisconnectParticipantError =
  * authentication.
  */
 export const disconnectParticipant: API.OperationMethod<
-  DisconnectParticipantRequest,
+  DisconnectParticipantRequest & RegionInput,
   DisconnectParticipantResponse,
   DisconnectParticipantError,
   Credentials | HttpClient.HttpClient
@@ -643,6 +667,8 @@ export const disconnectParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectParticipant",
+  telemetry: TELEMETRY,
+  span: "DisconnectParticipant",
 }));
 
 export type GetAttachmentError =
@@ -669,7 +695,7 @@ export type GetAttachmentError =
  * authentication.
  */
 export const getAttachment: API.OperationMethod<
-  GetAttachmentRequest,
+  GetAttachmentRequest & RegionInput,
   GetAttachmentResponse,
   GetAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -685,6 +711,8 @@ export const getAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttachment",
+  telemetry: TELEMETRY,
+  span: "GetAttachment",
 }));
 
 export type GetAuthenticationUrlError =
@@ -712,7 +740,7 @@ export type GetAuthenticationUrlError =
  * authentication.
  */
 export const getAuthenticationUrl: API.OperationMethod<
-  GetAuthenticationUrlRequest,
+  GetAuthenticationUrlRequest & RegionInput,
   GetAuthenticationUrlResponse,
   GetAuthenticationUrlError,
   Credentials | HttpClient.HttpClient
@@ -728,6 +756,8 @@ export const getAuthenticationUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthenticationUrl",
+  telemetry: TELEMETRY,
+  span: "GetAuthenticationUrl",
 }));
 
 export type GetTranscriptError =
@@ -766,7 +796,7 @@ export type GetTranscriptError =
  * authentication.
  */
 export const getTranscript: API.PaginatedOperationMethod<
-  GetTranscriptRequest,
+  GetTranscriptRequest & RegionInput,
   GetTranscriptResponse,
   GetTranscriptError,
   Credentials | HttpClient.HttpClient,
@@ -788,6 +818,8 @@ export const getTranscript: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTranscript",
 })) as any;
 
 export type SendEventError =
@@ -816,7 +848,7 @@ export type SendEventError =
  * authentication.
  */
 export const sendEvent: API.OperationMethod<
-  SendEventRequest,
+  SendEventRequest & RegionInput,
   SendEventResponse,
   SendEventError,
   Credentials | HttpClient.HttpClient
@@ -833,6 +865,8 @@ export const sendEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEvent",
+  telemetry: TELEMETRY,
+  span: "SendEvent",
 }));
 
 export type SendMessageError =
@@ -853,7 +887,7 @@ export type SendMessageError =
  * authentication.
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResponse,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -869,6 +903,8 @@ export const sendMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessage",
+  telemetry: TELEMETRY,
+  span: "SendMessage",
 }));
 
 export type StartAttachmentUploadError =
@@ -891,7 +927,7 @@ export type StartAttachmentUploadError =
  * authentication.
  */
 export const startAttachmentUpload: API.OperationMethod<
-  StartAttachmentUploadRequest,
+  StartAttachmentUploadRequest & RegionInput,
   StartAttachmentUploadResponse,
   StartAttachmentUploadError,
   Credentials | HttpClient.HttpClient
@@ -908,6 +944,8 @@ export const startAttachmentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAttachmentUpload",
+  telemetry: TELEMETRY,
+  span: "StartAttachmentUpload",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

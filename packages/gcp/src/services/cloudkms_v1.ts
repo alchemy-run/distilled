@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudkms" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudkms",
+  service: "cloudkms",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2103,6 +2122,8 @@ export const approveProjectsLocationsSingleTenantHsmInstancesProposals: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveProjectsLocationsSingleTenantHsmInstancesProposals",
 }));
 
 export type AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -2127,6 +2148,8 @@ export const asymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -2151,6 +2174,8 @@ export const asymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions:
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type CreateProjectsLocationsEkmConnectionsError =
@@ -2171,6 +2196,8 @@ export const createProjectsLocationsEkmConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsEkmConnections",
 }));
 
 export type CreateProjectsLocationsKeyHandlesError =
@@ -2191,6 +2218,8 @@ export const createProjectsLocationsKeyHandles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsKeyHandles",
 }));
 
 export type CreateProjectsLocationsKeyRingsError =
@@ -2211,6 +2240,8 @@ export const createProjectsLocationsKeyRings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsKeyRings",
 }));
 
 export type CreateProjectsLocationsKeyRingsCryptoKeysError =
@@ -2231,6 +2262,8 @@ export const createProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -2255,6 +2288,8 @@ export const createProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type CreateProjectsLocationsKeyRingsImportJobsError =
@@ -2275,6 +2310,8 @@ export const createProjectsLocationsKeyRingsImportJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsKeyRingsImportJobs",
 }));
 
 export type CreateProjectsLocationsSingleTenantHsmInstancesError =
@@ -2299,6 +2336,8 @@ export const createProjectsLocationsSingleTenantHsmInstances: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsSingleTenantHsmInstances",
 }));
 
 export type CreateProjectsLocationsSingleTenantHsmInstancesProposalsError =
@@ -2323,6 +2362,8 @@ export const createProjectsLocationsSingleTenantHsmInstancesProposals: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsSingleTenantHsmInstancesProposals",
 }));
 
 export type DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -2347,6 +2388,8 @@ export const decapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: AP
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type DecryptProjectsLocationsKeyRingsCryptoKeysError =
@@ -2367,6 +2410,8 @@ export const decryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DecryptProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type DeleteProjectsLocationsKeyRingsError =
@@ -2387,6 +2432,8 @@ export const deleteProjectsLocationsKeyRings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsKeyRings",
 }));
 
 export type DeleteProjectsLocationsKeyRingsCryptoKeysError =
@@ -2407,6 +2454,8 @@ export const deleteProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -2431,6 +2480,8 @@ export const deleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type DeleteProjectsLocationsSingleTenantHsmInstancesProposalsError =
@@ -2455,6 +2506,8 @@ export const deleteProjectsLocationsSingleTenantHsmInstancesProposals: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsSingleTenantHsmInstancesProposals",
 }));
 
 export type DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -2479,6 +2532,8 @@ export const destroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type EncryptProjectsLocationsKeyRingsCryptoKeysError =
@@ -2499,6 +2554,8 @@ export const encryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EncryptProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsError =
@@ -2523,6 +2580,8 @@ export const executeProjectsLocationsSingleTenantHsmInstancesProposals: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteProjectsLocationsSingleTenantHsmInstancesProposals",
 }));
 
 export type ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -2545,6 +2604,8 @@ export const exportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCry
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type GenerateRandomBytesProjectsLocationsError =
@@ -2565,6 +2626,8 @@ export const generateRandomBytesProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateRandomBytesProjectsLocations",
 }));
 
 export type GetAutokeyConfigFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2580,6 +2643,8 @@ export const getAutokeyConfigFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutokeyConfigFolders",
 }));
 
 export type GetAutokeyConfigProjectsError = NotFound | Forbidden | GcpOpError;
@@ -2595,6 +2660,8 @@ export const getAutokeyConfigProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutokeyConfigProjects",
 }));
 
 export type GetEffectiveAutokeyConfigFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2610,6 +2677,8 @@ export const getEffectiveAutokeyConfigFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEffectiveAutokeyConfigFolders",
 }));
 
 export type GetEffectiveAutokeyConfigProjectsError = NotFound | Forbidden | GcpOpError;
@@ -2625,6 +2694,8 @@ export const getEffectiveAutokeyConfigProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEffectiveAutokeyConfigProjects",
 }));
 
 export type GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError =
@@ -2651,6 +2722,8 @@ export const getEffectiveKeyAccessJustificationsEnrollmentConfigProjects: API.Op
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEffectiveKeyAccessJustificationsEnrollmentConfigProjects",
 }));
 
 export type GetEffectiveKeyAccessJustificationsPolicyConfigProjectsError =
@@ -2677,6 +2750,8 @@ export const getEffectiveKeyAccessJustificationsPolicyConfigProjects: API.Operat
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEffectiveKeyAccessJustificationsPolicyConfigProjects",
 }));
 
 export type GetEkmConfigProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2692,6 +2767,8 @@ export const getEkmConfigProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEkmConfigProjectsLocations",
 }));
 
 export type GetIamPolicyProjectsLocationsEkmConfigError = NotFound | Forbidden | GcpOpError;
@@ -2707,6 +2784,8 @@ export const getIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsEkmConfig",
 }));
 
 export type GetIamPolicyProjectsLocationsEkmConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -2722,6 +2801,8 @@ export const getIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsEkmConnections",
 }));
 
 export type GetIamPolicyProjectsLocationsKeyRingsError = NotFound | Forbidden | GcpOpError;
@@ -2737,6 +2818,8 @@ export const getIamPolicyProjectsLocationsKeyRings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsKeyRings",
 }));
 
 export type GetIamPolicyProjectsLocationsKeyRingsCryptoKeysError =
@@ -2759,6 +2842,8 @@ export const getIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type GetIamPolicyProjectsLocationsKeyRingsImportJobsError =
@@ -2781,6 +2866,8 @@ export const getIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsKeyRingsImportJobs",
 }));
 
 export type GetKajPolicyConfigFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2796,6 +2883,8 @@ export const getKajPolicyConfigFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKajPolicyConfigFolders",
 }));
 
 export type GetKajPolicyConfigOrganizationsError = NotFound | Forbidden | GcpOpError;
@@ -2811,6 +2900,8 @@ export const getKajPolicyConfigOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKajPolicyConfigOrganizations",
 }));
 
 export type GetKajPolicyConfigProjectsError = NotFound | Forbidden | GcpOpError;
@@ -2826,6 +2917,8 @@ export const getKajPolicyConfigProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKajPolicyConfigProjects",
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2841,6 +2934,8 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocations",
 }));
 
 export type GetProjectsLocationsEkmConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -2856,6 +2951,8 @@ export const getProjectsLocationsEkmConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsEkmConnections",
 }));
 
 export type GetProjectsLocationsKeyHandlesError = NotFound | Forbidden | GcpOpError;
@@ -2871,6 +2968,8 @@ export const getProjectsLocationsKeyHandles: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsKeyHandles",
 }));
 
 export type GetProjectsLocationsKeyRingsError = NotFound | Forbidden | GcpOpError;
@@ -2886,6 +2985,8 @@ export const getProjectsLocationsKeyRings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsKeyRings",
 }));
 
 export type GetProjectsLocationsKeyRingsCryptoKeysError = NotFound | Forbidden | GcpOpError;
@@ -2901,6 +3002,8 @@ export const getProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -2923,6 +3026,8 @@ export const getProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Operat
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type GetProjectsLocationsKeyRingsImportJobsError = NotFound | Forbidden | GcpOpError;
@@ -2938,6 +3043,8 @@ export const getProjectsLocationsKeyRingsImportJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsKeyRingsImportJobs",
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2953,6 +3060,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsOperations",
 }));
 
 export type GetProjectsLocationsRetiredResourcesError = NotFound | Forbidden | GcpOpError;
@@ -2968,6 +3077,8 @@ export const getProjectsLocationsRetiredResources: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsRetiredResources",
 }));
 
 export type GetProjectsLocationsSingleTenantHsmInstancesError = NotFound | Forbidden | GcpOpError;
@@ -2983,6 +3094,8 @@ export const getProjectsLocationsSingleTenantHsmInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsSingleTenantHsmInstances",
 }));
 
 export type GetProjectsLocationsSingleTenantHsmInstancesProposalsError =
@@ -3005,6 +3118,8 @@ export const getProjectsLocationsSingleTenantHsmInstancesProposals: API.Operatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsSingleTenantHsmInstancesProposals",
 }));
 
 export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3027,6 +3142,8 @@ export const getPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: A
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3051,6 +3168,8 @@ export const importProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3075,6 +3194,8 @@ export const importTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCry
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -3091,6 +3212,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3108,6 +3231,8 @@ export const listProjectsLocationsEkmConnections: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsEkmConnections",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3125,6 +3250,8 @@ export const listProjectsLocationsKeyHandles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsKeyHandles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3142,6 +3269,8 @@ export const listProjectsLocationsKeyRings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsKeyRings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3159,6 +3288,8 @@ export const listProjectsLocationsKeyRingsCryptoKeys: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsKeyRingsCryptoKeys",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3183,6 +3314,8 @@ export const listProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Pagin
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3200,6 +3333,8 @@ export const listProjectsLocationsKeyRingsImportJobs: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsKeyRingsImportJobs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3217,6 +3352,8 @@ export const listProjectsLocationsRetiredResources: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsRetiredResources",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3238,6 +3375,8 @@ export const listProjectsLocationsSingleTenantHsmInstances: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsSingleTenantHsmInstances",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3262,6 +3401,8 @@ export const listProjectsLocationsSingleTenantHsmInstancesProposals: API.Paginat
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsSingleTenantHsmInstancesProposals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3287,6 +3428,8 @@ export const macSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3311,6 +3454,8 @@ export const macVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type PatchProjectsLocationsEkmConnectionsError =
@@ -3331,6 +3476,8 @@ export const patchProjectsLocationsEkmConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsEkmConnections",
 }));
 
 export type PatchProjectsLocationsKeyRingsCryptoKeysError =
@@ -3351,6 +3498,8 @@ export const patchProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3375,6 +3524,8 @@ export const patchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3399,6 +3550,8 @@ export const rawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3423,6 +3576,8 @@ export const rawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3447,6 +3602,8 @@ export const restoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
 }));
 
 export type SetIamPolicyProjectsLocationsEkmConfigError =
@@ -3467,6 +3624,8 @@ export const setIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsEkmConfig",
 }));
 
 export type SetIamPolicyProjectsLocationsEkmConnectionsError =
@@ -3487,6 +3646,8 @@ export const setIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsEkmConnections",
 }));
 
 export type SetIamPolicyProjectsLocationsKeyRingsError =
@@ -3507,6 +3668,8 @@ export const setIamPolicyProjectsLocationsKeyRings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsKeyRings",
 }));
 
 export type SetIamPolicyProjectsLocationsKeyRingsCryptoKeysError =
@@ -3531,6 +3694,8 @@ export const setIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type SetIamPolicyProjectsLocationsKeyRingsImportJobsError =
@@ -3555,6 +3720,8 @@ export const setIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsKeyRingsImportJobs",
 }));
 
 export type TestIamPermissionsProjectsLocationsEkmConfigError =
@@ -3575,6 +3742,8 @@ export const testIamPermissionsProjectsLocationsEkmConfig: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsEkmConfig",
 }));
 
 export type TestIamPermissionsProjectsLocationsEkmConnectionsError =
@@ -3599,6 +3768,8 @@ export const testIamPermissionsProjectsLocationsEkmConnections: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsEkmConnections",
 }));
 
 export type TestIamPermissionsProjectsLocationsKeyRingsError =
@@ -3619,6 +3790,8 @@ export const testIamPermissionsProjectsLocationsKeyRings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsKeyRings",
 }));
 
 export type TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysError =
@@ -3643,6 +3816,8 @@ export const testIamPermissionsProjectsLocationsKeyRingsCryptoKeys: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type TestIamPermissionsProjectsLocationsKeyRingsImportJobsError =
@@ -3667,6 +3842,8 @@ export const testIamPermissionsProjectsLocationsKeyRingsImportJobs: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsKeyRingsImportJobs",
 }));
 
 export type UpdateAutokeyConfigFoldersError =
@@ -3687,6 +3864,8 @@ export const updateAutokeyConfigFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutokeyConfigFolders",
 }));
 
 export type UpdateAutokeyConfigProjectsError =
@@ -3707,6 +3886,8 @@ export const updateAutokeyConfigProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutokeyConfigProjects",
 }));
 
 export type UpdateEkmConfigProjectsLocationsError =
@@ -3727,6 +3908,8 @@ export const updateEkmConfigProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEkmConfigProjectsLocations",
 }));
 
 export type UpdateKajPolicyConfigFoldersError =
@@ -3747,6 +3930,8 @@ export const updateKajPolicyConfigFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKajPolicyConfigFolders",
 }));
 
 export type UpdateKajPolicyConfigOrganizationsError =
@@ -3767,6 +3952,8 @@ export const updateKajPolicyConfigOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKajPolicyConfigOrganizations",
 }));
 
 export type UpdateKajPolicyConfigProjectsError =
@@ -3787,6 +3974,8 @@ export const updateKajPolicyConfigProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKajPolicyConfigProjects",
 }));
 
 export type UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysError =
@@ -3811,6 +4000,8 @@ export const updatePrimaryVersionProjectsLocationsKeyRingsCryptoKeys: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeys",
 }));
 
 export type VerifyConnectivityProjectsLocationsEkmConnectionsError =
@@ -3833,6 +4024,8 @@ export const verifyConnectivityProjectsLocationsEkmConnections: API.OperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyConnectivityProjectsLocationsEkmConnections",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

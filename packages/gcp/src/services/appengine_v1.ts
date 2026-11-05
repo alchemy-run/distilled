@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "appengine" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Appengine",
+  service: "appengine",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1624,6 +1643,8 @@ export const batchUpdateAppsFirewallIngressRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateAppsFirewallIngressRules",
 }));
 
 export type CreateAppsError =
@@ -1645,6 +1666,8 @@ export const createApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApps",
 }));
 
 export type CreateAppsAuthorizedCertificatesError =
@@ -1666,6 +1689,8 @@ export const createAppsAuthorizedCertificates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsAuthorizedCertificates",
 }));
 
 export type CreateAppsDomainMappingsError =
@@ -1687,6 +1712,8 @@ export const createAppsDomainMappings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsDomainMappings",
 }));
 
 export type CreateAppsFirewallIngressRulesError =
@@ -1708,6 +1735,8 @@ export const createAppsFirewallIngressRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsFirewallIngressRules",
 }));
 
 export type CreateAppsServicesVersionsError =
@@ -1729,6 +1758,8 @@ export const createAppsServicesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsServicesVersions",
 }));
 
 export type CreateProjectsLocationsApplicationsAuthorizedCertificatesError =
@@ -1754,6 +1785,8 @@ export const createProjectsLocationsApplicationsAuthorizedCertificates: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsApplicationsAuthorizedCertificates",
 }));
 
 export type CreateProjectsLocationsApplicationsDomainMappingsError =
@@ -1779,6 +1812,8 @@ export const createProjectsLocationsApplicationsDomainMappings: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsApplicationsDomainMappings",
 }));
 
 export type DebugAppsServicesVersionsInstancesError =
@@ -1800,6 +1835,8 @@ export const debugAppsServicesVersionsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DebugAppsServicesVersionsInstances",
 }));
 
 export type DebugProjectsLocationsApplicationsServicesVersionsInstancesError =
@@ -1825,6 +1862,8 @@ export const debugProjectsLocationsApplicationsServicesVersionsInstances: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DebugProjectsLocationsApplicationsServicesVersionsInstances",
 }));
 
 export type DeleteAppsAuthorizedCertificatesError =
@@ -1846,6 +1885,8 @@ export const deleteAppsAuthorizedCertificates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsAuthorizedCertificates",
 }));
 
 export type DeleteAppsDomainMappingsError =
@@ -1867,6 +1908,8 @@ export const deleteAppsDomainMappings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsDomainMappings",
 }));
 
 export type DeleteAppsFirewallIngressRulesError =
@@ -1888,6 +1931,8 @@ export const deleteAppsFirewallIngressRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsFirewallIngressRules",
 }));
 
 export type DeleteAppsServicesError =
@@ -1909,6 +1954,8 @@ export const deleteAppsServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsServices",
 }));
 
 export type DeleteAppsServicesVersionsError =
@@ -1930,6 +1977,8 @@ export const deleteAppsServicesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsServicesVersions",
 }));
 
 export type DeleteAppsServicesVersionsInstancesError =
@@ -1951,6 +2000,8 @@ export const deleteAppsServicesVersionsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsServicesVersionsInstances",
 }));
 
 export type DeleteProjectsLocationsApplicationsAuthorizedCertificatesError =
@@ -1976,6 +2027,8 @@ export const deleteProjectsLocationsApplicationsAuthorizedCertificates: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsApplicationsAuthorizedCertificates",
 }));
 
 export type DeleteProjectsLocationsApplicationsDomainMappingsError =
@@ -2001,6 +2054,8 @@ export const deleteProjectsLocationsApplicationsDomainMappings: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsApplicationsDomainMappings",
 }));
 
 export type DeleteProjectsLocationsApplicationsServicesError =
@@ -2022,6 +2077,8 @@ export const deleteProjectsLocationsApplicationsServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsApplicationsServices",
 }));
 
 export type DeleteProjectsLocationsApplicationsServicesVersionsError =
@@ -2047,6 +2104,8 @@ export const deleteProjectsLocationsApplicationsServicesVersions: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsApplicationsServicesVersions",
 }));
 
 export type DeleteProjectsLocationsApplicationsServicesVersionsInstancesError =
@@ -2072,6 +2131,8 @@ export const deleteProjectsLocationsApplicationsServicesVersionsInstances: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsApplicationsServicesVersionsInstances",
 }));
 
 export type ExportAppImageAppsServicesVersionsError =
@@ -2093,6 +2154,8 @@ export const exportAppImageAppsServicesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAppImageAppsServicesVersions",
 }));
 
 export type ExportAppImageProjectsLocationsApplicationsServicesVersionsError =
@@ -2118,6 +2181,8 @@ export const exportAppImageProjectsLocationsApplicationsServicesVersions: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAppImageProjectsLocationsApplicationsServicesVersions",
 }));
 
 export type GetAppsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -2129,6 +2194,8 @@ export const getApps: API.OperationMethod<GetAppsRequest, Application, GetAppsEr
     errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetApps",
   }));
 
 export type GetAppsAuthorizedCertificatesError =
@@ -2148,6 +2215,8 @@ export const getAppsAuthorizedCertificates: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsAuthorizedCertificates",
 }));
 
 export type GetAppsDomainMappingsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -2163,6 +2232,8 @@ export const getAppsDomainMappings: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsDomainMappings",
 }));
 
 export type GetAppsFirewallIngressRulesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -2178,6 +2249,8 @@ export const getAppsFirewallIngressRules: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsFirewallIngressRules",
 }));
 
 export type GetAppsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -2193,6 +2266,8 @@ export const getAppsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsLocations",
 }));
 
 export type GetAppsOperationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -2208,6 +2283,8 @@ export const getAppsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsOperations",
 }));
 
 export type GetAppsServicesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -2223,6 +2300,8 @@ export const getAppsServices: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsServices",
 }));
 
 export type GetAppsServicesVersionsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -2238,6 +2317,8 @@ export const getAppsServicesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsServicesVersions",
 }));
 
 export type GetAppsServicesVersionsInstancesError =
@@ -2257,6 +2338,8 @@ export const getAppsServicesVersionsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsServicesVersionsInstances",
 }));
 
 export type GetProjectsLocationsApplicationsAuthorizedCertificatesError =
@@ -2280,6 +2363,8 @@ export const getProjectsLocationsApplicationsAuthorizedCertificates: API.Operati
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsApplicationsAuthorizedCertificates",
 }));
 
 export type GetProjectsLocationsApplicationsDomainMappingsError =
@@ -2303,6 +2388,8 @@ export const getProjectsLocationsApplicationsDomainMappings: API.OperationMethod
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsApplicationsDomainMappings",
 }));
 
 export type ListAppsAuthorizedCertificatesError =
@@ -2323,6 +2410,8 @@ export const listAppsAuthorizedCertificates: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsAuthorizedCertificates",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2340,6 +2429,8 @@ export const listAppsAuthorizedDomains: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsAuthorizedDomains",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2357,6 +2448,8 @@ export const listAppsDomainMappings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsDomainMappings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2374,6 +2467,8 @@ export const listAppsFirewallIngressRules: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsFirewallIngressRules",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2391,6 +2486,8 @@ export const listAppsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2408,6 +2505,8 @@ export const listAppsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2425,6 +2524,8 @@ export const listAppsServices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsServices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2442,6 +2543,8 @@ export const listAppsServicesVersions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsServicesVersions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2463,6 +2566,8 @@ export const listAppsServicesVersionsInstances: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsServicesVersionsInstances",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2488,6 +2593,8 @@ export const listProjectsLocationsApplicationsAuthorizedCertificates: API.Pagina
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsApplicationsAuthorizedCertificates",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2513,6 +2620,8 @@ export const listProjectsLocationsApplicationsAuthorizedDomains: API.PaginatedOp
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsApplicationsAuthorizedDomains",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2538,6 +2647,8 @@ export const listProjectsLocationsApplicationsDomainMappings: API.PaginatedOpera
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsApplicationsDomainMappings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2554,6 +2665,8 @@ export const listRuntimesApps: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRuntimesApps",
 }));
 
 export type PatchAppsError =
@@ -2575,6 +2688,8 @@ export const patchApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApps",
 }));
 
 export type PatchAppsAuthorizedCertificatesError =
@@ -2596,6 +2711,8 @@ export const patchAppsAuthorizedCertificates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsAuthorizedCertificates",
 }));
 
 export type PatchAppsDomainMappingsError =
@@ -2617,6 +2734,8 @@ export const patchAppsDomainMappings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsDomainMappings",
 }));
 
 export type PatchAppsFirewallIngressRulesError =
@@ -2638,6 +2757,8 @@ export const patchAppsFirewallIngressRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsFirewallIngressRules",
 }));
 
 export type PatchAppsServicesError =
@@ -2659,6 +2780,8 @@ export const patchAppsServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsServices",
 }));
 
 export type PatchAppsServicesVersionsError =
@@ -2680,6 +2803,8 @@ export const patchAppsServicesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsServicesVersions",
 }));
 
 export type PatchProjectsLocationsApplicationsError =
@@ -2701,6 +2826,8 @@ export const patchProjectsLocationsApplications: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsApplications",
 }));
 
 export type PatchProjectsLocationsApplicationsAuthorizedCertificatesError =
@@ -2726,6 +2853,8 @@ export const patchProjectsLocationsApplicationsAuthorizedCertificates: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsApplicationsAuthorizedCertificates",
 }));
 
 export type PatchProjectsLocationsApplicationsDomainMappingsError =
@@ -2751,6 +2880,8 @@ export const patchProjectsLocationsApplicationsDomainMappings: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsApplicationsDomainMappings",
 }));
 
 export type PatchProjectsLocationsApplicationsServicesError =
@@ -2772,6 +2903,8 @@ export const patchProjectsLocationsApplicationsServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsApplicationsServices",
 }));
 
 export type PatchProjectsLocationsApplicationsServicesVersionsError =
@@ -2797,6 +2930,8 @@ export const patchProjectsLocationsApplicationsServicesVersions: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsApplicationsServicesVersions",
 }));
 
 export type RepairAppsError =
@@ -2818,6 +2953,8 @@ export const repairApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepairApps",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

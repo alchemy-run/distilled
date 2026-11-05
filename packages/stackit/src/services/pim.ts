@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Pim",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -915,6 +928,8 @@ export const getCategory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCategory",
 }));
 
 export type GetProductError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -930,6 +945,8 @@ export const getProduct: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProduct",
 }));
 
 export type GetProductMarketingDataError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -945,6 +962,8 @@ export const getProductMarketingData: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductMarketingData",
 }));
 
 export type GetSKUError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -960,6 +979,8 @@ export const getSKU: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSKU",
 }));
 
 export type GetSTAXSKUError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -975,6 +996,8 @@ export const getSTAXSKU: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSTAXSKU",
 }));
 
 export type ListCategoriesError = BadRequest | Forbidden | StackitOpError;
@@ -990,6 +1013,8 @@ export const listCategories: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCategories",
 }));
 
 export type ListCategoryProductsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1005,6 +1030,8 @@ export const listCategoryProducts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCategoryProducts",
 }));
 
 export type ListMarketingDataError = BadRequest | Forbidden | StackitOpError;
@@ -1020,6 +1047,8 @@ export const listMarketingData: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketingData",
 }));
 
 export type ListProductsError = BadRequest | Forbidden | StackitOpError;
@@ -1035,6 +1064,8 @@ export const listProducts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProducts",
 }));
 
 export type ListProductSKUsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1050,6 +1081,8 @@ export const listProductSKUs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductSKUs",
 }));
 
 export type ListProductSTAXSKUsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1065,6 +1098,8 @@ export const listProductSTAXSKUs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductSTAXSKUs",
 }));
 
 export type ListSKUsError = BadRequest | Forbidden | StackitOpError;
@@ -1080,6 +1115,8 @@ export const listSKUs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSKUs",
 }));
 
 export type ListSTAXSKUsError = BadRequest | Forbidden | StackitOpError;
@@ -1095,6 +1132,8 @@ export const listSTAXSKUs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSTAXSKUs",
 }));
 
 export type SearchSKUsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1110,6 +1149,8 @@ export const searchSKUs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSKUs",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

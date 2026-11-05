@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -76,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://firehose.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Firehose",
+  service: "Firehose",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -1325,7 +1342,7 @@ export type CreateDeliveryStreamError =
  * information, see Grant Firehose Access to an Amazon S3 Destination in the *Amazon Firehose Developer Guide*.
  */
 export const createDeliveryStream: API.OperationMethod<
-  CreateDeliveryStreamInput,
+  CreateDeliveryStreamInput & RegionInput,
   CreateDeliveryStreamOutput,
   CreateDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1341,6 +1358,8 @@ export const createDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "CreateDeliveryStream",
 }));
 
 export type DeleteDeliveryStreamError =
@@ -1366,7 +1385,7 @@ export type DeleteDeliveryStreamError =
  * to be removed.
  */
 export const deleteDeliveryStream: API.OperationMethod<
-  DeleteDeliveryStreamInput,
+  DeleteDeliveryStreamInput & RegionInput,
   DeleteDeliveryStreamOutput,
   DeleteDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1377,6 +1396,8 @@ export const deleteDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "DeleteDeliveryStream",
 }));
 
 export type DescribeDeliveryStreamError = ResourceNotFoundException | CommonErrors;
@@ -1391,7 +1412,7 @@ export type DescribeDeliveryStreamError = ResourceNotFoundException | CommonErro
  * If the status is `DELETING_FAILED`, you can force deletion by invoking DeleteDeliveryStream again but with DeleteDeliveryStreamInput$AllowForceDelete set to true.
  */
 export const describeDeliveryStream: API.OperationMethod<
-  DescribeDeliveryStreamInput,
+  DescribeDeliveryStreamInput & RegionInput,
   DescribeDeliveryStreamOutput,
   DescribeDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1402,6 +1423,8 @@ export const describeDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "DescribeDeliveryStream",
 }));
 
 export type ListDeliveryStreamsError = CommonErrors;
@@ -1417,7 +1440,7 @@ export type ListDeliveryStreamsError = CommonErrors;
  * of the last Firehose stream returned in the last call.
  */
 export const listDeliveryStreams: API.OperationMethod<
-  ListDeliveryStreamsInput,
+  ListDeliveryStreamsInput & RegionInput,
   ListDeliveryStreamsOutput,
   ListDeliveryStreamsError,
   Credentials | HttpClient.HttpClient
@@ -1428,6 +1451,8 @@ export const listDeliveryStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeliveryStreams",
+  telemetry: TELEMETRY,
+  span: "ListDeliveryStreams",
 }));
 
 export type ListTagsForDeliveryStreamError =
@@ -1440,7 +1465,7 @@ export type ListTagsForDeliveryStreamError =
  * transactions per second per account.
  */
 export const listTagsForDeliveryStream: API.OperationMethod<
-  ListTagsForDeliveryStreamInput,
+  ListTagsForDeliveryStreamInput & RegionInput,
   ListTagsForDeliveryStreamOutput,
   ListTagsForDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1451,6 +1476,8 @@ export const listTagsForDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "ListTagsForDeliveryStream",
 }));
 
 export type PutRecordError =
@@ -1512,7 +1539,7 @@ export type PutRecordError =
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
 export const putRecord: API.OperationMethod<
-  PutRecordInput,
+  PutRecordInput & RegionInput,
   PutRecordOutput,
   PutRecordError,
   Credentials | HttpClient.HttpClient
@@ -1529,6 +1556,8 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
+  telemetry: TELEMETRY,
+  span: "PutRecord",
 }));
 
 export type PutRecordBatchError =
@@ -1611,7 +1640,7 @@ export type PutRecordBatchError =
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
 export const putRecordBatch: API.OperationMethod<
-  PutRecordBatchInput,
+  PutRecordBatchInput & RegionInput,
   PutRecordBatchOutput,
   PutRecordBatchError,
   Credentials | HttpClient.HttpClient
@@ -1628,6 +1657,8 @@ export const putRecordBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecordBatch",
+  telemetry: TELEMETRY,
+  span: "PutRecordBatch",
 }));
 
 export type StartDeliveryStreamEncryptionError =
@@ -1686,7 +1717,7 @@ export type StartDeliveryStreamEncryptionError =
  * 24-hour period.
  */
 export const startDeliveryStreamEncryption: API.OperationMethod<
-  StartDeliveryStreamEncryptionInput,
+  StartDeliveryStreamEncryptionInput & RegionInput,
   StartDeliveryStreamEncryptionOutput,
   StartDeliveryStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1703,6 +1734,8 @@ export const startDeliveryStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeliveryStreamEncryption",
+  telemetry: TELEMETRY,
+  span: "StartDeliveryStreamEncryption",
 }));
 
 export type StopDeliveryStreamEncryptionError =
@@ -1737,7 +1770,7 @@ export type StopDeliveryStreamEncryptionError =
  * 24-hour period.
  */
 export const stopDeliveryStreamEncryption: API.OperationMethod<
-  StopDeliveryStreamEncryptionInput,
+  StopDeliveryStreamEncryptionInput & RegionInput,
   StopDeliveryStreamEncryptionOutput,
   StopDeliveryStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1753,6 +1786,8 @@ export const stopDeliveryStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeliveryStreamEncryption",
+  telemetry: TELEMETRY,
+  span: "StopDeliveryStreamEncryption",
 }));
 
 export type TagDeliveryStreamError =
@@ -1776,7 +1811,7 @@ export type TagDeliveryStreamError =
  * This operation has a limit of five transactions per second per account.
  */
 export const tagDeliveryStream: API.OperationMethod<
-  TagDeliveryStreamInput,
+  TagDeliveryStreamInput & RegionInput,
   TagDeliveryStreamOutput,
   TagDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1792,6 +1827,8 @@ export const tagDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "TagDeliveryStream",
 }));
 
 export type UntagDeliveryStreamError =
@@ -1809,7 +1846,7 @@ export type UntagDeliveryStreamError =
  * This operation has a limit of five transactions per second per account.
  */
 export const untagDeliveryStream: API.OperationMethod<
-  UntagDeliveryStreamInput,
+  UntagDeliveryStreamInput & RegionInput,
   UntagDeliveryStreamOutput,
   UntagDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1825,6 +1862,8 @@ export const untagDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "UntagDeliveryStream",
 }));
 
 export type UpdateDestinationError =
@@ -1864,7 +1903,7 @@ export type UpdateDestinationError =
  * `CurrentDeliveryStreamVersionId` in the next call.
  */
 export const updateDestination: API.OperationMethod<
-  UpdateDestinationInput,
+  UpdateDestinationInput & RegionInput,
   UpdateDestinationOutput,
   UpdateDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1880,6 +1919,8 @@ export const updateDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateDestination",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

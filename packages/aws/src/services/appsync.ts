@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -74,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://appsync.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppSync",
+  service: "AppSync",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1340,7 +1356,7 @@ export type AssociateApiError =
  * Maps an endpoint to your custom domain.
  */
 export const associateApi: API.OperationMethod<
-  AssociateApiRequest,
+  AssociateApiRequest & RegionInput,
   AssociateApiResponse,
   AssociateApiError,
   Credentials | HttpClient.HttpClient
@@ -1351,6 +1367,8 @@ export const associateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApi",
+  telemetry: TELEMETRY,
+  span: "AssociateApi",
 }));
 
 export type AssociateMergedGraphqlApiError =
@@ -1366,7 +1384,7 @@ export type AssociateMergedGraphqlApiError =
  * identifier.
  */
 export const associateMergedGraphqlApi: API.OperationMethod<
-  AssociateMergedGraphqlApiRequest,
+  AssociateMergedGraphqlApiRequest & RegionInput,
   AssociateMergedGraphqlApiResponse,
   AssociateMergedGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1384,6 +1402,8 @@ export const associateMergedGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMergedGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "AssociateMergedGraphqlApi",
 }));
 
 export type AssociateSourceGraphqlApiError =
@@ -1399,7 +1419,7 @@ export type AssociateSourceGraphqlApiError =
  * identifier.
  */
 export const associateSourceGraphqlApi: API.OperationMethod<
-  AssociateSourceGraphqlApiRequest,
+  AssociateSourceGraphqlApiRequest & RegionInput,
   AssociateSourceGraphqlApiResponse,
   AssociateSourceGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1417,6 +1437,8 @@ export const associateSourceGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "AssociateSourceGraphqlApi",
 }));
 
 export type CreateApiError =
@@ -1432,7 +1454,7 @@ export type CreateApiError =
  * publishing and message subscriptions over WebSockets.
  */
 export const createApi: API.OperationMethod<
-  CreateApiRequest,
+  CreateApiRequest & RegionInput,
   CreateApiResponse,
   CreateApiError,
   Credentials | HttpClient.HttpClient
@@ -1449,6 +1471,8 @@ export const createApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApi",
+  telemetry: TELEMETRY,
+  span: "CreateApi",
 }));
 
 export type CreateApiCacheError =
@@ -1462,7 +1486,7 @@ export type CreateApiCacheError =
  * Creates a cache for the GraphQL API.
  */
 export const createApiCache: API.OperationMethod<
-  CreateApiCacheRequest,
+  CreateApiCacheRequest & RegionInput,
   CreateApiCacheResponse,
   CreateApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -1479,6 +1503,8 @@ export const createApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiCache",
+  telemetry: TELEMETRY,
+  span: "CreateApiCache",
 }));
 
 export type CreateApiKeyError =
@@ -1494,7 +1520,7 @@ export type CreateApiKeyError =
  * Creates a unique key that you can distribute to clients who invoke your API.
  */
 export const createApiKey: API.OperationMethod<
-  CreateApiKeyRequest,
+  CreateApiKeyRequest & RegionInput,
   CreateApiKeyResponse,
   CreateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1513,6 +1539,8 @@ export const createApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKey",
+  telemetry: TELEMETRY,
+  span: "CreateApiKey",
 }));
 
 export type CreateChannelNamespaceError =
@@ -1528,7 +1556,7 @@ export type CreateChannelNamespaceError =
  * Creates a `ChannelNamespace` for an `Api`.
  */
 export const createChannelNamespace: API.OperationMethod<
-  CreateChannelNamespaceRequest,
+  CreateChannelNamespaceRequest & RegionInput,
   CreateChannelNamespaceResponse,
   CreateChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1547,6 +1575,8 @@ export const createChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateChannelNamespace",
 }));
 
 export type CreateDataSourceError =
@@ -1560,7 +1590,7 @@ export type CreateDataSourceError =
  * Creates a `DataSource` object.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1577,6 +1607,8 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
+  telemetry: TELEMETRY,
+  span: "CreateDataSource",
 }));
 
 export type CreateDomainNameError =
@@ -1588,7 +1620,7 @@ export type CreateDomainNameError =
  * Creates a custom `DomainName` object.
  */
 export const createDomainName: API.OperationMethod<
-  CreateDomainNameRequest,
+  CreateDomainNameRequest & RegionInput,
   CreateDomainNameResponse,
   CreateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -1599,6 +1631,8 @@ export const createDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainName",
+  telemetry: TELEMETRY,
+  span: "CreateDomainName",
 }));
 
 export type CreateFunctionError =
@@ -1615,7 +1649,7 @@ export type CreateFunctionError =
  * logic.
  */
 export const createFunction: API.OperationMethod<
-  CreateFunctionRequest,
+  CreateFunctionRequest & RegionInput,
   CreateFunctionResponse,
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -1632,6 +1666,8 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
+  telemetry: TELEMETRY,
+  span: "CreateFunction",
 }));
 
 export type CreateGraphqlApiError =
@@ -1646,7 +1682,7 @@ export type CreateGraphqlApiError =
  * Creates a `GraphqlApi` object.
  */
 export const createGraphqlApi: API.OperationMethod<
-  CreateGraphqlApiRequest,
+  CreateGraphqlApiRequest & RegionInput,
   CreateGraphqlApiResponse,
   CreateGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1664,6 +1700,8 @@ export const createGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "CreateGraphqlApi",
 }));
 
 export type CreateResolverError =
@@ -1680,7 +1718,7 @@ export type CreateResolverError =
  * and converts the data source's responses into GraphQL.
  */
 export const createResolver: API.OperationMethod<
-  CreateResolverRequest,
+  CreateResolverRequest & RegionInput,
   CreateResolverResponse,
   CreateResolverError,
   Credentials | HttpClient.HttpClient
@@ -1697,6 +1735,8 @@ export const createResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolver",
+  telemetry: TELEMETRY,
+  span: "CreateResolver",
 }));
 
 export type CreateTypeError =
@@ -1710,7 +1750,7 @@ export type CreateTypeError =
  * Creates a `Type` object.
  */
 export const createType: API.OperationMethod<
-  CreateTypeRequest,
+  CreateTypeRequest & RegionInput,
   CreateTypeResponse,
   CreateTypeError,
   Credentials | HttpClient.HttpClient
@@ -1727,6 +1767,8 @@ export const createType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateType",
+  telemetry: TELEMETRY,
+  span: "CreateType",
 }));
 
 export type DeleteApiError =
@@ -1741,7 +1783,7 @@ export type DeleteApiError =
  * Deletes an `Api` object
  */
 export const deleteApi: API.OperationMethod<
-  DeleteApiRequest,
+  DeleteApiRequest & RegionInput,
   DeleteApiResponse,
   DeleteApiError,
   Credentials | HttpClient.HttpClient
@@ -1759,6 +1801,8 @@ export const deleteApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApi",
+  telemetry: TELEMETRY,
+  span: "DeleteApi",
 }));
 
 export type DeleteApiCacheError =
@@ -1772,7 +1816,7 @@ export type DeleteApiCacheError =
  * Deletes an `ApiCache` object.
  */
 export const deleteApiCache: API.OperationMethod<
-  DeleteApiCacheRequest,
+  DeleteApiCacheRequest & RegionInput,
   DeleteApiCacheResponse,
   DeleteApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -1789,6 +1833,8 @@ export const deleteApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiCache",
+  telemetry: TELEMETRY,
+  span: "DeleteApiCache",
 }));
 
 export type DeleteApiKeyError =
@@ -1801,7 +1847,7 @@ export type DeleteApiKeyError =
  * Deletes an API key.
  */
 export const deleteApiKey: API.OperationMethod<
-  DeleteApiKeyRequest,
+  DeleteApiKeyRequest & RegionInput,
   DeleteApiKeyResponse,
   DeleteApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1812,6 +1858,8 @@ export const deleteApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKey",
+  telemetry: TELEMETRY,
+  span: "DeleteApiKey",
 }));
 
 export type DeleteChannelNamespaceError =
@@ -1826,7 +1874,7 @@ export type DeleteChannelNamespaceError =
  * Deletes a `ChannelNamespace`.
  */
 export const deleteChannelNamespace: API.OperationMethod<
-  DeleteChannelNamespaceRequest,
+  DeleteChannelNamespaceRequest & RegionInput,
   DeleteChannelNamespaceResponse,
   DeleteChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1844,6 +1892,8 @@ export const deleteChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelNamespace",
 }));
 
 export type DeleteDataSourceError =
@@ -1857,7 +1907,7 @@ export type DeleteDataSourceError =
  * Deletes a `DataSource` object.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1874,6 +1924,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteDomainNameError =
@@ -1887,7 +1939,7 @@ export type DeleteDomainNameError =
  * Deletes a custom `DomainName` object.
  */
 export const deleteDomainName: API.OperationMethod<
-  DeleteDomainNameRequest,
+  DeleteDomainNameRequest & RegionInput,
   DeleteDomainNameResponse,
   DeleteDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -1904,6 +1956,8 @@ export const deleteDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainName",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainName",
 }));
 
 export type DeleteFunctionError =
@@ -1917,7 +1971,7 @@ export type DeleteFunctionError =
  * Deletes a `Function`.
  */
 export const deleteFunction: API.OperationMethod<
-  DeleteFunctionRequest,
+  DeleteFunctionRequest & RegionInput,
   DeleteFunctionResponse,
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
@@ -1934,6 +1988,8 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteFunction",
 }));
 
 export type DeleteGraphqlApiError =
@@ -1948,7 +2004,7 @@ export type DeleteGraphqlApiError =
  * Deletes a `GraphqlApi` object.
  */
 export const deleteGraphqlApi: API.OperationMethod<
-  DeleteGraphqlApiRequest,
+  DeleteGraphqlApiRequest & RegionInput,
   DeleteGraphqlApiResponse,
   DeleteGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1966,6 +2022,8 @@ export const deleteGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "DeleteGraphqlApi",
 }));
 
 export type DeleteResolverError =
@@ -1979,7 +2037,7 @@ export type DeleteResolverError =
  * Deletes a `Resolver` object.
  */
 export const deleteResolver: API.OperationMethod<
-  DeleteResolverRequest,
+  DeleteResolverRequest & RegionInput,
   DeleteResolverResponse,
   DeleteResolverError,
   Credentials | HttpClient.HttpClient
@@ -1996,6 +2054,8 @@ export const deleteResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolver",
+  telemetry: TELEMETRY,
+  span: "DeleteResolver",
 }));
 
 export type DeleteTypeError =
@@ -2009,7 +2069,7 @@ export type DeleteTypeError =
  * Deletes a `Type` object.
  */
 export const deleteType: API.OperationMethod<
-  DeleteTypeRequest,
+  DeleteTypeRequest & RegionInput,
   DeleteTypeResponse,
   DeleteTypeError,
   Credentials | HttpClient.HttpClient
@@ -2026,6 +2086,8 @@ export const deleteType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteType",
+  telemetry: TELEMETRY,
+  span: "DeleteType",
 }));
 
 export type DisassociateApiError =
@@ -2039,7 +2101,7 @@ export type DisassociateApiError =
  * Removes an `ApiAssociation` object from a custom domain.
  */
 export const disassociateApi: API.OperationMethod<
-  DisassociateApiRequest,
+  DisassociateApiRequest & RegionInput,
   DisassociateApiResponse,
   DisassociateApiError,
   Credentials | HttpClient.HttpClient
@@ -2056,6 +2118,8 @@ export const disassociateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApi",
+  telemetry: TELEMETRY,
+  span: "DisassociateApi",
 }));
 
 export type DisassociateMergedGraphqlApiError =
@@ -2070,7 +2134,7 @@ export type DisassociateMergedGraphqlApiError =
  * identifier and the association ID.
  */
 export const disassociateMergedGraphqlApi: API.OperationMethod<
-  DisassociateMergedGraphqlApiRequest,
+  DisassociateMergedGraphqlApiRequest & RegionInput,
   DisassociateMergedGraphqlApiResponse,
   DisassociateMergedGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2087,6 +2151,8 @@ export const disassociateMergedGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMergedGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "DisassociateMergedGraphqlApi",
 }));
 
 export type DisassociateSourceGraphqlApiError =
@@ -2101,7 +2167,7 @@ export type DisassociateSourceGraphqlApiError =
  * identifier and the association ID.
  */
 export const disassociateSourceGraphqlApi: API.OperationMethod<
-  DisassociateSourceGraphqlApiRequest,
+  DisassociateSourceGraphqlApiRequest & RegionInput,
   DisassociateSourceGraphqlApiResponse,
   DisassociateSourceGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2118,6 +2184,8 @@ export const disassociateSourceGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "DisassociateSourceGraphqlApi",
 }));
 
 export type EvaluateCodeError =
@@ -2134,7 +2202,7 @@ export type EvaluateCodeError =
  * maps it to the shape of the GraphQL field output type.
  */
 export const evaluateCode: API.OperationMethod<
-  EvaluateCodeRequest,
+  EvaluateCodeRequest & RegionInput,
   EvaluateCodeResponse,
   EvaluateCodeError,
   Credentials | HttpClient.HttpClient
@@ -2145,6 +2213,8 @@ export const evaluateCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateCode",
+  telemetry: TELEMETRY,
+  span: "EvaluateCode",
 }));
 
 export type EvaluateMappingTemplateError =
@@ -2164,7 +2234,7 @@ export type EvaluateMappingTemplateError =
  * Mapping templates are written in the Apache Velocity Template Language (VTL).
  */
 export const evaluateMappingTemplate: API.OperationMethod<
-  EvaluateMappingTemplateRequest,
+  EvaluateMappingTemplateRequest & RegionInput,
   EvaluateMappingTemplateResponse,
   EvaluateMappingTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2175,6 +2245,8 @@ export const evaluateMappingTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateMappingTemplate",
+  telemetry: TELEMETRY,
+  span: "EvaluateMappingTemplate",
 }));
 
 export type FlushApiCacheError =
@@ -2188,7 +2260,7 @@ export type FlushApiCacheError =
  * Flushes an `ApiCache` object.
  */
 export const flushApiCache: API.OperationMethod<
-  FlushApiCacheRequest,
+  FlushApiCacheRequest & RegionInput,
   FlushApiCacheResponse,
   FlushApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -2205,6 +2277,8 @@ export const flushApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushApiCache",
+  telemetry: TELEMETRY,
+  span: "FlushApiCache",
 }));
 
 export type GetApiError =
@@ -2218,7 +2292,7 @@ export type GetApiError =
  * Retrieves an `Api` object.
  */
 export const getApi: API.OperationMethod<
-  GetApiRequest,
+  GetApiRequest & RegionInput,
   GetApiResponse,
   GetApiError,
   Credentials | HttpClient.HttpClient
@@ -2235,6 +2309,8 @@ export const getApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApi",
+  telemetry: TELEMETRY,
+  span: "GetApi",
 }));
 
 export type GetApiAssociationError =
@@ -2247,7 +2323,7 @@ export type GetApiAssociationError =
  * Retrieves an `ApiAssociation` object.
  */
 export const getApiAssociation: API.OperationMethod<
-  GetApiAssociationRequest,
+  GetApiAssociationRequest & RegionInput,
   GetApiAssociationResponse,
   GetApiAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2258,6 +2334,8 @@ export const getApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiAssociation",
+  telemetry: TELEMETRY,
+  span: "GetApiAssociation",
 }));
 
 export type GetApiCacheError =
@@ -2271,7 +2349,7 @@ export type GetApiCacheError =
  * Retrieves an `ApiCache` object.
  */
 export const getApiCache: API.OperationMethod<
-  GetApiCacheRequest,
+  GetApiCacheRequest & RegionInput,
   GetApiCacheResponse,
   GetApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -2288,6 +2366,8 @@ export const getApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiCache",
+  telemetry: TELEMETRY,
+  span: "GetApiCache",
 }));
 
 export type GetChannelNamespaceError =
@@ -2301,7 +2381,7 @@ export type GetChannelNamespaceError =
  * Retrieves the channel namespace for a specified `Api`.
  */
 export const getChannelNamespace: API.OperationMethod<
-  GetChannelNamespaceRequest,
+  GetChannelNamespaceRequest & RegionInput,
   GetChannelNamespaceResponse,
   GetChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -2318,6 +2398,8 @@ export const getChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelNamespace",
+  telemetry: TELEMETRY,
+  span: "GetChannelNamespace",
 }));
 
 export type GetDataSourceError =
@@ -2331,7 +2413,7 @@ export type GetDataSourceError =
  * Retrieves a `DataSource` object.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2348,6 +2430,8 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetDataSourceIntrospectionError =
@@ -2361,7 +2445,7 @@ export type GetDataSourceIntrospectionError =
  * an error message will be returned instead.
  */
 export const getDataSourceIntrospection: API.OperationMethod<
-  GetDataSourceIntrospectionRequest,
+  GetDataSourceIntrospectionRequest & RegionInput,
   GetDataSourceIntrospectionResponse,
   GetDataSourceIntrospectionError,
   Credentials | HttpClient.HttpClient
@@ -2372,6 +2456,8 @@ export const getDataSourceIntrospection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSourceIntrospection",
+  telemetry: TELEMETRY,
+  span: "GetDataSourceIntrospection",
 }));
 
 export type GetDomainNameError =
@@ -2384,7 +2470,7 @@ export type GetDomainNameError =
  * Retrieves a custom `DomainName` object.
  */
 export const getDomainName: API.OperationMethod<
-  GetDomainNameRequest,
+  GetDomainNameRequest & RegionInput,
   GetDomainNameResponse,
   GetDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2395,6 +2481,8 @@ export const getDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainName",
+  telemetry: TELEMETRY,
+  span: "GetDomainName",
 }));
 
 export type GetFunctionError =
@@ -2406,7 +2494,7 @@ export type GetFunctionError =
  * Get a `Function`.
  */
 export const getFunction: API.OperationMethod<
-  GetFunctionRequest,
+  GetFunctionRequest & RegionInput,
   GetFunctionResponse,
   GetFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2417,6 +2505,8 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
+  telemetry: TELEMETRY,
+  span: "GetFunction",
 }));
 
 export type GetGraphqlApiError =
@@ -2430,7 +2520,7 @@ export type GetGraphqlApiError =
  * Retrieves a `GraphqlApi` object.
  */
 export const getGraphqlApi: API.OperationMethod<
-  GetGraphqlApiRequest,
+  GetGraphqlApiRequest & RegionInput,
   GetGraphqlApiResponse,
   GetGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2447,6 +2537,8 @@ export const getGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "GetGraphqlApi",
 }));
 
 export type GetGraphqlApiEnvironmentVariablesError =
@@ -2461,7 +2553,7 @@ export type GetGraphqlApiEnvironmentVariablesError =
  * its ID value.
  */
 export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
-  GetGraphqlApiEnvironmentVariablesRequest,
+  GetGraphqlApiEnvironmentVariablesRequest & RegionInput,
   GetGraphqlApiEnvironmentVariablesResponse,
   GetGraphqlApiEnvironmentVariablesError,
   Credentials | HttpClient.HttpClient
@@ -2478,6 +2570,8 @@ export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphqlApiEnvironmentVariables",
+  telemetry: TELEMETRY,
+  span: "GetGraphqlApiEnvironmentVariables",
 }));
 
 export type GetIntrospectionSchemaError =
@@ -2490,7 +2584,7 @@ export type GetIntrospectionSchemaError =
  * Retrieves the introspection schema for a GraphQL API.
  */
 export const getIntrospectionSchema: API.OperationMethod<
-  GetIntrospectionSchemaRequest,
+  GetIntrospectionSchemaRequest & RegionInput,
   GetIntrospectionSchemaResponse,
   GetIntrospectionSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2506,6 +2600,8 @@ export const getIntrospectionSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntrospectionSchema",
+  telemetry: TELEMETRY,
+  span: "GetIntrospectionSchema",
 }));
 
 export type GetResolverError =
@@ -2517,7 +2613,7 @@ export type GetResolverError =
  * Retrieves a `Resolver` object.
  */
 export const getResolver: API.OperationMethod<
-  GetResolverRequest,
+  GetResolverRequest & RegionInput,
   GetResolverResponse,
   GetResolverError,
   Credentials | HttpClient.HttpClient
@@ -2528,6 +2624,8 @@ export const getResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolver",
+  telemetry: TELEMETRY,
+  span: "GetResolver",
 }));
 
 export type GetSchemaCreationStatusError =
@@ -2540,7 +2638,7 @@ export type GetSchemaCreationStatusError =
  * Retrieves the current status of a schema creation operation.
  */
 export const getSchemaCreationStatus: API.OperationMethod<
-  GetSchemaCreationStatusRequest,
+  GetSchemaCreationStatusRequest & RegionInput,
   GetSchemaCreationStatusResponse,
   GetSchemaCreationStatusError,
   Credentials | HttpClient.HttpClient
@@ -2551,6 +2649,8 @@ export const getSchemaCreationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaCreationStatus",
+  telemetry: TELEMETRY,
+  span: "GetSchemaCreationStatus",
 }));
 
 export type GetSourceApiAssociationError =
@@ -2563,7 +2663,7 @@ export type GetSourceApiAssociationError =
  * Retrieves a `SourceApiAssociation` object.
  */
 export const getSourceApiAssociation: API.OperationMethod<
-  GetSourceApiAssociationRequest,
+  GetSourceApiAssociationRequest & RegionInput,
   GetSourceApiAssociationResponse,
   GetSourceApiAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2574,6 +2674,8 @@ export const getSourceApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceApiAssociation",
+  telemetry: TELEMETRY,
+  span: "GetSourceApiAssociation",
 }));
 
 export type GetTypeError =
@@ -2587,7 +2689,7 @@ export type GetTypeError =
  * Retrieves a `Type` object.
  */
 export const getType: API.OperationMethod<
-  GetTypeRequest,
+  GetTypeRequest & RegionInput,
   GetTypeResponse,
   GetTypeError,
   Credentials | HttpClient.HttpClient
@@ -2604,6 +2706,8 @@ export const getType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetType",
+  telemetry: TELEMETRY,
+  span: "GetType",
 }));
 
 export type ListApiKeysError =
@@ -2621,7 +2725,7 @@ export type ListApiKeysError =
  * deleted.
  */
 export const listApiKeys: API.PaginatedOperationMethod<
-  ListApiKeysRequest,
+  ListApiKeysRequest & RegionInput,
   ListApiKeysResponse,
   ListApiKeysError,
   Credentials | HttpClient.HttpClient,
@@ -2639,6 +2743,8 @@ export const listApiKeys: API.PaginatedOperationMethod<
     items: "apiKeys",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApiKeys",
 })) as any;
 
 export type ListApisError =
@@ -2653,7 +2759,7 @@ export type ListApisError =
  * information about an API, use `GetApi`.
  */
 export const listApis: API.PaginatedOperationMethod<
-  ListApisRequest,
+  ListApisRequest & RegionInput,
   ListApisResponse,
   ListApisError,
   Credentials | HttpClient.HttpClient,
@@ -2671,6 +2777,8 @@ export const listApis: API.PaginatedOperationMethod<
     items: "apis",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApis",
 })) as any;
 
 export type ListChannelNamespacesError =
@@ -2686,7 +2794,7 @@ export type ListChannelNamespacesError =
  * namespace. To retrieve code handlers, use `GetChannelNamespace`.
  */
 export const listChannelNamespaces: API.PaginatedOperationMethod<
-  ListChannelNamespacesRequest,
+  ListChannelNamespacesRequest & RegionInput,
   ListChannelNamespacesResponse,
   ListChannelNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -2704,6 +2812,8 @@ export const listChannelNamespaces: API.PaginatedOperationMethod<
     items: "channelNamespaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelNamespaces",
 })) as any;
 
 export type ListDataSourcesError =
@@ -2716,7 +2826,7 @@ export type ListDataSourcesError =
  * Lists the data sources for a given API.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2734,6 +2844,8 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "dataSources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSources",
 })) as any;
 
 export type ListDomainNamesError =
@@ -2745,7 +2857,7 @@ export type ListDomainNamesError =
  * Lists multiple custom domain names.
  */
 export const listDomainNames: API.PaginatedOperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient,
@@ -2763,6 +2875,8 @@ export const listDomainNames: API.PaginatedOperationMethod<
     items: "domainNameConfigs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainNames",
 })) as any;
 
 export type ListFunctionsError =
@@ -2775,7 +2889,7 @@ export type ListFunctionsError =
  * List multiple functions.
  */
 export const listFunctions: API.PaginatedOperationMethod<
-  ListFunctionsRequest,
+  ListFunctionsRequest & RegionInput,
   ListFunctionsResponse,
   ListFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -2793,6 +2907,8 @@ export const listFunctions: API.PaginatedOperationMethod<
     items: "functions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFunctions",
 })) as any;
 
 export type ListGraphqlApisError =
@@ -2804,7 +2920,7 @@ export type ListGraphqlApisError =
  * Lists your GraphQL APIs.
  */
 export const listGraphqlApis: API.PaginatedOperationMethod<
-  ListGraphqlApisRequest,
+  ListGraphqlApisRequest & RegionInput,
   ListGraphqlApisResponse,
   ListGraphqlApisError,
   Credentials | HttpClient.HttpClient,
@@ -2822,6 +2938,8 @@ export const listGraphqlApis: API.PaginatedOperationMethod<
     items: "graphqlApis",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGraphqlApis",
 })) as any;
 
 export type ListResolversError =
@@ -2834,7 +2952,7 @@ export type ListResolversError =
  * Lists the resolvers for a given API and type.
  */
 export const listResolvers: API.PaginatedOperationMethod<
-  ListResolversRequest,
+  ListResolversRequest & RegionInput,
   ListResolversResponse,
   ListResolversError,
   Credentials | HttpClient.HttpClient,
@@ -2852,6 +2970,8 @@ export const listResolvers: API.PaginatedOperationMethod<
     items: "resolvers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolvers",
 })) as any;
 
 export type ListResolversByFunctionError =
@@ -2864,7 +2984,7 @@ export type ListResolversByFunctionError =
  * List the resolvers that are associated with a specific function.
  */
 export const listResolversByFunction: API.PaginatedOperationMethod<
-  ListResolversByFunctionRequest,
+  ListResolversByFunctionRequest & RegionInput,
   ListResolversByFunctionResponse,
   ListResolversByFunctionError,
   Credentials | HttpClient.HttpClient,
@@ -2882,6 +3002,8 @@ export const listResolversByFunction: API.PaginatedOperationMethod<
     items: "resolvers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolversByFunction",
 })) as any;
 
 export type ListSourceApiAssociationsError =
@@ -2894,7 +3016,7 @@ export type ListSourceApiAssociationsError =
  * Lists the `SourceApiAssociationSummary` data.
  */
 export const listSourceApiAssociations: API.PaginatedOperationMethod<
-  ListSourceApiAssociationsRequest,
+  ListSourceApiAssociationsRequest & RegionInput,
   ListSourceApiAssociationsResponse,
   ListSourceApiAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2912,6 +3034,8 @@ export const listSourceApiAssociations: API.PaginatedOperationMethod<
     items: "sourceApiAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceApiAssociations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2926,7 +3050,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2944,6 +3068,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTypesError =
@@ -2957,7 +3083,7 @@ export type ListTypesError =
  * Lists the types for a given API.
  */
 export const listTypes: API.PaginatedOperationMethod<
-  ListTypesRequest,
+  ListTypesRequest & RegionInput,
   ListTypesResponse,
   ListTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2981,6 +3107,8 @@ export const listTypes: API.PaginatedOperationMethod<
     items: "types",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypes",
 })) as any;
 
 export type ListTypesByAssociationError =
@@ -2994,7 +3122,7 @@ export type ListTypesByAssociationError =
  * Lists `Type` objects by the source API association ID.
  */
 export const listTypesByAssociation: API.PaginatedOperationMethod<
-  ListTypesByAssociationRequest,
+  ListTypesByAssociationRequest & RegionInput,
   ListTypesByAssociationResponse,
   ListTypesByAssociationError,
   Credentials | HttpClient.HttpClient,
@@ -3018,6 +3146,8 @@ export const listTypesByAssociation: API.PaginatedOperationMethod<
     items: "types",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypesByAssociation",
 })) as any;
 
 export type PutGraphqlApiEnvironmentVariablesError =
@@ -3068,7 +3198,7 @@ export type PutGraphqlApiEnvironmentVariablesError =
  * variables in the list each time you call this action.
  */
 export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
-  PutGraphqlApiEnvironmentVariablesRequest,
+  PutGraphqlApiEnvironmentVariablesRequest & RegionInput,
   PutGraphqlApiEnvironmentVariablesResponse,
   PutGraphqlApiEnvironmentVariablesError,
   Credentials | HttpClient.HttpClient
@@ -3086,6 +3216,8 @@ export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGraphqlApiEnvironmentVariables",
+  telemetry: TELEMETRY,
+  span: "PutGraphqlApiEnvironmentVariables",
 }));
 
 export type StartDataSourceIntrospectionError =
@@ -3099,7 +3231,7 @@ export type StartDataSourceIntrospectionError =
  * introspection after its creation.
  */
 export const startDataSourceIntrospection: API.OperationMethod<
-  StartDataSourceIntrospectionRequest,
+  StartDataSourceIntrospectionRequest & RegionInput,
   StartDataSourceIntrospectionResponse,
   StartDataSourceIntrospectionError,
   Credentials | HttpClient.HttpClient
@@ -3110,6 +3242,8 @@ export const startDataSourceIntrospection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceIntrospection",
+  telemetry: TELEMETRY,
+  span: "StartDataSourceIntrospection",
 }));
 
 export type StartSchemaCreationError =
@@ -3126,7 +3260,7 @@ export type StartSchemaCreationError =
  * determine when it has completed.
  */
 export const startSchemaCreation: API.OperationMethod<
-  StartSchemaCreationRequest,
+  StartSchemaCreationRequest & RegionInput,
   StartSchemaCreationResponse,
   StartSchemaCreationError,
   Credentials | HttpClient.HttpClient
@@ -3143,6 +3277,8 @@ export const startSchemaCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaCreation",
+  telemetry: TELEMETRY,
+  span: "StartSchemaCreation",
 }));
 
 export type StartSchemaMergeError =
@@ -3157,7 +3293,7 @@ export type StartSchemaMergeError =
  * operation.
  */
 export const startSchemaMerge: API.OperationMethod<
-  StartSchemaMergeRequest,
+  StartSchemaMergeRequest & RegionInput,
   StartSchemaMergeResponse,
   StartSchemaMergeError,
   Credentials | HttpClient.HttpClient
@@ -3174,6 +3310,8 @@ export const startSchemaMerge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaMerge",
+  telemetry: TELEMETRY,
+  span: "StartSchemaMerge",
 }));
 
 export type TagResourceError =
@@ -3188,7 +3326,7 @@ export type TagResourceError =
  * Tags a resource with user-supplied tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3206,6 +3344,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3220,7 +3360,7 @@ export type UntagResourceError =
  * Untags a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3238,6 +3378,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApiError =
@@ -3252,7 +3394,7 @@ export type UpdateApiError =
  * Updates an `Api`.
  */
 export const updateApi: API.OperationMethod<
-  UpdateApiRequest,
+  UpdateApiRequest & RegionInput,
   UpdateApiResponse,
   UpdateApiError,
   Credentials | HttpClient.HttpClient
@@ -3270,6 +3412,8 @@ export const updateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApi",
+  telemetry: TELEMETRY,
+  span: "UpdateApi",
 }));
 
 export type UpdateApiCacheError =
@@ -3283,7 +3427,7 @@ export type UpdateApiCacheError =
  * Updates the cache for the GraphQL API.
  */
 export const updateApiCache: API.OperationMethod<
-  UpdateApiCacheRequest,
+  UpdateApiCacheRequest & RegionInput,
   UpdateApiCacheResponse,
   UpdateApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -3300,6 +3444,8 @@ export const updateApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiCache",
+  telemetry: TELEMETRY,
+  span: "UpdateApiCache",
 }));
 
 export type UpdateApiKeyError =
@@ -3314,7 +3460,7 @@ export type UpdateApiKeyError =
  * Updates an API key. You can update the key as long as it's not deleted.
  */
 export const updateApiKey: API.OperationMethod<
-  UpdateApiKeyRequest,
+  UpdateApiKeyRequest & RegionInput,
   UpdateApiKeyResponse,
   UpdateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -3332,6 +3478,8 @@ export const updateApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKey",
+  telemetry: TELEMETRY,
+  span: "UpdateApiKey",
 }));
 
 export type UpdateChannelNamespaceError =
@@ -3346,7 +3494,7 @@ export type UpdateChannelNamespaceError =
  * Updates a `ChannelNamespace` associated with an `Api`.
  */
 export const updateChannelNamespace: API.OperationMethod<
-  UpdateChannelNamespaceRequest,
+  UpdateChannelNamespaceRequest & RegionInput,
   UpdateChannelNamespaceResponse,
   UpdateChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -3364,6 +3512,8 @@ export const updateChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelNamespace",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelNamespace",
 }));
 
 export type UpdateDataSourceError =
@@ -3377,7 +3527,7 @@ export type UpdateDataSourceError =
  * Updates a `DataSource` object.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3394,6 +3544,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateDomainNameError =
@@ -3407,7 +3559,7 @@ export type UpdateDomainNameError =
  * Updates a custom `DomainName` object.
  */
 export const updateDomainName: API.OperationMethod<
-  UpdateDomainNameRequest,
+  UpdateDomainNameRequest & RegionInput,
   UpdateDomainNameResponse,
   UpdateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -3424,6 +3576,8 @@ export const updateDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainName",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainName",
 }));
 
 export type UpdateFunctionError =
@@ -3437,7 +3591,7 @@ export type UpdateFunctionError =
  * Updates a `Function` object.
  */
 export const updateFunction: API.OperationMethod<
-  UpdateFunctionRequest,
+  UpdateFunctionRequest & RegionInput,
   UpdateFunctionResponse,
   UpdateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -3454,6 +3608,8 @@ export const updateFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunction",
+  telemetry: TELEMETRY,
+  span: "UpdateFunction",
 }));
 
 export type UpdateGraphqlApiError =
@@ -3468,7 +3624,7 @@ export type UpdateGraphqlApiError =
  * Updates a `GraphqlApi` object.
  */
 export const updateGraphqlApi: API.OperationMethod<
-  UpdateGraphqlApiRequest,
+  UpdateGraphqlApiRequest & RegionInput,
   UpdateGraphqlApiResponse,
   UpdateGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -3486,6 +3642,8 @@ export const updateGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "UpdateGraphqlApi",
 }));
 
 export type UpdateResolverError =
@@ -3499,7 +3657,7 @@ export type UpdateResolverError =
  * Updates a `Resolver` object.
  */
 export const updateResolver: API.OperationMethod<
-  UpdateResolverRequest,
+  UpdateResolverRequest & RegionInput,
   UpdateResolverResponse,
   UpdateResolverError,
   Credentials | HttpClient.HttpClient
@@ -3516,6 +3674,8 @@ export const updateResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolver",
+  telemetry: TELEMETRY,
+  span: "UpdateResolver",
 }));
 
 export type UpdateSourceApiAssociationError =
@@ -3529,7 +3689,7 @@ export type UpdateSourceApiAssociationError =
  * Updates some of the configuration choices of a particular source API association.
  */
 export const updateSourceApiAssociation: API.OperationMethod<
-  UpdateSourceApiAssociationRequest,
+  UpdateSourceApiAssociationRequest & RegionInput,
   UpdateSourceApiAssociationResponse,
   UpdateSourceApiAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3546,6 +3706,8 @@ export const updateSourceApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceApiAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateSourceApiAssociation",
 }));
 
 export type UpdateTypeError =
@@ -3559,7 +3721,7 @@ export type UpdateTypeError =
  * Updates a `Type` object.
  */
 export const updateType: API.OperationMethod<
-  UpdateTypeRequest,
+  UpdateTypeRequest & RegionInput,
   UpdateTypeResponse,
   UpdateTypeError,
   Credentials | HttpClient.HttpClient
@@ -3576,6 +3738,8 @@ export const updateType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateType",
+  telemetry: TELEMETRY,
+  span: "UpdateType",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

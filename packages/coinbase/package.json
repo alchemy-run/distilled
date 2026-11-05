@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/coinbase",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0-rc.18",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -18,9 +18,8 @@
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
-      "module": "./lib/index.full.js",
-      "module-sync": "./lib/index.js",
-      "default": "./lib/index.full.js"
+      "distilled-lazy": "./lib/index.lazy.js",
+      "default": "./lib/index.js"
     },
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
@@ -56,15 +55,14 @@
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
-      "module": "./lib/services.full/*.js",
-      "module-sync": "./lib/services/*.js",
-      "default": "./lib/services.full/*.js"
+      "distilled-lazy": "./lib/services.lazy/*.js",
+      "default": "./lib/services/*.js"
     }
   },
   "scripts": {
     "build": "tsrs -b",
     "convert": "node --conditions=bun scripts/convert.ts",
-    "generate": "node --conditions=bun scripts/convert.ts && node --conditions=bun scripts/generate.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
     "typecheck": "tsrs -p tsconfig.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-coinbase",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-coinbase"
@@ -73,6 +71,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:",
     "yaml": "catalog:"
   },
@@ -80,7 +79,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-09",
+    "generatedAt": "2026-10-25",
     "specUpdatedAt": "2026-09-26"
   }
 }

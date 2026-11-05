@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * ElasticsearchProtocol -- hand-written.
@@ -37,7 +37,8 @@ export type ElasticsearchOpError =
   | UnknownElasticsearchError
   | ConfigError
   | HttpClientError.HttpClientError
-  | ElasticsearchParseError;
+  | ElasticsearchParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Elasticsearch operation. */
 export type ElasticsearchOpContext = Credentials | HttpClient.HttpClient;

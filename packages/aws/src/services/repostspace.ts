@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://repostspace.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "repostspace",
+  service: "repostspace",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -451,7 +467,7 @@ export type BatchAddChannelRoleToAccessorsError =
  * Add role to multiple users or groups in a private re:Post channel.
  */
 export const batchAddChannelRoleToAccessors: API.OperationMethod<
-  BatchAddChannelRoleToAccessorsInput,
+  BatchAddChannelRoleToAccessorsInput & RegionInput,
   BatchAddChannelRoleToAccessorsOutput,
   BatchAddChannelRoleToAccessorsError,
   Credentials | HttpClient.HttpClient
@@ -468,6 +484,8 @@ export const batchAddChannelRoleToAccessors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAddChannelRoleToAccessors",
+  telemetry: TELEMETRY,
+  span: "BatchAddChannelRoleToAccessors",
 }));
 
 export type BatchAddRoleError =
@@ -481,7 +499,7 @@ export type BatchAddRoleError =
  * Add a role to multiple users or groups in a private re:Post.
  */
 export const batchAddRole: API.OperationMethod<
-  BatchAddRoleInput,
+  BatchAddRoleInput & RegionInput,
   BatchAddRoleOutput,
   BatchAddRoleError,
   Credentials | HttpClient.HttpClient
@@ -498,6 +516,8 @@ export const batchAddRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAddRole",
+  telemetry: TELEMETRY,
+  span: "BatchAddRole",
 }));
 
 export type BatchRemoveChannelRoleFromAccessorsError =
@@ -511,7 +531,7 @@ export type BatchRemoveChannelRoleFromAccessorsError =
  * Remove a role from multiple users or groups in a private re:Post channel.
  */
 export const batchRemoveChannelRoleFromAccessors: API.OperationMethod<
-  BatchRemoveChannelRoleFromAccessorsInput,
+  BatchRemoveChannelRoleFromAccessorsInput & RegionInput,
   BatchRemoveChannelRoleFromAccessorsOutput,
   BatchRemoveChannelRoleFromAccessorsError,
   Credentials | HttpClient.HttpClient
@@ -528,6 +548,8 @@ export const batchRemoveChannelRoleFromAccessors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRemoveChannelRoleFromAccessors",
+  telemetry: TELEMETRY,
+  span: "BatchRemoveChannelRoleFromAccessors",
 }));
 
 export type BatchRemoveRoleError =
@@ -541,7 +563,7 @@ export type BatchRemoveRoleError =
  * Remove a role from multiple users or groups in a private re:Post.
  */
 export const batchRemoveRole: API.OperationMethod<
-  BatchRemoveRoleInput,
+  BatchRemoveRoleInput & RegionInput,
   BatchRemoveRoleOutput,
   BatchRemoveRoleError,
   Credentials | HttpClient.HttpClient
@@ -558,6 +580,8 @@ export const batchRemoveRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRemoveRole",
+  telemetry: TELEMETRY,
+  span: "BatchRemoveRole",
 }));
 
 export type CreateChannelError =
@@ -573,7 +597,7 @@ export type CreateChannelError =
  * Creates a channel in an AWS re:Post Private private re:Post.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelInput,
+  CreateChannelInput & RegionInput,
   CreateChannelOutput,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -592,6 +616,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateSpaceError =
@@ -607,7 +633,7 @@ export type CreateSpaceError =
  * Creates an AWS re:Post Private private re:Post.
  */
 export const createSpace: API.OperationMethod<
-  CreateSpaceInput,
+  CreateSpaceInput & RegionInput,
   CreateSpaceOutput,
   CreateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -626,6 +652,8 @@ export const createSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpace",
+  telemetry: TELEMETRY,
+  span: "CreateSpace",
 }));
 
 export type DeleteSpaceError =
@@ -639,7 +667,7 @@ export type DeleteSpaceError =
  * Deletes an AWS re:Post Private private re:Post.
  */
 export const deleteSpace: API.OperationMethod<
-  DeleteSpaceInput,
+  DeleteSpaceInput & RegionInput,
   DeleteSpaceResponse,
   DeleteSpaceError,
   Credentials | HttpClient.HttpClient
@@ -656,6 +684,8 @@ export const deleteSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
+  telemetry: TELEMETRY,
+  span: "DeleteSpace",
 }));
 
 export type DeregisterAdminError =
@@ -669,7 +699,7 @@ export type DeregisterAdminError =
  * Removes the user or group from the list of administrators of the private re:Post.
  */
 export const deregisterAdmin: API.OperationMethod<
-  DeregisterAdminInput,
+  DeregisterAdminInput & RegionInput,
   DeregisterAdminResponse,
   DeregisterAdminError,
   Credentials | HttpClient.HttpClient
@@ -686,6 +716,8 @@ export const deregisterAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAdmin",
+  telemetry: TELEMETRY,
+  span: "DeregisterAdmin",
 }));
 
 export type GetChannelError =
@@ -699,7 +731,7 @@ export type GetChannelError =
  * Displays information about a channel in a private re:Post.
  */
 export const getChannel: API.OperationMethod<
-  GetChannelInput,
+  GetChannelInput & RegionInput,
   GetChannelOutput,
   GetChannelError,
   Credentials | HttpClient.HttpClient
@@ -716,6 +748,8 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
+  telemetry: TELEMETRY,
+  span: "GetChannel",
 }));
 
 export type GetSpaceError =
@@ -729,7 +763,7 @@ export type GetSpaceError =
  * Displays information about the AWS re:Post Private private re:Post.
  */
 export const getSpace: API.OperationMethod<
-  GetSpaceInput,
+  GetSpaceInput & RegionInput,
   GetSpaceOutput,
   GetSpaceError,
   Credentials | HttpClient.HttpClient
@@ -746,6 +780,8 @@ export const getSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpace",
+  telemetry: TELEMETRY,
+  span: "GetSpace",
 }));
 
 export type ListChannelsError =
@@ -759,7 +795,7 @@ export type ListChannelsError =
  * Returns the list of channel within a private re:Post with some information about each channel.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsInput,
+  ListChannelsInput & RegionInput,
   ListChannelsOutput,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -783,6 +819,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "channels",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListSpacesError =
@@ -795,7 +833,7 @@ export type ListSpacesError =
  * Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post.
  */
 export const listSpaces: API.PaginatedOperationMethod<
-  ListSpacesInput,
+  ListSpacesInput & RegionInput,
   ListSpacesOutput,
   ListSpacesError,
   Credentials | HttpClient.HttpClient,
@@ -818,6 +856,8 @@ export const listSpaces: API.PaginatedOperationMethod<
     items: "spaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpaces",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -831,7 +871,7 @@ export type ListTagsForResourceError =
  * Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -848,6 +888,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterAdminError =
@@ -861,7 +903,7 @@ export type RegisterAdminError =
  * Adds a user or group to the list of administrators of the private re:Post.
  */
 export const registerAdmin: API.OperationMethod<
-  RegisterAdminInput,
+  RegisterAdminInput & RegionInput,
   RegisterAdminResponse,
   RegisterAdminError,
   Credentials | HttpClient.HttpClient
@@ -878,6 +920,8 @@ export const registerAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAdmin",
+  telemetry: TELEMETRY,
+  span: "RegisterAdmin",
 }));
 
 export type SendInvitesError =
@@ -891,7 +935,7 @@ export type SendInvitesError =
  * Sends an invitation email to selected users and groups.
  */
 export const sendInvites: API.OperationMethod<
-  SendInvitesInput,
+  SendInvitesInput & RegionInput,
   SendInvitesResponse,
   SendInvitesError,
   Credentials | HttpClient.HttpClient
@@ -908,6 +952,8 @@ export const sendInvites: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendInvites",
+  telemetry: TELEMETRY,
+  span: "SendInvites",
 }));
 
 export type TagResourceError =
@@ -921,7 +967,7 @@ export type TagResourceError =
  * Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that's already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -938,6 +984,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -951,7 +999,7 @@ export type UntagResourceError =
  * Removes the association of the tag with the AWS re:Post Private resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -968,6 +1016,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateChannelError =
@@ -982,7 +1032,7 @@ export type UpdateChannelError =
  * Modifies an existing channel.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelInput,
+  UpdateChannelInput & RegionInput,
   UpdateChannelOutput,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1000,6 +1050,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateSpaceError =
@@ -1014,7 +1066,7 @@ export type UpdateSpaceError =
  * Modifies an existing AWS re:Post Private private re:Post.
  */
 export const updateSpace: API.OperationMethod<
-  UpdateSpaceInput,
+  UpdateSpaceInput & RegionInput,
   UpdateSpaceResponse,
   UpdateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -1032,6 +1084,8 @@ export const updateSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
+  telemetry: TELEMETRY,
+  span: "UpdateSpace",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

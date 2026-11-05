@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -69,6 +71,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://wafv2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WAFV2",
+  service: "WAFV2",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class WAFAssociatedItemException
   extends /*@__PURE__*/ S.TaggedError<WAFAssociatedItemException>()("WAFAssociatedItemException", {
@@ -2208,7 +2225,7 @@ export type AssociateWebACLError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const associateWebACL: API.OperationMethod<
-  AssociateWebACLRequest,
+  AssociateWebACLRequest & RegionInput,
   AssociateWebACLResponse,
   AssociateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2227,6 +2244,8 @@ export const associateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWebACL",
+  telemetry: TELEMETRY,
+  span: "AssociateWebACL",
 }));
 
 export type CheckCapacityError =
@@ -2255,7 +2274,7 @@ export type CheckCapacityError =
  * in the *WAF Developer Guide*.
  */
 export const checkCapacity: API.OperationMethod<
-  CheckCapacityRequest,
+  CheckCapacityRequest & RegionInput,
   CheckCapacityResponse,
   CheckCapacityError,
   Credentials | HttpClient.HttpClient
@@ -2276,6 +2295,8 @@ export const checkCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckCapacity",
+  telemetry: TELEMETRY,
+  span: "CheckCapacity",
 }));
 
 export type CreateAPIKeyError =
@@ -2295,7 +2316,7 @@ export type CreateAPIKeyError =
  * integration.
  */
 export const createAPIKey: API.OperationMethod<
-  CreateAPIKeyRequest,
+  CreateAPIKeyRequest & RegionInput,
   CreateAPIKeyResponse,
   CreateAPIKeyError,
   Credentials | HttpClient.HttpClient
@@ -2311,6 +2332,8 @@ export const createAPIKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAPIKey",
+  telemetry: TELEMETRY,
+  span: "CreateAPIKey",
 }));
 
 export type CreateIPSetError =
@@ -2330,7 +2353,7 @@ export type CreateIPSetError =
  * block them using an IPSet that lists those IP addresses.
  */
 export const createIPSet: API.OperationMethod<
-  CreateIPSetRequest,
+  CreateIPSetRequest & RegionInput,
   CreateIPSetResponse,
   CreateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -2350,6 +2373,8 @@ export const createIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIPSet",
+  telemetry: TELEMETRY,
+  span: "CreateIPSet",
 }));
 
 export type CreateRegexPatternSetError =
@@ -2367,7 +2392,7 @@ export type CreateRegexPatternSetError =
  * component for the specified patterns.
  */
 export const createRegexPatternSet: API.OperationMethod<
-  CreateRegexPatternSetRequest,
+  CreateRegexPatternSetRequest & RegionInput,
   CreateRegexPatternSetResponse,
   CreateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -2387,6 +2412,8 @@ export const createRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "CreateRegexPatternSet",
 }));
 
 export type CreateRuleGroupError =
@@ -2408,7 +2435,7 @@ export type CreateRuleGroupError =
  * A rule group defines a collection of rules to inspect and control web requests that you can use in a WebACL. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements.
  */
 export const createRuleGroup: API.OperationMethod<
-  CreateRuleGroupRequest,
+  CreateRuleGroupRequest & RegionInput,
   CreateRuleGroupResponse,
   CreateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2431,6 +2458,8 @@ export const createRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroup",
+  telemetry: TELEMETRY,
+  span: "CreateRuleGroup",
 }));
 
 export type CreateWebACLError =
@@ -2455,7 +2484,7 @@ export type CreateWebACLError =
  * A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.
  */
 export const createWebACL: API.OperationMethod<
-  CreateWebACLRequest,
+  CreateWebACLRequest & RegionInput,
   CreateWebACLResponse,
   CreateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2481,6 +2510,8 @@ export const createWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebACL",
+  telemetry: TELEMETRY,
+  span: "CreateWebACL",
 }));
 
 export type DeleteAPIKeyError =
@@ -2496,7 +2527,7 @@ export type DeleteAPIKeyError =
  * After you delete a key, it can take up to 24 hours for WAF to disallow use of the key in all regions.
  */
 export const deleteAPIKey: API.OperationMethod<
-  DeleteAPIKeyRequest,
+  DeleteAPIKeyRequest & RegionInput,
   DeleteAPIKeyResponse,
   DeleteAPIKeyError,
   Credentials | HttpClient.HttpClient
@@ -2513,6 +2544,8 @@ export const deleteAPIKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAPIKey",
+  telemetry: TELEMETRY,
+  span: "DeleteAPIKey",
 }));
 
 export type DeleteFirewallManagerRuleGroupsError =
@@ -2528,7 +2561,7 @@ export type DeleteFirewallManagerRuleGroupsError =
  * You can only use this if `ManagedByFirewallManager` and `RetrofittedByFirewallManager` are both false in the web ACL.
  */
 export const deleteFirewallManagerRuleGroups: API.OperationMethod<
-  DeleteFirewallManagerRuleGroupsRequest,
+  DeleteFirewallManagerRuleGroupsRequest & RegionInput,
   DeleteFirewallManagerRuleGroupsResponse,
   DeleteFirewallManagerRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -2545,6 +2578,8 @@ export const deleteFirewallManagerRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallManagerRuleGroups",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallManagerRuleGroups",
 }));
 
 export type DeleteIPSetError =
@@ -2561,7 +2596,7 @@ export type DeleteIPSetError =
  * Deletes the specified IPSet.
  */
 export const deleteIPSet: API.OperationMethod<
-  DeleteIPSetRequest,
+  DeleteIPSetRequest & RegionInput,
   DeleteIPSetResponse,
   DeleteIPSetError,
   Credentials | HttpClient.HttpClient
@@ -2581,6 +2616,8 @@ export const deleteIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIPSet",
+  telemetry: TELEMETRY,
+  span: "DeleteIPSet",
 }));
 
 export type DeleteLoggingConfigurationError =
@@ -2594,7 +2631,7 @@ export type DeleteLoggingConfigurationError =
  * Deletes the LoggingConfiguration from the specified web ACL.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
-  DeleteLoggingConfigurationRequest,
+  DeleteLoggingConfigurationRequest & RegionInput,
   DeleteLoggingConfigurationResponse,
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2611,6 +2648,8 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLoggingConfiguration",
 }));
 
 export type DeletePermissionPolicyError =
@@ -2624,7 +2663,7 @@ export type DeletePermissionPolicyError =
  * You must be the owner of the rule group to perform this operation.
  */
 export const deletePermissionPolicy: API.OperationMethod<
-  DeletePermissionPolicyRequest,
+  DeletePermissionPolicyRequest & RegionInput,
   DeletePermissionPolicyResponse,
   DeletePermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2635,6 +2674,8 @@ export const deletePermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionPolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePermissionPolicy",
 }));
 
 export type DeleteRegexPatternSetError =
@@ -2651,7 +2692,7 @@ export type DeleteRegexPatternSetError =
  * Deletes the specified RegexPatternSet.
  */
 export const deleteRegexPatternSet: API.OperationMethod<
-  DeleteRegexPatternSetRequest,
+  DeleteRegexPatternSetRequest & RegionInput,
   DeleteRegexPatternSetResponse,
   DeleteRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -2671,6 +2712,8 @@ export const deleteRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "DeleteRegexPatternSet",
 }));
 
 export type DeleteRuleGroupError =
@@ -2687,7 +2730,7 @@ export type DeleteRuleGroupError =
  * Deletes the specified RuleGroup.
  */
 export const deleteRuleGroup: API.OperationMethod<
-  DeleteRuleGroupRequest,
+  DeleteRuleGroupRequest & RegionInput,
   DeleteRuleGroupResponse,
   DeleteRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2707,6 +2750,8 @@ export const deleteRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleGroup",
 }));
 
 export type DeleteWebACLError =
@@ -2744,7 +2789,7 @@ export type DeleteWebACLError =
  * - For all other resources, call DisassociateWebACL.
  */
 export const deleteWebACL: API.OperationMethod<
-  DeleteWebACLRequest,
+  DeleteWebACLRequest & RegionInput,
   DeleteWebACLResponse,
   DeleteWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2764,6 +2809,8 @@ export const deleteWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebACL",
+  telemetry: TELEMETRY,
+  span: "DeleteWebACL",
 }));
 
 export type DescribeAllManagedProductsError =
@@ -2775,7 +2822,7 @@ export type DescribeAllManagedProductsError =
  * Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
  */
 export const describeAllManagedProducts: API.OperationMethod<
-  DescribeAllManagedProductsRequest,
+  DescribeAllManagedProductsRequest & RegionInput,
   DescribeAllManagedProductsResponse,
   DescribeAllManagedProductsError,
   Credentials | HttpClient.HttpClient
@@ -2786,6 +2833,8 @@ export const describeAllManagedProducts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAllManagedProducts",
+  telemetry: TELEMETRY,
+  span: "DescribeAllManagedProducts",
 }));
 
 export type DescribeManagedProductsByVendorError =
@@ -2797,7 +2846,7 @@ export type DescribeManagedProductsByVendorError =
  * Provides high-level information for the managed rule groups owned by a specific vendor.
  */
 export const describeManagedProductsByVendor: API.OperationMethod<
-  DescribeManagedProductsByVendorRequest,
+  DescribeManagedProductsByVendorRequest & RegionInput,
   DescribeManagedProductsByVendorResponse,
   DescribeManagedProductsByVendorError,
   Credentials | HttpClient.HttpClient
@@ -2808,6 +2857,8 @@ export const describeManagedProductsByVendor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedProductsByVendor",
+  telemetry: TELEMETRY,
+  span: "DescribeManagedProductsByVendor",
 }));
 
 export type DescribeManagedRuleGroupError =
@@ -2822,7 +2873,7 @@ export type DescribeManagedRuleGroupError =
  * Provides high-level information for a managed rule group, including descriptions of the rules.
  */
 export const describeManagedRuleGroup: API.OperationMethod<
-  DescribeManagedRuleGroupRequest,
+  DescribeManagedRuleGroupRequest & RegionInput,
   DescribeManagedRuleGroupResponse,
   DescribeManagedRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2840,6 +2891,8 @@ export const describeManagedRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeManagedRuleGroup",
 }));
 
 export type DisassociateWebACLError =
@@ -2861,7 +2914,7 @@ export type DisassociateWebACLError =
  * For details, see Permissions for DisassociateWebACL in the *WAF Developer Guide*.
  */
 export const disassociateWebACL: API.OperationMethod<
-  DisassociateWebACLRequest,
+  DisassociateWebACLRequest & RegionInput,
   DisassociateWebACLResponse,
   DisassociateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2878,6 +2931,8 @@ export const disassociateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWebACL",
+  telemetry: TELEMETRY,
+  span: "DisassociateWebACL",
 }));
 
 export type GenerateMobileSdkReleaseUrlError =
@@ -2893,7 +2948,7 @@ export type GenerateMobileSdkReleaseUrlError =
  * WAF client application integration in the *WAF Developer Guide*.
  */
 export const generateMobileSdkReleaseUrl: API.OperationMethod<
-  GenerateMobileSdkReleaseUrlRequest,
+  GenerateMobileSdkReleaseUrlRequest & RegionInput,
   GenerateMobileSdkReleaseUrlResponse,
   GenerateMobileSdkReleaseUrlError,
   Credentials | HttpClient.HttpClient
@@ -2909,6 +2964,8 @@ export const generateMobileSdkReleaseUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMobileSdkReleaseUrl",
+  telemetry: TELEMETRY,
+  span: "GenerateMobileSdkReleaseUrl",
 }));
 
 export type GetDecryptedAPIKeyError =
@@ -2926,7 +2983,7 @@ export type GetDecryptedAPIKeyError =
  * For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the *WAF Developer Guide*.
  */
 export const getDecryptedAPIKey: API.OperationMethod<
-  GetDecryptedAPIKeyRequest,
+  GetDecryptedAPIKeyRequest & RegionInput,
   GetDecryptedAPIKeyResponse,
   GetDecryptedAPIKeyError,
   Credentials | HttpClient.HttpClient
@@ -2943,6 +3000,8 @@ export const getDecryptedAPIKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDecryptedAPIKey",
+  telemetry: TELEMETRY,
+  span: "GetDecryptedAPIKey",
 }));
 
 export type GetIPSetError =
@@ -2955,7 +3014,7 @@ export type GetIPSetError =
  * Retrieves the specified IPSet.
  */
 export const getIPSet: API.OperationMethod<
-  GetIPSetRequest,
+  GetIPSetRequest & RegionInput,
   GetIPSetResponse,
   GetIPSetError,
   Credentials | HttpClient.HttpClient
@@ -2971,6 +3030,8 @@ export const getIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIPSet",
+  telemetry: TELEMETRY,
+  span: "GetIPSet",
 }));
 
 export type GetLoggingConfigurationError =
@@ -2983,7 +3044,7 @@ export type GetLoggingConfigurationError =
  * Returns the LoggingConfiguration for the specified web ACL.
  */
 export const getLoggingConfiguration: API.OperationMethod<
-  GetLoggingConfigurationRequest,
+  GetLoggingConfigurationRequest & RegionInput,
   GetLoggingConfigurationResponse,
   GetLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2999,6 +3060,8 @@ export const getLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLoggingConfiguration",
 }));
 
 export type GetManagedRuleSetError =
@@ -3015,7 +3078,7 @@ export type GetManagedRuleSetError =
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
 export const getManagedRuleSet: API.OperationMethod<
-  GetManagedRuleSetRequest,
+  GetManagedRuleSetRequest & RegionInput,
   GetManagedRuleSetResponse,
   GetManagedRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -3031,6 +3094,8 @@ export const getManagedRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedRuleSet",
+  telemetry: TELEMETRY,
+  span: "GetManagedRuleSet",
 }));
 
 export type GetMobileSdkReleaseError =
@@ -3047,7 +3112,7 @@ export type GetMobileSdkReleaseError =
  * WAF client application integration in the *WAF Developer Guide*.
  */
 export const getMobileSdkRelease: API.OperationMethod<
-  GetMobileSdkReleaseRequest,
+  GetMobileSdkReleaseRequest & RegionInput,
   GetMobileSdkReleaseResponse,
   GetMobileSdkReleaseError,
   Credentials | HttpClient.HttpClient
@@ -3063,6 +3128,8 @@ export const getMobileSdkRelease: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMobileSdkRelease",
+  telemetry: TELEMETRY,
+  span: "GetMobileSdkRelease",
 }));
 
 export type GetPermissionPolicyError =
@@ -3076,7 +3143,7 @@ export type GetPermissionPolicyError =
  * You must be the owner of the rule group to perform this operation.
  */
 export const getPermissionPolicy: API.OperationMethod<
-  GetPermissionPolicyRequest,
+  GetPermissionPolicyRequest & RegionInput,
   GetPermissionPolicyResponse,
   GetPermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3087,6 +3154,8 @@ export const getPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPermissionPolicy",
 }));
 
 export type GetRateBasedStatementManagedKeysError =
@@ -3119,7 +3188,7 @@ export type GetRateBasedStatementManagedKeysError =
  * first.
  */
 export const getRateBasedStatementManagedKeys: API.OperationMethod<
-  GetRateBasedStatementManagedKeysRequest,
+  GetRateBasedStatementManagedKeysRequest & RegionInput,
   GetRateBasedStatementManagedKeysResponse,
   GetRateBasedStatementManagedKeysError,
   Credentials | HttpClient.HttpClient
@@ -3136,6 +3205,8 @@ export const getRateBasedStatementManagedKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRateBasedStatementManagedKeys",
+  telemetry: TELEMETRY,
+  span: "GetRateBasedStatementManagedKeys",
 }));
 
 export type GetRegexPatternSetError =
@@ -3148,7 +3219,7 @@ export type GetRegexPatternSetError =
  * Retrieves the specified RegexPatternSet.
  */
 export const getRegexPatternSet: API.OperationMethod<
-  GetRegexPatternSetRequest,
+  GetRegexPatternSetRequest & RegionInput,
   GetRegexPatternSetResponse,
   GetRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -3164,6 +3235,8 @@ export const getRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "GetRegexPatternSet",
 }));
 
 export type GetRevenueStatisticsError =
@@ -3176,7 +3249,7 @@ export type GetRevenueStatisticsError =
  * Retrieves ranked monetization statistics. Use the `StatisticType` parameter to specify the ranking: `TOP_SOURCES_BY_REVENUE` for top sources by revenue, or `TOP_PATHS_BY_REVENUE` for top content paths by revenue. This operation is only available for `CLOUDFRONT` scope. The maximum supported time window is 90 days. When no `CurrencyMode` filter is provided, results default to `REAL`. To retrieve test data, include a `CurrencyMode` filter with the value `TEST`.
  */
 export const getRevenueStatistics: API.OperationMethod<
-  GetRevenueStatisticsRequest,
+  GetRevenueStatisticsRequest & RegionInput,
   GetRevenueStatisticsResponse,
   GetRevenueStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3192,6 +3265,8 @@ export const getRevenueStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevenueStatistics",
+  telemetry: TELEMETRY,
+  span: "GetRevenueStatistics",
 }));
 
 export type GetRevenueStatisticsSummaryError =
@@ -3204,7 +3279,7 @@ export type GetRevenueStatisticsSummaryError =
  * Retrieves a summary of monetization revenue for the specified time window. Returns total revenue, revenue by verification tier, total settlements, and total HTTP 402 responses served. This operation is only available for `CLOUDFRONT` scope. The maximum supported time window is 90 days. When no `CurrencyMode` filter is provided, results default to `REAL`. To retrieve test data, include a `CurrencyMode` filter with the value `TEST`.
  */
 export const getRevenueStatisticsSummary: API.OperationMethod<
-  GetRevenueStatisticsSummaryRequest,
+  GetRevenueStatisticsSummaryRequest & RegionInput,
   GetRevenueStatisticsSummaryResponse,
   GetRevenueStatisticsSummaryError,
   Credentials | HttpClient.HttpClient
@@ -3220,6 +3295,8 @@ export const getRevenueStatisticsSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevenueStatisticsSummary",
+  telemetry: TELEMETRY,
+  span: "GetRevenueStatisticsSummary",
 }));
 
 export type GetRevenueStatisticsTimeSeriesError =
@@ -3232,7 +3309,7 @@ export type GetRevenueStatisticsTimeSeriesError =
  * Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for `CLOUDFRONT` scope. The maximum supported time window is 90 days. When no `CurrencyMode` filter is provided, results default to `REAL`. To retrieve test data, include a `CurrencyMode` filter with the value `TEST`.
  */
 export const getRevenueStatisticsTimeSeries: API.OperationMethod<
-  GetRevenueStatisticsTimeSeriesRequest,
+  GetRevenueStatisticsTimeSeriesRequest & RegionInput,
   GetRevenueStatisticsTimeSeriesResponse,
   GetRevenueStatisticsTimeSeriesError,
   Credentials | HttpClient.HttpClient
@@ -3248,6 +3325,8 @@ export const getRevenueStatisticsTimeSeries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevenueStatisticsTimeSeries",
+  telemetry: TELEMETRY,
+  span: "GetRevenueStatisticsTimeSeries",
 }));
 
 export type GetRuleGroupError =
@@ -3260,7 +3339,7 @@ export type GetRuleGroupError =
  * Retrieves the specified RuleGroup.
  */
 export const getRuleGroup: API.OperationMethod<
-  GetRuleGroupRequest,
+  GetRuleGroupRequest & RegionInput,
   GetRuleGroupResponse,
   GetRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3276,6 +3355,8 @@ export const getRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleGroup",
+  telemetry: TELEMETRY,
+  span: "GetRuleGroup",
 }));
 
 export type GetSampledRequestsError =
@@ -3296,7 +3377,7 @@ export type GetSampledRequestsError =
  * selected the requests in the sample.
  */
 export const getSampledRequests: API.OperationMethod<
-  GetSampledRequestsRequest,
+  GetSampledRequestsRequest & RegionInput,
   GetSampledRequestsResponse,
   GetSampledRequestsError,
   Credentials | HttpClient.HttpClient
@@ -3307,6 +3388,8 @@ export const getSampledRequests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSampledRequests",
+  telemetry: TELEMETRY,
+  span: "GetSampledRequests",
 }));
 
 export type GetTopPathStatisticsByTrafficError =
@@ -3322,7 +3405,7 @@ export type GetTopPathStatisticsByTrafficError =
  * The operation supports filtering by bot category, organization, or name, and allows you to drill down into specific path prefixes to view detailed URI-level statistics.
  */
 export const getTopPathStatisticsByTraffic: API.OperationMethod<
-  GetTopPathStatisticsByTrafficRequest,
+  GetTopPathStatisticsByTrafficRequest & RegionInput,
   GetTopPathStatisticsByTrafficResponse,
   GetTopPathStatisticsByTrafficError,
   Credentials | HttpClient.HttpClient
@@ -3339,6 +3422,8 @@ export const getTopPathStatisticsByTraffic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTopPathStatisticsByTraffic",
+  telemetry: TELEMETRY,
+  span: "GetTopPathStatisticsByTraffic",
 }));
 
 export type GetWebACLError =
@@ -3351,7 +3436,7 @@ export type GetWebACLError =
  * Retrieves the specified WebACL.
  */
 export const getWebACL: API.OperationMethod<
-  GetWebACLRequest,
+  GetWebACLRequest & RegionInput,
   GetWebACLResponse,
   GetWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3367,6 +3452,8 @@ export const getWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACL",
+  telemetry: TELEMETRY,
+  span: "GetWebACL",
 }));
 
 export type GetWebACLForResourceError =
@@ -3392,7 +3479,7 @@ export type GetWebACLForResourceError =
  * For details, see Permissions for GetWebACLForResource in the *WAF Developer Guide*.
  */
 export const getWebACLForResource: API.OperationMethod<
-  GetWebACLForResourceRequest,
+  GetWebACLForResourceRequest & RegionInput,
   GetWebACLForResourceResponse,
   GetWebACLForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3409,6 +3496,8 @@ export const getWebACLForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACLForResource",
+  telemetry: TELEMETRY,
+  span: "GetWebACLForResource",
 }));
 
 export type ListAPIKeysError =
@@ -3425,7 +3514,7 @@ export type ListAPIKeysError =
  * For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the *WAF Developer Guide*.
  */
 export const listAPIKeys: API.OperationMethod<
-  ListAPIKeysRequest,
+  ListAPIKeysRequest & RegionInput,
   ListAPIKeysResponse,
   ListAPIKeysError,
   Credentials | HttpClient.HttpClient
@@ -3441,6 +3530,8 @@ export const listAPIKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAPIKeys",
+  telemetry: TELEMETRY,
+  span: "ListAPIKeys",
 }));
 
 export type ListAvailableManagedRuleGroupsError =
@@ -3454,7 +3545,7 @@ export type ListAvailableManagedRuleGroupsError =
  * subscribed to.
  */
 export const listAvailableManagedRuleGroups: API.OperationMethod<
-  ListAvailableManagedRuleGroupsRequest,
+  ListAvailableManagedRuleGroupsRequest & RegionInput,
   ListAvailableManagedRuleGroupsResponse,
   ListAvailableManagedRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3465,6 +3556,8 @@ export const listAvailableManagedRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableManagedRuleGroups",
+  telemetry: TELEMETRY,
+  span: "ListAvailableManagedRuleGroups",
 }));
 
 export type ListAvailableManagedRuleGroupVersionsError =
@@ -3477,7 +3570,7 @@ export type ListAvailableManagedRuleGroupVersionsError =
  * Returns a list of the available versions for the specified managed rule group.
  */
 export const listAvailableManagedRuleGroupVersions: API.OperationMethod<
-  ListAvailableManagedRuleGroupVersionsRequest,
+  ListAvailableManagedRuleGroupVersionsRequest & RegionInput,
   ListAvailableManagedRuleGroupVersionsResponse,
   ListAvailableManagedRuleGroupVersionsError,
   Credentials | HttpClient.HttpClient
@@ -3493,6 +3586,8 @@ export const listAvailableManagedRuleGroupVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableManagedRuleGroupVersions",
+  telemetry: TELEMETRY,
+  span: "ListAvailableManagedRuleGroupVersions",
 }));
 
 export type ListIPSetsError =
@@ -3505,7 +3600,7 @@ export type ListIPSetsError =
  * manage.
  */
 export const listIPSets: API.OperationMethod<
-  ListIPSetsRequest,
+  ListIPSetsRequest & RegionInput,
   ListIPSetsResponse,
   ListIPSetsError,
   Credentials | HttpClient.HttpClient
@@ -3516,6 +3611,8 @@ export const listIPSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIPSets",
+  telemetry: TELEMETRY,
+  span: "ListIPSets",
 }));
 
 export type ListLoggingConfigurationsError =
@@ -3527,7 +3624,7 @@ export type ListLoggingConfigurationsError =
  * Retrieves an array of your LoggingConfiguration objects.
  */
 export const listLoggingConfigurations: API.OperationMethod<
-  ListLoggingConfigurationsRequest,
+  ListLoggingConfigurationsRequest & RegionInput,
   ListLoggingConfigurationsResponse,
   ListLoggingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -3538,6 +3635,8 @@ export const listLoggingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggingConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListLoggingConfigurations",
 }));
 
 export type ListManagedRuleSetsError =
@@ -3553,7 +3652,7 @@ export type ListManagedRuleSetsError =
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
 export const listManagedRuleSets: API.OperationMethod<
-  ListManagedRuleSetsRequest,
+  ListManagedRuleSetsRequest & RegionInput,
   ListManagedRuleSetsResponse,
   ListManagedRuleSetsError,
   Credentials | HttpClient.HttpClient
@@ -3564,6 +3663,8 @@ export const listManagedRuleSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListManagedRuleSets",
+  telemetry: TELEMETRY,
+  span: "ListManagedRuleSets",
 }));
 
 export type ListMobileSdkReleasesError =
@@ -3579,7 +3680,7 @@ export type ListMobileSdkReleasesError =
  * WAF client application integration in the *WAF Developer Guide*.
  */
 export const listMobileSdkReleases: API.OperationMethod<
-  ListMobileSdkReleasesRequest,
+  ListMobileSdkReleasesRequest & RegionInput,
   ListMobileSdkReleasesResponse,
   ListMobileSdkReleasesError,
   Credentials | HttpClient.HttpClient
@@ -3590,6 +3691,8 @@ export const listMobileSdkReleases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMobileSdkReleases",
+  telemetry: TELEMETRY,
+  span: "ListMobileSdkReleases",
 }));
 
 export type ListRegexPatternSetsError =
@@ -3602,7 +3705,7 @@ export type ListRegexPatternSetsError =
  * pattern sets that you manage.
  */
 export const listRegexPatternSets: API.OperationMethod<
-  ListRegexPatternSetsRequest,
+  ListRegexPatternSetsRequest & RegionInput,
   ListRegexPatternSetsResponse,
   ListRegexPatternSetsError,
   Credentials | HttpClient.HttpClient
@@ -3613,6 +3716,8 @@ export const listRegexPatternSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegexPatternSets",
+  telemetry: TELEMETRY,
+  span: "ListRegexPatternSets",
 }));
 
 export type ListResourcesForWebACLError =
@@ -3635,7 +3740,7 @@ export type ListResourcesForWebACLError =
  * For details, see Permissions for ListResourcesForWebACL in the *WAF Developer Guide*.
  */
 export const listResourcesForWebACL: API.OperationMethod<
-  ListResourcesForWebACLRequest,
+  ListResourcesForWebACLRequest & RegionInput,
   ListResourcesForWebACLResponse,
   ListResourcesForWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3651,6 +3756,8 @@ export const listResourcesForWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourcesForWebACL",
+  telemetry: TELEMETRY,
+  span: "ListResourcesForWebACL",
 }));
 
 export type ListRuleGroupsError =
@@ -3663,7 +3770,7 @@ export type ListRuleGroupsError =
  * that you manage.
  */
 export const listRuleGroups: API.OperationMethod<
-  ListRuleGroupsRequest,
+  ListRuleGroupsRequest & RegionInput,
   ListRuleGroupsResponse,
   ListRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3674,6 +3781,8 @@ export const listRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleGroups",
+  telemetry: TELEMETRY,
+  span: "ListRuleGroups",
 }));
 
 export type ListSettlementRecordsError =
@@ -3686,7 +3795,7 @@ export type ListSettlementRecordsError =
  * Retrieves individual settlement transaction records for monetization. Each record represents a single payment transaction between a client and your protected resource. This operation is only available for `CLOUDFRONT` scope. The maximum supported time window is 90 days. When no `CurrencyMode` filter is provided, results default to `REAL`. To retrieve test data, include a `CurrencyMode` filter with the value `TEST`.
  */
 export const listSettlementRecords: API.OperationMethod<
-  ListSettlementRecordsRequest,
+  ListSettlementRecordsRequest & RegionInput,
   ListSettlementRecordsResponse,
   ListSettlementRecordsError,
   Credentials | HttpClient.HttpClient
@@ -3702,6 +3811,8 @@ export const listSettlementRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSettlementRecords",
+  telemetry: TELEMETRY,
+  span: "ListSettlementRecords",
 }));
 
 export type ListTagsForResourceError =
@@ -3724,7 +3835,7 @@ export type ListTagsForResourceError =
  * console.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3742,6 +3853,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWebACLsError =
@@ -3754,7 +3867,7 @@ export type ListWebACLsError =
  * manage.
  */
 export const listWebACLs: API.OperationMethod<
-  ListWebACLsRequest,
+  ListWebACLsRequest & RegionInput,
   ListWebACLsResponse,
   ListWebACLsError,
   Credentials | HttpClient.HttpClient
@@ -3765,6 +3878,8 @@ export const listWebACLs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebACLs",
+  telemetry: TELEMETRY,
+  span: "ListWebACLs",
 }));
 
 export type PutLoggingConfigurationError =
@@ -3820,7 +3935,7 @@ export type PutLoggingConfigurationError =
  * in the *WAF Developer Guide*.
  */
 export const putLoggingConfiguration: API.OperationMethod<
-  PutLoggingConfigurationRequest,
+  PutLoggingConfigurationRequest & RegionInput,
   PutLoggingConfigurationResponse,
   PutLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3841,6 +3956,8 @@ export const putLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutLoggingConfiguration",
 }));
 
 export type PutManagedRuleSetVersionsError =
@@ -3867,7 +3984,7 @@ export type PutManagedRuleSetVersionsError =
  * To initiate the expiration of a managed rule group version, use UpdateManagedRuleSetVersionExpiryDate.
  */
 export const putManagedRuleSetVersions: API.OperationMethod<
-  PutManagedRuleSetVersionsRequest,
+  PutManagedRuleSetVersionsRequest & RegionInput,
   PutManagedRuleSetVersionsResponse,
   PutManagedRuleSetVersionsError,
   Credentials | HttpClient.HttpClient
@@ -3884,6 +4001,8 @@ export const putManagedRuleSetVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutManagedRuleSetVersions",
+  telemetry: TELEMETRY,
+  span: "PutManagedRuleSetVersions",
 }));
 
 export type PutPermissionPolicyError =
@@ -3912,7 +4031,7 @@ export type PutPermissionPolicyError =
  * Rule groups that are shared with you don't appear in your WAF console rule groups listing.
  */
 export const putPermissionPolicy: API.OperationMethod<
-  PutPermissionPolicyRequest,
+  PutPermissionPolicyRequest & RegionInput,
   PutPermissionPolicyResponse,
   PutPermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3928,6 +4047,8 @@ export const putPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermissionPolicy",
+  telemetry: TELEMETRY,
+  span: "PutPermissionPolicy",
 }));
 
 export type TagResourceError =
@@ -3951,7 +4072,7 @@ export type TagResourceError =
  * console.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3970,6 +4091,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3987,7 +4110,7 @@ export type UntagResourceError =
  * can add up to 50 tags to each Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4005,6 +4128,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIPSetError =
@@ -4044,7 +4169,7 @@ export type UpdateIPSetError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const updateIPSet: API.OperationMethod<
-  UpdateIPSetRequest,
+  UpdateIPSetRequest & RegionInput,
   UpdateIPSetResponse,
   UpdateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -4063,6 +4188,8 @@ export const updateIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIPSet",
+  telemetry: TELEMETRY,
+  span: "UpdateIPSet",
 }));
 
 export type UpdateManagedRuleSetVersionExpiryDateError =
@@ -4082,7 +4209,7 @@ export type UpdateManagedRuleSetVersionExpiryDateError =
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
 export const updateManagedRuleSetVersionExpiryDate: API.OperationMethod<
-  UpdateManagedRuleSetVersionExpiryDateRequest,
+  UpdateManagedRuleSetVersionExpiryDateRequest & RegionInput,
   UpdateManagedRuleSetVersionExpiryDateResponse,
   UpdateManagedRuleSetVersionExpiryDateError,
   Credentials | HttpClient.HttpClient
@@ -4099,6 +4226,8 @@ export const updateManagedRuleSetVersionExpiryDate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedRuleSetVersionExpiryDate",
+  telemetry: TELEMETRY,
+  span: "UpdateManagedRuleSetVersionExpiryDate",
 }));
 
 export type UpdateRegexPatternSetError =
@@ -4138,7 +4267,7 @@ export type UpdateRegexPatternSetError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const updateRegexPatternSet: API.OperationMethod<
-  UpdateRegexPatternSetRequest,
+  UpdateRegexPatternSetRequest & RegionInput,
   UpdateRegexPatternSetResponse,
   UpdateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -4157,6 +4286,8 @@ export const updateRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "UpdateRegexPatternSet",
 }));
 
 export type UpdateRuleGroupError =
@@ -4201,7 +4332,7 @@ export type UpdateRuleGroupError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const updateRuleGroup: API.OperationMethod<
-  UpdateRuleGroupRequest,
+  UpdateRuleGroupRequest & RegionInput,
   UpdateRuleGroupResponse,
   UpdateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -4223,6 +4354,8 @@ export const updateRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleGroup",
 }));
 
 export type UpdateWebACLError =
@@ -4271,7 +4404,7 @@ export type UpdateWebACLError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const updateWebACL: API.OperationMethod<
-  UpdateWebACLRequest,
+  UpdateWebACLRequest & RegionInput,
   UpdateWebACLResponse,
   UpdateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -4296,6 +4429,8 @@ export const updateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebACL",
+  telemetry: TELEMETRY,
+  span: "UpdateWebACL",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

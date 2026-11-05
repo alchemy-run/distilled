@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DataProtection" },
+  prefix: "Dataprotection",
+  service: "Dataprotection",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Adhoc backup trigger option */
 export interface AdhocBackupTriggerOption {
   retentionTagOverride?: string;
@@ -2562,6 +2583,8 @@ export const BackupInstancesAdhocBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupInstancesAdhocBackup",
 }));
 
 export type BackupInstancesCreateOrUpdateError = AzureOpError;
@@ -2577,6 +2600,8 @@ export const BackupInstancesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupInstancesCreateOrUpdate",
 }));
 
 export type BackupInstancesTriggerCrossRegionRestoreError = AzureOpError;
@@ -2592,6 +2617,8 @@ export const BackupInstancesTriggerCrossRegionRestore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupInstancesTriggerCrossRegionRestore",
 }));
 
 export type BackupInstancesTriggerRestoreError = AzureOpError;
@@ -2607,6 +2634,8 @@ export const BackupInstancesTriggerRestore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupInstancesTriggerRestore",
 }));
 
 export type BackupInstancesValidateCrossRegionRestoreError = AzureOpError;
@@ -2622,6 +2651,8 @@ export const BackupInstancesValidateCrossRegionRestore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupInstancesValidateCrossRegionRestore",
 }));
 
 export type BackupInstancesValidateForModifyBackupError = AzureOpError;
@@ -2637,6 +2668,8 @@ export const BackupInstancesValidateForModifyBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupInstancesValidateForModifyBackup",
 }));
 
 export type BackupInstancesValidateForRestoreError = AzureOpError;
@@ -2652,6 +2685,8 @@ export const BackupInstancesValidateForRestore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupInstancesValidateForRestore",
 }));
 
 export type BackupPoliciesCreateOrUpdateError = AzureOpError;
@@ -2667,6 +2702,8 @@ export const BackupPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupPoliciesCreateOrUpdate",
 }));
 
 export type BackupVaultsCreateOrUpdateError = AzureOpError;
@@ -2682,6 +2719,8 @@ export const BackupVaultsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupVaultsCreateOrUpdate",
 }));
 
 export type CheckBackupVaultNameAvailabilityError = AzureOpError;
@@ -2697,6 +2736,8 @@ export const CheckBackupVaultNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBackupVaultNameAvailability",
 }));
 
 export type CheckDataProtectionFeatureSupportError = AzureOpError;
@@ -2712,6 +2753,8 @@ export const CheckDataProtectionFeatureSupport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDataProtectionFeatureSupport",
 }));
 
 export type DeleteBackupInstanceError = AzureOpError;
@@ -2727,6 +2770,8 @@ export const DeleteBackupInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupInstance",
 }));
 
 export type DeleteBackupPolicyError = AzureOpError;
@@ -2742,6 +2787,8 @@ export const DeleteBackupPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupPolicy",
 }));
 
 export type DeleteBackupVaultError = AzureOpError;
@@ -2757,6 +2804,8 @@ export const DeleteBackupVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVault",
 }));
 
 export type DeleteDppResourceGuardProxyError = AzureOpError;
@@ -2772,6 +2821,8 @@ export const DeleteDppResourceGuardProxy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDppResourceGuardProxy",
 }));
 
 export type DeleteResourceGuardError = AzureOpError;
@@ -2787,6 +2838,8 @@ export const DeleteResourceGuard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceGuard",
 }));
 
 export type DppResourceGuardProxyCreateOrUpdateError = AzureOpError;
@@ -2802,6 +2855,8 @@ export const DppResourceGuardProxyCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DppResourceGuardProxyCreateOrUpdate",
 }));
 
 export type DppResourceGuardProxyUnlockDeleteError = AzureOpError;
@@ -2817,6 +2872,8 @@ export const DppResourceGuardProxyUnlockDelete: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DppResourceGuardProxyUnlockDelete",
 }));
 
 export type GetBackupInstanceError = AzureOpError;
@@ -2832,6 +2889,8 @@ export const GetBackupInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupInstance",
 }));
 
 export type GetBackupInstanceBackupInstanceOperationResultError = AzureOpError;
@@ -2855,6 +2914,8 @@ export const GetBackupInstanceBackupInstanceOperationResult: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupInstanceBackupInstanceOperationResult",
 }));
 
 export type GetBackupPolicyError = AzureOpError;
@@ -2870,6 +2931,8 @@ export const GetBackupPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupPolicy",
 }));
 
 export type GetBackupVaultError = AzureOpError;
@@ -2885,6 +2948,8 @@ export const GetBackupVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupVault",
 }));
 
 export type GetBackupVaultInResourceGroupError = AzureOpError;
@@ -2900,6 +2965,8 @@ export const GetBackupVaultInResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupVaultInResourceGroup",
 }));
 
 export type GetBackupVaultInSubscriptionError = AzureOpError;
@@ -2915,6 +2982,8 @@ export const GetBackupVaultInSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupVaultInSubscription",
 }));
 
 export type GetBackupVaultOperationResultError = AzureOpError;
@@ -2930,6 +2999,8 @@ export const GetBackupVaultOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupVaultOperationResult",
 }));
 
 export type GetDeletedBackupInstanceError = AzureOpError;
@@ -2945,6 +3016,8 @@ export const GetDeletedBackupInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeletedBackupInstance",
 }));
 
 export type GetDeletedBackupVaultError = AzureOpError;
@@ -2960,6 +3033,8 @@ export const GetDeletedBackupVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeletedBackupVault",
 }));
 
 export type GetDppResourceGuardProxyError = AzureOpError;
@@ -2975,6 +3050,8 @@ export const GetDppResourceGuardProxy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDppResourceGuardProxy",
 }));
 
 export type GetExportJobsOperationResultError = AzureOpError;
@@ -2990,6 +3067,8 @@ export const GetExportJobsOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExportJobsOperationResult",
 }));
 
 export type GetFetchCrossRegionRestoreJobError = AzureOpError;
@@ -3005,6 +3084,8 @@ export const GetFetchCrossRegionRestoreJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFetchCrossRegionRestoreJob",
 }));
 
 export type GetJobError = AzureOpError;
@@ -3020,6 +3101,8 @@ export const GetJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetOperationResultError = AzureOpError;
@@ -3035,6 +3118,8 @@ export const GetOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationResult",
 }));
 
 export type GetOperationStatusError = AzureOpError;
@@ -3050,6 +3135,8 @@ export const GetOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationStatus",
 }));
 
 export type GetOperationStatusBackupVaultContextError = AzureOpError;
@@ -3065,6 +3152,8 @@ export const GetOperationStatusBackupVaultContext: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationStatusBackupVaultContext",
 }));
 
 export type GetOperationStatusResourceGroupContextError = AzureOpError;
@@ -3080,6 +3169,8 @@ export const GetOperationStatusResourceGroupContext: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationStatusResourceGroupContext",
 }));
 
 export type GetRecoveryPointError = AzureOpError;
@@ -3095,6 +3186,8 @@ export const GetRecoveryPoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPoint",
 }));
 
 export type GetResourceGuardError = AzureOpError;
@@ -3110,6 +3203,8 @@ export const GetResourceGuard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGuard",
 }));
 
 export type GetResourceGuardBackupSecurityPINRequestsObjectsError = AzureOpError;
@@ -3129,6 +3224,8 @@ export const GetResourceGuardBackupSecurityPINRequestsObjects: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGuardBackupSecurityPINRequestsObjects",
 }));
 
 export type GetResourceGuardDefaultBackupSecurityPINRequestsObjectError = AzureOpError;
@@ -3152,6 +3249,8 @@ export const GetResourceGuardDefaultBackupSecurityPINRequestsObject: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGuardDefaultBackupSecurityPINRequestsObject",
 }));
 
 export type GetResourceGuardResourcesInResourceGroupError = AzureOpError;
@@ -3167,6 +3266,8 @@ export const GetResourceGuardResourcesInResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGuardResourcesInResourceGroup",
 }));
 
 export type GetResourceGuardResourcesInSubscriptionError = AzureOpError;
@@ -3182,6 +3283,8 @@ export const GetResourceGuardResourcesInSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGuardResourcesInSubscription",
 }));
 
 export type ListBackupInstancesError = AzureOpError;
@@ -3197,6 +3300,8 @@ export const ListBackupInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupInstances",
 }));
 
 export type ListBackupInstancesExtensionRoutingError = AzureOpError;
@@ -3212,6 +3317,13 @@ export const ListBackupInstancesExtensionRouting: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListBackupInstancesExtensionRouting",
+    attributes: {
+      "url.template": "/{resourceId}/providers/Microsoft.DataProtection/backupInstances",
+    },
+  },
 }));
 
 export type ListBackupPoliciesError = AzureOpError;
@@ -3227,6 +3339,8 @@ export const ListBackupPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupPolicies",
 }));
 
 export type ListDataProtectionOperationsError = AzureOpError;
@@ -3242,6 +3356,8 @@ export const ListDataProtectionOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataProtectionOperations",
 }));
 
 export type ListDeletedBackupInstancesError = AzureOpError;
@@ -3257,6 +3373,8 @@ export const ListDeletedBackupInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeletedBackupInstances",
 }));
 
 export type ListDeletedBackupVaultByLocationError = AzureOpError;
@@ -3272,6 +3390,8 @@ export const ListDeletedBackupVaultByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeletedBackupVaultByLocation",
 }));
 
 export type ListDppResourceGuardProxyError = AzureOpError;
@@ -3287,6 +3407,8 @@ export const ListDppResourceGuardProxy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDppResourceGuardProxy",
 }));
 
 export type ListFetchCrossRegionRestoreJobsError = AzureOpError;
@@ -3302,6 +3424,8 @@ export const ListFetchCrossRegionRestoreJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFetchCrossRegionRestoreJobs",
 }));
 
 export type ListFetchSecondaryRecoveryPointsError = AzureOpError;
@@ -3317,6 +3441,8 @@ export const ListFetchSecondaryRecoveryPoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFetchSecondaryRecoveryPoints",
 }));
 
 export type ListJobsError = AzureOpError;
@@ -3332,6 +3458,8 @@ export const ListJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 }));
 
 export type ListRecoveryPointsError = AzureOpError;
@@ -3347,6 +3475,8 @@ export const ListRecoveryPoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPoints",
 }));
 
 export type PatchResourceGuardError = AzureOpError;
@@ -3362,6 +3492,8 @@ export const PatchResourceGuard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceGuard",
 }));
 
 export type PutResourceGuardError = AzureOpError;
@@ -3377,6 +3509,8 @@ export const PutResourceGuard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutResourceGuard",
 }));
 
 export type ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectError = AzureOpError;
@@ -3400,6 +3534,8 @@ export const ResourceGuardsGetDefaultDeleteProtectedItemRequestsObject: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetDefaultDeleteProtectedItemRequestsObject",
 }));
 
 export type ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectError = AzureOpError;
@@ -3423,6 +3559,8 @@ export const ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObject: API
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObject",
 }));
 
 export type ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectError = AzureOpError;
@@ -3446,6 +3584,8 @@ export const ResourceGuardsGetDefaultDisableSoftDeleteRequestsObject: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetDefaultDisableSoftDeleteRequestsObject",
 }));
 
 export type ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectError = AzureOpError;
@@ -3469,6 +3609,8 @@ export const ResourceGuardsGetDefaultUpdateProtectedItemRequestsObject: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetDefaultUpdateProtectedItemRequestsObject",
 }));
 
 export type ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectError = AzureOpError;
@@ -3492,6 +3634,8 @@ export const ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObject: API.O
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObject",
 }));
 
 export type ResourceGuardsGetDeleteProtectedItemRequestsObjectsError = AzureOpError;
@@ -3511,6 +3655,8 @@ export const ResourceGuardsGetDeleteProtectedItemRequestsObjects: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetDeleteProtectedItemRequestsObjects",
 }));
 
 export type ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsError = AzureOpError;
@@ -3530,6 +3676,8 @@ export const ResourceGuardsGetDeleteResourceGuardProxyRequestsObjects: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetDeleteResourceGuardProxyRequestsObjects",
 }));
 
 export type ResourceGuardsGetDisableSoftDeleteRequestsObjectsError = AzureOpError;
@@ -3549,6 +3697,8 @@ export const ResourceGuardsGetDisableSoftDeleteRequestsObjects: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetDisableSoftDeleteRequestsObjects",
 }));
 
 export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsError = AzureOpError;
@@ -3568,6 +3718,8 @@ export const ResourceGuardsGetUpdateProtectedItemRequestsObjects: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetUpdateProtectedItemRequestsObjects",
 }));
 
 export type ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsError = AzureOpError;
@@ -3587,6 +3739,8 @@ export const ResourceGuardsGetUpdateProtectionPolicyRequestsObjects: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGuardsGetUpdateProtectionPolicyRequestsObjects",
 }));
 
 export type RestorableTimeRangesFindError = AzureOpError;
@@ -3601,6 +3755,8 @@ export const RestorableTimeRangesFind: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestorableTimeRangesFind",
 }));
 
 export type ResumeBackupInstanceBackupsError = AzureOpError;
@@ -3616,6 +3772,8 @@ export const ResumeBackupInstanceBackups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeBackupInstanceBackups",
 }));
 
 export type ResumeBackupInstanceProtectionError = AzureOpError;
@@ -3631,6 +3789,8 @@ export const ResumeBackupInstanceProtection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeBackupInstanceProtection",
 }));
 
 export type StopBackupInstanceProtectionError = AzureOpError;
@@ -3646,6 +3806,8 @@ export const StopBackupInstanceProtection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopBackupInstanceProtection",
 }));
 
 export type SuspendBackupInstanceBackupsError = AzureOpError;
@@ -3661,6 +3823,8 @@ export const SuspendBackupInstanceBackups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendBackupInstanceBackups",
 }));
 
 export type SyncBackupInstanceBackupInstanceError = AzureOpError;
@@ -3676,6 +3840,8 @@ export const SyncBackupInstanceBackupInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncBackupInstanceBackupInstance",
 }));
 
 export type TriggerBackupInstanceRehydrateError = AzureOpError;
@@ -3691,6 +3857,8 @@ export const TriggerBackupInstanceRehydrate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerBackupInstanceRehydrate",
 }));
 
 export type TriggerExportJobError = AzureOpError;
@@ -3706,6 +3874,8 @@ export const TriggerExportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerExportJob",
 }));
 
 export type UndeleteDeletedBackupInstanceError = AzureOpError;
@@ -3721,6 +3891,8 @@ export const UndeleteDeletedBackupInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteDeletedBackupInstance",
 }));
 
 export type UpdateBackupVaultError = AzureOpError;
@@ -3736,6 +3908,8 @@ export const UpdateBackupVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackupVault",
 }));
 
 export type ValidateBackupInstanceForBackupError = AzureOpError;
@@ -3751,6 +3925,8 @@ export const ValidateBackupInstanceForBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateBackupInstanceForBackup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

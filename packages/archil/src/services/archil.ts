@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { ArchilOpError, ArchilOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "archil-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Archil",
+  service: "Archil",
+  labels: "archil",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -802,6 +815,8 @@ export const addDiskUser: API.OperationMethod<
   errors: [BadRequest, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDiskUser",
 }));
 
 export type CreateApiTokenError = BadRequest | ArchilOpError;
@@ -817,6 +832,8 @@ export const createApiToken: API.OperationMethod<
   errors: [BadRequest, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiToken",
 }));
 
 export type CreateDiskError = BadRequest | Forbidden | Conflict | ArchilOpError;
@@ -832,6 +849,8 @@ export const createDisk: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDisk",
 }));
 
 export type CreateSandboxError = BadRequest | Conflict | ArchilOpError;
@@ -847,6 +866,8 @@ export const createSandbox: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandbox",
 }));
 
 export type CreateSandboxConnectionError = NotFound | Conflict | ArchilOpError;
@@ -862,6 +883,8 @@ export const createSandboxConnection: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxConnection",
 }));
 
 export type CreateSandboxPortTokenError = BadRequest | NotFound | ArchilOpError;
@@ -877,6 +900,8 @@ export const createSandboxPortToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxPortToken",
 }));
 
 export type CreateShareUrlError = BadRequest | NotFound | ArchilOpError;
@@ -892,6 +917,8 @@ export const createShareUrl: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShareUrl",
 }));
 
 export type DeleteDiskError = BadRequest | NotFound | ArchilOpError;
@@ -907,6 +934,8 @@ export const deleteDisk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDisk",
 }));
 
 export type DeleteSandboxError = NotFound | Conflict | ArchilOpError;
@@ -922,6 +951,8 @@ export const deleteSandbox: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandbox",
 }));
 
 export type DeleteSandboxPortError = BadRequest | NotFound | ArchilOpError;
@@ -937,6 +968,8 @@ export const deleteSandboxPort: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandboxPort",
 }));
 
 export type DeleteSandboxPortTokenError = NotFound | ArchilOpError;
@@ -952,6 +985,8 @@ export const deleteSandboxPortToken: API.OperationMethod<
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandboxPortToken",
 }));
 
 export type DeleteTokenError = NotFound | ArchilOpError;
@@ -967,6 +1002,8 @@ export const deleteToken: API.OperationMethod<
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type ExecError = BadRequest | NotFound | ArchilOpError;
@@ -978,6 +1015,8 @@ export const exec: API.OperationMethod<ExecRequest, ApiResponseExec, ExecError, 
     errors: [BadRequest, NotFound, UnknownArchilError],
     protocol: ArchilProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Exec",
   }));
 
 export type ExecDiskError = BadRequest | NotFound | ArchilOpError;
@@ -993,6 +1032,8 @@ export const execDisk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecDisk",
 }));
 
 export type ExposeSandboxPortError = BadRequest | NotFound | ArchilOpError;
@@ -1008,6 +1049,8 @@ export const exposeSandboxPort: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExposeSandboxPort",
 }));
 
 export type ForkSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
@@ -1023,6 +1066,8 @@ export const forkSandbox: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForkSandbox",
 }));
 
 export type GetDiskError = BadRequest | NotFound | ArchilOpError;
@@ -1038,6 +1083,8 @@ export const getDisk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDisk",
 }));
 
 export type GetSandboxError = NotFound | ArchilOpError;
@@ -1053,6 +1100,8 @@ export const getSandbox: API.OperationMethod<
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandbox",
 }));
 
 export type GetSandboxNetworkError = NotFound | ArchilOpError;
@@ -1068,6 +1117,8 @@ export const getSandboxNetwork: API.OperationMethod<
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxNetwork",
 }));
 
 export type GetSandboxPortTokenError = NotFound | ArchilOpError;
@@ -1083,6 +1134,8 @@ export const getSandboxPortToken: API.OperationMethod<
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxPortToken",
 }));
 
 export type GrepDiskError = BadRequest | NotFound | ArchilOpError;
@@ -1098,6 +1151,8 @@ export const grepDisk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GrepDisk",
 }));
 
 export type ListApiTokensError = ArchilOpError;
@@ -1113,6 +1168,8 @@ export const listApiTokens: API.OperationMethod<
   errors: [UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiTokens",
 }));
 
 export type ListDisksError = ArchilOpError;
@@ -1128,6 +1185,8 @@ export const listDisks: API.OperationMethod<
   errors: [UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDisks",
 }));
 
 export type ListSandboxesError = BadRequest | ArchilOpError;
@@ -1143,6 +1202,8 @@ export const listSandboxes: API.OperationMethod<
   errors: [BadRequest, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxes",
 }));
 
 export type ListSandboxPortsError = NotFound | ArchilOpError;
@@ -1158,6 +1219,8 @@ export const listSandboxPorts: API.OperationMethod<
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxPorts",
 }));
 
 export type ListSandboxPortTokensError = BadRequest | NotFound | ArchilOpError;
@@ -1173,6 +1236,8 @@ export const listSandboxPortTokens: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxPortTokens",
 }));
 
 export type PauseSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
@@ -1188,6 +1253,8 @@ export const pauseSandbox: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseSandbox",
 }));
 
 export type RemoveDiskUserError = BadRequest | ArchilOpError;
@@ -1203,6 +1270,8 @@ export const removeDiskUser: API.OperationMethod<
   errors: [BadRequest, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveDiskUser",
 }));
 
 export type ResumeSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
@@ -1218,6 +1287,8 @@ export const resumeSandbox: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeSandbox",
 }));
 
 export type SetSandboxTimeoutError = BadRequest | NotFound | Conflict | ArchilOpError;
@@ -1233,6 +1304,8 @@ export const setSandboxTimeout: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSandboxTimeout",
 }));
 
 export type StartSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
@@ -1248,6 +1321,8 @@ export const startSandbox: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSandbox",
 }));
 
 export type StopSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
@@ -1263,6 +1338,8 @@ export const stopSandbox: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSandbox",
 }));
 
 export type UpdateSandboxNetworkError =
@@ -1283,6 +1360,8 @@ export const updateSandboxNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandboxNetwork",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

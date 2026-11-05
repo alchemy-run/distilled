@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Batch",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -2757,6 +2770,8 @@ export const createBatchV1NamespacedCronJob: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBatchV1NamespacedCronJob",
 }));
 
 export type CreateBatchV1NamespacedJobError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -2772,6 +2787,8 @@ export const createBatchV1NamespacedJob: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBatchV1NamespacedJob",
 }));
 
 export type DeleteBatchV1CollectionNamespacedCronJobError = KubernetesOpError;
@@ -2787,6 +2804,8 @@ export const deleteBatchV1CollectionNamespacedCronJob: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBatchV1CollectionNamespacedCronJob",
 }));
 
 export type DeleteBatchV1CollectionNamespacedJobError = KubernetesOpError;
@@ -2802,6 +2821,8 @@ export const deleteBatchV1CollectionNamespacedJob: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBatchV1CollectionNamespacedJob",
 }));
 
 export type DeleteBatchV1NamespacedCronJobError = NotFound | Conflict | KubernetesOpError;
@@ -2817,6 +2838,8 @@ export const deleteBatchV1NamespacedCronJob: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBatchV1NamespacedCronJob",
 }));
 
 export type DeleteBatchV1NamespacedJobError = NotFound | Conflict | KubernetesOpError;
@@ -2832,6 +2855,8 @@ export const deleteBatchV1NamespacedJob: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBatchV1NamespacedJob",
 }));
 
 export type GetBatchAPIGroupError = KubernetesOpError;
@@ -2847,6 +2872,8 @@ export const getBatchAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchAPIGroup",
 }));
 
 export type GetBatchV1APIResourcesError = KubernetesOpError;
@@ -2862,6 +2889,8 @@ export const getBatchV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchV1APIResources",
 }));
 
 export type ListBatchV1CronJobForAllNamespacesError = KubernetesOpError;
@@ -2877,6 +2906,8 @@ export const listBatchV1CronJobForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchV1CronJobForAllNamespaces",
 }));
 
 export type ListBatchV1JobForAllNamespacesError = KubernetesOpError;
@@ -2892,6 +2923,8 @@ export const listBatchV1JobForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchV1JobForAllNamespaces",
 }));
 
 export type ListBatchV1NamespacedCronJobError = KubernetesOpError;
@@ -2907,6 +2940,8 @@ export const listBatchV1NamespacedCronJob: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchV1NamespacedCronJob",
 }));
 
 export type ListBatchV1NamespacedJobError = KubernetesOpError;
@@ -2922,6 +2957,8 @@ export const listBatchV1NamespacedJob: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchV1NamespacedJob",
 }));
 
 export type PatchBatchV1NamespacedCronJobError =
@@ -2941,6 +2978,8 @@ export const patchBatchV1NamespacedCronJob: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBatchV1NamespacedCronJob",
 }));
 
 export type PatchBatchV1NamespacedCronJobStatusError =
@@ -2960,6 +2999,8 @@ export const patchBatchV1NamespacedCronJobStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBatchV1NamespacedCronJobStatus",
 }));
 
 export type PatchBatchV1NamespacedJobError =
@@ -2979,6 +3020,8 @@ export const patchBatchV1NamespacedJob: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBatchV1NamespacedJob",
 }));
 
 export type PatchBatchV1NamespacedJobStatusError =
@@ -2998,6 +3041,8 @@ export const patchBatchV1NamespacedJobStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBatchV1NamespacedJobStatus",
 }));
 
 export type ReadBatchV1NamespacedCronJobError = NotFound | KubernetesOpError;
@@ -3013,6 +3058,8 @@ export const readBatchV1NamespacedCronJob: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadBatchV1NamespacedCronJob",
 }));
 
 export type ReadBatchV1NamespacedCronJobStatusError = NotFound | KubernetesOpError;
@@ -3028,6 +3075,8 @@ export const readBatchV1NamespacedCronJobStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadBatchV1NamespacedCronJobStatus",
 }));
 
 export type ReadBatchV1NamespacedJobError = NotFound | KubernetesOpError;
@@ -3043,6 +3092,8 @@ export const readBatchV1NamespacedJob: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadBatchV1NamespacedJob",
 }));
 
 export type ReadBatchV1NamespacedJobStatusError = NotFound | KubernetesOpError;
@@ -3058,6 +3109,8 @@ export const readBatchV1NamespacedJobStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadBatchV1NamespacedJobStatus",
 }));
 
 export type ReplaceBatchV1NamespacedCronJobError =
@@ -3077,6 +3130,8 @@ export const replaceBatchV1NamespacedCronJob: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceBatchV1NamespacedCronJob",
 }));
 
 export type ReplaceBatchV1NamespacedCronJobStatusError =
@@ -3096,6 +3151,8 @@ export const replaceBatchV1NamespacedCronJobStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceBatchV1NamespacedCronJobStatus",
 }));
 
 export type ReplaceBatchV1NamespacedJobError =
@@ -3115,6 +3172,8 @@ export const replaceBatchV1NamespacedJob: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceBatchV1NamespacedJob",
 }));
 
 export type ReplaceBatchV1NamespacedJobStatusError =
@@ -3134,6 +3193,8 @@ export const replaceBatchV1NamespacedJobStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceBatchV1NamespacedJobStatus",
 }));
 
 export type WatchBatchV1CronJobListForAllNamespacesError = KubernetesOpError;
@@ -3149,6 +3210,8 @@ export const watchBatchV1CronJobListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchBatchV1CronJobListForAllNamespaces",
 }));
 
 export type WatchBatchV1JobListForAllNamespacesError = KubernetesOpError;
@@ -3164,6 +3227,8 @@ export const watchBatchV1JobListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchBatchV1JobListForAllNamespaces",
 }));
 
 export type WatchBatchV1NamespacedCronJobError = KubernetesOpError;
@@ -3179,6 +3244,8 @@ export const watchBatchV1NamespacedCronJob: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchBatchV1NamespacedCronJob",
 }));
 
 export type WatchBatchV1NamespacedCronJobListError = KubernetesOpError;
@@ -3194,6 +3261,8 @@ export const watchBatchV1NamespacedCronJobList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchBatchV1NamespacedCronJobList",
 }));
 
 export type WatchBatchV1NamespacedJobError = KubernetesOpError;
@@ -3209,6 +3278,8 @@ export const watchBatchV1NamespacedJob: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchBatchV1NamespacedJob",
 }));
 
 export type WatchBatchV1NamespacedJobListError = KubernetesOpError;
@@ -3224,6 +3295,8 @@ export const watchBatchV1NamespacedJobList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchBatchV1NamespacedJobList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

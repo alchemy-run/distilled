@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://braket.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Braket",
+  service: "Braket",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -522,7 +538,7 @@ export type CancelJobError =
  * Cancels an Amazon Braket hybrid job.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -540,6 +556,8 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
+  telemetry: TELEMETRY,
+  span: "CancelJob",
 }));
 
 export type CancelQuantumTaskError =
@@ -554,7 +572,7 @@ export type CancelQuantumTaskError =
  * Cancels the specified task.
  */
 export const cancelQuantumTask: API.OperationMethod<
-  CancelQuantumTaskRequest,
+  CancelQuantumTaskRequest & RegionInput,
   CancelQuantumTaskResponse,
   CancelQuantumTaskError,
   Credentials | HttpClient.HttpClient
@@ -572,6 +590,8 @@ export const cancelQuantumTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelQuantumTask",
+  telemetry: TELEMETRY,
+  span: "CancelQuantumTask",
 }));
 
 export type CreateJobError =
@@ -588,7 +608,7 @@ export type CreateJobError =
  * Creates an Amazon Braket hybrid job.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -608,6 +628,8 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  telemetry: TELEMETRY,
+  span: "CreateJob",
 }));
 
 export type CreateQuantumTaskError =
@@ -623,7 +645,7 @@ export type CreateQuantumTaskError =
  * Creates a quantum task.
  */
 export const createQuantumTask: API.OperationMethod<
-  CreateQuantumTaskRequest,
+  CreateQuantumTaskRequest & RegionInput,
   CreateQuantumTaskResponse,
   CreateQuantumTaskError,
   Credentials | HttpClient.HttpClient
@@ -642,6 +664,8 @@ export const createQuantumTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuantumTask",
+  telemetry: TELEMETRY,
+  span: "CreateQuantumTask",
 }));
 
 export type CreateSpendingLimitError =
@@ -655,7 +679,7 @@ export type CreateSpendingLimitError =
  * Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits.
  */
 export const createSpendingLimit: API.OperationMethod<
-  CreateSpendingLimitRequest,
+  CreateSpendingLimitRequest & RegionInput,
   CreateSpendingLimitResponse,
   CreateSpendingLimitError,
   Credentials | HttpClient.HttpClient
@@ -672,6 +696,8 @@ export const createSpendingLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpendingLimit",
+  telemetry: TELEMETRY,
+  span: "CreateSpendingLimit",
 }));
 
 export type DeleteSpendingLimitError =
@@ -685,7 +711,7 @@ export type DeleteSpendingLimitError =
  * Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
  */
 export const deleteSpendingLimit: API.OperationMethod<
-  DeleteSpendingLimitRequest,
+  DeleteSpendingLimitRequest & RegionInput,
   DeleteSpendingLimitResponse,
   DeleteSpendingLimitError,
   Credentials | HttpClient.HttpClient
@@ -702,6 +728,8 @@ export const deleteSpendingLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpendingLimit",
+  telemetry: TELEMETRY,
+  span: "DeleteSpendingLimit",
 }));
 
 export type GetDeviceError =
@@ -717,7 +745,7 @@ export type GetDeviceError =
  * For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
  */
 export const getDevice: API.OperationMethod<
-  GetDeviceRequest,
+  GetDeviceRequest & RegionInput,
   GetDeviceResponse,
   GetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -734,6 +762,8 @@ export const getDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetJobError =
@@ -747,7 +777,7 @@ export type GetJobError =
  * Retrieves the specified Amazon Braket hybrid job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -764,6 +794,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetQuantumTaskError =
@@ -777,7 +809,7 @@ export type GetQuantumTaskError =
  * Retrieves the specified quantum task.
  */
 export const getQuantumTask: API.OperationMethod<
-  GetQuantumTaskRequest,
+  GetQuantumTaskRequest & RegionInput,
   GetQuantumTaskResponse,
   GetQuantumTaskError,
   Credentials | HttpClient.HttpClient
@@ -794,6 +826,8 @@ export const getQuantumTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuantumTask",
+  telemetry: TELEMETRY,
+  span: "GetQuantumTask",
 }));
 
 export type ListTagsForResourceError =
@@ -805,7 +839,7 @@ export type ListTagsForResourceError =
  * Shows the tags associated with this resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -816,6 +850,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SearchDevicesError =
@@ -828,7 +864,7 @@ export type SearchDevicesError =
  * Searches for devices using the specified filters.
  */
 export const searchDevices: API.PaginatedOperationMethod<
-  SearchDevicesRequest,
+  SearchDevicesRequest & RegionInput,
   SearchDevicesResponse,
   SearchDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -851,6 +887,8 @@ export const searchDevices: API.PaginatedOperationMethod<
     items: "devices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchDevices",
 })) as any;
 
 export type SearchJobsError =
@@ -863,7 +901,7 @@ export type SearchJobsError =
  * Searches for Amazon Braket hybrid jobs that match the specified filter values.
  */
 export const searchJobs: API.PaginatedOperationMethod<
-  SearchJobsRequest,
+  SearchJobsRequest & RegionInput,
   SearchJobsResponse,
   SearchJobsError,
   Credentials | HttpClient.HttpClient,
@@ -886,6 +924,8 @@ export const searchJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchJobs",
 })) as any;
 
 export type SearchQuantumTasksError =
@@ -898,7 +938,7 @@ export type SearchQuantumTasksError =
  * Searches for tasks that match the specified filter values.
  */
 export const searchQuantumTasks: API.PaginatedOperationMethod<
-  SearchQuantumTasksRequest,
+  SearchQuantumTasksRequest & RegionInput,
   SearchQuantumTasksResponse,
   SearchQuantumTasksError,
   Credentials | HttpClient.HttpClient,
@@ -921,6 +961,8 @@ export const searchQuantumTasks: API.PaginatedOperationMethod<
     items: "quantumTasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchQuantumTasks",
 })) as any;
 
 export type SearchSpendingLimitsError =
@@ -933,7 +975,7 @@ export type SearchSpendingLimitsError =
  * Searches and lists spending limits based on specified filters. This operation supports pagination and allows filtering by various criteria to find specific spending limits. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const searchSpendingLimits: API.PaginatedOperationMethod<
-  SearchSpendingLimitsRequest,
+  SearchSpendingLimitsRequest & RegionInput,
   SearchSpendingLimitsResponse,
   SearchSpendingLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -956,6 +998,8 @@ export const searchSpendingLimits: API.PaginatedOperationMethod<
     items: "spendingLimits",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSpendingLimits",
 })) as any;
 
 export type TagResourceError =
@@ -967,7 +1011,7 @@ export type TagResourceError =
  * Add a tag to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -978,6 +1022,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -989,7 +1035,7 @@ export type UntagResourceError =
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1000,6 +1046,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateSpendingLimitError =
@@ -1013,7 +1061,7 @@ export type UpdateSpendingLimitError =
  * Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
  */
 export const updateSpendingLimit: API.OperationMethod<
-  UpdateSpendingLimitRequest,
+  UpdateSpendingLimitRequest & RegionInput,
   UpdateSpendingLimitResponse,
   UpdateSpendingLimitError,
   Credentials | HttpClient.HttpClient
@@ -1030,6 +1078,8 @@ export const updateSpendingLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpendingLimit",
+  telemetry: TELEMETRY,
+  span: "UpdateSpendingLimit",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

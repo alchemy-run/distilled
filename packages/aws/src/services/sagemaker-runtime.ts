@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -8,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -84,6 +86,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://runtime.sagemaker.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SageMakerRuntime",
+  service: "SageMakerRuntime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalDependencyException
   extends /*@__PURE__*/ S.TaggedError<InternalDependencyException>()(
@@ -261,7 +277,7 @@ export type InvokeEndpointError =
  * the authentication token that is supplied by the caller.
  */
 export const invokeEndpoint: API.OperationMethod<
-  InvokeEndpointInput,
+  InvokeEndpointInput & RegionInput,
   InvokeEndpointOutput,
   InvokeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -279,6 +295,8 @@ export const invokeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpoint",
+  telemetry: TELEMETRY,
+  span: "InvokeEndpoint",
 }));
 
 export type InvokeEndpointAsyncError =
@@ -304,7 +322,7 @@ export type InvokeEndpointAsyncError =
  * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
  */
 export const invokeEndpointAsync: API.OperationMethod<
-  InvokeEndpointAsyncInput,
+  InvokeEndpointAsyncInput & RegionInput,
   InvokeEndpointAsyncOutput,
   InvokeEndpointAsyncError,
   Credentials | HttpClient.HttpClient
@@ -315,6 +333,8 @@ export const invokeEndpointAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointAsync",
+  telemetry: TELEMETRY,
+  span: "InvokeEndpointAsync",
 }));
 
 export type InvokeEndpointWithResponseStreamError =
@@ -352,7 +372,7 @@ export type InvokeEndpointWithResponseStreamError =
  * *Amazon S3 API Reference*.
  */
 export const invokeEndpointWithResponseStream: API.OperationMethod<
-  InvokeEndpointWithResponseStreamInput,
+  InvokeEndpointWithResponseStreamInput & RegionInput,
   InvokeEndpointWithResponseStreamOutput,
   InvokeEndpointWithResponseStreamError,
   Credentials | HttpClient.HttpClient
@@ -370,6 +390,8 @@ export const invokeEndpointWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointWithResponseStream",
+  telemetry: TELEMETRY,
+  span: "InvokeEndpointWithResponseStream",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

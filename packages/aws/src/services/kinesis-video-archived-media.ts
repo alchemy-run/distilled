@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kinesisvideo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KinesisVideoArchivedMedia",
+  service: "KinesisVideoArchivedMedia",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ClientLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ClientLimitExceededException>()(
@@ -336,7 +352,7 @@ export type GetClipError =
  * Pricing. Charges for outgoing Amazon Web Services data apply.
  */
 export const getClip: API.OperationMethod<
-  GetClipInput,
+  GetClipInput & RegionInput,
   GetClipOutput,
   GetClipError,
   Credentials | HttpClient.HttpClient
@@ -357,6 +373,8 @@ export const getClip: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClip",
+  telemetry: TELEMETRY,
+  span: "GetClip",
 }));
 
 export type GetDASHStreamingSessionURLError =
@@ -495,7 +513,7 @@ export type GetDASHStreamingSessionURLError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const getDASHStreamingSessionURL: API.OperationMethod<
-  GetDASHStreamingSessionURLInput,
+  GetDASHStreamingSessionURLInput & RegionInput,
   GetDASHStreamingSessionURLOutput,
   GetDASHStreamingSessionURLError,
   Credentials | HttpClient.HttpClient
@@ -515,6 +533,8 @@ export const getDASHStreamingSessionURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDASHStreamingSessionURL",
+  telemetry: TELEMETRY,
+  span: "GetDASHStreamingSessionURL",
 }));
 
 export type GetHLSStreamingSessionURLError =
@@ -693,7 +713,7 @@ export type GetHLSStreamingSessionURLError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const getHLSStreamingSessionURL: API.OperationMethod<
-  GetHLSStreamingSessionURLInput,
+  GetHLSStreamingSessionURLInput & RegionInput,
   GetHLSStreamingSessionURLOutput,
   GetHLSStreamingSessionURLError,
   Credentials | HttpClient.HttpClient
@@ -713,6 +733,8 @@ export const getHLSStreamingSessionURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHLSStreamingSessionURL",
+  telemetry: TELEMETRY,
+  span: "GetHLSStreamingSessionURL",
 }));
 
 export type GetImagesError =
@@ -727,7 +749,7 @@ export type GetImagesError =
  * sampling interval, and image format configuration.
  */
 export const getImages: API.PaginatedOperationMethod<
-  GetImagesInput,
+  GetImagesInput & RegionInput,
   GetImagesOutput,
   GetImagesError,
   Credentials | HttpClient.HttpClient,
@@ -751,6 +773,8 @@ export const getImages: API.PaginatedOperationMethod<
     items: "Images",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetImages",
 })) as any;
 
 export type GetMediaForFragmentListError =
@@ -790,7 +814,7 @@ export type GetMediaForFragmentListError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const getMediaForFragmentList: API.OperationMethod<
-  GetMediaForFragmentListInput,
+  GetMediaForFragmentListInput & RegionInput,
   GetMediaForFragmentListOutput,
   GetMediaForFragmentListError,
   Credentials | HttpClient.HttpClient
@@ -806,6 +830,8 @@ export const getMediaForFragmentList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaForFragmentList",
+  telemetry: TELEMETRY,
+  span: "GetMediaForFragmentList",
 }));
 
 export type ListFragmentsError =
@@ -847,7 +873,7 @@ export type ListFragmentsError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const listFragments: API.PaginatedOperationMethod<
-  ListFragmentsInput,
+  ListFragmentsInput & RegionInput,
   ListFragmentsOutput,
   ListFragmentsError,
   Credentials | HttpClient.HttpClient,
@@ -870,6 +896,8 @@ export const listFragments: API.PaginatedOperationMethod<
     items: "Fragments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFragments",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

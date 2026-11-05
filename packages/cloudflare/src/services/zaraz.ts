@@ -24,6 +24,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   rejectAll: "reject_all",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Zaraz",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -755,6 +769,8 @@ export const createPublish: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublish",
 }));
 
 export type GetConfigError = Forbidden | NotFound | CloudflareOpError;
@@ -770,6 +786,8 @@ export const getConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type GetDefaultError = CloudflareOpError;
@@ -785,6 +803,8 @@ export const getDefault: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefault",
 }));
 
 export type GetExportError = CloudflareOpError;
@@ -800,6 +820,8 @@ export const getExport: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExport",
 }));
 
 export type GetHistoryConfigError = CloudflareOpError;
@@ -815,6 +837,8 @@ export const getHistoryConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHistoryConfig",
 }));
 
 export type GetWorkflowError = Forbidden | NotFound | CloudflareOpError;
@@ -830,6 +854,8 @@ export const getWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type ListHistoriesError = CloudflareOpError;
@@ -847,6 +873,8 @@ export const listHistories: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListHistories",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -865,6 +893,8 @@ export const putConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConfig",
 }));
 
 export type PutHistoryError = CloudflareOpError;
@@ -880,6 +910,8 @@ export const putHistory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHistory",
 }));
 
 export type PutZarazError = CloudflareOpError;
@@ -895,6 +927,8 @@ export const putZaraz: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutZaraz",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

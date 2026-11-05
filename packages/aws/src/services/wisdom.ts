@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://wisdom.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Wisdom",
+  service: "Wisdom",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -883,7 +899,7 @@ export type CreateAssistantError =
  * Creates an Amazon Connect Wisdom assistant.
  */
 export const createAssistant: API.OperationMethod<
-  CreateAssistantRequest,
+  CreateAssistantRequest & RegionInput,
   CreateAssistantResponse,
   CreateAssistantError,
   Credentials | HttpClient.HttpClient
@@ -899,6 +915,8 @@ export const createAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistant",
+  telemetry: TELEMETRY,
+  span: "CreateAssistant",
 }));
 
 export type CreateAssistantAssociationError =
@@ -914,7 +932,7 @@ export type CreateAssistantAssociationError =
  * association.
  */
 export const createAssistantAssociation: API.OperationMethod<
-  CreateAssistantAssociationRequest,
+  CreateAssistantAssociationRequest & RegionInput,
   CreateAssistantAssociationResponse,
   CreateAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -931,6 +949,8 @@ export const createAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistantAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateAssistantAssociation",
 }));
 
 export type CreateContentError =
@@ -945,7 +965,7 @@ export type CreateContentError =
  * upload an asset.
  */
 export const createContent: API.OperationMethod<
-  CreateContentRequest,
+  CreateContentRequest & RegionInput,
   CreateContentResponse,
   CreateContentError,
   Credentials | HttpClient.HttpClient
@@ -962,6 +982,8 @@ export const createContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContent",
+  telemetry: TELEMETRY,
+  span: "CreateContent",
 }));
 
 export type CreateKnowledgeBaseError =
@@ -991,7 +1013,7 @@ export type CreateKnowledgeBaseError =
  * - Call CreateKnowledgeBase.
  */
 export const createKnowledgeBase: API.OperationMethod<
-  CreateKnowledgeBaseRequest,
+  CreateKnowledgeBaseRequest & RegionInput,
   CreateKnowledgeBaseResponse,
   CreateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -1007,6 +1029,8 @@ export const createKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "CreateKnowledgeBase",
 }));
 
 export type CreateQuickResponseError =
@@ -1020,7 +1044,7 @@ export type CreateQuickResponseError =
  * Creates a Wisdom quick response.
  */
 export const createQuickResponse: API.OperationMethod<
-  CreateQuickResponseRequest,
+  CreateQuickResponseRequest & RegionInput,
   CreateQuickResponseResponse,
   CreateQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -1037,6 +1061,8 @@ export const createQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuickResponse",
+  telemetry: TELEMETRY,
+  span: "CreateQuickResponse",
 }));
 
 export type CreateSessionError =
@@ -1050,7 +1076,7 @@ export type CreateSessionError =
  * Wisdom is enabled.
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionResponse,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -1061,6 +1087,8 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type DeleteAssistantError =
@@ -1072,7 +1100,7 @@ export type DeleteAssistantError =
  * Deletes an assistant.
  */
 export const deleteAssistant: API.OperationMethod<
-  DeleteAssistantRequest,
+  DeleteAssistantRequest & RegionInput,
   DeleteAssistantResponse,
   DeleteAssistantError,
   Credentials | HttpClient.HttpClient
@@ -1083,6 +1111,8 @@ export const deleteAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistant",
+  telemetry: TELEMETRY,
+  span: "DeleteAssistant",
 }));
 
 export type DeleteAssistantAssociationError =
@@ -1094,7 +1124,7 @@ export type DeleteAssistantAssociationError =
  * Deletes an assistant association.
  */
 export const deleteAssistantAssociation: API.OperationMethod<
-  DeleteAssistantAssociationRequest,
+  DeleteAssistantAssociationRequest & RegionInput,
   DeleteAssistantAssociationResponse,
   DeleteAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1105,6 +1135,8 @@ export const deleteAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistantAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteAssistantAssociation",
 }));
 
 export type DeleteContentError =
@@ -1116,7 +1148,7 @@ export type DeleteContentError =
  * Deletes the content.
  */
 export const deleteContent: API.OperationMethod<
-  DeleteContentRequest,
+  DeleteContentRequest & RegionInput,
   DeleteContentResponse,
   DeleteContentError,
   Credentials | HttpClient.HttpClient
@@ -1127,6 +1159,8 @@ export const deleteContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContent",
+  telemetry: TELEMETRY,
+  span: "DeleteContent",
 }));
 
 export type DeleteImportJobError =
@@ -1139,7 +1173,7 @@ export type DeleteImportJobError =
  * Deletes the quick response import job.
  */
 export const deleteImportJob: API.OperationMethod<
-  DeleteImportJobRequest,
+  DeleteImportJobRequest & RegionInput,
   DeleteImportJobResponse,
   DeleteImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1155,6 +1189,8 @@ export const deleteImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportJob",
+  telemetry: TELEMETRY,
+  span: "DeleteImportJob",
 }));
 
 export type DeleteKnowledgeBaseError =
@@ -1174,7 +1210,7 @@ export type DeleteKnowledgeBaseError =
  * Reference.
  */
 export const deleteKnowledgeBase: API.OperationMethod<
-  DeleteKnowledgeBaseRequest,
+  DeleteKnowledgeBaseRequest & RegionInput,
   DeleteKnowledgeBaseResponse,
   DeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -1190,6 +1226,8 @@ export const deleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "DeleteKnowledgeBase",
 }));
 
 export type DeleteQuickResponseError =
@@ -1201,7 +1239,7 @@ export type DeleteQuickResponseError =
  * Deletes a quick response.
  */
 export const deleteQuickResponse: API.OperationMethod<
-  DeleteQuickResponseRequest,
+  DeleteQuickResponseRequest & RegionInput,
   DeleteQuickResponseResponse,
   DeleteQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -1212,6 +1250,8 @@ export const deleteQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuickResponse",
+  telemetry: TELEMETRY,
+  span: "DeleteQuickResponse",
 }));
 
 export type GetAssistantError =
@@ -1223,7 +1263,7 @@ export type GetAssistantError =
  * Retrieves information about an assistant.
  */
 export const getAssistant: API.OperationMethod<
-  GetAssistantRequest,
+  GetAssistantRequest & RegionInput,
   GetAssistantResponse,
   GetAssistantError,
   Credentials | HttpClient.HttpClient
@@ -1234,6 +1274,8 @@ export const getAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistant",
+  telemetry: TELEMETRY,
+  span: "GetAssistant",
 }));
 
 export type GetAssistantAssociationError =
@@ -1245,7 +1287,7 @@ export type GetAssistantAssociationError =
  * Retrieves information about an assistant association.
  */
 export const getAssistantAssociation: API.OperationMethod<
-  GetAssistantAssociationRequest,
+  GetAssistantAssociationRequest & RegionInput,
   GetAssistantAssociationResponse,
   GetAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1256,6 +1298,8 @@ export const getAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistantAssociation",
+  telemetry: TELEMETRY,
+  span: "GetAssistantAssociation",
 }));
 
 export type GetContentError =
@@ -1267,7 +1311,7 @@ export type GetContentError =
  * Retrieves content, including a pre-signed URL to download the content.
  */
 export const getContent: API.OperationMethod<
-  GetContentRequest,
+  GetContentRequest & RegionInput,
   GetContentResponse,
   GetContentError,
   Credentials | HttpClient.HttpClient
@@ -1278,6 +1322,8 @@ export const getContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContent",
+  telemetry: TELEMETRY,
+  span: "GetContent",
 }));
 
 export type GetContentSummaryError =
@@ -1289,7 +1335,7 @@ export type GetContentSummaryError =
  * Retrieves summary information about the content.
  */
 export const getContentSummary: API.OperationMethod<
-  GetContentSummaryRequest,
+  GetContentSummaryRequest & RegionInput,
   GetContentSummaryResponse,
   GetContentSummaryError,
   Credentials | HttpClient.HttpClient
@@ -1300,6 +1346,8 @@ export const getContentSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentSummary",
+  telemetry: TELEMETRY,
+  span: "GetContentSummary",
 }));
 
 export type GetImportJobError =
@@ -1311,7 +1359,7 @@ export type GetImportJobError =
  * Retrieves the started import job.
  */
 export const getImportJob: API.OperationMethod<
-  GetImportJobRequest,
+  GetImportJobRequest & RegionInput,
   GetImportJobResponse,
   GetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1322,6 +1370,8 @@ export const getImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
+  telemetry: TELEMETRY,
+  span: "GetImportJob",
 }));
 
 export type GetKnowledgeBaseError =
@@ -1333,7 +1383,7 @@ export type GetKnowledgeBaseError =
  * Retrieves information about the knowledge base.
  */
 export const getKnowledgeBase: API.OperationMethod<
-  GetKnowledgeBaseRequest,
+  GetKnowledgeBaseRequest & RegionInput,
   GetKnowledgeBaseResponse,
   GetKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -1344,6 +1394,8 @@ export const getKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "GetKnowledgeBase",
 }));
 
 export type GetQuickResponseError =
@@ -1355,7 +1407,7 @@ export type GetQuickResponseError =
  * Retrieves the quick response.
  */
 export const getQuickResponse: API.OperationMethod<
-  GetQuickResponseRequest,
+  GetQuickResponseRequest & RegionInput,
   GetQuickResponseResponse,
   GetQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -1366,6 +1418,8 @@ export const getQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuickResponse",
+  telemetry: TELEMETRY,
+  span: "GetQuickResponse",
 }));
 
 export type GetRecommendationsError =
@@ -1380,7 +1434,7 @@ export type GetRecommendationsError =
  * recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
  */
 export const getRecommendations: API.OperationMethod<
-  GetRecommendationsRequest,
+  GetRecommendationsRequest & RegionInput,
   GetRecommendationsResponse,
   GetRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -1391,6 +1445,8 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetRecommendations",
 }));
 
 export type GetSessionError =
@@ -1402,7 +1458,7 @@ export type GetSessionError =
  * Retrieves information for a specified session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -1413,6 +1469,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type ListAssistantAssociationsError =
@@ -1424,7 +1482,7 @@ export type ListAssistantAssociationsError =
  * Lists information about assistant associations.
  */
 export const listAssistantAssociations: API.PaginatedOperationMethod<
-  ListAssistantAssociationsRequest,
+  ListAssistantAssociationsRequest & RegionInput,
   ListAssistantAssociationsResponse,
   ListAssistantAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1442,6 +1500,8 @@ export const listAssistantAssociations: API.PaginatedOperationMethod<
     items: "assistantAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssistantAssociations",
 })) as any;
 
 export type ListAssistantsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1449,7 +1509,7 @@ export type ListAssistantsError = AccessDeniedException | ValidationException | 
  * Lists information about assistants.
  */
 export const listAssistants: API.PaginatedOperationMethod<
-  ListAssistantsRequest,
+  ListAssistantsRequest & RegionInput,
   ListAssistantsResponse,
   ListAssistantsError,
   Credentials | HttpClient.HttpClient,
@@ -1467,6 +1527,8 @@ export const listAssistants: API.PaginatedOperationMethod<
     items: "assistantSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssistants",
 })) as any;
 
 export type ListContentsError =
@@ -1478,7 +1540,7 @@ export type ListContentsError =
  * Lists the content.
  */
 export const listContents: API.PaginatedOperationMethod<
-  ListContentsRequest,
+  ListContentsRequest & RegionInput,
   ListContentsResponse,
   ListContentsError,
   Credentials | HttpClient.HttpClient,
@@ -1496,6 +1558,8 @@ export const listContents: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContents",
 })) as any;
 
 export type ListImportJobsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1503,7 +1567,7 @@ export type ListImportJobsError = AccessDeniedException | ValidationException | 
  * Lists information about import jobs.
  */
 export const listImportJobs: API.PaginatedOperationMethod<
-  ListImportJobsRequest,
+  ListImportJobsRequest & RegionInput,
   ListImportJobsResponse,
   ListImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1521,6 +1585,8 @@ export const listImportJobs: API.PaginatedOperationMethod<
     items: "importJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportJobs",
 })) as any;
 
 export type ListKnowledgeBasesError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1528,7 +1594,7 @@ export type ListKnowledgeBasesError = AccessDeniedException | ValidationExceptio
  * Lists the knowledge bases.
  */
 export const listKnowledgeBases: API.PaginatedOperationMethod<
-  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesRequest & RegionInput,
   ListKnowledgeBasesResponse,
   ListKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -1546,6 +1612,8 @@ export const listKnowledgeBases: API.PaginatedOperationMethod<
     items: "knowledgeBaseSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKnowledgeBases",
 })) as any;
 
 export type ListQuickResponsesError =
@@ -1557,7 +1625,7 @@ export type ListQuickResponsesError =
  * Lists information about quick response.
  */
 export const listQuickResponses: API.PaginatedOperationMethod<
-  ListQuickResponsesRequest,
+  ListQuickResponsesRequest & RegionInput,
   ListQuickResponsesResponse,
   ListQuickResponsesError,
   Credentials | HttpClient.HttpClient,
@@ -1575,6 +1643,8 @@ export const listQuickResponses: API.PaginatedOperationMethod<
     items: "quickResponseSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQuickResponses",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1582,7 +1652,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1593,6 +1663,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type NotifyRecommendationsReceivedError =
@@ -1606,7 +1678,7 @@ export type NotifyRecommendationsReceivedError =
  * behavior and avoiding duplicate recommendations.
  */
 export const notifyRecommendationsReceived: API.OperationMethod<
-  NotifyRecommendationsReceivedRequest,
+  NotifyRecommendationsReceivedRequest & RegionInput,
   NotifyRecommendationsReceivedResponse,
   NotifyRecommendationsReceivedError,
   Credentials | HttpClient.HttpClient
@@ -1617,6 +1689,8 @@ export const notifyRecommendationsReceived: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyRecommendationsReceived",
+  telemetry: TELEMETRY,
+  span: "NotifyRecommendationsReceived",
 }));
 
 export type QueryAssistantError =
@@ -1630,7 +1704,7 @@ export type QueryAssistantError =
  * an assistant, use GetRecommendations.
  */
 export const queryAssistant: API.PaginatedOperationMethod<
-  QueryAssistantRequest,
+  QueryAssistantRequest & RegionInput,
   QueryAssistantResponse,
   QueryAssistantError,
   Credentials | HttpClient.HttpClient,
@@ -1653,6 +1727,8 @@ export const queryAssistant: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "QueryAssistant",
 })) as any;
 
 export type RemoveKnowledgeBaseTemplateUriError =
@@ -1664,7 +1740,7 @@ export type RemoveKnowledgeBaseTemplateUriError =
  * Removes a URI template from a knowledge base.
  */
 export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
-  RemoveKnowledgeBaseTemplateUriRequest,
+  RemoveKnowledgeBaseTemplateUriRequest & RegionInput,
   RemoveKnowledgeBaseTemplateUriResponse,
   RemoveKnowledgeBaseTemplateUriError,
   Credentials | HttpClient.HttpClient
@@ -1675,6 +1751,8 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveKnowledgeBaseTemplateUri",
+  telemetry: TELEMETRY,
+  span: "RemoveKnowledgeBaseTemplateUri",
 }));
 
 export type SearchContentError =
@@ -1687,7 +1765,7 @@ export type SearchContentError =
  * resource by its name.
  */
 export const searchContent: API.PaginatedOperationMethod<
-  SearchContentRequest,
+  SearchContentRequest & RegionInput,
   SearchContentResponse,
   SearchContentError,
   Credentials | HttpClient.HttpClient,
@@ -1705,6 +1783,8 @@ export const searchContent: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchContent",
 })) as any;
 
 export type SearchQuickResponsesError =
@@ -1717,7 +1797,7 @@ export type SearchQuickResponsesError =
  * Searches existing Wisdom quick responses in a Wisdom knowledge base.
  */
 export const searchQuickResponses: API.PaginatedOperationMethod<
-  SearchQuickResponsesRequest,
+  SearchQuickResponsesRequest & RegionInput,
   SearchQuickResponsesResponse,
   SearchQuickResponsesError,
   Credentials | HttpClient.HttpClient,
@@ -1740,6 +1820,8 @@ export const searchQuickResponses: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchQuickResponses",
 })) as any;
 
 export type SearchSessionsError =
@@ -1751,7 +1833,7 @@ export type SearchSessionsError =
  * Searches for sessions.
  */
 export const searchSessions: API.PaginatedOperationMethod<
-  SearchSessionsRequest,
+  SearchSessionsRequest & RegionInput,
   SearchSessionsResponse,
   SearchSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1769,6 +1851,8 @@ export const searchSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSessions",
 })) as any;
 
 export type StartContentUploadError =
@@ -1783,7 +1867,7 @@ export type StartContentUploadError =
  * knowledge base of type CUSTOM.
  */
 export const startContentUpload: API.OperationMethod<
-  StartContentUploadRequest,
+  StartContentUploadRequest & RegionInput,
   StartContentUploadResponse,
   StartContentUploadError,
   Credentials | HttpClient.HttpClient
@@ -1794,6 +1878,8 @@ export const startContentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentUpload",
+  telemetry: TELEMETRY,
+  span: "StartContentUpload",
 }));
 
 export type StartImportJobError =
@@ -1810,7 +1896,7 @@ export type StartImportJobError =
  * - For importing Wisdom quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
  */
 export const startImportJob: API.OperationMethod<
-  StartImportJobRequest,
+  StartImportJobRequest & RegionInput,
   StartImportJobResponse,
   StartImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1827,6 +1913,8 @@ export const startImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportJob",
+  telemetry: TELEMETRY,
+  span: "StartImportJob",
 }));
 
 export type TagResourceError = ResourceNotFoundException | TooManyTagsException | CommonErrors;
@@ -1834,7 +1922,7 @@ export type TagResourceError = ResourceNotFoundException | TooManyTagsException 
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1845,6 +1933,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -1852,7 +1942,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1863,6 +1953,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateContentError =
@@ -1875,7 +1967,7 @@ export type UpdateContentError =
  * Updates information about the content.
  */
 export const updateContent: API.OperationMethod<
-  UpdateContentRequest,
+  UpdateContentRequest & RegionInput,
   UpdateContentResponse,
   UpdateContentError,
   Credentials | HttpClient.HttpClient
@@ -1891,6 +1983,8 @@ export const updateContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContent",
+  telemetry: TELEMETRY,
+  span: "UpdateContent",
 }));
 
 export type UpdateKnowledgeBaseTemplateUriError =
@@ -1906,7 +2000,7 @@ export type UpdateKnowledgeBaseTemplateUriError =
  * `https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*\/view`.
  */
 export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
-  UpdateKnowledgeBaseTemplateUriRequest,
+  UpdateKnowledgeBaseTemplateUriRequest & RegionInput,
   UpdateKnowledgeBaseTemplateUriResponse,
   UpdateKnowledgeBaseTemplateUriError,
   Credentials | HttpClient.HttpClient
@@ -1917,6 +2011,8 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBaseTemplateUri",
+  telemetry: TELEMETRY,
+  span: "UpdateKnowledgeBaseTemplateUri",
 }));
 
 export type UpdateQuickResponseError =
@@ -1930,7 +2026,7 @@ export type UpdateQuickResponseError =
  * Updates an existing Wisdom quick response.
  */
 export const updateQuickResponse: API.OperationMethod<
-  UpdateQuickResponseRequest,
+  UpdateQuickResponseRequest & RegionInput,
   UpdateQuickResponseResponse,
   UpdateQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -1947,6 +2043,8 @@ export const updateQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickResponse",
+  telemetry: TELEMETRY,
+  span: "UpdateQuickResponse",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

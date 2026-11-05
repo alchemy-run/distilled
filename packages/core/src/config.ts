@@ -13,8 +13,9 @@
  * - Otherwise the value comes from `process.env`, which is what Effect's
  *   default provider reads.
  *
- * A missing variable fails with {@link ConfigMissing} (tag `ConfigError`, like
- * Effect's), which `withDefault`, `option` and `orElse` handle.
+ * A missing variable fails with {@link ConfigError} (with its `key`), which `withDefault`, `option` and `orElse` handle. A provided
+ * `ConfigProvider` that cannot read its source fails with its `SourceError`,
+ * which those helpers pass through.
  *
  * Credentials read these on every request, so without a provider a whole
  * reader tree (`all`, `withDefault`, `orElse`, ...) runs as one synchronous
@@ -23,25 +24,30 @@
  * A missing value inside the tree is a plain marker; the tagged error is
  * only built if the whole tree fails.
  */
+import type { SourceError } from "effect/ConfigProvider";
 import * as Context from "effect/Context";
-import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Redact from "effect/Redacted";
+import * as Category from "./category.ts";
+import * as Schema from "./schema-lite-typed.ts";
 
-/** A required configuration value is missing. */
-export class ConfigMissing
-  extends /*@__PURE__*/ Data.TaggedError("ConfigError")<{
-    readonly name: string;
-    readonly message: string;
-  }> {}
+/**
+ * Configuration error - missing or invalid configuration. `key` is the
+ * configuration value (e.g. an environment variable) when one is missing.
+ */
+export class ConfigError
+  extends /*@__PURE__*/ Schema.TaggedError<ConfigError>()("ConfigError", {
+    message: Schema.String,
+    key: /*@__PURE__*/ Schema.optional(Schema.String),
+  }).pipe(Category.withConfigurationError) {}
 
 const CONFIG_PROVIDER_KEY = "effect/ConfigProvider";
 
 interface ProvidedConfigProvider {
   readonly load: (
     path: ReadonlyArray<string>,
-  ) => Effect.Effect<{ readonly _tag: string; readonly value?: string } | undefined, unknown>;
+  ) => Effect.Effect<{ readonly _tag: string; readonly value?: string } | undefined, SourceError>;
 }
 
 const fromEnv = (name: string): string | undefined =>
@@ -81,7 +87,7 @@ const hasProvider = (context: Context.Context<never>): boolean =>
   Context.getOrUndefined(context, providerKey) !== undefined;
 
 const missingError = (m: Missing) =>
-  new ConfigMissing({ name: m.name, message: `Expected ${m.name} to be set` });
+  new ConfigError({ key: m.name, message: `Expected ${m.name} to be set` });
 
 const fromReader = <A>(reader: Reader<A>): Effect.Effect<A, any, any> => {
   const effect = Effect.withFiber((fiber) => {
@@ -94,41 +100,62 @@ const fromReader = <A>(reader: Reader<A>): Effect.Effect<A, any, any> => {
   return effect;
 };
 
-/** The raw value of `name` from the provided `ConfigProvider`, or undefined when unset. */
-const lookup = (name: string): Effect.Effect<string | undefined> =>
+/**
+ * The raw value of `name` from the provided `ConfigProvider`, or undefined
+ * when unset. A provider that cannot read its source fails with `SourceError`.
+ */
+const lookup = (name: string): Effect.Effect<string | undefined, SourceError> =>
   Effect.flatMap(Effect.context<never>(), (context) => {
     const provider = context.mapUnsafe.get(CONFIG_PROVIDER_KEY) as
       | ProvidedConfigProvider
       | undefined;
     if (!provider) return Effect.succeed(fromEnv(name));
-    return provider.load([name]).pipe(
-      Effect.map((node) => (node?._tag === "Value" ? node.value : undefined)),
-      Effect.orElseSucceed(() => undefined),
+    return Effect.map(provider.load([name]), (node) =>
+      node?._tag === "Value" ? node.value : undefined,
     );
   });
 
-const required = (name: string): Effect.Effect<string, ConfigMissing> =>
+const required = (name: string): Effect.Effect<string, ConfigError | SourceError> =>
   fromReader({
     read: () => fromEnv(name) ?? new Missing(name),
     viaEffect: () =>
       Effect.flatMap(lookup(name), (value) =>
         value === undefined ? Effect.fail(missingError(new Missing(name))) : Effect.succeed(value),
       ),
-  }) as Effect.Effect<string, ConfigMissing>;
+  }) as Effect.Effect<string, ConfigError | SourceError>;
 
 /** The string value of environment variable `name`. */
-export const String = (name: string): Effect.Effect<string, ConfigMissing> => required(name);
+export const String = (name: string): Effect.Effect<string, ConfigError | SourceError> =>
+  required(name);
 
 /** The value of `name`, redacted. */
-export const Redacted = (name: string): Effect.Effect<Redact.Redacted<string>, ConfigMissing> =>
+export const Redacted = (
+  name: string,
+): Effect.Effect<Redact.Redacted<string>, ConfigError | SourceError> =>
   map((value: string) => Redact.make(value))(required(name));
+
+/**
+ * The failure of a missing value: {@link ConfigError}, matched by its tag
+ * (Effect's own config errors share it). `option`, `withDefault` and `orElse` handle
+ * only this failure; any other failure of `self` propagates.
+ */
+type Missed = { readonly _tag: "ConfigError" };
+
+const isMissed = (error: unknown): boolean =>
+  typeof error === "object" && error !== null && (error as Missed)._tag === "ConfigError";
+
+const catchMissed = <A, E, R, A2, E2, R2>(
+  self: Effect.Effect<A, E, R>,
+  f: () => Effect.Effect<A2, E2, R2>,
+): Effect.Effect<A | A2, Exclude<E, Missed> | E2, R | R2> =>
+  Effect.catchIf(self, isMissed, f) as Effect.Effect<A | A2, Exclude<E, Missed> | E2, R | R2>;
 
 /** The value as an `Option`: `None` when missing. */
 export const option = <A, E, R>(
   self: Effect.Effect<A, E, R>,
-): Effect.Effect<Option.Option<A>, never, R> => {
+): Effect.Effect<Option.Option<A>, Exclude<E, Missed>, R> => {
   const viaEffect = () =>
-    Effect.catch(Effect.map(self, Option.some), () => Effect.succeed(Option.none<A>()));
+    catchMissed(Effect.map(self, Option.some), () => Effect.succeed(Option.none<A>()));
   const reader = readerOf(self);
   if (!reader) return viaEffect();
   return fromReader({
@@ -138,14 +165,14 @@ export const option = <A, E, R>(
       return value instanceof Missing ? Option.none<A>() : Option.some(value);
     },
     viaEffect,
-  }) as Effect.Effect<Option.Option<A>, never, R>;
+  }) as Effect.Effect<Option.Option<A>, Exclude<E, Missed>, R>;
 };
 
 /** Use `value` when missing. */
 export const withDefault =
   <B>(value: B) =>
-  <A, E, R>(self: Effect.Effect<A, E, R>): Effect.Effect<A | B, never, R> => {
-    const viaEffect = () => Effect.catch(self, () => Effect.succeed(value));
+  <A, E, R>(self: Effect.Effect<A, E, R>): Effect.Effect<A | B, Exclude<E, Missed>, R> => {
+    const viaEffect = () => catchMissed(self, () => Effect.succeed(value));
     const reader = readerOf(self);
     if (!reader) return viaEffect();
     return fromReader<A | B>({
@@ -154,14 +181,16 @@ export const withDefault =
         return v instanceof Missing ? value : v;
       },
       viaEffect,
-    }) as Effect.Effect<A | B, never, R>;
+    }) as Effect.Effect<A | B, Exclude<E, Missed>, R>;
   };
 
 /** Try `that` when missing. */
 export const orElse =
   <A2, E2, R2>(that: () => Effect.Effect<A2, E2, R2>) =>
-  <A, E, R>(self: Effect.Effect<A, E, R>): Effect.Effect<A | A2, E2, R | R2> => {
-    const viaEffect = () => Effect.catch(self, () => that());
+  <A, E, R>(
+    self: Effect.Effect<A, E, R>,
+  ): Effect.Effect<A | A2, Exclude<E, Missed> | E2, R | R2> => {
+    const viaEffect = () => catchMissed(self, that);
     const reader = readerOf(self);
     if (!reader) return viaEffect();
     return fromReader<A | A2>({
@@ -172,7 +201,7 @@ export const orElse =
         return fallback ? fallback.read() : DEFER;
       },
       viaEffect,
-    }) as Effect.Effect<A | A2, E2, R | R2>;
+    }) as Effect.Effect<A | A2, Exclude<E, Missed> | E2, R | R2>;
   };
 
 export const map =

@@ -26,6 +26,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   tokenSubscribe: "token_subscribe",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Moq",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface CreateRelayRequest {
   /** Cloudflare account identifier. */
   accountId: string;
@@ -316,6 +330,8 @@ export const createRelay: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRelay",
 }));
 
 export type CreateRelaysTokenError = CloudflareOpError;
@@ -331,6 +347,8 @@ export const createRelaysToken: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRelaysToken",
 }));
 
 export type DeleteRelayError = CloudflareOpError;
@@ -346,6 +364,8 @@ export const deleteRelay: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRelay",
 }));
 
 export type DeleteRelaysTokenError = CloudflareOpError;
@@ -361,6 +381,8 @@ export const deleteRelaysToken: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRelaysToken",
 }));
 
 export type GetRelayError = CloudflareOpError;
@@ -376,6 +398,8 @@ export const getRelay: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRelay",
 }));
 
 export type ListRelaysError = CloudflareOpError;
@@ -393,6 +417,8 @@ export const listRelays: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRelays",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -411,6 +437,8 @@ export const listRelaysTokens: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRelaysTokens",
 }));
 
 export type RotateRelayTokenError = CloudflareOpError;
@@ -426,6 +454,8 @@ export const rotateRelayToken: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateRelayToken",
 }));
 
 export type UpdateRelayError = CloudflareOpError;
@@ -441,6 +471,8 @@ export const updateRelay: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRelay",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

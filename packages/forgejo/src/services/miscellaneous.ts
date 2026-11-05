@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoMiscellaneous",
+  labels: "forgejo",
+  propagate: "w3c",
+} as const;
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -403,6 +416,8 @@ export const getActionsRun: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsRun",
 }));
 
 export type GetGitignoreTemplateInfoError = NotFound | ForgejoOpError;
@@ -418,6 +433,8 @@ export const getGitignoreTemplateInfo: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitignoreTemplateInfo",
 }));
 
 export type GetLabelTemplateInfoError = NotFound | ForgejoOpError;
@@ -433,6 +450,8 @@ export const getLabelTemplateInfo: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLabelTemplateInfo",
 }));
 
 export type GetLicenseTemplateInfoError = NotFound | ForgejoOpError;
@@ -448,6 +467,8 @@ export const getLicenseTemplateInfo: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLicenseTemplateInfo",
 }));
 
 export type GetNodeInfoError = ForgejoOpError;
@@ -463,6 +484,8 @@ export const getNodeInfo: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNodeInfo",
 }));
 
 export type GetSigningKeyError = ForgejoOpError;
@@ -478,6 +501,8 @@ export const getSigningKey: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSigningKey",
 }));
 
 export type GetSSHSigningKeyError = NotFound | ForgejoOpError;
@@ -493,6 +518,8 @@ export const getSSHSigningKey: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSSHSigningKey",
 }));
 
 export type GetVersionError = ForgejoOpError;
@@ -508,6 +535,8 @@ export const getVersion: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type ListGitignoresTemplatesError = ForgejoOpError;
@@ -523,6 +552,8 @@ export const listGitignoresTemplates: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitignoresTemplates",
 }));
 
 export type ListLabelTemplatesError = ForgejoOpError;
@@ -538,6 +569,8 @@ export const listLabelTemplates: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabelTemplates",
 }));
 
 export type ListLicenseTemplatesError = ForgejoOpError;
@@ -553,6 +586,8 @@ export const listLicenseTemplates: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLicenseTemplates",
 }));
 
 export type RenderMarkdownError = UnprocessableEntity | ForgejoOpError;
@@ -568,6 +603,8 @@ export const renderMarkdown: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderMarkdown",
 }));
 
 export type RenderMarkdownRawError = UnprocessableEntity | ForgejoOpError;
@@ -583,6 +620,8 @@ export const renderMarkdownRaw: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderMarkdownRaw",
 }));
 
 export type RenderMarkupError = UnprocessableEntity | ForgejoOpError;
@@ -598,6 +637,8 @@ export const renderMarkup: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderMarkup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

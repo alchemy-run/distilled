@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -110,6 +112,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "FreeTier",
+  service: "FreeTier",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -287,7 +304,7 @@ export type GetAccountActivityError =
  * Returns a specific activity record that is available to the customer.
  */
 export const getAccountActivity: API.OperationMethod<
-  GetAccountActivityRequest,
+  GetAccountActivityRequest & RegionInput,
   GetAccountActivityResponse,
   GetAccountActivityError,
   Credentials | HttpClient.HttpClient
@@ -303,6 +320,8 @@ export const getAccountActivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountActivity",
+  telemetry: TELEMETRY,
+  span: "GetAccountActivity",
 }));
 
 export type GetAccountPlanStateError =
@@ -316,7 +335,7 @@ export type GetAccountPlanStateError =
  * This returns all of the information related to the state of the account plan related to Free Tier.
  */
 export const getAccountPlanState: API.OperationMethod<
-  GetAccountPlanStateRequest,
+  GetAccountPlanStateRequest & RegionInput,
   GetAccountPlanStateResponse,
   GetAccountPlanStateError,
   Credentials | HttpClient.HttpClient
@@ -333,6 +352,8 @@ export const getAccountPlanState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPlanState",
+  telemetry: TELEMETRY,
+  span: "GetAccountPlanState",
 }));
 
 export type GetFreeTierUsageError =
@@ -344,7 +365,7 @@ export type GetFreeTierUsageError =
  * Returns a list of all Free Tier usage objects that match your filters.
  */
 export const getFreeTierUsage: API.PaginatedOperationMethod<
-  GetFreeTierUsageRequest,
+  GetFreeTierUsageRequest & RegionInput,
   GetFreeTierUsageResponse,
   GetFreeTierUsageError,
   Credentials | HttpClient.HttpClient,
@@ -362,6 +383,8 @@ export const getFreeTierUsage: API.PaginatedOperationMethod<
     items: "freeTierUsages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFreeTierUsage",
 })) as any;
 
 export type ListAccountActivitiesError =
@@ -373,7 +396,7 @@ export type ListAccountActivitiesError =
  * Returns a list of activities that are available. This operation supports pagination and filtering by status.
  */
 export const listAccountActivities: API.PaginatedOperationMethod<
-  ListAccountActivitiesRequest,
+  ListAccountActivitiesRequest & RegionInput,
   ListAccountActivitiesResponse,
   ListAccountActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -391,6 +414,8 @@ export const listAccountActivities: API.PaginatedOperationMethod<
     items: "activities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountActivities",
 })) as any;
 
 export type UpgradeAccountPlanError =
@@ -404,7 +429,7 @@ export type UpgradeAccountPlanError =
  * The account plan type for the Amazon Web Services account.
  */
 export const upgradeAccountPlan: API.OperationMethod<
-  UpgradeAccountPlanRequest,
+  UpgradeAccountPlanRequest & RegionInput,
   UpgradeAccountPlanResponse,
   UpgradeAccountPlanError,
   Credentials | HttpClient.HttpClient
@@ -421,6 +446,8 @@ export const upgradeAccountPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeAccountPlan",
+  telemetry: TELEMETRY,
+  span: "UpgradeAccountPlan",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

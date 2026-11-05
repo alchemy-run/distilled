@@ -27,7 +27,7 @@ export default function Shame() {
             <em>The Wall of Shame</em>
           </h1>
           <h2 id="shame-title" class="mb-5">
-            If you're api is on this list: <strong>fix your spec</strong>
+            If your api is on this list: <strong>fix your spec</strong>
           </h2>
           <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
             Every generated SDK: ours, the vendor's, the one you'd write; is only ever as good as

@@ -3,7 +3,7 @@
  * `id` and `vector` (issue #706). They survive the wire in both directions,
  * pass strict response validation, and type as `unknown` on `Row`.
  */
-import { mockHttpClient, runValidationModes } from "@distilled.cloud/core/testing";
+import { mockHttpClient, runValidationModes } from "@distilled.cloud/dev/testing";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, expectTypeOf, test } from "vitest";

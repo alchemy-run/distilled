@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { CoolifyOpError, CoolifyOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "coolify-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Coolify",
+  service: "Coolify",
+  labels: "coolify",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -5499,6 +5512,8 @@ export const addApplicationDestination: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddApplicationDestination",
 }));
 
 export type CancelDeploymentByUuidError = BadRequest | Forbidden | NotFound | CoolifyOpError;
@@ -5514,6 +5529,8 @@ export const cancelDeploymentByUuid: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDeploymentByUuid",
 }));
 
 export type CheckServerRegistryLoginError =
@@ -5533,6 +5550,8 @@ export const checkServerRegistryLogin: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServerRegistryLogin",
 }));
 
 export type CloneApplicationByUuidError =
@@ -5552,6 +5571,8 @@ export const cloneApplicationByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneApplicationByUuid",
 }));
 
 export type CloneDatabaseByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -5567,6 +5588,8 @@ export const cloneDatabaseByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneDatabaseByUuid",
 }));
 
 export type CloneServiceByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -5582,6 +5605,8 @@ export const cloneServiceByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneServiceByUuid",
 }));
 
 export type ConfigureApplicationSecretManagerError =
@@ -5600,6 +5625,8 @@ export const configureApplicationSecretManager: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigureApplicationSecretManager",
 }));
 
 export type CreateCloudInitScriptError = Forbidden | UnprocessableEntity | CoolifyOpError;
@@ -5615,6 +5642,8 @@ export const createCloudInitScript: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudInitScript",
 }));
 
 export type CreateCloudTokenError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5630,6 +5659,8 @@ export const createCloudToken: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudToken",
 }));
 
 export type CreateDatabaseBackupError =
@@ -5649,6 +5680,8 @@ export const createDatabaseBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseBackup",
 }));
 
 export type CreateDatabaseClickhouseError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5664,6 +5697,8 @@ export const createDatabaseClickhouse: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseClickhouse",
 }));
 
 export type CreateDatabaseDragonflyError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5679,6 +5714,8 @@ export const createDatabaseDragonfly: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseDragonfly",
 }));
 
 export type CreateDatabaseImportError = Conflict | UnprocessableEntity | CoolifyOpError;
@@ -5694,6 +5731,8 @@ export const createDatabaseImport: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseImport",
 }));
 
 export type CreateDatabaseKeydbError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5709,6 +5748,8 @@ export const createDatabaseKeydb: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseKeydb",
 }));
 
 export type CreateDatabaseMariadbError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5724,6 +5765,8 @@ export const createDatabaseMariadb: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseMariadb",
 }));
 
 export type CreateDatabaseMongodbError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5739,6 +5782,8 @@ export const createDatabaseMongodb: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseMongodb",
 }));
 
 export type CreateDatabaseMysqlError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5754,6 +5799,8 @@ export const createDatabaseMysql: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseMysql",
 }));
 
 export type CreateDatabasePostgresqlError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5769,6 +5816,8 @@ export const createDatabasePostgresql: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabasePostgresql",
 }));
 
 export type CreateDatabaseRedisError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5784,6 +5833,8 @@ export const createDatabaseRedis: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseRedis",
 }));
 
 export type CreateDatabaseSqliteError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5799,6 +5850,8 @@ export const createDatabaseSqlite: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseSqlite",
 }));
 
 export type CreateDigitaloceanServerError = UnprocessableEntity | CoolifyOpError;
@@ -5814,6 +5867,8 @@ export const createDigitaloceanServer: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDigitaloceanServer",
 }));
 
 export type CreateDockerfileApplicationError = BadRequest | Conflict | CoolifyOpError;
@@ -5829,6 +5884,8 @@ export const createDockerfileApplication: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDockerfileApplication",
 }));
 
 export type CreateDockerimageApplicationError = BadRequest | Conflict | CoolifyOpError;
@@ -5844,6 +5901,8 @@ export const createDockerimageApplication: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDockerimageApplication",
 }));
 
 export type CreateEnvByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -5859,6 +5918,8 @@ export const createEnvByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvByApplicationUuid",
 }));
 
 export type CreateEnvByDatabaseUuidError =
@@ -5878,6 +5939,8 @@ export const createEnvByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvByDatabaseUuid",
 }));
 
 export type CreateEnvByServiceUuidError =
@@ -5897,6 +5960,8 @@ export const createEnvByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvByServiceUuid",
 }));
 
 export type CreateEnvironmentError =
@@ -5917,6 +5982,8 @@ export const createEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateEnvironmentSharedEnvError =
@@ -5936,6 +6003,8 @@ export const createEnvironmentSharedEnv: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentSharedEnv",
 }));
 
 export type CreateGithubAppError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5951,6 +6020,8 @@ export const createGithubApp: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGithubApp",
 }));
 
 export type CreateGitlabAppError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -5966,6 +6037,8 @@ export const createGitlabApp: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGitlabApp",
 }));
 
 export type CreateHetznerServerError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -5981,6 +6054,8 @@ export const createHetznerServer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHetznerServer",
 }));
 
 export type CreatePreviewDeploymentByApplicationUuidError =
@@ -6000,6 +6075,8 @@ export const createPreviewDeploymentByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePreviewDeploymentByApplicationUuid",
 }));
 
 export type CreatePrivateDeployKeyApplicationError = BadRequest | Conflict | CoolifyOpError;
@@ -6015,6 +6092,8 @@ export const createPrivateDeployKeyApplication: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateDeployKeyApplication",
 }));
 
 export type CreatePrivateGithubAppApplicationError = BadRequest | Conflict | CoolifyOpError;
@@ -6030,6 +6109,8 @@ export const createPrivateGithubAppApplication: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateGithubAppApplication",
 }));
 
 export type CreatePrivateKeyError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -6045,6 +6126,8 @@ export const createPrivateKey: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateKey",
 }));
 
 export type CreateProjectError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -6060,6 +6143,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateProjectSharedEnvError =
@@ -6079,6 +6164,8 @@ export const createProjectSharedEnv: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectSharedEnv",
 }));
 
 export type CreatePublicApplicationError = BadRequest | Conflict | CoolifyOpError;
@@ -6094,6 +6181,8 @@ export const createPublicApplication: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicApplication",
 }));
 
 export type CreateS3StorageError = BadRequest | UnprocessableEntity | CoolifyOpError;
@@ -6109,6 +6198,8 @@ export const createS3Storage: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateS3Storage",
 }));
 
 export type CreateScheduledTaskByApplicationUuidError =
@@ -6127,6 +6218,8 @@ export const createScheduledTaskByApplicationUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScheduledTaskByApplicationUuid",
 }));
 
 export type CreateScheduledTaskByServiceUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -6142,6 +6235,8 @@ export const createScheduledTaskByServiceUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScheduledTaskByServiceUuid",
 }));
 
 export type CreateSecretManagerIntegrationTokenError =
@@ -6160,6 +6255,8 @@ export const createSecretManagerIntegrationToken: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretManagerIntegrationToken",
 }));
 
 export type CreateServerError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -6175,6 +6272,8 @@ export const createServer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServer",
 }));
 
 export type CreateServerDestinationError =
@@ -6194,6 +6293,8 @@ export const createServerDestination: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServerDestination",
 }));
 
 export type CreateServerSharedEnvError = NotFound | Conflict | UnprocessableEntity | CoolifyOpError;
@@ -6209,6 +6310,8 @@ export const createServerSharedEnv: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServerSharedEnv",
 }));
 
 export type CreateServiceError = BadRequest | Conflict | UnprocessableEntity | CoolifyOpError;
@@ -6224,6 +6327,8 @@ export const createService: API.OperationMethod<
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateServiceDatabaseImportError = Conflict | UnprocessableEntity | CoolifyOpError;
@@ -6239,6 +6344,8 @@ export const createServiceDatabaseImport: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceDatabaseImport",
 }));
 
 export type CreateStorageByApplicationUuidError =
@@ -6259,6 +6366,8 @@ export const createStorageByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageByApplicationUuid",
 }));
 
 export type CreateStorageByDatabaseUuidError =
@@ -6279,6 +6388,8 @@ export const createStorageByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageByDatabaseUuid",
 }));
 
 export type CreateStorageByServiceUuidError =
@@ -6299,6 +6410,8 @@ export const createStorageByServiceUuid: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageByServiceUuid",
 }));
 
 export type CreateTagError = BadRequest | Conflict | UnprocessableEntity | CoolifyOpError;
@@ -6314,6 +6427,8 @@ export const createTag: API.OperationMethod<
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTag",
 }));
 
 export type CreateTagByApplicationUuidError =
@@ -6333,6 +6448,8 @@ export const createTagByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagByApplicationUuid",
 }));
 
 export type CreateTagByDatabaseUuidError =
@@ -6352,6 +6469,8 @@ export const createTagByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagByDatabaseUuid",
 }));
 
 export type CreateTagByServiceUuidError =
@@ -6371,6 +6490,8 @@ export const createTagByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagByServiceUuid",
 }));
 
 export type CreateTeamSharedEnvError = Conflict | UnprocessableEntity | CoolifyOpError;
@@ -6386,6 +6507,8 @@ export const createTeamSharedEnv: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamSharedEnv",
 }));
 
 export type CreateVultrServerError = UnprocessableEntity | CoolifyOpError;
@@ -6401,6 +6524,8 @@ export const createVultrServer: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVultrServer",
 }));
 
 export type DeleteApplicationError = BadRequest | NotFound | CoolifyOpError;
@@ -6416,6 +6541,8 @@ export const deleteApplication: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationStorageBackupScheduleError =
@@ -6435,6 +6562,8 @@ export const deleteApplicationStorageBackupSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationStorageBackupSchedule",
 }));
 
 export type DeleteBackupConfigurationByUuidError = NotFound | CoolifyOpError;
@@ -6450,6 +6579,8 @@ export const deleteBackupConfigurationByUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupConfigurationByUuid",
 }));
 
 export type DeleteBackupExecutionByUuidError = NotFound | CoolifyOpError;
@@ -6465,6 +6596,8 @@ export const deleteBackupExecutionByUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupExecutionByUuid",
 }));
 
 export type DeleteCloudInitScriptError = Forbidden | NotFound | CoolifyOpError;
@@ -6480,6 +6613,8 @@ export const deleteCloudInitScript: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudInitScript",
 }));
 
 export type DeleteCloudTokenError = BadRequest | NotFound | CoolifyOpError;
@@ -6495,6 +6630,8 @@ export const deleteCloudToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudToken",
 }));
 
 export type DeleteDatabaseError = BadRequest | NotFound | CoolifyOpError;
@@ -6510,6 +6647,8 @@ export const deleteDatabase: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteDatabaseStorageBackupScheduleError =
@@ -6529,6 +6668,8 @@ export const deleteDatabaseStorageBackupSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseStorageBackupSchedule",
 }));
 
 export type DeleteDestinationError = NotFound | Conflict | CoolifyOpError;
@@ -6544,6 +6685,8 @@ export const deleteDestination: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDestination",
 }));
 
 export type DeleteEnvByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -6559,6 +6702,8 @@ export const deleteEnvByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvByApplicationUuid",
 }));
 
 export type DeleteEnvByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -6574,6 +6719,8 @@ export const deleteEnvByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvByDatabaseUuid",
 }));
 
 export type DeleteEnvByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -6589,6 +6736,8 @@ export const deleteEnvByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvByServiceUuid",
 }));
 
 export type DeleteEnvironmentError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -6604,6 +6753,8 @@ export const deleteEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteEnvironmentSharedEnvError = NotFound | CoolifyOpError;
@@ -6619,6 +6770,8 @@ export const deleteEnvironmentSharedEnv: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentSharedEnv",
 }));
 
 export type DeleteGithubAppError = NotFound | Conflict | CoolifyOpError;
@@ -6634,6 +6787,8 @@ export const deleteGithubApp: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGithubApp",
 }));
 
 export type DeleteGitlabAppError = NotFound | Conflict | CoolifyOpError;
@@ -6649,6 +6804,8 @@ export const deleteGitlabApp: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGitlabApp",
 }));
 
 export type DeletePreviewDeploymentByPullRequestIdError =
@@ -6668,6 +6825,8 @@ export const deletePreviewDeploymentByPullRequestId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePreviewDeploymentByPullRequestId",
 }));
 
 export type DeletePrivateKeyByUuidError =
@@ -6687,6 +6846,8 @@ export const deletePrivateKeyByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateKeyByUuid",
 }));
 
 export type DeleteProjectError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -6702,6 +6863,8 @@ export const deleteProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectSharedEnvError = NotFound | CoolifyOpError;
@@ -6717,6 +6880,8 @@ export const deleteProjectSharedEnv: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectSharedEnv",
 }));
 
 export type DeleteS3StorageError = NotFound | CoolifyOpError;
@@ -6732,6 +6897,8 @@ export const deleteS3Storage: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteS3Storage",
 }));
 
 export type DeleteScheduledTaskByApplicationUuidError = NotFound | CoolifyOpError;
@@ -6747,6 +6914,8 @@ export const deleteScheduledTaskByApplicationUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledTaskByApplicationUuid",
 }));
 
 export type DeleteScheduledTaskByServiceUuidError = NotFound | CoolifyOpError;
@@ -6762,6 +6931,8 @@ export const deleteScheduledTaskByServiceUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledTaskByServiceUuid",
 }));
 
 export type DeleteServerError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -6777,6 +6948,8 @@ export const deleteServer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServer",
 }));
 
 export type DeleteServerSharedEnvError = NotFound | CoolifyOpError;
@@ -6792,6 +6965,8 @@ export const deleteServerSharedEnv: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServerSharedEnv",
 }));
 
 export type DeleteServiceError = BadRequest | NotFound | CoolifyOpError;
@@ -6807,6 +6982,8 @@ export const deleteService: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteServiceStorageBackupScheduleError =
@@ -6826,6 +7003,8 @@ export const deleteServiceStorageBackupSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceStorageBackupSchedule",
 }));
 
 export type DeleteStorageByApplicationUuidError =
@@ -6845,6 +7024,8 @@ export const deleteStorageByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageByApplicationUuid",
 }));
 
 export type DeleteStorageByDatabaseUuidError =
@@ -6864,6 +7045,8 @@ export const deleteStorageByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageByDatabaseUuid",
 }));
 
 export type DeleteStorageByServiceUuidError =
@@ -6883,6 +7066,8 @@ export const deleteStorageByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageByServiceUuid",
 }));
 
 export type DeleteTagError = NotFound | CoolifyOpError;
@@ -6898,6 +7083,8 @@ export const deleteTag: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTag",
 }));
 
 export type DeleteTagByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -6913,6 +7100,8 @@ export const deleteTagByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagByApplicationUuid",
 }));
 
 export type DeleteTagByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -6928,6 +7117,8 @@ export const deleteTagByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagByDatabaseUuid",
 }));
 
 export type DeleteTagByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -6943,6 +7134,8 @@ export const deleteTagByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagByServiceUuid",
 }));
 
 export type DeleteTeamSharedEnvError = NotFound | CoolifyOpError;
@@ -6958,6 +7151,8 @@ export const deleteTeamSharedEnv: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamSharedEnv",
 }));
 
 export type DeployByTagOrUuidError = BadRequest | CoolifyOpError;
@@ -6973,6 +7168,8 @@ export const deployByTagOrUuid: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployByTagOrUuid",
 }));
 
 export type DisableApiError = BadRequest | Forbidden | CoolifyOpError;
@@ -6988,6 +7185,8 @@ export const disableApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableApi",
 }));
 
 export type DisableMcpError = BadRequest | Forbidden | CoolifyOpError;
@@ -7003,6 +7202,8 @@ export const disableMcp: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableMcp",
 }));
 
 export type DisableServerCloudflareTunnelError =
@@ -7022,6 +7223,8 @@ export const disableServerCloudflareTunnel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableServerCloudflareTunnel",
 }));
 
 export type EnableApiError = BadRequest | Forbidden | CoolifyOpError;
@@ -7037,6 +7240,8 @@ export const enableApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableApi",
 }));
 
 export type EnableMcpError = BadRequest | Forbidden | CoolifyOpError;
@@ -7052,6 +7257,8 @@ export const enableMcp: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableMcp",
 }));
 
 export type EnableServerCloudflareTunnelError =
@@ -7071,6 +7278,8 @@ export const enableServerCloudflareTunnel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableServerCloudflareTunnel",
 }));
 
 export type ExecuteScheduledTaskByApplicationUuidError = NotFound | CoolifyOpError;
@@ -7086,6 +7295,8 @@ export const executeScheduledTaskByApplicationUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteScheduledTaskByApplicationUuid",
 }));
 
 export type ExecuteScheduledTaskByServiceUuidError = NotFound | CoolifyOpError;
@@ -7101,6 +7312,8 @@ export const executeScheduledTaskByServiceUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteScheduledTaskByServiceUuid",
 }));
 
 export type GetApplicationError = BadRequest | NotFound | CoolifyOpError;
@@ -7116,6 +7329,8 @@ export const getApplication: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -7131,6 +7346,8 @@ export const getApplicationLogsByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationLogsByUuid",
 }));
 
 export type GetCloudInitScriptError = Forbidden | NotFound | CoolifyOpError;
@@ -7146,6 +7363,8 @@ export const getCloudInitScript: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudInitScript",
 }));
 
 export type GetCloudTokenError = NotFound | CoolifyOpError;
@@ -7161,6 +7380,8 @@ export const getCloudToken: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudToken",
 }));
 
 export type GetCurrentTeamDiscordNotificationsError = BadRequest | CoolifyOpError;
@@ -7176,6 +7397,8 @@ export const getCurrentTeamDiscordNotifications: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentTeamDiscordNotifications",
 }));
 
 export type GetCurrentTeamEmailNotificationsError = BadRequest | CoolifyOpError;
@@ -7191,6 +7414,8 @@ export const getCurrentTeamEmailNotifications: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentTeamEmailNotifications",
 }));
 
 export type GetCurrentTeamPushoverNotificationsError = BadRequest | CoolifyOpError;
@@ -7206,6 +7431,8 @@ export const getCurrentTeamPushoverNotifications: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentTeamPushoverNotifications",
 }));
 
 export type GetCurrentTeamSlackNotificationsError = BadRequest | CoolifyOpError;
@@ -7221,6 +7448,8 @@ export const getCurrentTeamSlackNotifications: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentTeamSlackNotifications",
 }));
 
 export type GetCurrentTeamTelegramNotificationsError = BadRequest | CoolifyOpError;
@@ -7236,6 +7465,8 @@ export const getCurrentTeamTelegramNotifications: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentTeamTelegramNotifications",
 }));
 
 export type GetCurrentTeamWebhookNotificationsError = BadRequest | CoolifyOpError;
@@ -7251,6 +7482,8 @@ export const getCurrentTeamWebhookNotifications: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentTeamWebhookNotifications",
 }));
 
 export type GetDatabaseError = BadRequest | NotFound | CoolifyOpError;
@@ -7266,6 +7499,8 @@ export const getDatabase: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDatabaseBackupsByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -7281,6 +7516,8 @@ export const getDatabaseBackupsByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseBackupsByUuid",
 }));
 
 export type GetDatabaseImportError = NotFound | CoolifyOpError;
@@ -7296,6 +7533,8 @@ export const getDatabaseImport: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseImport",
 }));
 
 export type GetDatabaseLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -7311,6 +7550,8 @@ export const getDatabaseLogsByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseLogsByUuid",
 }));
 
 export type GetDeploymentError = BadRequest | NotFound | CoolifyOpError;
@@ -7326,6 +7567,8 @@ export const getDeployment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDestinationError = NotFound | CoolifyOpError;
@@ -7341,6 +7584,8 @@ export const getDestination: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDestination",
 }));
 
 export type GetDigitaloceanImagesError = UnprocessableEntity | CoolifyOpError;
@@ -7356,6 +7601,8 @@ export const getDigitaloceanImages: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitaloceanImages",
 }));
 
 export type GetDigitaloceanRegionsError = UnprocessableEntity | CoolifyOpError;
@@ -7371,6 +7618,8 @@ export const getDigitaloceanRegions: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitaloceanRegions",
 }));
 
 export type GetDigitaloceanSizesError = UnprocessableEntity | CoolifyOpError;
@@ -7386,6 +7635,8 @@ export const getDigitaloceanSizes: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitaloceanSizes",
 }));
 
 export type GetDigitaloceanSshKeysError = UnprocessableEntity | CoolifyOpError;
@@ -7401,6 +7652,8 @@ export const getDigitaloceanSshKeys: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitaloceanSshKeys",
 }));
 
 export type GetDomainsByServerUuidError = BadRequest | CoolifyOpError;
@@ -7416,6 +7669,8 @@ export const getDomainsByServerUuid: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainsByServerUuid",
 }));
 
 export type GetEnvironmentByNameOrUuidError =
@@ -7435,6 +7690,8 @@ export const getEnvironmentByNameOrUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentByNameOrUuid",
 }));
 
 export type GetEnvironmentsError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -7450,6 +7707,8 @@ export const getEnvironments: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironments",
 }));
 
 export type GetHetznerFirewallsError = NotFound | CoolifyOpError;
@@ -7465,6 +7724,8 @@ export const getHetznerFirewalls: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHetznerFirewalls",
 }));
 
 export type GetHetznerImagesError = NotFound | CoolifyOpError;
@@ -7480,6 +7741,8 @@ export const getHetznerImages: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHetznerImages",
 }));
 
 export type GetHetznerLocationsError = NotFound | CoolifyOpError;
@@ -7495,6 +7758,8 @@ export const getHetznerLocations: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHetznerLocations",
 }));
 
 export type GetHetznerNetworksError = NotFound | CoolifyOpError;
@@ -7510,6 +7775,8 @@ export const getHetznerNetworks: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHetznerNetworks",
 }));
 
 export type GetHetznerServerTypesError = NotFound | CoolifyOpError;
@@ -7525,6 +7792,8 @@ export const getHetznerServerTypes: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHetznerServerTypes",
 }));
 
 export type GetHetznerSshKeysError = NotFound | CoolifyOpError;
@@ -7540,6 +7809,8 @@ export const getHetznerSshKeys: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHetznerSshKeys",
 }));
 
 export type GetInstanceEmailSettingsError = Forbidden | CoolifyOpError;
@@ -7555,6 +7826,8 @@ export const getInstanceEmailSettings: API.OperationMethod<
   errors: [Forbidden, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceEmailSettings",
 }));
 
 export type GetMembersByTeamIdError = BadRequest | NotFound | CoolifyOpError;
@@ -7570,6 +7843,8 @@ export const getMembersByTeamId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembersByTeamId",
 }));
 
 export type GetPreviewApplicationLogsByPullRequestIdError =
@@ -7589,6 +7864,8 @@ export const getPreviewApplicationLogsByPullRequestId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewApplicationLogsByPullRequestId",
 }));
 
 export type GetPreviewDeploymentByPullRequestIdError =
@@ -7607,6 +7884,8 @@ export const getPreviewDeploymentByPullRequestId: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewDeploymentByPullRequestId",
 }));
 
 export type GetPrivateKeyByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -7622,6 +7901,8 @@ export const getPrivateKeyByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateKeyByUuid",
 }));
 
 export type GetProjectError = BadRequest | NotFound | CoolifyOpError;
@@ -7637,6 +7918,8 @@ export const getProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetResourcesByServerUuidError = BadRequest | CoolifyOpError;
@@ -7652,6 +7935,8 @@ export const getResourcesByServerUuid: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcesByServerUuid",
 }));
 
 export type GetS3StorageError = NotFound | CoolifyOpError;
@@ -7667,6 +7952,8 @@ export const getS3Storage: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetS3Storage",
 }));
 
 export type GetServerError = BadRequest | NotFound | CoolifyOpError;
@@ -7682,6 +7969,8 @@ export const getServer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServer",
 }));
 
 export type GetServerCloudflareTunnelError = BadRequest | NotFound | CoolifyOpError;
@@ -7697,6 +7986,8 @@ export const getServerCloudflareTunnel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerCloudflareTunnel",
 }));
 
 export type GetServerDockerCleanupError = BadRequest | NotFound | CoolifyOpError;
@@ -7712,6 +8003,8 @@ export const getServerDockerCleanup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerDockerCleanup",
 }));
 
 export type GetServerLogDrainsError = BadRequest | NotFound | CoolifyOpError;
@@ -7727,6 +8020,8 @@ export const getServerLogDrains: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerLogDrains",
 }));
 
 export type GetServerProxyError = BadRequest | NotFound | CoolifyOpError;
@@ -7742,6 +8037,8 @@ export const getServerProxy: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerProxy",
 }));
 
 export type GetServerSentinelError = BadRequest | NotFound | CoolifyOpError;
@@ -7757,6 +8054,8 @@ export const getServerSentinel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerSentinel",
 }));
 
 export type GetServiceError = BadRequest | NotFound | CoolifyOpError;
@@ -7772,6 +8071,8 @@ export const getService: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceApplicationByServiceAndAppUuidError = NotFound | CoolifyOpError;
@@ -7787,6 +8088,8 @@ export const getServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceApplicationByServiceAndAppUuid",
 }));
 
 export type GetServiceApplicationLogsByServiceAndAppUuidError =
@@ -7805,6 +8108,8 @@ export const getServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceApplicationLogsByServiceAndAppUuid",
 }));
 
 export type GetServiceDatabaseByServiceAndDatabaseUuidError = NotFound | CoolifyOpError;
@@ -7824,6 +8129,8 @@ export const getServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceDatabaseByServiceAndDatabaseUuid",
 }));
 
 export type GetServiceDatabaseImportError = NotFound | CoolifyOpError;
@@ -7839,6 +8146,8 @@ export const getServiceDatabaseImport: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceDatabaseImport",
 }));
 
 export type GetServiceDatabaseLogsByServiceAndDatabaseUuidError =
@@ -7865,6 +8174,8 @@ export const getServiceDatabaseLogsByServiceAndDatabaseUuid: API.OperationMethod
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceDatabaseLogsByServiceAndDatabaseUuid",
 }));
 
 export type GetServiceLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -7880,6 +8191,8 @@ export const getServiceLogsByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceLogsByUuid",
 }));
 
 export type GetTeamError = BadRequest | NotFound | CoolifyOpError;
@@ -7891,6 +8204,8 @@ export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, Co
     errors: [BadRequest, NotFound, UnknownCoolifyError],
     protocol: CoolifyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTeam",
   }));
 
 export type GetTokenTeamError = BadRequest | CoolifyOpError;
@@ -7906,6 +8221,8 @@ export const getTokenTeam: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenTeam",
 }));
 
 export type GetTokenTeamMembersError = BadRequest | CoolifyOpError;
@@ -7921,6 +8238,8 @@ export const getTokenTeamMembers: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenTeamMembers",
 }));
 
 export type GetVultrOperatingSystemsError = NotFound | CoolifyOpError;
@@ -7936,6 +8255,8 @@ export const getVultrOperatingSystems: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVultrOperatingSystems",
 }));
 
 export type GetVultrPlansError = NotFound | CoolifyOpError;
@@ -7951,6 +8272,8 @@ export const getVultrPlans: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVultrPlans",
 }));
 
 export type GetVultrRegionsError = NotFound | CoolifyOpError;
@@ -7966,6 +8289,8 @@ export const getVultrRegions: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVultrRegions",
 }));
 
 export type GetVultrSshKeysError = NotFound | CoolifyOpError;
@@ -7981,6 +8306,8 @@ export const getVultrSshKeys: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVultrSshKeys",
 }));
 
 export type HealthcheckError = BadRequest | CoolifyOpError;
@@ -7996,6 +8323,8 @@ export const healthcheck: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Healthcheck",
 }));
 
 export type ListApplicationDestinationsError = NotFound | CoolifyOpError;
@@ -8011,6 +8340,8 @@ export const listApplicationDestinations: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationDestinations",
 }));
 
 export type ListApplicationRollbackImagesError = NotFound | CoolifyOpError;
@@ -8026,6 +8357,8 @@ export const listApplicationRollbackImages: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationRollbackImages",
 }));
 
 export type ListApplicationsError = BadRequest | CoolifyOpError;
@@ -8041,6 +8374,8 @@ export const listApplications: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 }));
 
 export type ListAuditEventsError = Forbidden | UnprocessableEntity | CoolifyOpError;
@@ -8056,6 +8391,8 @@ export const listAuditEvents: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuditEvents",
 }));
 
 export type ListBackupExecutionsError = NotFound | CoolifyOpError;
@@ -8071,6 +8408,8 @@ export const listBackupExecutions: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupExecutions",
 }));
 
 export type ListCloudInitScriptsError = Forbidden | CoolifyOpError;
@@ -8086,6 +8425,8 @@ export const listCloudInitScripts: API.OperationMethod<
   errors: [Forbidden, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudInitScripts",
 }));
 
 export type ListCloudTokensError = BadRequest | CoolifyOpError;
@@ -8101,6 +8442,8 @@ export const listCloudTokens: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudTokens",
 }));
 
 export type ListDatabasesError = BadRequest | CoolifyOpError;
@@ -8116,6 +8459,8 @@ export const listDatabases: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 }));
 
 export type ListDeploymentsError = BadRequest | CoolifyOpError;
@@ -8131,6 +8476,8 @@ export const listDeployments: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 }));
 
 export type ListDeploymentsByAppUuidError = BadRequest | CoolifyOpError;
@@ -8146,6 +8493,8 @@ export const listDeploymentsByAppUuid: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentsByAppUuid",
 }));
 
 export type ListDestinationsError = CoolifyOpError;
@@ -8161,6 +8510,8 @@ export const listDestinations: API.OperationMethod<
   errors: [UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDestinations",
 }));
 
 export type ListEnvironmentSharedEnvsError = NotFound | CoolifyOpError;
@@ -8176,6 +8527,8 @@ export const listEnvironmentSharedEnvs: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentSharedEnvs",
 }));
 
 export type ListEnvsByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8191,6 +8544,8 @@ export const listEnvsByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvsByApplicationUuid",
 }));
 
 export type ListEnvsByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8206,6 +8561,8 @@ export const listEnvsByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvsByDatabaseUuid",
 }));
 
 export type ListEnvsByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8221,6 +8578,8 @@ export const listEnvsByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvsByServiceUuid",
 }));
 
 export type ListGithubAppsError = BadRequest | CoolifyOpError;
@@ -8236,6 +8595,8 @@ export const listGithubApps: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGithubApps",
 }));
 
 export type ListGitlabAppsError = BadRequest | CoolifyOpError;
@@ -8251,6 +8612,8 @@ export const listGitlabApps: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitlabApps",
 }));
 
 export type ListPreviewDeploymentsByApplicationUuidError = NotFound | CoolifyOpError;
@@ -8266,6 +8629,8 @@ export const listPreviewDeploymentsByApplicationUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPreviewDeploymentsByApplicationUuid",
 }));
 
 export type ListPrivateKeysError = BadRequest | CoolifyOpError;
@@ -8281,6 +8646,8 @@ export const listPrivateKeys: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateKeys",
 }));
 
 export type ListProjectsError = BadRequest | CoolifyOpError;
@@ -8296,6 +8663,8 @@ export const listProjects: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 }));
 
 export type ListProjectSharedEnvsError = NotFound | CoolifyOpError;
@@ -8311,6 +8680,8 @@ export const listProjectSharedEnvs: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectSharedEnvs",
 }));
 
 export type ListResourcesError = BadRequest | CoolifyOpError;
@@ -8326,6 +8697,8 @@ export const listResources: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResources",
 }));
 
 export type ListS3StoragesError = BadRequest | CoolifyOpError;
@@ -8341,6 +8714,8 @@ export const listS3Storages: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListS3Storages",
 }));
 
 export type ListScheduledTaskExecutionsByApplicationUuidError = NotFound | CoolifyOpError;
@@ -8364,6 +8739,8 @@ export const listScheduledTaskExecutionsByApplicationUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduledTaskExecutionsByApplicationUuid",
 }));
 
 export type ListScheduledTaskExecutionsByServiceUuidError = NotFound | CoolifyOpError;
@@ -8379,6 +8756,8 @@ export const listScheduledTaskExecutionsByServiceUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduledTaskExecutionsByServiceUuid",
 }));
 
 export type ListScheduledTasksByApplicationUuidError = NotFound | CoolifyOpError;
@@ -8394,6 +8773,8 @@ export const listScheduledTasksByApplicationUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduledTasksByApplicationUuid",
 }));
 
 export type ListScheduledTasksByServiceUuidError = NotFound | CoolifyOpError;
@@ -8409,6 +8790,8 @@ export const listScheduledTasksByServiceUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduledTasksByServiceUuid",
 }));
 
 export type ListServerDestinationsError = NotFound | CoolifyOpError;
@@ -8424,6 +8807,8 @@ export const listServerDestinations: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerDestinations",
 }));
 
 export type ListServerDockerCleanupExecutionsError = BadRequest | NotFound | CoolifyOpError;
@@ -8439,6 +8824,8 @@ export const listServerDockerCleanupExecutions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerDockerCleanupExecutions",
 }));
 
 export type ListServerRegistriesError = BadRequest | NotFound | CoolifyOpError;
@@ -8454,6 +8841,8 @@ export const listServerRegistries: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerRegistries",
 }));
 
 export type ListServersError = BadRequest | CoolifyOpError;
@@ -8469,6 +8858,8 @@ export const listServers: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServers",
 }));
 
 export type ListServerSharedEnvsError = NotFound | CoolifyOpError;
@@ -8484,6 +8875,8 @@ export const listServerSharedEnvs: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerSharedEnvs",
 }));
 
 export type ListServiceApplicationsByServiceUuidError = NotFound | CoolifyOpError;
@@ -8499,6 +8892,8 @@ export const listServiceApplicationsByServiceUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceApplicationsByServiceUuid",
 }));
 
 export type ListServiceDatabasesByServiceUuidError = NotFound | CoolifyOpError;
@@ -8514,6 +8909,8 @@ export const listServiceDatabasesByServiceUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceDatabasesByServiceUuid",
 }));
 
 export type ListServicesError = BadRequest | CoolifyOpError;
@@ -8529,6 +8926,8 @@ export const listServices: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 }));
 
 export type ListStoragesByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8544,6 +8943,8 @@ export const listStoragesByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStoragesByApplicationUuid",
 }));
 
 export type ListStoragesByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8559,6 +8960,8 @@ export const listStoragesByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStoragesByDatabaseUuid",
 }));
 
 export type ListStoragesByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8574,6 +8977,8 @@ export const listStoragesByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStoragesByServiceUuid",
 }));
 
 export type ListTagsError = BadRequest | CoolifyOpError;
@@ -8589,6 +8994,8 @@ export const listTags: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListTagsByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8604,6 +9011,8 @@ export const listTagsByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagsByApplicationUuid",
 }));
 
 export type ListTagsByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8619,6 +9028,8 @@ export const listTagsByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagsByDatabaseUuid",
 }));
 
 export type ListTagsByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8634,6 +9045,8 @@ export const listTagsByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagsByServiceUuid",
 }));
 
 export type ListTeamsError = BadRequest | CoolifyOpError;
@@ -8649,6 +9062,8 @@ export const listTeams: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeams",
 }));
 
 export type ListTeamSharedEnvsError = CoolifyOpError;
@@ -8664,6 +9079,8 @@ export const listTeamSharedEnvs: API.OperationMethod<
   errors: [UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamSharedEnvs",
 }));
 
 export type LoadBranchesError = BadRequest | NotFound | CoolifyOpError;
@@ -8679,6 +9096,8 @@ export const loadBranches: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoadBranches",
 }));
 
 export type LoadRepositoriesError = BadRequest | NotFound | CoolifyOpError;
@@ -8694,6 +9113,8 @@ export const loadRepositories: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoadRepositories",
 }));
 
 export type LoginServerRegistryError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -8709,6 +9130,8 @@ export const loginServerRegistry: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginServerRegistry",
 }));
 
 export type LogoutServerRegistryError =
@@ -8728,6 +9151,8 @@ export const logoutServerRegistry: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogoutServerRegistry",
 }));
 
 export type MigrateApplicationByUuidError =
@@ -8747,6 +9172,8 @@ export const migrateApplicationByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateApplicationByUuid",
 }));
 
 export type MigrateDatabaseByUuidError =
@@ -8766,6 +9193,8 @@ export const migrateDatabaseByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateDatabaseByUuid",
 }));
 
 export type MigrateServiceByUuidError =
@@ -8785,6 +9214,8 @@ export const migrateServiceByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateServiceByUuid",
 }));
 
 export type MoveApplicationByUuidError =
@@ -8804,6 +9235,8 @@ export const moveApplicationByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveApplicationByUuid",
 }));
 
 export type MoveDatabaseByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -8819,6 +9252,8 @@ export const moveDatabaseByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveDatabaseByUuid",
 }));
 
 export type MoveServiceByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -8834,6 +9269,8 @@ export const moveServiceByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveServiceByUuid",
 }));
 
 export type PatchServiceApplicationByServiceAndAppUuidError =
@@ -8857,6 +9294,8 @@ export const patchServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchServiceApplicationByServiceAndAppUuid",
 }));
 
 export type PatchServiceDatabaseByServiceAndDatabaseUuidError =
@@ -8884,6 +9323,8 @@ export const patchServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchServiceDatabaseByServiceAndDatabaseUuid",
 }));
 
 export type PostRestartServiceApplicationByServiceAndAppUuidError =
@@ -8910,6 +9351,8 @@ export const postRestartServiceApplicationByServiceAndAppUuid: API.OperationMeth
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRestartServiceApplicationByServiceAndAppUuid",
 }));
 
 export type PostServiceApplicationLogsByServiceAndAppUuidError =
@@ -8936,6 +9379,8 @@ export const postServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostServiceApplicationLogsByServiceAndAppUuid",
 }));
 
 export type PostStartServiceApplicationByServiceAndAppUuidError =
@@ -8962,6 +9407,8 @@ export const postStartServiceApplicationByServiceAndAppUuid: API.OperationMethod
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostStartServiceApplicationByServiceAndAppUuid",
 }));
 
 export type PostStopServiceApplicationByServiceAndAppUuidError =
@@ -8988,6 +9435,8 @@ export const postStopServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostStopServiceApplicationByServiceAndAppUuid",
 }));
 
 export type RemoveApplicationDestinationError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9003,6 +9452,8 @@ export const removeApplicationDestination: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveApplicationDestination",
 }));
 
 export type RestartApplicationByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9018,6 +9469,8 @@ export const restartApplicationByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartApplicationByUuid",
 }));
 
 export type RestartDatabaseByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
@@ -9033,6 +9486,8 @@ export const restartDatabaseByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartDatabaseByUuid",
 }));
 
 export type RestartServerProxyError = BadRequest | NotFound | CoolifyOpError;
@@ -9048,6 +9503,8 @@ export const restartServerProxy: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartServerProxy",
 }));
 
 export type RestartServiceByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9063,6 +9520,8 @@ export const restartServiceByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartServiceByUuid",
 }));
 
 export type RestartServiceDatabaseByServiceAndDatabaseUuidError =
@@ -9089,6 +9548,8 @@ export const restartServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartServiceDatabaseByServiceAndDatabaseUuid",
 }));
 
 export type RollbackApplicationByUuidError =
@@ -9108,6 +9569,8 @@ export const rollbackApplicationByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RollbackApplicationByUuid",
 }));
 
 export type RunApplicationStorageBackupError = NotFound | CoolifyOpError;
@@ -9123,6 +9586,8 @@ export const runApplicationStorageBackup: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunApplicationStorageBackup",
 }));
 
 export type RunDatabaseStorageBackupError = NotFound | CoolifyOpError;
@@ -9138,6 +9603,8 @@ export const runDatabaseStorageBackup: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunDatabaseStorageBackup",
 }));
 
 export type RunServerDockerCleanupError =
@@ -9157,6 +9624,8 @@ export const runServerDockerCleanup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunServerDockerCleanup",
 }));
 
 export type RunServiceStorageBackupError = NotFound | CoolifyOpError;
@@ -9172,6 +9641,8 @@ export const runServiceStorageBackup: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunServiceStorageBackup",
 }));
 
 export type SaveServerProxyConfigurationError =
@@ -9191,6 +9662,8 @@ export const saveServerProxyConfiguration: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SaveServerProxyConfiguration",
 }));
 
 export type SetApplicationStorageBackupScheduleError =
@@ -9211,6 +9684,8 @@ export const setApplicationStorageBackupSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetApplicationStorageBackupSchedule",
 }));
 
 export type SetDatabaseStorageBackupScheduleError =
@@ -9231,6 +9706,8 @@ export const setDatabaseStorageBackupSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDatabaseStorageBackupSchedule",
 }));
 
 export type SetServiceStorageBackupScheduleError =
@@ -9251,6 +9728,8 @@ export const setServiceStorageBackupSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetServiceStorageBackupSchedule",
 }));
 
 export type StartApplicationByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9266,6 +9745,8 @@ export const startApplicationByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartApplicationByUuid",
 }));
 
 export type StartDatabaseByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
@@ -9281,6 +9762,8 @@ export const startDatabaseByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartDatabaseByUuid",
 }));
 
 export type StartServiceByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9296,6 +9779,8 @@ export const startServiceByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartServiceByUuid",
 }));
 
 export type StartServiceDatabaseByServiceAndDatabaseUuidError =
@@ -9322,6 +9807,8 @@ export const startServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartServiceDatabaseByServiceAndDatabaseUuid",
 }));
 
 export type StopApplicationByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9337,6 +9824,8 @@ export const stopApplicationByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopApplicationByUuid",
 }));
 
 export type StopDatabaseByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9352,6 +9841,8 @@ export const stopDatabaseByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopDatabaseByUuid",
 }));
 
 export type StopServiceByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9367,6 +9858,8 @@ export const stopServiceByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopServiceByUuid",
 }));
 
 export type StopServiceDatabaseByServiceAndDatabaseUuidError =
@@ -9393,6 +9886,8 @@ export const stopServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopServiceDatabaseByServiceAndDatabaseUuid",
 }));
 
 export type UpdateApplicationByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
@@ -9408,6 +9903,8 @@ export const updateApplicationByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationByUuid",
 }));
 
 export type UpdateCloudInitScriptByUuidError =
@@ -9427,6 +9924,8 @@ export const updateCloudInitScriptByUuid: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudInitScriptByUuid",
 }));
 
 export type UpdateCloudTokenByUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9442,6 +9941,8 @@ export const updateCloudTokenByUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudTokenByUuid",
 }));
 
 export type UpdateCurrentTeamDiscordNotificationsError =
@@ -9461,6 +9962,8 @@ export const updateCurrentTeamDiscordNotifications: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentTeamDiscordNotifications",
 }));
 
 export type UpdateCurrentTeamEmailNotificationsError =
@@ -9480,6 +9983,8 @@ export const updateCurrentTeamEmailNotifications: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentTeamEmailNotifications",
 }));
 
 export type UpdateCurrentTeamPushoverNotificationsError =
@@ -9499,6 +10004,8 @@ export const updateCurrentTeamPushoverNotifications: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentTeamPushoverNotifications",
 }));
 
 export type UpdateCurrentTeamSlackNotificationsError =
@@ -9518,6 +10025,8 @@ export const updateCurrentTeamSlackNotifications: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentTeamSlackNotifications",
 }));
 
 export type UpdateCurrentTeamTelegramNotificationsError =
@@ -9537,6 +10046,8 @@ export const updateCurrentTeamTelegramNotifications: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentTeamTelegramNotifications",
 }));
 
 export type UpdateCurrentTeamWebhookNotificationsError =
@@ -9556,6 +10067,8 @@ export const updateCurrentTeamWebhookNotifications: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentTeamWebhookNotifications",
 }));
 
 export type UpdateDatabaseBackupError =
@@ -9575,6 +10088,8 @@ export const updateDatabaseBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseBackup",
 }));
 
 export type UpdateDatabaseByUuidError =
@@ -9594,6 +10109,8 @@ export const updateDatabaseByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseByUuid",
 }));
 
 export type UpdateDestinationByUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9609,6 +10126,8 @@ export const updateDestinationByUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDestinationByUuid",
 }));
 
 export type UpdateEnvByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9624,6 +10143,8 @@ export const updateEnvByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvByApplicationUuid",
 }));
 
 export type UpdateEnvByDatabaseUuidError =
@@ -9643,6 +10164,8 @@ export const updateEnvByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvByDatabaseUuid",
 }));
 
 export type UpdateEnvByServiceUuidError =
@@ -9662,6 +10185,8 @@ export const updateEnvByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvByServiceUuid",
 }));
 
 export type UpdateEnvironmentError =
@@ -9682,6 +10207,8 @@ export const updateEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateEnvironmentSharedEnvError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9697,6 +10224,8 @@ export const updateEnvironmentSharedEnv: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentSharedEnv",
 }));
 
 export type UpdateEnvsByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9712,6 +10241,8 @@ export const updateEnvsByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvsByApplicationUuid",
 }));
 
 export type UpdateEnvsByDatabaseUuidError =
@@ -9731,6 +10262,8 @@ export const updateEnvsByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvsByDatabaseUuid",
 }));
 
 export type UpdateEnvsByServiceUuidError =
@@ -9750,6 +10283,8 @@ export const updateEnvsByServiceUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvsByServiceUuid",
 }));
 
 export type UpdateGithubAppError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9765,6 +10300,8 @@ export const updateGithubApp: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGithubApp",
 }));
 
 export type UpdateGitlabAppError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9780,6 +10317,8 @@ export const updateGitlabApp: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGitlabApp",
 }));
 
 export type UpdateInstanceEmailSettingsError = Forbidden | UnprocessableEntity | CoolifyOpError;
@@ -9795,6 +10334,8 @@ export const updateInstanceEmailSettings: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceEmailSettings",
 }));
 
 export type UpdatePreviewDomainsByPullRequestIdError =
@@ -9815,6 +10356,8 @@ export const updatePreviewDomainsByPullRequestId: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePreviewDomainsByPullRequestId",
 }));
 
 export type UpdatePrivateKeyError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9830,6 +10373,8 @@ export const updatePrivateKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateKey",
 }));
 
 export type UpdateProjectByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9845,6 +10390,8 @@ export const updateProjectByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectByUuid",
 }));
 
 export type UpdateProjectSharedEnvError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9860,6 +10407,8 @@ export const updateProjectSharedEnv: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectSharedEnv",
 }));
 
 export type UpdateS3StorageByUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9875,6 +10424,8 @@ export const updateS3StorageByUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateS3StorageByUuid",
 }));
 
 export type UpdateScheduledTaskByApplicationUuidError =
@@ -9893,6 +10444,8 @@ export const updateScheduledTaskByApplicationUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledTaskByApplicationUuid",
 }));
 
 export type UpdateScheduledTaskByServiceUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9908,6 +10461,8 @@ export const updateScheduledTaskByServiceUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledTaskByServiceUuid",
 }));
 
 export type UpdateServerByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9923,6 +10478,8 @@ export const updateServerByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerByUuid",
 }));
 
 export type UpdateServerCloudflareTunnelError =
@@ -9942,6 +10499,8 @@ export const updateServerCloudflareTunnel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerCloudflareTunnel",
 }));
 
 export type UpdateServerDockerCleanupError =
@@ -9961,6 +10520,8 @@ export const updateServerDockerCleanup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerDockerCleanup",
 }));
 
 export type UpdateServerLogDrainsError =
@@ -9980,6 +10541,8 @@ export const updateServerLogDrains: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerLogDrains",
 }));
 
 export type UpdateServerProxyError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9995,6 +10558,8 @@ export const updateServerProxy: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerProxy",
 }));
 
 export type UpdateServerSentinelError =
@@ -10014,6 +10579,8 @@ export const updateServerSentinel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerSentinel",
 }));
 
 export type UpdateServerSharedEnvError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -10029,6 +10596,8 @@ export const updateServerSharedEnv: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerSharedEnv",
 }));
 
 export type UpdateServiceByUuidError =
@@ -10049,6 +10618,8 @@ export const updateServiceByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServiceByUuid",
 }));
 
 export type UpdateStorageByApplicationUuidError =
@@ -10069,6 +10640,8 @@ export const updateStorageByApplicationUuid: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageByApplicationUuid",
 }));
 
 export type UpdateStorageByDatabaseUuidError =
@@ -10089,6 +10662,8 @@ export const updateStorageByDatabaseUuid: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageByDatabaseUuid",
 }));
 
 export type UpdateStorageByServiceUuidError =
@@ -10109,6 +10684,8 @@ export const updateStorageByServiceUuid: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageByServiceUuid",
 }));
 
 export type UpdateTagByUuidError =
@@ -10129,6 +10706,8 @@ export const updateTagByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTagByUuid",
 }));
 
 export type UpdateTeamSharedEnvError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -10144,6 +10723,8 @@ export const updateTeamSharedEnv: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamSharedEnv",
 }));
 
 export type UpdateTokenTeamError = BadRequest | Forbidden | UnprocessableEntity | CoolifyOpError;
@@ -10159,6 +10740,8 @@ export const updateTokenTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTokenTeam",
 }));
 
 export type UploadDatabaseImportError = UnprocessableEntity | CoolifyOpError;
@@ -10174,6 +10757,8 @@ export const uploadDatabaseImport: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadDatabaseImport",
 }));
 
 export type UploadServiceDatabaseImportError = UnprocessableEntity | CoolifyOpError;
@@ -10189,6 +10774,8 @@ export const uploadServiceDatabaseImport: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadServiceDatabaseImport",
 }));
 
 export type ValidateCloudTokenByUuidError = NotFound | CoolifyOpError;
@@ -10204,6 +10791,8 @@ export const validateCloudTokenByUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateCloudTokenByUuid",
 }));
 
 export type ValidateS3StorageByUuidError = NotFound | CoolifyOpError;
@@ -10219,6 +10808,8 @@ export const validateS3StorageByUuid: API.OperationMethod<
   errors: [NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateS3StorageByUuid",
 }));
 
 export type ValidateServerByUuidError =
@@ -10238,6 +10829,8 @@ export const validateServerByUuid: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateServerByUuid",
 }));
 
 export type VersionError = BadRequest | CoolifyOpError;
@@ -10253,6 +10846,8 @@ export const version: API.OperationMethod<
   errors: [BadRequest, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Version",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,29 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "LoadBalancers",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
+/** The project has no remaining Primary IP quota for the Load Balancer's public IPs (Hetzner `resource_limit_exceeded`, HTTP 403). Servers and Load Balancers share it; it frees up as they are deleted. */
+export class PrimaryIpLimitExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PrimaryIpLimitExceeded>()("PrimaryIpLimitExceeded", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 403, message: { includes: "IP limit" } }],
+  ) {}
+
 /** Type of the algorithm. */
 export type CreateLoadBalancerRequestAlgorithmType = "round_robin" | "least_connections";
 /** Algorithm of the Load Balancer. */
@@ -1039,7 +1062,7 @@ export interface UpdateLoadBalancerResponseLoadBalancer {
 export interface UpdateLoadBalancerResponse {
   load_balancer: UpdateLoadBalancerResponseLoadBalancer;
 }
-export type CreateLoadBalancerError = HetznerOpError;
+export type CreateLoadBalancerError = PrimaryIpLimitExceeded | HetznerOpError;
 /** Create a Load Balancer Creates a Load Balancer. #### Operation specific errors */
 export const createLoadBalancer: API.OperationMethod<
   CreateLoadBalancerRequest,
@@ -1049,9 +1072,11 @@ export const createLoadBalancer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c0, 6) as any as S.Schema<CreateLoadBalancerRequest>,
   output: __S(14, __c0, 14) as any as S.Schema<CreateLoadBalancerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [PrimaryIpLimitExceeded, UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancer",
 }));
 
 export type DeleteLoadBalancerError = HetznerOpError;
@@ -1067,6 +1092,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancer",
 }));
 
 export type GetLoadBalancerError = HetznerOpError;
@@ -1082,6 +1109,8 @@ export const getLoadBalancer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancer",
 }));
 
 export type GetLoadBalancerMetricsError = HetznerOpError;
@@ -1097,6 +1126,8 @@ export const getLoadBalancerMetrics: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancerMetrics",
 }));
 
 export type ListLoadBalancersError = HetznerOpError;
@@ -1114,6 +1145,8 @@ export const listLoadBalancers: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLoadBalancers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1138,6 +1171,8 @@ export const updateLoadBalancer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoadBalancer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

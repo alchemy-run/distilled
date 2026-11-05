@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "youtube" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Youtube",
+  service: "youtube",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -4605,6 +4624,8 @@ export const batchGetStatsVideos: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetStatsVideos",
 }));
 
 export type BindLiveBroadcastsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4620,6 +4641,8 @@ export const bindLiveBroadcasts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BindLiveBroadcasts",
 }));
 
 export type DeleteCaptionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4635,6 +4658,8 @@ export const deleteCaptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCaptions",
 }));
 
 export type DeleteChannelSectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4650,6 +4675,8 @@ export const deleteChannelSections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChannelSections",
 }));
 
 export type DeleteCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4665,6 +4692,8 @@ export const deleteComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteComments",
 }));
 
 export type DeleteLiveBroadcastsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4680,6 +4709,8 @@ export const deleteLiveBroadcasts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLiveBroadcasts",
 }));
 
 export type DeleteLiveChatBansError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4695,6 +4726,8 @@ export const deleteLiveChatBans: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLiveChatBans",
 }));
 
 export type DeleteLiveChatMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4710,6 +4743,8 @@ export const deleteLiveChatMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLiveChatMessages",
 }));
 
 export type DeleteLiveChatModeratorsError =
@@ -4730,6 +4765,8 @@ export const deleteLiveChatModerators: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLiveChatModerators",
 }));
 
 export type DeleteLiveStreamsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4745,6 +4782,8 @@ export const deleteLiveStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLiveStreams",
 }));
 
 export type DeletePlaylistImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4760,6 +4799,8 @@ export const deletePlaylistImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlaylistImages",
 }));
 
 export type DeletePlaylistItemsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4775,6 +4816,8 @@ export const deletePlaylistItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlaylistItems",
 }));
 
 export type DeletePlaylistsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4790,6 +4833,8 @@ export const deletePlaylists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlaylists",
 }));
 
 export type DeleteSubscriptionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4805,6 +4850,8 @@ export const deleteSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriptions",
 }));
 
 export type DeleteThirdPartyLinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4820,6 +4867,8 @@ export const deleteThirdPartyLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteThirdPartyLinks",
 }));
 
 export type DeleteVideosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4835,6 +4884,8 @@ export const deleteVideos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVideos",
 }));
 
 export type DownloadCaptionsError = NotFound | Forbidden | GcpOpError;
@@ -4850,6 +4901,8 @@ export const downloadCaptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadCaptions",
 }));
 
 export type GetRatingVideosError = NotFound | Forbidden | GcpOpError;
@@ -4865,6 +4918,8 @@ export const getRatingVideos: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRatingVideos",
 }));
 
 export type GetVideoTrainabilityError = NotFound | Forbidden | GcpOpError;
@@ -4880,6 +4935,8 @@ export const getVideoTrainability: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVideoTrainability",
 }));
 
 export type InsertAbuseReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4895,6 +4952,8 @@ export const insertAbuseReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAbuseReports",
 }));
 
 export type InsertCaptionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4910,6 +4969,8 @@ export const insertCaptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCaptions",
 }));
 
 export type InsertChannelBannersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4925,6 +4986,8 @@ export const insertChannelBanners: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertChannelBanners",
 }));
 
 export type InsertChannelSectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4940,6 +5003,8 @@ export const insertChannelSections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertChannelSections",
 }));
 
 export type InsertCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4955,6 +5020,8 @@ export const insertComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertComments",
 }));
 
 export type InsertCommentThreadsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4970,6 +5037,8 @@ export const insertCommentThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCommentThreads",
 }));
 
 export type InsertCuepointLiveBroadcastsError =
@@ -4990,6 +5059,8 @@ export const insertCuepointLiveBroadcasts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCuepointLiveBroadcasts",
 }));
 
 export type InsertLiveBroadcastsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5005,6 +5076,8 @@ export const insertLiveBroadcasts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertLiveBroadcasts",
 }));
 
 export type InsertLiveChatBansError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5020,6 +5093,8 @@ export const insertLiveChatBans: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertLiveChatBans",
 }));
 
 export type InsertLiveChatMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5035,6 +5110,8 @@ export const insertLiveChatMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertLiveChatMessages",
 }));
 
 export type InsertLiveChatModeratorsError =
@@ -5055,6 +5132,8 @@ export const insertLiveChatModerators: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertLiveChatModerators",
 }));
 
 export type InsertLiveStreamsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5070,6 +5149,8 @@ export const insertLiveStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertLiveStreams",
 }));
 
 export type InsertPlaylistImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5085,6 +5166,8 @@ export const insertPlaylistImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertPlaylistImages",
 }));
 
 export type InsertPlaylistItemsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5100,6 +5183,8 @@ export const insertPlaylistItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertPlaylistItems",
 }));
 
 export type InsertPlaylistsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5115,6 +5200,8 @@ export const insertPlaylists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertPlaylists",
 }));
 
 export type InsertSubscriptionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5130,6 +5217,8 @@ export const insertSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertSubscriptions",
 }));
 
 export type InsertTestsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5145,6 +5234,8 @@ export const insertTests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertTests",
 }));
 
 export type InsertThirdPartyLinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5160,6 +5251,8 @@ export const insertThirdPartyLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertThirdPartyLinks",
 }));
 
 export type InsertVideosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5175,6 +5268,8 @@ export const insertVideos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertVideos",
 }));
 
 export type ListActivitiesError = NotFound | Forbidden | GcpOpError;
@@ -5191,6 +5286,8 @@ export const listActivities: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActivities",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5207,6 +5304,8 @@ export const listCaptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCaptions",
 }));
 
 export type ListChannelsError = NotFound | Forbidden | GcpOpError;
@@ -5223,6 +5322,8 @@ export const listChannels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5239,6 +5340,8 @@ export const listChannelSections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChannelSections",
 }));
 
 export type ListCommentsError = NotFound | Forbidden | GcpOpError;
@@ -5255,6 +5358,8 @@ export const listComments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5272,6 +5377,8 @@ export const listCommentThreads: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommentThreads",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5288,6 +5395,8 @@ export const listI18nLanguages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListI18nLanguages",
 }));
 
 export type ListI18nRegionsError = NotFound | Forbidden | GcpOpError;
@@ -5303,6 +5412,8 @@ export const listI18nRegions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListI18nRegions",
 }));
 
 export type ListLiveBroadcastsError = NotFound | Forbidden | GcpOpError;
@@ -5319,6 +5430,8 @@ export const listLiveBroadcasts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLiveBroadcasts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5336,6 +5449,8 @@ export const listLiveChatMessages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLiveChatMessages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5353,6 +5468,8 @@ export const listLiveChatModerators: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLiveChatModerators",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5370,6 +5487,8 @@ export const listLiveStreams: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLiveStreams",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5387,6 +5506,8 @@ export const listMembers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5403,6 +5524,8 @@ export const listMembershipsLevels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMembershipsLevels",
 }));
 
 export type ListPlaylistImagesError = NotFound | Forbidden | GcpOpError;
@@ -5419,6 +5542,8 @@ export const listPlaylistImages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlaylistImages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5436,6 +5561,8 @@ export const listPlaylistItems: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlaylistItems",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5453,6 +5580,8 @@ export const listPlaylists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlaylists",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5470,6 +5599,8 @@ export const listSearch: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSearch",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5487,6 +5618,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5504,6 +5637,8 @@ export const listSuperChatEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSuperChatEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5520,6 +5655,8 @@ export const listThirdPartyLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListThirdPartyLinks",
 }));
 
 export type ListVideoAbuseReportReasonsError = NotFound | Forbidden | GcpOpError;
@@ -5535,6 +5672,8 @@ export const listVideoAbuseReportReasons: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVideoAbuseReportReasons",
 }));
 
 export type ListVideoCategoriesError = NotFound | Forbidden | GcpOpError;
@@ -5550,6 +5689,8 @@ export const listVideoCategories: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVideoCategories",
 }));
 
 export type ListVideosError = NotFound | Forbidden | GcpOpError;
@@ -5566,6 +5707,8 @@ export const listVideos: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVideos",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5582,6 +5725,8 @@ export const markAsSpamComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkAsSpamComments",
 }));
 
 export type RateVideosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5597,6 +5742,8 @@ export const rateVideos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RateVideos",
 }));
 
 export type ReportAbuseVideosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5612,6 +5759,8 @@ export const reportAbuseVideos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReportAbuseVideos",
 }));
 
 export type SetModerationStatusCommentsError =
@@ -5632,6 +5781,8 @@ export const setModerationStatusComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetModerationStatusComments",
 }));
 
 export type SetThumbnailsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5647,6 +5798,8 @@ export const setThumbnails: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetThumbnails",
 }));
 
 export type SetWatermarksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5662,6 +5815,8 @@ export const setWatermarks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetWatermarks",
 }));
 
 export type StreamYoutubeV3LiveChatMessagesError = NotFound | Forbidden | GcpOpError;
@@ -5678,6 +5833,8 @@ export const streamYoutubeV3LiveChatMessages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamYoutubeV3LiveChatMessages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -5699,6 +5856,8 @@ export const transitionLiveBroadcasts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransitionLiveBroadcasts",
 }));
 
 export type TransitionLiveChatMessagesError =
@@ -5719,6 +5878,8 @@ export const transitionLiveChatMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransitionLiveChatMessages",
 }));
 
 export type UnsetWatermarksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5734,6 +5895,8 @@ export const unsetWatermarks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsetWatermarks",
 }));
 
 export type UpdateCaptionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5749,6 +5912,8 @@ export const updateCaptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaptions",
 }));
 
 export type UpdateChannelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5764,6 +5929,8 @@ export const updateChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChannels",
 }));
 
 export type UpdateChannelSectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5779,6 +5946,8 @@ export const updateChannelSections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChannelSections",
 }));
 
 export type UpdateCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5794,6 +5963,8 @@ export const updateComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateComments",
 }));
 
 export type UpdateLiveBroadcastsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5809,6 +5980,8 @@ export const updateLiveBroadcasts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLiveBroadcasts",
 }));
 
 export type UpdateLiveStreamsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5824,6 +5997,8 @@ export const updateLiveStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLiveStreams",
 }));
 
 export type UpdatePlaylistImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5839,6 +6014,8 @@ export const updatePlaylistImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlaylistImages",
 }));
 
 export type UpdatePlaylistItemsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5854,6 +6031,8 @@ export const updatePlaylistItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlaylistItems",
 }));
 
 export type UpdatePlaylistsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5869,6 +6048,8 @@ export const updatePlaylists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlaylists",
 }));
 
 export type UpdateThirdPartyLinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5884,6 +6065,8 @@ export const updateThirdPartyLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateThirdPartyLinks",
 }));
 
 export type UpdateVideosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5899,6 +6082,8 @@ export const updateVideos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVideos",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

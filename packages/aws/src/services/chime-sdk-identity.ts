@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://identity-chime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ChimeSDKIdentity",
+  service: "ChimeSDKIdentity",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -581,7 +597,7 @@ export type CreateAppInstanceError =
  * identity
  */
 export const createAppInstance: API.OperationMethod<
-  CreateAppInstanceRequest,
+  CreateAppInstanceRequest & RegionInput,
   CreateAppInstanceResponse,
   CreateAppInstanceError,
   Credentials | HttpClient.HttpClient
@@ -601,6 +617,8 @@ export const createAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstance",
+  telemetry: TELEMETRY,
+  span: "CreateAppInstance",
 }));
 
 export type CreateAppInstanceAdminError =
@@ -627,7 +645,7 @@ export type CreateAppInstanceAdminError =
  * role.
  */
 export const createAppInstanceAdmin: API.OperationMethod<
-  CreateAppInstanceAdminRequest,
+  CreateAppInstanceAdminRequest & RegionInput,
   CreateAppInstanceAdminResponse,
   CreateAppInstanceAdminError,
   Credentials | HttpClient.HttpClient
@@ -647,6 +665,8 @@ export const createAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceAdmin",
+  telemetry: TELEMETRY,
+  span: "CreateAppInstanceAdmin",
 }));
 
 export type CreateAppInstanceBotError =
@@ -664,7 +684,7 @@ export type CreateAppInstanceBotError =
  * unique `Configuration` and `Name` for that bot.
  */
 export const createAppInstanceBot: API.OperationMethod<
-  CreateAppInstanceBotRequest,
+  CreateAppInstanceBotRequest & RegionInput,
   CreateAppInstanceBotResponse,
   CreateAppInstanceBotError,
   Credentials | HttpClient.HttpClient
@@ -684,6 +704,8 @@ export const createAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceBot",
+  telemetry: TELEMETRY,
+  span: "CreateAppInstanceBot",
 }));
 
 export type CreateAppInstanceUserError =
@@ -701,7 +723,7 @@ export type CreateAppInstanceUserError =
  * unique `appInstanceUserId` and `Name` for that user.
  */
 export const createAppInstanceUser: API.OperationMethod<
-  CreateAppInstanceUserRequest,
+  CreateAppInstanceUserRequest & RegionInput,
   CreateAppInstanceUserResponse,
   CreateAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -721,6 +743,8 @@ export const createAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "CreateAppInstanceUser",
 }));
 
 export type DeleteAppInstanceError =
@@ -736,7 +760,7 @@ export type DeleteAppInstanceError =
  * Deletes an `AppInstance` and all associated data asynchronously.
  */
 export const deleteAppInstance: API.OperationMethod<
-  DeleteAppInstanceRequest,
+  DeleteAppInstanceRequest & RegionInput,
   DeleteAppInstanceResponse,
   DeleteAppInstanceError,
   Credentials | HttpClient.HttpClient
@@ -755,6 +779,8 @@ export const deleteAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInstance",
 }));
 
 export type DeleteAppInstanceAdminError =
@@ -773,7 +799,7 @@ export type DeleteAppInstanceAdminError =
  * does not delete the user.
  */
 export const deleteAppInstanceAdmin: API.OperationMethod<
-  DeleteAppInstanceAdminRequest,
+  DeleteAppInstanceAdminRequest & RegionInput,
   DeleteAppInstanceAdminResponse,
   DeleteAppInstanceAdminError,
   Credentials | HttpClient.HttpClient
@@ -793,6 +819,8 @@ export const deleteAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceAdmin",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInstanceAdmin",
 }));
 
 export type DeleteAppInstanceBotError =
@@ -809,7 +837,7 @@ export type DeleteAppInstanceBotError =
  * Deletes an `AppInstanceBot`.
  */
 export const deleteAppInstanceBot: API.OperationMethod<
-  DeleteAppInstanceBotRequest,
+  DeleteAppInstanceBotRequest & RegionInput,
   DeleteAppInstanceBotResponse,
   DeleteAppInstanceBotError,
   Credentials | HttpClient.HttpClient
@@ -829,6 +857,8 @@ export const deleteAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceBot",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInstanceBot",
 }));
 
 export type DeleteAppInstanceUserError =
@@ -845,7 +875,7 @@ export type DeleteAppInstanceUserError =
  * Deletes an `AppInstanceUser`.
  */
 export const deleteAppInstanceUser: API.OperationMethod<
-  DeleteAppInstanceUserRequest,
+  DeleteAppInstanceUserRequest & RegionInput,
   DeleteAppInstanceUserResponse,
   DeleteAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -865,6 +895,8 @@ export const deleteAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInstanceUser",
 }));
 
 export type DeregisterAppInstanceUserEndpointError =
@@ -879,7 +911,7 @@ export type DeregisterAppInstanceUserEndpointError =
  * Deregisters an `AppInstanceUserEndpoint`.
  */
 export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
-  DeregisterAppInstanceUserEndpointRequest,
+  DeregisterAppInstanceUserEndpointRequest & RegionInput,
   DeregisterAppInstanceUserEndpointResponse,
   DeregisterAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
@@ -897,6 +929,8 @@ export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAppInstanceUserEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeregisterAppInstanceUserEndpoint",
 }));
 
 export type DescribeAppInstanceError =
@@ -911,7 +945,7 @@ export type DescribeAppInstanceError =
  * Returns the full details of an `AppInstance`.
  */
 export const describeAppInstance: API.OperationMethod<
-  DescribeAppInstanceRequest,
+  DescribeAppInstanceRequest & RegionInput,
   DescribeAppInstanceResponse,
   DescribeAppInstanceError,
   Credentials | HttpClient.HttpClient
@@ -929,6 +963,8 @@ export const describeAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstance",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstance",
 }));
 
 export type DescribeAppInstanceAdminError =
@@ -943,7 +979,7 @@ export type DescribeAppInstanceAdminError =
  * Returns the full details of an `AppInstanceAdmin`.
  */
 export const describeAppInstanceAdmin: API.OperationMethod<
-  DescribeAppInstanceAdminRequest,
+  DescribeAppInstanceAdminRequest & RegionInput,
   DescribeAppInstanceAdminResponse,
   DescribeAppInstanceAdminError,
   Credentials | HttpClient.HttpClient
@@ -961,6 +997,8 @@ export const describeAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceAdmin",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstanceAdmin",
 }));
 
 export type DescribeAppInstanceBotError =
@@ -976,7 +1014,7 @@ export type DescribeAppInstanceBotError =
  * The `AppInstanceBot's` information.
  */
 export const describeAppInstanceBot: API.OperationMethod<
-  DescribeAppInstanceBotRequest,
+  DescribeAppInstanceBotRequest & RegionInput,
   DescribeAppInstanceBotResponse,
   DescribeAppInstanceBotError,
   Credentials | HttpClient.HttpClient
@@ -995,6 +1033,8 @@ export const describeAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceBot",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstanceBot",
 }));
 
 export type DescribeAppInstanceUserError =
@@ -1009,7 +1049,7 @@ export type DescribeAppInstanceUserError =
  * Returns the full details of an `AppInstanceUser`.
  */
 export const describeAppInstanceUser: API.OperationMethod<
-  DescribeAppInstanceUserRequest,
+  DescribeAppInstanceUserRequest & RegionInput,
   DescribeAppInstanceUserResponse,
   DescribeAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1027,6 +1067,8 @@ export const describeAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstanceUser",
 }));
 
 export type DescribeAppInstanceUserEndpointError =
@@ -1041,7 +1083,7 @@ export type DescribeAppInstanceUserEndpointError =
  * Returns the full details of an `AppInstanceUserEndpoint`.
  */
 export const describeAppInstanceUserEndpoint: API.OperationMethod<
-  DescribeAppInstanceUserEndpointRequest,
+  DescribeAppInstanceUserEndpointRequest & RegionInput,
   DescribeAppInstanceUserEndpointResponse,
   DescribeAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1059,6 +1101,8 @@ export const describeAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceUserEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstanceUserEndpoint",
 }));
 
 export type GetAppInstanceRetentionSettingsError =
@@ -1073,7 +1117,7 @@ export type GetAppInstanceRetentionSettingsError =
  * Gets the retention settings for an `AppInstance`.
  */
 export const getAppInstanceRetentionSettings: API.OperationMethod<
-  GetAppInstanceRetentionSettingsRequest,
+  GetAppInstanceRetentionSettingsRequest & RegionInput,
   GetAppInstanceRetentionSettingsResponse,
   GetAppInstanceRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1091,6 +1135,8 @@ export const getAppInstanceRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppInstanceRetentionSettings",
+  telemetry: TELEMETRY,
+  span: "GetAppInstanceRetentionSettings",
 }));
 
 export type ListAppInstanceAdminsError =
@@ -1106,7 +1152,7 @@ export type ListAppInstanceAdminsError =
  * Returns a list of the administrators in the `AppInstance`.
  */
 export const listAppInstanceAdmins: API.PaginatedOperationMethod<
-  ListAppInstanceAdminsRequest,
+  ListAppInstanceAdminsRequest & RegionInput,
   ListAppInstanceAdminsResponse,
   ListAppInstanceAdminsError,
   Credentials | HttpClient.HttpClient,
@@ -1131,6 +1177,8 @@ export const listAppInstanceAdmins: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstanceAdmins",
 })) as any;
 
 export type ListAppInstanceBotsError =
@@ -1146,7 +1194,7 @@ export type ListAppInstanceBotsError =
  * Lists all `AppInstanceBots` created under a single `AppInstance`.
  */
 export const listAppInstanceBots: API.PaginatedOperationMethod<
-  ListAppInstanceBotsRequest,
+  ListAppInstanceBotsRequest & RegionInput,
   ListAppInstanceBotsResponse,
   ListAppInstanceBotsError,
   Credentials | HttpClient.HttpClient,
@@ -1171,6 +1219,8 @@ export const listAppInstanceBots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstanceBots",
 })) as any;
 
 export type ListAppInstancesError =
@@ -1186,7 +1236,7 @@ export type ListAppInstancesError =
  * account.
  */
 export const listAppInstances: API.PaginatedOperationMethod<
-  ListAppInstancesRequest,
+  ListAppInstancesRequest & RegionInput,
   ListAppInstancesResponse,
   ListAppInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1210,6 +1260,8 @@ export const listAppInstances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstances",
 })) as any;
 
 export type ListAppInstanceUserEndpointsError =
@@ -1224,7 +1276,7 @@ export type ListAppInstanceUserEndpointsError =
  * Lists all the `AppInstanceUserEndpoints` created under a single `AppInstanceUser`.
  */
 export const listAppInstanceUserEndpoints: API.PaginatedOperationMethod<
-  ListAppInstanceUserEndpointsRequest,
+  ListAppInstanceUserEndpointsRequest & RegionInput,
   ListAppInstanceUserEndpointsResponse,
   ListAppInstanceUserEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1248,6 +1300,8 @@ export const listAppInstanceUserEndpoints: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstanceUserEndpoints",
 })) as any;
 
 export type ListAppInstanceUsersError =
@@ -1263,7 +1317,7 @@ export type ListAppInstanceUsersError =
  * `AppInstance`.
  */
 export const listAppInstanceUsers: API.PaginatedOperationMethod<
-  ListAppInstanceUsersRequest,
+  ListAppInstanceUsersRequest & RegionInput,
   ListAppInstanceUsersResponse,
   ListAppInstanceUsersError,
   Credentials | HttpClient.HttpClient,
@@ -1287,6 +1341,8 @@ export const listAppInstanceUsers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstanceUsers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1301,7 +1357,7 @@ export type ListTagsForResourceError =
  * Lists the tags applied to an Amazon Chime SDK identity resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1319,6 +1375,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAppInstanceRetentionSettingsError =
@@ -1334,7 +1392,7 @@ export type PutAppInstanceRetentionSettingsError =
  * data.
  */
 export const putAppInstanceRetentionSettings: API.OperationMethod<
-  PutAppInstanceRetentionSettingsRequest,
+  PutAppInstanceRetentionSettingsRequest & RegionInput,
   PutAppInstanceRetentionSettingsResponse,
   PutAppInstanceRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1352,6 +1410,8 @@ export const putAppInstanceRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppInstanceRetentionSettings",
+  telemetry: TELEMETRY,
+  span: "PutAppInstanceRetentionSettings",
 }));
 
 export type PutAppInstanceUserExpirationSettingsError =
@@ -1373,7 +1433,7 @@ export type PutAppInstanceUserExpirationSettingsError =
  * their expiration settings. The system honors the new settings.
  */
 export const putAppInstanceUserExpirationSettings: API.OperationMethod<
-  PutAppInstanceUserExpirationSettingsRequest,
+  PutAppInstanceUserExpirationSettingsRequest & RegionInput,
   PutAppInstanceUserExpirationSettingsResponse,
   PutAppInstanceUserExpirationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1392,6 +1452,8 @@ export const putAppInstanceUserExpirationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppInstanceUserExpirationSettings",
+  telemetry: TELEMETRY,
+  span: "PutAppInstanceUserExpirationSettings",
 }));
 
 export type RegisterAppInstanceUserEndpointError =
@@ -1408,7 +1470,7 @@ export type RegisterAppInstanceUserEndpointError =
  * Registers an endpoint under an Amazon Chime `AppInstanceUser`. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
  */
 export const registerAppInstanceUserEndpoint: API.OperationMethod<
-  RegisterAppInstanceUserEndpointRequest,
+  RegisterAppInstanceUserEndpointRequest & RegionInput,
   RegisterAppInstanceUserEndpointResponse,
   RegisterAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1428,6 +1490,8 @@ export const registerAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAppInstanceUserEndpoint",
+  telemetry: TELEMETRY,
+  span: "RegisterAppInstanceUserEndpoint",
 }));
 
 export type TagResourceError =
@@ -1443,7 +1507,7 @@ export type TagResourceError =
  * Applies the specified tags to the specified Amazon Chime SDK identity resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1462,6 +1526,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1476,7 +1542,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified Amazon Chime SDK identity resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1494,6 +1560,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppInstanceError =
@@ -1509,7 +1577,7 @@ export type UpdateAppInstanceError =
  * Updates `AppInstance` metadata.
  */
 export const updateAppInstance: API.OperationMethod<
-  UpdateAppInstanceRequest,
+  UpdateAppInstanceRequest & RegionInput,
   UpdateAppInstanceResponse,
   UpdateAppInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1528,6 +1596,8 @@ export const updateAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateAppInstance",
 }));
 
 export type UpdateAppInstanceBotError =
@@ -1544,7 +1614,7 @@ export type UpdateAppInstanceBotError =
  * Updates the name and metadata of an `AppInstanceBot`.
  */
 export const updateAppInstanceBot: API.OperationMethod<
-  UpdateAppInstanceBotRequest,
+  UpdateAppInstanceBotRequest & RegionInput,
   UpdateAppInstanceBotResponse,
   UpdateAppInstanceBotError,
   Credentials | HttpClient.HttpClient
@@ -1564,6 +1634,8 @@ export const updateAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceBot",
+  telemetry: TELEMETRY,
+  span: "UpdateAppInstanceBot",
 }));
 
 export type UpdateAppInstanceUserError =
@@ -1581,7 +1653,7 @@ export type UpdateAppInstanceUserError =
  * metadata.
  */
 export const updateAppInstanceUser: API.OperationMethod<
-  UpdateAppInstanceUserRequest,
+  UpdateAppInstanceUserRequest & RegionInput,
   UpdateAppInstanceUserResponse,
   UpdateAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1601,6 +1673,8 @@ export const updateAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "UpdateAppInstanceUser",
 }));
 
 export type UpdateAppInstanceUserEndpointError =
@@ -1616,7 +1690,7 @@ export type UpdateAppInstanceUserEndpointError =
  * Updates the details of an `AppInstanceUserEndpoint`. You can update the name and `AllowMessage` values.
  */
 export const updateAppInstanceUserEndpoint: API.OperationMethod<
-  UpdateAppInstanceUserEndpointRequest,
+  UpdateAppInstanceUserEndpointRequest & RegionInput,
   UpdateAppInstanceUserEndpointResponse,
   UpdateAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1635,6 +1709,8 @@ export const updateAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceUserEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateAppInstanceUserEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

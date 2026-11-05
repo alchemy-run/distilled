@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "FeatureRequestProductAreas",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateFeatureRequestProductAreasRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -76,6 +89,8 @@ export const createFeatureRequestProductAreas: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureRequestProductAreas",
 }));
 
 export type ListFeatureRequestProductAreasError = PosthogOpError;
@@ -90,6 +105,8 @@ export const listFeatureRequestProductAreas: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureRequestProductAreas",
 }));
 
 export type UpdateFeatureRequestProductAreasError = PosthogOpError;
@@ -104,6 +121,8 @@ export const updateFeatureRequestProductAreas: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureRequestProductAreas",
 }));
 
 export type UpdateFeatureRequestProductAreasPartialError = PosthogOpError;
@@ -118,6 +137,8 @@ export const updateFeatureRequestProductAreasPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureRequestProductAreasPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

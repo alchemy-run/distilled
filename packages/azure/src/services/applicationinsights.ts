@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Insights" },
+  prefix: "Applicationinsights",
+  service: "Applicationinsights",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface DeleteWorkbookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -392,6 +413,8 @@ export const DeleteWorkbook: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkbook",
 }));
 
 export type GetWorkbookError = AzureOpError;
@@ -407,6 +430,8 @@ export const GetWorkbook: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkbook",
 }));
 
 export type GetWorkbooksRevisionError = AzureOpError;
@@ -422,6 +447,8 @@ export const GetWorkbooksRevision: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkbooksRevision",
 }));
 
 export type ListWorkbookByResourceGroupError = AzureOpError;
@@ -437,6 +464,8 @@ export const ListWorkbookByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkbookByResourceGroup",
 }));
 
 export type ListWorkbookBySubscriptionError = AzureOpError;
@@ -452,6 +481,8 @@ export const ListWorkbookBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkbookBySubscription",
 }));
 
 export type ListWorkbooksRevisionsError = AzureOpError;
@@ -467,6 +498,8 @@ export const ListWorkbooksRevisions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkbooksRevisions",
 }));
 
 export type UpdateWorkbookError = AzureOpError;
@@ -482,6 +515,8 @@ export const UpdateWorkbook: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkbook",
 }));
 
 export type WorkbooksCreateOrUpdateError = AzureOpError;
@@ -497,6 +532,8 @@ export const WorkbooksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkbooksCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

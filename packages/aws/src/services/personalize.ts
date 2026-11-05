@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://personalize.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Personalize",
+  service: "Personalize",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
@@ -1343,7 +1360,7 @@ export type CreateBatchInferenceJobError =
  * You can't get batch recommendations with the Trending-Now or Next-Best-Action recipes.
  */
 export const createBatchInferenceJob: API.OperationMethod<
-  CreateBatchInferenceJobRequest,
+  CreateBatchInferenceJobRequest & RegionInput,
   CreateBatchInferenceJobResponse,
   CreateBatchInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1361,6 +1378,8 @@ export const createBatchInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchInferenceJob",
+  telemetry: TELEMETRY,
+  span: "CreateBatchInferenceJob",
 }));
 
 export type CreateBatchSegmentJobError =
@@ -1377,7 +1396,7 @@ export type CreateBatchSegmentJobError =
  * Getting batch recommendations and user segments.
  */
 export const createBatchSegmentJob: API.OperationMethod<
-  CreateBatchSegmentJobRequest,
+  CreateBatchSegmentJobRequest & RegionInput,
   CreateBatchSegmentJobResponse,
   CreateBatchSegmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1395,6 +1414,8 @@ export const createBatchSegmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchSegmentJob",
+  telemetry: TELEMETRY,
+  span: "CreateBatchSegmentJob",
 }));
 
 export type CreateCampaignError =
@@ -1463,7 +1484,7 @@ export type CreateCampaignError =
  * - DeleteCampaign
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1481,6 +1502,8 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  telemetry: TELEMETRY,
+  span: "CreateCampaign",
 }));
 
 export type CreateDataDeletionJobError =
@@ -1529,7 +1552,7 @@ export type CreateDataDeletionJobError =
  * - DescribeDataDeletionJob
  */
 export const createDataDeletionJob: API.OperationMethod<
-  CreateDataDeletionJobRequest,
+  CreateDataDeletionJobRequest & RegionInput,
   CreateDataDeletionJobResponse,
   CreateDataDeletionJobError,
   Credentials | HttpClient.HttpClient
@@ -1547,6 +1570,8 @@ export const createDataDeletionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataDeletionJob",
+  telemetry: TELEMETRY,
+  span: "CreateDataDeletionJob",
 }));
 
 export type CreateDatasetError =
@@ -1598,7 +1623,7 @@ export type CreateDatasetError =
  * - DeleteDataset
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1616,6 +1641,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDatasetExportJobError =
@@ -1646,7 +1673,7 @@ export type CreateDatasetExportJobError =
  * failed.
  */
 export const createDatasetExportJob: API.OperationMethod<
-  CreateDatasetExportJobRequest,
+  CreateDatasetExportJobRequest & RegionInput,
   CreateDatasetExportJobResponse,
   CreateDatasetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1664,6 +1691,8 @@ export const createDatasetExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetExportJob",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetExportJob",
 }));
 
 export type CreateDatasetGroupError =
@@ -1730,7 +1759,7 @@ export type CreateDatasetGroupError =
  * - DeleteDatasetGroup
  */
 export const createDatasetGroup: API.OperationMethod<
-  CreateDatasetGroupRequest,
+  CreateDatasetGroupRequest & RegionInput,
   CreateDatasetGroupResponse,
   CreateDatasetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1746,6 +1775,8 @@ export const createDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetGroup",
 }));
 
 export type CreateDatasetImportJobError =
@@ -1797,7 +1828,7 @@ export type CreateDatasetImportJobError =
  * - DescribeDatasetImportJob
  */
 export const createDatasetImportJob: API.OperationMethod<
-  CreateDatasetImportJobRequest,
+  CreateDatasetImportJobRequest & RegionInput,
   CreateDatasetImportJobResponse,
   CreateDatasetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1815,6 +1846,8 @@ export const createDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetImportJob",
 }));
 
 export type CreateEventTrackerError =
@@ -1858,7 +1891,7 @@ export type CreateEventTrackerError =
  * - DeleteEventTracker
  */
 export const createEventTracker: API.OperationMethod<
-  CreateEventTrackerRequest,
+  CreateEventTrackerRequest & RegionInput,
   CreateEventTrackerResponse,
   CreateEventTrackerError,
   Credentials | HttpClient.HttpClient
@@ -1876,6 +1909,8 @@ export const createEventTracker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventTracker",
+  telemetry: TELEMETRY,
+  span: "CreateEventTracker",
 }));
 
 export type CreateFilterError =
@@ -1889,7 +1924,7 @@ export type CreateFilterError =
  * Creates a recommendation filter. For more information, see Filtering recommendations and user segments.
  */
 export const createFilter: API.OperationMethod<
-  CreateFilterRequest,
+  CreateFilterRequest & RegionInput,
   CreateFilterResponse,
   CreateFilterError,
   Credentials | HttpClient.HttpClient
@@ -1906,6 +1941,8 @@ export const createFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFilter",
+  telemetry: TELEMETRY,
+  span: "CreateFilter",
 }));
 
 export type CreateMetricAttributionError =
@@ -1921,7 +1958,7 @@ export type CreateMetricAttributionError =
  * For more information, see Measuring impact of recommendations.
  */
 export const createMetricAttribution: API.OperationMethod<
-  CreateMetricAttributionRequest,
+  CreateMetricAttributionRequest & RegionInput,
   CreateMetricAttributionResponse,
   CreateMetricAttributionError,
   Credentials | HttpClient.HttpClient
@@ -1938,6 +1975,8 @@ export const createMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMetricAttribution",
+  telemetry: TELEMETRY,
+  span: "CreateMetricAttribution",
 }));
 
 export type CreateRecommenderError =
@@ -2005,7 +2044,7 @@ export type CreateRecommenderError =
  * - DeleteRecommender
  */
 export const createRecommender: API.OperationMethod<
-  CreateRecommenderRequest,
+  CreateRecommenderRequest & RegionInput,
   CreateRecommenderResponse,
   CreateRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -2023,6 +2062,8 @@ export const createRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommender",
+  telemetry: TELEMETRY,
+  span: "CreateRecommender",
 }));
 
 export type CreateSchemaError =
@@ -2048,7 +2089,7 @@ export type CreateSchemaError =
  * - DeleteSchema
  */
 export const createSchema: API.OperationMethod<
-  CreateSchemaRequest,
+  CreateSchemaRequest & RegionInput,
   CreateSchemaResponse,
   CreateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2059,6 +2100,8 @@ export const createSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
+  telemetry: TELEMETRY,
+  span: "CreateSchema",
 }));
 
 export type CreateSolutionError =
@@ -2129,7 +2172,7 @@ export type CreateSolutionError =
  * - DescribeSolutionVersion
  */
 export const createSolution: API.OperationMethod<
-  CreateSolutionRequest,
+  CreateSolutionRequest & RegionInput,
   CreateSolutionResponse,
   CreateSolutionError,
   Credentials | HttpClient.HttpClient
@@ -2147,6 +2190,8 @@ export const createSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolution",
+  telemetry: TELEMETRY,
+  span: "CreateSolution",
 }));
 
 export type CreateSolutionVersionError =
@@ -2200,7 +2245,7 @@ export type CreateSolutionVersionError =
  * - DeleteSolution
  */
 export const createSolutionVersion: API.OperationMethod<
-  CreateSolutionVersionRequest,
+  CreateSolutionVersionRequest & RegionInput,
   CreateSolutionVersionResponse,
   CreateSolutionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2218,6 +2263,8 @@ export const createSolutionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolutionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateSolutionVersion",
 }));
 
 export type DeleteCampaignError =
@@ -2234,7 +2281,7 @@ export type DeleteCampaignError =
  * For information on creating campaigns, see CreateCampaign.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -2245,6 +2292,8 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaign",
 }));
 
 export type DeleteDatasetError =
@@ -2259,7 +2308,7 @@ export type DeleteDatasetError =
  * see Deleting a dataset.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2270,6 +2319,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteDatasetGroupError =
@@ -2288,7 +2339,7 @@ export type DeleteDatasetGroupError =
  * - All datasets in the dataset group.
  */
 export const deleteDatasetGroup: API.OperationMethod<
-  DeleteDatasetGroupRequest,
+  DeleteDatasetGroupRequest & RegionInput,
   DeleteDatasetGroupResponse,
   DeleteDatasetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2299,6 +2350,8 @@ export const deleteDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetGroup",
 }));
 
 export type DeleteEventTrackerError =
@@ -2312,7 +2365,7 @@ export type DeleteEventTrackerError =
  * information on event trackers, see CreateEventTracker.
  */
 export const deleteEventTracker: API.OperationMethod<
-  DeleteEventTrackerRequest,
+  DeleteEventTrackerRequest & RegionInput,
   DeleteEventTrackerResponse,
   DeleteEventTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2323,6 +2376,8 @@ export const deleteEventTracker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventTracker",
+  telemetry: TELEMETRY,
+  span: "DeleteEventTracker",
 }));
 
 export type DeleteFilterError =
@@ -2334,7 +2389,7 @@ export type DeleteFilterError =
  * Deletes a filter.
  */
 export const deleteFilter: API.OperationMethod<
-  DeleteFilterRequest,
+  DeleteFilterRequest & RegionInput,
   DeleteFilterResponse,
   DeleteFilterError,
   Credentials | HttpClient.HttpClient
@@ -2345,6 +2400,8 @@ export const deleteFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteFilter",
 }));
 
 export type DeleteMetricAttributionError =
@@ -2356,7 +2413,7 @@ export type DeleteMetricAttributionError =
  * Deletes a metric attribution.
  */
 export const deleteMetricAttribution: API.OperationMethod<
-  DeleteMetricAttributionRequest,
+  DeleteMetricAttributionRequest & RegionInput,
   DeleteMetricAttributionResponse,
   DeleteMetricAttributionError,
   Credentials | HttpClient.HttpClient
@@ -2367,6 +2424,8 @@ export const deleteMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricAttribution",
+  telemetry: TELEMETRY,
+  span: "DeleteMetricAttribution",
 }));
 
 export type DeleteRecommenderError =
@@ -2379,7 +2438,7 @@ export type DeleteRecommenderError =
  * request.
  */
 export const deleteRecommender: API.OperationMethod<
-  DeleteRecommenderRequest,
+  DeleteRecommenderRequest & RegionInput,
   DeleteRecommenderResponse,
   DeleteRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -2390,6 +2449,8 @@ export const deleteRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommender",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommender",
 }));
 
 export type DeleteSchemaError =
@@ -2403,7 +2464,7 @@ export type DeleteSchemaError =
  * CreateSchema.
  */
 export const deleteSchema: API.OperationMethod<
-  DeleteSchemaRequest,
+  DeleteSchemaRequest & RegionInput,
   DeleteSchemaResponse,
   DeleteSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2414,6 +2475,8 @@ export const deleteSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
+  telemetry: TELEMETRY,
+  span: "DeleteSchema",
 }));
 
 export type DeleteSolutionError =
@@ -2431,7 +2494,7 @@ export type DeleteSolutionError =
  * For more information on solutions, see CreateSolution.
  */
 export const deleteSolution: API.OperationMethod<
-  DeleteSolutionRequest,
+  DeleteSolutionRequest & RegionInput,
   DeleteSolutionResponse,
   DeleteSolutionError,
   Credentials | HttpClient.HttpClient
@@ -2442,6 +2505,8 @@ export const deleteSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolution",
+  telemetry: TELEMETRY,
+  span: "DeleteSolution",
 }));
 
 export type DescribeAlgorithmError =
@@ -2452,7 +2517,7 @@ export type DescribeAlgorithmError =
  * Describes the given algorithm.
  */
 export const describeAlgorithm: API.OperationMethod<
-  DescribeAlgorithmRequest,
+  DescribeAlgorithmRequest & RegionInput,
   DescribeAlgorithmResponse,
   DescribeAlgorithmError,
   Credentials | HttpClient.HttpClient
@@ -2463,6 +2528,8 @@ export const describeAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlgorithm",
+  telemetry: TELEMETRY,
+  span: "DescribeAlgorithm",
 }));
 
 export type DescribeBatchInferenceJobError =
@@ -2475,7 +2542,7 @@ export type DescribeBatchInferenceJobError =
  * the recommendations.
  */
 export const describeBatchInferenceJob: API.OperationMethod<
-  DescribeBatchInferenceJobRequest,
+  DescribeBatchInferenceJobRequest & RegionInput,
   DescribeBatchInferenceJobResponse,
   DescribeBatchInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -2486,6 +2553,8 @@ export const describeBatchInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchInferenceJob",
+  telemetry: TELEMETRY,
+  span: "DescribeBatchInferenceJob",
 }));
 
 export type DescribeBatchSegmentJobError =
@@ -2498,7 +2567,7 @@ export type DescribeBatchSegmentJobError =
  * segments.
  */
 export const describeBatchSegmentJob: API.OperationMethod<
-  DescribeBatchSegmentJobRequest,
+  DescribeBatchSegmentJobRequest & RegionInput,
   DescribeBatchSegmentJobResponse,
   DescribeBatchSegmentJobError,
   Credentials | HttpClient.HttpClient
@@ -2509,6 +2578,8 @@ export const describeBatchSegmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchSegmentJob",
+  telemetry: TELEMETRY,
+  span: "DescribeBatchSegmentJob",
 }));
 
 export type DescribeCampaignError =
@@ -2530,7 +2601,7 @@ export type DescribeCampaignError =
  * For more information on campaigns, see CreateCampaign.
  */
 export const describeCampaign: API.OperationMethod<
-  DescribeCampaignRequest,
+  DescribeCampaignRequest & RegionInput,
   DescribeCampaignResponse,
   DescribeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -2541,6 +2612,8 @@ export const describeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCampaign",
+  telemetry: TELEMETRY,
+  span: "DescribeCampaign",
 }));
 
 export type DescribeDataDeletionJobError =
@@ -2551,7 +2624,7 @@ export type DescribeDataDeletionJobError =
  * Describes the data deletion job created by CreateDataDeletionJob, including the job status.
  */
 export const describeDataDeletionJob: API.OperationMethod<
-  DescribeDataDeletionJobRequest,
+  DescribeDataDeletionJobRequest & RegionInput,
   DescribeDataDeletionJobResponse,
   DescribeDataDeletionJobError,
   Credentials | HttpClient.HttpClient
@@ -2562,6 +2635,8 @@ export const describeDataDeletionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataDeletionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDataDeletionJob",
 }));
 
 export type DescribeDatasetError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2570,7 +2645,7 @@ export type DescribeDatasetError = InvalidInputException | ResourceNotFoundExcep
  * CreateDataset.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2581,6 +2656,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeDatasetExportJobError =
@@ -2591,7 +2668,7 @@ export type DescribeDatasetExportJobError =
  * Describes the dataset export job created by CreateDatasetExportJob, including the export job status.
  */
 export const describeDatasetExportJob: API.OperationMethod<
-  DescribeDatasetExportJobRequest,
+  DescribeDatasetExportJobRequest & RegionInput,
   DescribeDatasetExportJobResponse,
   DescribeDatasetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -2602,6 +2679,8 @@ export const describeDatasetExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetExportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetExportJob",
 }));
 
 export type DescribeDatasetGroupError =
@@ -2613,7 +2692,7 @@ export type DescribeDatasetGroupError =
  * groups, see CreateDatasetGroup.
  */
 export const describeDatasetGroup: API.OperationMethod<
-  DescribeDatasetGroupRequest,
+  DescribeDatasetGroupRequest & RegionInput,
   DescribeDatasetGroupResponse,
   DescribeDatasetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2624,6 +2703,8 @@ export const describeDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetGroup",
 }));
 
 export type DescribeDatasetImportJobError =
@@ -2634,7 +2715,7 @@ export type DescribeDatasetImportJobError =
  * Describes the dataset import job created by CreateDatasetImportJob, including the import job status.
  */
 export const describeDatasetImportJob: API.OperationMethod<
-  DescribeDatasetImportJobRequest,
+  DescribeDatasetImportJobRequest & RegionInput,
   DescribeDatasetImportJobResponse,
   DescribeDatasetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2645,6 +2726,8 @@ export const describeDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetImportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetImportJob",
 }));
 
 export type DescribeEventTrackerError =
@@ -2657,7 +2740,7 @@ export type DescribeEventTrackerError =
  * For more information on event trackers, see CreateEventTracker.
  */
 export const describeEventTracker: API.OperationMethod<
-  DescribeEventTrackerRequest,
+  DescribeEventTrackerRequest & RegionInput,
   DescribeEventTrackerResponse,
   DescribeEventTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2668,6 +2751,8 @@ export const describeEventTracker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventTracker",
+  telemetry: TELEMETRY,
+  span: "DescribeEventTracker",
 }));
 
 export type DescribeFeatureTransformationError =
@@ -2678,7 +2763,7 @@ export type DescribeFeatureTransformationError =
  * Describes the given feature transformation.
  */
 export const describeFeatureTransformation: API.OperationMethod<
-  DescribeFeatureTransformationRequest,
+  DescribeFeatureTransformationRequest & RegionInput,
   DescribeFeatureTransformationResponse,
   DescribeFeatureTransformationError,
   Credentials | HttpClient.HttpClient
@@ -2689,6 +2774,8 @@ export const describeFeatureTransformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeatureTransformation",
+  telemetry: TELEMETRY,
+  span: "DescribeFeatureTransformation",
 }));
 
 export type DescribeFilterError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2696,7 +2783,7 @@ export type DescribeFilterError = InvalidInputException | ResourceNotFoundExcept
  * Describes a filter's properties.
  */
 export const describeFilter: API.OperationMethod<
-  DescribeFilterRequest,
+  DescribeFilterRequest & RegionInput,
   DescribeFilterResponse,
   DescribeFilterError,
   Credentials | HttpClient.HttpClient
@@ -2707,6 +2794,8 @@ export const describeFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFilter",
+  telemetry: TELEMETRY,
+  span: "DescribeFilter",
 }));
 
 export type DescribeMetricAttributionError =
@@ -2717,7 +2806,7 @@ export type DescribeMetricAttributionError =
  * Describes a metric attribution.
  */
 export const describeMetricAttribution: API.OperationMethod<
-  DescribeMetricAttributionRequest,
+  DescribeMetricAttributionRequest & RegionInput,
   DescribeMetricAttributionResponse,
   DescribeMetricAttributionError,
   Credentials | HttpClient.HttpClient
@@ -2728,6 +2817,8 @@ export const describeMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricAttribution",
+  telemetry: TELEMETRY,
+  span: "DescribeMetricAttribution",
 }));
 
 export type DescribeRecipeError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2750,7 +2841,7 @@ export type DescribeRecipeError = InvalidInputException | ResourceNotFoundExcept
  * GetRecommendations API.
  */
 export const describeRecipe: API.OperationMethod<
-  DescribeRecipeRequest,
+  DescribeRecipeRequest & RegionInput,
   DescribeRecipeResponse,
   DescribeRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2761,6 +2852,8 @@ export const describeRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecipe",
+  telemetry: TELEMETRY,
+  span: "DescribeRecipe",
 }));
 
 export type DescribeRecommenderError =
@@ -2787,7 +2880,7 @@ export type DescribeRecommenderError =
  * For more information on recommenders, see CreateRecommender.
  */
 export const describeRecommender: API.OperationMethod<
-  DescribeRecommenderRequest,
+  DescribeRecommenderRequest & RegionInput,
   DescribeRecommenderResponse,
   DescribeRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -2798,6 +2891,8 @@ export const describeRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecommender",
+  telemetry: TELEMETRY,
+  span: "DescribeRecommender",
 }));
 
 export type DescribeSchemaError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2806,7 +2901,7 @@ export type DescribeSchemaError = InvalidInputException | ResourceNotFoundExcept
  * CreateSchema.
  */
 export const describeSchema: API.OperationMethod<
-  DescribeSchemaRequest,
+  DescribeSchemaRequest & RegionInput,
   DescribeSchemaResponse,
   DescribeSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2817,6 +2912,8 @@ export const describeSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchema",
+  telemetry: TELEMETRY,
+  span: "DescribeSchema",
 }));
 
 export type DescribeSolutionError =
@@ -2828,7 +2925,7 @@ export type DescribeSolutionError =
  * For more information on solutions, see CreateSolution.
  */
 export const describeSolution: API.OperationMethod<
-  DescribeSolutionRequest,
+  DescribeSolutionRequest & RegionInput,
   DescribeSolutionResponse,
   DescribeSolutionError,
   Credentials | HttpClient.HttpClient
@@ -2839,6 +2936,8 @@ export const describeSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSolution",
+  telemetry: TELEMETRY,
+  span: "DescribeSolution",
 }));
 
 export type DescribeSolutionVersionError =
@@ -2849,7 +2948,7 @@ export type DescribeSolutionVersionError =
  * Describes a specific version of a solution. For more information on solutions, see CreateSolution
  */
 export const describeSolutionVersion: API.OperationMethod<
-  DescribeSolutionVersionRequest,
+  DescribeSolutionVersionRequest & RegionInput,
   DescribeSolutionVersionResponse,
   DescribeSolutionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2860,6 +2959,8 @@ export const describeSolutionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSolutionVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeSolutionVersion",
 }));
 
 export type GetSolutionMetricsError =
@@ -2871,7 +2972,7 @@ export type GetSolutionMetricsError =
  * Gets the metrics for the specified solution version.
  */
 export const getSolutionMetrics: API.OperationMethod<
-  GetSolutionMetricsRequest,
+  GetSolutionMetricsRequest & RegionInput,
   GetSolutionMetricsResponse,
   GetSolutionMetricsError,
   Credentials | HttpClient.HttpClient
@@ -2882,6 +2983,8 @@ export const getSolutionMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolutionMetrics",
+  telemetry: TELEMETRY,
+  span: "GetSolutionMetrics",
 }));
 
 export type ListBatchInferenceJobsError =
@@ -2893,7 +2996,7 @@ export type ListBatchInferenceJobsError =
  * version.
  */
 export const listBatchInferenceJobs: API.PaginatedOperationMethod<
-  ListBatchInferenceJobsRequest,
+  ListBatchInferenceJobsRequest & RegionInput,
   ListBatchInferenceJobsResponse,
   ListBatchInferenceJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2911,6 +3014,8 @@ export const listBatchInferenceJobs: API.PaginatedOperationMethod<
     items: "batchInferenceJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchInferenceJobs",
 })) as any;
 
 export type ListBatchSegmentJobsError =
@@ -2922,7 +3027,7 @@ export type ListBatchSegmentJobsError =
  * version that you specify.
  */
 export const listBatchSegmentJobs: API.PaginatedOperationMethod<
-  ListBatchSegmentJobsRequest,
+  ListBatchSegmentJobsRequest & RegionInput,
   ListBatchSegmentJobsResponse,
   ListBatchSegmentJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2940,6 +3045,8 @@ export const listBatchSegmentJobs: API.PaginatedOperationMethod<
     items: "batchSegmentJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchSegmentJobs",
 })) as any;
 
 export type ListCampaignsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -2950,7 +3057,7 @@ export type ListCampaignsError = InvalidInputException | InvalidNextTokenExcepti
  * For more information on campaigns, see CreateCampaign.
  */
 export const listCampaigns: API.PaginatedOperationMethod<
-  ListCampaignsRequest,
+  ListCampaignsRequest & RegionInput,
   ListCampaignsResponse,
   ListCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -2968,6 +3075,8 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaigns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCampaigns",
 })) as any;
 
 export type ListDataDeletionJobsError =
@@ -2984,7 +3093,7 @@ export type ListDataDeletionJobsError =
  * information on data deletion jobs, see Deleting users.
  */
 export const listDataDeletionJobs: API.OperationMethod<
-  ListDataDeletionJobsRequest,
+  ListDataDeletionJobsRequest & RegionInput,
   ListDataDeletionJobsResponse,
   ListDataDeletionJobsError,
   Credentials | HttpClient.HttpClient
@@ -2995,6 +3104,8 @@ export const listDataDeletionJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataDeletionJobs",
+  telemetry: TELEMETRY,
+  span: "ListDataDeletionJobs",
 }));
 
 export type ListDatasetExportJobsError =
@@ -3010,7 +3121,7 @@ export type ListDatasetExportJobsError =
  * CreateDataset.
  */
 export const listDatasetExportJobs: API.PaginatedOperationMethod<
-  ListDatasetExportJobsRequest,
+  ListDatasetExportJobsRequest & RegionInput,
   ListDatasetExportJobsResponse,
   ListDatasetExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3028,6 +3139,8 @@ export const listDatasetExportJobs: API.PaginatedOperationMethod<
     items: "datasetExportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetExportJobs",
 })) as any;
 
 export type ListDatasetGroupsError = InvalidNextTokenException | CommonErrors;
@@ -3037,7 +3150,7 @@ export type ListDatasetGroupsError = InvalidNextTokenException | CommonErrors;
  * information on dataset groups, see CreateDatasetGroup.
  */
 export const listDatasetGroups: API.PaginatedOperationMethod<
-  ListDatasetGroupsRequest,
+  ListDatasetGroupsRequest & RegionInput,
   ListDatasetGroupsResponse,
   ListDatasetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3055,6 +3168,8 @@ export const listDatasetGroups: API.PaginatedOperationMethod<
     items: "datasetGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetGroups",
 })) as any;
 
 export type ListDatasetImportJobsError =
@@ -3070,7 +3185,7 @@ export type ListDatasetImportJobsError =
  * CreateDataset.
  */
 export const listDatasetImportJobs: API.PaginatedOperationMethod<
-  ListDatasetImportJobsRequest,
+  ListDatasetImportJobsRequest & RegionInput,
   ListDatasetImportJobsResponse,
   ListDatasetImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3088,6 +3203,8 @@ export const listDatasetImportJobs: API.PaginatedOperationMethod<
     items: "datasetImportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetImportJobs",
 })) as any;
 
 export type ListDatasetsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3097,7 +3214,7 @@ export type ListDatasetsError = InvalidInputException | InvalidNextTokenExceptio
  * Resource Name (ARN). For more information on datasets, see CreateDataset.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -3115,6 +3232,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListEventTrackersError =
@@ -3128,7 +3247,7 @@ export type ListEventTrackersError =
  * information on event trackers, see CreateEventTracker.
  */
 export const listEventTrackers: API.PaginatedOperationMethod<
-  ListEventTrackersRequest,
+  ListEventTrackersRequest & RegionInput,
   ListEventTrackersResponse,
   ListEventTrackersError,
   Credentials | HttpClient.HttpClient,
@@ -3146,6 +3265,8 @@ export const listEventTrackers: API.PaginatedOperationMethod<
     items: "eventTrackers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventTrackers",
 })) as any;
 
 export type ListFiltersError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3153,7 +3274,7 @@ export type ListFiltersError = InvalidInputException | InvalidNextTokenException
  * Lists all filters that belong to a given dataset group.
  */
 export const listFilters: API.PaginatedOperationMethod<
-  ListFiltersRequest,
+  ListFiltersRequest & RegionInput,
   ListFiltersResponse,
   ListFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -3171,6 +3292,8 @@ export const listFilters: API.PaginatedOperationMethod<
     items: "Filters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFilters",
 })) as any;
 
 export type ListMetricAttributionMetricsError =
@@ -3181,7 +3304,7 @@ export type ListMetricAttributionMetricsError =
  * Lists the metrics for the metric attribution.
  */
 export const listMetricAttributionMetrics: API.PaginatedOperationMethod<
-  ListMetricAttributionMetricsRequest,
+  ListMetricAttributionMetricsRequest & RegionInput,
   ListMetricAttributionMetricsResponse,
   ListMetricAttributionMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -3199,6 +3322,8 @@ export const listMetricAttributionMetrics: API.PaginatedOperationMethod<
     items: "metrics",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetricAttributionMetrics",
 })) as any;
 
 export type ListMetricAttributionsError =
@@ -3209,7 +3334,7 @@ export type ListMetricAttributionsError =
  * Lists metric attributions.
  */
 export const listMetricAttributions: API.PaginatedOperationMethod<
-  ListMetricAttributionsRequest,
+  ListMetricAttributionsRequest & RegionInput,
   ListMetricAttributionsResponse,
   ListMetricAttributionsError,
   Credentials | HttpClient.HttpClient,
@@ -3227,6 +3352,8 @@ export const listMetricAttributions: API.PaginatedOperationMethod<
     items: "metricAttributions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetricAttributions",
 })) as any;
 
 export type ListRecipesError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3235,7 +3362,7 @@ export type ListRecipesError = InvalidInputException | InvalidNextTokenException
  * for each recipe, including the recipe's Amazon Resource Name (ARN).
  */
 export const listRecipes: API.PaginatedOperationMethod<
-  ListRecipesRequest,
+  ListRecipesRequest & RegionInput,
   ListRecipesResponse,
   ListRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -3253,6 +3380,8 @@ export const listRecipes: API.PaginatedOperationMethod<
     items: "recipes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecipes",
 })) as any;
 
 export type ListRecommendersError =
@@ -3266,7 +3395,7 @@ export type ListRecommendersError =
  * For more information on recommenders, see CreateRecommender.
  */
 export const listRecommenders: API.PaginatedOperationMethod<
-  ListRecommendersRequest,
+  ListRecommendersRequest & RegionInput,
   ListRecommendersResponse,
   ListRecommendersError,
   Credentials | HttpClient.HttpClient,
@@ -3284,6 +3413,8 @@ export const listRecommenders: API.PaginatedOperationMethod<
     items: "recommenders",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenders",
 })) as any;
 
 export type ListSchemasError = InvalidNextTokenException | CommonErrors;
@@ -3293,7 +3424,7 @@ export type ListSchemasError = InvalidNextTokenException | CommonErrors;
  * For more information on schemas, see CreateSchema.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasRequest,
+  ListSchemasRequest & RegionInput,
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -3311,6 +3442,8 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "schemas",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemas",
 })) as any;
 
 export type ListSolutionsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3321,7 +3454,7 @@ export type ListSolutionsError = InvalidInputException | InvalidNextTokenExcepti
  * For more information on solutions, see CreateSolution.
  */
 export const listSolutions: API.PaginatedOperationMethod<
-  ListSolutionsRequest,
+  ListSolutionsRequest & RegionInput,
   ListSolutionsResponse,
   ListSolutionsError,
   Credentials | HttpClient.HttpClient,
@@ -3339,6 +3472,8 @@ export const listSolutions: API.PaginatedOperationMethod<
     items: "solutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolutions",
 })) as any;
 
 export type ListSolutionVersionsError =
@@ -3352,7 +3487,7 @@ export type ListSolutionVersionsError =
  * provides the properties for each solution version, including the Amazon Resource Name (ARN).
  */
 export const listSolutionVersions: API.PaginatedOperationMethod<
-  ListSolutionVersionsRequest,
+  ListSolutionVersionsRequest & RegionInput,
   ListSolutionVersionsResponse,
   ListSolutionVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3370,6 +3505,8 @@ export const listSolutionVersions: API.PaginatedOperationMethod<
     items: "solutionVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolutionVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3381,7 +3518,7 @@ export type ListTagsForResourceError =
  * Get a list of tags attached to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3392,6 +3529,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartRecommenderError =
@@ -3404,7 +3543,7 @@ export type StartRecommenderError =
  * create any new models, but resumes billing and automatic retraining for the recommender.
  */
 export const startRecommender: API.OperationMethod<
-  StartRecommenderRequest,
+  StartRecommenderRequest & RegionInput,
   StartRecommenderResponse,
   StartRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -3415,6 +3554,8 @@ export const startRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommender",
+  telemetry: TELEMETRY,
+  span: "StartRecommender",
 }));
 
 export type StopRecommenderError =
@@ -3426,7 +3567,7 @@ export type StopRecommenderError =
  * Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
  */
 export const stopRecommender: API.OperationMethod<
-  StopRecommenderRequest,
+  StopRecommenderRequest & RegionInput,
   StopRecommenderResponse,
   StopRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -3437,6 +3578,8 @@ export const stopRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRecommender",
+  telemetry: TELEMETRY,
+  span: "StopRecommender",
 }));
 
 export type StopSolutionVersionCreationError =
@@ -3459,7 +3602,7 @@ export type StopSolutionVersionCreationError =
  * until you stop the solution version creation. You cannot resume creating a solution version once it has been stopped.
  */
 export const stopSolutionVersionCreation: API.OperationMethod<
-  StopSolutionVersionCreationRequest,
+  StopSolutionVersionCreationRequest & RegionInput,
   StopSolutionVersionCreationResponse,
   StopSolutionVersionCreationError,
   Credentials | HttpClient.HttpClient
@@ -3470,6 +3613,8 @@ export const stopSolutionVersionCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSolutionVersionCreation",
+  telemetry: TELEMETRY,
+  span: "StopSolutionVersionCreation",
 }));
 
 export type TagResourceError =
@@ -3483,7 +3628,7 @@ export type TagResourceError =
  * Add a list of tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3500,6 +3645,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3512,7 +3659,7 @@ export type UntagResourceError =
  * Removes the specified tags that are attached to a resource. For more information, see Removing tags from Amazon Personalize resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3528,6 +3675,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCampaignError =
@@ -3556,7 +3705,7 @@ export type UpdateCampaignError =
  * For more information about campaigns, see Creating a campaign.
  */
 export const updateCampaign: API.OperationMethod<
-  UpdateCampaignRequest,
+  UpdateCampaignRequest & RegionInput,
   UpdateCampaignResponse,
   UpdateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -3567,6 +3716,8 @@ export const updateCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaign",
 }));
 
 export type UpdateDatasetError =
@@ -3578,7 +3729,7 @@ export type UpdateDatasetError =
  * Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema.
  */
 export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
+  UpdateDatasetRequest & RegionInput,
   UpdateDatasetResponse,
   UpdateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -3589,6 +3740,8 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateMetricAttributionError =
@@ -3601,7 +3754,7 @@ export type UpdateMetricAttributionError =
  * Updates a metric attribution.
  */
 export const updateMetricAttribution: API.OperationMethod<
-  UpdateMetricAttributionRequest,
+  UpdateMetricAttributionRequest & RegionInput,
   UpdateMetricAttributionResponse,
   UpdateMetricAttributionError,
   Credentials | HttpClient.HttpClient
@@ -3617,6 +3770,8 @@ export const updateMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMetricAttribution",
+  telemetry: TELEMETRY,
+  span: "UpdateMetricAttribution",
 }));
 
 export type UpdateRecommenderError =
@@ -3634,7 +3789,7 @@ export type UpdateRecommenderError =
  * operation.
  */
 export const updateRecommender: API.OperationMethod<
-  UpdateRecommenderRequest,
+  UpdateRecommenderRequest & RegionInput,
   UpdateRecommenderResponse,
   UpdateRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -3645,6 +3800,8 @@ export const updateRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommender",
+  telemetry: TELEMETRY,
+  span: "UpdateRecommender",
 }));
 
 export type UpdateSolutionError =
@@ -3669,7 +3826,7 @@ export type UpdateSolutionError =
  * in the `latestSolutionUpdate`.
  */
 export const updateSolution: API.OperationMethod<
-  UpdateSolutionRequest,
+  UpdateSolutionRequest & RegionInput,
   UpdateSolutionResponse,
   UpdateSolutionError,
   Credentials | HttpClient.HttpClient
@@ -3685,6 +3842,8 @@ export const updateSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSolution",
+  telemetry: TELEMETRY,
+  span: "UpdateSolution",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

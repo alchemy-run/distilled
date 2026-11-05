@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "Certificates",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreateCertificateRequestLabelsMap = { [key: string]: string | undefined };
 /** Choose between uploading a Certificate in PEM format or requesting a managed *Let's Encrypt* Certificate. */
@@ -407,6 +420,8 @@ export const createCertificate: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificate",
 }));
 
 export type DeleteCertificateError = HetznerOpError;
@@ -422,6 +437,8 @@ export const deleteCertificate: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificate",
 }));
 
 export type GetCertificateError = HetznerOpError;
@@ -437,6 +454,8 @@ export const getCertificate: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificate",
 }));
 
 export type ListCertificatesError = HetznerOpError;
@@ -454,6 +473,8 @@ export const listCertificates: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCertificates",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -478,6 +499,8 @@ export const updateCertificate: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertificate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

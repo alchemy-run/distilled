@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { CoinbaseOpError, CoinbaseOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "coinbase-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Coinbase",
+  service: "Cdp",
+  labels: "coinbase",
+  propagate: "w3c",
+} as const;
+
 export interface AddEndUserEvmAccountRequest {
   /** The ID of the end user to add the account to. */
   userId: string;
@@ -6325,6 +6338,8 @@ export const addEndUserEvmAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddEndUserEvmAccount",
 }));
 
 export type AddEndUserEvmSmartAccountError = CoinbaseOpError;
@@ -6340,6 +6355,8 @@ export const addEndUserEvmSmartAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddEndUserEvmSmartAccount",
 }));
 
 export type AddEndUserSolanaAccountError = CoinbaseOpError;
@@ -6355,6 +6372,8 @@ export const addEndUserSolanaAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddEndUserSolanaAccount",
 }));
 
 export type AdjustBorrowPositionWithEndUserAccountError = CoinbaseOpError;
@@ -6370,6 +6389,8 @@ export const adjustBorrowPositionWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdjustBorrowPositionWithEndUserAccount",
 }));
 
 export type AuthorizeCoinbasePaymentSessionError = CoinbaseOpError;
@@ -6385,6 +6406,8 @@ export const authorizeCoinbasePaymentSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeCoinbasePaymentSession",
 }));
 
 export type AuthorizeWalletPaymentSessionError = CoinbaseOpError;
@@ -6400,6 +6423,8 @@ export const authorizeWalletPaymentSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeWalletPaymentSession",
 }));
 
 export type AuthorizeX402PaymentSessionError = CoinbaseOpError;
@@ -6415,6 +6440,8 @@ export const authorizeX402PaymentSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeX402PaymentSession",
 }));
 
 export type CancelPaymentSessionError = CoinbaseOpError;
@@ -6430,6 +6457,8 @@ export const cancelPaymentSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPaymentSession",
 }));
 
 export type CapturePaymentSessionError = CoinbaseOpError;
@@ -6445,6 +6474,8 @@ export const capturePaymentSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CapturePaymentSession",
 }));
 
 export type CloseBorrowPositionWithEndUserAccountError = CoinbaseOpError;
@@ -6460,6 +6491,8 @@ export const closeBorrowPositionWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloseBorrowPositionWithEndUserAccount",
 }));
 
 export type CreateBorrowPositionWithEndUserAccountError = CoinbaseOpError;
@@ -6475,6 +6508,8 @@ export const createBorrowPositionWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBorrowPositionWithEndUserAccount",
 }));
 
 export type CreateCustomerError = CoinbaseOpError;
@@ -6490,6 +6525,8 @@ export const createCustomer: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomer",
 }));
 
 export type CreateDelegationForEndUserAccountError = CoinbaseOpError;
@@ -6505,6 +6542,8 @@ export const createDelegationForEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDelegationForEndUserAccount",
 }));
 
 export type CreateDepositDestinationError = CoinbaseOpError;
@@ -6520,6 +6559,8 @@ export const createDepositDestination: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDepositDestination",
 }));
 
 export type CreateDisbursementError = CoinbaseOpError;
@@ -6535,6 +6576,8 @@ export const createDisbursement: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDisbursement",
 }));
 
 export type CreateEndUserError = CoinbaseOpError;
@@ -6550,6 +6593,8 @@ export const createEndUser: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndUser",
 }));
 
 export type CreateEvmAccountError = CoinbaseOpError;
@@ -6565,6 +6610,8 @@ export const createEvmAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvmAccount",
 }));
 
 export type CreateEvmEip7702DelegationError = CoinbaseOpError;
@@ -6580,6 +6627,8 @@ export const createEvmEip7702Delegation: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvmEip7702Delegation",
 }));
 
 export type CreateEvmEip7702DelegationWithEndUserAccountError = CoinbaseOpError;
@@ -6603,6 +6652,8 @@ export const createEvmEip7702DelegationWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvmEip7702DelegationWithEndUserAccount",
 }));
 
 export type CreateEvmSmartAccountError = CoinbaseOpError;
@@ -6618,6 +6669,8 @@ export const createEvmSmartAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvmSmartAccount",
 }));
 
 export type CreateEvmSwapQuoteError = CoinbaseOpError;
@@ -6633,6 +6686,8 @@ export const createEvmSwapQuote: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvmSwapQuote",
 }));
 
 export type CreateFoundationAccountError = CoinbaseOpError;
@@ -6648,6 +6703,8 @@ export const createFoundationAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFoundationAccount",
 }));
 
 export type CreateOnrampOrderError = CoinbaseOpError;
@@ -6663,6 +6720,8 @@ export const createOnrampOrder: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnrampOrder",
 }));
 
 export type CreateOnrampSessionError = CoinbaseOpError;
@@ -6678,6 +6737,8 @@ export const createOnrampSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnrampSession",
 }));
 
 export type CreatePaymentSessionError = CoinbaseOpError;
@@ -6693,6 +6754,8 @@ export const createPaymentSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentSession",
 }));
 
 export type CreatePolicyError = CoinbaseOpError;
@@ -6708,6 +6771,8 @@ export const createPolicy: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type CreateSolanaAccountError = CoinbaseOpError;
@@ -6723,6 +6788,8 @@ export const createSolanaAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSolanaAccount",
 }));
 
 export type CreateSpendPermissionError = CoinbaseOpError;
@@ -6738,6 +6805,8 @@ export const createSpendPermission: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpendPermission",
 }));
 
 export type CreateTransferError = CoinbaseOpError;
@@ -6753,6 +6822,8 @@ export const createTransfer: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransfer",
 }));
 
 export type CreateWebhookSubscriptionError = CoinbaseOpError;
@@ -6768,6 +6839,8 @@ export const createWebhookSubscription: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhookSubscription",
 }));
 
 export type CreateX402DiscoveryMcpError = CoinbaseOpError;
@@ -6783,6 +6856,8 @@ export const createX402DiscoveryMcp: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateX402DiscoveryMcp",
 }));
 
 export type DeleteCustomerError = CoinbaseOpError;
@@ -6798,6 +6873,8 @@ export const deleteCustomer: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomer",
 }));
 
 export type DeletePolicyError = CoinbaseOpError;
@@ -6813,6 +6890,8 @@ export const deletePolicy: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeleteWebhookSubscriptionError = CoinbaseOpError;
@@ -6828,6 +6907,8 @@ export const deleteWebhookSubscription: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhookSubscription",
 }));
 
 export type ExecuteFundTransferError = CoinbaseOpError;
@@ -6843,6 +6924,8 @@ export const executeFundTransfer: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteFundTransfer",
 }));
 
 export type ExportEvmAccountError = CoinbaseOpError;
@@ -6858,6 +6941,8 @@ export const exportEvmAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportEvmAccount",
 }));
 
 export type ExportEvmAccountByNameError = CoinbaseOpError;
@@ -6873,6 +6958,8 @@ export const exportEvmAccountByName: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportEvmAccountByName",
 }));
 
 export type ExportSolanaAccountError = CoinbaseOpError;
@@ -6888,6 +6975,8 @@ export const exportSolanaAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSolanaAccount",
 }));
 
 export type ExportSolanaAccountByNameError = CoinbaseOpError;
@@ -6903,6 +6992,8 @@ export const exportSolanaAccountByName: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSolanaAccountByName",
 }));
 
 export type GetBalanceByAssetError = CoinbaseOpError;
@@ -6918,6 +7009,8 @@ export const getBalanceByAsset: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalanceByAsset",
 }));
 
 export type GetCustomerError = CoinbaseOpError;
@@ -6933,6 +7026,8 @@ export const getCustomer: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomer",
 }));
 
 export type GetCustomerRequirementsError = CoinbaseOpError;
@@ -6948,6 +7043,8 @@ export const getCustomerRequirements: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerRequirements",
 }));
 
 export type GetDelegationForEndUserError = CoinbaseOpError;
@@ -6963,6 +7060,8 @@ export const getDelegationForEndUser: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDelegationForEndUser",
 }));
 
 export type GetDelegationForEndUserAccountError = CoinbaseOpError;
@@ -6978,6 +7077,8 @@ export const getDelegationForEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDelegationForEndUserAccount",
 }));
 
 export type GetDepositDestinationError = CoinbaseOpError;
@@ -6993,6 +7094,8 @@ export const getDepositDestination: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDepositDestination",
 }));
 
 export type GetDisbursementError = CoinbaseOpError;
@@ -7008,6 +7111,8 @@ export const getDisbursement: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDisbursement",
 }));
 
 export type GetEndUserError = CoinbaseOpError;
@@ -7023,6 +7128,8 @@ export const getEndUser: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndUser",
 }));
 
 export type GetEvmAccountError = CoinbaseOpError;
@@ -7038,6 +7145,8 @@ export const getEvmAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvmAccount",
 }));
 
 export type GetEvmAccountByNameError = CoinbaseOpError;
@@ -7053,6 +7162,8 @@ export const getEvmAccountByName: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvmAccountByName",
 }));
 
 export type GetEvmBorrowProductError = CoinbaseOpError;
@@ -7068,6 +7179,8 @@ export const getEvmBorrowProduct: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvmBorrowProduct",
 }));
 
 export type GetEvmEip7702DelegationOperationError = CoinbaseOpError;
@@ -7083,6 +7196,8 @@ export const getEvmEip7702DelegationOperation: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvmEip7702DelegationOperation",
 }));
 
 export type GetEvmSmartAccountError = CoinbaseOpError;
@@ -7098,6 +7213,8 @@ export const getEvmSmartAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvmSmartAccount",
 }));
 
 export type GetEvmSmartAccountByNameError = CoinbaseOpError;
@@ -7113,6 +7230,8 @@ export const getEvmSmartAccountByName: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvmSmartAccountByName",
 }));
 
 export type GetEvmSwapPriceError = CoinbaseOpError;
@@ -7128,6 +7247,8 @@ export const getEvmSwapPrice: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvmSwapPrice",
 }));
 
 export type GetFoundationAccountByIdError = CoinbaseOpError;
@@ -7143,6 +7264,8 @@ export const getFoundationAccountById: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFoundationAccountById",
 }));
 
 export type GetOnrampOrderError = CoinbaseOpError;
@@ -7158,6 +7281,8 @@ export const getOnrampOrder: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnrampOrder",
 }));
 
 export type GetOnrampUserLimitsError = CoinbaseOpError;
@@ -7173,6 +7298,8 @@ export const getOnrampUserLimits: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnrampUserLimits",
 }));
 
 export type GetPaymentMethodError = CoinbaseOpError;
@@ -7188,6 +7315,8 @@ export const getPaymentMethod: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethod",
 }));
 
 export type GetPaymentSessionError = CoinbaseOpError;
@@ -7203,6 +7332,8 @@ export const getPaymentSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentSession",
 }));
 
 export type GetPaymentSessionAuthorizationError = CoinbaseOpError;
@@ -7218,6 +7349,8 @@ export const getPaymentSessionAuthorization: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentSessionAuthorization",
 }));
 
 export type GetPaymentSessionCaptureError = CoinbaseOpError;
@@ -7233,6 +7366,8 @@ export const getPaymentSessionCapture: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentSessionCapture",
 }));
 
 export type GetPaymentSessionRefundError = CoinbaseOpError;
@@ -7248,6 +7383,8 @@ export const getPaymentSessionRefund: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentSessionRefund",
 }));
 
 export type GetPaymentSessionVoidError = CoinbaseOpError;
@@ -7263,6 +7400,8 @@ export const getPaymentSessionVoid: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentSessionVoid",
 }));
 
 export type GetPolicyByIdError = CoinbaseOpError;
@@ -7278,6 +7417,8 @@ export const getPolicyById: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyById",
 }));
 
 export type GetSolanaAccountError = CoinbaseOpError;
@@ -7293,6 +7434,8 @@ export const getSolanaAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSolanaAccount",
 }));
 
 export type GetSolanaAccountByNameError = CoinbaseOpError;
@@ -7308,6 +7451,8 @@ export const getSolanaAccountByName: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSolanaAccountByName",
 }));
 
 export type GetSQLGrammarError = CoinbaseOpError;
@@ -7323,6 +7468,8 @@ export const getSQLGrammar: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSQLGrammar",
 }));
 
 export type GetSQLSchemaError = CoinbaseOpError;
@@ -7338,6 +7485,8 @@ export const getSQLSchema: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSQLSchema",
 }));
 
 export type GetTransferError = CoinbaseOpError;
@@ -7353,6 +7502,8 @@ export const getTransfer: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransfer",
 }));
 
 export type GetUserOperationError = CoinbaseOpError;
@@ -7368,6 +7519,8 @@ export const getUserOperation: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserOperation",
 }));
 
 export type GetUserOperationWithEndUserAccountError = CoinbaseOpError;
@@ -7383,6 +7536,8 @@ export const getUserOperationWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserOperationWithEndUserAccount",
 }));
 
 export type GetWalletAuthorizationOptionsError = CoinbaseOpError;
@@ -7398,6 +7553,8 @@ export const getWalletAuthorizationOptions: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWalletAuthorizationOptions",
 }));
 
 export type GetWebhookSubscriptionError = CoinbaseOpError;
@@ -7413,6 +7570,8 @@ export const getWebhookSubscription: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookSubscription",
 }));
 
 export type GetX402BundleError = CoinbaseOpError;
@@ -7428,6 +7587,8 @@ export const getX402Bundle: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetX402Bundle",
 }));
 
 export type ImportEndUserError = CoinbaseOpError;
@@ -7443,6 +7604,8 @@ export const importEndUser: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportEndUser",
 }));
 
 export type ImportEvmAccountError = CoinbaseOpError;
@@ -7458,6 +7621,8 @@ export const importEvmAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportEvmAccount",
 }));
 
 export type ImportSolanaAccountError = CoinbaseOpError;
@@ -7473,6 +7638,8 @@ export const importSolanaAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSolanaAccount",
 }));
 
 export type InitiateOnrampVerificationError = CoinbaseOpError;
@@ -7488,6 +7655,8 @@ export const initiateOnrampVerification: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InitiateOnrampVerification",
 }));
 
 export type ListBalancesError = CoinbaseOpError;
@@ -7503,6 +7672,8 @@ export const listBalances: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBalances",
 }));
 
 export type ListBorrowPositionsWithEndUserAccountError = CoinbaseOpError;
@@ -7518,6 +7689,8 @@ export const listBorrowPositionsWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBorrowPositionsWithEndUserAccount",
 }));
 
 export type ListCoinbaseAccountBalancesError = CoinbaseOpError;
@@ -7533,6 +7706,8 @@ export const listCoinbaseAccountBalances: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoinbaseAccountBalances",
 }));
 
 export type ListCustomersError = CoinbaseOpError;
@@ -7548,6 +7723,8 @@ export const listCustomers: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomers",
 }));
 
 export type ListDataTokenBalancesError = CoinbaseOpError;
@@ -7563,6 +7740,8 @@ export const listDataTokenBalances: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataTokenBalances",
 }));
 
 export type ListDepositDestinationsError = CoinbaseOpError;
@@ -7578,6 +7757,8 @@ export const listDepositDestinations: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDepositDestinations",
 }));
 
 export type ListDisbursementsError = CoinbaseOpError;
@@ -7593,6 +7774,8 @@ export const listDisbursements: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDisbursements",
 }));
 
 export type ListEndUsersError = CoinbaseOpError;
@@ -7608,6 +7791,8 @@ export const listEndUsers: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEndUsers",
 }));
 
 export type ListEvmAccountsError = CoinbaseOpError;
@@ -7623,6 +7808,8 @@ export const listEvmAccounts: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvmAccounts",
 }));
 
 export type ListEvmBorrowProductsError = CoinbaseOpError;
@@ -7638,6 +7825,8 @@ export const listEvmBorrowProducts: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvmBorrowProducts",
 }));
 
 export type ListEvmSmartAccountsError = CoinbaseOpError;
@@ -7653,6 +7842,8 @@ export const listEvmSmartAccounts: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvmSmartAccounts",
 }));
 
 export type ListEvmTokenBalancesError = CoinbaseOpError;
@@ -7668,6 +7859,8 @@ export const listEvmTokenBalances: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvmTokenBalances",
 }));
 
 export type ListFoundationAccountsError = CoinbaseOpError;
@@ -7683,6 +7876,8 @@ export const listFoundationAccounts: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFoundationAccounts",
 }));
 
 export type ListPaymentMethodsError = CoinbaseOpError;
@@ -7698,6 +7893,8 @@ export const listPaymentMethods: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentMethods",
 }));
 
 export type ListPaymentSessionAuthorizationsError = CoinbaseOpError;
@@ -7713,6 +7910,8 @@ export const listPaymentSessionAuthorizations: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentSessionAuthorizations",
 }));
 
 export type ListPaymentSessionCapturesError = CoinbaseOpError;
@@ -7728,6 +7927,8 @@ export const listPaymentSessionCaptures: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentSessionCaptures",
 }));
 
 export type ListPaymentSessionRefundsError = CoinbaseOpError;
@@ -7743,6 +7944,8 @@ export const listPaymentSessionRefunds: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentSessionRefunds",
 }));
 
 export type ListPaymentSessionsError = CoinbaseOpError;
@@ -7758,6 +7961,8 @@ export const listPaymentSessions: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentSessions",
 }));
 
 export type ListPaymentSessionVoidsError = CoinbaseOpError;
@@ -7773,6 +7978,8 @@ export const listPaymentSessionVoids: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentSessionVoids",
 }));
 
 export type ListPoliciesError = CoinbaseOpError;
@@ -7788,6 +7995,8 @@ export const listPolicies: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 }));
 
 export type ListSolanaAccountsError = CoinbaseOpError;
@@ -7803,6 +8012,8 @@ export const listSolanaAccounts: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSolanaAccounts",
 }));
 
 export type ListSolanaTokenBalancesError = CoinbaseOpError;
@@ -7818,6 +8029,8 @@ export const listSolanaTokenBalances: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSolanaTokenBalances",
 }));
 
 export type ListSpendPermissionsError = CoinbaseOpError;
@@ -7833,6 +8046,8 @@ export const listSpendPermissions: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpendPermissions",
 }));
 
 export type ListTokensForAccountError = CoinbaseOpError;
@@ -7848,6 +8063,8 @@ export const listTokensForAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTokensForAccount",
 }));
 
 export type ListTransfersError = CoinbaseOpError;
@@ -7863,6 +8080,8 @@ export const listTransfers: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransfers",
 }));
 
 export type ListWebhookSubscriptionEventsError = CoinbaseOpError;
@@ -7878,6 +8097,8 @@ export const listWebhookSubscriptionEvents: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhookSubscriptionEvents",
 }));
 
 export type ListWebhookSubscriptionsError = CoinbaseOpError;
@@ -7893,6 +8114,8 @@ export const listWebhookSubscriptions: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhookSubscriptions",
 }));
 
 export type ListX402BundlesError = CoinbaseOpError;
@@ -7908,6 +8131,8 @@ export const listX402Bundles: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListX402Bundles",
 }));
 
 export type ListX402DiscoveryMerchantError = CoinbaseOpError;
@@ -7923,6 +8148,8 @@ export const listX402DiscoveryMerchant: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListX402DiscoveryMerchant",
 }));
 
 export type ListX402DiscoveryResourcesError = CoinbaseOpError;
@@ -7938,6 +8165,8 @@ export const listX402DiscoveryResources: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListX402DiscoveryResources",
 }));
 
 export type LookupEndUserError = CoinbaseOpError;
@@ -7953,6 +8182,8 @@ export const lookupEndUser: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupEndUser",
 }));
 
 export type PrepareAndSendUserOperationError = CoinbaseOpError;
@@ -7968,6 +8199,8 @@ export const prepareAndSendUserOperation: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrepareAndSendUserOperation",
 }));
 
 export type PrepareUserOperationError = CoinbaseOpError;
@@ -7983,6 +8216,8 @@ export const prepareUserOperation: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrepareUserOperation",
 }));
 
 export type RefundPaymentSessionError = CoinbaseOpError;
@@ -7998,6 +8233,8 @@ export const refundPaymentSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefundPaymentSession",
 }));
 
 export type RequestEvmFaucetError = CoinbaseOpError;
@@ -8013,6 +8250,8 @@ export const requestEvmFaucet: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestEvmFaucet",
 }));
 
 export type RequestLimitsUpgradeError = CoinbaseOpError;
@@ -8028,6 +8267,8 @@ export const requestLimitsUpgrade: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestLimitsUpgrade",
 }));
 
 export type RequestSolanaFaucetError = CoinbaseOpError;
@@ -8043,6 +8284,8 @@ export const requestSolanaFaucet: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestSolanaFaucet",
 }));
 
 export type RevokeDelegationForEndUserError = CoinbaseOpError;
@@ -8058,6 +8301,8 @@ export const revokeDelegationForEndUser: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeDelegationForEndUser",
 }));
 
 export type RevokeDelegationForEndUserAccountError = CoinbaseOpError;
@@ -8073,6 +8318,8 @@ export const revokeDelegationForEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeDelegationForEndUserAccount",
 }));
 
 export type RevokeSpendPermissionError = CoinbaseOpError;
@@ -8088,6 +8335,8 @@ export const revokeSpendPermission: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeSpendPermission",
 }));
 
 export type RunSQLQueryError = CoinbaseOpError;
@@ -8103,6 +8352,8 @@ export const runSQLQuery: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunSQLQuery",
 }));
 
 export type SearchX402ResourcesError = CoinbaseOpError;
@@ -8118,6 +8369,8 @@ export const searchX402Resources: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchX402Resources",
 }));
 
 export type SendEvmAssetWithEndUserAccountError = CoinbaseOpError;
@@ -8133,6 +8386,8 @@ export const sendEvmAssetWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendEvmAssetWithEndUserAccount",
 }));
 
 export type SendEvmTransactionError = CoinbaseOpError;
@@ -8148,6 +8403,8 @@ export const sendEvmTransaction: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendEvmTransaction",
 }));
 
 export type SendEvmTransactionWithEndUserAccountError = CoinbaseOpError;
@@ -8163,6 +8420,8 @@ export const sendEvmTransactionWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendEvmTransactionWithEndUserAccount",
 }));
 
 export type SendSolanaAssetWithEndUserAccountError = CoinbaseOpError;
@@ -8178,6 +8437,8 @@ export const sendSolanaAssetWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendSolanaAssetWithEndUserAccount",
 }));
 
 export type SendSolanaTransactionError = CoinbaseOpError;
@@ -8193,6 +8454,8 @@ export const sendSolanaTransaction: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendSolanaTransaction",
 }));
 
 export type SendSolanaTransactionWithEndUserAccountError = CoinbaseOpError;
@@ -8208,6 +8471,8 @@ export const sendSolanaTransactionWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendSolanaTransactionWithEndUserAccount",
 }));
 
 export type SendUserOperationError = CoinbaseOpError;
@@ -8223,6 +8488,8 @@ export const sendUserOperation: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUserOperation",
 }));
 
 export type SendUserOperationWithEndUserAccountError = CoinbaseOpError;
@@ -8238,6 +8505,8 @@ export const sendUserOperationWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUserOperationWithEndUserAccount",
 }));
 
 export type SettleX402PaymentError = CoinbaseOpError;
@@ -8253,6 +8522,8 @@ export const settleX402Payment: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SettleX402Payment",
 }));
 
 export type SignEvmHashError = CoinbaseOpError;
@@ -8268,6 +8539,8 @@ export const signEvmHash: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignEvmHash",
 }));
 
 export type SignEvmMessageError = CoinbaseOpError;
@@ -8283,6 +8556,8 @@ export const signEvmMessage: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignEvmMessage",
 }));
 
 export type SignEvmMessageWithEndUserAccountError = CoinbaseOpError;
@@ -8298,6 +8573,8 @@ export const signEvmMessageWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignEvmMessageWithEndUserAccount",
 }));
 
 export type SignEvmTransactionError = CoinbaseOpError;
@@ -8313,6 +8590,8 @@ export const signEvmTransaction: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignEvmTransaction",
 }));
 
 export type SignEvmTransactionWithEndUserAccountError = CoinbaseOpError;
@@ -8328,6 +8607,8 @@ export const signEvmTransactionWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignEvmTransactionWithEndUserAccount",
 }));
 
 export type SignEvmTypedDataError = CoinbaseOpError;
@@ -8343,6 +8624,8 @@ export const signEvmTypedData: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignEvmTypedData",
 }));
 
 export type SignEvmTypedDataWithEndUserAccountError = CoinbaseOpError;
@@ -8358,6 +8641,8 @@ export const signEvmTypedDataWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignEvmTypedDataWithEndUserAccount",
 }));
 
 export type SignSolanaMessageError = CoinbaseOpError;
@@ -8373,6 +8658,8 @@ export const signSolanaMessage: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignSolanaMessage",
 }));
 
 export type SignSolanaMessageWithEndUserAccountError = CoinbaseOpError;
@@ -8388,6 +8675,8 @@ export const signSolanaMessageWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignSolanaMessageWithEndUserAccount",
 }));
 
 export type SignSolanaTransactionError = CoinbaseOpError;
@@ -8403,6 +8692,8 @@ export const signSolanaTransaction: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignSolanaTransaction",
 }));
 
 export type SignSolanaTransactionWithEndUserAccountError = CoinbaseOpError;
@@ -8418,6 +8709,8 @@ export const signSolanaTransactionWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignSolanaTransactionWithEndUserAccount",
 }));
 
 export type SignSolanaX402PaymentWithEndUserAccountError = CoinbaseOpError;
@@ -8433,6 +8726,8 @@ export const signSolanaX402PaymentWithEndUserAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignSolanaX402PaymentWithEndUserAccount",
 }));
 
 export type SubmitDepositTravelRuleError = CoinbaseOpError;
@@ -8448,6 +8743,8 @@ export const submitDepositTravelRule: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitDepositTravelRule",
 }));
 
 export type SubmitOnrampVerificationError = CoinbaseOpError;
@@ -8463,6 +8760,8 @@ export const submitOnrampVerification: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitOnrampVerification",
 }));
 
 export type SupportedX402PaymentKindsError = CoinbaseOpError;
@@ -8478,6 +8777,8 @@ export const supportedX402PaymentKinds: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SupportedX402PaymentKinds",
 }));
 
 export type UpdateCustomerByIdError = CoinbaseOpError;
@@ -8493,6 +8794,8 @@ export const updateCustomerById: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerById",
 }));
 
 export type UpdateEvmAccountError = CoinbaseOpError;
@@ -8508,6 +8811,8 @@ export const updateEvmAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvmAccount",
 }));
 
 export type UpdateEvmSmartAccountError = CoinbaseOpError;
@@ -8523,6 +8828,8 @@ export const updateEvmSmartAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvmSmartAccount",
 }));
 
 export type UpdatePolicyError = CoinbaseOpError;
@@ -8538,6 +8845,8 @@ export const updatePolicy: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePolicy",
 }));
 
 export type UpdateSolanaAccountError = CoinbaseOpError;
@@ -8553,6 +8862,8 @@ export const updateSolanaAccount: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSolanaAccount",
 }));
 
 export type UpdateWebhookSubscriptionError = CoinbaseOpError;
@@ -8568,6 +8879,8 @@ export const updateWebhookSubscription: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookSubscription",
 }));
 
 export type ValidateEndUserAccessTokenError = CoinbaseOpError;
@@ -8583,6 +8896,8 @@ export const validateEndUserAccessToken: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateEndUserAccessToken",
 }));
 
 export type ValidateX402ResourceError = CoinbaseOpError;
@@ -8598,6 +8913,8 @@ export const validateX402Resource: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateX402Resource",
 }));
 
 export type VerifyX402PaymentError = CoinbaseOpError;
@@ -8613,6 +8930,8 @@ export const verifyX402Payment: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyX402Payment",
 }));
 
 export type VoidPaymentSessionError = CoinbaseOpError;
@@ -8628,6 +8947,8 @@ export const voidPaymentSession: API.OperationMethod<
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VoidPaymentSession",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

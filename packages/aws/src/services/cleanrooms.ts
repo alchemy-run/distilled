@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cleanrooms.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CleanRooms",
+  service: "CleanRooms",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2870,7 +2886,7 @@ export type BatchGetCollaborationAnalysisTemplateError =
  * Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
  */
 export const batchGetCollaborationAnalysisTemplate: API.OperationMethod<
-  BatchGetCollaborationAnalysisTemplateInput,
+  BatchGetCollaborationAnalysisTemplateInput & RegionInput,
   BatchGetCollaborationAnalysisTemplateOutput,
   BatchGetCollaborationAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2887,6 +2903,8 @@ export const batchGetCollaborationAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCollaborationAnalysisTemplate",
+  telemetry: TELEMETRY,
+  span: "BatchGetCollaborationAnalysisTemplate",
 }));
 
 export type BatchGetSchemaError =
@@ -2900,7 +2918,7 @@ export type BatchGetSchemaError =
  * Retrieves multiple schemas by their identifiers.
  */
 export const batchGetSchema: API.OperationMethod<
-  BatchGetSchemaInput,
+  BatchGetSchemaInput & RegionInput,
   BatchGetSchemaOutput,
   BatchGetSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2917,6 +2935,8 @@ export const batchGetSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSchema",
+  telemetry: TELEMETRY,
+  span: "BatchGetSchema",
 }));
 
 export type BatchGetSchemaAnalysisRuleError =
@@ -2930,7 +2950,7 @@ export type BatchGetSchemaAnalysisRuleError =
  * Retrieves multiple analysis rule schemas.
  */
 export const batchGetSchemaAnalysisRule: API.OperationMethod<
-  BatchGetSchemaAnalysisRuleInput,
+  BatchGetSchemaAnalysisRuleInput & RegionInput,
   BatchGetSchemaAnalysisRuleOutput,
   BatchGetSchemaAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -2947,6 +2967,8 @@ export const batchGetSchemaAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSchemaAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "BatchGetSchemaAnalysisRule",
 }));
 
 export type CreateAnalysisTemplateError =
@@ -2962,7 +2984,7 @@ export type CreateAnalysisTemplateError =
  * Creates a new analysis template.
  */
 export const createAnalysisTemplate: API.OperationMethod<
-  CreateAnalysisTemplateInput,
+  CreateAnalysisTemplateInput & RegionInput,
   CreateAnalysisTemplateOutput,
   CreateAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2981,6 +3003,8 @@ export const createAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnalysisTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateAnalysisTemplate",
 }));
 
 export type CreateCollaborationError =
@@ -2994,7 +3018,7 @@ export type CreateCollaborationError =
  * Creates a new collaboration.
  */
 export const createCollaboration: API.OperationMethod<
-  CreateCollaborationInput,
+  CreateCollaborationInput & RegionInput,
   CreateCollaborationOutput,
   CreateCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -3011,6 +3035,8 @@ export const createCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollaboration",
+  telemetry: TELEMETRY,
+  span: "CreateCollaboration",
 }));
 
 export type CreateCollaborationChangeRequestError =
@@ -3026,7 +3052,7 @@ export type CreateCollaborationChangeRequestError =
  * Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach.
  */
 export const createCollaborationChangeRequest: API.OperationMethod<
-  CreateCollaborationChangeRequestInput,
+  CreateCollaborationChangeRequestInput & RegionInput,
   CreateCollaborationChangeRequestOutput,
   CreateCollaborationChangeRequestError,
   Credentials | HttpClient.HttpClient
@@ -3045,6 +3071,8 @@ export const createCollaborationChangeRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollaborationChangeRequest",
+  telemetry: TELEMETRY,
+  span: "CreateCollaborationChangeRequest",
 }));
 
 export type CreateConfiguredAudienceModelAssociationError =
@@ -3060,7 +3088,7 @@ export type CreateConfiguredAudienceModelAssociationError =
  * Provides the details necessary to create a configured audience model association.
  */
 export const createConfiguredAudienceModelAssociation: API.OperationMethod<
-  CreateConfiguredAudienceModelAssociationInput,
+  CreateConfiguredAudienceModelAssociationInput & RegionInput,
   CreateConfiguredAudienceModelAssociationOutput,
   CreateConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3079,6 +3107,8 @@ export const createConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredAudienceModelAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguredAudienceModelAssociation",
 }));
 
 export type CreateConfiguredTableError =
@@ -3094,7 +3124,7 @@ export type CreateConfiguredTableError =
  * Creates a new configured table resource.
  */
 export const createConfiguredTable: API.OperationMethod<
-  CreateConfiguredTableInput,
+  CreateConfiguredTableInput & RegionInput,
   CreateConfiguredTableOutput,
   CreateConfiguredTableError,
   Credentials | HttpClient.HttpClient
@@ -3113,6 +3143,8 @@ export const createConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTable",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguredTable",
 }));
 
 export type CreateConfiguredTableAnalysisRuleError =
@@ -3128,7 +3160,7 @@ export type CreateConfiguredTableAnalysisRuleError =
  * Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
  */
 export const createConfiguredTableAnalysisRule: API.OperationMethod<
-  CreateConfiguredTableAnalysisRuleInput,
+  CreateConfiguredTableAnalysisRuleInput & RegionInput,
   CreateConfiguredTableAnalysisRuleOutput,
   CreateConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3147,6 +3179,8 @@ export const createConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTableAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguredTableAnalysisRule",
 }));
 
 export type CreateConfiguredTableAssociationError =
@@ -3162,7 +3196,7 @@ export type CreateConfiguredTableAssociationError =
  * Creates a configured table association. A configured table association links a configured table with a collaboration.
  */
 export const createConfiguredTableAssociation: API.OperationMethod<
-  CreateConfiguredTableAssociationInput,
+  CreateConfiguredTableAssociationInput & RegionInput,
   CreateConfiguredTableAssociationOutput,
   CreateConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3181,6 +3215,8 @@ export const createConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTableAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguredTableAssociation",
 }));
 
 export type CreateConfiguredTableAssociationAnalysisRuleError =
@@ -3195,7 +3231,7 @@ export type CreateConfiguredTableAssociationAnalysisRuleError =
  * Creates a new analysis rule for an associated configured table.
  */
 export const createConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  CreateConfiguredTableAssociationAnalysisRuleInput,
+  CreateConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   CreateConfiguredTableAssociationAnalysisRuleOutput,
   CreateConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3213,6 +3249,8 @@ export const createConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTableAssociationAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguredTableAssociationAnalysisRule",
 }));
 
 export type CreateIdMappingTableError =
@@ -3228,7 +3266,7 @@ export type CreateIdMappingTableError =
  * Creates an ID mapping table.
  */
 export const createIdMappingTable: API.OperationMethod<
-  CreateIdMappingTableInput,
+  CreateIdMappingTableInput & RegionInput,
   CreateIdMappingTableOutput,
   CreateIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -3247,6 +3285,8 @@ export const createIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdMappingTable",
+  telemetry: TELEMETRY,
+  span: "CreateIdMappingTable",
 }));
 
 export type CreateIdNamespaceAssociationError =
@@ -3262,7 +3302,7 @@ export type CreateIdNamespaceAssociationError =
  * Creates an ID namespace association.
  */
 export const createIdNamespaceAssociation: API.OperationMethod<
-  CreateIdNamespaceAssociationInput,
+  CreateIdNamespaceAssociationInput & RegionInput,
   CreateIdNamespaceAssociationOutput,
   CreateIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3281,6 +3321,8 @@ export const createIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdNamespaceAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateIdNamespaceAssociation",
 }));
 
 export type CreateIntermediateTableError =
@@ -3296,7 +3338,7 @@ export type CreateIntermediateTableError =
  * Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use `PopulateIntermediateTable`.
  */
 export const createIntermediateTable: API.OperationMethod<
-  CreateIntermediateTableInput,
+  CreateIntermediateTableInput & RegionInput,
   CreateIntermediateTableOutput,
   CreateIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -3315,6 +3357,8 @@ export const createIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntermediateTable",
+  telemetry: TELEMETRY,
+  span: "CreateIntermediateTable",
 }));
 
 export type CreateIntermediateTableAnalysisRuleError =
@@ -3330,7 +3374,7 @@ export type CreateIntermediateTableAnalysisRuleError =
  * Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. Only the intermediate table owner can call this operation.
  */
 export const createIntermediateTableAnalysisRule: API.OperationMethod<
-  CreateIntermediateTableAnalysisRuleInput,
+  CreateIntermediateTableAnalysisRuleInput & RegionInput,
   CreateIntermediateTableAnalysisRuleOutput,
   CreateIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3349,6 +3393,8 @@ export const createIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntermediateTableAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "CreateIntermediateTableAnalysisRule",
 }));
 
 export type CreateMembershipError =
@@ -3364,7 +3410,7 @@ export type CreateMembershipError =
  * Creates a membership for a specific collaboration identifier and joins the collaboration.
  */
 export const createMembership: API.OperationMethod<
-  CreateMembershipInput,
+  CreateMembershipInput & RegionInput,
   CreateMembershipOutput,
   CreateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3383,6 +3429,8 @@ export const createMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
+  telemetry: TELEMETRY,
+  span: "CreateMembership",
 }));
 
 export type CreatePrivacyBudgetTemplateError =
@@ -3398,7 +3446,7 @@ export type CreatePrivacyBudgetTemplateError =
  * Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTemplate operation.
  */
 export const createPrivacyBudgetTemplate: API.OperationMethod<
-  CreatePrivacyBudgetTemplateInput,
+  CreatePrivacyBudgetTemplateInput & RegionInput,
   CreatePrivacyBudgetTemplateOutput,
   CreatePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3417,6 +3465,8 @@ export const createPrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivacyBudgetTemplate",
+  telemetry: TELEMETRY,
+  span: "CreatePrivacyBudgetTemplate",
 }));
 
 export type DeleteAnalysisTemplateError =
@@ -3430,7 +3480,7 @@ export type DeleteAnalysisTemplateError =
  * Deletes an analysis template.
  */
 export const deleteAnalysisTemplate: API.OperationMethod<
-  DeleteAnalysisTemplateInput,
+  DeleteAnalysisTemplateInput & RegionInput,
   DeleteAnalysisTemplateOutput,
   DeleteAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3447,6 +3497,8 @@ export const deleteAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalysisTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteAnalysisTemplate",
 }));
 
 export type DeleteCollaborationError =
@@ -3459,7 +3511,7 @@ export type DeleteCollaborationError =
  * Deletes a collaboration. It can only be called by the collaboration owner.
  */
 export const deleteCollaboration: API.OperationMethod<
-  DeleteCollaborationInput,
+  DeleteCollaborationInput & RegionInput,
   DeleteCollaborationOutput,
   DeleteCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -3475,6 +3527,8 @@ export const deleteCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollaboration",
+  telemetry: TELEMETRY,
+  span: "DeleteCollaboration",
 }));
 
 export type DeleteConfiguredAudienceModelAssociationError =
@@ -3488,7 +3542,7 @@ export type DeleteConfiguredAudienceModelAssociationError =
  * Provides the information necessary to delete a configured audience model association.
  */
 export const deleteConfiguredAudienceModelAssociation: API.OperationMethod<
-  DeleteConfiguredAudienceModelAssociationInput,
+  DeleteConfiguredAudienceModelAssociationInput & RegionInput,
   DeleteConfiguredAudienceModelAssociationOutput,
   DeleteConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3505,6 +3559,8 @@ export const deleteConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredAudienceModelAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguredAudienceModelAssociation",
 }));
 
 export type DeleteConfiguredTableError =
@@ -3519,7 +3575,7 @@ export type DeleteConfiguredTableError =
  * Deletes a configured table.
  */
 export const deleteConfiguredTable: API.OperationMethod<
-  DeleteConfiguredTableInput,
+  DeleteConfiguredTableInput & RegionInput,
   DeleteConfiguredTableOutput,
   DeleteConfiguredTableError,
   Credentials | HttpClient.HttpClient
@@ -3537,6 +3593,8 @@ export const deleteConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTable",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguredTable",
 }));
 
 export type DeleteConfiguredTableAnalysisRuleError =
@@ -3551,7 +3609,7 @@ export type DeleteConfiguredTableAnalysisRuleError =
  * Deletes a configured table analysis rule.
  */
 export const deleteConfiguredTableAnalysisRule: API.OperationMethod<
-  DeleteConfiguredTableAnalysisRuleInput,
+  DeleteConfiguredTableAnalysisRuleInput & RegionInput,
   DeleteConfiguredTableAnalysisRuleOutput,
   DeleteConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3569,6 +3627,8 @@ export const deleteConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTableAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguredTableAnalysisRule",
 }));
 
 export type DeleteConfiguredTableAssociationError =
@@ -3583,7 +3643,7 @@ export type DeleteConfiguredTableAssociationError =
  * Deletes a configured table association.
  */
 export const deleteConfiguredTableAssociation: API.OperationMethod<
-  DeleteConfiguredTableAssociationInput,
+  DeleteConfiguredTableAssociationInput & RegionInput,
   DeleteConfiguredTableAssociationOutput,
   DeleteConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3601,6 +3661,8 @@ export const deleteConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTableAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguredTableAssociation",
 }));
 
 export type DeleteConfiguredTableAssociationAnalysisRuleError =
@@ -3615,7 +3677,7 @@ export type DeleteConfiguredTableAssociationAnalysisRuleError =
  * Deletes an analysis rule for a configured table association.
  */
 export const deleteConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  DeleteConfiguredTableAssociationAnalysisRuleInput,
+  DeleteConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   DeleteConfiguredTableAssociationAnalysisRuleOutput,
   DeleteConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3637,6 +3699,8 @@ export const deleteConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTableAssociationAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguredTableAssociationAnalysisRule",
 }));
 
 export type DeleteIdMappingTableError =
@@ -3650,7 +3714,7 @@ export type DeleteIdMappingTableError =
  * Deletes an ID mapping table.
  */
 export const deleteIdMappingTable: API.OperationMethod<
-  DeleteIdMappingTableInput,
+  DeleteIdMappingTableInput & RegionInput,
   DeleteIdMappingTableOutput,
   DeleteIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -3667,6 +3731,8 @@ export const deleteIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdMappingTable",
+  telemetry: TELEMETRY,
+  span: "DeleteIdMappingTable",
 }));
 
 export type DeleteIdNamespaceAssociationError =
@@ -3680,7 +3746,7 @@ export type DeleteIdNamespaceAssociationError =
  * Deletes an ID namespace association.
  */
 export const deleteIdNamespaceAssociation: API.OperationMethod<
-  DeleteIdNamespaceAssociationInput,
+  DeleteIdNamespaceAssociationInput & RegionInput,
   DeleteIdNamespaceAssociationOutput,
   DeleteIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3697,6 +3763,8 @@ export const deleteIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdNamespaceAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteIdNamespaceAssociation",
 }));
 
 export type DeleteIntermediateTableError =
@@ -3711,7 +3779,7 @@ export type DeleteIntermediateTableError =
  * Deletes an intermediate table. The delete is idempotent. Only the intermediate table owner can call this operation.
  */
 export const deleteIntermediateTable: API.OperationMethod<
-  DeleteIntermediateTableInput,
+  DeleteIntermediateTableInput & RegionInput,
   DeleteIntermediateTableOutput,
   DeleteIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -3729,6 +3797,8 @@ export const deleteIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntermediateTable",
+  telemetry: TELEMETRY,
+  span: "DeleteIntermediateTable",
 }));
 
 export type DeleteIntermediateTableAnalysisRuleError =
@@ -3743,7 +3813,7 @@ export type DeleteIntermediateTableAnalysisRuleError =
  * Deletes an analysis rule from an intermediate table. After the analysis rule is deleted, the intermediate table becomes unqueryable until a new analysis rule is attached. Only the intermediate table owner can call this operation.
  */
 export const deleteIntermediateTableAnalysisRule: API.OperationMethod<
-  DeleteIntermediateTableAnalysisRuleInput,
+  DeleteIntermediateTableAnalysisRuleInput & RegionInput,
   DeleteIntermediateTableAnalysisRuleOutput,
   DeleteIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3761,6 +3831,8 @@ export const deleteIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntermediateTableAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "DeleteIntermediateTableAnalysisRule",
 }));
 
 export type DeleteMemberError =
@@ -3775,7 +3847,7 @@ export type DeleteMemberError =
  * Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberInput,
+  DeleteMemberInput & RegionInput,
   DeleteMemberOutput,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
@@ -3793,6 +3865,8 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DeleteMembershipError =
@@ -3807,7 +3881,7 @@ export type DeleteMembershipError =
  * Deletes a specified membership. All resources under a membership must be deleted.
  */
 export const deleteMembership: API.OperationMethod<
-  DeleteMembershipInput,
+  DeleteMembershipInput & RegionInput,
   DeleteMembershipOutput,
   DeleteMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3825,6 +3899,8 @@ export const deleteMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteMembership",
 }));
 
 export type DeletePrivacyBudgetTemplateError =
@@ -3838,7 +3914,7 @@ export type DeletePrivacyBudgetTemplateError =
  * Deletes a privacy budget template for a specified collaboration.
  */
 export const deletePrivacyBudgetTemplate: API.OperationMethod<
-  DeletePrivacyBudgetTemplateInput,
+  DeletePrivacyBudgetTemplateInput & RegionInput,
   DeletePrivacyBudgetTemplateOutput,
   DeletePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3855,6 +3931,8 @@ export const deletePrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivacyBudgetTemplate",
+  telemetry: TELEMETRY,
+  span: "DeletePrivacyBudgetTemplate",
 }));
 
 export type DisallowIntermediateTableError =
@@ -3869,7 +3947,7 @@ export type DisallowIntermediateTableError =
  * Marks an intermediate table as invalid when it references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, the operation also marks all descendant intermediate tables as invalid.
  */
 export const disallowIntermediateTable: API.OperationMethod<
-  DisallowIntermediateTableInput,
+  DisallowIntermediateTableInput & RegionInput,
   DisallowIntermediateTableOutput,
   DisallowIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -3887,6 +3965,8 @@ export const disallowIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisallowIntermediateTable",
+  telemetry: TELEMETRY,
+  span: "DisallowIntermediateTable",
 }));
 
 export type GetAnalysisLogExportError =
@@ -3902,7 +3982,7 @@ export type GetAnalysisLogExportError =
  * Poll this operation until the `status` is `SUCCESS` or `FAILED`. An export can't be canceled after it starts.
  */
 export const getAnalysisLogExport: API.OperationMethod<
-  GetAnalysisLogExportInput,
+  GetAnalysisLogExportInput & RegionInput,
   GetAnalysisLogExportOutput,
   GetAnalysisLogExportError,
   Credentials | HttpClient.HttpClient
@@ -3919,6 +3999,8 @@ export const getAnalysisLogExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalysisLogExport",
+  telemetry: TELEMETRY,
+  span: "GetAnalysisLogExport",
 }));
 
 export type GetAnalysisTemplateError =
@@ -3932,7 +4014,7 @@ export type GetAnalysisTemplateError =
  * Retrieves an analysis template.
  */
 export const getAnalysisTemplate: API.OperationMethod<
-  GetAnalysisTemplateInput,
+  GetAnalysisTemplateInput & RegionInput,
   GetAnalysisTemplateOutput,
   GetAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3949,6 +4031,8 @@ export const getAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalysisTemplate",
+  telemetry: TELEMETRY,
+  span: "GetAnalysisTemplate",
 }));
 
 export type GetCollaborationError =
@@ -3961,7 +4045,7 @@ export type GetCollaborationError =
  * Returns metadata about a collaboration.
  */
 export const getCollaboration: API.OperationMethod<
-  GetCollaborationInput,
+  GetCollaborationInput & RegionInput,
   GetCollaborationOutput,
   GetCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -3977,6 +4061,8 @@ export const getCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaboration",
+  telemetry: TELEMETRY,
+  span: "GetCollaboration",
 }));
 
 export type GetCollaborationAnalysisTemplateError =
@@ -3990,7 +4076,7 @@ export type GetCollaborationAnalysisTemplateError =
  * Retrieves an analysis template within a collaboration.
  */
 export const getCollaborationAnalysisTemplate: API.OperationMethod<
-  GetCollaborationAnalysisTemplateInput,
+  GetCollaborationAnalysisTemplateInput & RegionInput,
   GetCollaborationAnalysisTemplateOutput,
   GetCollaborationAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4007,6 +4093,8 @@ export const getCollaborationAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationAnalysisTemplate",
+  telemetry: TELEMETRY,
+  span: "GetCollaborationAnalysisTemplate",
 }));
 
 export type GetCollaborationChangeRequestError =
@@ -4020,7 +4108,7 @@ export type GetCollaborationChangeRequestError =
  * Retrieves detailed information about a specific collaboration change request.
  */
 export const getCollaborationChangeRequest: API.OperationMethod<
-  GetCollaborationChangeRequestInput,
+  GetCollaborationChangeRequestInput & RegionInput,
   GetCollaborationChangeRequestOutput,
   GetCollaborationChangeRequestError,
   Credentials | HttpClient.HttpClient
@@ -4037,6 +4125,8 @@ export const getCollaborationChangeRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationChangeRequest",
+  telemetry: TELEMETRY,
+  span: "GetCollaborationChangeRequest",
 }));
 
 export type GetCollaborationConfiguredAudienceModelAssociationError =
@@ -4050,7 +4140,7 @@ export type GetCollaborationConfiguredAudienceModelAssociationError =
  * Retrieves a configured audience model association within a collaboration.
  */
 export const getCollaborationConfiguredAudienceModelAssociation: API.OperationMethod<
-  GetCollaborationConfiguredAudienceModelAssociationInput,
+  GetCollaborationConfiguredAudienceModelAssociationInput & RegionInput,
   GetCollaborationConfiguredAudienceModelAssociationOutput,
   GetCollaborationConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4075,6 +4165,8 @@ export const getCollaborationConfiguredAudienceModelAssociation: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationConfiguredAudienceModelAssociation",
+  telemetry: TELEMETRY,
+  span: "GetCollaborationConfiguredAudienceModelAssociation",
 }));
 
 export type GetCollaborationIdNamespaceAssociationError =
@@ -4088,7 +4180,7 @@ export type GetCollaborationIdNamespaceAssociationError =
  * Retrieves an ID namespace association from a specific collaboration.
  */
 export const getCollaborationIdNamespaceAssociation: API.OperationMethod<
-  GetCollaborationIdNamespaceAssociationInput,
+  GetCollaborationIdNamespaceAssociationInput & RegionInput,
   GetCollaborationIdNamespaceAssociationOutput,
   GetCollaborationIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4105,6 +4197,8 @@ export const getCollaborationIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationIdNamespaceAssociation",
+  telemetry: TELEMETRY,
+  span: "GetCollaborationIdNamespaceAssociation",
 }));
 
 export type GetCollaborationPrivacyBudgetTemplateError =
@@ -4118,7 +4212,7 @@ export type GetCollaborationPrivacyBudgetTemplateError =
  * Returns details about a specified privacy budget template.
  */
 export const getCollaborationPrivacyBudgetTemplate: API.OperationMethod<
-  GetCollaborationPrivacyBudgetTemplateInput,
+  GetCollaborationPrivacyBudgetTemplateInput & RegionInput,
   GetCollaborationPrivacyBudgetTemplateOutput,
   GetCollaborationPrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4135,6 +4229,8 @@ export const getCollaborationPrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationPrivacyBudgetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetCollaborationPrivacyBudgetTemplate",
 }));
 
 export type GetConfiguredAudienceModelAssociationError =
@@ -4148,7 +4244,7 @@ export type GetConfiguredAudienceModelAssociationError =
  * Returns information about a configured audience model association.
  */
 export const getConfiguredAudienceModelAssociation: API.OperationMethod<
-  GetConfiguredAudienceModelAssociationInput,
+  GetConfiguredAudienceModelAssociationInput & RegionInput,
   GetConfiguredAudienceModelAssociationOutput,
   GetConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4165,6 +4261,8 @@ export const getConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredAudienceModelAssociation",
+  telemetry: TELEMETRY,
+  span: "GetConfiguredAudienceModelAssociation",
 }));
 
 export type GetConfiguredTableError =
@@ -4178,7 +4276,7 @@ export type GetConfiguredTableError =
  * Retrieves a configured table.
  */
 export const getConfiguredTable: API.OperationMethod<
-  GetConfiguredTableInput,
+  GetConfiguredTableInput & RegionInput,
   GetConfiguredTableOutput,
   GetConfiguredTableError,
   Credentials | HttpClient.HttpClient
@@ -4195,6 +4293,8 @@ export const getConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTable",
+  telemetry: TELEMETRY,
+  span: "GetConfiguredTable",
 }));
 
 export type GetConfiguredTableAnalysisRuleError =
@@ -4208,7 +4308,7 @@ export type GetConfiguredTableAnalysisRuleError =
  * Retrieves a configured table analysis rule.
  */
 export const getConfiguredTableAnalysisRule: API.OperationMethod<
-  GetConfiguredTableAnalysisRuleInput,
+  GetConfiguredTableAnalysisRuleInput & RegionInput,
   GetConfiguredTableAnalysisRuleOutput,
   GetConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4225,6 +4325,8 @@ export const getConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTableAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "GetConfiguredTableAnalysisRule",
 }));
 
 export type GetConfiguredTableAssociationError =
@@ -4238,7 +4340,7 @@ export type GetConfiguredTableAssociationError =
  * Retrieves a configured table association.
  */
 export const getConfiguredTableAssociation: API.OperationMethod<
-  GetConfiguredTableAssociationInput,
+  GetConfiguredTableAssociationInput & RegionInput,
   GetConfiguredTableAssociationOutput,
   GetConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4255,6 +4357,8 @@ export const getConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTableAssociation",
+  telemetry: TELEMETRY,
+  span: "GetConfiguredTableAssociation",
 }));
 
 export type GetConfiguredTableAssociationAnalysisRuleError =
@@ -4268,7 +4372,7 @@ export type GetConfiguredTableAssociationAnalysisRuleError =
  * Retrieves the analysis rule for a configured table association.
  */
 export const getConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  GetConfiguredTableAssociationAnalysisRuleInput,
+  GetConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   GetConfiguredTableAssociationAnalysisRuleOutput,
   GetConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4285,6 +4389,8 @@ export const getConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTableAssociationAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "GetConfiguredTableAssociationAnalysisRule",
 }));
 
 export type GetIdMappingTableError =
@@ -4298,7 +4404,7 @@ export type GetIdMappingTableError =
  * Retrieves an ID mapping table.
  */
 export const getIdMappingTable: API.OperationMethod<
-  GetIdMappingTableInput,
+  GetIdMappingTableInput & RegionInput,
   GetIdMappingTableOutput,
   GetIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -4315,6 +4421,8 @@ export const getIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdMappingTable",
+  telemetry: TELEMETRY,
+  span: "GetIdMappingTable",
 }));
 
 export type GetIdNamespaceAssociationError =
@@ -4328,7 +4436,7 @@ export type GetIdNamespaceAssociationError =
  * Retrieves an ID namespace association.
  */
 export const getIdNamespaceAssociation: API.OperationMethod<
-  GetIdNamespaceAssociationInput,
+  GetIdNamespaceAssociationInput & RegionInput,
   GetIdNamespaceAssociationOutput,
   GetIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4345,6 +4453,8 @@ export const getIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdNamespaceAssociation",
+  telemetry: TELEMETRY,
+  span: "GetIdNamespaceAssociation",
 }));
 
 export type GetIntermediateTableError =
@@ -4358,7 +4468,7 @@ export type GetIntermediateTableError =
  * Retrieves an intermediate table. Returns the full details of the intermediate table, including schema, table dependencies, inherited constraints, child resources, and status. Only the intermediate table owner can call this operation.
  */
 export const getIntermediateTable: API.OperationMethod<
-  GetIntermediateTableInput,
+  GetIntermediateTableInput & RegionInput,
   GetIntermediateTableOutput,
   GetIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -4375,6 +4485,8 @@ export const getIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntermediateTable",
+  telemetry: TELEMETRY,
+  span: "GetIntermediateTable",
 }));
 
 export type GetIntermediateTableAnalysisRuleError =
@@ -4388,7 +4500,7 @@ export type GetIntermediateTableAnalysisRuleError =
  * Retrieves the analysis rule for an intermediate table.
  */
 export const getIntermediateTableAnalysisRule: API.OperationMethod<
-  GetIntermediateTableAnalysisRuleInput,
+  GetIntermediateTableAnalysisRuleInput & RegionInput,
   GetIntermediateTableAnalysisRuleOutput,
   GetIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4405,6 +4517,8 @@ export const getIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntermediateTableAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "GetIntermediateTableAnalysisRule",
 }));
 
 export type GetMembershipError =
@@ -4418,7 +4532,7 @@ export type GetMembershipError =
  * Retrieves a specified membership for an identifier.
  */
 export const getMembership: API.OperationMethod<
-  GetMembershipInput,
+  GetMembershipInput & RegionInput,
   GetMembershipOutput,
   GetMembershipError,
   Credentials | HttpClient.HttpClient
@@ -4435,6 +4549,8 @@ export const getMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembership",
+  telemetry: TELEMETRY,
+  span: "GetMembership",
 }));
 
 export type GetPrivacyBudgetTemplateError =
@@ -4448,7 +4564,7 @@ export type GetPrivacyBudgetTemplateError =
  * Returns details for a specified privacy budget template.
  */
 export const getPrivacyBudgetTemplate: API.OperationMethod<
-  GetPrivacyBudgetTemplateInput,
+  GetPrivacyBudgetTemplateInput & RegionInput,
   GetPrivacyBudgetTemplateOutput,
   GetPrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4465,6 +4581,8 @@ export const getPrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrivacyBudgetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetPrivacyBudgetTemplate",
 }));
 
 export type GetProtectedJobError =
@@ -4478,7 +4596,7 @@ export type GetProtectedJobError =
  * Returns job processing metadata.
  */
 export const getProtectedJob: API.OperationMethod<
-  GetProtectedJobInput,
+  GetProtectedJobInput & RegionInput,
   GetProtectedJobOutput,
   GetProtectedJobError,
   Credentials | HttpClient.HttpClient
@@ -4495,6 +4613,8 @@ export const getProtectedJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectedJob",
+  telemetry: TELEMETRY,
+  span: "GetProtectedJob",
 }));
 
 export type GetProtectedQueryError =
@@ -4508,7 +4628,7 @@ export type GetProtectedQueryError =
  * Returns query processing metadata.
  */
 export const getProtectedQuery: API.OperationMethod<
-  GetProtectedQueryInput,
+  GetProtectedQueryInput & RegionInput,
   GetProtectedQueryOutput,
   GetProtectedQueryError,
   Credentials | HttpClient.HttpClient
@@ -4525,6 +4645,8 @@ export const getProtectedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectedQuery",
+  telemetry: TELEMETRY,
+  span: "GetProtectedQuery",
 }));
 
 export type GetSchemaError =
@@ -4538,7 +4660,7 @@ export type GetSchemaError =
  * Retrieves the schema for a relation within a collaboration.
  */
 export const getSchema: API.OperationMethod<
-  GetSchemaInput,
+  GetSchemaInput & RegionInput,
   GetSchemaOutput,
   GetSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4555,6 +4677,8 @@ export const getSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
+  telemetry: TELEMETRY,
+  span: "GetSchema",
 }));
 
 export type GetSchemaAnalysisRuleError =
@@ -4568,7 +4692,7 @@ export type GetSchemaAnalysisRuleError =
  * Retrieves a schema analysis rule.
  */
 export const getSchemaAnalysisRule: API.OperationMethod<
-  GetSchemaAnalysisRuleInput,
+  GetSchemaAnalysisRuleInput & RegionInput,
   GetSchemaAnalysisRuleOutput,
   GetSchemaAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4585,6 +4709,8 @@ export const getSchemaAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "GetSchemaAnalysisRule",
 }));
 
 export type ListAnalysisLogExportsError =
@@ -4598,7 +4724,7 @@ export type ListAnalysisLogExportsError =
  * Lists analysis log exports, sorted by the most recent export. Results are paginated. Use the `nextToken` parameter to retrieve additional results.
  */
 export const listAnalysisLogExports: API.PaginatedOperationMethod<
-  ListAnalysisLogExportsInput,
+  ListAnalysisLogExportsInput & RegionInput,
   ListAnalysisLogExportsOutput,
   ListAnalysisLogExportsError,
   Credentials | HttpClient.HttpClient,
@@ -4622,6 +4748,8 @@ export const listAnalysisLogExports: API.PaginatedOperationMethod<
     items: "analysisLogExports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalysisLogExports",
 })) as any;
 
 export type ListAnalysisTemplatesError =
@@ -4635,7 +4763,7 @@ export type ListAnalysisTemplatesError =
  * Lists analysis templates that the caller owns.
  */
 export const listAnalysisTemplates: API.PaginatedOperationMethod<
-  ListAnalysisTemplatesInput,
+  ListAnalysisTemplatesInput & RegionInput,
   ListAnalysisTemplatesOutput,
   ListAnalysisTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4659,6 +4787,8 @@ export const listAnalysisTemplates: API.PaginatedOperationMethod<
     items: "analysisTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalysisTemplates",
 })) as any;
 
 export type ListCollaborationAnalysisTemplatesError =
@@ -4672,7 +4802,7 @@ export type ListCollaborationAnalysisTemplatesError =
  * Lists analysis templates within a collaboration.
  */
 export const listCollaborationAnalysisTemplates: API.PaginatedOperationMethod<
-  ListCollaborationAnalysisTemplatesInput,
+  ListCollaborationAnalysisTemplatesInput & RegionInput,
   ListCollaborationAnalysisTemplatesOutput,
   ListCollaborationAnalysisTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4696,6 +4826,8 @@ export const listCollaborationAnalysisTemplates: API.PaginatedOperationMethod<
     items: "collaborationAnalysisTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationAnalysisTemplates",
 })) as any;
 
 export type ListCollaborationChangeRequestsError =
@@ -4709,7 +4841,7 @@ export type ListCollaborationChangeRequestsError =
  * Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time.
  */
 export const listCollaborationChangeRequests: API.PaginatedOperationMethod<
-  ListCollaborationChangeRequestsInput,
+  ListCollaborationChangeRequestsInput & RegionInput,
   ListCollaborationChangeRequestsOutput,
   ListCollaborationChangeRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -4733,6 +4865,8 @@ export const listCollaborationChangeRequests: API.PaginatedOperationMethod<
     items: "collaborationChangeRequestSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationChangeRequests",
 })) as any;
 
 export type ListCollaborationConfiguredAudienceModelAssociationsError =
@@ -4746,7 +4880,7 @@ export type ListCollaborationConfiguredAudienceModelAssociationsError =
  * Lists configured audience model associations within a collaboration.
  */
 export const listCollaborationConfiguredAudienceModelAssociations: API.PaginatedOperationMethod<
-  ListCollaborationConfiguredAudienceModelAssociationsInput,
+  ListCollaborationConfiguredAudienceModelAssociationsInput & RegionInput,
   ListCollaborationConfiguredAudienceModelAssociationsOutput,
   ListCollaborationConfiguredAudienceModelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4778,6 +4912,8 @@ export const listCollaborationConfiguredAudienceModelAssociations: API.Paginated
     items: "collaborationConfiguredAudienceModelAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationConfiguredAudienceModelAssociations",
 })) as any;
 
 export type ListCollaborationIdNamespaceAssociationsError =
@@ -4791,7 +4927,7 @@ export type ListCollaborationIdNamespaceAssociationsError =
  * Returns a list of the ID namespace associations in a collaboration.
  */
 export const listCollaborationIdNamespaceAssociations: API.PaginatedOperationMethod<
-  ListCollaborationIdNamespaceAssociationsInput,
+  ListCollaborationIdNamespaceAssociationsInput & RegionInput,
   ListCollaborationIdNamespaceAssociationsOutput,
   ListCollaborationIdNamespaceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4815,6 +4951,8 @@ export const listCollaborationIdNamespaceAssociations: API.PaginatedOperationMet
     items: "collaborationIdNamespaceAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationIdNamespaceAssociations",
 })) as any;
 
 export type ListCollaborationPrivacyBudgetsError =
@@ -4828,7 +4966,7 @@ export type ListCollaborationPrivacyBudgetsError =
  * Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details.
  */
 export const listCollaborationPrivacyBudgets: API.PaginatedOperationMethod<
-  ListCollaborationPrivacyBudgetsInput,
+  ListCollaborationPrivacyBudgetsInput & RegionInput,
   ListCollaborationPrivacyBudgetsOutput,
   ListCollaborationPrivacyBudgetsError,
   Credentials | HttpClient.HttpClient,
@@ -4852,6 +4990,8 @@ export const listCollaborationPrivacyBudgets: API.PaginatedOperationMethod<
     items: "collaborationPrivacyBudgetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationPrivacyBudgets",
 })) as any;
 
 export type ListCollaborationPrivacyBudgetTemplatesError =
@@ -4865,7 +5005,7 @@ export type ListCollaborationPrivacyBudgetTemplatesError =
  * Returns an array that summarizes each privacy budget template in a specified collaboration.
  */
 export const listCollaborationPrivacyBudgetTemplates: API.PaginatedOperationMethod<
-  ListCollaborationPrivacyBudgetTemplatesInput,
+  ListCollaborationPrivacyBudgetTemplatesInput & RegionInput,
   ListCollaborationPrivacyBudgetTemplatesOutput,
   ListCollaborationPrivacyBudgetTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4889,6 +5029,8 @@ export const listCollaborationPrivacyBudgetTemplates: API.PaginatedOperationMeth
     items: "collaborationPrivacyBudgetTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationPrivacyBudgetTemplates",
 })) as any;
 
 export type ListCollaborationsError =
@@ -4901,7 +5043,7 @@ export type ListCollaborationsError =
  * Lists collaborations the caller owns, is active in, or has been invited to.
  */
 export const listCollaborations: API.PaginatedOperationMethod<
-  ListCollaborationsInput,
+  ListCollaborationsInput & RegionInput,
   ListCollaborationsOutput,
   ListCollaborationsError,
   Credentials | HttpClient.HttpClient,
@@ -4924,6 +5066,8 @@ export const listCollaborations: API.PaginatedOperationMethod<
     items: "collaborationList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborations",
 })) as any;
 
 export type ListConfiguredAudienceModelAssociationsError =
@@ -4937,7 +5081,7 @@ export type ListConfiguredAudienceModelAssociationsError =
  * Lists information about requested configured audience model associations.
  */
 export const listConfiguredAudienceModelAssociations: API.PaginatedOperationMethod<
-  ListConfiguredAudienceModelAssociationsInput,
+  ListConfiguredAudienceModelAssociationsInput & RegionInput,
   ListConfiguredAudienceModelAssociationsOutput,
   ListConfiguredAudienceModelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4961,6 +5105,8 @@ export const listConfiguredAudienceModelAssociations: API.PaginatedOperationMeth
     items: "configuredAudienceModelAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfiguredAudienceModelAssociations",
 })) as any;
 
 export type ListConfiguredTableAssociationsError =
@@ -4974,7 +5120,7 @@ export type ListConfiguredTableAssociationsError =
  * Lists configured table associations for a membership.
  */
 export const listConfiguredTableAssociations: API.PaginatedOperationMethod<
-  ListConfiguredTableAssociationsInput,
+  ListConfiguredTableAssociationsInput & RegionInput,
   ListConfiguredTableAssociationsOutput,
   ListConfiguredTableAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4998,6 +5144,8 @@ export const listConfiguredTableAssociations: API.PaginatedOperationMethod<
     items: "configuredTableAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfiguredTableAssociations",
 })) as any;
 
 export type ListConfiguredTablesError =
@@ -5010,7 +5158,7 @@ export type ListConfiguredTablesError =
  * Lists configured tables.
  */
 export const listConfiguredTables: API.PaginatedOperationMethod<
-  ListConfiguredTablesInput,
+  ListConfiguredTablesInput & RegionInput,
   ListConfiguredTablesOutput,
   ListConfiguredTablesError,
   Credentials | HttpClient.HttpClient,
@@ -5033,6 +5181,8 @@ export const listConfiguredTables: API.PaginatedOperationMethod<
     items: "configuredTableSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfiguredTables",
 })) as any;
 
 export type ListIdMappingTablesError =
@@ -5046,7 +5196,7 @@ export type ListIdMappingTablesError =
  * Returns a list of ID mapping tables.
  */
 export const listIdMappingTables: API.PaginatedOperationMethod<
-  ListIdMappingTablesInput,
+  ListIdMappingTablesInput & RegionInput,
   ListIdMappingTablesOutput,
   ListIdMappingTablesError,
   Credentials | HttpClient.HttpClient,
@@ -5070,6 +5220,8 @@ export const listIdMappingTables: API.PaginatedOperationMethod<
     items: "idMappingTableSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdMappingTables",
 })) as any;
 
 export type ListIdNamespaceAssociationsError =
@@ -5083,7 +5235,7 @@ export type ListIdNamespaceAssociationsError =
  * Returns a list of ID namespace associations.
  */
 export const listIdNamespaceAssociations: API.PaginatedOperationMethod<
-  ListIdNamespaceAssociationsInput,
+  ListIdNamespaceAssociationsInput & RegionInput,
   ListIdNamespaceAssociationsOutput,
   ListIdNamespaceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5107,6 +5259,8 @@ export const listIdNamespaceAssociations: API.PaginatedOperationMethod<
     items: "idNamespaceAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdNamespaceAssociations",
 })) as any;
 
 export type ListIntermediateTablesError =
@@ -5120,7 +5274,7 @@ export type ListIntermediateTablesError =
  * Lists intermediate tables owned by the caller in a membership. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listIntermediateTables: API.PaginatedOperationMethod<
-  ListIntermediateTablesInput,
+  ListIntermediateTablesInput & RegionInput,
   ListIntermediateTablesOutput,
   ListIntermediateTablesError,
   Credentials | HttpClient.HttpClient,
@@ -5144,6 +5298,8 @@ export const listIntermediateTables: API.PaginatedOperationMethod<
     items: "intermediateTableSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntermediateTables",
 })) as any;
 
 export type ListIntermediateTableVersionsError =
@@ -5157,7 +5313,7 @@ export type ListIntermediateTableVersionsError =
  * Lists the version history of an intermediate table. Each call to `PopulateIntermediateTable` creates a new version. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listIntermediateTableVersions: API.PaginatedOperationMethod<
-  ListIntermediateTableVersionsInput,
+  ListIntermediateTableVersionsInput & RegionInput,
   ListIntermediateTableVersionsOutput,
   ListIntermediateTableVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5181,6 +5337,8 @@ export const listIntermediateTableVersions: API.PaginatedOperationMethod<
     items: "intermediateTableVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntermediateTableVersions",
 })) as any;
 
 export type ListMembersError =
@@ -5194,7 +5352,7 @@ export type ListMembersError =
  * Lists all members within a collaboration.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersInput,
+  ListMembersInput & RegionInput,
   ListMembersOutput,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -5218,6 +5376,8 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "memberSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListMembershipsError =
@@ -5230,7 +5390,7 @@ export type ListMembershipsError =
  * Lists all memberships resources within the caller's account.
  */
 export const listMemberships: API.PaginatedOperationMethod<
-  ListMembershipsInput,
+  ListMembershipsInput & RegionInput,
   ListMembershipsOutput,
   ListMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -5253,6 +5413,8 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "membershipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemberships",
 })) as any;
 
 export type ListPrivacyBudgetsError =
@@ -5266,7 +5428,7 @@ export type ListPrivacyBudgetsError =
  * Returns detailed information about the privacy budgets in a specified membership.
  */
 export const listPrivacyBudgets: API.PaginatedOperationMethod<
-  ListPrivacyBudgetsInput,
+  ListPrivacyBudgetsInput & RegionInput,
   ListPrivacyBudgetsOutput,
   ListPrivacyBudgetsError,
   Credentials | HttpClient.HttpClient,
@@ -5290,6 +5452,8 @@ export const listPrivacyBudgets: API.PaginatedOperationMethod<
     items: "privacyBudgetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrivacyBudgets",
 })) as any;
 
 export type ListPrivacyBudgetTemplatesError =
@@ -5303,7 +5467,7 @@ export type ListPrivacyBudgetTemplatesError =
  * Returns detailed information about the privacy budget templates in a specified membership.
  */
 export const listPrivacyBudgetTemplates: API.PaginatedOperationMethod<
-  ListPrivacyBudgetTemplatesInput,
+  ListPrivacyBudgetTemplatesInput & RegionInput,
   ListPrivacyBudgetTemplatesOutput,
   ListPrivacyBudgetTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5327,6 +5491,8 @@ export const listPrivacyBudgetTemplates: API.PaginatedOperationMethod<
     items: "privacyBudgetTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrivacyBudgetTemplates",
 })) as any;
 
 export type ListProtectedJobsError =
@@ -5340,7 +5506,7 @@ export type ListProtectedJobsError =
  * Lists protected jobs, sorted by most recent job.
  */
 export const listProtectedJobs: API.PaginatedOperationMethod<
-  ListProtectedJobsInput,
+  ListProtectedJobsInput & RegionInput,
   ListProtectedJobsOutput,
   ListProtectedJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5364,6 +5530,8 @@ export const listProtectedJobs: API.PaginatedOperationMethod<
     items: "protectedJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtectedJobs",
 })) as any;
 
 export type ListProtectedQueriesError =
@@ -5377,7 +5545,7 @@ export type ListProtectedQueriesError =
  * Lists protected queries, sorted by the most recent query.
  */
 export const listProtectedQueries: API.PaginatedOperationMethod<
-  ListProtectedQueriesInput,
+  ListProtectedQueriesInput & RegionInput,
   ListProtectedQueriesOutput,
   ListProtectedQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -5401,6 +5569,8 @@ export const listProtectedQueries: API.PaginatedOperationMethod<
     items: "protectedQueries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtectedQueries",
 })) as any;
 
 export type ListSchemasError =
@@ -5414,7 +5584,7 @@ export type ListSchemasError =
  * Lists the schemas for relations within a collaboration.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasInput,
+  ListSchemasInput & RegionInput,
   ListSchemasOutput,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -5438,6 +5608,8 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "schemaSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemas",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5448,7 +5620,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags that have been added to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5459,6 +5631,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PopulateIdMappingTableError =
@@ -5474,7 +5648,7 @@ export type PopulateIdMappingTableError =
  * Defines the information that's necessary to populate an ID mapping table.
  */
 export const populateIdMappingTable: API.OperationMethod<
-  PopulateIdMappingTableInput,
+  PopulateIdMappingTableInput & RegionInput,
   PopulateIdMappingTableOutput,
   PopulateIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -5493,6 +5667,8 @@ export const populateIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PopulateIdMappingTable",
+  telemetry: TELEMETRY,
+  span: "PopulateIdMappingTable",
 }));
 
 export type PopulateIntermediateTableError =
@@ -5508,7 +5684,7 @@ export type PopulateIntermediateTableError =
  * Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use `GetProtectedQuery` with the returned analysis ID to track progress. Only the intermediate table owner can call this operation.
  */
 export const populateIntermediateTable: API.OperationMethod<
-  PopulateIntermediateTableInput,
+  PopulateIntermediateTableInput & RegionInput,
   PopulateIntermediateTableOutput,
   PopulateIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -5527,6 +5703,8 @@ export const populateIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PopulateIntermediateTable",
+  telemetry: TELEMETRY,
+  span: "PopulateIntermediateTable",
 }));
 
 export type PreviewPrivacyImpactError =
@@ -5540,7 +5718,7 @@ export type PreviewPrivacyImpactError =
  * An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
  */
 export const previewPrivacyImpact: API.OperationMethod<
-  PreviewPrivacyImpactInput,
+  PreviewPrivacyImpactInput & RegionInput,
   PreviewPrivacyImpactOutput,
   PreviewPrivacyImpactError,
   Credentials | HttpClient.HttpClient
@@ -5557,6 +5735,8 @@ export const previewPrivacyImpact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PreviewPrivacyImpact",
+  telemetry: TELEMETRY,
+  span: "PreviewPrivacyImpact",
 }));
 
 export type StartAnalysisLogExportError =
@@ -5585,7 +5765,7 @@ export type StartAnalysisLogExportError =
  * For more information, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs.html.
  */
 export const startAnalysisLogExport: API.OperationMethod<
-  StartAnalysisLogExportInput,
+  StartAnalysisLogExportInput & RegionInput,
   StartAnalysisLogExportOutput,
   StartAnalysisLogExportError,
   Credentials | HttpClient.HttpClient
@@ -5603,6 +5783,8 @@ export const startAnalysisLogExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAnalysisLogExport",
+  telemetry: TELEMETRY,
+  span: "StartAnalysisLogExport",
 }));
 
 export type StartProtectedJobError =
@@ -5617,7 +5799,7 @@ export type StartProtectedJobError =
  * Creates a protected job that is started by Clean Rooms.
  */
 export const startProtectedJob: API.OperationMethod<
-  StartProtectedJobInput,
+  StartProtectedJobInput & RegionInput,
   StartProtectedJobOutput,
   StartProtectedJobError,
   Credentials | HttpClient.HttpClient
@@ -5635,6 +5817,8 @@ export const startProtectedJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProtectedJob",
+  telemetry: TELEMETRY,
+  span: "StartProtectedJob",
 }));
 
 export type StartProtectedQueryError =
@@ -5649,7 +5833,7 @@ export type StartProtectedQueryError =
  * Creates a protected query that is started by Clean Rooms.
  */
 export const startProtectedQuery: API.OperationMethod<
-  StartProtectedQueryInput,
+  StartProtectedQueryInput & RegionInput,
   StartProtectedQueryOutput,
   StartProtectedQueryError,
   Credentials | HttpClient.HttpClient
@@ -5667,6 +5851,8 @@ export const startProtectedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProtectedQuery",
+  telemetry: TELEMETRY,
+  span: "StartProtectedQuery",
 }));
 
 export type TagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -5674,7 +5860,7 @@ export type TagResourceError = ResourceNotFoundException | ValidationException |
  * Tags a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5685,6 +5871,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -5692,7 +5880,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Removes a tag or list of tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5703,6 +5891,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAnalysisTemplateError =
@@ -5716,7 +5906,7 @@ export type UpdateAnalysisTemplateError =
  * Updates the analysis template metadata.
  */
 export const updateAnalysisTemplate: API.OperationMethod<
-  UpdateAnalysisTemplateInput,
+  UpdateAnalysisTemplateInput & RegionInput,
   UpdateAnalysisTemplateOutput,
   UpdateAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5733,6 +5923,8 @@ export const updateAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalysisTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateAnalysisTemplate",
 }));
 
 export type UpdateCollaborationError =
@@ -5745,7 +5937,7 @@ export type UpdateCollaborationError =
  * Updates collaboration metadata and can only be called by the collaboration owner.
  */
 export const updateCollaboration: API.OperationMethod<
-  UpdateCollaborationInput,
+  UpdateCollaborationInput & RegionInput,
   UpdateCollaborationOutput,
   UpdateCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -5761,6 +5953,8 @@ export const updateCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollaboration",
+  telemetry: TELEMETRY,
+  span: "UpdateCollaboration",
 }));
 
 export type UpdateCollaborationChangeRequestError =
@@ -5777,7 +5971,7 @@ export type UpdateCollaborationChangeRequestError =
  * For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
  */
 export const updateCollaborationChangeRequest: API.OperationMethod<
-  UpdateCollaborationChangeRequestInput,
+  UpdateCollaborationChangeRequestInput & RegionInput,
   UpdateCollaborationChangeRequestOutput,
   UpdateCollaborationChangeRequestError,
   Credentials | HttpClient.HttpClient
@@ -5795,6 +5989,8 @@ export const updateCollaborationChangeRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollaborationChangeRequest",
+  telemetry: TELEMETRY,
+  span: "UpdateCollaborationChangeRequest",
 }));
 
 export type UpdateConfiguredAudienceModelAssociationError =
@@ -5808,7 +6004,7 @@ export type UpdateConfiguredAudienceModelAssociationError =
  * Provides the details necessary to update a configured audience model association.
  */
 export const updateConfiguredAudienceModelAssociation: API.OperationMethod<
-  UpdateConfiguredAudienceModelAssociationInput,
+  UpdateConfiguredAudienceModelAssociationInput & RegionInput,
   UpdateConfiguredAudienceModelAssociationOutput,
   UpdateConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5825,6 +6021,8 @@ export const updateConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredAudienceModelAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguredAudienceModelAssociation",
 }));
 
 export type UpdateConfiguredTableError =
@@ -5840,7 +6038,7 @@ export type UpdateConfiguredTableError =
  * Updates a configured table.
  */
 export const updateConfiguredTable: API.OperationMethod<
-  UpdateConfiguredTableInput,
+  UpdateConfiguredTableInput & RegionInput,
   UpdateConfiguredTableOutput,
   UpdateConfiguredTableError,
   Credentials | HttpClient.HttpClient
@@ -5859,6 +6057,8 @@ export const updateConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTable",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguredTable",
 }));
 
 export type UpdateConfiguredTableAnalysisRuleError =
@@ -5874,7 +6074,7 @@ export type UpdateConfiguredTableAnalysisRuleError =
  * Updates a configured table analysis rule.
  */
 export const updateConfiguredTableAnalysisRule: API.OperationMethod<
-  UpdateConfiguredTableAnalysisRuleInput,
+  UpdateConfiguredTableAnalysisRuleInput & RegionInput,
   UpdateConfiguredTableAnalysisRuleOutput,
   UpdateConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -5893,6 +6093,8 @@ export const updateConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTableAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguredTableAnalysisRule",
 }));
 
 export type UpdateConfiguredTableAssociationError =
@@ -5907,7 +6109,7 @@ export type UpdateConfiguredTableAssociationError =
  * Updates a configured table association.
  */
 export const updateConfiguredTableAssociation: API.OperationMethod<
-  UpdateConfiguredTableAssociationInput,
+  UpdateConfiguredTableAssociationInput & RegionInput,
   UpdateConfiguredTableAssociationOutput,
   UpdateConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5925,6 +6127,8 @@ export const updateConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTableAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguredTableAssociation",
 }));
 
 export type UpdateConfiguredTableAssociationAnalysisRuleError =
@@ -5939,7 +6143,7 @@ export type UpdateConfiguredTableAssociationAnalysisRuleError =
  * Updates the analysis rule for a configured table association.
  */
 export const updateConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  UpdateConfiguredTableAssociationAnalysisRuleInput,
+  UpdateConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   UpdateConfiguredTableAssociationAnalysisRuleOutput,
   UpdateConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -5957,6 +6161,8 @@ export const updateConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTableAssociationAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguredTableAssociationAnalysisRule",
 }));
 
 export type UpdateIdMappingTableError =
@@ -5970,7 +6176,7 @@ export type UpdateIdMappingTableError =
  * Provides the details that are necessary to update an ID mapping table.
  */
 export const updateIdMappingTable: API.OperationMethod<
-  UpdateIdMappingTableInput,
+  UpdateIdMappingTableInput & RegionInput,
   UpdateIdMappingTableOutput,
   UpdateIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -5987,6 +6193,8 @@ export const updateIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdMappingTable",
+  telemetry: TELEMETRY,
+  span: "UpdateIdMappingTable",
 }));
 
 export type UpdateIdNamespaceAssociationError =
@@ -6000,7 +6208,7 @@ export type UpdateIdNamespaceAssociationError =
  * Provides the details that are necessary to update an ID namespace association.
  */
 export const updateIdNamespaceAssociation: API.OperationMethod<
-  UpdateIdNamespaceAssociationInput,
+  UpdateIdNamespaceAssociationInput & RegionInput,
   UpdateIdNamespaceAssociationOutput,
   UpdateIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -6017,6 +6225,8 @@ export const updateIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdNamespaceAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateIdNamespaceAssociation",
 }));
 
 export type UpdateIntermediateTableError =
@@ -6030,7 +6240,7 @@ export type UpdateIntermediateTableError =
  * Updates an intermediate table. You can update the description, KMS key ARN, and column types of existing columns. Only the intermediate table owner can call this operation.
  */
 export const updateIntermediateTable: API.OperationMethod<
-  UpdateIntermediateTableInput,
+  UpdateIntermediateTableInput & RegionInput,
   UpdateIntermediateTableOutput,
   UpdateIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -6047,6 +6257,8 @@ export const updateIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntermediateTable",
+  telemetry: TELEMETRY,
+  span: "UpdateIntermediateTable",
 }));
 
 export type UpdateIntermediateTableAnalysisRuleError =
@@ -6061,7 +6273,7 @@ export type UpdateIntermediateTableAnalysisRuleError =
  * Updates the analysis rule policy for an intermediate table. Only the intermediate table owner can call this operation.
  */
 export const updateIntermediateTableAnalysisRule: API.OperationMethod<
-  UpdateIntermediateTableAnalysisRuleInput,
+  UpdateIntermediateTableAnalysisRuleInput & RegionInput,
   UpdateIntermediateTableAnalysisRuleOutput,
   UpdateIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -6079,6 +6291,8 @@ export const updateIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntermediateTableAnalysisRule",
+  telemetry: TELEMETRY,
+  span: "UpdateIntermediateTableAnalysisRule",
 }));
 
 export type UpdateMembershipError =
@@ -6093,7 +6307,7 @@ export type UpdateMembershipError =
  * Updates a membership.
  */
 export const updateMembership: API.OperationMethod<
-  UpdateMembershipInput,
+  UpdateMembershipInput & RegionInput,
   UpdateMembershipOutput,
   UpdateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -6111,6 +6325,8 @@ export const updateMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMembership",
+  telemetry: TELEMETRY,
+  span: "UpdateMembership",
 }));
 
 export type UpdatePrivacyBudgetTemplateError =
@@ -6125,7 +6341,7 @@ export type UpdatePrivacyBudgetTemplateError =
  * Updates the privacy budget template for the specified collaboration.
  */
 export const updatePrivacyBudgetTemplate: API.OperationMethod<
-  UpdatePrivacyBudgetTemplateInput,
+  UpdatePrivacyBudgetTemplateInput & RegionInput,
   UpdatePrivacyBudgetTemplateOutput,
   UpdatePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6143,6 +6359,8 @@ export const updatePrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrivacyBudgetTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdatePrivacyBudgetTemplate",
 }));
 
 export type UpdateProtectedJobError =
@@ -6157,7 +6375,7 @@ export type UpdateProtectedJobError =
  * Updates the processing of a currently running job.
  */
 export const updateProtectedJob: API.OperationMethod<
-  UpdateProtectedJobInput,
+  UpdateProtectedJobInput & RegionInput,
   UpdateProtectedJobOutput,
   UpdateProtectedJobError,
   Credentials | HttpClient.HttpClient
@@ -6175,6 +6393,8 @@ export const updateProtectedJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectedJob",
+  telemetry: TELEMETRY,
+  span: "UpdateProtectedJob",
 }));
 
 export type UpdateProtectedQueryError =
@@ -6189,7 +6409,7 @@ export type UpdateProtectedQueryError =
  * Updates the processing of a currently running query.
  */
 export const updateProtectedQuery: API.OperationMethod<
-  UpdateProtectedQueryInput,
+  UpdateProtectedQueryInput & RegionInput,
   UpdateProtectedQueryOutput,
   UpdateProtectedQueryError,
   Credentials | HttpClient.HttpClient
@@ -6207,6 +6427,8 @@ export const updateProtectedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectedQuery",
+  telemetry: TELEMETRY,
+  span: "UpdateProtectedQuery",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

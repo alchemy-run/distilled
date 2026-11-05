@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://s3-outposts.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "S3Outposts",
+  service: "S3Outposts",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -235,7 +251,7 @@ export type CreateEndpointError =
  * - ListEndpoints
  */
 export const createEndpoint: API.OperationMethod<
-  CreateEndpointRequest,
+  CreateEndpointRequest & RegionInput,
   CreateEndpointResult,
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -254,6 +270,8 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateEndpoint",
 }));
 
 export type DeleteEndpointError =
@@ -276,7 +294,7 @@ export type DeleteEndpointError =
  * - ListEndpoints
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -294,6 +312,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type ListEndpointsError =
@@ -313,7 +333,7 @@ export type ListEndpointsError =
  * - DeleteEndpoint
  */
 export const listEndpoints: API.PaginatedOperationMethod<
-  ListEndpointsRequest,
+  ListEndpointsRequest & RegionInput,
   ListEndpointsResult,
   ListEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -337,6 +357,8 @@ export const listEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpoints",
 })) as any;
 
 export type ListOutpostsWithS3Error =
@@ -351,7 +373,7 @@ export type ListOutpostsWithS3Error =
  * from Resource Access Manager (RAM).
  */
 export const listOutpostsWithS3: API.PaginatedOperationMethod<
-  ListOutpostsWithS3Request,
+  ListOutpostsWithS3Request & RegionInput,
   ListOutpostsWithS3Result,
   ListOutpostsWithS3Error,
   Credentials | HttpClient.HttpClient,
@@ -374,6 +396,8 @@ export const listOutpostsWithS3: API.PaginatedOperationMethod<
     items: "Outposts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOutpostsWithS3",
 })) as any;
 
 export type ListSharedEndpointsError =
@@ -393,7 +417,7 @@ export type ListSharedEndpointsError =
  * - DeleteEndpoint
  */
 export const listSharedEndpoints: API.PaginatedOperationMethod<
-  ListSharedEndpointsRequest,
+  ListSharedEndpointsRequest & RegionInput,
   ListSharedEndpointsResult,
   ListSharedEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -417,6 +441,8 @@ export const listSharedEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSharedEndpoints",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

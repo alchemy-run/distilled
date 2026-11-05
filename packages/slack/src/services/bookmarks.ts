@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Bookmarks",
+  propagate: "w3c",
+} as const;
+
 /** The level that we are setting the file's permission to (read or write) */
 export type AddBookmarkRequestAccessLevel = "read" | "write";
 export interface AddBookmarkRequest {
@@ -88,6 +101,8 @@ export const addBookmark: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddBookmark",
 }));
 
 export type EditBookmarkError = SlackOpError;
@@ -103,6 +118,8 @@ export const editBookmark: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditBookmark",
 }));
 
 export type ListBookmarksError = SlackOpError;
@@ -118,6 +135,8 @@ export const listBookmarks: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBookmarks",
 }));
 
 export type RemoveBookmarkError = SlackOpError;
@@ -133,6 +152,8 @@ export const removeBookmark: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveBookmark",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

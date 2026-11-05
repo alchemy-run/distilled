@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://tagging.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ResourceGroupsTaggingAPI",
+  service: "ResourceGroupsTaggingAPI",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -273,7 +289,7 @@ export type DescribeReportCreationError =
  * management account and from the us-east-1 Region.
  */
 export const describeReportCreation: API.OperationMethod<
-  DescribeReportCreationInput,
+  DescribeReportCreationInput & RegionInput,
   DescribeReportCreationOutput,
   DescribeReportCreationError,
   Credentials | HttpClient.HttpClient
@@ -289,6 +305,8 @@ export const describeReportCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportCreation",
+  telemetry: TELEMETRY,
+  span: "DescribeReportCreation",
 }));
 
 export type GetComplianceSummaryError =
@@ -315,7 +333,7 @@ export type GetComplianceSummaryError =
  * there are no more results waiting to be returned.
  */
 export const getComplianceSummary: API.PaginatedOperationMethod<
-  GetComplianceSummaryInput,
+  GetComplianceSummaryInput & RegionInput,
   GetComplianceSummaryOutput,
   GetComplianceSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -338,6 +356,8 @@ export const getComplianceSummary: API.PaginatedOperationMethod<
     items: "SummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetComplianceSummary",
 })) as any;
 
 export type GetResourcesError =
@@ -374,7 +394,7 @@ export type GetResourcesError =
  * query that uses `tag:none`. For more information, see Search query syntax reference for Resource Explorer.
  */
 export const getResources: API.PaginatedOperationMethod<
-  GetResourcesInput,
+  GetResourcesInput & RegionInput,
   GetResourcesOutput,
   GetResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -397,6 +417,8 @@ export const getResources: API.PaginatedOperationMethod<
     items: "ResourceTagMappingList",
     pageSize: "ResourcesPerPage",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResources",
 })) as any;
 
 export type GetTagKeysError =
@@ -417,7 +439,7 @@ export type GetTagKeysError =
  * there are no more results waiting to be returned.
  */
 export const getTagKeys: API.PaginatedOperationMethod<
-  GetTagKeysInput,
+  GetTagKeysInput & RegionInput,
   GetTagKeysOutput,
   GetTagKeysError,
   Credentials | HttpClient.HttpClient,
@@ -439,6 +461,8 @@ export const getTagKeys: API.PaginatedOperationMethod<
     outputToken: "PaginationToken",
     items: "TagKeys",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTagKeys",
 })) as any;
 
 export type GetTagValuesError =
@@ -459,7 +483,7 @@ export type GetTagValuesError =
  * there are no more results waiting to be returned.
  */
 export const getTagValues: API.PaginatedOperationMethod<
-  GetTagValuesInput,
+  GetTagValuesInput & RegionInput,
   GetTagValuesOutput,
   GetTagValuesError,
   Credentials | HttpClient.HttpClient,
@@ -481,6 +505,8 @@ export const getTagValues: API.PaginatedOperationMethod<
     outputToken: "PaginationToken",
     items: "TagValues",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTagValues",
 })) as any;
 
 export type ListRequiredTagsError =
@@ -493,7 +519,7 @@ export type ListRequiredTagsError =
  * Lists the required tags for supported resource types in an Amazon Web Services account.
  */
 export const listRequiredTags: API.PaginatedOperationMethod<
-  ListRequiredTagsInput,
+  ListRequiredTagsInput & RegionInput,
   ListRequiredTagsOutput,
   ListRequiredTagsError,
   Credentials | HttpClient.HttpClient,
@@ -516,6 +542,8 @@ export const listRequiredTags: API.PaginatedOperationMethod<
     items: "RequiredTags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRequiredTags",
 })) as any;
 
 export type StartReportCreationError =
@@ -549,7 +577,7 @@ export type StartReportCreationError =
  * Editor user guide.
  */
 export const startReportCreation: API.OperationMethod<
-  StartReportCreationInput,
+  StartReportCreationInput & RegionInput,
   StartReportCreationOutput,
   StartReportCreationError,
   Credentials | HttpClient.HttpClient
@@ -566,6 +594,8 @@ export const startReportCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReportCreation",
+  telemetry: TELEMETRY,
+  span: "StartReportCreation",
 }));
 
 export type TagResourcesError =
@@ -626,7 +656,7 @@ export type TagResourcesError =
  * information.
  */
 export const tagResources: API.OperationMethod<
-  TagResourcesInput,
+  TagResourcesInput & RegionInput,
   TagResourcesOutput,
   TagResourcesError,
   Credentials | HttpClient.HttpClient
@@ -637,6 +667,8 @@ export const tagResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResources",
+  telemetry: TELEMETRY,
+  span: "TagResources",
 }));
 
 export type UntagResourcesError =
@@ -677,7 +709,7 @@ export type UntagResourcesError =
  * information.
  */
 export const untagResources: API.OperationMethod<
-  UntagResourcesInput,
+  UntagResourcesInput & RegionInput,
   UntagResourcesOutput,
   UntagResourcesError,
   Credentials | HttpClient.HttpClient
@@ -688,6 +720,8 @@ export const untagResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResources",
+  telemetry: TELEMETRY,
+  span: "UntagResources",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

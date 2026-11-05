@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Gmail",
+  service: "gmail",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1210,6 +1223,8 @@ export const batchDeleteUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteUsersMessages",
 }));
 
 export type BatchModifyUsersMessagesError =
@@ -1230,6 +1245,8 @@ export const batchModifyUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchModifyUsersMessages",
 }));
 
 export type CreateUsersDraftsError =
@@ -1250,6 +1267,8 @@ export const createUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersDrafts",
 }));
 
 export type CreateUsersLabelsError =
@@ -1270,6 +1289,8 @@ export const createUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersLabels",
 }));
 
 export type CreateUsersSettingsCseIdentitiesError =
@@ -1290,6 +1311,8 @@ export const createUsersSettingsCseIdentities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsCseIdentities",
 }));
 
 export type CreateUsersSettingsCseKeypairsError =
@@ -1310,6 +1333,8 @@ export const createUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsCseKeypairs",
 }));
 
 export type CreateUsersSettingsDelegatesError =
@@ -1330,6 +1355,8 @@ export const createUsersSettingsDelegates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsDelegates",
 }));
 
 export type CreateUsersSettingsFiltersError =
@@ -1350,6 +1377,8 @@ export const createUsersSettingsFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsFilters",
 }));
 
 export type CreateUsersSettingsForwardingAddressesError =
@@ -1370,6 +1399,8 @@ export const createUsersSettingsForwardingAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsForwardingAddresses",
 }));
 
 export type CreateUsersSettingsSendAsError =
@@ -1390,6 +1421,8 @@ export const createUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsSendAs",
 }));
 
 export type DeleteUsersDraftsError =
@@ -1410,6 +1443,8 @@ export const deleteUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersDrafts",
 }));
 
 export type DeleteUsersLabelsError =
@@ -1430,6 +1465,8 @@ export const deleteUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersLabels",
 }));
 
 export type DeleteUsersMessagesError =
@@ -1450,6 +1487,8 @@ export const deleteUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersMessages",
 }));
 
 export type DeleteUsersSettingsCseIdentitiesError =
@@ -1470,6 +1509,8 @@ export const deleteUsersSettingsCseIdentities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsCseIdentities",
 }));
 
 export type DeleteUsersSettingsDelegatesError =
@@ -1490,6 +1531,8 @@ export const deleteUsersSettingsDelegates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsDelegates",
 }));
 
 export type DeleteUsersSettingsFiltersError =
@@ -1510,6 +1553,8 @@ export const deleteUsersSettingsFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsFilters",
 }));
 
 export type DeleteUsersSettingsForwardingAddressesError =
@@ -1530,6 +1575,8 @@ export const deleteUsersSettingsForwardingAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsForwardingAddresses",
 }));
 
 export type DeleteUsersSettingsSendAsError =
@@ -1550,6 +1597,8 @@ export const deleteUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsSendAs",
 }));
 
 export type DeleteUsersSettingsSendAsSmimeInfoError =
@@ -1570,6 +1619,8 @@ export const deleteUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsSendAsSmimeInfo",
 }));
 
 export type DeleteUsersThreadsError =
@@ -1590,6 +1641,8 @@ export const deleteUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersThreads",
 }));
 
 export type DisableUsersSettingsCseKeypairsError =
@@ -1610,6 +1663,8 @@ export const disableUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableUsersSettingsCseKeypairs",
 }));
 
 export type EnableUsersSettingsCseKeypairsError =
@@ -1630,6 +1685,8 @@ export const enableUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableUsersSettingsCseKeypairs",
 }));
 
 export type GetAutoForwardingUsersSettingsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1645,6 +1702,8 @@ export const getAutoForwardingUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoForwardingUsersSettings",
 }));
 
 export type GetImapUsersSettingsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1660,6 +1719,8 @@ export const getImapUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImapUsersSettings",
 }));
 
 export type GetLanguageUsersSettingsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1675,6 +1736,8 @@ export const getLanguageUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLanguageUsersSettings",
 }));
 
 export type GetPopUsersSettingsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1690,6 +1753,8 @@ export const getPopUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPopUsersSettings",
 }));
 
 export type GetProfileUsersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1705,6 +1770,8 @@ export const getProfileUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProfileUsers",
 }));
 
 export type GetUsersDraftsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1720,6 +1787,8 @@ export const getUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersDrafts",
 }));
 
 export type GetUsersLabelsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1735,6 +1804,8 @@ export const getUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersLabels",
 }));
 
 export type GetUsersMessagesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1750,6 +1821,8 @@ export const getUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersMessages",
 }));
 
 export type GetUsersMessagesAttachmentsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1765,6 +1838,8 @@ export const getUsersMessagesAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersMessagesAttachments",
 }));
 
 export type GetUsersSettingsCseIdentitiesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1780,6 +1855,8 @@ export const getUsersSettingsCseIdentities: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsCseIdentities",
 }));
 
 export type GetUsersSettingsCseKeypairsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1795,6 +1872,8 @@ export const getUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsCseKeypairs",
 }));
 
 export type GetUsersSettingsDelegatesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1810,6 +1889,8 @@ export const getUsersSettingsDelegates: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsDelegates",
 }));
 
 export type GetUsersSettingsFiltersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1825,6 +1906,8 @@ export const getUsersSettingsFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsFilters",
 }));
 
 export type GetUsersSettingsForwardingAddressesError =
@@ -1843,6 +1926,8 @@ export const getUsersSettingsForwardingAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsForwardingAddresses",
 }));
 
 export type GetUsersSettingsSendAsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1858,6 +1943,8 @@ export const getUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsSendAs",
 }));
 
 export type GetUsersSettingsSendAsSmimeInfoError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1873,6 +1960,8 @@ export const getUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsSendAsSmimeInfo",
 }));
 
 export type GetUsersThreadsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1888,6 +1977,8 @@ export const getUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersThreads",
 }));
 
 export type GetVacationUsersSettingsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1903,6 +1994,8 @@ export const getVacationUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVacationUsersSettings",
 }));
 
 export type ImportUsersMessagesError =
@@ -1923,6 +2016,8 @@ export const importUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportUsersMessages",
 }));
 
 export type InsertUsersMessagesError =
@@ -1943,6 +2038,8 @@ export const insertUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertUsersMessages",
 }));
 
 export type InsertUsersSettingsSendAsSmimeInfoError =
@@ -1963,6 +2060,8 @@ export const insertUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertUsersSettingsSendAsSmimeInfo",
 }));
 
 export type ListUsersDraftsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1979,6 +2078,8 @@ export const listUsersDrafts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersDrafts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1996,6 +2097,8 @@ export const listUsersHistory: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersHistory",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2012,6 +2115,8 @@ export const listUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersLabels",
 }));
 
 export type ListUsersMessagesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2028,6 +2133,8 @@ export const listUsersMessages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersMessages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2045,6 +2152,8 @@ export const listUsersSettingsCseIdentities: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsCseIdentities",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2062,6 +2171,8 @@ export const listUsersSettingsCseKeypairs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsCseKeypairs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2078,6 +2189,8 @@ export const listUsersSettingsDelegates: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsDelegates",
 }));
 
 export type ListUsersSettingsFiltersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2093,6 +2206,8 @@ export const listUsersSettingsFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsFilters",
 }));
 
 export type ListUsersSettingsForwardingAddressesError =
@@ -2111,6 +2226,8 @@ export const listUsersSettingsForwardingAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsForwardingAddresses",
 }));
 
 export type ListUsersSettingsSendAsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2126,6 +2243,8 @@ export const listUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsSendAs",
 }));
 
 export type ListUsersSettingsSendAsSmimeInfoError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2141,6 +2260,8 @@ export const listUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsSendAsSmimeInfo",
 }));
 
 export type ListUsersThreadsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2157,6 +2278,8 @@ export const listUsersThreads: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersThreads",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2178,6 +2301,8 @@ export const modifyUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyUsersMessages",
 }));
 
 export type ModifyUsersThreadsError =
@@ -2198,6 +2323,8 @@ export const modifyUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyUsersThreads",
 }));
 
 export type ObliterateUsersSettingsCseKeypairsError =
@@ -2218,6 +2345,8 @@ export const obliterateUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ObliterateUsersSettingsCseKeypairs",
 }));
 
 export type PatchUsersLabelsError =
@@ -2238,6 +2367,8 @@ export const patchUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersLabels",
 }));
 
 export type PatchUsersSettingsCseIdentitiesError =
@@ -2258,6 +2389,8 @@ export const patchUsersSettingsCseIdentities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersSettingsCseIdentities",
 }));
 
 export type PatchUsersSettingsSendAsError =
@@ -2278,6 +2411,8 @@ export const patchUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersSettingsSendAs",
 }));
 
 export type SendUsersDraftsError =
@@ -2298,6 +2433,8 @@ export const sendUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUsersDrafts",
 }));
 
 export type SendUsersMessagesError =
@@ -2318,6 +2455,8 @@ export const sendUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUsersMessages",
 }));
 
 export type SetDefaultUsersSettingsSendAsSmimeInfoError =
@@ -2338,6 +2477,8 @@ export const setDefaultUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultUsersSettingsSendAsSmimeInfo",
 }));
 
 export type StopUsersError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
@@ -2353,6 +2494,8 @@ export const stopUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopUsers",
 }));
 
 export type TrashUsersMessagesError =
@@ -2373,6 +2516,8 @@ export const trashUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TrashUsersMessages",
 }));
 
 export type TrashUsersThreadsError =
@@ -2393,6 +2538,8 @@ export const trashUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TrashUsersThreads",
 }));
 
 export type UntrashUsersMessagesError =
@@ -2413,6 +2560,8 @@ export const untrashUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UntrashUsersMessages",
 }));
 
 export type UntrashUsersThreadsError =
@@ -2433,6 +2582,8 @@ export const untrashUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UntrashUsersThreads",
 }));
 
 export type UpdateAutoForwardingUsersSettingsError =
@@ -2453,6 +2604,8 @@ export const updateAutoForwardingUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoForwardingUsersSettings",
 }));
 
 export type UpdateImapUsersSettingsError =
@@ -2473,6 +2626,8 @@ export const updateImapUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateImapUsersSettings",
 }));
 
 export type UpdateLanguageUsersSettingsError =
@@ -2493,6 +2648,8 @@ export const updateLanguageUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLanguageUsersSettings",
 }));
 
 export type UpdatePopUsersSettingsError =
@@ -2513,6 +2670,8 @@ export const updatePopUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePopUsersSettings",
 }));
 
 export type UpdateUsersDraftsError =
@@ -2533,6 +2692,8 @@ export const updateUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersDrafts",
 }));
 
 export type UpdateUsersLabelsError =
@@ -2553,6 +2714,8 @@ export const updateUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersLabels",
 }));
 
 export type UpdateUsersSettingsSendAsError =
@@ -2573,6 +2736,8 @@ export const updateUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersSettingsSendAs",
 }));
 
 export type UpdateVacationUsersSettingsError =
@@ -2593,6 +2758,8 @@ export const updateVacationUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVacationUsersSettings",
 }));
 
 export type VerifyUsersSettingsSendAsError =
@@ -2613,6 +2780,8 @@ export const verifyUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyUsersSettingsSendAs",
 }));
 
 export type WatchUsersError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
@@ -2628,6 +2797,8 @@ export const watchUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchUsers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

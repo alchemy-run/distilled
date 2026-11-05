@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import { ConfigError } from "@distilled.cloud/core/errors";
+import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * DaytonaProtocol -- the shared bearer-REST protocol instantiated for Daytona.
@@ -34,7 +34,11 @@ import { UnknownDaytonaError, type DefaultErrors, DaytonaParseError } from "./er
  * DaytonaOpError, DaytonaOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type DaytonaOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type DaytonaOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Daytona operation. */
 export type DaytonaOpContext = Credentials | HttpClient.HttpClient;

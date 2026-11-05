@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * AdyenProtocol -- hand-written.
@@ -36,7 +36,8 @@ export type AdyenOpError =
   | UnknownAdyenError
   | ConfigError
   | HttpClientError.HttpClientError
-  | AdyenParseError;
+  | AdyenParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Adyen operation. */
 export type AdyenOpContext = Credentials | HttpClient.HttpClient;

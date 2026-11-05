@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -67,6 +69,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MWAAServerless",
+  service: "MWAAServerless",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -498,7 +514,7 @@ export type CreateWorkflowError =
  * Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services operators. Amazon Managed Workflows for Apache Airflow Serverless automatically creates the first version of the workflow and sets up the necessary execution environment with multi-tenant isolation and security controls.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateWorkflowRequest,
+  CreateWorkflowRequest & RegionInput,
   CreateWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -517,6 +533,8 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type DeleteWorkflowError =
@@ -531,7 +549,7 @@ export type DeleteWorkflowError =
  * Deletes a workflow and all its versions. This operation permanently removes the workflow and cannot be undone. Amazon Managed Workflows for Apache Airflow Serverless ensures that all associated resources are properly cleaned up, including stopping any running executions, removing scheduled triggers, and cleaning up execution history. The deletion process respects the multi-tenant isolation boundaries and ensures that no residual data or configurations remain that could affect other customers or workflows.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -549,6 +567,8 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type GetTaskInstanceError =
@@ -563,7 +583,7 @@ export type GetTaskInstanceError =
  * Retrieves detailed information about a specific task instance within a workflow run. Task instances represent individual tasks that are executed as part of a workflow in the Amazon Managed Workflows for Apache Airflow Serverless environment. Each task instance runs in an isolated ECS container with dedicated resources and security boundaries. The service tracks task execution state, retry attempts, and provides detailed timing and error information for troubleshooting and monitoring purposes.
  */
 export const getTaskInstance: API.OperationMethod<
-  GetTaskInstanceRequest,
+  GetTaskInstanceRequest & RegionInput,
   GetTaskInstanceResponse,
   GetTaskInstanceError,
   Credentials | HttpClient.HttpClient
@@ -581,6 +601,8 @@ export const getTaskInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaskInstance",
+  telemetry: TELEMETRY,
+  span: "GetTaskInstance",
 }));
 
 export type GetWorkflowError =
@@ -595,7 +617,7 @@ export type GetWorkflowError =
  * Retrieves detailed information about a workflow, including its configuration, status, and metadata.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -613,6 +635,8 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowRunError =
@@ -627,7 +651,7 @@ export type GetWorkflowRunError =
  * Retrieves detailed information about a specific workflow run, including its status, execution details, and task instances.
  */
 export const getWorkflowRun: API.OperationMethod<
-  GetWorkflowRunRequest,
+  GetWorkflowRunRequest & RegionInput,
   GetWorkflowRunResponse,
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -645,6 +669,8 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRun",
 }));
 
 export type ListTagsForResourceError =
@@ -659,7 +685,7 @@ export type ListTagsForResourceError =
  * Lists all tags that are associated with a specified Amazon Managed Workflows for Apache Airflow Serverless resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -677,6 +703,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTaskInstancesError =
@@ -690,7 +718,7 @@ export type ListTaskInstancesError =
  * Lists all task instances for a specific workflow run, with optional pagination support.
  */
 export const listTaskInstances: API.PaginatedOperationMethod<
-  ListTaskInstancesRequest,
+  ListTaskInstancesRequest & RegionInput,
   ListTaskInstancesResponse,
   ListTaskInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -714,6 +742,8 @@ export const listTaskInstances: API.PaginatedOperationMethod<
     items: "TaskInstances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTaskInstances",
 })) as any;
 
 export type ListWorkflowRunsError =
@@ -727,7 +757,7 @@ export type ListWorkflowRunsError =
  * Lists all runs for a specified workflow, with optional pagination and filtering support.
  */
 export const listWorkflowRuns: API.PaginatedOperationMethod<
-  ListWorkflowRunsRequest,
+  ListWorkflowRunsRequest & RegionInput,
   ListWorkflowRunsResponse,
   ListWorkflowRunsError,
   Credentials | HttpClient.HttpClient,
@@ -751,6 +781,8 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
     items: "WorkflowRuns",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRuns",
 })) as any;
 
 export type ListWorkflowsError =
@@ -764,7 +796,7 @@ export type ListWorkflowsError =
  * Lists all workflows in your account, with optional pagination support. This operation returns summary information for workflows, showing only the most recently created version of each workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains workflow metadata in a highly available, distributed storage system that enables efficient querying and filtering. The service implements proper access controls to ensure you can only view workflows that you have permissions to access, supporting both individual and team-based workflow management scenarios.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -788,6 +820,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "Workflows",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 })) as any;
 
 export type ListWorkflowVersionsError =
@@ -801,7 +835,7 @@ export type ListWorkflowVersionsError =
  * Lists all versions of a specified workflow, with optional pagination support.
  */
 export const listWorkflowVersions: API.PaginatedOperationMethod<
-  ListWorkflowVersionsRequest,
+  ListWorkflowVersionsRequest & RegionInput,
   ListWorkflowVersionsResponse,
   ListWorkflowVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -825,6 +859,8 @@ export const listWorkflowVersions: API.PaginatedOperationMethod<
     items: "WorkflowVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowVersions",
 })) as any;
 
 export type StartWorkflowRunError =
@@ -841,7 +877,7 @@ export type StartWorkflowRunError =
  * Starts a new execution of a workflow. This operation creates a workflow run that executes the tasks that are defined in the workflow. Amazon Managed Workflows for Apache Airflow Serverless schedules the workflow execution across its managed Airflow environment, automatically scaling ECS worker tasks based on the workload. The service handles task isolation, dependency resolution, and provides comprehensive monitoring and logging throughout the execution lifecycle.
  */
 export const startWorkflowRun: API.OperationMethod<
-  StartWorkflowRunRequest,
+  StartWorkflowRunRequest & RegionInput,
   StartWorkflowRunResponse,
   StartWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -861,6 +897,8 @@ export const startWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "StartWorkflowRun",
 }));
 
 export type StopWorkflowRunError =
@@ -875,7 +913,7 @@ export type StopWorkflowRunError =
  * Stops a running workflow execution. This operation terminates all running tasks and prevents new tasks from starting. Amazon Managed Workflows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a `STOPPING` state and then to `STOPPED` once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state.
  */
 export const stopWorkflowRun: API.OperationMethod<
-  StopWorkflowRunRequest,
+  StopWorkflowRunRequest & RegionInput,
   StopWorkflowRunResponse,
   StopWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -893,6 +931,8 @@ export const stopWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "StopWorkflowRun",
 }));
 
 export type TagResourceError =
@@ -907,7 +947,7 @@ export type TagResourceError =
  * Adds tags to an Amazon Managed Workflows for Apache Airflow Serverless resource. Tags are key-value pairs that help you organize and categorize your resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -925,6 +965,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -939,7 +981,7 @@ export type UntagResourceError =
  * Removes tags from an Amazon Managed Workflows for Apache Airflow Serverless resource. This operation removes the specified tags from the resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -957,6 +999,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateWorkflowError =
@@ -973,7 +1017,7 @@ export type UpdateWorkflowError =
  * Updates an existing workflow with new configuration settings. This operation allows you to modify the workflow definition, role, and other settings. When you update a workflow, Amazon Managed Workflows for Apache Airflow Serverless automatically creates a new version with the updated configuration and disables scheduling on all previous versions to ensure only one version is actively scheduled at a time. The update operation maintains workflow history while providing a clean transition to the new configuration.
  */
 export const updateWorkflow: API.OperationMethod<
-  UpdateWorkflowRequest,
+  UpdateWorkflowRequest & RegionInput,
   UpdateWorkflowResponse,
   UpdateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -993,6 +1037,8 @@ export const updateWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflow",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflow",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

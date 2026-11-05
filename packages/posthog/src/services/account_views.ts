@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "AccountViews",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -154,6 +167,8 @@ export const accountViewsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountViewsDestroy",
 }));
 
 export type CreateAccountViewError = BadRequest | PosthogOpError;
@@ -169,6 +184,8 @@ export const createAccountView: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountView",
 }));
 
 export type GetAccountViewError = PosthogOpError;
@@ -184,6 +201,8 @@ export const getAccountView: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountView",
 }));
 
 export type ListAccountViewsError = PosthogOpError;
@@ -199,6 +218,8 @@ export const listAccountViews: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountViews",
 }));
 
 export type UpdateAccountViewsPartialError =
@@ -219,6 +240,8 @@ export const updateAccountViewsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountViewsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

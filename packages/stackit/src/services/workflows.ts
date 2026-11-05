@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Workflows",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -503,6 +516,8 @@ export const createDagBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDagBundle",
 }));
 
 export type CreateInstanceError = BadRequest | Forbidden | StackitOpError;
@@ -518,6 +533,8 @@ export const createInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type DeleteDagBundleError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -533,6 +550,8 @@ export const deleteDagBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDagBundle",
 }));
 
 export type DeleteInstanceError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -548,6 +567,8 @@ export const deleteInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type GetDagBundleError = Forbidden | NotFound | StackitOpError;
@@ -563,6 +584,8 @@ export const getDagBundle: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDagBundle",
 }));
 
 export type GetInstanceError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -578,6 +601,8 @@ export const getInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetProviderOptionsError = BadRequest | StackitOpError;
@@ -593,6 +618,8 @@ export const getProviderOptions: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderOptions",
 }));
 
 export type ListDagBundlesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -608,6 +635,8 @@ export const listDagBundles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDagBundles",
 }));
 
 export type ListInstancesError = BadRequest | Forbidden | StackitOpError;
@@ -623,6 +652,8 @@ export const listInstances: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 }));
 
 export type UpdateDagBundleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -638,6 +669,8 @@ export const updateDagBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDagBundle",
 }));
 
 export type UpdateDagsRepositoryError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -653,6 +686,8 @@ export const updateDagsRepository: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDagsRepository",
 }));
 
 export type UpdateIdentityProviderError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -668,6 +703,8 @@ export const updateIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProvider",
 }));
 
 export type UpdateInstanceError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -683,6 +720,8 @@ export const updateInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstance",
 }));
 
 export type UpdateObservabilityError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -698,6 +737,8 @@ export const updateObservability: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObservability",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

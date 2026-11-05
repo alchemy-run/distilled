@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "slides" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Slides",
+  service: "slides",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2276,6 +2295,8 @@ export const batchUpdatePresentations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdatePresentations",
 }));
 
 export type CreatePresentationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2291,6 +2312,8 @@ export const createPresentations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePresentations",
 }));
 
 export type GetPresentationsError = NotFound | Forbidden | GcpOpError;
@@ -2306,6 +2329,8 @@ export const getPresentations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPresentations",
 }));
 
 export type GetPresentationsPagesError = NotFound | Forbidden | GcpOpError;
@@ -2321,6 +2346,8 @@ export const getPresentationsPages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPresentationsPages",
 }));
 
 export type GetThumbnailPresentationsPagesError = NotFound | Forbidden | GcpOpError;
@@ -2336,6 +2363,8 @@ export const getThumbnailPresentationsPages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThumbnailPresentationsPages",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

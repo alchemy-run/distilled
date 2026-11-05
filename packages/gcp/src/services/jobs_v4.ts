@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "jobs" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Jobs",
+  service: "jobs",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1106,6 +1125,8 @@ export const batchCreateProjectsTenantsJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreateProjectsTenantsJobs",
 }));
 
 export type BatchDeleteProjectsTenantsJobsError =
@@ -1126,6 +1147,8 @@ export const batchDeleteProjectsTenantsJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteProjectsTenantsJobs",
 }));
 
 export type BatchUpdateProjectsTenantsJobsError =
@@ -1146,6 +1169,8 @@ export const batchUpdateProjectsTenantsJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateProjectsTenantsJobs",
 }));
 
 export type CompleteQueryProjectsTenantsError = NotFound | Forbidden | GcpOpError;
@@ -1161,6 +1186,8 @@ export const completeQueryProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteQueryProjectsTenants",
 }));
 
 export type CreateProjectsTenantsError =
@@ -1189,6 +1216,8 @@ export const createProjectsTenants: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTenants",
 }));
 
 export type CreateProjectsTenantsClientEventsError =
@@ -1209,6 +1238,8 @@ export const createProjectsTenantsClientEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTenantsClientEvents",
 }));
 
 export type CreateProjectsTenantsCompaniesError =
@@ -1237,6 +1268,8 @@ export const createProjectsTenantsCompanies: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTenantsCompanies",
 }));
 
 export type CreateProjectsTenantsJobsError =
@@ -1265,6 +1298,8 @@ export const createProjectsTenantsJobs: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTenantsJobs",
 }));
 
 export type DeleteProjectsTenantsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1280,6 +1315,8 @@ export const deleteProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsTenants",
 }));
 
 export type DeleteProjectsTenantsCompaniesError =
@@ -1300,6 +1337,8 @@ export const deleteProjectsTenantsCompanies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsTenantsCompanies",
 }));
 
 export type DeleteProjectsTenantsJobsError =
@@ -1320,6 +1359,8 @@ export const deleteProjectsTenantsJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsTenantsJobs",
 }));
 
 export type GetProjectsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1335,6 +1376,8 @@ export const getProjectsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsOperations",
 }));
 
 export type GetProjectsTenantsError =
@@ -1354,6 +1397,8 @@ export const getProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsTenants",
 }));
 
 export type GetProjectsTenantsCompaniesError =
@@ -1373,6 +1418,8 @@ export const getProjectsTenantsCompanies: API.OperationMethod<
   errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsTenantsCompanies",
 }));
 
 export type GetProjectsTenantsJobsError =
@@ -1392,6 +1439,8 @@ export const getProjectsTenantsJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsTenantsJobs",
 }));
 
 export type ListProjectsTenantsError =
@@ -1412,6 +1461,8 @@ export const listProjectsTenants: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTenants",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1433,6 +1484,8 @@ export const listProjectsTenantsCompanies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTenantsCompanies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1454,6 +1507,8 @@ export const listProjectsTenantsJobs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTenantsJobs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1483,6 +1538,8 @@ export const patchProjectsTenants: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsTenants",
 }));
 
 export type PatchProjectsTenantsCompaniesError =
@@ -1511,6 +1568,8 @@ export const patchProjectsTenantsCompanies: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsTenantsCompanies",
 }));
 
 export type PatchProjectsTenantsJobsError =
@@ -1539,6 +1598,8 @@ export const patchProjectsTenantsJobs: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsTenantsJobs",
 }));
 
 export type SearchForAlertProjectsTenantsJobsError =
@@ -1559,6 +1620,8 @@ export const searchForAlertProjectsTenantsJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchForAlertProjectsTenantsJobs",
 }));
 
 export type SearchProjectsTenantsJobsError =
@@ -1579,6 +1642,8 @@ export const searchProjectsTenantsJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchProjectsTenantsJobs",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

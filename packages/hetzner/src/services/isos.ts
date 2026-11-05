@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "Isos",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface GetIsoRequest {
   /** ID of the ISO. */
   id: number;
@@ -115,6 +128,8 @@ export const getIso: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIso",
 }));
 
 export type ListIsosError = HetznerOpError;
@@ -132,6 +147,8 @@ export const listIsos: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIsos",
     pagination: {
       mode: "page",
       inputToken: "page",

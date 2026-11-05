@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
@@ -36,7 +36,11 @@ export const API_VERSION = "2022-11-28";
  * GithubOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type GithubOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type GithubOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated GitHub operation. */
 export type GithubOpContext = Credentials | HttpClient.HttpClient;

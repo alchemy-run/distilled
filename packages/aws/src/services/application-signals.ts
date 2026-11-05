@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -67,6 +69,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ApplicationSignals",
+  service: "ApplicationSignals",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1075,7 +1091,7 @@ export type BatchDeleteInstrumentationConfigurationsError =
  * - By ARN list: Delete specific configurations by providing a list of resource ARNs
  */
 export const batchDeleteInstrumentationConfigurations: API.OperationMethod<
-  BatchDeleteInstrumentationConfigurationsRequest,
+  BatchDeleteInstrumentationConfigurationsRequest & RegionInput,
   BatchDeleteInstrumentationConfigurationsResponse,
   BatchDeleteInstrumentationConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1086,6 +1102,8 @@ export const batchDeleteInstrumentationConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteInstrumentationConfigurations",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteInstrumentationConfigurations",
 }));
 
 export type BatchGetServiceLevelObjectiveBudgetReportError =
@@ -1102,7 +1120,7 @@ export type BatchGetServiceLevelObjectiveBudgetReportError =
  * For more information about SLO error budgets, see SLO concepts.
  */
 export const batchGetServiceLevelObjectiveBudgetReport: API.OperationMethod<
-  BatchGetServiceLevelObjectiveBudgetReportInput,
+  BatchGetServiceLevelObjectiveBudgetReportInput & RegionInput,
   BatchGetServiceLevelObjectiveBudgetReportOutput,
   BatchGetServiceLevelObjectiveBudgetReportError,
   Credentials | HttpClient.HttpClient
@@ -1113,6 +1131,8 @@ export const batchGetServiceLevelObjectiveBudgetReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetServiceLevelObjectiveBudgetReport",
+  telemetry: TELEMETRY,
+  span: "BatchGetServiceLevelObjectiveBudgetReport",
 }));
 
 export type BatchUpdateExclusionWindowsError =
@@ -1124,7 +1144,7 @@ export type BatchUpdateExclusionWindowsError =
  * Add or remove time window exclusions for one or more Service Level Objectives (SLOs).
  */
 export const batchUpdateExclusionWindows: API.OperationMethod<
-  BatchUpdateExclusionWindowsInput,
+  BatchUpdateExclusionWindowsInput & RegionInput,
   BatchUpdateExclusionWindowsOutput,
   BatchUpdateExclusionWindowsError,
   Credentials | HttpClient.HttpClient
@@ -1135,6 +1155,8 @@ export const batchUpdateExclusionWindows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateExclusionWindows",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateExclusionWindows",
 }));
 
 export type CreateInstrumentationConfigurationError =
@@ -1151,7 +1173,7 @@ export type CreateInstrumentationConfigurationError =
  * If a configuration already exists for the same service, environment, signal type, and location, this operation returns a conflict instead of overwriting it. Use attribute filters and capture settings to control where the instrumentation runs and which data is collected.
  */
 export const createInstrumentationConfiguration: API.OperationMethod<
-  CreateInstrumentationConfigurationRequest,
+  CreateInstrumentationConfigurationRequest & RegionInput,
   CreateInstrumentationConfigurationResponse,
   CreateInstrumentationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1167,6 +1189,8 @@ export const createInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstrumentationConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateInstrumentationConfiguration",
 }));
 
 export type CreateServiceLevelObjectiveError =
@@ -1222,7 +1246,7 @@ export type CreateServiceLevelObjectiveError =
  * - `autoscaling:DescribeAutoScalingGroups`
  */
 export const createServiceLevelObjective: API.OperationMethod<
-  CreateServiceLevelObjectiveInput,
+  CreateServiceLevelObjectiveInput & RegionInput,
   CreateServiceLevelObjectiveOutput,
   CreateServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
@@ -1239,6 +1263,8 @@ export const createServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLevelObjective",
+  telemetry: TELEMETRY,
+  span: "CreateServiceLevelObjective",
 }));
 
 export type DeleteGroupingConfigurationError =
@@ -1250,7 +1276,7 @@ export type DeleteGroupingConfigurationError =
  * Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured.
  */
 export const deleteGroupingConfiguration: API.OperationMethod<
-  DeleteGroupingConfigurationRequest,
+  DeleteGroupingConfigurationRequest & RegionInput,
   DeleteGroupingConfigurationOutput,
   DeleteGroupingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1261,6 +1287,8 @@ export const deleteGroupingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteGroupingConfiguration",
 }));
 
 export type DeleteInstrumentationConfigurationError =
@@ -1272,7 +1300,7 @@ export type DeleteInstrumentationConfigurationError =
  * Deletes the specified instrumentation configuration. SDKs remove the instrumentation during their next sync after the configuration is deleted or expires.
  */
 export const deleteInstrumentationConfiguration: API.OperationMethod<
-  DeleteInstrumentationConfigurationRequest,
+  DeleteInstrumentationConfigurationRequest & RegionInput,
   DeleteInstrumentationConfigurationResponse,
   DeleteInstrumentationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1283,6 +1311,8 @@ export const deleteInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstrumentationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteInstrumentationConfiguration",
 }));
 
 export type DeleteServiceLevelObjectiveError =
@@ -1294,7 +1324,7 @@ export type DeleteServiceLevelObjectiveError =
  * Deletes the specified service level objective.
  */
 export const deleteServiceLevelObjective: API.OperationMethod<
-  DeleteServiceLevelObjectiveInput,
+  DeleteServiceLevelObjectiveInput & RegionInput,
   DeleteServiceLevelObjectiveOutput,
   DeleteServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
@@ -1305,6 +1335,8 @@ export const deleteServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLevelObjective",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceLevelObjective",
 }));
 
 export type GetInstrumentationConfigurationError =
@@ -1316,7 +1348,7 @@ export type GetInstrumentationConfigurationError =
  * Returns the details of a single instrumentation configuration identified by service, environment, signal type, and location. Use this to audit or display configuration details.
  */
 export const getInstrumentationConfiguration: API.OperationMethod<
-  GetInstrumentationConfigurationRequest,
+  GetInstrumentationConfigurationRequest & RegionInput,
   GetInstrumentationConfigurationResponse,
   GetInstrumentationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1327,6 +1359,8 @@ export const getInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstrumentationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetInstrumentationConfiguration",
 }));
 
 export type GetInstrumentationConfigurationStatusError =
@@ -1340,7 +1374,7 @@ export type GetInstrumentationConfigurationStatusError =
  * If no status or time window is provided, the operation defaults to ACTIVE events from the last hour.
  */
 export const getInstrumentationConfigurationStatus: API.PaginatedOperationMethod<
-  GetInstrumentationConfigurationStatusRequest,
+  GetInstrumentationConfigurationStatusRequest & RegionInput,
   GetInstrumentationConfigurationStatusResponse,
   GetInstrumentationConfigurationStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1358,6 +1392,8 @@ export const getInstrumentationConfigurationStatus: API.PaginatedOperationMethod
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInstrumentationConfigurationStatus",
 })) as any;
 
 export type GetServiceError = ThrottlingException | ValidationException | CommonErrors;
@@ -1365,7 +1401,7 @@ export type GetServiceError = ThrottlingException | ValidationException | Common
  * Returns information about a service discovered by Application Signals.
  */
 export const getService: API.OperationMethod<
-  GetServiceInput,
+  GetServiceInput & RegionInput,
   GetServiceOutput,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -1376,6 +1412,8 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceLevelObjectiveError =
@@ -1387,7 +1425,7 @@ export type GetServiceLevelObjectiveError =
  * Returns information about one SLO created in the account.
  */
 export const getServiceLevelObjective: API.OperationMethod<
-  GetServiceLevelObjectiveInput,
+  GetServiceLevelObjectiveInput & RegionInput,
   GetServiceLevelObjectiveOutput,
   GetServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
@@ -1398,6 +1436,8 @@ export const getServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLevelObjective",
+  telemetry: TELEMETRY,
+  span: "GetServiceLevelObjective",
 }));
 
 export type ListAuditFindingsError = ThrottlingException | ValidationException | CommonErrors;
@@ -1405,7 +1445,7 @@ export type ListAuditFindingsError = ThrottlingException | ValidationException |
  * Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
  */
 export const listAuditFindings: API.OperationMethod<
-  ListAuditFindingsInput,
+  ListAuditFindingsInput & RegionInput,
   ListAuditFindingsOutput,
   ListAuditFindingsError,
   Credentials | HttpClient.HttpClient
@@ -1416,6 +1456,8 @@ export const listAuditFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAuditFindings",
+  telemetry: TELEMETRY,
+  span: "ListAuditFindings",
 }));
 
 export type ListEntityEventsError = ThrottlingException | ValidationException | CommonErrors;
@@ -1423,7 +1465,7 @@ export type ListEntityEventsError = ThrottlingException | ValidationException | 
  * Returns a list of change events for a specific entity, such as deployments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance.
  */
 export const listEntityEvents: API.PaginatedOperationMethod<
-  ListEntityEventsInput,
+  ListEntityEventsInput & RegionInput,
   ListEntityEventsOutput,
   ListEntityEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1441,6 +1483,8 @@ export const listEntityEvents: API.PaginatedOperationMethod<
     items: "ChangeEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntityEvents",
 })) as any;
 
 export type ListGroupingAttributeDefinitionsError =
@@ -1452,7 +1496,7 @@ export type ListGroupingAttributeDefinitionsError =
  * Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
  */
 export const listGroupingAttributeDefinitions: API.OperationMethod<
-  ListGroupingAttributeDefinitionsInput,
+  ListGroupingAttributeDefinitionsInput & RegionInput,
   ListGroupingAttributeDefinitionsOutput,
   ListGroupingAttributeDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -1463,6 +1507,8 @@ export const listGroupingAttributeDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupingAttributeDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListGroupingAttributeDefinitions",
 }));
 
 export type ListInstrumentationConfigurationsError =
@@ -1476,7 +1522,7 @@ export type ListInstrumentationConfigurationsError =
  * Include the previous `SyncedAt` value to perform incremental syncs. When no changes are detected, the response sets `Changed` to `false` and omits configuration details.
  */
 export const listInstrumentationConfigurations: API.PaginatedOperationMethod<
-  ListInstrumentationConfigurationsRequest,
+  ListInstrumentationConfigurationsRequest & RegionInput,
   InstrumentationConfigurationsPage,
   ListInstrumentationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1494,6 +1540,8 @@ export const listInstrumentationConfigurations: API.PaginatedOperationMethod<
     items: "LatestConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstrumentationConfigurations",
 })) as any;
 
 export type ListServiceDependenciesError = ThrottlingException | ValidationException | CommonErrors;
@@ -1501,7 +1549,7 @@ export type ListServiceDependenciesError = ThrottlingException | ValidationExcep
  * Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services.
  */
 export const listServiceDependencies: API.PaginatedOperationMethod<
-  ListServiceDependenciesInput,
+  ListServiceDependenciesInput & RegionInput,
   ListServiceDependenciesOutput,
   ListServiceDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -1519,6 +1567,8 @@ export const listServiceDependencies: API.PaginatedOperationMethod<
     items: "ServiceDependencies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceDependencies",
 })) as any;
 
 export type ListServiceDependentsError = ThrottlingException | ValidationException | CommonErrors;
@@ -1526,7 +1576,7 @@ export type ListServiceDependentsError = ThrottlingException | ValidationExcepti
  * Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
  */
 export const listServiceDependents: API.PaginatedOperationMethod<
-  ListServiceDependentsInput,
+  ListServiceDependentsInput & RegionInput,
   ListServiceDependentsOutput,
   ListServiceDependentsError,
   Credentials | HttpClient.HttpClient,
@@ -1544,6 +1594,8 @@ export const listServiceDependents: API.PaginatedOperationMethod<
     items: "ServiceDependents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceDependents",
 })) as any;
 
 export type ListServiceLevelObjectiveExclusionWindowsError =
@@ -1555,7 +1607,7 @@ export type ListServiceLevelObjectiveExclusionWindowsError =
  * Retrieves all exclusion windows configured for a specific SLO.
  */
 export const listServiceLevelObjectiveExclusionWindows: API.PaginatedOperationMethod<
-  ListServiceLevelObjectiveExclusionWindowsInput,
+  ListServiceLevelObjectiveExclusionWindowsInput & RegionInput,
   ListServiceLevelObjectiveExclusionWindowsOutput,
   ListServiceLevelObjectiveExclusionWindowsError,
   Credentials | HttpClient.HttpClient,
@@ -1573,6 +1625,8 @@ export const listServiceLevelObjectiveExclusionWindows: API.PaginatedOperationMe
     items: "ExclusionWindows",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceLevelObjectiveExclusionWindows",
 })) as any;
 
 export type ListServiceLevelObjectivesError =
@@ -1583,7 +1637,7 @@ export type ListServiceLevelObjectivesError =
  * Returns a list of SLOs created in this account.
  */
 export const listServiceLevelObjectives: API.PaginatedOperationMethod<
-  ListServiceLevelObjectivesInput,
+  ListServiceLevelObjectivesInput & RegionInput,
   ListServiceLevelObjectivesOutput,
   ListServiceLevelObjectivesError,
   Credentials | HttpClient.HttpClient,
@@ -1601,6 +1655,8 @@ export const listServiceLevelObjectives: API.PaginatedOperationMethod<
     items: "SloSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceLevelObjectives",
 })) as any;
 
 export type ListServiceOperationsError = ThrottlingException | ValidationException | CommonErrors;
@@ -1608,7 +1664,7 @@ export type ListServiceOperationsError = ThrottlingException | ValidationExcepti
  * Returns a list of the *operations* of this service that have been discovered by Application Signals. Only the operations that were invoked during the specified time range are returned.
  */
 export const listServiceOperations: API.PaginatedOperationMethod<
-  ListServiceOperationsInput,
+  ListServiceOperationsInput & RegionInput,
   ListServiceOperationsOutput,
   ListServiceOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1626,6 +1682,8 @@ export const listServiceOperations: API.PaginatedOperationMethod<
     items: "ServiceOperations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceOperations",
 })) as any;
 
 export type ListServicesError = ThrottlingException | ValidationException | CommonErrors;
@@ -1633,7 +1691,7 @@ export type ListServicesError = ThrottlingException | ValidationException | Comm
  * Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesInput,
+  ListServicesInput & RegionInput,
   ListServicesOutput,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1651,6 +1709,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "ServiceSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListServiceStatesError = ThrottlingException | ValidationException | CommonErrors;
@@ -1658,7 +1718,7 @@ export type ListServiceStatesError = ThrottlingException | ValidationException |
  * Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
  */
 export const listServiceStates: API.PaginatedOperationMethod<
-  ListServiceStatesInput,
+  ListServiceStatesInput & RegionInput,
   ListServiceStatesOutput,
   ListServiceStatesError,
   Credentials | HttpClient.HttpClient,
@@ -1676,6 +1736,8 @@ export const listServiceStates: API.PaginatedOperationMethod<
     items: "ServiceStates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceStates",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1686,7 +1748,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a CloudWatch resource. Tags can be assigned to service level objectives.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1697,6 +1759,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutGroupingConfigurationError =
@@ -1708,7 +1772,7 @@ export type PutGroupingConfigurationError =
  * Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
  */
 export const putGroupingConfiguration: API.OperationMethod<
-  PutGroupingConfigurationInput,
+  PutGroupingConfigurationInput & RegionInput,
   PutGroupingConfigurationOutput,
   PutGroupingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1719,6 +1783,8 @@ export const putGroupingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutGroupingConfiguration",
 }));
 
 export type ReportInstrumentationConfigurationStatusError =
@@ -1731,7 +1797,7 @@ export type ReportInstrumentationConfigurationStatusError =
  * Report `READY`, `ERROR`, and `DISABLED` when the status changes. Report `ACTIVE` periodically (for example, every minute) while instrumentation is running.
  */
 export const reportInstrumentationConfigurationStatus: API.OperationMethod<
-  ReportInstrumentationConfigurationStatusRequest,
+  ReportInstrumentationConfigurationStatusRequest & RegionInput,
   ReportInstrumentationConfigurationStatusResponse,
   ReportInstrumentationConfigurationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1742,6 +1808,8 @@ export const reportInstrumentationConfigurationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportInstrumentationConfigurationStatus",
+  telemetry: TELEMETRY,
+  span: "ReportInstrumentationConfigurationStatus",
 }));
 
 export type StartDiscoveryError =
@@ -1771,7 +1839,7 @@ export type StartDiscoveryError =
  * After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see Enabling Application Signals.
  */
 export const startDiscovery: API.OperationMethod<
-  StartDiscoveryInput,
+  StartDiscoveryInput & RegionInput,
   StartDiscoveryOutput,
   StartDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -1782,6 +1850,8 @@ export const startDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDiscovery",
+  telemetry: TELEMETRY,
+  span: "StartDiscovery",
 }));
 
 export type TagResourceError =
@@ -1801,7 +1871,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a CloudWatch resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1812,6 +1882,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ThrottlingException | CommonErrors;
@@ -1819,7 +1891,7 @@ export type UntagResourceError = ResourceNotFoundException | ThrottlingException
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1830,6 +1902,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateServiceLevelObjectiveError =
@@ -1843,7 +1917,7 @@ export type UpdateServiceLevelObjectiveError =
  * You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO.
  */
 export const updateServiceLevelObjective: API.OperationMethod<
-  UpdateServiceLevelObjectiveInput,
+  UpdateServiceLevelObjectiveInput & RegionInput,
   UpdateServiceLevelObjectiveOutput,
   UpdateServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
@@ -1854,6 +1928,8 @@ export const updateServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceLevelObjective",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceLevelObjective",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

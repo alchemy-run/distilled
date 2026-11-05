@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://synthetics.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "synthetics",
+  service: "synthetics",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -642,7 +658,7 @@ export type AssociateResourceError =
  * You must run this operation in the Region where the canary exists.
  */
 export const associateResource: API.OperationMethod<
-  AssociateResourceRequest,
+  AssociateResourceRequest & RegionInput,
   AssociateResourceResponse,
   AssociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -659,6 +675,8 @@ export const associateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResource",
+  telemetry: TELEMETRY,
+  span: "AssociateResource",
 }));
 
 export type CreateCanaryError =
@@ -686,7 +704,7 @@ export type CreateCanaryError =
  * Considerations for Synthetics Canaries.
  */
 export const createCanary: API.OperationMethod<
-  CreateCanaryRequest,
+  CreateCanaryRequest & RegionInput,
   CreateCanaryResponse,
   CreateCanaryError,
   Credentials | HttpClient.HttpClient
@@ -697,6 +715,8 @@ export const createCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCanary",
+  telemetry: TELEMETRY,
+  span: "CreateCanary",
 }));
 
 export type CreateGroupError =
@@ -724,7 +744,7 @@ export type CreateGroupError =
  * can be a member of up to 10 groups.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -740,6 +760,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type DeleteCanaryError =
@@ -777,7 +799,7 @@ export type DeleteCanaryError =
  * after you delete the canary.
  */
 export const deleteCanary: API.OperationMethod<
-  DeleteCanaryRequest,
+  DeleteCanaryRequest & RegionInput,
   DeleteCanaryResponse,
   DeleteCanaryError,
   Credentials | HttpClient.HttpClient
@@ -793,6 +815,8 @@ export const deleteCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCanary",
+  telemetry: TELEMETRY,
+  span: "DeleteCanary",
 }));
 
 export type DeleteGroupError =
@@ -809,7 +833,7 @@ export type DeleteGroupError =
  * must be made from its home Region. You can find the home Region of a group within its ARN.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -825,6 +849,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DescribeCanariesError = InternalServerException | ValidationException | CommonErrors;
@@ -843,7 +869,7 @@ export type DescribeCanariesError = InternalServerException | ValidationExceptio
  * Limiting a user to viewing specific canaries.
  */
 export const describeCanaries: API.PaginatedOperationMethod<
-  DescribeCanariesRequest,
+  DescribeCanariesRequest & RegionInput,
   DescribeCanariesResponse,
   DescribeCanariesError,
   Credentials | HttpClient.HttpClient,
@@ -860,6 +886,8 @@ export const describeCanaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCanaries",
 })) as any;
 
 export type DescribeCanariesLastRunError =
@@ -880,7 +908,7 @@ export type DescribeCanariesLastRunError =
  * Limiting a user to viewing specific canaries.
  */
 export const describeCanariesLastRun: API.PaginatedOperationMethod<
-  DescribeCanariesLastRunRequest,
+  DescribeCanariesLastRunRequest & RegionInput,
   DescribeCanariesLastRunResponse,
   DescribeCanariesLastRunError,
   Credentials | HttpClient.HttpClient,
@@ -897,6 +925,8 @@ export const describeCanariesLastRun: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCanariesLastRun",
 })) as any;
 
 export type DescribeRuntimeVersionsError =
@@ -909,7 +939,7 @@ export type DescribeRuntimeVersionsError =
  * Canary Runtime Versions.
  */
 export const describeRuntimeVersions: API.PaginatedOperationMethod<
-  DescribeRuntimeVersionsRequest,
+  DescribeRuntimeVersionsRequest & RegionInput,
   DescribeRuntimeVersionsResponse,
   DescribeRuntimeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -926,6 +956,8 @@ export const describeRuntimeVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRuntimeVersions",
 })) as any;
 
 export type DisassociateResourceError =
@@ -938,7 +970,7 @@ export type DisassociateResourceError =
  * Removes a canary from a group. You must run this operation in the Region where the canary exists.
  */
 export const disassociateResource: API.OperationMethod<
-  DisassociateResourceRequest,
+  DisassociateResourceRequest & RegionInput,
   DisassociateResourceResponse,
   DisassociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -954,6 +986,8 @@ export const disassociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateResource",
 }));
 
 export type GetCanaryError =
@@ -967,7 +1001,7 @@ export type GetCanaryError =
  * and their names, use DescribeCanaries.
  */
 export const getCanary: API.OperationMethod<
-  GetCanaryRequest,
+  GetCanaryRequest & RegionInput,
   GetCanaryResponse,
   GetCanaryError,
   Credentials | HttpClient.HttpClient
@@ -978,6 +1012,8 @@ export const getCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCanary",
+  telemetry: TELEMETRY,
+  span: "GetCanary",
 }));
 
 export type GetCanaryRunsError =
@@ -989,7 +1025,7 @@ export type GetCanaryRunsError =
  * Retrieves a list of runs for a specified canary.
  */
 export const getCanaryRuns: API.PaginatedOperationMethod<
-  GetCanaryRunsRequest,
+  GetCanaryRunsRequest & RegionInput,
   GetCanaryRunsResponse,
   GetCanaryRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1006,6 +1042,8 @@ export const getCanaryRuns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCanaryRuns",
 })) as any;
 
 export type GetGroupError =
@@ -1019,7 +1057,7 @@ export type GetGroupError =
  * any Region.
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1035,6 +1073,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type ListAssociatedGroupsError =
@@ -1047,7 +1087,7 @@ export type ListAssociatedGroupsError =
  * that you specify must be in the current Region.
  */
 export const listAssociatedGroups: API.PaginatedOperationMethod<
-  ListAssociatedGroupsRequest,
+  ListAssociatedGroupsRequest & RegionInput,
   ListAssociatedGroupsResponse,
   ListAssociatedGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1064,6 +1104,8 @@ export const listAssociatedGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedGroups",
 })) as any;
 
 export type ListGroupResourcesError =
@@ -1076,7 +1118,7 @@ export type ListGroupResourcesError =
  * This operation returns a list of the ARNs of the canaries that are associated with the specified group.
  */
 export const listGroupResources: API.PaginatedOperationMethod<
-  ListGroupResourcesRequest,
+  ListGroupResourcesRequest & RegionInput,
   ListGroupResourcesResponse,
   ListGroupResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1098,6 +1140,8 @@ export const listGroupResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupResources",
 })) as any;
 
 export type ListGroupsError = InternalServerException | ValidationException | CommonErrors;
@@ -1106,7 +1150,7 @@ export type ListGroupsError = InternalServerException | ValidationException | Co
  * from all Regions are returned.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1123,6 +1167,8 @@ export const listGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1136,7 +1182,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a canary or group.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1153,6 +1199,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartCanaryError =
@@ -1167,7 +1215,7 @@ export type StartCanaryError =
  * use GetCanary.
  */
 export const startCanary: API.OperationMethod<
-  StartCanaryRequest,
+  StartCanaryRequest & RegionInput,
   StartCanaryResponse,
   StartCanaryError,
   Credentials | HttpClient.HttpClient
@@ -1183,6 +1231,8 @@ export const startCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCanary",
+  telemetry: TELEMETRY,
+  span: "StartCanary",
 }));
 
 export type StartCanaryDryRunError =
@@ -1196,7 +1246,7 @@ export type StartCanaryDryRunError =
  * Use this operation to start a dry run for a canary that has already been created
  */
 export const startCanaryDryRun: API.OperationMethod<
-  StartCanaryDryRunRequest,
+  StartCanaryDryRunRequest & RegionInput,
   StartCanaryDryRunResponse,
   StartCanaryDryRunError,
   Credentials | HttpClient.HttpClient
@@ -1213,6 +1263,8 @@ export const startCanaryDryRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCanaryDryRun",
+  telemetry: TELEMETRY,
+  span: "StartCanaryDryRun",
 }));
 
 export type StopCanaryError =
@@ -1230,7 +1282,7 @@ export type StopCanaryError =
  * with the canary's current schedule at any point in the future.
  */
 export const stopCanary: API.OperationMethod<
-  StopCanaryRequest,
+  StopCanaryRequest & RegionInput,
   StopCanaryResponse,
   StopCanaryError,
   Credentials | HttpClient.HttpClient
@@ -1246,6 +1298,8 @@ export const stopCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCanary",
+  telemetry: TELEMETRY,
+  span: "StopCanary",
 }));
 
 export type TagResourceError =
@@ -1274,7 +1328,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a canary or group.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1291,6 +1345,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1304,7 +1360,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1321,6 +1377,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCanaryError =
@@ -1346,7 +1404,7 @@ export type UpdateCanaryError =
  * When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
  */
 export const updateCanary: API.OperationMethod<
-  UpdateCanaryRequest,
+  UpdateCanaryRequest & RegionInput,
   UpdateCanaryResponse,
   UpdateCanaryError,
   Credentials | HttpClient.HttpClient
@@ -1364,6 +1422,8 @@ export const updateCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCanary",
+  telemetry: TELEMETRY,
+  span: "UpdateCanary",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

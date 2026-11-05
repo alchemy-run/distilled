@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://controltower.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ControlTower",
+  service: "ControlTower",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -601,7 +617,7 @@ export type CreateLandingZoneError =
  * Creates a new landing zone. This API call starts an asynchronous operation that creates and configures a landing zone, based on the parameters specified in the manifest JSON file.
  */
 export const createLandingZone: API.OperationMethod<
-  CreateLandingZoneInput,
+  CreateLandingZoneInput & RegionInput,
   CreateLandingZoneOutput,
   CreateLandingZoneError,
   Credentials | HttpClient.HttpClient
@@ -619,6 +635,8 @@ export const createLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLandingZone",
+  telemetry: TELEMETRY,
+  span: "CreateLandingZone",
 }));
 
 export type DeleteLandingZoneError =
@@ -636,7 +654,7 @@ export type DeleteLandingZoneError =
  * Decommissioning a landing zone is a process with significant consequences, and it cannot be undone. We strongly recommend that you perform this decommissioning process only if you intend to stop using your landing zone.
  */
 export const deleteLandingZone: API.OperationMethod<
-  DeleteLandingZoneInput,
+  DeleteLandingZoneInput & RegionInput,
   DeleteLandingZoneOutput,
   DeleteLandingZoneError,
   Credentials | HttpClient.HttpClient
@@ -655,6 +673,8 @@ export const deleteLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLandingZone",
+  telemetry: TELEMETRY,
+  span: "DeleteLandingZone",
 }));
 
 export type DisableBaselineError =
@@ -671,7 +691,7 @@ export type DisableBaselineError =
  * Disable an `EnabledBaseline` resource on the specified Target. This API starts an asynchronous operation to remove all resources deployed as part of the baseline enablement. The resource will vary depending on the enabled baseline. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
 export const disableBaseline: API.OperationMethod<
-  DisableBaselineInput,
+  DisableBaselineInput & RegionInput,
   DisableBaselineOutput,
   DisableBaselineError,
   Credentials | HttpClient.HttpClient
@@ -691,6 +711,8 @@ export const disableBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableBaseline",
+  telemetry: TELEMETRY,
+  span: "DisableBaseline",
 }));
 
 export type DisableControlError =
@@ -706,7 +728,7 @@ export type DisableControlError =
  * This API call turns off a control. It starts an asynchronous operation that deletes Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see the *Controls Reference Guide* .
  */
 export const disableControl: API.OperationMethod<
-  DisableControlInput,
+  DisableControlInput & RegionInput,
   DisableControlOutput,
   DisableControlError,
   Credentials | HttpClient.HttpClient
@@ -725,6 +747,8 @@ export const disableControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableControl",
+  telemetry: TELEMETRY,
+  span: "DisableControl",
 }));
 
 export type EnableBaselineError =
@@ -741,7 +765,7 @@ export type EnableBaselineError =
  * Enable (apply) a `Baseline` to a Target. This API starts an asynchronous operation to deploy resources specified by the `Baseline` to the specified Target. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
 export const enableBaseline: API.OperationMethod<
-  EnableBaselineInput,
+  EnableBaselineInput & RegionInput,
   EnableBaselineOutput,
   EnableBaselineError,
   Credentials | HttpClient.HttpClient
@@ -761,6 +785,8 @@ export const enableBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableBaseline",
+  telemetry: TELEMETRY,
+  span: "EnableBaseline",
 }));
 
 export type EnableControlError =
@@ -776,7 +802,7 @@ export type EnableControlError =
  * This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see the *Controls Reference Guide* .
  */
 export const enableControl: API.OperationMethod<
-  EnableControlInput,
+  EnableControlInput & RegionInput,
   EnableControlOutput,
   EnableControlError,
   Credentials | HttpClient.HttpClient
@@ -795,6 +821,8 @@ export const enableControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableControl",
+  telemetry: TELEMETRY,
+  span: "EnableControl",
 }));
 
 export type GetBaselineError =
@@ -809,7 +837,7 @@ export type GetBaselineError =
  * Retrieve details about an existing `Baseline` resource by specifying its identifier. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
 export const getBaseline: API.OperationMethod<
-  GetBaselineInput,
+  GetBaselineInput & RegionInput,
   GetBaselineOutput,
   GetBaselineError,
   Credentials | HttpClient.HttpClient
@@ -827,6 +855,8 @@ export const getBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaseline",
+  telemetry: TELEMETRY,
+  span: "GetBaseline",
 }));
 
 export type GetBaselineOperationError =
@@ -841,7 +871,7 @@ export type GetBaselineOperationError =
  * Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: `EnableBaseline`, `DisableBaseline`, `UpdateEnabledBaseline`, `ResetEnabledBaseline`. A status message is displayed in case of operation failure. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
 export const getBaselineOperation: API.OperationMethod<
-  GetBaselineOperationInput,
+  GetBaselineOperationInput & RegionInput,
   GetBaselineOperationOutput,
   GetBaselineOperationError,
   Credentials | HttpClient.HttpClient
@@ -859,6 +889,8 @@ export const getBaselineOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaselineOperation",
+  telemetry: TELEMETRY,
+  span: "GetBaselineOperation",
 }));
 
 export type GetControlOperationError =
@@ -872,7 +904,7 @@ export type GetControlOperationError =
  * Returns the status of a particular `EnableControl` or `DisableControl` operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see the *Controls Reference Guide* .
  */
 export const getControlOperation: API.OperationMethod<
-  GetControlOperationInput,
+  GetControlOperationInput & RegionInput,
   GetControlOperationOutput,
   GetControlOperationError,
   Credentials | HttpClient.HttpClient
@@ -889,6 +921,8 @@ export const getControlOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetControlOperation",
+  telemetry: TELEMETRY,
+  span: "GetControlOperation",
 }));
 
 export type GetEnabledBaselineError =
@@ -903,7 +937,7 @@ export type GetEnabledBaselineError =
  * Retrieve details of an `EnabledBaseline` resource by specifying its identifier.
  */
 export const getEnabledBaseline: API.OperationMethod<
-  GetEnabledBaselineInput,
+  GetEnabledBaselineInput & RegionInput,
   GetEnabledBaselineOutput,
   GetEnabledBaselineError,
   Credentials | HttpClient.HttpClient
@@ -921,6 +955,8 @@ export const getEnabledBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledBaseline",
+  telemetry: TELEMETRY,
+  span: "GetEnabledBaseline",
 }));
 
 export type GetEnabledControlError =
@@ -934,7 +970,7 @@ export type GetEnabledControlError =
  * Retrieves details about an enabled control. For usage examples, see the *Controls Reference Guide* .
  */
 export const getEnabledControl: API.OperationMethod<
-  GetEnabledControlInput,
+  GetEnabledControlInput & RegionInput,
   GetEnabledControlOutput,
   GetEnabledControlError,
   Credentials | HttpClient.HttpClient
@@ -951,6 +987,8 @@ export const getEnabledControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledControl",
+  telemetry: TELEMETRY,
+  span: "GetEnabledControl",
 }));
 
 export type GetLandingZoneError =
@@ -965,7 +1003,7 @@ export type GetLandingZoneError =
  * Returns details about the landing zone. Displays a message in case of error.
  */
 export const getLandingZone: API.OperationMethod<
-  GetLandingZoneInput,
+  GetLandingZoneInput & RegionInput,
   GetLandingZoneOutput,
   GetLandingZoneError,
   Credentials | HttpClient.HttpClient
@@ -983,6 +1021,8 @@ export const getLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLandingZone",
+  telemetry: TELEMETRY,
+  span: "GetLandingZone",
 }));
 
 export type GetLandingZoneOperationError =
@@ -997,7 +1037,7 @@ export type GetLandingZoneOperationError =
  * Returns the status of the specified landing zone operation. Details for an operation are available for 90 days.
  */
 export const getLandingZoneOperation: API.OperationMethod<
-  GetLandingZoneOperationInput,
+  GetLandingZoneOperationInput & RegionInput,
   GetLandingZoneOperationOutput,
   GetLandingZoneOperationError,
   Credentials | HttpClient.HttpClient
@@ -1015,6 +1055,8 @@ export const getLandingZoneOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLandingZoneOperation",
+  telemetry: TELEMETRY,
+  span: "GetLandingZoneOperation",
 }));
 
 export type ListBaselinesError =
@@ -1028,7 +1070,7 @@ export type ListBaselinesError =
  * Returns a summary list of all available baselines. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
 export const listBaselines: API.PaginatedOperationMethod<
-  ListBaselinesInput,
+  ListBaselinesInput & RegionInput,
   ListBaselinesOutput,
   ListBaselinesError,
   Credentials | HttpClient.HttpClient,
@@ -1052,6 +1094,8 @@ export const listBaselines: API.PaginatedOperationMethod<
     items: "baselines",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBaselines",
 })) as any;
 
 export type ListControlOperationsError =
@@ -1064,7 +1108,7 @@ export type ListControlOperationsError =
  * Provides a list of operations in progress or queued. For usage examples, see ListControlOperation examples.
  */
 export const listControlOperations: API.PaginatedOperationMethod<
-  ListControlOperationsInput,
+  ListControlOperationsInput & RegionInput,
   ListControlOperationsOutput,
   ListControlOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1087,6 +1131,8 @@ export const listControlOperations: API.PaginatedOperationMethod<
     items: "controlOperations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListControlOperations",
 })) as any;
 
 export type ListEnabledBaselinesError =
@@ -1100,7 +1146,7 @@ export type ListEnabledBaselinesError =
  * Returns a list of summaries describing `EnabledBaseline` resources. You can filter the list by the corresponding `Baseline` or `Target` of the `EnabledBaseline` resources. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
 export const listEnabledBaselines: API.PaginatedOperationMethod<
-  ListEnabledBaselinesInput,
+  ListEnabledBaselinesInput & RegionInput,
   ListEnabledBaselinesOutput,
   ListEnabledBaselinesError,
   Credentials | HttpClient.HttpClient,
@@ -1124,6 +1170,8 @@ export const listEnabledBaselines: API.PaginatedOperationMethod<
     items: "enabledBaselines",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnabledBaselines",
 })) as any;
 
 export type ListEnabledControlsError =
@@ -1137,7 +1185,7 @@ export type ListEnabledControlsError =
  * Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see the *Controls Reference Guide* .
  */
 export const listEnabledControls: API.PaginatedOperationMethod<
-  ListEnabledControlsInput,
+  ListEnabledControlsInput & RegionInput,
   ListEnabledControlsOutput,
   ListEnabledControlsError,
   Credentials | HttpClient.HttpClient,
@@ -1161,6 +1209,8 @@ export const listEnabledControls: API.PaginatedOperationMethod<
     items: "enabledControls",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnabledControls",
 })) as any;
 
 export type ListLandingZoneOperationsError =
@@ -1174,7 +1224,7 @@ export type ListLandingZoneOperationsError =
  * Lists all landing zone operations from the past 90 days. Results are sorted by time, with the most recent operation first.
  */
 export const listLandingZoneOperations: API.PaginatedOperationMethod<
-  ListLandingZoneOperationsInput,
+  ListLandingZoneOperationsInput & RegionInput,
   ListLandingZoneOperationsOutput,
   ListLandingZoneOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1198,6 +1248,8 @@ export const listLandingZoneOperations: API.PaginatedOperationMethod<
     items: "landingZoneOperations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLandingZoneOperations",
 })) as any;
 
 export type ListLandingZonesError =
@@ -1213,7 +1265,7 @@ export type ListLandingZonesError =
  * Returns one landing zone ARN.
  */
 export const listLandingZones: API.PaginatedOperationMethod<
-  ListLandingZonesInput,
+  ListLandingZonesInput & RegionInput,
   ListLandingZonesOutput,
   ListLandingZonesError,
   Credentials | HttpClient.HttpClient,
@@ -1237,6 +1289,8 @@ export const listLandingZones: API.PaginatedOperationMethod<
     items: "landingZones",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLandingZones",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1249,7 +1303,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags associated with the resource. For usage examples, see the *Controls Reference Guide* .
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1265,6 +1319,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResetEnabledBaselineError =
@@ -1281,7 +1337,7 @@ export type ResetEnabledBaselineError =
  * Re-enables an `EnabledBaseline` resource. For example, this API can re-apply the existing `Baseline` after a new member account is moved to the target OU. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
 export const resetEnabledBaseline: API.OperationMethod<
-  ResetEnabledBaselineInput,
+  ResetEnabledBaselineInput & RegionInput,
   ResetEnabledBaselineOutput,
   ResetEnabledBaselineError,
   Credentials | HttpClient.HttpClient
@@ -1301,6 +1357,8 @@ export const resetEnabledBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEnabledBaseline",
+  telemetry: TELEMETRY,
+  span: "ResetEnabledBaseline",
 }));
 
 export type ResetEnabledControlError =
@@ -1316,7 +1374,7 @@ export type ResetEnabledControlError =
  * Resets an enabled control. Does not work for controls implemented with SCPs.
  */
 export const resetEnabledControl: API.OperationMethod<
-  ResetEnabledControlInput,
+  ResetEnabledControlInput & RegionInput,
   ResetEnabledControlOutput,
   ResetEnabledControlError,
   Credentials | HttpClient.HttpClient
@@ -1335,6 +1393,8 @@ export const resetEnabledControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEnabledControl",
+  telemetry: TELEMETRY,
+  span: "ResetEnabledControl",
 }));
 
 export type ResetLandingZoneError =
@@ -1350,7 +1410,7 @@ export type ResetLandingZoneError =
  * This API call resets a landing zone. It starts an asynchronous operation that resets the landing zone to the parameters specified in the original configuration, which you specified in the manifest file. Nothing in the manifest file's original landing zone configuration is changed during the reset process, by default. This API is not the same as a rollback of a landing zone version, which is not a supported operation.
  */
 export const resetLandingZone: API.OperationMethod<
-  ResetLandingZoneInput,
+  ResetLandingZoneInput & RegionInput,
   ResetLandingZoneOutput,
   ResetLandingZoneError,
   Credentials | HttpClient.HttpClient
@@ -1369,6 +1429,8 @@ export const resetLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetLandingZone",
+  telemetry: TELEMETRY,
+  span: "ResetLandingZone",
 }));
 
 export type TagResourceError =
@@ -1381,7 +1443,7 @@ export type TagResourceError =
  * Applies tags to a resource. For usage examples, see the *Controls Reference Guide* .
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1397,6 +1459,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1409,7 +1473,7 @@ export type UntagResourceError =
  * Removes tags from a resource. For usage examples, see the *Controls Reference Guide* .
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1425,6 +1489,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEnabledBaselineError =
@@ -1441,7 +1507,7 @@ export type UpdateEnabledBaselineError =
  * Updates an `EnabledBaseline` resource's applied parameters or version. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
 export const updateEnabledBaseline: API.OperationMethod<
-  UpdateEnabledBaselineInput,
+  UpdateEnabledBaselineInput & RegionInput,
   UpdateEnabledBaselineOutput,
   UpdateEnabledBaselineError,
   Credentials | HttpClient.HttpClient
@@ -1461,6 +1527,8 @@ export const updateEnabledBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnabledBaseline",
+  telemetry: TELEMETRY,
+  span: "UpdateEnabledBaseline",
 }));
 
 export type UpdateEnabledControlError =
@@ -1482,7 +1550,7 @@ export type UpdateEnabledControlError =
  * If the `DriftSummary` status for the control shows as `DRIFTED`, you cannot call this API. Instead, you can update the control by calling the `ResetEnabledControl` API. Alternatively, you can call `DisableControl` and then call `EnableControl` again. Also, you can run an extending governance operation to repair drift. For usage examples, see the *Controls Reference Guide* .
  */
 export const updateEnabledControl: API.OperationMethod<
-  UpdateEnabledControlInput,
+  UpdateEnabledControlInput & RegionInput,
   UpdateEnabledControlOutput,
   UpdateEnabledControlError,
   Credentials | HttpClient.HttpClient
@@ -1501,6 +1569,8 @@ export const updateEnabledControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnabledControl",
+  telemetry: TELEMETRY,
+  span: "UpdateEnabledControl",
 }));
 
 export type UpdateLandingZoneError =
@@ -1516,7 +1586,7 @@ export type UpdateLandingZoneError =
  * This API call updates the landing zone. It starts an asynchronous operation that updates the landing zone based on the new landing zone version, or on the changed parameters specified in the updated manifest file.
  */
 export const updateLandingZone: API.OperationMethod<
-  UpdateLandingZoneInput,
+  UpdateLandingZoneInput & RegionInput,
   UpdateLandingZoneOutput,
   UpdateLandingZoneError,
   Credentials | HttpClient.HttpClient
@@ -1535,6 +1605,8 @@ export const updateLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLandingZone",
+  telemetry: TELEMETRY,
+  span: "UpdateLandingZone",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

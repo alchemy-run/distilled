@@ -9,6 +9,9 @@
  *   node benches/sdks/ci.ts image --head pr.json [--base main.json] [--history h.json] [--pr N] [--title t] --out-dir dir
  *   node benches/sdks/ci.ts history --history h.json --add main.json [--keep 40]
  *
+ * Every run also records the tracked bytes of the checkout (`repoSize`), and
+ * of the `--changed-since` base, from git objects alone.
+ *
  * `--wide` (push to main) bundles every SDK and probes every SDK under the
  * runtime size limit, so a PR that changes any of them has a main number to
  * compare with. See README.md "CI".
@@ -17,6 +20,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { cpus } from "node:os";
 import { join, resolve } from "node:path";
+import { treeSize } from "../repo-size/tree.ts";
 import { BASELINES, bundle, fixtureSource } from "./src/bundle.ts";
 import { renderImages } from "./src/ci-image.ts";
 import { report, type CiRun, type CiProgram } from "./src/ci-report.ts";
@@ -136,9 +140,12 @@ if (command !== "run") {
 const t0 = performance.now();
 const outFile = resolve(flag("out") ?? join(BENCH_DIR, ".out", "ci.json"));
 const wide = flags.has("wide");
-const config = readJson<{ runtime: string[]; bundle: string[]; runtimeMaxSrcMB: number }>(
-  join(BENCH_DIR, "ci.json"),
-);
+const config = readJson<{
+  runtime: string[];
+  bundle: string[];
+  runtimeMaxSrcMB: number;
+  providers: string[];
+}>(join(BENCH_DIR, "ci.json"));
 const git = (...args: string[]) =>
   execFileSync("git", args, { cwd: REPO, encoding: "utf8" }).trim();
 
@@ -195,6 +202,31 @@ const programsOf = (pkgs: string[]): Program[] =>
       target,
     })),
   );
+/**
+ * Whole-SDK heap: an SDK's numbers depend only on its package, core, the build
+ * scripts and the lockfile. When those git trees match the run in `--reuse`
+ * (main's cached run, or the PR's run when this is the base), copy its numbers
+ * instead of building the SDK, which takes minutes for aws or gcp.
+ */
+const inputsOf = (pkg: string) =>
+  [`packages/${pkg}`, "packages/core", "scripts", "pnpm-lock.yaml"]
+    .map((p) => git("rev-parse", `HEAD:${p}`))
+    .join(" ");
+const reuseFrom = (() => {
+  const f = flag("reuse");
+  return f && existsSync(f) ? readJson<CiRun>(resolve(f)) : undefined;
+})();
+const providers: CiRun["providers"] = {};
+const providerSdks = config.providers.filter((p) => allSdks.includes(p));
+const providersToMeasure = providerSdks.filter((pkg) => {
+  const prev = reuseFrom?.providers?.[pkg];
+  if (prev && prev.inputs === inputsOf(pkg)) {
+    providers[pkg] = { ...prev, reused: true };
+    return false;
+  }
+  return true;
+});
+
 const untargeted = [...new Set([...bundleSdks, ...runtimeSdks])].filter((p) => !targets[p]);
 
 const timings: Record<string, number> = {};
@@ -238,10 +270,13 @@ await phase("bundle", async () => {
 
 //#endregion
 
-//#region build (only what the runtime probes import)
+//#region build (only what the runtime probes and whole-SDK imports need)
 
 await phase("build", async () => {
-  const dirs = ["packages/core", ...runtimeSdks.map((p) => `packages/${p}`)];
+  const dirs = [
+    "packages/core",
+    ...[...new Set([...runtimeSdks, ...providersToMeasure])].map((p) => `packages/${p}`),
+  ];
   // The same steps as `pnpm build`, limited to these packages.
   const steps: Array<[string, string, string[]]> = [
     ["tsrs", join(REPO, "node_modules", ".bin", "tsrs"), ["-b", ...dirs]],
@@ -324,13 +359,19 @@ await phase("runtime", async () => {
     const min = (f: (r: any) => number) => Math.min(...ok.map(f));
     const mid = (f: (r: any) => number) => median(ok.map(f));
     const counted = await probe({ ...req, objects: true });
+    // Added latency is a difference, so take the fastest run of each side:
+    // the min of the differences would keep the run whose roundtrip was hit
+    // hardest by runner noise, and read low or even negative.
+    const pairedP50Us = min((r) => r.pairedLatency.p50Us);
+    const roundtripP50Us = min((r) => r.baselineLatency.p50Us);
     entry(p).runtime = {
       importMs: min((r) => r.importMs),
       importHeap: mid((r) => r.importHeap.heapUsed),
       importObjects: counted.importObjects,
       firstCallMs: min((r) => r.firstCallMs),
       firstCallHeap: mid((r) => r.firstCallHeap.heapUsed),
-      addedP50Us: min((r) => r.addedP50Us),
+      addedP50Us: pairedP50Us - roundtripP50Us,
+      roundtripP50Us,
       p50Us: min((r) => r.latency.p50Us),
       gcPer1k: min((r) => r.gcPer1k),
       maxRss: mid((r) => r.maxRss),
@@ -340,6 +381,42 @@ await phase("runtime", async () => {
       `  ${p.name}: +${r.addedP50Us.toFixed(1)} µs, import ${fmtMs(r.importMs)}, heap ${fmtBytes(r.importHeap)}`,
     );
   });
+});
+
+//#endregion
+
+//#region whole-SDK heap (every service module of aws, cloudflare, gcp)
+
+await phase("providers", async () => {
+  for (const pkg of providersToMeasure) {
+    const dir = join(PACKAGES, pkg, "lib", "services");
+    const services = existsSync(dir)
+      ? readdirSync(dir).filter((f) => f.endsWith(".js") && f !== "index.js")
+      : [];
+    if (!services.length) {
+      errors.push(`providers ${pkg}: no lib/services`);
+      continue;
+    }
+    const imports = services.map((f, i) => ({ alias: `S${i}`, lib: join(dir, f), src: "" }));
+    const runs: any[] = [];
+    for (let i = 0; i < REPEATS; i++) runs.push(await probe({ mode: "barrel", imports }));
+    const ok = runs.filter((r) => !r.fatal);
+    if (!ok.length) {
+      errors.push(`providers ${pkg}: ${runs[0].fatal}`);
+      continue;
+    }
+    const counted = await probe({ mode: "barrel", objects: true, imports });
+    providers[pkg] = {
+      services: services.length,
+      heap: median(ok.map((r) => r.heap.heapUsed)),
+      objects: counted.objects,
+      importMs: Math.min(...ok.map((r) => r.importMs)),
+      inputs: inputsOf(pkg),
+    };
+    log(`  ${pkg}: ${services.length} services, heap ${fmtBytes(providers[pkg]!.heap)}`);
+  }
+  for (const pkg of providerSdks.filter((p) => providers[p]?.reused))
+    log(`  ${pkg}: unchanged, reused ${fmtBytes(providers[pkg]!.heap)}`);
 });
 
 //#endregion
@@ -363,6 +440,12 @@ const result: CiRun = {
   baselines: { bundle: bundleBaselines, runtime: runtimeBaseline! },
   sizes,
   programs,
+  providers,
+  // Tracked bytes by kind of file, here and at the base: no build, git objects only.
+  repoSize: {
+    head: treeSize("HEAD", REPO),
+    ...(flag("changed-since") ? { base: treeSize(flag("changed-since")!, REPO) } : {}),
+  },
   errors,
 };
 writeFileSync(outFile, `${JSON.stringify(result, null, 2)}\n`);

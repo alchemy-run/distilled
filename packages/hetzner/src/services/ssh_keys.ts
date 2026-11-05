@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "SshKeys",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreateSshKeyRequestLabelsMap = { [key: string]: string | undefined };
 export interface CreateSshKeyRequest {
@@ -173,6 +186,8 @@ export const createSshKey: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSshKey",
 }));
 
 export type DeleteSshKeyError = HetznerOpError;
@@ -188,6 +203,8 @@ export const deleteSshKey: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSshKey",
 }));
 
 export type GetSshKeyError = HetznerOpError;
@@ -203,6 +220,8 @@ export const getSshKey: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSshKey",
 }));
 
 export type ListSshKeysError = HetznerOpError;
@@ -220,6 +239,8 @@ export const listSshKeys: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSshKeys",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -244,6 +265,8 @@ export const updateSshKey: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSshKey",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

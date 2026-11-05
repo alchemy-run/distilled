@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Telemetry",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface GetOrganizationSandboxTelemetryTraceRequest {
   /** Organization ID */
   organizationId: string;
@@ -127,6 +140,8 @@ export const getOrganizationSandboxTelemetryTrace: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationSandboxTelemetryTrace",
 }));
 
 export type ListOrganizationSandboxTelemetryLogsError = DaytonaOpError;
@@ -142,6 +157,8 @@ export const listOrganizationSandboxTelemetryLogs: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSandboxTelemetryLogs",
 }));
 
 export type ListOrganizationSandboxTelemetryMetricsError = DaytonaOpError;
@@ -157,6 +174,8 @@ export const listOrganizationSandboxTelemetryMetrics: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSandboxTelemetryMetrics",
 }));
 
 export type ListOrganizationSandboxTelemetryTracesError = DaytonaOpError;
@@ -172,6 +191,8 @@ export const listOrganizationSandboxTelemetryTraces: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSandboxTelemetryTraces",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock-data-automation.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BedrockDataAutomation",
+  service: "BedrockDataAutomation",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -897,7 +913,7 @@ export type CopyBlueprintStageError =
  * Copies a Blueprint from one stage to another
  */
 export const copyBlueprintStage: API.OperationMethod<
-  CopyBlueprintStageRequest,
+  CopyBlueprintStageRequest & RegionInput,
   CopyBlueprintStageResponse,
   CopyBlueprintStageError,
   Credentials | HttpClient.HttpClient
@@ -914,6 +930,8 @@ export const copyBlueprintStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyBlueprintStage",
+  telemetry: TELEMETRY,
+  span: "CopyBlueprintStage",
 }));
 
 export type CreateBlueprintError =
@@ -928,7 +946,7 @@ export type CreateBlueprintError =
  * Creates an Amazon Bedrock Data Automation Blueprint
  */
 export const createBlueprint: API.OperationMethod<
-  CreateBlueprintRequest,
+  CreateBlueprintRequest & RegionInput,
   CreateBlueprintResponse,
   CreateBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -946,6 +964,8 @@ export const createBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBlueprint",
+  telemetry: TELEMETRY,
+  span: "CreateBlueprint",
 }));
 
 export type CreateBlueprintVersionError =
@@ -960,7 +980,7 @@ export type CreateBlueprintVersionError =
  * Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
  */
 export const createBlueprintVersion: API.OperationMethod<
-  CreateBlueprintVersionRequest,
+  CreateBlueprintVersionRequest & RegionInput,
   CreateBlueprintVersionResponse,
   CreateBlueprintVersionError,
   Credentials | HttpClient.HttpClient
@@ -978,6 +998,8 @@ export const createBlueprintVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBlueprintVersion",
+  telemetry: TELEMETRY,
+  span: "CreateBlueprintVersion",
 }));
 
 export type CreateDataAutomationLibraryError =
@@ -992,7 +1014,7 @@ export type CreateDataAutomationLibraryError =
  * Creates an Amazon Bedrock Data Automation Library
  */
 export const createDataAutomationLibrary: API.OperationMethod<
-  CreateDataAutomationLibraryRequest,
+  CreateDataAutomationLibraryRequest & RegionInput,
   CreateDataAutomationLibraryResponse,
   CreateDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1010,6 +1032,8 @@ export const createDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataAutomationLibrary",
+  telemetry: TELEMETRY,
+  span: "CreateDataAutomationLibrary",
 }));
 
 export type CreateDataAutomationProjectError =
@@ -1024,7 +1048,7 @@ export type CreateDataAutomationProjectError =
  * Creates an Amazon Bedrock Data Automation Project
  */
 export const createDataAutomationProject: API.OperationMethod<
-  CreateDataAutomationProjectRequest,
+  CreateDataAutomationProjectRequest & RegionInput,
   CreateDataAutomationProjectResponse,
   CreateDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1042,6 +1066,8 @@ export const createDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataAutomationProject",
+  telemetry: TELEMETRY,
+  span: "CreateDataAutomationProject",
 }));
 
 export type DeleteBlueprintError =
@@ -1055,7 +1081,7 @@ export type DeleteBlueprintError =
  * Deletes an existing Amazon Bedrock Data Automation Blueprint
  */
 export const deleteBlueprint: API.OperationMethod<
-  DeleteBlueprintRequest,
+  DeleteBlueprintRequest & RegionInput,
   DeleteBlueprintResponse,
   DeleteBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -1072,6 +1098,8 @@ export const deleteBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBlueprint",
+  telemetry: TELEMETRY,
+  span: "DeleteBlueprint",
 }));
 
 export type DeleteDataAutomationLibraryError =
@@ -1086,7 +1114,7 @@ export type DeleteDataAutomationLibraryError =
  * Deletes an existing Amazon Bedrock Data Automation Library
  */
 export const deleteDataAutomationLibrary: API.OperationMethod<
-  DeleteDataAutomationLibraryRequest,
+  DeleteDataAutomationLibraryRequest & RegionInput,
   DeleteDataAutomationLibraryResponse,
   DeleteDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1104,6 +1132,8 @@ export const deleteDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataAutomationLibrary",
+  telemetry: TELEMETRY,
+  span: "DeleteDataAutomationLibrary",
 }));
 
 export type DeleteDataAutomationProjectError =
@@ -1117,7 +1147,7 @@ export type DeleteDataAutomationProjectError =
  * Deletes an existing Amazon Bedrock Data Automation Project
  */
 export const deleteDataAutomationProject: API.OperationMethod<
-  DeleteDataAutomationProjectRequest,
+  DeleteDataAutomationProjectRequest & RegionInput,
   DeleteDataAutomationProjectResponse,
   DeleteDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1134,6 +1164,8 @@ export const deleteDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataAutomationProject",
+  telemetry: TELEMETRY,
+  span: "DeleteDataAutomationProject",
 }));
 
 export type GetBlueprintError =
@@ -1147,7 +1179,7 @@ export type GetBlueprintError =
  * Gets an existing Amazon Bedrock Data Automation Blueprint
  */
 export const getBlueprint: API.OperationMethod<
-  GetBlueprintRequest,
+  GetBlueprintRequest & RegionInput,
   GetBlueprintResponse,
   GetBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -1164,6 +1196,8 @@ export const getBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprint",
+  telemetry: TELEMETRY,
+  span: "GetBlueprint",
 }));
 
 export type GetBlueprintOptimizationStatusError =
@@ -1177,7 +1211,7 @@ export type GetBlueprintOptimizationStatusError =
  * API used to get blueprint optimization status.
  */
 export const getBlueprintOptimizationStatus: API.OperationMethod<
-  GetBlueprintOptimizationStatusRequest,
+  GetBlueprintOptimizationStatusRequest & RegionInput,
   GetBlueprintOptimizationStatusResponse,
   GetBlueprintOptimizationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1194,6 +1228,8 @@ export const getBlueprintOptimizationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprintOptimizationStatus",
+  telemetry: TELEMETRY,
+  span: "GetBlueprintOptimizationStatus",
 }));
 
 export type GetDataAutomationLibraryError =
@@ -1207,7 +1243,7 @@ export type GetDataAutomationLibraryError =
  * Gets an existing Amazon Bedrock Data Automation Library
  */
 export const getDataAutomationLibrary: API.OperationMethod<
-  GetDataAutomationLibraryRequest,
+  GetDataAutomationLibraryRequest & RegionInput,
   GetDataAutomationLibraryResponse,
   GetDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1224,6 +1260,8 @@ export const getDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationLibrary",
+  telemetry: TELEMETRY,
+  span: "GetDataAutomationLibrary",
 }));
 
 export type GetDataAutomationLibraryEntityError =
@@ -1237,7 +1275,7 @@ export type GetDataAutomationLibraryEntityError =
  * Gets an existing entity based on entity type from the library
  */
 export const getDataAutomationLibraryEntity: API.OperationMethod<
-  GetDataAutomationLibraryEntityRequest,
+  GetDataAutomationLibraryEntityRequest & RegionInput,
   GetDataAutomationLibraryEntityResponse,
   GetDataAutomationLibraryEntityError,
   Credentials | HttpClient.HttpClient
@@ -1254,6 +1292,8 @@ export const getDataAutomationLibraryEntity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationLibraryEntity",
+  telemetry: TELEMETRY,
+  span: "GetDataAutomationLibraryEntity",
 }));
 
 export type GetDataAutomationLibraryIngestionJobError =
@@ -1267,7 +1307,7 @@ export type GetDataAutomationLibraryIngestionJobError =
  * API used to get status of data automation library ingestion job
  */
 export const getDataAutomationLibraryIngestionJob: API.OperationMethod<
-  GetDataAutomationLibraryIngestionJobRequest,
+  GetDataAutomationLibraryIngestionJobRequest & RegionInput,
   GetDataAutomationLibraryIngestionJobResponse,
   GetDataAutomationLibraryIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -1284,6 +1324,8 @@ export const getDataAutomationLibraryIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationLibraryIngestionJob",
+  telemetry: TELEMETRY,
+  span: "GetDataAutomationLibraryIngestionJob",
 }));
 
 export type GetDataAutomationProjectError =
@@ -1297,7 +1339,7 @@ export type GetDataAutomationProjectError =
  * Gets an existing Amazon Bedrock Data Automation Project
  */
 export const getDataAutomationProject: API.OperationMethod<
-  GetDataAutomationProjectRequest,
+  GetDataAutomationProjectRequest & RegionInput,
   GetDataAutomationProjectResponse,
   GetDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1314,6 +1356,8 @@ export const getDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationProject",
+  telemetry: TELEMETRY,
+  span: "GetDataAutomationProject",
 }));
 
 export type InvokeBlueprintOptimizationAsyncError =
@@ -1328,7 +1372,7 @@ export type InvokeBlueprintOptimizationAsyncError =
  * Invoke an async job to perform Blueprint Optimization
  */
 export const invokeBlueprintOptimizationAsync: API.OperationMethod<
-  InvokeBlueprintOptimizationAsyncRequest,
+  InvokeBlueprintOptimizationAsyncRequest & RegionInput,
   InvokeBlueprintOptimizationAsyncResponse,
   InvokeBlueprintOptimizationAsyncError,
   Credentials | HttpClient.HttpClient
@@ -1346,6 +1390,8 @@ export const invokeBlueprintOptimizationAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeBlueprintOptimizationAsync",
+  telemetry: TELEMETRY,
+  span: "InvokeBlueprintOptimizationAsync",
 }));
 
 export type InvokeDataAutomationLibraryIngestionJobError =
@@ -1361,7 +1407,7 @@ export type InvokeDataAutomationLibraryIngestionJobError =
  * Async API: Invoke data automation library ingestion job
  */
 export const invokeDataAutomationLibraryIngestionJob: API.OperationMethod<
-  InvokeDataAutomationLibraryIngestionJobRequest,
+  InvokeDataAutomationLibraryIngestionJobRequest & RegionInput,
   InvokeDataAutomationLibraryIngestionJobResponse,
   InvokeDataAutomationLibraryIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -1380,6 +1426,8 @@ export const invokeDataAutomationLibraryIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeDataAutomationLibraryIngestionJob",
+  telemetry: TELEMETRY,
+  span: "InvokeDataAutomationLibraryIngestionJob",
 }));
 
 export type ListBlueprintsError =
@@ -1393,7 +1441,7 @@ export type ListBlueprintsError =
  * Lists all existing Amazon Bedrock Data Automation Blueprints
  */
 export const listBlueprints: API.PaginatedOperationMethod<
-  ListBlueprintsRequest,
+  ListBlueprintsRequest & RegionInput,
   ListBlueprintsResponse,
   ListBlueprintsError,
   Credentials | HttpClient.HttpClient,
@@ -1417,6 +1465,8 @@ export const listBlueprints: API.PaginatedOperationMethod<
     items: "blueprints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBlueprints",
 })) as any;
 
 export type ListDataAutomationLibrariesError =
@@ -1429,7 +1479,7 @@ export type ListDataAutomationLibrariesError =
  * Lists all existing Amazon Bedrock Data Automation Libraries
  */
 export const listDataAutomationLibraries: API.PaginatedOperationMethod<
-  ListDataAutomationLibrariesRequest,
+  ListDataAutomationLibrariesRequest & RegionInput,
   ListDataAutomationLibrariesResponse,
   ListDataAutomationLibrariesError,
   Credentials | HttpClient.HttpClient,
@@ -1452,6 +1502,8 @@ export const listDataAutomationLibraries: API.PaginatedOperationMethod<
     items: "libraries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAutomationLibraries",
 })) as any;
 
 export type ListDataAutomationLibraryEntitiesError =
@@ -1465,7 +1517,7 @@ export type ListDataAutomationLibraryEntitiesError =
  * Lists all stored entities in the library
  */
 export const listDataAutomationLibraryEntities: API.PaginatedOperationMethod<
-  ListDataAutomationLibraryEntitiesRequest,
+  ListDataAutomationLibraryEntitiesRequest & RegionInput,
   ListDataAutomationLibraryEntitiesResponse,
   ListDataAutomationLibraryEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1489,6 +1541,8 @@ export const listDataAutomationLibraryEntities: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAutomationLibraryEntities",
 })) as any;
 
 export type ListDataAutomationLibraryIngestionJobsError =
@@ -1502,7 +1556,7 @@ export type ListDataAutomationLibraryIngestionJobsError =
  * Lists all data automation library ingestion jobs
  */
 export const listDataAutomationLibraryIngestionJobs: API.PaginatedOperationMethod<
-  ListDataAutomationLibraryIngestionJobsRequest,
+  ListDataAutomationLibraryIngestionJobsRequest & RegionInput,
   ListDataAutomationLibraryIngestionJobsResponse,
   ListDataAutomationLibraryIngestionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1526,6 +1580,8 @@ export const listDataAutomationLibraryIngestionJobs: API.PaginatedOperationMetho
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAutomationLibraryIngestionJobs",
 })) as any;
 
 export type ListDataAutomationProjectsError =
@@ -1539,7 +1595,7 @@ export type ListDataAutomationProjectsError =
  * Lists all existing Amazon Bedrock Data Automation Projects
  */
 export const listDataAutomationProjects: API.PaginatedOperationMethod<
-  ListDataAutomationProjectsRequest,
+  ListDataAutomationProjectsRequest & RegionInput,
   ListDataAutomationProjectsResponse,
   ListDataAutomationProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -1563,6 +1619,8 @@ export const listDataAutomationProjects: API.PaginatedOperationMethod<
     items: "projects",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAutomationProjects",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1576,7 +1634,7 @@ export type ListTagsForResourceError =
  * List tags for an Amazon Bedrock Data Automation resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1593,6 +1651,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1607,7 +1667,7 @@ export type TagResourceError =
  * Tag an Amazon Bedrock Data Automation resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1625,6 +1685,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1638,7 +1700,7 @@ export type UntagResourceError =
  * Untag an Amazon Bedrock Data Automation resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1655,6 +1717,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBlueprintError =
@@ -1669,7 +1733,7 @@ export type UpdateBlueprintError =
  * Updates an existing Amazon Bedrock Data Automation Blueprint
  */
 export const updateBlueprint: API.OperationMethod<
-  UpdateBlueprintRequest,
+  UpdateBlueprintRequest & RegionInput,
   UpdateBlueprintResponse,
   UpdateBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -1687,6 +1751,8 @@ export const updateBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBlueprint",
+  telemetry: TELEMETRY,
+  span: "UpdateBlueprint",
 }));
 
 export type UpdateDataAutomationLibraryError =
@@ -1701,7 +1767,7 @@ export type UpdateDataAutomationLibraryError =
  * Updates an existing Amazon Bedrock Data Automation Library
  */
 export const updateDataAutomationLibrary: API.OperationMethod<
-  UpdateDataAutomationLibraryRequest,
+  UpdateDataAutomationLibraryRequest & RegionInput,
   UpdateDataAutomationLibraryResponse,
   UpdateDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1719,6 +1785,8 @@ export const updateDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataAutomationLibrary",
+  telemetry: TELEMETRY,
+  span: "UpdateDataAutomationLibrary",
 }));
 
 export type UpdateDataAutomationProjectError =
@@ -1734,7 +1802,7 @@ export type UpdateDataAutomationProjectError =
  * Updates an existing Amazon Bedrock Data Automation Project
  */
 export const updateDataAutomationProject: API.OperationMethod<
-  UpdateDataAutomationProjectRequest,
+  UpdateDataAutomationProjectRequest & RegionInput,
   UpdateDataAutomationProjectResponse,
   UpdateDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1753,6 +1821,8 @@ export const updateDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataAutomationProject",
+  telemetry: TELEMETRY,
+  span: "UpdateDataAutomationProject",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

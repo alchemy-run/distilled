@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://redshift-serverless.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RedshiftServerless",
+  service: "RedshiftServerless",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1089,7 +1106,7 @@ export type ConvertRecoveryPointToSnapshotError =
  * Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points.
  */
 export const convertRecoveryPointToSnapshot: API.OperationMethod<
-  ConvertRecoveryPointToSnapshotRequest,
+  ConvertRecoveryPointToSnapshotRequest & RegionInput,
   ConvertRecoveryPointToSnapshotResponse,
   ConvertRecoveryPointToSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1107,6 +1124,8 @@ export const convertRecoveryPointToSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConvertRecoveryPointToSnapshot",
+  telemetry: TELEMETRY,
+  span: "ConvertRecoveryPointToSnapshot",
 }));
 
 export type CreateCustomDomainAssociationError =
@@ -1121,7 +1140,7 @@ export type CreateCustomDomainAssociationError =
  * Creates a custom domain association for Amazon Redshift Serverless.
  */
 export const createCustomDomainAssociation: API.OperationMethod<
-  CreateCustomDomainAssociationRequest,
+  CreateCustomDomainAssociationRequest & RegionInput,
   CreateCustomDomainAssociationResponse,
   CreateCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1139,6 +1158,8 @@ export const createCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateCustomDomainAssociation",
 }));
 
 export type CreateEndpointAccessError =
@@ -1153,7 +1174,7 @@ export type CreateEndpointAccessError =
  * Creates an Amazon Redshift Serverless managed VPC endpoint.
  */
 export const createEndpointAccess: API.OperationMethod<
-  CreateEndpointAccessRequest,
+  CreateEndpointAccessRequest & RegionInput,
   CreateEndpointAccessResponse,
   CreateEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -1171,6 +1192,8 @@ export const createEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "CreateEndpointAccess",
 }));
 
 export type CreateNamespaceError =
@@ -1183,7 +1206,7 @@ export type CreateNamespaceError =
  * Creates a namespace in Amazon Redshift Serverless.
  */
 export const createNamespace: API.OperationMethod<
-  CreateNamespaceRequest,
+  CreateNamespaceRequest & RegionInput,
   CreateNamespaceResponse,
   CreateNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1194,6 +1217,8 @@ export const createNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateNamespace",
 }));
 
 export type CreateReservationError =
@@ -1209,7 +1234,7 @@ export type CreateReservationError =
  * Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
  */
 export const createReservation: API.OperationMethod<
-  CreateReservationRequest,
+  CreateReservationRequest & RegionInput,
   CreateReservationResponse,
   CreateReservationError,
   Credentials | HttpClient.HttpClient
@@ -1228,6 +1253,8 @@ export const createReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReservation",
+  telemetry: TELEMETRY,
+  span: "CreateReservation",
 }));
 
 export type CreateScheduledActionError =
@@ -1240,7 +1267,7 @@ export type CreateScheduledActionError =
  * Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the `CreateSnapshot` API operation.
  */
 export const createScheduledAction: API.OperationMethod<
-  CreateScheduledActionRequest,
+  CreateScheduledActionRequest & RegionInput,
   CreateScheduledActionResponse,
   CreateScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -1256,6 +1283,8 @@ export const createScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledAction",
+  telemetry: TELEMETRY,
+  span: "CreateScheduledAction",
 }));
 
 export type CreateSnapshotError =
@@ -1270,7 +1299,7 @@ export type CreateSnapshotError =
  * Creates a snapshot of all databases in a namespace. For more information about snapshots, see Working with snapshots and recovery points.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
+  CreateSnapshotRequest & RegionInput,
   CreateSnapshotResponse,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1288,6 +1317,8 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateSnapshotCopyConfigurationError =
@@ -1302,7 +1333,7 @@ export type CreateSnapshotCopyConfigurationError =
  * Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region.
  */
 export const createSnapshotCopyConfiguration: API.OperationMethod<
-  CreateSnapshotCopyConfigurationRequest,
+  CreateSnapshotCopyConfigurationRequest & RegionInput,
   CreateSnapshotCopyConfigurationResponse,
   CreateSnapshotCopyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1320,6 +1351,8 @@ export const createSnapshotCopyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshotCopyConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshotCopyConfiguration",
 }));
 
 export type CreateUsageLimitError =
@@ -1333,7 +1366,7 @@ export type CreateUsageLimitError =
  * Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier.
  */
 export const createUsageLimit: API.OperationMethod<
-  CreateUsageLimitRequest,
+  CreateUsageLimitRequest & RegionInput,
   CreateUsageLimitResponse,
   CreateUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -1350,6 +1383,8 @@ export const createUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsageLimit",
+  telemetry: TELEMETRY,
+  span: "CreateUsageLimit",
 }));
 
 export type CreateWorkgroupError =
@@ -1375,7 +1410,7 @@ export type CreateWorkgroupError =
  * For more information about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
 export const createWorkgroup: API.OperationMethod<
-  CreateWorkgroupRequest,
+  CreateWorkgroupRequest & RegionInput,
   CreateWorkgroupResponse,
   CreateWorkgroupError,
   Credentials | HttpClient.HttpClient
@@ -1394,6 +1429,8 @@ export const createWorkgroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkgroup",
+  telemetry: TELEMETRY,
+  span: "CreateWorkgroup",
 }));
 
 export type DeleteCustomDomainAssociationError =
@@ -1408,7 +1445,7 @@ export type DeleteCustomDomainAssociationError =
  * Deletes a custom domain association for Amazon Redshift Serverless.
  */
 export const deleteCustomDomainAssociation: API.OperationMethod<
-  DeleteCustomDomainAssociationRequest,
+  DeleteCustomDomainAssociationRequest & RegionInput,
   DeleteCustomDomainAssociationResponse,
   DeleteCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1426,6 +1463,8 @@ export const deleteCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDomainAssociation",
 }));
 
 export type DeleteEndpointAccessError =
@@ -1438,7 +1477,7 @@ export type DeleteEndpointAccessError =
  * Deletes an Amazon Redshift Serverless managed VPC endpoint.
  */
 export const deleteEndpointAccess: API.OperationMethod<
-  DeleteEndpointAccessRequest,
+  DeleteEndpointAccessRequest & RegionInput,
   DeleteEndpointAccessResponse,
   DeleteEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -1454,6 +1493,8 @@ export const deleteEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpointAccess",
 }));
 
 export type DeleteNamespaceError =
@@ -1466,7 +1507,7 @@ export type DeleteNamespaceError =
  * Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1482,6 +1523,8 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1493,7 +1536,7 @@ export type DeleteResourcePolicyError =
  * Deletes the specified resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1504,6 +1547,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteScheduledActionError =
@@ -1515,7 +1560,7 @@ export type DeleteScheduledActionError =
  * Deletes a scheduled action.
  */
 export const deleteScheduledAction: API.OperationMethod<
-  DeleteScheduledActionRequest,
+  DeleteScheduledActionRequest & RegionInput,
   DeleteScheduledActionResponse,
   DeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -1526,6 +1571,8 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledAction",
 }));
 
 export type DeleteSnapshotError =
@@ -1538,7 +1585,7 @@ export type DeleteSnapshotError =
  * Deletes a snapshot from Amazon Redshift Serverless.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotRequest,
+  DeleteSnapshotRequest & RegionInput,
   DeleteSnapshotResponse,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1554,6 +1601,8 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteSnapshotCopyConfigurationError =
@@ -1567,7 +1616,7 @@ export type DeleteSnapshotCopyConfigurationError =
  * Deletes a snapshot copy configuration
  */
 export const deleteSnapshotCopyConfiguration: API.OperationMethod<
-  DeleteSnapshotCopyConfigurationRequest,
+  DeleteSnapshotCopyConfigurationRequest & RegionInput,
   DeleteSnapshotCopyConfigurationResponse,
   DeleteSnapshotCopyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1584,6 +1633,8 @@ export const deleteSnapshotCopyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshotCopyConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshotCopyConfiguration",
 }));
 
 export type DeleteUsageLimitError =
@@ -1596,7 +1647,7 @@ export type DeleteUsageLimitError =
  * Deletes a usage limit from Amazon Redshift Serverless.
  */
 export const deleteUsageLimit: API.OperationMethod<
-  DeleteUsageLimitRequest,
+  DeleteUsageLimitRequest & RegionInput,
   DeleteUsageLimitResponse,
   DeleteUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -1612,6 +1663,8 @@ export const deleteUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsageLimit",
+  telemetry: TELEMETRY,
+  span: "DeleteUsageLimit",
 }));
 
 export type DeleteWorkgroupError =
@@ -1624,7 +1677,7 @@ export type DeleteWorkgroupError =
  * Deletes a workgroup.
  */
 export const deleteWorkgroup: API.OperationMethod<
-  DeleteWorkgroupRequest,
+  DeleteWorkgroupRequest & RegionInput,
   DeleteWorkgroupResponse,
   DeleteWorkgroupError,
   Credentials | HttpClient.HttpClient
@@ -1640,6 +1693,8 @@ export const deleteWorkgroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkgroup",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkgroup",
 }));
 
 export type GetCredentialsError =
@@ -1657,7 +1712,7 @@ export type GetCredentialsError =
  * If the `DbName` parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
  */
 export const getCredentials: API.OperationMethod<
-  GetCredentialsRequest,
+  GetCredentialsRequest & RegionInput,
   GetCredentialsResponse,
   GetCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1668,6 +1723,8 @@ export const getCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentials",
+  telemetry: TELEMETRY,
+  span: "GetCredentials",
 }));
 
 export type GetCustomDomainAssociationError =
@@ -1682,7 +1739,7 @@ export type GetCustomDomainAssociationError =
  * Gets information about a specific custom domain association.
  */
 export const getCustomDomainAssociation: API.OperationMethod<
-  GetCustomDomainAssociationRequest,
+  GetCustomDomainAssociationRequest & RegionInput,
   GetCustomDomainAssociationResponse,
   GetCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1700,6 +1757,8 @@ export const getCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "GetCustomDomainAssociation",
 }));
 
 export type GetEndpointAccessError =
@@ -1712,7 +1771,7 @@ export type GetEndpointAccessError =
  * Returns information, such as the name, about a VPC endpoint.
  */
 export const getEndpointAccess: API.OperationMethod<
-  GetEndpointAccessRequest,
+  GetEndpointAccessRequest & RegionInput,
   GetEndpointAccessResponse,
   GetEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -1728,6 +1787,8 @@ export const getEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "GetEndpointAccess",
 }));
 
 export type GetIdentityCenterAuthTokenError =
@@ -1747,7 +1808,7 @@ export type GetIdentityCenterAuthTokenError =
  * The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration must be configured for the workgroups.
  */
 export const getIdentityCenterAuthToken: API.OperationMethod<
-  GetIdentityCenterAuthTokenRequest,
+  GetIdentityCenterAuthTokenRequest & RegionInput,
   GetIdentityCenterAuthTokenResponse,
   GetIdentityCenterAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -1766,6 +1827,8 @@ export const getIdentityCenterAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityCenterAuthToken",
+  telemetry: TELEMETRY,
+  span: "GetIdentityCenterAuthToken",
 }));
 
 export type GetNamespaceError =
@@ -1777,7 +1840,7 @@ export type GetNamespaceError =
  * Returns information about a namespace in Amazon Redshift Serverless.
  */
 export const getNamespace: API.OperationMethod<
-  GetNamespaceRequest,
+  GetNamespaceRequest & RegionInput,
   GetNamespaceResponse,
   GetNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1788,6 +1851,8 @@ export const getNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespace",
+  telemetry: TELEMETRY,
+  span: "GetNamespace",
 }));
 
 export type GetRecoveryPointError =
@@ -1800,7 +1865,7 @@ export type GetRecoveryPointError =
  * Returns information about a recovery point.
  */
 export const getRecoveryPoint: API.OperationMethod<
-  GetRecoveryPointRequest,
+  GetRecoveryPointRequest & RegionInput,
   GetRecoveryPointResponse,
   GetRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -1816,6 +1881,8 @@ export const getRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPoint",
 }));
 
 export type GetReservationError =
@@ -1828,7 +1895,7 @@ export type GetReservationError =
  * Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
  */
 export const getReservation: API.OperationMethod<
-  GetReservationRequest,
+  GetReservationRequest & RegionInput,
   GetReservationResponse,
   GetReservationError,
   Credentials | HttpClient.HttpClient
@@ -1844,6 +1911,8 @@ export const getReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReservation",
+  telemetry: TELEMETRY,
+  span: "GetReservation",
 }));
 
 export type GetReservationOfferingError =
@@ -1856,7 +1925,7 @@ export type GetReservationOfferingError =
  * Returns the reservation offering. The offering determines the payment schedule for the reservation.
  */
 export const getReservationOffering: API.OperationMethod<
-  GetReservationOfferingRequest,
+  GetReservationOfferingRequest & RegionInput,
   GetReservationOfferingResponse,
   GetReservationOfferingError,
   Credentials | HttpClient.HttpClient
@@ -1872,6 +1941,8 @@ export const getReservationOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReservationOffering",
+  telemetry: TELEMETRY,
+  span: "GetReservationOffering",
 }));
 
 export type GetResourcePolicyError =
@@ -1883,7 +1954,7 @@ export type GetResourcePolicyError =
  * Returns a resource policy.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1894,6 +1965,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetScheduledActionError =
@@ -1905,7 +1978,7 @@ export type GetScheduledActionError =
  * Returns information about a scheduled action.
  */
 export const getScheduledAction: API.OperationMethod<
-  GetScheduledActionRequest,
+  GetScheduledActionRequest & RegionInput,
   GetScheduledActionResponse,
   GetScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -1916,6 +1989,8 @@ export const getScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScheduledAction",
+  telemetry: TELEMETRY,
+  span: "GetScheduledAction",
 }));
 
 export type GetSnapshotError =
@@ -1927,7 +2002,7 @@ export type GetSnapshotError =
  * Returns information about a specific snapshot.
  */
 export const getSnapshot: API.OperationMethod<
-  GetSnapshotRequest,
+  GetSnapshotRequest & RegionInput,
   GetSnapshotResponse,
   GetSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1938,6 +2013,8 @@ export const getSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetSnapshot",
 }));
 
 export type GetTableRestoreStatusError =
@@ -1948,7 +2025,7 @@ export type GetTableRestoreStatusError =
  * Returns information about a `TableRestoreStatus` object.
  */
 export const getTableRestoreStatus: API.OperationMethod<
-  GetTableRestoreStatusRequest,
+  GetTableRestoreStatusRequest & RegionInput,
   GetTableRestoreStatusResponse,
   GetTableRestoreStatusError,
   Credentials | HttpClient.HttpClient
@@ -1959,6 +2036,8 @@ export const getTableRestoreStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableRestoreStatus",
+  telemetry: TELEMETRY,
+  span: "GetTableRestoreStatus",
 }));
 
 export type GetTrackError =
@@ -1974,7 +2053,7 @@ export type GetTrackError =
  * Get the Redshift Serverless version for a specified track.
  */
 export const getTrack: API.OperationMethod<
-  GetTrackRequest,
+  GetTrackRequest & RegionInput,
   GetTrackResponse,
   GetTrackError,
   Credentials | HttpClient.HttpClient
@@ -1993,6 +2072,8 @@ export const getTrack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrack",
+  telemetry: TELEMETRY,
+  span: "GetTrack",
 }));
 
 export type GetUsageLimitError =
@@ -2005,7 +2086,7 @@ export type GetUsageLimitError =
  * Returns information about a usage limit.
  */
 export const getUsageLimit: API.OperationMethod<
-  GetUsageLimitRequest,
+  GetUsageLimitRequest & RegionInput,
   GetUsageLimitResponse,
   GetUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -2021,6 +2102,8 @@ export const getUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsageLimit",
+  telemetry: TELEMETRY,
+  span: "GetUsageLimit",
 }));
 
 export type GetWorkgroupError =
@@ -2032,7 +2115,7 @@ export type GetWorkgroupError =
  * Returns information about a specific workgroup.
  */
 export const getWorkgroup: API.OperationMethod<
-  GetWorkgroupRequest,
+  GetWorkgroupRequest & RegionInput,
   GetWorkgroupResponse,
   GetWorkgroupError,
   Credentials | HttpClient.HttpClient
@@ -2043,6 +2126,8 @@ export const getWorkgroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkgroup",
+  telemetry: TELEMETRY,
+  span: "GetWorkgroup",
 }));
 
 export type ListCustomDomainAssociationsError =
@@ -2056,7 +2141,7 @@ export type ListCustomDomainAssociationsError =
  * Lists custom domain associations for Amazon Redshift Serverless.
  */
 export const listCustomDomainAssociations: API.PaginatedOperationMethod<
-  ListCustomDomainAssociationsRequest,
+  ListCustomDomainAssociationsRequest & RegionInput,
   ListCustomDomainAssociationsResponse,
   ListCustomDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2080,6 +2165,8 @@ export const listCustomDomainAssociations: API.PaginatedOperationMethod<
     items: "associations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomDomainAssociations",
 })) as any;
 
 export type ListEndpointAccessError =
@@ -2092,7 +2179,7 @@ export type ListEndpointAccessError =
  * Returns an array of `EndpointAccess` objects and relevant information.
  */
 export const listEndpointAccess: API.PaginatedOperationMethod<
-  ListEndpointAccessRequest,
+  ListEndpointAccessRequest & RegionInput,
   ListEndpointAccessResponse,
   ListEndpointAccessError,
   Credentials | HttpClient.HttpClient,
@@ -2115,6 +2202,8 @@ export const listEndpointAccess: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpointAccess",
 })) as any;
 
 export type ListManagedWorkgroupsError =
@@ -2125,7 +2214,7 @@ export type ListManagedWorkgroupsError =
  * Returns information about a list of specified managed workgroups in your account.
  */
 export const listManagedWorkgroups: API.PaginatedOperationMethod<
-  ListManagedWorkgroupsRequest,
+  ListManagedWorkgroupsRequest & RegionInput,
   ListManagedWorkgroupsResponse,
   ListManagedWorkgroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2143,6 +2232,8 @@ export const listManagedWorkgroups: API.PaginatedOperationMethod<
     items: "managedWorkgroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedWorkgroups",
 })) as any;
 
 export type ListNamespacesError = InternalServerException | ValidationException | CommonErrors;
@@ -2150,7 +2241,7 @@ export type ListNamespacesError = InternalServerException | ValidationException 
  * Returns information about a list of specified namespaces.
  */
 export const listNamespaces: API.PaginatedOperationMethod<
-  ListNamespacesRequest,
+  ListNamespacesRequest & RegionInput,
   ListNamespacesResponse,
   ListNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -2168,6 +2259,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     items: "namespaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 })) as any;
 
 export type ListRecoveryPointsError = InternalServerException | ValidationException | CommonErrors;
@@ -2175,7 +2268,7 @@ export type ListRecoveryPointsError = InternalServerException | ValidationExcept
  * Returns an array of recovery points.
  */
 export const listRecoveryPoints: API.PaginatedOperationMethod<
-  ListRecoveryPointsRequest,
+  ListRecoveryPointsRequest & RegionInput,
   ListRecoveryPointsResponse,
   ListRecoveryPointsError,
   Credentials | HttpClient.HttpClient,
@@ -2193,6 +2286,8 @@ export const listRecoveryPoints: API.PaginatedOperationMethod<
     items: "recoveryPoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPoints",
 })) as any;
 
 export type ListReservationOfferingsError =
@@ -2204,7 +2299,7 @@ export type ListReservationOfferingsError =
  * Returns the current reservation offerings in your account.
  */
 export const listReservationOfferings: API.PaginatedOperationMethod<
-  ListReservationOfferingsRequest,
+  ListReservationOfferingsRequest & RegionInput,
   ListReservationOfferingsResponse,
   ListReservationOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -2222,6 +2317,8 @@ export const listReservationOfferings: API.PaginatedOperationMethod<
     items: "reservationOfferingsList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReservationOfferings",
 })) as any;
 
 export type ListReservationsError =
@@ -2233,7 +2330,7 @@ export type ListReservationsError =
  * Returns a list of Reservation objects.
  */
 export const listReservations: API.PaginatedOperationMethod<
-  ListReservationsRequest,
+  ListReservationsRequest & RegionInput,
   ListReservationsResponse,
   ListReservationsError,
   Credentials | HttpClient.HttpClient,
@@ -2251,6 +2348,8 @@ export const listReservations: API.PaginatedOperationMethod<
     items: "reservationsList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReservations",
 })) as any;
 
 export type ListScheduledActionsError =
@@ -2263,7 +2362,7 @@ export type ListScheduledActionsError =
  * Returns a list of scheduled actions. You can use the flags to filter the list of returned scheduled actions.
  */
 export const listScheduledActions: API.PaginatedOperationMethod<
-  ListScheduledActionsRequest,
+  ListScheduledActionsRequest & RegionInput,
   ListScheduledActionsResponse,
   ListScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -2286,6 +2385,8 @@ export const listScheduledActions: API.PaginatedOperationMethod<
     items: "scheduledActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScheduledActions",
 })) as any;
 
 export type ListSnapshotCopyConfigurationsError =
@@ -2299,7 +2400,7 @@ export type ListSnapshotCopyConfigurationsError =
  * Returns a list of snapshot copy configurations.
  */
 export const listSnapshotCopyConfigurations: API.PaginatedOperationMethod<
-  ListSnapshotCopyConfigurationsRequest,
+  ListSnapshotCopyConfigurationsRequest & RegionInput,
   ListSnapshotCopyConfigurationsResponse,
   ListSnapshotCopyConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -2323,6 +2424,8 @@ export const listSnapshotCopyConfigurations: API.PaginatedOperationMethod<
     items: "snapshotCopyConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotCopyConfigurations",
 })) as any;
 
 export type ListSnapshotsError =
@@ -2334,7 +2437,7 @@ export type ListSnapshotsError =
  * Returns a list of snapshots.
  */
 export const listSnapshots: API.PaginatedOperationMethod<
-  ListSnapshotsRequest,
+  ListSnapshotsRequest & RegionInput,
   ListSnapshotsResponse,
   ListSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2352,6 +2455,8 @@ export const listSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSnapshots",
 })) as any;
 
 export type ListTableRestoreStatusError =
@@ -2363,7 +2468,7 @@ export type ListTableRestoreStatusError =
  * Returns information about an array of `TableRestoreStatus` objects.
  */
 export const listTableRestoreStatus: API.PaginatedOperationMethod<
-  ListTableRestoreStatusRequest,
+  ListTableRestoreStatusRequest & RegionInput,
   ListTableRestoreStatusResponse,
   ListTableRestoreStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2381,6 +2486,8 @@ export const listTableRestoreStatus: API.PaginatedOperationMethod<
     items: "tableRestoreStatuses",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTableRestoreStatus",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2393,7 +2500,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2409,6 +2516,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTracksError =
@@ -2422,7 +2531,7 @@ export type ListTracksError =
  * List the Amazon Redshift Serverless versions.
  */
 export const listTracks: API.PaginatedOperationMethod<
-  ListTracksRequest,
+  ListTracksRequest & RegionInput,
   ListTracksResponse,
   ListTracksError,
   Credentials | HttpClient.HttpClient,
@@ -2446,6 +2555,8 @@ export const listTracks: API.PaginatedOperationMethod<
     items: "tracks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTracks",
 })) as any;
 
 export type ListUsageLimitsError =
@@ -2459,7 +2570,7 @@ export type ListUsageLimitsError =
  * Lists all usage limits within Amazon Redshift Serverless.
  */
 export const listUsageLimits: API.PaginatedOperationMethod<
-  ListUsageLimitsRequest,
+  ListUsageLimitsRequest & RegionInput,
   ListUsageLimitsResponse,
   ListUsageLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -2483,6 +2594,8 @@ export const listUsageLimits: API.PaginatedOperationMethod<
     items: "usageLimits",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsageLimits",
 })) as any;
 
 export type ListWorkgroupsError = InternalServerException | ValidationException | CommonErrors;
@@ -2490,7 +2603,7 @@ export type ListWorkgroupsError = InternalServerException | ValidationException 
  * Returns information about a list of specified workgroups.
  */
 export const listWorkgroups: API.PaginatedOperationMethod<
-  ListWorkgroupsRequest,
+  ListWorkgroupsRequest & RegionInput,
   ListWorkgroupsResponse,
   ListWorkgroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2508,6 +2621,8 @@ export const listWorkgroups: API.PaginatedOperationMethod<
     items: "workgroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkgroups",
 })) as any;
 
 export type PutResourcePolicyError =
@@ -2521,7 +2636,7 @@ export type PutResourcePolicyError =
  * Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2538,6 +2653,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RestoreFromRecoveryPointError =
@@ -2550,7 +2667,7 @@ export type RestoreFromRecoveryPointError =
  * Restore the data from a recovery point.
  */
 export const restoreFromRecoveryPoint: API.OperationMethod<
-  RestoreFromRecoveryPointRequest,
+  RestoreFromRecoveryPointRequest & RegionInput,
   RestoreFromRecoveryPointResponse,
   RestoreFromRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -2566,6 +2683,8 @@ export const restoreFromRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "RestoreFromRecoveryPoint",
 }));
 
 export type RestoreFromSnapshotError =
@@ -2579,7 +2698,7 @@ export type RestoreFromSnapshotError =
  * Restores a namespace from a snapshot.
  */
 export const restoreFromSnapshot: API.OperationMethod<
-  RestoreFromSnapshotRequest,
+  RestoreFromSnapshotRequest & RegionInput,
   RestoreFromSnapshotResponse,
   RestoreFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2596,6 +2715,8 @@ export const restoreFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreFromSnapshot",
 }));
 
 export type RestoreTableFromRecoveryPointError =
@@ -2608,7 +2729,7 @@ export type RestoreTableFromRecoveryPointError =
  * Restores a table from a recovery point to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
 export const restoreTableFromRecoveryPoint: API.OperationMethod<
-  RestoreTableFromRecoveryPointRequest,
+  RestoreTableFromRecoveryPointRequest & RegionInput,
   RestoreTableFromRecoveryPointResponse,
   RestoreTableFromRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -2624,6 +2745,8 @@ export const restoreTableFromRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableFromRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "RestoreTableFromRecoveryPoint",
 }));
 
 export type RestoreTableFromSnapshotError =
@@ -2636,7 +2759,7 @@ export type RestoreTableFromSnapshotError =
  * Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
 export const restoreTableFromSnapshot: API.OperationMethod<
-  RestoreTableFromSnapshotRequest,
+  RestoreTableFromSnapshotRequest & RegionInput,
   RestoreTableFromSnapshotResponse,
   RestoreTableFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2652,6 +2775,8 @@ export const restoreTableFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreTableFromSnapshot",
 }));
 
 export type TagResourceError =
@@ -2665,7 +2790,7 @@ export type TagResourceError =
  * Assigns one or more tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2682,6 +2807,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2694,7 +2821,7 @@ export type UntagResourceError =
  * Removes a tag or set of tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2710,6 +2837,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCustomDomainAssociationError =
@@ -2724,7 +2853,7 @@ export type UpdateCustomDomainAssociationError =
  * Updates an Amazon Redshift Serverless certificate associated with a custom domain.
  */
 export const updateCustomDomainAssociation: API.OperationMethod<
-  UpdateCustomDomainAssociationRequest,
+  UpdateCustomDomainAssociationRequest & RegionInput,
   UpdateCustomDomainAssociationResponse,
   UpdateCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2742,6 +2871,8 @@ export const updateCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomDomainAssociation",
 }));
 
 export type UpdateEndpointAccessError =
@@ -2755,7 +2886,7 @@ export type UpdateEndpointAccessError =
  * Updates an Amazon Redshift Serverless managed endpoint.
  */
 export const updateEndpointAccess: API.OperationMethod<
-  UpdateEndpointAccessRequest,
+  UpdateEndpointAccessRequest & RegionInput,
   UpdateEndpointAccessResponse,
   UpdateEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2772,6 +2903,8 @@ export const updateEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpointAccess",
 }));
 
 export type UpdateLakehouseConfigurationError =
@@ -2785,7 +2918,7 @@ export type UpdateLakehouseConfigurationError =
  * Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
 export const updateLakehouseConfiguration: API.OperationMethod<
-  UpdateLakehouseConfigurationRequest,
+  UpdateLakehouseConfigurationRequest & RegionInput,
   UpdateLakehouseConfigurationResponse,
   UpdateLakehouseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2802,6 +2935,8 @@ export const updateLakehouseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLakehouseConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLakehouseConfiguration",
 }));
 
 export type UpdateNamespaceError =
@@ -2816,7 +2951,7 @@ export type UpdateNamespaceError =
  * Similarly, an S3 Tables log-publishing update (a request where `logDestinationType` is `s3table`) cannot be combined with any other namespace configuration change and must be submitted as its own request.
  */
 export const updateNamespace: API.OperationMethod<
-  UpdateNamespaceRequest,
+  UpdateNamespaceRequest & RegionInput,
   UpdateNamespaceResponse,
   UpdateNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -2832,6 +2967,8 @@ export const updateNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNamespace",
+  telemetry: TELEMETRY,
+  span: "UpdateNamespace",
 }));
 
 export type UpdateScheduledActionError =
@@ -2844,7 +2981,7 @@ export type UpdateScheduledActionError =
  * Updates a scheduled action.
  */
 export const updateScheduledAction: API.OperationMethod<
-  UpdateScheduledActionRequest,
+  UpdateScheduledActionRequest & RegionInput,
   UpdateScheduledActionResponse,
   UpdateScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -2860,6 +2997,8 @@ export const updateScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledAction",
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledAction",
 }));
 
 export type UpdateSnapshotError =
@@ -2872,7 +3011,7 @@ export type UpdateSnapshotError =
  * Updates a snapshot.
  */
 export const updateSnapshot: API.OperationMethod<
-  UpdateSnapshotRequest,
+  UpdateSnapshotRequest & RegionInput,
   UpdateSnapshotResponse,
   UpdateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2888,6 +3027,8 @@ export const updateSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSnapshot",
+  telemetry: TELEMETRY,
+  span: "UpdateSnapshot",
 }));
 
 export type UpdateSnapshotCopyConfigurationError =
@@ -2901,7 +3042,7 @@ export type UpdateSnapshotCopyConfigurationError =
  * Updates a snapshot copy configuration.
  */
 export const updateSnapshotCopyConfiguration: API.OperationMethod<
-  UpdateSnapshotCopyConfigurationRequest,
+  UpdateSnapshotCopyConfigurationRequest & RegionInput,
   UpdateSnapshotCopyConfigurationResponse,
   UpdateSnapshotCopyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2918,6 +3059,8 @@ export const updateSnapshotCopyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSnapshotCopyConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSnapshotCopyConfiguration",
 }));
 
 export type UpdateUsageLimitError =
@@ -2930,7 +3073,7 @@ export type UpdateUsageLimitError =
  * Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit.
  */
 export const updateUsageLimit: API.OperationMethod<
-  UpdateUsageLimitRequest,
+  UpdateUsageLimitRequest & RegionInput,
   UpdateUsageLimitResponse,
   UpdateUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -2946,6 +3089,8 @@ export const updateUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUsageLimit",
+  telemetry: TELEMETRY,
+  span: "UpdateUsageLimit",
 }));
 
 export type UpdateWorkgroupError =
@@ -2970,7 +3115,7 @@ export type UpdateWorkgroupError =
  * For more information about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
 export const updateWorkgroup: API.OperationMethod<
-  UpdateWorkgroupRequest,
+  UpdateWorkgroupRequest & RegionInput,
   UpdateWorkgroupResponse,
   UpdateWorkgroupError,
   Credentials | HttpClient.HttpClient
@@ -2988,6 +3133,8 @@ export const updateWorkgroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkgroup",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkgroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

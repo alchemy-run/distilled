@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -78,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.pricing.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Pricing",
+  service: "Pricing",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -242,7 +259,7 @@ export type DescribeServicesError =
  * Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as `AmazonEC2`, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are `volumeType`, `maxIopsVolume`, `operation`, `locationType`, and `instanceCapacity10xlarge`.
  */
 export const describeServices: API.PaginatedOperationMethod<
-  DescribeServicesRequest,
+  DescribeServicesRequest & RegionInput,
   DescribeServicesResponse,
   DescribeServicesError,
   Credentials | HttpClient.HttpClient,
@@ -268,6 +285,8 @@ export const describeServices: API.PaginatedOperationMethod<
     items: "Services",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServices",
 })) as any;
 
 export type GetAttributeValuesError =
@@ -283,7 +302,7 @@ export type GetAttributeValuesError =
  * Returns a list of attribute values. Attributes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the Billing and Cost Management User Guide.
  */
 export const getAttributeValues: API.PaginatedOperationMethod<
-  GetAttributeValuesRequest,
+  GetAttributeValuesRequest & RegionInput,
   GetAttributeValuesResponse,
   GetAttributeValuesError,
   Credentials | HttpClient.HttpClient,
@@ -309,6 +328,8 @@ export const getAttributeValues: API.PaginatedOperationMethod<
     items: "AttributeValues",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAttributeValues",
 })) as any;
 
 export type GetPriceListFileUrlError =
@@ -325,7 +346,7 @@ export type GetPriceListFileUrlError =
  * This returns the URL that you can retrieve your Price List file from. This URL is based on the `PriceListArn` and `FileFormat` that you retrieve from the ListPriceLists response.
  */
 export const getPriceListFileUrl: API.OperationMethod<
-  GetPriceListFileUrlRequest,
+  GetPriceListFileUrlRequest & RegionInput,
   GetPriceListFileUrlResponse,
   GetPriceListFileUrlError,
   Credentials | HttpClient.HttpClient
@@ -343,6 +364,8 @@ export const getPriceListFileUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPriceListFileUrl",
+  telemetry: TELEMETRY,
+  span: "GetPriceListFileUrl",
 }));
 
 export type GetProductsError =
@@ -358,7 +381,7 @@ export type GetProductsError =
  * Returns a list of all products that match the filter criteria.
  */
 export const getProducts: API.PaginatedOperationMethod<
-  GetProductsRequest,
+  GetProductsRequest & RegionInput,
   GetProductsResponse,
   GetProductsError,
   Credentials | HttpClient.HttpClient,
@@ -384,6 +407,8 @@ export const getProducts: API.PaginatedOperationMethod<
     items: "PriceList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetProducts",
 })) as any;
 
 export type ListPriceListsError =
@@ -402,7 +427,7 @@ export type ListPriceListsError =
  * This returns a list of Price List references that the requester if authorized to view, given a `ServiceCode`, `CurrencyCode`, and an `EffectiveDate`. Use without a `RegionCode` filter to list Price List references from all available Amazon Web Services Regions. Use with a `RegionCode` filter to get the Price List reference that's specific to a specific Amazon Web Services Region. You can use the `PriceListArn` from the response to get your preferred Price List files through the GetPriceListFileUrl API.
  */
 export const listPriceLists: API.PaginatedOperationMethod<
-  ListPriceListsRequest,
+  ListPriceListsRequest & RegionInput,
   ListPriceListsResponse,
   ListPriceListsError,
   Credentials | HttpClient.HttpClient,
@@ -429,6 +454,8 @@ export const listPriceLists: API.PaginatedOperationMethod<
     items: "PriceLists",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPriceLists",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

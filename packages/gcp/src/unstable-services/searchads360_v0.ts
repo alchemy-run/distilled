@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "searchads360" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Searchads360",
+  service: "searchads360",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3807,6 +3826,8 @@ export const getCustomersCustomColumns: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersCustomColumns",
 }));
 
 export type GetSearchAds360FieldsError = NotFound | Forbidden | GcpOpError;
@@ -3822,6 +3843,8 @@ export const getSearchAds360Fields: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSearchAds360Fields",
 }));
 
 export type ListAccessibleCustomersCustomersError = NotFound | Forbidden | GcpOpError;
@@ -3841,6 +3864,8 @@ export const listAccessibleCustomersCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessibleCustomersCustomers",
 }));
 
 export type ListCustomersCustomColumnsError = NotFound | Forbidden | GcpOpError;
@@ -3860,6 +3885,8 @@ export const listCustomersCustomColumns: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersCustomColumns",
 }));
 
 export type SearchCustomersSearchAds360Error =
@@ -3884,6 +3911,8 @@ export const searchCustomersSearchAds360: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCustomersSearchAds360",
 }));
 
 export type SearchSearchAds360FieldsError =
@@ -3908,6 +3937,8 @@ export const searchSearchAds360Fields: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSearchAds360Fields",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "fcm" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Fcm",
+  service: "fcm",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -346,6 +365,8 @@ export const createProjectsRegistrationsTopicSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsRegistrationsTopicSubscriptions",
 }));
 
 export type DeleteProjectsRegistrationsTopicSubscriptionsError =
@@ -366,6 +387,8 @@ export const deleteProjectsRegistrationsTopicSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsRegistrationsTopicSubscriptions",
 }));
 
 export type GetProjectsRegistrationsTopicSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -381,6 +404,8 @@ export const getProjectsRegistrationsTopicSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsRegistrationsTopicSubscriptions",
 }));
 
 export type ListProjectsRegistrationsTopicSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -397,6 +422,8 @@ export const listProjectsRegistrationsTopicSubscriptions: API.PaginatedOperation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsRegistrationsTopicSubscriptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -418,6 +445,8 @@ export const patchProjectsRegistrationsTopicSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsRegistrationsTopicSubscriptions",
 }));
 
 export type SendProjectsMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -433,6 +462,8 @@ export const sendProjectsMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendProjectsMessages",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

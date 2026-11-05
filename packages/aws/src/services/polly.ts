@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -8,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://polly.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Polly",
+  service: "Polly",
+  propagate: TxXray.propagate,
+} as const;
 
 export class EngineNotSupportedException
   extends /*@__PURE__*/ S.TaggedError<EngineNotSupportedException>()(
@@ -676,7 +692,7 @@ export type DeleteLexiconError = LexiconNotFoundException | ServiceFailureExcept
  * For more information, see Managing Lexicons.
  */
 export const deleteLexicon: API.OperationMethod<
-  DeleteLexiconInput,
+  DeleteLexiconInput & RegionInput,
   DeleteLexiconOutput,
   DeleteLexiconError,
   Credentials | HttpClient.HttpClient
@@ -687,6 +703,8 @@ export const deleteLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLexicon",
+  telemetry: TELEMETRY,
+  span: "DeleteLexicon",
 }));
 
 export type DescribeVoicesError =
@@ -716,7 +734,7 @@ export type DescribeVoicesError =
  * `polly:DescribeVoices` action.
  */
 export const describeVoices: API.OperationMethod<
-  DescribeVoicesInput,
+  DescribeVoicesInput & RegionInput,
   DescribeVoicesOutput,
   DescribeVoicesError,
   Credentials | HttpClient.HttpClient
@@ -727,6 +745,8 @@ export const describeVoices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVoices",
+  telemetry: TELEMETRY,
+  span: "DescribeVoices",
 }));
 
 export type GetLexiconError = LexiconNotFoundException | ServiceFailureException | CommonErrors;
@@ -735,7 +755,7 @@ export type GetLexiconError = LexiconNotFoundException | ServiceFailureException
  * in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
 export const getLexicon: API.OperationMethod<
-  GetLexiconInput,
+  GetLexiconInput & RegionInput,
   GetLexiconOutput,
   GetLexiconError,
   Credentials | HttpClient.HttpClient
@@ -746,6 +766,8 @@ export const getLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLexicon",
+  telemetry: TELEMETRY,
+  span: "GetLexicon",
 }));
 
 export type GetSpeechSynthesisTaskError =
@@ -760,7 +782,7 @@ export type GetSpeechSynthesisTaskError =
  * the output of the task.
  */
 export const getSpeechSynthesisTask: API.OperationMethod<
-  GetSpeechSynthesisTaskInput,
+  GetSpeechSynthesisTaskInput & RegionInput,
   GetSpeechSynthesisTaskOutput,
   GetSpeechSynthesisTaskError,
   Credentials | HttpClient.HttpClient
@@ -771,6 +793,8 @@ export const getSpeechSynthesisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeechSynthesisTask",
+  telemetry: TELEMETRY,
+  span: "GetSpeechSynthesisTask",
 }));
 
 export type ListLexiconsError = InvalidNextTokenException | ServiceFailureException | CommonErrors;
@@ -778,7 +802,7 @@ export type ListLexiconsError = InvalidNextTokenException | ServiceFailureExcept
  * Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
 export const listLexicons: API.OperationMethod<
-  ListLexiconsInput,
+  ListLexiconsInput & RegionInput,
   ListLexiconsOutput,
   ListLexiconsError,
   Credentials | HttpClient.HttpClient
@@ -789,6 +813,8 @@ export const listLexicons: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLexicons",
+  telemetry: TELEMETRY,
+  span: "ListLexicons",
 }));
 
 export type ListSpeechSynthesisTasksError =
@@ -801,7 +827,7 @@ export type ListSpeechSynthesisTasksError =
  * example, allowing users to list only tasks that are completed.
  */
 export const listSpeechSynthesisTasks: API.PaginatedOperationMethod<
-  ListSpeechSynthesisTasksInput,
+  ListSpeechSynthesisTasksInput & RegionInput,
   ListSpeechSynthesisTasksOutput,
   ListSpeechSynthesisTasksError,
   Credentials | HttpClient.HttpClient,
@@ -818,6 +844,8 @@ export const listSpeechSynthesisTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpeechSynthesisTasks",
 })) as any;
 
 export type PutLexiconError =
@@ -839,7 +867,7 @@ export type PutLexiconError =
  * For more information, see Managing Lexicons.
  */
 export const putLexicon: API.OperationMethod<
-  PutLexiconInput,
+  PutLexiconInput & RegionInput,
   PutLexiconOutput,
   PutLexiconError,
   Credentials | HttpClient.HttpClient
@@ -858,6 +886,8 @@ export const putLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLexicon",
+  telemetry: TELEMETRY,
+  span: "PutLexicon",
 }));
 
 export type StartSpeechSynthesisStreamError =
@@ -876,7 +906,7 @@ export type StartSpeechSynthesisStreamError =
  * - SynthesizeSpeech
  */
 export const startSpeechSynthesisStream: API.OperationMethod<
-  StartSpeechSynthesisStreamInput,
+  StartSpeechSynthesisStreamInput & RegionInput,
   StartSpeechSynthesisStreamOutput,
   StartSpeechSynthesisStreamError,
   Credentials | HttpClient.HttpClient
@@ -892,6 +922,8 @@ export const startSpeechSynthesisStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisStream",
+  telemetry: TELEMETRY,
+  span: "StartSpeechSynthesisStream",
 }));
 
 export type StartSpeechSynthesisTaskError =
@@ -921,7 +953,7 @@ export type StartSpeechSynthesisTaskError =
  * starting the asynchronous synthesis task.
  */
 export const startSpeechSynthesisTask: API.OperationMethod<
-  StartSpeechSynthesisTaskInput,
+  StartSpeechSynthesisTaskInput & RegionInput,
   StartSpeechSynthesisTaskOutput,
   StartSpeechSynthesisTaskError,
   Credentials | HttpClient.HttpClient
@@ -945,6 +977,8 @@ export const startSpeechSynthesisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisTask",
+  telemetry: TELEMETRY,
+  span: "StartSpeechSynthesisTask",
 }));
 
 export type SynthesizeSpeechError =
@@ -966,7 +1000,7 @@ export type SynthesizeSpeechError =
  * information, see How it Works.
  */
 export const synthesizeSpeech: API.OperationMethod<
-  SynthesizeSpeechInput,
+  SynthesizeSpeechInput & RegionInput,
   SynthesizeSpeechOutput,
   SynthesizeSpeechError,
   Credentials | HttpClient.HttpClient
@@ -987,6 +1021,8 @@ export const synthesizeSpeech: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SynthesizeSpeech",
+  telemetry: TELEMETRY,
+  span: "SynthesizeSpeech",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

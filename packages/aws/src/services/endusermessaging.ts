@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://end-user-messaging.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EndUserMessaging",
+  service: "EndUserMessaging",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -628,7 +644,7 @@ export type CreateBrandProfileError =
  * Creates a brand profile. A brand profile is a lightweight container that holds your brand identity information as flexible attributes. After you create a brand profile, use the CreateBrandProfileAttributes operation to add company information, addresses, compliance documents, and logos.
  */
 export const createBrandProfile: API.OperationMethod<
-  CreateBrandProfileInput,
+  CreateBrandProfileInput & RegionInput,
   CreateBrandProfileOutput,
   CreateBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -646,6 +662,8 @@ export const createBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrandProfile",
+  telemetry: TELEMETRY,
+  span: "CreateBrandProfile",
 }));
 
 export type CreateBrandProfileAttributesError =
@@ -661,7 +679,7 @@ export type CreateBrandProfileAttributesError =
  * Creates up to 10 attributes for a brand profile in a single request. For attributes of type IMAGE or DOCUMENT, the response includes a presigned Amazon S3 URL that you use to upload the media. This operation is atomic: either all of the attributes are created, or none of them are.
  */
 export const createBrandProfileAttributes: API.OperationMethod<
-  CreateBrandProfileAttributesInput,
+  CreateBrandProfileAttributesInput & RegionInput,
   CreateBrandProfileAttributesOutput,
   CreateBrandProfileAttributesError,
   Credentials | HttpClient.HttpClient
@@ -680,6 +698,8 @@ export const createBrandProfileAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrandProfileAttributes",
+  telemetry: TELEMETRY,
+  span: "CreateBrandProfileAttributes",
 }));
 
 export type CreateBrandProfileFromRegistrationError =
@@ -695,7 +715,7 @@ export type CreateBrandProfileFromRegistrationError =
  * Creates a brand profile and populates its attributes from an existing registration. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const createBrandProfileFromRegistration: API.OperationMethod<
-  CreateBrandProfileFromRegistrationInput,
+  CreateBrandProfileFromRegistrationInput & RegionInput,
   CreateBrandProfileFromRegistrationOutput,
   CreateBrandProfileFromRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -714,6 +734,8 @@ export const createBrandProfileFromRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrandProfileFromRegistration",
+  telemetry: TELEMETRY,
+  span: "CreateBrandProfileFromRegistration",
 }));
 
 export type CreateNotifyCodeConfigurationError =
@@ -728,7 +750,7 @@ export type CreateNotifyCodeConfigurationError =
  * Creates a notify code configuration. A notify code configuration is a reusable policy that defines how one-time passcodes are generated and rendered, including the code type, length, validity period, maximum number of attempts, and channel templates.
  */
 export const createNotifyCodeConfiguration: API.OperationMethod<
-  CreateNotifyCodeConfigurationInput,
+  CreateNotifyCodeConfigurationInput & RegionInput,
   CreateNotifyCodeConfigurationOutput,
   CreateNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -746,6 +768,8 @@ export const createNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotifyCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateNotifyCodeConfiguration",
 }));
 
 export type CreateRegistrationsFromBrandProfileError =
@@ -760,7 +784,7 @@ export type CreateRegistrationsFromBrandProfileError =
  * Creates one or more registrations in the DRAFT state and prefills their fields from the attributes of a brand profile. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const createRegistrationsFromBrandProfile: API.OperationMethod<
-  CreateRegistrationsFromBrandProfileInput,
+  CreateRegistrationsFromBrandProfileInput & RegionInput,
   CreateRegistrationsFromBrandProfileOutput,
   CreateRegistrationsFromBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -778,6 +802,8 @@ export const createRegistrationsFromBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistrationsFromBrandProfile",
+  telemetry: TELEMETRY,
+  span: "CreateRegistrationsFromBrandProfile",
 }));
 
 export type DeleteBrandProfileError =
@@ -792,7 +818,7 @@ export type DeleteBrandProfileError =
  * Deletes a brand profile. This operation also deletes the attributes of the profile and any associated media. The request fails if deletion protection is enabled for the profile.
  */
 export const deleteBrandProfile: API.OperationMethod<
-  DeleteBrandProfileInput,
+  DeleteBrandProfileInput & RegionInput,
   DeleteBrandProfileOutput,
   DeleteBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -810,6 +836,8 @@ export const deleteBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrandProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteBrandProfile",
 }));
 
 export type DeleteBrandProfileAttributeError =
@@ -824,7 +852,7 @@ export type DeleteBrandProfileAttributeError =
  * Deletes a brand profile attribute. If the attribute stores media, this operation also deletes the associated media.
  */
 export const deleteBrandProfileAttribute: API.OperationMethod<
-  DeleteBrandProfileAttributeInput,
+  DeleteBrandProfileAttributeInput & RegionInput,
   DeleteBrandProfileAttributeOutput,
   DeleteBrandProfileAttributeError,
   Credentials | HttpClient.HttpClient
@@ -842,6 +870,8 @@ export const deleteBrandProfileAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrandProfileAttribute",
+  telemetry: TELEMETRY,
+  span: "DeleteBrandProfileAttribute",
 }));
 
 export type DeleteNotifyCodeConfigurationError =
@@ -856,7 +886,7 @@ export type DeleteNotifyCodeConfigurationError =
  * Deletes a notify code configuration. Verifications that are already in progress are not affected, because they capture the policy at the time that the passcode was sent.
  */
 export const deleteNotifyCodeConfiguration: API.OperationMethod<
-  DeleteNotifyCodeConfigurationInput,
+  DeleteNotifyCodeConfigurationInput & RegionInput,
   DeleteNotifyCodeConfigurationOutput,
   DeleteNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -874,6 +904,8 @@ export const deleteNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotifyCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteNotifyCodeConfiguration",
 }));
 
 export type GetBrandProfileError =
@@ -887,7 +919,7 @@ export type GetBrandProfileError =
  * Retrieves the metadata for a brand profile, including its name, status, deletion protection setting, and timestamps. To retrieve the attributes of the profile, use the ListBrandProfileAttributes operation.
  */
 export const getBrandProfile: API.OperationMethod<
-  GetBrandProfileInput,
+  GetBrandProfileInput & RegionInput,
   GetBrandProfileOutput,
   GetBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -904,6 +936,8 @@ export const getBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrandProfile",
+  telemetry: TELEMETRY,
+  span: "GetBrandProfile",
 }));
 
 export type GetBrandProfileAttributeError =
@@ -917,7 +951,7 @@ export type GetBrandProfileAttributeError =
  * Retrieves a single brand profile attribute.
  */
 export const getBrandProfileAttribute: API.OperationMethod<
-  GetBrandProfileAttributeInput,
+  GetBrandProfileAttributeInput & RegionInput,
   GetBrandProfileAttributeOutput,
   GetBrandProfileAttributeError,
   Credentials | HttpClient.HttpClient
@@ -934,6 +968,8 @@ export const getBrandProfileAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrandProfileAttribute",
+  telemetry: TELEMETRY,
+  span: "GetBrandProfileAttribute",
 }));
 
 export type GetJobError =
@@ -947,7 +983,7 @@ export type GetJobError =
  * Retrieves the current state of an asynchronous job, including its status and any resources that it created or updated.
  */
 export const getJob: API.OperationMethod<
-  GetJobInput,
+  GetJobInput & RegionInput,
   Job,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -964,6 +1000,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetNotifyCodeConfigurationError =
@@ -977,7 +1015,7 @@ export type GetNotifyCodeConfigurationError =
  * Retrieves a notify code configuration.
  */
 export const getNotifyCodeConfiguration: API.OperationMethod<
-  GetNotifyCodeConfigurationInput,
+  GetNotifyCodeConfigurationInput & RegionInput,
   GetNotifyCodeConfigurationOutput,
   GetNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -994,6 +1032,8 @@ export const getNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotifyCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetNotifyCodeConfiguration",
 }));
 
 export type ListBrandProfileAttributesError =
@@ -1007,7 +1047,7 @@ export type ListBrandProfileAttributesError =
  * Retrieves a paginated list of the attributes for a brand profile.
  */
 export const listBrandProfileAttributes: API.PaginatedOperationMethod<
-  ListBrandProfileAttributesInput,
+  ListBrandProfileAttributesInput & RegionInput,
   ListBrandProfileAttributesOutput,
   ListBrandProfileAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -1031,6 +1071,8 @@ export const listBrandProfileAttributes: API.PaginatedOperationMethod<
     items: "brandProfileAttributes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBrandProfileAttributes",
 })) as any;
 
 export type ListBrandProfilesError =
@@ -1043,7 +1085,7 @@ export type ListBrandProfilesError =
  * Retrieves a paginated list of the brand profiles in your account. Use the nextToken parameter to retrieve additional results.
  */
 export const listBrandProfiles: API.PaginatedOperationMethod<
-  ListBrandProfilesInput,
+  ListBrandProfilesInput & RegionInput,
   ListBrandProfilesOutput,
   ListBrandProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1066,6 +1108,8 @@ export const listBrandProfiles: API.PaginatedOperationMethod<
     items: "brandProfiles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBrandProfiles",
 })) as any;
 
 export type ListJobsError =
@@ -1078,7 +1122,7 @@ export type ListJobsError =
  * Retrieves a paginated list of the asynchronous jobs in your account. You can filter the results by status, brand profile, or operation type.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsInput,
+  ListJobsInput & RegionInput,
   ListJobsOutput,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1101,6 +1145,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListNotifyCodeConfigurationsError =
@@ -1113,7 +1159,7 @@ export type ListNotifyCodeConfigurationsError =
  * Retrieves a paginated list of the notify code configurations in your account.
  */
 export const listNotifyCodeConfigurations: API.PaginatedOperationMethod<
-  ListNotifyCodeConfigurationsInput,
+  ListNotifyCodeConfigurationsInput & RegionInput,
   ListNotifyCodeConfigurationsOutput,
   ListNotifyCodeConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1136,6 +1182,8 @@ export const listNotifyCodeConfigurations: API.PaginatedOperationMethod<
     items: "notifyCodeConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotifyCodeConfigurations",
 })) as any;
 
 export type ListRegistrationsFromBrandProfileError =
@@ -1149,7 +1197,7 @@ export type ListRegistrationsFromBrandProfileError =
  * Retrieves a paginated list of the registrations that were created from a brand profile through the synchronization operations.
  */
 export const listRegistrationsFromBrandProfile: API.PaginatedOperationMethod<
-  ListRegistrationsFromBrandProfileInput,
+  ListRegistrationsFromBrandProfileInput & RegionInput,
   ListRegistrationsFromBrandProfileOutput,
   ListRegistrationsFromBrandProfileError,
   Credentials | HttpClient.HttpClient,
@@ -1173,6 +1221,8 @@ export const listRegistrationsFromBrandProfile: API.PaginatedOperationMethod<
     items: "registrationAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegistrationsFromBrandProfile",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1186,7 +1236,7 @@ export type ListTagsForResourceError =
  * Retrieves the tags that are associated with a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1203,6 +1253,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SendNotifyCodeVerificationError =
@@ -1218,7 +1270,7 @@ export type SendNotifyCodeVerificationError =
  * Generates a one-time passcode and delivers it to a recipient over the requested channel. The passcode policy is captured from the referenced notify code configuration at the time of the request, so later updates to the configuration do not affect verifications that are already in progress.
  */
 export const sendNotifyCodeVerification: API.OperationMethod<
-  SendNotifyCodeVerificationInput,
+  SendNotifyCodeVerificationInput & RegionInput,
   SendNotifyCodeVerificationOutput,
   SendNotifyCodeVerificationError,
   Credentials | HttpClient.HttpClient
@@ -1237,6 +1289,8 @@ export const sendNotifyCodeVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendNotifyCodeVerification",
+  telemetry: TELEMETRY,
+  span: "SendNotifyCodeVerification",
 }));
 
 export type TagResourceError =
@@ -1251,7 +1305,7 @@ export type TagResourceError =
  * Adds or overwrites the tags on a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1269,6 +1323,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1282,7 +1338,7 @@ export type UntagResourceError =
  * Removes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1299,6 +1355,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBrandProfileError =
@@ -1313,7 +1371,7 @@ export type UpdateBrandProfileError =
  * Updates the name or the deletion protection setting of a brand profile. To change the information that is stored in the profile, use the brand profile attribute operations.
  */
 export const updateBrandProfile: API.OperationMethod<
-  UpdateBrandProfileInput,
+  UpdateBrandProfileInput & RegionInput,
   UpdateBrandProfileOutput,
   UpdateBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -1331,6 +1389,8 @@ export const updateBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateBrandProfile",
 }));
 
 export type UpdateBrandProfileAttributeError =
@@ -1345,7 +1405,7 @@ export type UpdateBrandProfileAttributeError =
  * Updates the value, description, or category of an existing brand profile attribute.
  */
 export const updateBrandProfileAttribute: API.OperationMethod<
-  UpdateBrandProfileAttributeInput,
+  UpdateBrandProfileAttributeInput & RegionInput,
   UpdateBrandProfileAttributeOutput,
   UpdateBrandProfileAttributeError,
   Credentials | HttpClient.HttpClient
@@ -1363,6 +1423,8 @@ export const updateBrandProfileAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandProfileAttribute",
+  telemetry: TELEMETRY,
+  span: "UpdateBrandProfileAttribute",
 }));
 
 export type UpdateBrandProfileFromRegistrationError =
@@ -1377,7 +1439,7 @@ export type UpdateBrandProfileFromRegistrationError =
  * Imports or refreshes the attributes of an existing brand profile from an existing registration. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const updateBrandProfileFromRegistration: API.OperationMethod<
-  UpdateBrandProfileFromRegistrationInput,
+  UpdateBrandProfileFromRegistrationInput & RegionInput,
   UpdateBrandProfileFromRegistrationOutput,
   UpdateBrandProfileFromRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1395,6 +1457,8 @@ export const updateBrandProfileFromRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandProfileFromRegistration",
+  telemetry: TELEMETRY,
+  span: "UpdateBrandProfileFromRegistration",
 }));
 
 export type UpdateNotifyCodeConfigurationError =
@@ -1409,7 +1473,7 @@ export type UpdateNotifyCodeConfigurationError =
  * Updates the mutable fields of a notify code configuration. Only the fields that you supply are changed. For the template and language fields, supplying an empty value clears the currently stored value.
  */
 export const updateNotifyCodeConfiguration: API.OperationMethod<
-  UpdateNotifyCodeConfigurationInput,
+  UpdateNotifyCodeConfigurationInput & RegionInput,
   UpdateNotifyCodeConfigurationOutput,
   UpdateNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1427,6 +1491,8 @@ export const updateNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotifyCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateNotifyCodeConfiguration",
 }));
 
 export type UpdateRegistrationsFromBrandProfileError =
@@ -1441,7 +1507,7 @@ export type UpdateRegistrationsFromBrandProfileError =
  * Repushes the attributes of a brand profile into existing DRAFT registrations. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const updateRegistrationsFromBrandProfile: API.OperationMethod<
-  UpdateRegistrationsFromBrandProfileInput,
+  UpdateRegistrationsFromBrandProfileInput & RegionInput,
   UpdateRegistrationsFromBrandProfileOutput,
   UpdateRegistrationsFromBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -1459,6 +1525,8 @@ export const updateRegistrationsFromBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistrationsFromBrandProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateRegistrationsFromBrandProfile",
 }));
 
 export type ValidateNotifyCodeVerificationError =
@@ -1471,7 +1539,7 @@ export type ValidateNotifyCodeVerificationError =
  * Validates a one-time passcode that a recipient submitted. Validation succeeds when the passcode matches, the validity period has not elapsed, and the maximum number of attempts has not been exceeded.
  */
 export const validateNotifyCodeVerification: API.OperationMethod<
-  ValidateNotifyCodeVerificationInput,
+  ValidateNotifyCodeVerificationInput & RegionInput,
   ValidateNotifyCodeVerificationOutput,
   ValidateNotifyCodeVerificationError,
   Credentials | HttpClient.HttpClient
@@ -1487,6 +1555,8 @@ export const validateNotifyCodeVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateNotifyCodeVerification",
+  telemetry: TELEMETRY,
+  span: "ValidateNotifyCodeVerification",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

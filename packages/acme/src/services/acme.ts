@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { AcmeOpError, AcmeOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "acme-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Acme",
+  service: "Acme",
+  labels: "acme",
+  propagate: "w3c",
+} as const;
+
 /** The request specified an account that does not exist. */
 export class AcmeAccountDoesNotExist
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -525,6 +538,8 @@ export const deactivateAuthorization: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateAuthorization",
 }));
 
 export type DownloadCertificateError =
@@ -554,6 +569,8 @@ export const downloadCertificate: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadCertificate",
 }));
 
 export type FinalizeOrderError =
@@ -587,6 +604,8 @@ export const finalizeOrder: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FinalizeOrder",
 }));
 
 export type GetAuthorizationError =
@@ -616,6 +635,8 @@ export const getAuthorization: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorization",
 }));
 
 export type GetDirectoryError = AcmeOpError;
@@ -631,6 +652,8 @@ export const getDirectory: API.OperationMethod<
   errors: [],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDirectory",
 }));
 
 export type GetOrderError =
@@ -660,6 +683,8 @@ export const getOrder: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrder",
 }));
 
 export type NewAccountError =
@@ -701,6 +726,8 @@ export const newAccount: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NewAccount",
 }));
 
 export type NewNonceError = AcmeOpError;
@@ -716,6 +743,8 @@ export const newNonce: API.OperationMethod<
   errors: [],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NewNonce",
 }));
 
 export type NewOrderError =
@@ -751,6 +780,8 @@ export const newOrder: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NewOrder",
 }));
 
 export type RespondChallengeError =
@@ -790,6 +821,8 @@ export const respondChallenge: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RespondChallenge",
 }));
 
 export type RevokeCertificateError =
@@ -823,6 +856,8 @@ export const revokeCertificate: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCertificate",
 }));
 
 export type UpdateAccountError =
@@ -856,6 +891,8 @@ export const updateAccount: API.OperationMethod<
   ],
   protocol: AcmeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

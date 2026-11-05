@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "AnalyticsQuery",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type DataSecurityContentFindingsTopNRequestFiltersItemValuesItem = string | number | boolean;
 export type DataSecurityContentFindingsTopNRequestFiltersItemValuesList =
   Array<DataSecurityContentFindingsTopNRequestFiltersItemValuesItem>;
@@ -239,6 +253,8 @@ export const dataSecurityContentFindingsTopN: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataSecurityContentFindingsTopN",
 }));
 
 export type DataSecurityFindingsSummaryError = CloudflareOpError;
@@ -254,6 +270,8 @@ export const dataSecurityFindingsSummary: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataSecurityFindingsSummary",
 }));
 
 export type DataSecurityFindingsTimeseriesError = CloudflareOpError;
@@ -269,6 +287,8 @@ export const dataSecurityFindingsTimeseries: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataSecurityFindingsTimeseries",
 }));
 
 export type SummaryError = CloudflareOpError;
@@ -284,6 +304,8 @@ export const summary: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Summary",
 }));
 
 export type TimeseriesError = CloudflareOpError;
@@ -299,6 +321,8 @@ export const timeseries: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Timeseries",
 }));
 
 export type TopNError = CloudflareOpError;
@@ -310,6 +334,8 @@ export const topN: API.OperationMethod<TopNRequest, TopNResponse, TopNError, Clo
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "TopN",
   }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

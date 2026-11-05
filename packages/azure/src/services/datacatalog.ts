@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DataCatalog" },
+  prefix: "Datacatalog",
+  service: "Datacatalog",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Resource tags */
 export type ADCCatalogsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Azure data catalog SKU. */
@@ -217,6 +238,8 @@ export const ADCCatalogsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ADCCatalogsCreateOrUpdate",
 }));
 
 export type ADCCatalogsListtByResourceGroupError = AzureOpError;
@@ -232,6 +255,8 @@ export const ADCCatalogsListtByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ADCCatalogsListtByResourceGroup",
 }));
 
 export type DeleteADCCatalogError = AzureOpError;
@@ -247,6 +272,8 @@ export const DeleteADCCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteADCCatalog",
 }));
 
 export type GetADCCatalogError = AzureOpError;
@@ -262,6 +289,8 @@ export const GetADCCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetADCCatalog",
 }));
 
 export type ListADCOperationsError = AzureOpError;
@@ -277,6 +306,8 @@ export const ListADCOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListADCOperations",
 }));
 
 export type UpdateADCCatalogError = AzureOpError;
@@ -292,6 +323,8 @@ export const UpdateADCCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateADCCatalog",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

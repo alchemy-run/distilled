@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -74,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ssm.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SSM",
+  service: "SSM",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -5307,7 +5324,7 @@ export type AddTagsToResourceError =
  * resources in the *Amazon EC2 User Guide*.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceRequest,
+  AddTagsToResourceRequest & RegionInput,
   AddTagsToResourceResult,
   AddTagsToResourceError,
   Creds | HttpClient.HttpClient
@@ -5324,6 +5341,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type AssociateOpsItemRelatedItemError =
@@ -5340,7 +5359,7 @@ export type AssociateOpsItemRelatedItemError =
  * Amazon Web Services Systems Manager.
  */
 export const associateOpsItemRelatedItem: API.OperationMethod<
-  AssociateOpsItemRelatedItemRequest,
+  AssociateOpsItemRelatedItemRequest & RegionInput,
   AssociateOpsItemRelatedItemResponse,
   AssociateOpsItemRelatedItemError,
   Creds | HttpClient.HttpClient
@@ -5358,6 +5377,8 @@ export const associateOpsItemRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOpsItemRelatedItem",
+  telemetry: TELEMETRY,
+  span: "AssociateOpsItemRelatedItem",
 }));
 
 export type CancelCommandError =
@@ -5371,7 +5392,7 @@ export type CancelCommandError =
  * command will be terminated and the underlying process stopped.
  */
 export const cancelCommand: API.OperationMethod<
-  CancelCommandRequest,
+  CancelCommandRequest & RegionInput,
   CancelCommandResult,
   CancelCommandError,
   Creds | HttpClient.HttpClient
@@ -5382,6 +5403,8 @@ export const cancelCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCommand",
+  telemetry: TELEMETRY,
+  span: "CancelCommand",
 }));
 
 export type CancelMaintenanceWindowExecutionError =
@@ -5394,7 +5417,7 @@ export type CancelMaintenanceWindowExecutionError =
  * completion.
  */
 export const cancelMaintenanceWindowExecution: API.OperationMethod<
-  CancelMaintenanceWindowExecutionRequest,
+  CancelMaintenanceWindowExecutionRequest & RegionInput,
   CancelMaintenanceWindowExecutionResult,
   CancelMaintenanceWindowExecutionError,
   Creds | HttpClient.HttpClient
@@ -5405,6 +5428,8 @@ export const cancelMaintenanceWindowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMaintenanceWindowExecution",
+  telemetry: TELEMETRY,
+  span: "CancelMaintenanceWindowExecution",
 }));
 
 export type CreateActivationError = InternalServerError | InvalidParameters | CommonErrors;
@@ -5420,7 +5445,7 @@ export type CreateActivationError = InternalServerError | InvalidParameters | Co
  * configured for Systems Manager are all called *managed nodes*.
  */
 export const createActivation: API.OperationMethod<
-  CreateActivationRequest,
+  CreateActivationRequest & RegionInput,
   CreateActivationResult,
   CreateActivationError,
   Creds | HttpClient.HttpClient
@@ -5431,6 +5456,8 @@ export const createActivation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActivation",
+  telemetry: TELEMETRY,
+  span: "CreateActivation",
 }));
 
 export type CreateAssociationError =
@@ -5461,7 +5488,7 @@ export type CreateAssociationError =
  * might instruct State Manager to start the service.
  */
 export const createAssociation: API.OperationMethod<
-  CreateAssociationRequest,
+  CreateAssociationRequest & RegionInput,
   CreateAssociationResult,
   CreateAssociationError,
   Creds | HttpClient.HttpClient
@@ -5486,6 +5513,8 @@ export const createAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateAssociation",
 }));
 
 export type CreateAssociationBatchError =
@@ -5514,7 +5543,7 @@ export type CreateAssociationBatchError =
  * system returns the AssociationAlreadyExists exception.
  */
 export const createAssociationBatch: API.OperationMethod<
-  CreateAssociationBatchRequest,
+  CreateAssociationBatchRequest & RegionInput,
   CreateAssociationBatchResult,
   CreateAssociationBatchError,
   Creds | HttpClient.HttpClient
@@ -5538,6 +5567,8 @@ export const createAssociationBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssociationBatch",
+  telemetry: TELEMETRY,
+  span: "CreateAssociationBatch",
 }));
 
 export type CreateCloudConnectorError =
@@ -5550,7 +5581,7 @@ export type CreateCloudConnectorError =
  * cloud environment.
  */
 export const createCloudConnector: API.OperationMethod<
-  CreateCloudConnectorRequest,
+  CreateCloudConnectorRequest & RegionInput,
   CreateCloudConnectorResult,
   CreateCloudConnectorError,
   Creds | HttpClient.HttpClient
@@ -5561,6 +5592,8 @@ export const createCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudConnector",
+  telemetry: TELEMETRY,
+  span: "CreateCloudConnector",
 }));
 
 export type CreateDocumentError =
@@ -5580,7 +5613,7 @@ export type CreateDocumentError =
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const createDocument: API.OperationMethod<
-  CreateDocumentRequest,
+  CreateDocumentRequest & RegionInput,
   CreateDocumentResult,
   CreateDocumentError,
   Creds | HttpClient.HttpClient
@@ -5600,6 +5633,8 @@ export const createDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocument",
+  telemetry: TELEMETRY,
+  span: "CreateDocument",
 }));
 
 export type CreateMaintenanceWindowError =
@@ -5618,7 +5653,7 @@ export type CreateMaintenanceWindowError =
  * after 5 PM.
  */
 export const createMaintenanceWindow: API.OperationMethod<
-  CreateMaintenanceWindowRequest,
+  CreateMaintenanceWindowRequest & RegionInput,
   CreateMaintenanceWindowResult,
   CreateMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -5629,6 +5664,8 @@ export const createMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "CreateMaintenanceWindow",
 }));
 
 export type CreateOpsItemError =
@@ -5648,7 +5685,7 @@ export type CreateOpsItemError =
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const createOpsItem: API.OperationMethod<
-  CreateOpsItemRequest,
+  CreateOpsItemRequest & RegionInput,
   CreateOpsItemResponse,
   CreateOpsItemError,
   Creds | HttpClient.HttpClient
@@ -5665,6 +5702,8 @@ export const createOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpsItem",
+  telemetry: TELEMETRY,
+  span: "CreateOpsItem",
 }));
 
 export type CreateOpsMetadataError =
@@ -5679,7 +5718,7 @@ export type CreateOpsMetadataError =
  * information about the new application, including the application type.
  */
 export const createOpsMetadata: API.OperationMethod<
-  CreateOpsMetadataRequest,
+  CreateOpsMetadataRequest & RegionInput,
   CreateOpsMetadataResult,
   CreateOpsMetadataError,
   Creds | HttpClient.HttpClient
@@ -5696,6 +5735,8 @@ export const createOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpsMetadata",
+  telemetry: TELEMETRY,
+  span: "CreateOpsMetadata",
 }));
 
 export type CreatePatchBaselineError =
@@ -5710,7 +5751,7 @@ export type CreatePatchBaselineError =
  * operating system type, see PatchFilter.
  */
 export const createPatchBaseline: API.OperationMethod<
-  CreatePatchBaselineRequest,
+  CreatePatchBaselineRequest & RegionInput,
   CreatePatchBaselineResult,
   CreatePatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -5721,6 +5762,8 @@ export const createPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePatchBaseline",
+  telemetry: TELEMETRY,
+  span: "CreatePatchBaseline",
 }));
 
 export type CreateResourceDataSyncError =
@@ -5755,7 +5798,7 @@ export type CreateResourceDataSyncError =
  * secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
  */
 export const createResourceDataSync: API.OperationMethod<
-  CreateResourceDataSyncRequest,
+  CreateResourceDataSyncRequest & RegionInput,
   CreateResourceDataSyncResult,
   CreateResourceDataSyncError,
   Creds | HttpClient.HttpClient
@@ -5771,6 +5814,8 @@ export const createResourceDataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDataSync",
+  telemetry: TELEMETRY,
+  span: "CreateResourceDataSync",
 }));
 
 export type DeleteActivationError =
@@ -5785,7 +5830,7 @@ export type DeleteActivationError =
  * doesn't de-register managed nodes. You must manually de-register managed nodes.
  */
 export const deleteActivation: API.OperationMethod<
-  DeleteActivationRequest,
+  DeleteActivationRequest & RegionInput,
   DeleteActivationResult,
   DeleteActivationError,
   Creds | HttpClient.HttpClient
@@ -5796,6 +5841,8 @@ export const deleteActivation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActivation",
+  telemetry: TELEMETRY,
+  span: "DeleteActivation",
 }));
 
 export type DeleteAssociationError =
@@ -5816,7 +5863,7 @@ export type DeleteAssociationError =
  * node.
  */
 export const deleteAssociation: API.OperationMethod<
-  DeleteAssociationRequest,
+  DeleteAssociationRequest & RegionInput,
   DeleteAssociationResult,
   DeleteAssociationError,
   Creds | HttpClient.HttpClient
@@ -5833,6 +5880,8 @@ export const deleteAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteAssociation",
 }));
 
 export type DeleteCloudConnectorError =
@@ -5844,7 +5893,7 @@ export type DeleteCloudConnectorError =
  * Deletes a cloud connector.
  */
 export const deleteCloudConnector: API.OperationMethod<
-  DeleteCloudConnectorRequest,
+  DeleteCloudConnectorRequest & RegionInput,
   DeleteCloudConnectorResult,
   DeleteCloudConnectorError,
   Creds | HttpClient.HttpClient
@@ -5855,6 +5904,8 @@ export const deleteCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudConnector",
 }));
 
 export type DeleteDocumentError =
@@ -5871,7 +5922,7 @@ export type DeleteDocumentError =
  * Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document.
  */
 export const deleteDocument: API.OperationMethod<
-  DeleteDocumentRequest,
+  DeleteDocumentRequest & RegionInput,
   DeleteDocumentResult,
   DeleteDocumentError,
   Creds | HttpClient.HttpClient
@@ -5888,6 +5939,8 @@ export const deleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocument",
+  telemetry: TELEMETRY,
+  span: "DeleteDocument",
 }));
 
 export type DeleteInventoryError =
@@ -5902,7 +5955,7 @@ export type DeleteInventoryError =
  * a custom inventory type is also referred to as deleting a custom inventory schema.
  */
 export const deleteInventory: API.OperationMethod<
-  DeleteInventoryRequest,
+  DeleteInventoryRequest & RegionInput,
   DeleteInventoryResult,
   DeleteInventoryError,
   Creds | HttpClient.HttpClient
@@ -5919,6 +5972,8 @@ export const deleteInventory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInventory",
+  telemetry: TELEMETRY,
+  span: "DeleteInventory",
 }));
 
 export type DeleteMaintenanceWindowError = InternalServerError | CommonErrors;
@@ -5926,7 +5981,7 @@ export type DeleteMaintenanceWindowError = InternalServerError | CommonErrors;
  * Deletes a maintenance window.
  */
 export const deleteMaintenanceWindow: API.OperationMethod<
-  DeleteMaintenanceWindowRequest,
+  DeleteMaintenanceWindowRequest & RegionInput,
   DeleteMaintenanceWindowResult,
   DeleteMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -5937,6 +5992,8 @@ export const deleteMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "DeleteMaintenanceWindow",
 }));
 
 export type DeleteOpsItemError =
@@ -5967,7 +6024,7 @@ export type DeleteOpsItemError =
  * OpsCenter to centrally manage OpsItems across accounts in the *Systems Manager User Guide*.
  */
 export const deleteOpsItem: API.OperationMethod<
-  DeleteOpsItemRequest,
+  DeleteOpsItemRequest & RegionInput,
   DeleteOpsItemResponse,
   DeleteOpsItemError,
   Creds | HttpClient.HttpClient
@@ -5978,6 +6035,8 @@ export const deleteOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpsItem",
+  telemetry: TELEMETRY,
+  span: "DeleteOpsItem",
 }));
 
 export type DeleteOpsMetadataError =
@@ -5989,7 +6048,7 @@ export type DeleteOpsMetadataError =
  * Delete OpsMetadata related to an application.
  */
 export const deleteOpsMetadata: API.OperationMethod<
-  DeleteOpsMetadataRequest,
+  DeleteOpsMetadataRequest & RegionInput,
   DeleteOpsMetadataResult,
   DeleteOpsMetadataError,
   Creds | HttpClient.HttpClient
@@ -6000,6 +6059,8 @@ export const deleteOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpsMetadata",
+  telemetry: TELEMETRY,
+  span: "DeleteOpsMetadata",
 }));
 
 export type DeleteParameterError = InternalServerError | ParameterNotFound | CommonErrors;
@@ -6008,7 +6069,7 @@ export type DeleteParameterError = InternalServerError | ParameterNotFound | Com
  * to create a parameter with the same name.
  */
 export const deleteParameter: API.OperationMethod<
-  DeleteParameterRequest,
+  DeleteParameterRequest & RegionInput,
   DeleteParameterResult,
   DeleteParameterError,
   Creds | HttpClient.HttpClient
@@ -6019,6 +6080,8 @@ export const deleteParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameter",
+  telemetry: TELEMETRY,
+  span: "DeleteParameter",
 }));
 
 export type DeleteParametersError = InternalServerError | CommonErrors;
@@ -6027,7 +6090,7 @@ export type DeleteParametersError = InternalServerError | CommonErrors;
  * create a parameter with the same name.
  */
 export const deleteParameters: API.OperationMethod<
-  DeleteParametersRequest,
+  DeleteParametersRequest & RegionInput,
   DeleteParametersResult,
   DeleteParametersError,
   Creds | HttpClient.HttpClient
@@ -6038,6 +6101,8 @@ export const deleteParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameters",
+  telemetry: TELEMETRY,
+  span: "DeleteParameters",
 }));
 
 export type DeletePatchBaselineError = InternalServerError | ResourceInUseException | CommonErrors;
@@ -6045,7 +6110,7 @@ export type DeletePatchBaselineError = InternalServerError | ResourceInUseExcept
  * Deletes a patch baseline.
  */
 export const deletePatchBaseline: API.OperationMethod<
-  DeletePatchBaselineRequest,
+  DeletePatchBaselineRequest & RegionInput,
   DeletePatchBaselineResult,
   DeletePatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -6056,6 +6121,8 @@ export const deletePatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePatchBaseline",
+  telemetry: TELEMETRY,
+  span: "DeletePatchBaseline",
 }));
 
 export type DeleteResourceDataSyncError =
@@ -6069,7 +6136,7 @@ export type DeleteResourceDataSyncError =
  * doesn't delete data.
  */
 export const deleteResourceDataSync: API.OperationMethod<
-  DeleteResourceDataSyncRequest,
+  DeleteResourceDataSyncRequest & RegionInput,
   DeleteResourceDataSyncResult,
   DeleteResourceDataSyncError,
   Creds | HttpClient.HttpClient
@@ -6084,6 +6151,8 @@ export const deleteResourceDataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceDataSync",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceDataSync",
 }));
 
 export type DeleteResourcePolicyError =
@@ -6110,7 +6179,7 @@ export type DeleteResourcePolicyError =
  * Systems Manager documents in the *Amazon Web Services Systems Manager User Guide*.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Creds | HttpClient.HttpClient
@@ -6128,6 +6197,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeregisterManagedInstanceError = InternalServerError | InvalidInstanceId | CommonErrors;
@@ -6142,7 +6213,7 @@ export type DeregisterManagedInstanceError = InternalServerError | InvalidInstan
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const deregisterManagedInstance: API.OperationMethod<
-  DeregisterManagedInstanceRequest,
+  DeregisterManagedInstanceRequest & RegionInput,
   DeregisterManagedInstanceResult,
   DeregisterManagedInstanceError,
   Creds | HttpClient.HttpClient
@@ -6153,6 +6224,8 @@ export const deregisterManagedInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterManagedInstance",
+  telemetry: TELEMETRY,
+  span: "DeregisterManagedInstance",
 }));
 
 export type DeregisterPatchBaselineForPatchGroupError =
@@ -6163,7 +6236,7 @@ export type DeregisterPatchBaselineForPatchGroupError =
  * Removes a patch group from a patch baseline.
  */
 export const deregisterPatchBaselineForPatchGroup: API.OperationMethod<
-  DeregisterPatchBaselineForPatchGroupRequest,
+  DeregisterPatchBaselineForPatchGroupRequest & RegionInput,
   DeregisterPatchBaselineForPatchGroupResult,
   DeregisterPatchBaselineForPatchGroupError,
   Creds | HttpClient.HttpClient
@@ -6174,6 +6247,8 @@ export const deregisterPatchBaselineForPatchGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterPatchBaselineForPatchGroup",
+  telemetry: TELEMETRY,
+  span: "DeregisterPatchBaselineForPatchGroup",
 }));
 
 export type DeregisterTargetFromMaintenanceWindowError =
@@ -6185,7 +6260,7 @@ export type DeregisterTargetFromMaintenanceWindowError =
  * Removes a target from a maintenance window.
  */
 export const deregisterTargetFromMaintenanceWindow: API.OperationMethod<
-  DeregisterTargetFromMaintenanceWindowRequest,
+  DeregisterTargetFromMaintenanceWindowRequest & RegionInput,
   DeregisterTargetFromMaintenanceWindowResult,
   DeregisterTargetFromMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -6196,6 +6271,8 @@ export const deregisterTargetFromMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargetFromMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "DeregisterTargetFromMaintenanceWindow",
 }));
 
 export type DeregisterTaskFromMaintenanceWindowError =
@@ -6206,7 +6283,7 @@ export type DeregisterTaskFromMaintenanceWindowError =
  * Removes a task from a maintenance window.
  */
 export const deregisterTaskFromMaintenanceWindow: API.OperationMethod<
-  DeregisterTaskFromMaintenanceWindowRequest,
+  DeregisterTaskFromMaintenanceWindowRequest & RegionInput,
   DeregisterTaskFromMaintenanceWindowResult,
   DeregisterTaskFromMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -6217,6 +6294,8 @@ export const deregisterTaskFromMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTaskFromMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "DeregisterTaskFromMaintenanceWindow",
 }));
 
 export type DescribeActivationsError =
@@ -6231,7 +6310,7 @@ export type DescribeActivationsError =
  * activation.
  */
 export const describeActivations: API.PaginatedOperationMethod<
-  DescribeActivationsRequest,
+  DescribeActivationsRequest & RegionInput,
   DescribeActivationsResult,
   DescribeActivationsError,
   Creds | HttpClient.HttpClient,
@@ -6249,6 +6328,8 @@ export const describeActivations: API.PaginatedOperationMethod<
     items: "ActivationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeActivations",
 })) as any;
 
 export type DescribeAssociationError =
@@ -6264,7 +6345,7 @@ export type DescribeAssociationError =
  * by using the association ID.
  */
 export const describeAssociation: API.OperationMethod<
-  DescribeAssociationRequest,
+  DescribeAssociationRequest & RegionInput,
   DescribeAssociationResult,
   DescribeAssociationError,
   Creds | HttpClient.HttpClient
@@ -6281,6 +6362,8 @@ export const describeAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssociation",
+  telemetry: TELEMETRY,
+  span: "DescribeAssociation",
 }));
 
 export type DescribeAssociationExecutionsError =
@@ -6292,7 +6375,7 @@ export type DescribeAssociationExecutionsError =
  * Views all executions for a specific association ID.
  */
 export const describeAssociationExecutions: API.PaginatedOperationMethod<
-  DescribeAssociationExecutionsRequest,
+  DescribeAssociationExecutionsRequest & RegionInput,
   DescribeAssociationExecutionsResult,
   DescribeAssociationExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -6310,6 +6393,8 @@ export const describeAssociationExecutions: API.PaginatedOperationMethod<
     items: "AssociationExecutions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAssociationExecutions",
 })) as any;
 
 export type DescribeAssociationExecutionTargetsError =
@@ -6322,7 +6407,7 @@ export type DescribeAssociationExecutionTargetsError =
  * Views information about a specific execution of a specific association.
  */
 export const describeAssociationExecutionTargets: API.PaginatedOperationMethod<
-  DescribeAssociationExecutionTargetsRequest,
+  DescribeAssociationExecutionTargetsRequest & RegionInput,
   DescribeAssociationExecutionTargetsResult,
   DescribeAssociationExecutionTargetsError,
   Creds | HttpClient.HttpClient,
@@ -6345,6 +6430,8 @@ export const describeAssociationExecutionTargets: API.PaginatedOperationMethod<
     items: "AssociationExecutionTargets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAssociationExecutionTargets",
 })) as any;
 
 export type DescribeAutomationExecutionsError =
@@ -6357,7 +6444,7 @@ export type DescribeAutomationExecutionsError =
  * Provides details about all active and terminated Automation executions.
  */
 export const describeAutomationExecutions: API.PaginatedOperationMethod<
-  DescribeAutomationExecutionsRequest,
+  DescribeAutomationExecutionsRequest & RegionInput,
   DescribeAutomationExecutionsResult,
   DescribeAutomationExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -6375,6 +6462,8 @@ export const describeAutomationExecutions: API.PaginatedOperationMethod<
     items: "AutomationExecutionMetadataList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAutomationExecutions",
 })) as any;
 
 export type DescribeAutomationStepExecutionsError =
@@ -6389,7 +6478,7 @@ export type DescribeAutomationStepExecutionsError =
  * workflow.
  */
 export const describeAutomationStepExecutions: API.PaginatedOperationMethod<
-  DescribeAutomationStepExecutionsRequest,
+  DescribeAutomationStepExecutionsRequest & RegionInput,
   DescribeAutomationStepExecutionsResult,
   DescribeAutomationStepExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -6413,6 +6502,8 @@ export const describeAutomationStepExecutions: API.PaginatedOperationMethod<
     items: "StepExecutions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAutomationStepExecutions",
 })) as any;
 
 export type DescribeAvailablePatchesError = InternalServerError | CommonErrors;
@@ -6423,7 +6514,7 @@ export type DescribeAvailablePatchesError = InternalServerError | CommonErrors;
  * Linux 2, and Windows Server operating systems.
  */
 export const describeAvailablePatches: API.PaginatedOperationMethod<
-  DescribeAvailablePatchesRequest,
+  DescribeAvailablePatchesRequest & RegionInput,
   DescribeAvailablePatchesResult,
   DescribeAvailablePatchesError,
   Creds | HttpClient.HttpClient,
@@ -6441,6 +6532,8 @@ export const describeAvailablePatches: API.PaginatedOperationMethod<
     items: "Patches",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAvailablePatches",
 })) as any;
 
 export type DescribeDocumentError =
@@ -6452,7 +6545,7 @@ export type DescribeDocumentError =
  * Describes the specified Amazon Web Services Systems Manager document (SSM document).
  */
 export const describeDocument: API.OperationMethod<
-  DescribeDocumentRequest,
+  DescribeDocumentRequest & RegionInput,
   DescribeDocumentResult,
   DescribeDocumentError,
   Creds | HttpClient.HttpClient
@@ -6463,6 +6556,8 @@ export const describeDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocument",
+  telemetry: TELEMETRY,
+  span: "DescribeDocument",
 }));
 
 export type DescribeDocumentPermissionError =
@@ -6478,7 +6573,7 @@ export type DescribeDocumentPermissionError =
  * specifying a user's Amazon Web Services account ID) or publicly (*All*).
  */
 export const describeDocumentPermission: API.OperationMethod<
-  DescribeDocumentPermissionRequest,
+  DescribeDocumentPermissionRequest & RegionInput,
   DescribeDocumentPermissionResponse,
   DescribeDocumentPermissionError,
   Creds | HttpClient.HttpClient
@@ -6495,6 +6590,8 @@ export const describeDocumentPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentPermission",
+  telemetry: TELEMETRY,
+  span: "DescribeDocumentPermission",
 }));
 
 export type DescribeEffectiveInstanceAssociationsError =
@@ -6506,7 +6603,7 @@ export type DescribeEffectiveInstanceAssociationsError =
  * All associations for the managed nodes.
  */
 export const describeEffectiveInstanceAssociations: API.PaginatedOperationMethod<
-  DescribeEffectiveInstanceAssociationsRequest,
+  DescribeEffectiveInstanceAssociationsRequest & RegionInput,
   DescribeEffectiveInstanceAssociationsResult,
   DescribeEffectiveInstanceAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -6524,6 +6621,8 @@ export const describeEffectiveInstanceAssociations: API.PaginatedOperationMethod
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEffectiveInstanceAssociations",
 })) as any;
 
 export type DescribeEffectivePatchesForPatchBaselineError =
@@ -6537,7 +6636,7 @@ export type DescribeEffectivePatchesForPatchBaselineError =
  * patch baseline. Applies to patch baselines for Windows only.
  */
 export const describeEffectivePatchesForPatchBaseline: API.PaginatedOperationMethod<
-  DescribeEffectivePatchesForPatchBaselineRequest,
+  DescribeEffectivePatchesForPatchBaselineRequest & RegionInput,
   DescribeEffectivePatchesForPatchBaselineResult,
   DescribeEffectivePatchesForPatchBaselineError,
   Creds | HttpClient.HttpClient,
@@ -6560,6 +6659,8 @@ export const describeEffectivePatchesForPatchBaseline: API.PaginatedOperationMet
     items: "EffectivePatches",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEffectivePatchesForPatchBaseline",
 })) as any;
 
 export type DescribeInstanceAssociationsStatusError =
@@ -6571,7 +6672,7 @@ export type DescribeInstanceAssociationsStatusError =
  * The status of the associations for the managed nodes.
  */
 export const describeInstanceAssociationsStatus: API.PaginatedOperationMethod<
-  DescribeInstanceAssociationsStatusRequest,
+  DescribeInstanceAssociationsStatusRequest & RegionInput,
   DescribeInstanceAssociationsStatusResult,
   DescribeInstanceAssociationsStatusError,
   Creds | HttpClient.HttpClient,
@@ -6589,6 +6690,8 @@ export const describeInstanceAssociationsStatus: API.PaginatedOperationMethod<
     items: "InstanceAssociationStatusInfos",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceAssociationsStatus",
 })) as any;
 
 export type DescribeInstanceInformationError =
@@ -6612,7 +6715,7 @@ export type DescribeInstanceInformationError =
  * the role assigned to an on-premises managed node.
  */
 export const describeInstanceInformation: API.PaginatedOperationMethod<
-  DescribeInstanceInformationRequest,
+  DescribeInstanceInformationRequest & RegionInput,
   DescribeInstanceInformationResult,
   DescribeInstanceInformationError,
   Creds | HttpClient.HttpClient,
@@ -6636,6 +6739,8 @@ export const describeInstanceInformation: API.PaginatedOperationMethod<
     items: "InstanceInformationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceInformation",
 })) as any;
 
 export type DescribeInstancePatchesError =
@@ -6649,7 +6754,7 @@ export type DescribeInstancePatchesError =
  * relative to the patch baseline being used for the node.
  */
 export const describeInstancePatches: API.PaginatedOperationMethod<
-  DescribeInstancePatchesRequest,
+  DescribeInstancePatchesRequest & RegionInput,
   DescribeInstancePatchesResult,
   DescribeInstancePatchesError,
   Creds | HttpClient.HttpClient,
@@ -6667,6 +6772,8 @@ export const describeInstancePatches: API.PaginatedOperationMethod<
     items: "Patches",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstancePatches",
 })) as any;
 
 export type DescribeInstancePatchStatesError =
@@ -6677,7 +6784,7 @@ export type DescribeInstancePatchStatesError =
  * Retrieves the high-level patch state of one or more managed nodes.
  */
 export const describeInstancePatchStates: API.PaginatedOperationMethod<
-  DescribeInstancePatchStatesRequest,
+  DescribeInstancePatchStatesRequest & RegionInput,
   DescribeInstancePatchStatesResult,
   DescribeInstancePatchStatesError,
   Creds | HttpClient.HttpClient,
@@ -6695,6 +6802,8 @@ export const describeInstancePatchStates: API.PaginatedOperationMethod<
     items: "InstancePatchStates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstancePatchStates",
 })) as any;
 
 export type DescribeInstancePatchStatesForPatchGroupError =
@@ -6707,7 +6816,7 @@ export type DescribeInstancePatchStatesForPatchGroupError =
  * group.
  */
 export const describeInstancePatchStatesForPatchGroup: API.PaginatedOperationMethod<
-  DescribeInstancePatchStatesForPatchGroupRequest,
+  DescribeInstancePatchStatesForPatchGroupRequest & RegionInput,
   DescribeInstancePatchStatesForPatchGroupResult,
   DescribeInstancePatchStatesForPatchGroupError,
   Creds | HttpClient.HttpClient,
@@ -6725,6 +6834,8 @@ export const describeInstancePatchStatesForPatchGroup: API.PaginatedOperationMet
     items: "InstancePatchStates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstancePatchStatesForPatchGroup",
 })) as any;
 
 export type DescribeInstancePropertiesError =
@@ -6741,7 +6852,7 @@ export type DescribeInstancePropertiesError =
  * nodes.
  */
 export const describeInstanceProperties: API.PaginatedOperationMethod<
-  DescribeInstancePropertiesRequest,
+  DescribeInstancePropertiesRequest & RegionInput,
   DescribeInstancePropertiesResult,
   DescribeInstancePropertiesError,
   Creds | HttpClient.HttpClient,
@@ -6767,6 +6878,8 @@ export const describeInstanceProperties: API.PaginatedOperationMethod<
     items: "InstanceProperties",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceProperties",
 })) as any;
 
 export type DescribeInventoryDeletionsError =
@@ -6778,7 +6891,7 @@ export type DescribeInventoryDeletionsError =
  * Describes a specific delete inventory operation.
  */
 export const describeInventoryDeletions: API.PaginatedOperationMethod<
-  DescribeInventoryDeletionsRequest,
+  DescribeInventoryDeletionsRequest & RegionInput,
   DescribeInventoryDeletionsResult,
   DescribeInventoryDeletionsError,
   Creds | HttpClient.HttpClient,
@@ -6796,6 +6909,8 @@ export const describeInventoryDeletions: API.PaginatedOperationMethod<
     items: "InventoryDeletions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInventoryDeletions",
 })) as any;
 
 export type DescribeMaintenanceWindowExecutionsError = InternalServerError | CommonErrors;
@@ -6805,7 +6920,7 @@ export type DescribeMaintenanceWindowExecutionsError = InternalServerError | Com
  * with the maintenance window.
  */
 export const describeMaintenanceWindowExecutions: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowExecutionsRequest,
+  DescribeMaintenanceWindowExecutionsRequest & RegionInput,
   DescribeMaintenanceWindowExecutionsResult,
   DescribeMaintenanceWindowExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -6823,6 +6938,8 @@ export const describeMaintenanceWindowExecutions: API.PaginatedOperationMethod<
     items: "WindowExecutions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowExecutions",
 })) as any;
 
 export type DescribeMaintenanceWindowExecutionTaskInvocationsError =
@@ -6834,7 +6951,7 @@ export type DescribeMaintenanceWindowExecutionTaskInvocationsError =
  * of a maintenance window execution.
  */
 export const describeMaintenanceWindowExecutionTaskInvocations: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
+  DescribeMaintenanceWindowExecutionTaskInvocationsRequest & RegionInput,
   DescribeMaintenanceWindowExecutionTaskInvocationsResult,
   DescribeMaintenanceWindowExecutionTaskInvocationsError,
   Creds | HttpClient.HttpClient,
@@ -6860,6 +6977,8 @@ export const describeMaintenanceWindowExecutionTaskInvocations: API.PaginatedOpe
     items: "WindowExecutionTaskInvocationIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowExecutionTaskInvocations",
 })) as any;
 
 export type DescribeMaintenanceWindowExecutionTasksError =
@@ -6870,7 +6989,7 @@ export type DescribeMaintenanceWindowExecutionTasksError =
  * For a given maintenance window execution, lists the tasks that were run.
  */
 export const describeMaintenanceWindowExecutionTasks: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowExecutionTasksRequest,
+  DescribeMaintenanceWindowExecutionTasksRequest & RegionInput,
   DescribeMaintenanceWindowExecutionTasksResult,
   DescribeMaintenanceWindowExecutionTasksError,
   Creds | HttpClient.HttpClient,
@@ -6888,6 +7007,8 @@ export const describeMaintenanceWindowExecutionTasks: API.PaginatedOperationMeth
     items: "WindowExecutionTaskIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowExecutionTasks",
 })) as any;
 
 export type DescribeMaintenanceWindowsError = InternalServerError | CommonErrors;
@@ -6895,7 +7016,7 @@ export type DescribeMaintenanceWindowsError = InternalServerError | CommonErrors
  * Retrieves the maintenance windows in an Amazon Web Services account.
  */
 export const describeMaintenanceWindows: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowsRequest,
+  DescribeMaintenanceWindowsRequest & RegionInput,
   DescribeMaintenanceWindowsResult,
   DescribeMaintenanceWindowsError,
   Creds | HttpClient.HttpClient,
@@ -6913,6 +7034,8 @@ export const describeMaintenanceWindows: API.PaginatedOperationMethod<
     items: "WindowIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindows",
 })) as any;
 
 export type DescribeMaintenanceWindowScheduleError =
@@ -6923,7 +7046,7 @@ export type DescribeMaintenanceWindowScheduleError =
  * Retrieves information about upcoming executions of a maintenance window.
  */
 export const describeMaintenanceWindowSchedule: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowScheduleRequest,
+  DescribeMaintenanceWindowScheduleRequest & RegionInput,
   DescribeMaintenanceWindowScheduleResult,
   DescribeMaintenanceWindowScheduleError,
   Creds | HttpClient.HttpClient,
@@ -6941,6 +7064,8 @@ export const describeMaintenanceWindowSchedule: API.PaginatedOperationMethod<
     items: "ScheduledWindowExecutions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowSchedule",
 })) as any;
 
 export type DescribeMaintenanceWindowsForTargetError = InternalServerError | CommonErrors;
@@ -6949,7 +7074,7 @@ export type DescribeMaintenanceWindowsForTargetError = InternalServerError | Com
  * associated with.
  */
 export const describeMaintenanceWindowsForTarget: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowsForTargetRequest,
+  DescribeMaintenanceWindowsForTargetRequest & RegionInput,
   DescribeMaintenanceWindowsForTargetResult,
   DescribeMaintenanceWindowsForTargetError,
   Creds | HttpClient.HttpClient,
@@ -6967,6 +7092,8 @@ export const describeMaintenanceWindowsForTarget: API.PaginatedOperationMethod<
     items: "WindowIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowsForTarget",
 })) as any;
 
 export type DescribeMaintenanceWindowTargetsError =
@@ -6977,7 +7104,7 @@ export type DescribeMaintenanceWindowTargetsError =
  * Lists the targets registered with the maintenance window.
  */
 export const describeMaintenanceWindowTargets: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowTargetsRequest,
+  DescribeMaintenanceWindowTargetsRequest & RegionInput,
   DescribeMaintenanceWindowTargetsResult,
   DescribeMaintenanceWindowTargetsError,
   Creds | HttpClient.HttpClient,
@@ -6995,6 +7122,8 @@ export const describeMaintenanceWindowTargets: API.PaginatedOperationMethod<
     items: "Targets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowTargets",
 })) as any;
 
 export type DescribeMaintenanceWindowTasksError =
@@ -7010,7 +7139,7 @@ export type DescribeMaintenanceWindowTasksError =
  * These values don't affect the running of your task and can be ignored.
  */
 export const describeMaintenanceWindowTasks: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowTasksRequest,
+  DescribeMaintenanceWindowTasksRequest & RegionInput,
   DescribeMaintenanceWindowTasksResult,
   DescribeMaintenanceWindowTasksError,
   Creds | HttpClient.HttpClient,
@@ -7028,6 +7157,8 @@ export const describeMaintenanceWindowTasks: API.PaginatedOperationMethod<
     items: "Tasks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowTasks",
 })) as any;
 
 export type DescribeOpsItemsError = InternalServerError | CommonErrors;
@@ -7041,7 +7172,7 @@ export type DescribeOpsItemsError = InternalServerError | CommonErrors;
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const describeOpsItems: API.PaginatedOperationMethod<
-  DescribeOpsItemsRequest,
+  DescribeOpsItemsRequest & RegionInput,
   DescribeOpsItemsResponse,
   DescribeOpsItemsError,
   Creds | HttpClient.HttpClient,
@@ -7059,6 +7190,8 @@ export const describeOpsItems: API.PaginatedOperationMethod<
     items: "OpsItemSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOpsItems",
 })) as any;
 
 export type DescribeParametersError =
@@ -7089,7 +7222,7 @@ export type DescribeParametersError =
  * referencing.
  */
 export const describeParameters: API.PaginatedOperationMethod<
-  DescribeParametersRequest,
+  DescribeParametersRequest & RegionInput,
   DescribeParametersResult,
   DescribeParametersError,
   Creds | HttpClient.HttpClient,
@@ -7112,6 +7245,8 @@ export const describeParameters: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeParameters",
 })) as any;
 
 export type DescribePatchBaselinesError = InternalServerError | CommonErrors;
@@ -7119,7 +7254,7 @@ export type DescribePatchBaselinesError = InternalServerError | CommonErrors;
  * Lists the patch baselines in your Amazon Web Services account.
  */
 export const describePatchBaselines: API.PaginatedOperationMethod<
-  DescribePatchBaselinesRequest,
+  DescribePatchBaselinesRequest & RegionInput,
   DescribePatchBaselinesResult,
   DescribePatchBaselinesError,
   Creds | HttpClient.HttpClient,
@@ -7137,6 +7272,8 @@ export const describePatchBaselines: API.PaginatedOperationMethod<
     items: "BaselineIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePatchBaselines",
 })) as any;
 
 export type DescribePatchGroupsError = InternalServerError | CommonErrors;
@@ -7144,7 +7281,7 @@ export type DescribePatchGroupsError = InternalServerError | CommonErrors;
  * Lists all patch groups that have been registered with patch baselines.
  */
 export const describePatchGroups: API.PaginatedOperationMethod<
-  DescribePatchGroupsRequest,
+  DescribePatchGroupsRequest & RegionInput,
   DescribePatchGroupsResult,
   DescribePatchGroupsError,
   Creds | HttpClient.HttpClient,
@@ -7162,6 +7299,8 @@ export const describePatchGroups: API.PaginatedOperationMethod<
     items: "Mappings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePatchGroups",
 })) as any;
 
 export type DescribePatchGroupStateError = InternalServerError | InvalidNextToken | CommonErrors;
@@ -7169,7 +7308,7 @@ export type DescribePatchGroupStateError = InternalServerError | InvalidNextToke
  * Returns high-level aggregated patch compliance state information for a patch group.
  */
 export const describePatchGroupState: API.OperationMethod<
-  DescribePatchGroupStateRequest,
+  DescribePatchGroupStateRequest & RegionInput,
   DescribePatchGroupStateResult,
   DescribePatchGroupStateError,
   Creds | HttpClient.HttpClient
@@ -7180,6 +7319,8 @@ export const describePatchGroupState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePatchGroupState",
+  telemetry: TELEMETRY,
+  span: "DescribePatchGroupState",
 }));
 
 export type DescribePatchPropertiesError = InternalServerError | CommonErrors;
@@ -7244,7 +7385,7 @@ export type DescribePatchPropertiesError = InternalServerError | CommonErrors;
  * `CLASSIFICATION` | `MSRC_SEVERITY`
  */
 export const describePatchProperties: API.PaginatedOperationMethod<
-  DescribePatchPropertiesRequest,
+  DescribePatchPropertiesRequest & RegionInput,
   DescribePatchPropertiesResult,
   DescribePatchPropertiesError,
   Creds | HttpClient.HttpClient,
@@ -7262,6 +7403,8 @@ export const describePatchProperties: API.PaginatedOperationMethod<
     items: "Properties",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePatchProperties",
 })) as any;
 
 export type DescribeSessionsError =
@@ -7274,7 +7417,7 @@ export type DescribeSessionsError =
  * sessions from the past 30 days.
  */
 export const describeSessions: API.PaginatedOperationMethod<
-  DescribeSessionsRequest,
+  DescribeSessionsRequest & RegionInput,
   DescribeSessionsResponse,
   DescribeSessionsError,
   Creds | HttpClient.HttpClient,
@@ -7292,6 +7435,8 @@ export const describeSessions: API.PaginatedOperationMethod<
     items: "Sessions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSessions",
 })) as any;
 
 export type DisassociateOpsItemRelatedItemError =
@@ -7307,7 +7452,7 @@ export type DisassociateOpsItemRelatedItemError =
  * Amazon Web Services Systems Manager.
  */
 export const disassociateOpsItemRelatedItem: API.OperationMethod<
-  DisassociateOpsItemRelatedItemRequest,
+  DisassociateOpsItemRelatedItemRequest & RegionInput,
   DisassociateOpsItemRelatedItemResponse,
   DisassociateOpsItemRelatedItemError,
   Creds | HttpClient.HttpClient
@@ -7324,6 +7469,8 @@ export const disassociateOpsItemRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOpsItemRelatedItem",
+  telemetry: TELEMETRY,
+  span: "DisassociateOpsItemRelatedItem",
 }));
 
 export type GetAccessTokenError =
@@ -7337,7 +7484,7 @@ export type GetAccessTokenError =
  * Returns a credentials set to be used with just-in-time node access.
  */
 export const getAccessToken: API.OperationMethod<
-  GetAccessTokenRequest,
+  GetAccessTokenRequest & RegionInput,
   GetAccessTokenResponse,
   GetAccessTokenError,
   Creds | HttpClient.HttpClient
@@ -7354,6 +7501,8 @@ export const getAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessToken",
+  telemetry: TELEMETRY,
+  span: "GetAccessToken",
 }));
 
 export type GetAutomationExecutionError =
@@ -7364,7 +7513,7 @@ export type GetAutomationExecutionError =
  * Get detailed information about a particular Automation execution.
  */
 export const getAutomationExecution: API.OperationMethod<
-  GetAutomationExecutionRequest,
+  GetAutomationExecutionRequest & RegionInput,
   GetAutomationExecutionResult,
   GetAutomationExecutionError,
   Creds | HttpClient.HttpClient
@@ -7375,6 +7524,8 @@ export const getAutomationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationExecution",
+  telemetry: TELEMETRY,
+  span: "GetAutomationExecution",
 }));
 
 export type GetCalendarStateError =
@@ -7397,7 +7548,7 @@ export type GetCalendarStateError =
  * For more information about Change Calendar, a tool in Amazon Web Services Systems Manager, see Amazon Web Services Systems Manager Change Calendar in the *Amazon Web Services Systems Manager User Guide*.
  */
 export const getCalendarState: API.OperationMethod<
-  GetCalendarStateRequest,
+  GetCalendarStateRequest & RegionInput,
   GetCalendarStateResponse,
   GetCalendarStateError,
   Creds | HttpClient.HttpClient
@@ -7408,6 +7559,8 @@ export const getCalendarState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalendarState",
+  telemetry: TELEMETRY,
+  span: "GetCalendarState",
 }));
 
 export type GetCloudConnectorError = InternalServerError | ResourceNotFoundException | CommonErrors;
@@ -7415,7 +7568,7 @@ export type GetCloudConnectorError = InternalServerError | ResourceNotFoundExcep
  * Returns detailed information about a cloud connector.
  */
 export const getCloudConnector: API.OperationMethod<
-  GetCloudConnectorRequest,
+  GetCloudConnectorRequest & RegionInput,
   GetCloudConnectorResult,
   GetCloudConnectorError,
   Creds | HttpClient.HttpClient
@@ -7426,6 +7579,8 @@ export const getCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudConnector",
+  telemetry: TELEMETRY,
+  span: "GetCloudConnector",
 }));
 
 export type GetCommandInvocationError =
@@ -7448,7 +7603,7 @@ export type GetCommandInvocationError =
  * use ListCommands.
  */
 export const getCommandInvocation: API.OperationMethod<
-  GetCommandInvocationRequest,
+  GetCommandInvocationRequest & RegionInput,
   GetCommandInvocationResult,
   GetCommandInvocationError,
   Creds | HttpClient.HttpClient
@@ -7465,6 +7620,8 @@ export const getCommandInvocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommandInvocation",
+  telemetry: TELEMETRY,
+  span: "GetCommandInvocation",
 }));
 
 export type GetConnectionStatusError = InternalServerError | CommonErrors;
@@ -7473,7 +7630,7 @@ export type GetConnectionStatusError = InternalServerError | CommonErrors;
  * and ready to receive Session Manager connections.
  */
 export const getConnectionStatus: API.OperationMethod<
-  GetConnectionStatusRequest,
+  GetConnectionStatusRequest & RegionInput,
   GetConnectionStatusResponse,
   GetConnectionStatusError,
   Creds | HttpClient.HttpClient
@@ -7484,6 +7641,8 @@ export const getConnectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionStatus",
+  telemetry: TELEMETRY,
+  span: "GetConnectionStatus",
 }));
 
 export type GetDefaultPatchBaselineError = InternalServerError | CommonErrors;
@@ -7495,7 +7654,7 @@ export type GetDefaultPatchBaselineError = InternalServerError | CommonErrors;
  * returned.
  */
 export const getDefaultPatchBaseline: API.OperationMethod<
-  GetDefaultPatchBaselineRequest,
+  GetDefaultPatchBaselineRequest & RegionInput,
   GetDefaultPatchBaselineResult,
   GetDefaultPatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -7506,6 +7665,8 @@ export const getDefaultPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultPatchBaseline",
+  telemetry: TELEMETRY,
+  span: "GetDefaultPatchBaseline",
 }));
 
 export type GetDeployablePatchSnapshotForInstanceError =
@@ -7524,7 +7685,7 @@ export type GetDeployablePatchSnapshotForInstanceError =
  * `AWS-RunPowerShellScript` document.
  */
 export const getDeployablePatchSnapshotForInstance: API.OperationMethod<
-  GetDeployablePatchSnapshotForInstanceRequest,
+  GetDeployablePatchSnapshotForInstanceRequest & RegionInput,
   GetDeployablePatchSnapshotForInstanceResult,
   GetDeployablePatchSnapshotForInstanceError,
   Creds | HttpClient.HttpClient
@@ -7535,6 +7696,8 @@ export const getDeployablePatchSnapshotForInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployablePatchSnapshotForInstance",
+  telemetry: TELEMETRY,
+  span: "GetDeployablePatchSnapshotForInstance",
 }));
 
 export type GetDocumentError =
@@ -7546,7 +7709,7 @@ export type GetDocumentError =
  * Gets the contents of the specified Amazon Web Services Systems Manager document (SSM document).
  */
 export const getDocument: API.OperationMethod<
-  GetDocumentRequest,
+  GetDocumentRequest & RegionInput,
   GetDocumentResult,
   GetDocumentError,
   Creds | HttpClient.HttpClient
@@ -7557,6 +7720,8 @@ export const getDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocument",
+  telemetry: TELEMETRY,
+  span: "GetDocument",
 }));
 
 export type GetExecutionPreviewError =
@@ -7568,7 +7733,7 @@ export type GetExecutionPreviewError =
  * a specified Automation runbook would have on the targeted resources.
  */
 export const getExecutionPreview: API.OperationMethod<
-  GetExecutionPreviewRequest,
+  GetExecutionPreviewRequest & RegionInput,
   GetExecutionPreviewResponse,
   GetExecutionPreviewError,
   Creds | HttpClient.HttpClient
@@ -7579,6 +7744,8 @@ export const getExecutionPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecutionPreview",
+  telemetry: TELEMETRY,
+  span: "GetExecutionPreview",
 }));
 
 export type GetInventoryError =
@@ -7595,7 +7762,7 @@ export type GetInventoryError =
  * or `Terminated`.
  */
 export const getInventory: API.PaginatedOperationMethod<
-  GetInventoryRequest,
+  GetInventoryRequest & RegionInput,
   GetInventoryResult,
   GetInventoryError,
   Creds | HttpClient.HttpClient,
@@ -7621,6 +7788,8 @@ export const getInventory: API.PaginatedOperationMethod<
     items: "Entities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInventory",
 })) as any;
 
 export type GetInventorySchemaError =
@@ -7633,7 +7802,7 @@ export type GetInventorySchemaError =
  * for a specific Inventory item type.
  */
 export const getInventorySchema: API.PaginatedOperationMethod<
-  GetInventorySchemaRequest,
+  GetInventorySchemaRequest & RegionInput,
   GetInventorySchemaResult,
   GetInventorySchemaError,
   Creds | HttpClient.HttpClient,
@@ -7651,6 +7820,8 @@ export const getInventorySchema: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInventorySchema",
 })) as any;
 
 export type GetMaintenanceWindowError = DoesNotExistException | InternalServerError | CommonErrors;
@@ -7658,7 +7829,7 @@ export type GetMaintenanceWindowError = DoesNotExistException | InternalServerEr
  * Retrieves a maintenance window.
  */
 export const getMaintenanceWindow: API.OperationMethod<
-  GetMaintenanceWindowRequest,
+  GetMaintenanceWindowRequest & RegionInput,
   GetMaintenanceWindowResult,
   GetMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -7669,6 +7840,8 @@ export const getMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindow",
 }));
 
 export type GetMaintenanceWindowExecutionError =
@@ -7679,7 +7852,7 @@ export type GetMaintenanceWindowExecutionError =
  * Retrieves details about a specific a maintenance window execution.
  */
 export const getMaintenanceWindowExecution: API.OperationMethod<
-  GetMaintenanceWindowExecutionRequest,
+  GetMaintenanceWindowExecutionRequest & RegionInput,
   GetMaintenanceWindowExecutionResult,
   GetMaintenanceWindowExecutionError,
   Creds | HttpClient.HttpClient
@@ -7690,6 +7863,8 @@ export const getMaintenanceWindowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecution",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindowExecution",
 }));
 
 export type GetMaintenanceWindowExecutionTaskError =
@@ -7701,7 +7876,7 @@ export type GetMaintenanceWindowExecutionTaskError =
  * execution.
  */
 export const getMaintenanceWindowExecutionTask: API.OperationMethod<
-  GetMaintenanceWindowExecutionTaskRequest,
+  GetMaintenanceWindowExecutionTaskRequest & RegionInput,
   GetMaintenanceWindowExecutionTaskResult,
   GetMaintenanceWindowExecutionTaskError,
   Creds | HttpClient.HttpClient
@@ -7712,6 +7887,8 @@ export const getMaintenanceWindowExecutionTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecutionTask",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindowExecutionTask",
 }));
 
 export type GetMaintenanceWindowExecutionTaskInvocationError =
@@ -7722,7 +7899,7 @@ export type GetMaintenanceWindowExecutionTaskInvocationError =
  * Retrieves information about a specific task running on a specific target.
  */
 export const getMaintenanceWindowExecutionTaskInvocation: API.OperationMethod<
-  GetMaintenanceWindowExecutionTaskInvocationRequest,
+  GetMaintenanceWindowExecutionTaskInvocationRequest & RegionInput,
   GetMaintenanceWindowExecutionTaskInvocationResult,
   GetMaintenanceWindowExecutionTaskInvocationError,
   Creds | HttpClient.HttpClient
@@ -7741,6 +7918,8 @@ export const getMaintenanceWindowExecutionTaskInvocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecutionTaskInvocation",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindowExecutionTaskInvocation",
 }));
 
 export type GetMaintenanceWindowTaskError =
@@ -7758,7 +7937,7 @@ export type GetMaintenanceWindowTaskError =
  * To retrieve a list of tasks in a maintenance window, instead use the DescribeMaintenanceWindowTasks command.
  */
 export const getMaintenanceWindowTask: API.OperationMethod<
-  GetMaintenanceWindowTaskRequest,
+  GetMaintenanceWindowTaskRequest & RegionInput,
   GetMaintenanceWindowTaskResult,
   GetMaintenanceWindowTaskError,
   Creds | HttpClient.HttpClient
@@ -7769,6 +7948,8 @@ export const getMaintenanceWindowTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowTask",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindowTask",
 }));
 
 export type GetOpsItemError =
@@ -7787,7 +7968,7 @@ export type GetOpsItemError =
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const getOpsItem: API.OperationMethod<
-  GetOpsItemRequest,
+  GetOpsItemRequest & RegionInput,
   GetOpsItemResponse,
   GetOpsItemError,
   Creds | HttpClient.HttpClient
@@ -7798,6 +7979,8 @@ export const getOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpsItem",
+  telemetry: TELEMETRY,
+  span: "GetOpsItem",
 }));
 
 export type GetOpsMetadataError =
@@ -7809,7 +7992,7 @@ export type GetOpsMetadataError =
  * View operational metadata related to an application in Application Manager.
  */
 export const getOpsMetadata: API.OperationMethod<
-  GetOpsMetadataRequest,
+  GetOpsMetadataRequest & RegionInput,
   GetOpsMetadataResult,
   GetOpsMetadataError,
   Creds | HttpClient.HttpClient
@@ -7820,6 +8003,8 @@ export const getOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpsMetadata",
+  telemetry: TELEMETRY,
+  span: "GetOpsMetadata",
 }));
 
 export type GetOpsSummaryError =
@@ -7837,7 +8022,7 @@ export type GetOpsSummaryError =
  * Explorer.
  */
 export const getOpsSummary: API.PaginatedOperationMethod<
-  GetOpsSummaryRequest,
+  GetOpsSummaryRequest & RegionInput,
   GetOpsSummaryResult,
   GetOpsSummaryError,
   Creds | HttpClient.HttpClient,
@@ -7862,6 +8047,8 @@ export const getOpsSummary: API.PaginatedOperationMethod<
     items: "Entities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOpsSummary",
 })) as any;
 
 export type GetParameterError =
@@ -7894,7 +8081,7 @@ export type GetParameterError =
  * throughput.
  */
 export const getParameter: API.OperationMethod<
-  GetParameterRequest,
+  GetParameterRequest & RegionInput,
   GetParameterResult,
   GetParameterError,
   Creds | HttpClient.HttpClient
@@ -7905,6 +8092,8 @@ export const getParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParameter",
+  telemetry: TELEMETRY,
+  span: "GetParameter",
 }));
 
 export type GetParameterHistoryError =
@@ -7926,7 +8115,7 @@ export type GetParameterHistoryError =
  * referencing.
  */
 export const getParameterHistory: API.PaginatedOperationMethod<
-  GetParameterHistoryRequest,
+  GetParameterHistoryRequest & RegionInput,
   GetParameterHistoryResult,
   GetParameterHistoryError,
   Creds | HttpClient.HttpClient,
@@ -7943,6 +8132,8 @@ export const getParameterHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetParameterHistory",
 })) as any;
 
 export type GetParametersError = InternalServerError | InvalidKeyId | CommonErrors;
@@ -7971,7 +8162,7 @@ export type GetParametersError = InternalServerError | InvalidKeyId | CommonErro
  * throughput.
  */
 export const getParameters: API.OperationMethod<
-  GetParametersRequest,
+  GetParametersRequest & RegionInput,
   GetParametersResult,
   GetParametersError,
   Creds | HttpClient.HttpClient
@@ -7982,6 +8173,8 @@ export const getParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParameters",
+  telemetry: TELEMETRY,
+  span: "GetParameters",
 }));
 
 export type GetParametersByPathError =
@@ -8007,7 +8200,7 @@ export type GetParametersByPathError =
  * between characters, the request fails with a `ValidationException` error.
  */
 export const getParametersByPath: API.PaginatedOperationMethod<
-  GetParametersByPathRequest,
+  GetParametersByPathRequest & RegionInput,
   GetParametersByPathResult,
   GetParametersByPathError,
   Creds | HttpClient.HttpClient,
@@ -8031,6 +8224,8 @@ export const getParametersByPath: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetParametersByPath",
 })) as any;
 
 export type GetPatchBaselineError =
@@ -8042,7 +8237,7 @@ export type GetPatchBaselineError =
  * Retrieves information about a patch baseline.
  */
 export const getPatchBaseline: API.OperationMethod<
-  GetPatchBaselineRequest,
+  GetPatchBaselineRequest & RegionInput,
   GetPatchBaselineResult,
   GetPatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -8053,6 +8248,8 @@ export const getPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPatchBaseline",
+  telemetry: TELEMETRY,
+  span: "GetPatchBaseline",
 }));
 
 export type GetPatchBaselineForPatchGroupError = InternalServerError | CommonErrors;
@@ -8060,7 +8257,7 @@ export type GetPatchBaselineForPatchGroupError = InternalServerError | CommonErr
  * Retrieves the patch baseline that should be used for the specified patch group.
  */
 export const getPatchBaselineForPatchGroup: API.OperationMethod<
-  GetPatchBaselineForPatchGroupRequest,
+  GetPatchBaselineForPatchGroupRequest & RegionInput,
   GetPatchBaselineForPatchGroupResult,
   GetPatchBaselineForPatchGroupError,
   Creds | HttpClient.HttpClient
@@ -8071,6 +8268,8 @@ export const getPatchBaselineForPatchGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPatchBaselineForPatchGroup",
+  telemetry: TELEMETRY,
+  span: "GetPatchBaselineForPatchGroup",
 }));
 
 export type GetResourcePoliciesError =
@@ -8082,7 +8281,7 @@ export type GetResourcePoliciesError =
  * Returns an array of the `Policy` object.
  */
 export const getResourcePolicies: API.PaginatedOperationMethod<
-  GetResourcePoliciesRequest,
+  GetResourcePoliciesRequest & RegionInput,
   GetResourcePoliciesResponse,
   GetResourcePoliciesError,
   Creds | HttpClient.HttpClient,
@@ -8100,6 +8299,8 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
     items: "Policies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicies",
 })) as any;
 
 export type GetServiceSettingError = InternalServerError | ServiceSettingNotFound | CommonErrors;
@@ -8121,7 +8322,7 @@ export type GetServiceSettingError = InternalServerError | ServiceSettingNotFoun
  * Query the current service setting for the Amazon Web Services account.
  */
 export const getServiceSetting: API.OperationMethod<
-  GetServiceSettingRequest,
+  GetServiceSettingRequest & RegionInput,
   GetServiceSettingResult,
   GetServiceSettingError,
   Creds | HttpClient.HttpClient
@@ -8132,6 +8333,8 @@ export const getServiceSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSetting",
+  telemetry: TELEMETRY,
+  span: "GetServiceSetting",
 }));
 
 export type LabelParameterVersionError =
@@ -8176,7 +8379,7 @@ export type LabelParameterVersionError =
  * between characters, the request fails with a `ValidationException` error.
  */
 export const labelParameterVersion: API.OperationMethod<
-  LabelParameterVersionRequest,
+  LabelParameterVersionRequest & RegionInput,
   LabelParameterVersionResult,
   LabelParameterVersionError,
   Creds | HttpClient.HttpClient
@@ -8193,6 +8396,8 @@ export const labelParameterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LabelParameterVersion",
+  telemetry: TELEMETRY,
+  span: "LabelParameterVersion",
 }));
 
 export type ListAssociationsError = InternalServerError | InvalidNextToken | CommonErrors;
@@ -8202,7 +8407,7 @@ export type ListAssociationsError = InternalServerError | InvalidNextToken | Com
  * specifying a filter. State Manager is a tool in Amazon Web Services Systems Manager.
  */
 export const listAssociations: API.PaginatedOperationMethod<
-  ListAssociationsRequest,
+  ListAssociationsRequest & RegionInput,
   ListAssociationsResult,
   ListAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -8220,6 +8425,8 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociations",
 })) as any;
 
 export type ListAssociationVersionsError =
@@ -8231,7 +8438,7 @@ export type ListAssociationVersionsError =
  * Retrieves all versions of an association for a specific association ID.
  */
 export const listAssociationVersions: API.PaginatedOperationMethod<
-  ListAssociationVersionsRequest,
+  ListAssociationVersionsRequest & RegionInput,
   ListAssociationVersionsResult,
   ListAssociationVersionsError,
   Creds | HttpClient.HttpClient,
@@ -8249,6 +8456,8 @@ export const listAssociationVersions: API.PaginatedOperationMethod<
     items: "AssociationVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociationVersions",
 })) as any;
 
 export type ListCloudConnectorsError = InternalServerError | CommonErrors;
@@ -8256,7 +8465,7 @@ export type ListCloudConnectorsError = InternalServerError | CommonErrors;
  * Returns a list of cloud connectors in the current Amazon Web Services account and Amazon Web Services Region.
  */
 export const listCloudConnectors: API.PaginatedOperationMethod<
-  ListCloudConnectorsRequest,
+  ListCloudConnectorsRequest & RegionInput,
   ListCloudConnectorsResult,
   ListCloudConnectorsError,
   Creds | HttpClient.HttpClient,
@@ -8274,6 +8483,8 @@ export const listCloudConnectors: API.PaginatedOperationMethod<
     items: "CloudConnectors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudConnectors",
 })) as any;
 
 export type ListCommandInvocationsError =
@@ -8291,7 +8502,7 @@ export type ListCommandInvocationsError =
  * about command execution.
  */
 export const listCommandInvocations: API.PaginatedOperationMethod<
-  ListCommandInvocationsRequest,
+  ListCommandInvocationsRequest & RegionInput,
   ListCommandInvocationsResult,
   ListCommandInvocationsError,
   Creds | HttpClient.HttpClient,
@@ -8315,6 +8526,8 @@ export const listCommandInvocations: API.PaginatedOperationMethod<
     items: "CommandInvocations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCommandInvocations",
 })) as any;
 
 export type ListCommandsError =
@@ -8328,7 +8541,7 @@ export type ListCommandsError =
  * Lists the commands requested by users of the Amazon Web Services account.
  */
 export const listCommands: API.PaginatedOperationMethod<
-  ListCommandsRequest,
+  ListCommandsRequest & RegionInput,
   ListCommandsResult,
   ListCommandsError,
   Creds | HttpClient.HttpClient,
@@ -8352,6 +8565,8 @@ export const listCommands: API.PaginatedOperationMethod<
     items: "Commands",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCommands",
 })) as any;
 
 export type ListComplianceItemsError =
@@ -8367,7 +8582,7 @@ export type ListComplianceItemsError =
  * depend on the criteria specified in the filter.
  */
 export const listComplianceItems: API.PaginatedOperationMethod<
-  ListComplianceItemsRequest,
+  ListComplianceItemsRequest & RegionInput,
   ListComplianceItemsResult,
   ListComplianceItemsError,
   Creds | HttpClient.HttpClient,
@@ -8391,6 +8606,8 @@ export const listComplianceItems: API.PaginatedOperationMethod<
     items: "ComplianceItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComplianceItems",
 })) as any;
 
 export type ListComplianceSummariesError =
@@ -8404,7 +8621,7 @@ export type ListComplianceSummariesError =
  * according to the filter criteria that you specify.
  */
 export const listComplianceSummaries: API.PaginatedOperationMethod<
-  ListComplianceSummariesRequest,
+  ListComplianceSummariesRequest & RegionInput,
   ListComplianceSummariesResult,
   ListComplianceSummariesError,
   Creds | HttpClient.HttpClient,
@@ -8422,6 +8639,8 @@ export const listComplianceSummaries: API.PaginatedOperationMethod<
     items: "ComplianceSummaryItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComplianceSummaries",
 })) as any;
 
 export type ListDocumentMetadataHistoryError =
@@ -8438,7 +8657,7 @@ export type ListDocumentMetadataHistoryError =
  * Information about approval reviews for a version of a change template in Change Manager.
  */
 export const listDocumentMetadataHistory: API.OperationMethod<
-  ListDocumentMetadataHistoryRequest,
+  ListDocumentMetadataHistoryRequest & RegionInput,
   ListDocumentMetadataHistoryResponse,
   ListDocumentMetadataHistoryError,
   Creds | HttpClient.HttpClient
@@ -8449,6 +8668,8 @@ export const listDocumentMetadataHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDocumentMetadataHistory",
+  telemetry: TELEMETRY,
+  span: "ListDocumentMetadataHistory",
 }));
 
 export type ListDocumentsError =
@@ -8461,7 +8682,7 @@ export type ListDocumentsError =
  * limit the results of this request by using a filter.
  */
 export const listDocuments: API.PaginatedOperationMethod<
-  ListDocumentsRequest,
+  ListDocumentsRequest & RegionInput,
   ListDocumentsResult,
   ListDocumentsError,
   Creds | HttpClient.HttpClient,
@@ -8479,6 +8700,8 @@ export const listDocuments: API.PaginatedOperationMethod<
     items: "DocumentIdentifiers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocuments",
 })) as any;
 
 export type ListDocumentVersionsError =
@@ -8490,7 +8713,7 @@ export type ListDocumentVersionsError =
  * List all versions for a document.
  */
 export const listDocumentVersions: API.PaginatedOperationMethod<
-  ListDocumentVersionsRequest,
+  ListDocumentVersionsRequest & RegionInput,
   ListDocumentVersionsResult,
   ListDocumentVersionsError,
   Creds | HttpClient.HttpClient,
@@ -8508,6 +8731,8 @@ export const listDocumentVersions: API.PaginatedOperationMethod<
     items: "DocumentVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocumentVersions",
 })) as any;
 
 export type ListInventoryEntriesError =
@@ -8521,7 +8746,7 @@ export type ListInventoryEntriesError =
  * A list of inventory items returned by the request.
  */
 export const listInventoryEntries: API.OperationMethod<
-  ListInventoryEntriesRequest,
+  ListInventoryEntriesRequest & RegionInput,
   ListInventoryEntriesResult,
   ListInventoryEntriesError,
   Creds | HttpClient.HttpClient
@@ -8538,6 +8763,8 @@ export const listInventoryEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInventoryEntries",
+  telemetry: TELEMETRY,
+  span: "ListInventoryEntries",
 }));
 
 export type ListNodesError =
@@ -8551,7 +8778,7 @@ export type ListNodesError =
  * Takes in filters and returns a list of managed nodes matching the filter criteria.
  */
 export const listNodes: API.PaginatedOperationMethod<
-  ListNodesRequest,
+  ListNodesRequest & RegionInput,
   ListNodesResult,
   ListNodesError,
   Creds | HttpClient.HttpClient,
@@ -8575,6 +8802,8 @@ export const listNodes: API.PaginatedOperationMethod<
     items: "Nodes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodes",
 })) as any;
 
 export type ListNodesSummaryError =
@@ -8590,7 +8819,7 @@ export type ListNodesSummaryError =
  * you specify. Results are grouped by the input aggregator you specify.
  */
 export const listNodesSummary: API.PaginatedOperationMethod<
-  ListNodesSummaryRequest,
+  ListNodesSummaryRequest & RegionInput,
   ListNodesSummaryResult,
   ListNodesSummaryError,
   Creds | HttpClient.HttpClient,
@@ -8615,6 +8844,8 @@ export const listNodesSummary: API.PaginatedOperationMethod<
     items: "Summary",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodesSummary",
 })) as any;
 
 export type ListOpsItemEventsError =
@@ -8628,7 +8859,7 @@ export type ListOpsItemEventsError =
  * limit the results to events associated with specific OpsItems by specifying a filter.
  */
 export const listOpsItemEvents: API.PaginatedOperationMethod<
-  ListOpsItemEventsRequest,
+  ListOpsItemEventsRequest & RegionInput,
   ListOpsItemEventsResponse,
   ListOpsItemEventsError,
   Creds | HttpClient.HttpClient,
@@ -8651,6 +8882,8 @@ export const listOpsItemEvents: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpsItemEvents",
 })) as any;
 
 export type ListOpsItemRelatedItemsError =
@@ -8662,7 +8895,7 @@ export type ListOpsItemRelatedItemsError =
  * tool in Amazon Web Services Systems Manager.
  */
 export const listOpsItemRelatedItems: API.PaginatedOperationMethod<
-  ListOpsItemRelatedItemsRequest,
+  ListOpsItemRelatedItemsRequest & RegionInput,
   ListOpsItemRelatedItemsResponse,
   ListOpsItemRelatedItemsError,
   Creds | HttpClient.HttpClient,
@@ -8680,6 +8913,8 @@ export const listOpsItemRelatedItems: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpsItemRelatedItems",
 })) as any;
 
 export type ListOpsMetadataError =
@@ -8691,7 +8926,7 @@ export type ListOpsMetadataError =
  * blobs.
  */
 export const listOpsMetadata: API.PaginatedOperationMethod<
-  ListOpsMetadataRequest,
+  ListOpsMetadataRequest & RegionInput,
   ListOpsMetadataResult,
   ListOpsMetadataError,
   Creds | HttpClient.HttpClient,
@@ -8709,6 +8944,8 @@ export const listOpsMetadata: API.PaginatedOperationMethod<
     items: "OpsMetadataList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpsMetadata",
 })) as any;
 
 export type ListResourceComplianceSummariesError =
@@ -8722,7 +8959,7 @@ export type ListResourceComplianceSummariesError =
  * criteria you specify.
  */
 export const listResourceComplianceSummaries: API.PaginatedOperationMethod<
-  ListResourceComplianceSummariesRequest,
+  ListResourceComplianceSummariesRequest & RegionInput,
   ListResourceComplianceSummariesResult,
   ListResourceComplianceSummariesError,
   Creds | HttpClient.HttpClient,
@@ -8740,6 +8977,8 @@ export const listResourceComplianceSummaries: API.PaginatedOperationMethod<
     items: "ResourceComplianceSummaryItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceComplianceSummaries",
 })) as any;
 
 export type ListResourceDataSyncError =
@@ -8760,7 +8999,7 @@ export type ListResourceDataSyncError =
  * returned in the call to the parameter of a subsequent call.
  */
 export const listResourceDataSync: API.PaginatedOperationMethod<
-  ListResourceDataSyncRequest,
+  ListResourceDataSyncRequest & RegionInput,
   ListResourceDataSyncResult,
   ListResourceDataSyncError,
   Creds | HttpClient.HttpClient,
@@ -8778,6 +9017,8 @@ export const listResourceDataSync: API.PaginatedOperationMethod<
     items: "ResourceDataSyncItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceDataSync",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -8791,7 +9032,7 @@ export type ListTagsForResourceError =
  * For information about the ID format for each supported resource type, see AddTagsToResource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -8802,6 +9043,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ModifyDocumentPermissionError =
@@ -8818,7 +9061,7 @@ export type ModifyDocumentPermissionError =
  * ID.
  */
 export const modifyDocumentPermission: API.OperationMethod<
-  ModifyDocumentPermissionRequest,
+  ModifyDocumentPermissionRequest & RegionInput,
   ModifyDocumentPermissionResponse,
   ModifyDocumentPermissionError,
   Creds | HttpClient.HttpClient
@@ -8835,6 +9078,8 @@ export const modifyDocumentPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDocumentPermission",
+  telemetry: TELEMETRY,
+  span: "ModifyDocumentPermission",
 }));
 
 export type PutComplianceItemsError =
@@ -8896,7 +9141,7 @@ export type PutComplianceItemsError =
  * `yyyy-MM-dd'T'HH:mm:ss'Z'`
  */
 export const putComplianceItems: API.OperationMethod<
-  PutComplianceItemsRequest,
+  PutComplianceItemsRequest & RegionInput,
   PutComplianceItemsResult,
   PutComplianceItemsError,
   Creds | HttpClient.HttpClient
@@ -8915,6 +9160,8 @@ export const putComplianceItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComplianceItems",
+  telemetry: TELEMETRY,
+  span: "PutComplianceItems",
 }));
 
 export type PutInventoryError =
@@ -8937,7 +9184,7 @@ export type PutInventoryError =
  * exist.
  */
 export const putInventory: API.OperationMethod<
-  PutInventoryRequest,
+  PutInventoryRequest & RegionInput,
   PutInventoryResult,
   PutInventoryError,
   Creds | HttpClient.HttpClient
@@ -8961,6 +9208,8 @@ export const putInventory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInventory",
+  telemetry: TELEMETRY,
+  span: "PutInventory",
 }));
 
 export type PutParameterError =
@@ -8998,7 +9247,7 @@ export type PutParameterError =
  * throughput.
  */
 export const putParameter: API.OperationMethod<
-  PutParameterRequest,
+  PutParameterRequest & RegionInput,
   PutParameterResult,
   PutParameterError,
   Creds | HttpClient.HttpClient
@@ -9025,6 +9274,8 @@ export const putParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutParameter",
+  telemetry: TELEMETRY,
+  span: "PutParameter",
 }));
 
 export type PutResourcePolicyError =
@@ -9075,7 +9326,7 @@ export type PutResourcePolicyError =
  * documents. The Amazon Web Services Config PutRemediationConfigurations API operation also can't use the document.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Creds | HttpClient.HttpClient
@@ -9094,6 +9345,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterDefaultPatchBaselineError =
@@ -9110,7 +9363,7 @@ export type RegisterDefaultPatchBaselineError =
  * `pb-0574b43a65ea646ed`.
  */
 export const registerDefaultPatchBaseline: API.OperationMethod<
-  RegisterDefaultPatchBaselineRequest,
+  RegisterDefaultPatchBaselineRequest & RegionInput,
   RegisterDefaultPatchBaselineResult,
   RegisterDefaultPatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -9121,6 +9374,8 @@ export const registerDefaultPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDefaultPatchBaseline",
+  telemetry: TELEMETRY,
+  span: "RegisterDefaultPatchBaseline",
 }));
 
 export type RegisterPatchBaselineForPatchGroupError =
@@ -9134,7 +9389,7 @@ export type RegisterPatchBaselineForPatchGroupError =
  * Registers a patch baseline for a patch group.
  */
 export const registerPatchBaselineForPatchGroup: API.OperationMethod<
-  RegisterPatchBaselineForPatchGroupRequest,
+  RegisterPatchBaselineForPatchGroupRequest & RegionInput,
   RegisterPatchBaselineForPatchGroupResult,
   RegisterPatchBaselineForPatchGroupError,
   Creds | HttpClient.HttpClient
@@ -9151,6 +9406,8 @@ export const registerPatchBaselineForPatchGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterPatchBaselineForPatchGroup",
+  telemetry: TELEMETRY,
+  span: "RegisterPatchBaselineForPatchGroup",
 }));
 
 export type RegisterTargetWithMaintenanceWindowError =
@@ -9163,7 +9420,7 @@ export type RegisterTargetWithMaintenanceWindowError =
  * Registers a target with a maintenance window.
  */
 export const registerTargetWithMaintenanceWindow: API.OperationMethod<
-  RegisterTargetWithMaintenanceWindowRequest,
+  RegisterTargetWithMaintenanceWindowRequest & RegionInput,
   RegisterTargetWithMaintenanceWindowResult,
   RegisterTargetWithMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -9179,6 +9436,8 @@ export const registerTargetWithMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargetWithMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "RegisterTargetWithMaintenanceWindow",
 }));
 
 export type RegisterTaskWithMaintenanceWindowError =
@@ -9192,7 +9451,7 @@ export type RegisterTaskWithMaintenanceWindowError =
  * Adds a new task to a maintenance window.
  */
 export const registerTaskWithMaintenanceWindow: API.OperationMethod<
-  RegisterTaskWithMaintenanceWindowRequest,
+  RegisterTaskWithMaintenanceWindowRequest & RegionInput,
   RegisterTaskWithMaintenanceWindowResult,
   RegisterTaskWithMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -9209,6 +9468,8 @@ export const registerTaskWithMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTaskWithMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "RegisterTaskWithMaintenanceWindow",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -9221,7 +9482,7 @@ export type RemoveTagsFromResourceError =
  * Removes tag keys from the specified resource.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceRequest,
+  RemoveTagsFromResourceRequest & RegionInput,
   RemoveTagsFromResourceResult,
   RemoveTagsFromResourceError,
   Creds | HttpClient.HttpClient
@@ -9232,6 +9493,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 export type ResetServiceSettingError =
@@ -9258,7 +9521,7 @@ export type ResetServiceSettingError =
  * service team.
  */
 export const resetServiceSetting: API.OperationMethod<
-  ResetServiceSettingRequest,
+  ResetServiceSettingRequest & RegionInput,
   ResetServiceSettingResult,
   ResetServiceSettingError,
   Creds | HttpClient.HttpClient
@@ -9269,6 +9532,8 @@ export const resetServiceSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetServiceSetting",
+  telemetry: TELEMETRY,
+  span: "ResetServiceSetting",
 }));
 
 export type ResumeSessionError = DoesNotExistException | InternalServerError | CommonErrors;
@@ -9280,7 +9545,7 @@ export type ResumeSessionError = DoesNotExistException | InternalServerError | C
  * intermittent network issues. It isn't intended for any other use.
  */
 export const resumeSession: API.OperationMethod<
-  ResumeSessionRequest,
+  ResumeSessionRequest & RegionInput,
   ResumeSessionResponse,
   ResumeSessionError,
   Creds | HttpClient.HttpClient
@@ -9291,6 +9556,8 @@ export const resumeSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeSession",
+  telemetry: TELEMETRY,
+  span: "ResumeSession",
 }));
 
 export type SendAutomationSignalError =
@@ -9304,7 +9571,7 @@ export type SendAutomationSignalError =
  * execution.
  */
 export const sendAutomationSignal: API.OperationMethod<
-  SendAutomationSignalRequest,
+  SendAutomationSignalRequest & RegionInput,
   SendAutomationSignalResult,
   SendAutomationSignalError,
   Creds | HttpClient.HttpClient
@@ -9320,6 +9587,8 @@ export const sendAutomationSignal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAutomationSignal",
+  telemetry: TELEMETRY,
+  span: "SendAutomationSignal",
 }));
 
 export type SendCommandError =
@@ -9339,7 +9608,7 @@ export type SendCommandError =
  * Runs commands on one or more managed nodes.
  */
 export const sendCommand: API.OperationMethod<
-  SendCommandRequest,
+  SendCommandRequest & RegionInput,
   SendCommandResult,
   SendCommandError,
   Creds | HttpClient.HttpClient
@@ -9362,6 +9631,8 @@ export const sendCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCommand",
+  telemetry: TELEMETRY,
+  span: "SendCommand",
 }));
 
 export type StartAccessRequestError =
@@ -9376,7 +9647,7 @@ export type StartAccessRequestError =
  * Starts the workflow for just-in-time node access sessions.
  */
 export const startAccessRequest: API.OperationMethod<
-  StartAccessRequestRequest,
+  StartAccessRequestRequest & RegionInput,
   StartAccessRequestResponse,
   StartAccessRequestError,
   Creds | HttpClient.HttpClient
@@ -9394,6 +9665,8 @@ export const startAccessRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAccessRequest",
+  telemetry: TELEMETRY,
+  span: "StartAccessRequest",
 }));
 
 export type StartAssociationsOnceError =
@@ -9405,7 +9678,7 @@ export type StartAssociationsOnceError =
  * troubleshooting associations.
  */
 export const startAssociationsOnce: API.OperationMethod<
-  StartAssociationsOnceRequest,
+  StartAssociationsOnceRequest & RegionInput,
   StartAssociationsOnceResult,
   StartAssociationsOnceError,
   Creds | HttpClient.HttpClient
@@ -9416,6 +9689,8 @@ export const startAssociationsOnce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssociationsOnce",
+  telemetry: TELEMETRY,
+  span: "StartAssociationsOnce",
 }));
 
 export type StartAutomationExecutionError =
@@ -9431,7 +9706,7 @@ export type StartAutomationExecutionError =
  * Initiates execution of an Automation runbook.
  */
 export const startAutomationExecution: API.OperationMethod<
-  StartAutomationExecutionRequest,
+  StartAutomationExecutionRequest & RegionInput,
   StartAutomationExecutionResult,
   StartAutomationExecutionError,
   Creds | HttpClient.HttpClient
@@ -9450,6 +9725,8 @@ export const startAutomationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationExecution",
+  telemetry: TELEMETRY,
+  span: "StartAutomationExecution",
 }));
 
 export type StartChangeRequestExecutionError =
@@ -9472,7 +9749,7 @@ export type StartChangeRequestExecutionError =
  * received.
  */
 export const startChangeRequestExecution: API.OperationMethod<
-  StartChangeRequestExecutionRequest,
+  StartChangeRequestExecutionRequest & RegionInput,
   StartChangeRequestExecutionResult,
   StartChangeRequestExecutionError,
   Creds | HttpClient.HttpClient
@@ -9492,6 +9769,8 @@ export const startChangeRequestExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChangeRequestExecution",
+  telemetry: TELEMETRY,
+  span: "StartChangeRequestExecution",
 }));
 
 export type StartExecutionPreviewError = InternalServerError | ValidationException | CommonErrors;
@@ -9500,7 +9779,7 @@ export type StartExecutionPreviewError = InternalServerError | ValidationExcepti
  * Automation runbook would have on the targeted resources.
  */
 export const startExecutionPreview: API.OperationMethod<
-  StartExecutionPreviewRequest,
+  StartExecutionPreviewRequest & RegionInput,
   StartExecutionPreviewResponse,
   StartExecutionPreviewError,
   Creds | HttpClient.HttpClient
@@ -9511,6 +9790,8 @@ export const startExecutionPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExecutionPreview",
+  telemetry: TELEMETRY,
+  span: "StartExecutionPreview",
 }));
 
 export type StartSessionError =
@@ -9531,7 +9812,7 @@ export type StartSessionError =
  * for PowerShell on Windows local machines.
  */
 export const startSession: API.OperationMethod<
-  StartSessionRequest,
+  StartSessionRequest & RegionInput,
   StartSessionResponse,
   StartSessionError,
   Creds | HttpClient.HttpClient
@@ -9542,6 +9823,8 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  telemetry: TELEMETRY,
+  span: "StartSession",
 }));
 
 export type StopAutomationExecutionError =
@@ -9553,7 +9836,7 @@ export type StopAutomationExecutionError =
  * Stop an Automation that is currently running.
  */
 export const stopAutomationExecution: API.OperationMethod<
-  StopAutomationExecutionRequest,
+  StopAutomationExecutionRequest & RegionInput,
   StopAutomationExecutionResult,
   StopAutomationExecutionError,
   Creds | HttpClient.HttpClient
@@ -9568,6 +9851,8 @@ export const stopAutomationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutomationExecution",
+  telemetry: TELEMETRY,
+  span: "StopAutomationExecution",
 }));
 
 export type TerminateSessionError = InternalServerError | CommonErrors;
@@ -9576,7 +9861,7 @@ export type TerminateSessionError = InternalServerError | CommonErrors;
  * SSM Agent on the managed node. A terminated session can't be resumed.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionRequest,
+  TerminateSessionRequest & RegionInput,
   TerminateSessionResponse,
   TerminateSessionError,
   Creds | HttpClient.HttpClient
@@ -9587,6 +9872,8 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
+  telemetry: TELEMETRY,
+  span: "TerminateSession",
 }));
 
 export type UnlabelParameterVersionError =
@@ -9603,7 +9890,7 @@ export type UnlabelParameterVersionError =
  * between characters, the request fails with a `ValidationException` error.
  */
 export const unlabelParameterVersion: API.OperationMethod<
-  UnlabelParameterVersionRequest,
+  UnlabelParameterVersionRequest & RegionInput,
   UnlabelParameterVersionResult,
   UnlabelParameterVersionError,
   Creds | HttpClient.HttpClient
@@ -9614,6 +9901,8 @@ export const unlabelParameterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlabelParameterVersion",
+  telemetry: TELEMETRY,
+  span: "UnlabelParameterVersion",
 }));
 
 export type UpdateAssociationError =
@@ -9652,7 +9941,7 @@ export type UpdateAssociationError =
  * during the next schedule run.
  */
 export const updateAssociation: API.OperationMethod<
-  UpdateAssociationRequest,
+  UpdateAssociationRequest & RegionInput,
   UpdateAssociationResult,
   UpdateAssociationError,
   Creds | HttpClient.HttpClient
@@ -9677,6 +9966,8 @@ export const updateAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateAssociation",
 }));
 
 export type UpdateAssociationStatusError =
@@ -9696,7 +9987,7 @@ export type UpdateAssociationStatusError =
  * `InstanceId` legacy parameter.
  */
 export const updateAssociationStatus: API.OperationMethod<
-  UpdateAssociationStatusRequest,
+  UpdateAssociationStatusRequest & RegionInput,
   UpdateAssociationStatusResult,
   UpdateAssociationStatusError,
   Creds | HttpClient.HttpClient
@@ -9714,6 +10005,8 @@ export const updateAssociationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssociationStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAssociationStatus",
 }));
 
 export type UpdateCloudConnectorError =
@@ -9725,7 +10018,7 @@ export type UpdateCloudConnectorError =
  * Updates an existing cloud connector with new configuration details.
  */
 export const updateCloudConnector: API.OperationMethod<
-  UpdateCloudConnectorRequest,
+  UpdateCloudConnectorRequest & RegionInput,
   UpdateCloudConnectorResult,
   UpdateCloudConnectorError,
   Creds | HttpClient.HttpClient
@@ -9736,6 +10029,8 @@ export const updateCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudConnector",
 }));
 
 export type UpdateDocumentError =
@@ -9754,7 +10049,7 @@ export type UpdateDocumentError =
  * Updates one or more values for an SSM document.
  */
 export const updateDocument: API.OperationMethod<
-  UpdateDocumentRequest,
+  UpdateDocumentRequest & RegionInput,
   UpdateDocumentResult,
   UpdateDocumentError,
   Creds | HttpClient.HttpClient
@@ -9776,6 +10071,8 @@ export const updateDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocument",
+  telemetry: TELEMETRY,
+  span: "UpdateDocument",
 }));
 
 export type UpdateDocumentDefaultVersionError =
@@ -9792,7 +10089,7 @@ export type UpdateDocumentDefaultVersionError =
  * parameter.
  */
 export const updateDocumentDefaultVersion: API.OperationMethod<
-  UpdateDocumentDefaultVersionRequest,
+  UpdateDocumentDefaultVersionRequest & RegionInput,
   UpdateDocumentDefaultVersionResult,
   UpdateDocumentDefaultVersionError,
   Creds | HttpClient.HttpClient
@@ -9808,6 +10105,8 @@ export const updateDocumentDefaultVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentDefaultVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentDefaultVersion",
 }));
 
 export type UpdateDocumentMetadataError =
@@ -9826,7 +10125,7 @@ export type UpdateDocumentMetadataError =
  * in Change Manager.
  */
 export const updateDocumentMetadata: API.OperationMethod<
-  UpdateDocumentMetadataRequest,
+  UpdateDocumentMetadataRequest & RegionInput,
   UpdateDocumentMetadataResponse,
   UpdateDocumentMetadataError,
   Creds | HttpClient.HttpClient
@@ -9843,6 +10142,8 @@ export const updateDocumentMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentMetadata",
 }));
 
 export type UpdateMaintenanceWindowError =
@@ -9860,7 +10161,7 @@ export type UpdateMaintenanceWindowError =
  * after 5 PM.
  */
 export const updateMaintenanceWindow: API.OperationMethod<
-  UpdateMaintenanceWindowRequest,
+  UpdateMaintenanceWindowRequest & RegionInput,
   UpdateMaintenanceWindowResult,
   UpdateMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -9871,6 +10172,8 @@ export const updateMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceWindow",
 }));
 
 export type UpdateMaintenanceWindowTargetError =
@@ -9897,7 +10200,7 @@ export type UpdateMaintenanceWindowTargetError =
  * If a parameter is null, then the corresponding field isn't modified.
  */
 export const updateMaintenanceWindowTarget: API.OperationMethod<
-  UpdateMaintenanceWindowTargetRequest,
+  UpdateMaintenanceWindowTargetRequest & RegionInput,
   UpdateMaintenanceWindowTargetResult,
   UpdateMaintenanceWindowTargetError,
   Creds | HttpClient.HttpClient
@@ -9908,6 +10211,8 @@ export const updateMaintenanceWindowTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindowTarget",
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceWindowTarget",
 }));
 
 export type UpdateMaintenanceWindowTaskError =
@@ -9953,7 +10258,7 @@ export type UpdateMaintenanceWindowTaskError =
  * values for `Comment` and `NotificationConfig` are removed.
  */
 export const updateMaintenanceWindowTask: API.OperationMethod<
-  UpdateMaintenanceWindowTaskRequest,
+  UpdateMaintenanceWindowTaskRequest & RegionInput,
   UpdateMaintenanceWindowTaskResult,
   UpdateMaintenanceWindowTaskError,
   Creds | HttpClient.HttpClient
@@ -9964,6 +10269,8 @@ export const updateMaintenanceWindowTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindowTask",
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceWindowTask",
 }));
 
 export type UpdateManagedInstanceRoleError = InternalServerError | InvalidInstanceId | CommonErrors;
@@ -9973,7 +10280,7 @@ export type UpdateManagedInstanceRoleError = InternalServerError | InvalidInstan
  * assigned to these hybrid nodes during the activation process. For more information, see CreateActivation.
  */
 export const updateManagedInstanceRole: API.OperationMethod<
-  UpdateManagedInstanceRoleRequest,
+  UpdateManagedInstanceRoleRequest & RegionInput,
   UpdateManagedInstanceRoleResult,
   UpdateManagedInstanceRoleError,
   Creds | HttpClient.HttpClient
@@ -9984,6 +10291,8 @@ export const updateManagedInstanceRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedInstanceRole",
+  telemetry: TELEMETRY,
+  span: "UpdateManagedInstanceRole",
 }));
 
 export type UpdateOpsItemError =
@@ -10005,7 +10314,7 @@ export type UpdateOpsItemError =
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const updateOpsItem: API.OperationMethod<
-  UpdateOpsItemRequest,
+  UpdateOpsItemRequest & RegionInput,
   UpdateOpsItemResponse,
   UpdateOpsItemError,
   Creds | HttpClient.HttpClient
@@ -10024,6 +10333,8 @@ export const updateOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpsItem",
+  telemetry: TELEMETRY,
+  span: "UpdateOpsItem",
 }));
 
 export type UpdateOpsMetadataError =
@@ -10037,7 +10348,7 @@ export type UpdateOpsMetadataError =
  * Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in Application Manager.
  */
 export const updateOpsMetadata: API.OperationMethod<
-  UpdateOpsMetadataRequest,
+  UpdateOpsMetadataRequest & RegionInput,
   UpdateOpsMetadataResult,
   UpdateOpsMetadataError,
   Creds | HttpClient.HttpClient
@@ -10054,6 +10365,8 @@ export const updateOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpsMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateOpsMetadata",
 }));
 
 export type UpdatePatchBaselineError = DoesNotExistException | InternalServerError | CommonErrors;
@@ -10065,7 +10378,7 @@ export type UpdatePatchBaselineError = DoesNotExistException | InternalServerErr
  * operating system type, see PatchFilter.
  */
 export const updatePatchBaseline: API.OperationMethod<
-  UpdatePatchBaselineRequest,
+  UpdatePatchBaselineRequest & RegionInput,
   UpdatePatchBaselineResult,
   UpdatePatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -10076,6 +10389,8 @@ export const updatePatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePatchBaseline",
+  telemetry: TELEMETRY,
+  span: "UpdatePatchBaseline",
 }));
 
 export type UpdateResourceDataSyncError =
@@ -10096,7 +10411,7 @@ export type UpdateResourceDataSyncError =
  * SyncFromSource `SyncType`.
  */
 export const updateResourceDataSync: API.OperationMethod<
-  UpdateResourceDataSyncRequest,
+  UpdateResourceDataSyncRequest & RegionInput,
   UpdateResourceDataSyncResult,
   UpdateResourceDataSyncError,
   Creds | HttpClient.HttpClient
@@ -10112,6 +10427,8 @@ export const updateResourceDataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceDataSync",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceDataSync",
 }));
 
 export type UpdateServiceSettingError =
@@ -10137,7 +10454,7 @@ export type UpdateServiceSettingError =
  * Update the service setting for the account.
  */
 export const updateServiceSetting: API.OperationMethod<
-  UpdateServiceSettingRequest,
+  UpdateServiceSettingRequest & RegionInput,
   UpdateServiceSettingResult,
   UpdateServiceSettingError,
   Creds | HttpClient.HttpClient
@@ -10148,6 +10465,8 @@ export const updateServiceSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSetting",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSetting",
 }));
 
 export type ValidateCloudConnectorError =
@@ -10158,7 +10477,7 @@ export type ValidateCloudConnectorError =
  * Validates the configuration and connectivity of a cloud connector.
  */
 export const validateCloudConnector: API.PaginatedOperationMethod<
-  ValidateCloudConnectorRequest,
+  ValidateCloudConnectorRequest & RegionInput,
   ValidateCloudConnectorResult,
   ValidateCloudConnectorError,
   Creds | HttpClient.HttpClient,
@@ -10176,6 +10495,8 @@ export const validateCloudConnector: API.PaginatedOperationMethod<
     items: "ValidationFindings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ValidateCloudConnector",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

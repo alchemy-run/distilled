@@ -37,10 +37,28 @@
       "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "getDataProtectionPolicy": {
-      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId", "InvalidAction"],
+      "syntheticErrors": [
+        {
+          "name": "FifoTopicDataProtectionUnsupported",
+          "from": "InvalidAction",
+          "message": {
+            "includes": "is not supported on FIFO topics"
+          }
+        }
+      ]
     },
     "putDataProtectionPolicy": {
-      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId", "InvalidAction"],
+      "syntheticErrors": [
+        {
+          "name": "FifoTopicDataProtectionUnsupported",
+          "from": "InvalidAction",
+          "message": {
+            "includes": "is not supported on FIFO topics"
+          }
+        }
+      ]
     },
     "addPermission": {
       "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]

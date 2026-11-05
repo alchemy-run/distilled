@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Tooling",
+  propagate: "w3c",
+} as const;
+
 export interface RotateTokenRequest {
   /** The `xoxe` refresh token that was issued along with the old app configuration token. */
   refresh_token: string | Redacted.Redacted<string>;
@@ -45,6 +58,8 @@ export const rotateToken: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

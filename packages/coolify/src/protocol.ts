@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * CoolifyProtocol -- hand-written.
@@ -36,7 +36,8 @@ export type CoolifyOpError =
   | UnknownCoolifyError
   | ConfigError
   | HttpClientError.HttpClientError
-  | CoolifyParseError;
+  | CoolifyParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Coolify operation. */
 export type CoolifyOpContext = Credentials | HttpClient.HttpClient;

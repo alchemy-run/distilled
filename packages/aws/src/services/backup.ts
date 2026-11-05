@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://backup.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Backup",
+  service: "Backup",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()("AlreadyExistsException", {
@@ -2270,7 +2286,7 @@ export type AssociateBackupVaultMpaApprovalTeamError =
  * Associates an MPA approval team with a backup vault.
  */
 export const associateBackupVaultMpaApprovalTeam: API.OperationMethod<
-  AssociateBackupVaultMpaApprovalTeamInput,
+  AssociateBackupVaultMpaApprovalTeamInput & RegionInput,
   AssociateBackupVaultMpaApprovalTeamResponse,
   AssociateBackupVaultMpaApprovalTeamError,
   Credentials | HttpClient.HttpClient
@@ -2287,6 +2303,8 @@ export const associateBackupVaultMpaApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBackupVaultMpaApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "AssociateBackupVaultMpaApprovalTeam",
 }));
 
 export type CancelLegalHoldError =
@@ -2301,7 +2319,7 @@ export type CancelLegalHoldError =
  * by a user with sufficient permissions.
  */
 export const cancelLegalHold: API.OperationMethod<
-  CancelLegalHoldInput,
+  CancelLegalHoldInput & RegionInput,
   CancelLegalHoldOutput,
   CancelLegalHoldError,
   Credentials | HttpClient.HttpClient
@@ -2318,6 +2336,8 @@ export const cancelLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLegalHold",
+  telemetry: TELEMETRY,
+  span: "CancelLegalHold",
 }));
 
 export type CreateBackupAccessPointError =
@@ -2339,7 +2359,7 @@ export type CreateBackupAccessPointError =
  * and blocks deletion of that recovery point.
  */
 export const createBackupAccessPoint: API.OperationMethod<
-  CreateBackupAccessPointRequest,
+  CreateBackupAccessPointRequest & RegionInput,
   CreateBackupAccessPointResponse,
   CreateBackupAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -2359,6 +2379,8 @@ export const createBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupAccessPoint",
+  telemetry: TELEMETRY,
+  span: "CreateBackupAccessPoint",
 }));
 
 export type CreateBackupPlanError =
@@ -2377,7 +2399,7 @@ export type CreateBackupPlanError =
  * an `AlreadyExistsException` exception.
  */
 export const createBackupPlan: API.OperationMethod<
-  CreateBackupPlanInput,
+  CreateBackupPlanInput & RegionInput,
   CreateBackupPlanOutput,
   CreateBackupPlanError,
   Credentials | HttpClient.HttpClient
@@ -2394,6 +2416,8 @@ export const createBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupPlan",
+  telemetry: TELEMETRY,
+  span: "CreateBackupPlan",
 }));
 
 export type CreateBackupSelectionError =
@@ -2408,7 +2432,7 @@ export type CreateBackupSelectionError =
  * For examples, see Assigning resources programmatically.
  */
 export const createBackupSelection: API.OperationMethod<
-  CreateBackupSelectionInput,
+  CreateBackupSelectionInput & RegionInput,
   CreateBackupSelectionOutput,
   CreateBackupSelectionError,
   Credentials | HttpClient.HttpClient
@@ -2425,6 +2449,8 @@ export const createBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupSelection",
+  telemetry: TELEMETRY,
+  span: "CreateBackupSelection",
 }));
 
 export type CreateBackupVaultError =
@@ -2443,7 +2469,7 @@ export type CreateBackupVaultError =
  * vault.
  */
 export const createBackupVault: API.OperationMethod<
-  CreateBackupVaultInput,
+  CreateBackupVaultInput & RegionInput,
   CreateBackupVaultOutput,
   CreateBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -2460,6 +2486,8 @@ export const createBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupVault",
+  telemetry: TELEMETRY,
+  span: "CreateBackupVault",
 }));
 
 export type CreateFrameworkError =
@@ -2476,7 +2504,7 @@ export type CreateFrameworkError =
  * with your policies and which resources are not yet in compliance.
  */
 export const createFramework: API.OperationMethod<
-  CreateFrameworkInput,
+  CreateFrameworkInput & RegionInput,
   CreateFrameworkOutput,
   CreateFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -2493,6 +2521,8 @@ export const createFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFramework",
+  telemetry: TELEMETRY,
+  span: "CreateFramework",
 }));
 
 export type CreateLegalHoldError =
@@ -2508,7 +2538,7 @@ export type CreateLegalHoldError =
  * legal holds are on the recovery point.
  */
 export const createLegalHold: API.OperationMethod<
-  CreateLegalHoldInput,
+  CreateLegalHoldInput & RegionInput,
   CreateLegalHoldOutput,
   CreateLegalHoldError,
   Credentials | HttpClient.HttpClient
@@ -2524,6 +2554,8 @@ export const createLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLegalHold",
+  telemetry: TELEMETRY,
+  span: "CreateLegalHold",
 }));
 
 export type CreateLogicallyAirGappedBackupVaultError =
@@ -2545,7 +2577,7 @@ export type CreateLogicallyAirGappedBackupVaultError =
  * vault.
  */
 export const createLogicallyAirGappedBackupVault: API.OperationMethod<
-  CreateLogicallyAirGappedBackupVaultInput,
+  CreateLogicallyAirGappedBackupVaultInput & RegionInput,
   CreateLogicallyAirGappedBackupVaultOutput,
   CreateLogicallyAirGappedBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -2563,6 +2595,8 @@ export const createLogicallyAirGappedBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogicallyAirGappedBackupVault",
+  telemetry: TELEMETRY,
+  span: "CreateLogicallyAirGappedBackupVault",
 }));
 
 export type CreateReportPlanError =
@@ -2580,7 +2614,7 @@ export type CreateReportPlanError =
  * an `AlreadyExistsException` exception.
  */
 export const createReportPlan: API.OperationMethod<
-  CreateReportPlanInput,
+  CreateReportPlanInput & RegionInput,
   CreateReportPlanOutput,
   CreateReportPlanError,
   Credentials | HttpClient.HttpClient
@@ -2597,6 +2631,8 @@ export const createReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReportPlan",
+  telemetry: TELEMETRY,
+  span: "CreateReportPlan",
 }));
 
 export type CreateRestoreAccessBackupVaultError =
@@ -2612,7 +2648,7 @@ export type CreateRestoreAccessBackupVaultError =
  * Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval.
  */
 export const createRestoreAccessBackupVault: API.OperationMethod<
-  CreateRestoreAccessBackupVaultInput,
+  CreateRestoreAccessBackupVaultInput & RegionInput,
   CreateRestoreAccessBackupVaultOutput,
   CreateRestoreAccessBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -2631,6 +2667,8 @@ export const createRestoreAccessBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreAccessBackupVault",
+  telemetry: TELEMETRY,
+  span: "CreateRestoreAccessBackupVault",
 }));
 
 export type CreateRestoreTestingPlanError =
@@ -2649,7 +2687,7 @@ export type CreateRestoreTestingPlanError =
  * CreateRestoreTestingSelection.
  */
 export const createRestoreTestingPlan: API.OperationMethod<
-  CreateRestoreTestingPlanInput,
+  CreateRestoreTestingPlanInput & RegionInput,
   CreateRestoreTestingPlanOutput,
   CreateRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
@@ -2667,6 +2705,8 @@ export const createRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreTestingPlan",
+  telemetry: TELEMETRY,
+  span: "CreateRestoreTestingPlan",
 }));
 
 export type CreateRestoreTestingSelectionError =
@@ -2700,7 +2740,7 @@ export type CreateRestoreTestingSelectionError =
  * Request will fail if both are included.
  */
 export const createRestoreTestingSelection: API.OperationMethod<
-  CreateRestoreTestingSelectionInput,
+  CreateRestoreTestingSelectionInput & RegionInput,
   CreateRestoreTestingSelectionOutput,
   CreateRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
@@ -2718,6 +2758,8 @@ export const createRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreTestingSelection",
+  telemetry: TELEMETRY,
+  span: "CreateRestoreTestingSelection",
 }));
 
 export type CreateTieringConfigurationError =
@@ -2736,7 +2778,7 @@ export type CreateTieringConfigurationError =
  * Each vault can only have one vault-specific tiering configuration, in addition to any global configuration that applies to all vaults.
  */
 export const createTieringConfiguration: API.OperationMethod<
-  CreateTieringConfigurationInput,
+  CreateTieringConfigurationInput & RegionInput,
   CreateTieringConfigurationOutput,
   CreateTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2754,6 +2796,8 @@ export const createTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateTieringConfiguration",
 }));
 
 export type DeleteBackupAccessPointError =
@@ -2771,7 +2815,7 @@ export type DeleteBackupAccessPointError =
  * access point directly.
  */
 export const deleteBackupAccessPoint: API.OperationMethod<
-  DeleteBackupAccessPointInput,
+  DeleteBackupAccessPointInput & RegionInput,
   DeleteBackupAccessPointResponse,
   DeleteBackupAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -2788,6 +2832,8 @@ export const deleteBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupAccessPoint",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupAccessPoint",
 }));
 
 export type DeleteBackupPlanError =
@@ -2803,7 +2849,7 @@ export type DeleteBackupPlanError =
  * backup plan. Previous versions, if any, will still exist.
  */
 export const deleteBackupPlan: API.OperationMethod<
-  DeleteBackupPlanInput,
+  DeleteBackupPlanInput & RegionInput,
   DeleteBackupPlanOutput,
   DeleteBackupPlanError,
   Credentials | HttpClient.HttpClient
@@ -2820,6 +2866,8 @@ export const deleteBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupPlan",
 }));
 
 export type DeleteBackupSelectionError =
@@ -2833,7 +2881,7 @@ export type DeleteBackupSelectionError =
  * `SelectionId`.
  */
 export const deleteBackupSelection: API.OperationMethod<
-  DeleteBackupSelectionInput,
+  DeleteBackupSelectionInput & RegionInput,
   DeleteBackupSelectionResponse,
   DeleteBackupSelectionError,
   Credentials | HttpClient.HttpClient
@@ -2849,6 +2897,8 @@ export const deleteBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupSelection",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupSelection",
 }));
 
 export type DeleteBackupVaultError =
@@ -2863,7 +2913,7 @@ export type DeleteBackupVaultError =
  * empty.
  */
 export const deleteBackupVault: API.OperationMethod<
-  DeleteBackupVaultInput,
+  DeleteBackupVaultInput & RegionInput,
   DeleteBackupVaultResponse,
   DeleteBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -2880,6 +2930,8 @@ export const deleteBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVault",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVault",
 }));
 
 export type DeleteBackupVaultAccessPolicyError =
@@ -2892,7 +2944,7 @@ export type DeleteBackupVaultAccessPolicyError =
  * Deletes the policy document that manages permissions on a backup vault.
  */
 export const deleteBackupVaultAccessPolicy: API.OperationMethod<
-  DeleteBackupVaultAccessPolicyInput,
+  DeleteBackupVaultAccessPolicyInput & RegionInput,
   DeleteBackupVaultAccessPolicyResponse,
   DeleteBackupVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2908,6 +2960,8 @@ export const deleteBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVaultAccessPolicy",
 }));
 
 export type DeleteBackupVaultLockConfigurationError =
@@ -2927,7 +2981,7 @@ export type DeleteBackupVaultLockConfigurationError =
  * *Backup Developer Guide*.
  */
 export const deleteBackupVaultLockConfiguration: API.OperationMethod<
-  DeleteBackupVaultLockConfigurationInput,
+  DeleteBackupVaultLockConfigurationInput & RegionInput,
   DeleteBackupVaultLockConfigurationResponse,
   DeleteBackupVaultLockConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2944,6 +2998,8 @@ export const deleteBackupVaultLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultLockConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVaultLockConfiguration",
 }));
 
 export type DeleteBackupVaultNotificationsError =
@@ -2956,7 +3012,7 @@ export type DeleteBackupVaultNotificationsError =
  * Deletes event notifications for the specified backup vault.
  */
 export const deleteBackupVaultNotifications: API.OperationMethod<
-  DeleteBackupVaultNotificationsInput,
+  DeleteBackupVaultNotificationsInput & RegionInput,
   DeleteBackupVaultNotificationsResponse,
   DeleteBackupVaultNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -2972,6 +3028,8 @@ export const deleteBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVaultNotifications",
 }));
 
 export type DeleteFrameworkError =
@@ -2985,7 +3043,7 @@ export type DeleteFrameworkError =
  * Deletes the framework specified by a framework name.
  */
 export const deleteFramework: API.OperationMethod<
-  DeleteFrameworkInput,
+  DeleteFrameworkInput & RegionInput,
   DeleteFrameworkResponse,
   DeleteFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -3002,6 +3060,8 @@ export const deleteFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFramework",
+  telemetry: TELEMETRY,
+  span: "DeleteFramework",
 }));
 
 export type DeleteRecoveryPointError =
@@ -3031,7 +3091,7 @@ export type DeleteRecoveryPointError =
  * the deletion will not be successful and will enter an `EXPIRED` state.
  */
 export const deleteRecoveryPoint: API.OperationMethod<
-  DeleteRecoveryPointInput,
+  DeleteRecoveryPointInput & RegionInput,
   DeleteRecoveryPointResponse,
   DeleteRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -3049,6 +3109,8 @@ export const deleteRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryPoint",
 }));
 
 export type DeleteReportPlanError =
@@ -3062,7 +3124,7 @@ export type DeleteReportPlanError =
  * Deletes the report plan specified by a report plan name.
  */
 export const deleteReportPlan: API.OperationMethod<
-  DeleteReportPlanInput,
+  DeleteReportPlanInput & RegionInput,
   DeleteReportPlanResponse,
   DeleteReportPlanError,
   Credentials | HttpClient.HttpClient
@@ -3079,6 +3141,8 @@ export const deleteReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteReportPlan",
 }));
 
 export type DeleteRestoreTestingPlanError =
@@ -3092,7 +3156,7 @@ export type DeleteRestoreTestingPlanError =
  * restore testing selections are deleted first.
  */
 export const deleteRestoreTestingPlan: API.OperationMethod<
-  DeleteRestoreTestingPlanInput,
+  DeleteRestoreTestingPlanInput & RegionInput,
   DeleteRestoreTestingPlanResponse,
   DeleteRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
@@ -3103,6 +3167,8 @@ export const deleteRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestoreTestingPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteRestoreTestingPlan",
 }));
 
 export type DeleteRestoreTestingSelectionError =
@@ -3117,7 +3183,7 @@ export type DeleteRestoreTestingSelectionError =
  * be deleted before the restore testing plan can be deleted.
  */
 export const deleteRestoreTestingSelection: API.OperationMethod<
-  DeleteRestoreTestingSelectionInput,
+  DeleteRestoreTestingSelectionInput & RegionInput,
   DeleteRestoreTestingSelectionResponse,
   DeleteRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
@@ -3128,6 +3194,8 @@ export const deleteRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestoreTestingSelection",
+  telemetry: TELEMETRY,
+  span: "DeleteRestoreTestingSelection",
 }));
 
 export type DeleteTieringConfigurationError =
@@ -3140,7 +3208,7 @@ export type DeleteTieringConfigurationError =
  * Deletes the tiering configuration specified by a tiering configuration name.
  */
 export const deleteTieringConfiguration: API.OperationMethod<
-  DeleteTieringConfigurationInput,
+  DeleteTieringConfigurationInput & RegionInput,
   DeleteTieringConfigurationOutput,
   DeleteTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3156,6 +3224,8 @@ export const deleteTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteTieringConfiguration",
 }));
 
 export type DescribeBackupAccessPointError =
@@ -3173,7 +3243,7 @@ export type DescribeBackupAccessPointError =
  * Amazon S3 access point ARN and alias that you need to read the backup data.
  */
 export const describeBackupAccessPoint: API.OperationMethod<
-  DescribeBackupAccessPointInput,
+  DescribeBackupAccessPointInput & RegionInput,
   DescribeBackupAccessPointResponse,
   DescribeBackupAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -3190,6 +3260,8 @@ export const describeBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupAccessPoint",
+  telemetry: TELEMETRY,
+  span: "DescribeBackupAccessPoint",
 }));
 
 export type DescribeBackupJobError =
@@ -3203,7 +3275,7 @@ export type DescribeBackupJobError =
  * Returns backup job details for the specified `BackupJobId`.
  */
 export const describeBackupJob: API.OperationMethod<
-  DescribeBackupJobInput,
+  DescribeBackupJobInput & RegionInput,
   DescribeBackupJobOutput,
   DescribeBackupJobError,
   Credentials | HttpClient.HttpClient
@@ -3220,6 +3292,8 @@ export const describeBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupJob",
+  telemetry: TELEMETRY,
+  span: "DescribeBackupJob",
 }));
 
 export type DescribeBackupVaultError =
@@ -3232,7 +3306,7 @@ export type DescribeBackupVaultError =
  * Returns metadata about a backup vault specified by its name.
  */
 export const describeBackupVault: API.OperationMethod<
-  DescribeBackupVaultInput,
+  DescribeBackupVaultInput & RegionInput,
   DescribeBackupVaultOutput,
   DescribeBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -3248,6 +3322,8 @@ export const describeBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupVault",
+  telemetry: TELEMETRY,
+  span: "DescribeBackupVault",
 }));
 
 export type DescribeCopyJobError =
@@ -3260,7 +3336,7 @@ export type DescribeCopyJobError =
  * Returns metadata associated with creating a copy of a resource.
  */
 export const describeCopyJob: API.OperationMethod<
-  DescribeCopyJobInput,
+  DescribeCopyJobInput & RegionInput,
   DescribeCopyJobOutput,
   DescribeCopyJobError,
   Credentials | HttpClient.HttpClient
@@ -3276,6 +3352,8 @@ export const describeCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCopyJob",
+  telemetry: TELEMETRY,
+  span: "DescribeCopyJob",
 }));
 
 export type DescribeFrameworkError =
@@ -3288,7 +3366,7 @@ export type DescribeFrameworkError =
  * Returns the framework details for the specified `FrameworkName`.
  */
 export const describeFramework: API.OperationMethod<
-  DescribeFrameworkInput,
+  DescribeFrameworkInput & RegionInput,
   DescribeFrameworkOutput,
   DescribeFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -3304,6 +3382,8 @@ export const describeFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFramework",
+  telemetry: TELEMETRY,
+  span: "DescribeFramework",
 }));
 
 export type DescribeGlobalSettingsError =
@@ -3314,7 +3394,7 @@ export type DescribeGlobalSettingsError =
  * Describes whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not a member of an Organizations organization. Example: `describe-global-settings --region us-west-2`
  */
 export const describeGlobalSettings: API.OperationMethod<
-  DescribeGlobalSettingsInput,
+  DescribeGlobalSettingsInput & RegionInput,
   DescribeGlobalSettingsOutput,
   DescribeGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3325,6 +3405,8 @@ export const describeGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeGlobalSettings",
 }));
 
 export type DescribeProtectedResourceError =
@@ -3339,7 +3421,7 @@ export type DescribeProtectedResourceError =
  * resource.
  */
 export const describeProtectedResource: API.OperationMethod<
-  DescribeProtectedResourceInput,
+  DescribeProtectedResourceInput & RegionInput,
   DescribeProtectedResourceOutput,
   DescribeProtectedResourceError,
   Credentials | HttpClient.HttpClient
@@ -3355,6 +3437,8 @@ export const describeProtectedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProtectedResource",
+  telemetry: TELEMETRY,
+  span: "DescribeProtectedResource",
 }));
 
 export type DescribeRecoveryPointError =
@@ -3368,7 +3452,7 @@ export type DescribeRecoveryPointError =
  * lifecycle.
  */
 export const describeRecoveryPoint: API.OperationMethod<
-  DescribeRecoveryPointInput,
+  DescribeRecoveryPointInput & RegionInput,
   DescribeRecoveryPointOutput,
   DescribeRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -3384,6 +3468,8 @@ export const describeRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "DescribeRecoveryPoint",
 }));
 
 export type DescribeRegionSettingsError = ServiceUnavailableException | CommonErrors;
@@ -3395,7 +3481,7 @@ export type DescribeRegionSettingsError = ServiceUnavailableException | CommonEr
  * Region.
  */
 export const describeRegionSettings: API.OperationMethod<
-  DescribeRegionSettingsInput,
+  DescribeRegionSettingsInput & RegionInput,
   DescribeRegionSettingsOutput,
   DescribeRegionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3406,6 +3492,8 @@ export const describeRegionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegionSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeRegionSettings",
 }));
 
 export type DescribeReportJobError =
@@ -3418,7 +3506,7 @@ export type DescribeReportJobError =
  * `ReportJobId`.
  */
 export const describeReportJob: API.OperationMethod<
-  DescribeReportJobInput,
+  DescribeReportJobInput & RegionInput,
   DescribeReportJobOutput,
   DescribeReportJobError,
   Credentials | HttpClient.HttpClient
@@ -3429,6 +3517,8 @@ export const describeReportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeReportJob",
 }));
 
 export type DescribeReportPlanError =
@@ -3441,7 +3531,7 @@ export type DescribeReportPlanError =
  * Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region.
  */
 export const describeReportPlan: API.OperationMethod<
-  DescribeReportPlanInput,
+  DescribeReportPlanInput & RegionInput,
   DescribeReportPlanOutput,
   DescribeReportPlanError,
   Credentials | HttpClient.HttpClient
@@ -3457,6 +3547,8 @@ export const describeReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportPlan",
+  telemetry: TELEMETRY,
+  span: "DescribeReportPlan",
 }));
 
 export type DescribeRestoreJobError =
@@ -3470,7 +3562,7 @@ export type DescribeRestoreJobError =
  * Returns metadata associated with a restore job that is specified by a job ID.
  */
 export const describeRestoreJob: API.OperationMethod<
-  DescribeRestoreJobInput,
+  DescribeRestoreJobInput & RegionInput,
   DescribeRestoreJobOutput,
   DescribeRestoreJobError,
   Credentials | HttpClient.HttpClient
@@ -3487,6 +3579,8 @@ export const describeRestoreJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRestoreJob",
+  telemetry: TELEMETRY,
+  span: "DescribeRestoreJob",
 }));
 
 export type DescribeScanJobError =
@@ -3499,7 +3593,7 @@ export type DescribeScanJobError =
  * Returns scan job details for the specified ScanJobID.
  */
 export const describeScanJob: API.OperationMethod<
-  DescribeScanJobInput,
+  DescribeScanJobInput & RegionInput,
   DescribeScanJobOutput,
   DescribeScanJobError,
   Credentials | HttpClient.HttpClient
@@ -3515,6 +3609,8 @@ export const describeScanJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScanJob",
+  telemetry: TELEMETRY,
+  span: "DescribeScanJob",
 }));
 
 export type DisassociateBackupVaultMpaApprovalTeamError =
@@ -3528,7 +3624,7 @@ export type DisassociateBackupVaultMpaApprovalTeamError =
  * Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
  */
 export const disassociateBackupVaultMpaApprovalTeam: API.OperationMethod<
-  DisassociateBackupVaultMpaApprovalTeamInput,
+  DisassociateBackupVaultMpaApprovalTeamInput & RegionInput,
   DisassociateBackupVaultMpaApprovalTeamResponse,
   DisassociateBackupVaultMpaApprovalTeamError,
   Credentials | HttpClient.HttpClient
@@ -3545,6 +3641,8 @@ export const disassociateBackupVaultMpaApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBackupVaultMpaApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "DisassociateBackupVaultMpaApprovalTeam",
 }));
 
 export type DisassociateRecoveryPointError =
@@ -3563,7 +3661,7 @@ export type DisassociateRecoveryPointError =
  * Does not support snapshot backup recovery points.
  */
 export const disassociateRecoveryPoint: API.OperationMethod<
-  DisassociateRecoveryPointInput,
+  DisassociateRecoveryPointInput & RegionInput,
   DisassociateRecoveryPointResponse,
   DisassociateRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -3581,6 +3679,8 @@ export const disassociateRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "DisassociateRecoveryPoint",
 }));
 
 export type DisassociateRecoveryPointFromParentError =
@@ -3595,7 +3695,7 @@ export type DisassociateRecoveryPointFromParentError =
  * between the specified recovery point and its parent (composite) recovery point.
  */
 export const disassociateRecoveryPointFromParent: API.OperationMethod<
-  DisassociateRecoveryPointFromParentInput,
+  DisassociateRecoveryPointFromParentInput & RegionInput,
   DisassociateRecoveryPointFromParentResponse,
   DisassociateRecoveryPointFromParentError,
   Credentials | HttpClient.HttpClient
@@ -3612,6 +3712,8 @@ export const disassociateRecoveryPointFromParent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRecoveryPointFromParent",
+  telemetry: TELEMETRY,
+  span: "DisassociateRecoveryPointFromParent",
 }));
 
 export type ExportBackupPlanTemplateError =
@@ -3624,7 +3726,7 @@ export type ExportBackupPlanTemplateError =
  * Returns the backup plan that is specified by the plan ID as a backup template.
  */
 export const exportBackupPlanTemplate: API.OperationMethod<
-  ExportBackupPlanTemplateInput,
+  ExportBackupPlanTemplateInput & RegionInput,
   ExportBackupPlanTemplateOutput,
   ExportBackupPlanTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3640,6 +3742,8 @@ export const exportBackupPlanTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportBackupPlanTemplate",
+  telemetry: TELEMETRY,
+  span: "ExportBackupPlanTemplate",
 }));
 
 export type GetBackupPlanError =
@@ -3653,7 +3757,7 @@ export type GetBackupPlanError =
  * details are the body of a backup plan in JSON format, in addition to plan metadata.
  */
 export const getBackupPlan: API.OperationMethod<
-  GetBackupPlanInput,
+  GetBackupPlanInput & RegionInput,
   GetBackupPlanOutput,
   GetBackupPlanError,
   Credentials | HttpClient.HttpClient
@@ -3669,6 +3773,8 @@ export const getBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlan",
+  telemetry: TELEMETRY,
+  span: "GetBackupPlan",
 }));
 
 export type GetBackupPlanFromJSONError =
@@ -3682,7 +3788,7 @@ export type GetBackupPlanFromJSONError =
  * Returns a valid JSON document specifying a backup plan or an error.
  */
 export const getBackupPlanFromJSON: API.OperationMethod<
-  GetBackupPlanFromJSONInput,
+  GetBackupPlanFromJSONInput & RegionInput,
   GetBackupPlanFromJSONOutput,
   GetBackupPlanFromJSONError,
   Credentials | HttpClient.HttpClient
@@ -3699,6 +3805,8 @@ export const getBackupPlanFromJSON: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlanFromJSON",
+  telemetry: TELEMETRY,
+  span: "GetBackupPlanFromJSON",
 }));
 
 export type GetBackupPlanFromTemplateError =
@@ -3711,7 +3819,7 @@ export type GetBackupPlanFromTemplateError =
  * Returns the template specified by its `templateId` as a backup plan.
  */
 export const getBackupPlanFromTemplate: API.OperationMethod<
-  GetBackupPlanFromTemplateInput,
+  GetBackupPlanFromTemplateInput & RegionInput,
   GetBackupPlanFromTemplateOutput,
   GetBackupPlanFromTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3727,6 +3835,8 @@ export const getBackupPlanFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlanFromTemplate",
+  telemetry: TELEMETRY,
+  span: "GetBackupPlanFromTemplate",
 }));
 
 export type GetBackupSelectionError =
@@ -3740,7 +3850,7 @@ export type GetBackupSelectionError =
  * resources that are associated with a backup plan.
  */
 export const getBackupSelection: API.OperationMethod<
-  GetBackupSelectionInput,
+  GetBackupSelectionInput & RegionInput,
   GetBackupSelectionOutput,
   GetBackupSelectionError,
   Credentials | HttpClient.HttpClient
@@ -3756,6 +3866,8 @@ export const getBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupSelection",
+  telemetry: TELEMETRY,
+  span: "GetBackupSelection",
 }));
 
 export type GetBackupVaultAccessPolicyError =
@@ -3769,7 +3881,7 @@ export type GetBackupVaultAccessPolicyError =
  * vault.
  */
 export const getBackupVaultAccessPolicy: API.OperationMethod<
-  GetBackupVaultAccessPolicyInput,
+  GetBackupVaultAccessPolicyInput & RegionInput,
   GetBackupVaultAccessPolicyOutput,
   GetBackupVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3785,6 +3897,8 @@ export const getBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "GetBackupVaultAccessPolicy",
 }));
 
 export type GetBackupVaultNotificationsError =
@@ -3797,7 +3911,7 @@ export type GetBackupVaultNotificationsError =
  * Returns event notifications for the specified backup vault.
  */
 export const getBackupVaultNotifications: API.OperationMethod<
-  GetBackupVaultNotificationsInput,
+  GetBackupVaultNotificationsInput & RegionInput,
   GetBackupVaultNotificationsOutput,
   GetBackupVaultNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -3813,6 +3927,8 @@ export const getBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "GetBackupVaultNotifications",
 }));
 
 export type GetLegalHoldError =
@@ -3826,7 +3942,7 @@ export type GetLegalHoldError =
  * body of a legal hold in JSON format, in addition to metadata.
  */
 export const getLegalHold: API.OperationMethod<
-  GetLegalHoldInput,
+  GetLegalHoldInput & RegionInput,
   GetLegalHoldOutput,
   GetLegalHoldError,
   Credentials | HttpClient.HttpClient
@@ -3842,6 +3958,8 @@ export const getLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLegalHold",
+  telemetry: TELEMETRY,
+  span: "GetLegalHold",
 }));
 
 export type GetPITRMalwareScanResultsError =
@@ -3854,7 +3972,7 @@ export type GetPITRMalwareScanResultsError =
  * Returns the malware scan results for a specified point in time within a continuous (point-in-time recovery) backup.
  */
 export const getPITRMalwareScanResults: API.OperationMethod<
-  GetPITRMalwareScanResultsInput,
+  GetPITRMalwareScanResultsInput & RegionInput,
   GetPITRMalwareScanResultsOutput,
   GetPITRMalwareScanResultsError,
   Credentials | HttpClient.HttpClient
@@ -3870,6 +3988,8 @@ export const getPITRMalwareScanResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPITRMalwareScanResults",
+  telemetry: TELEMETRY,
+  span: "GetPITRMalwareScanResults",
 }));
 
 export type GetRecoveryPointIndexDetailsError =
@@ -3883,7 +4003,7 @@ export type GetRecoveryPointIndexDetailsError =
  * the backup index associated with the specified recovery point.
  */
 export const getRecoveryPointIndexDetails: API.OperationMethod<
-  GetRecoveryPointIndexDetailsInput,
+  GetRecoveryPointIndexDetailsInput & RegionInput,
   GetRecoveryPointIndexDetailsOutput,
   GetRecoveryPointIndexDetailsError,
   Credentials | HttpClient.HttpClient
@@ -3899,6 +4019,8 @@ export const getRecoveryPointIndexDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPointIndexDetails",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPointIndexDetails",
 }));
 
 export type GetRecoveryPointRestoreMetadataError =
@@ -3911,7 +4033,7 @@ export type GetRecoveryPointRestoreMetadataError =
  * Returns a set of metadata key-value pairs that were used to create the backup.
  */
 export const getRecoveryPointRestoreMetadata: API.OperationMethod<
-  GetRecoveryPointRestoreMetadataInput,
+  GetRecoveryPointRestoreMetadataInput & RegionInput,
   GetRecoveryPointRestoreMetadataOutput,
   GetRecoveryPointRestoreMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3927,6 +4049,8 @@ export const getRecoveryPointRestoreMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPointRestoreMetadata",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPointRestoreMetadata",
 }));
 
 export type GetRestoreJobMetadataError =
@@ -3939,7 +4063,7 @@ export type GetRestoreJobMetadataError =
  * This request returns the metadata for the specified restore job.
  */
 export const getRestoreJobMetadata: API.OperationMethod<
-  GetRestoreJobMetadataInput,
+  GetRestoreJobMetadataInput & RegionInput,
   GetRestoreJobMetadataOutput,
   GetRestoreJobMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3955,6 +4079,8 @@ export const getRestoreJobMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreJobMetadata",
+  telemetry: TELEMETRY,
+  span: "GetRestoreJobMetadata",
 }));
 
 export type GetRestoreTestingInferredMetadataError =
@@ -3970,7 +4096,7 @@ export type GetRestoreTestingInferredMetadataError =
  * `BackupVaultAccountId` is an optional parameter.
  */
 export const getRestoreTestingInferredMetadata: API.OperationMethod<
-  GetRestoreTestingInferredMetadataInput,
+  GetRestoreTestingInferredMetadataInput & RegionInput,
   GetRestoreTestingInferredMetadataOutput,
   GetRestoreTestingInferredMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3986,6 +4112,8 @@ export const getRestoreTestingInferredMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingInferredMetadata",
+  telemetry: TELEMETRY,
+  span: "GetRestoreTestingInferredMetadata",
 }));
 
 export type GetRestoreTestingPlanError =
@@ -3998,7 +4126,7 @@ export type GetRestoreTestingPlanError =
  * in JSON format, in addition to plan metadata.
  */
 export const getRestoreTestingPlan: API.OperationMethod<
-  GetRestoreTestingPlanInput,
+  GetRestoreTestingPlanInput & RegionInput,
   GetRestoreTestingPlanOutput,
   GetRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
@@ -4009,6 +4137,8 @@ export const getRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingPlan",
+  telemetry: TELEMETRY,
+  span: "GetRestoreTestingPlan",
 }));
 
 export type GetRestoreTestingSelectionError =
@@ -4020,7 +4150,7 @@ export type GetRestoreTestingSelectionError =
  * and elements of the restore testing plan.
  */
 export const getRestoreTestingSelection: API.OperationMethod<
-  GetRestoreTestingSelectionInput,
+  GetRestoreTestingSelectionInput & RegionInput,
   GetRestoreTestingSelectionOutput,
   GetRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
@@ -4031,6 +4161,8 @@ export const getRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingSelection",
+  telemetry: TELEMETRY,
+  span: "GetRestoreTestingSelection",
 }));
 
 export type GetSupportedResourceTypesError = ServiceUnavailableException | CommonErrors;
@@ -4038,7 +4170,7 @@ export type GetSupportedResourceTypesError = ServiceUnavailableException | Commo
  * Returns the Amazon Web Services resource types supported by Backup.
  */
 export const getSupportedResourceTypes: API.OperationMethod<
-  GetSupportedResourceTypesRequest,
+  GetSupportedResourceTypesRequest & RegionInput,
   GetSupportedResourceTypesOutput,
   GetSupportedResourceTypesError,
   Credentials | HttpClient.HttpClient
@@ -4049,6 +4181,8 @@ export const getSupportedResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSupportedResourceTypes",
+  telemetry: TELEMETRY,
+  span: "GetSupportedResourceTypes",
 }));
 
 export type GetTieringConfigurationError =
@@ -4063,7 +4197,7 @@ export type GetTieringConfigurationError =
  * in JSON format, in addition to configuration metadata.
  */
 export const getTieringConfiguration: API.OperationMethod<
-  GetTieringConfigurationInput,
+  GetTieringConfigurationInput & RegionInput,
   GetTieringConfigurationOutput,
   GetTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4079,6 +4213,8 @@ export const getTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTieringConfiguration",
 }));
 
 export type ListBackupAccessPointsError =
@@ -4089,7 +4225,7 @@ export type ListBackupAccessPointsError =
  * Returns a list of the backup access points in your account and Region.
  */
 export const listBackupAccessPoints: API.PaginatedOperationMethod<
-  ListBackupAccessPointsRequest,
+  ListBackupAccessPointsRequest & RegionInput,
   ListBackupAccessPointsResponse,
   ListBackupAccessPointsError,
   Credentials | HttpClient.HttpClient,
@@ -4107,6 +4243,8 @@ export const listBackupAccessPoints: API.PaginatedOperationMethod<
     items: "BackupAccessPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupAccessPoints",
 })) as any;
 
 export type ListBackupAccessPointsByRecoveryPointError =
@@ -4120,7 +4258,7 @@ export type ListBackupAccessPointsByRecoveryPointError =
  * points created by those accounts.
  */
 export const listBackupAccessPointsByRecoveryPoint: API.PaginatedOperationMethod<
-  ListBackupAccessPointsByRecoveryPointRequest,
+  ListBackupAccessPointsByRecoveryPointRequest & RegionInput,
   ListBackupAccessPointsByRecoveryPointResponse,
   ListBackupAccessPointsByRecoveryPointError,
   Credentials | HttpClient.HttpClient,
@@ -4138,6 +4276,8 @@ export const listBackupAccessPointsByRecoveryPoint: API.PaginatedOperationMethod
     items: "BackupAccessPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupAccessPointsByRecoveryPoint",
 })) as any;
 
 export type ListBackupAccessPointsByResourceError =
@@ -4149,7 +4289,7 @@ export type ListBackupAccessPointsByResourceError =
  * bucket.
  */
 export const listBackupAccessPointsByResource: API.PaginatedOperationMethod<
-  ListBackupAccessPointsByResourceRequest,
+  ListBackupAccessPointsByResourceRequest & RegionInput,
   ListBackupAccessPointsByResourceResponse,
   ListBackupAccessPointsByResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4167,6 +4307,8 @@ export const listBackupAccessPointsByResource: API.PaginatedOperationMethod<
     items: "BackupAccessPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupAccessPointsByResource",
 })) as any;
 
 export type ListBackupJobsError =
@@ -4178,7 +4320,7 @@ export type ListBackupJobsError =
  * days. For a longer period of time, consider using these monitoring tools.
  */
 export const listBackupJobs: API.PaginatedOperationMethod<
-  ListBackupJobsInput,
+  ListBackupJobsInput & RegionInput,
   ListBackupJobsOutput,
   ListBackupJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4196,6 +4338,8 @@ export const listBackupJobs: API.PaginatedOperationMethod<
     items: "BackupJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupJobs",
 })) as any;
 
 export type ListBackupJobSummariesError =
@@ -4214,7 +4358,7 @@ export type ListBackupJobSummariesError =
  * StartTime, EndTime, and Count of included jobs.
  */
 export const listBackupJobSummaries: API.PaginatedOperationMethod<
-  ListBackupJobSummariesInput,
+  ListBackupJobSummariesInput & RegionInput,
   ListBackupJobSummariesOutput,
   ListBackupJobSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -4231,6 +4375,8 @@ export const listBackupJobSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupJobSummaries",
 })) as any;
 
 export type ListBackupPlansError =
@@ -4243,7 +4389,7 @@ export type ListBackupPlansError =
  * Lists the active backup plans for the account.
  */
 export const listBackupPlans: API.PaginatedOperationMethod<
-  ListBackupPlansInput,
+  ListBackupPlansInput & RegionInput,
   ListBackupPlansOutput,
   ListBackupPlansError,
   Credentials | HttpClient.HttpClient,
@@ -4266,6 +4412,8 @@ export const listBackupPlans: API.PaginatedOperationMethod<
     items: "BackupPlansList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupPlans",
 })) as any;
 
 export type ListBackupPlanTemplatesError =
@@ -4278,7 +4426,7 @@ export type ListBackupPlanTemplatesError =
  * Lists the backup plan templates.
  */
 export const listBackupPlanTemplates: API.PaginatedOperationMethod<
-  ListBackupPlanTemplatesInput,
+  ListBackupPlanTemplatesInput & RegionInput,
   ListBackupPlanTemplatesOutput,
   ListBackupPlanTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4301,6 +4449,8 @@ export const listBackupPlanTemplates: API.PaginatedOperationMethod<
     items: "BackupPlanTemplatesList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupPlanTemplates",
 })) as any;
 
 export type ListBackupPlanVersionsError =
@@ -4314,7 +4464,7 @@ export type ListBackupPlanVersionsError =
  * backup plan IDs, creation and deletion dates, plan names, and version IDs.
  */
 export const listBackupPlanVersions: API.PaginatedOperationMethod<
-  ListBackupPlanVersionsInput,
+  ListBackupPlanVersionsInput & RegionInput,
   ListBackupPlanVersionsOutput,
   ListBackupPlanVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4337,6 +4487,8 @@ export const listBackupPlanVersions: API.PaginatedOperationMethod<
     items: "BackupPlanVersionsList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupPlanVersions",
 })) as any;
 
 export type ListBackupSelectionsError =
@@ -4350,7 +4502,7 @@ export type ListBackupSelectionsError =
  * plan.
  */
 export const listBackupSelections: API.PaginatedOperationMethod<
-  ListBackupSelectionsInput,
+  ListBackupSelectionsInput & RegionInput,
   ListBackupSelectionsOutput,
   ListBackupSelectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4373,6 +4525,8 @@ export const listBackupSelections: API.PaginatedOperationMethod<
     items: "BackupSelectionsList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupSelections",
 })) as any;
 
 export type ListBackupVaultsError =
@@ -4386,7 +4540,7 @@ export type ListBackupVaultsError =
  * them.
  */
 export const listBackupVaults: API.PaginatedOperationMethod<
-  ListBackupVaultsInput,
+  ListBackupVaultsInput & RegionInput,
   ListBackupVaultsOutput,
   ListBackupVaultsError,
   Credentials | HttpClient.HttpClient,
@@ -4409,6 +4563,8 @@ export const listBackupVaults: API.PaginatedOperationMethod<
     items: "BackupVaultList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupVaults",
 })) as any;
 
 export type ListCopyJobsError =
@@ -4419,7 +4575,7 @@ export type ListCopyJobsError =
  * Returns metadata about your copy jobs.
  */
 export const listCopyJobs: API.PaginatedOperationMethod<
-  ListCopyJobsInput,
+  ListCopyJobsInput & RegionInput,
   ListCopyJobsOutput,
   ListCopyJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4437,6 +4593,8 @@ export const listCopyJobs: API.PaginatedOperationMethod<
     items: "CopyJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCopyJobs",
 })) as any;
 
 export type ListCopyJobSummariesError =
@@ -4455,7 +4613,7 @@ export type ListCopyJobSummariesError =
  * StartTime, EndTime, and Count of included jobs.
  */
 export const listCopyJobSummaries: API.PaginatedOperationMethod<
-  ListCopyJobSummariesInput,
+  ListCopyJobSummariesInput & RegionInput,
   ListCopyJobSummariesOutput,
   ListCopyJobSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -4472,6 +4630,8 @@ export const listCopyJobSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCopyJobSummaries",
 })) as any;
 
 export type ListFrameworksError =
@@ -4482,7 +4642,7 @@ export type ListFrameworksError =
  * Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
  */
 export const listFrameworks: API.PaginatedOperationMethod<
-  ListFrameworksInput,
+  ListFrameworksInput & RegionInput,
   ListFrameworksOutput,
   ListFrameworksError,
   Credentials | HttpClient.HttpClient,
@@ -4499,6 +4659,8 @@ export const listFrameworks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFrameworks",
 })) as any;
 
 export type ListIndexedRecoveryPointsError =
@@ -4515,7 +4677,7 @@ export type ListIndexedRecoveryPointsError =
  * and ResourceType.
  */
 export const listIndexedRecoveryPoints: API.PaginatedOperationMethod<
-  ListIndexedRecoveryPointsInput,
+  ListIndexedRecoveryPointsInput & RegionInput,
   ListIndexedRecoveryPointsOutput,
   ListIndexedRecoveryPointsError,
   Credentials | HttpClient.HttpClient,
@@ -4533,6 +4695,8 @@ export const listIndexedRecoveryPoints: API.PaginatedOperationMethod<
     items: "IndexedRecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndexedRecoveryPoints",
 })) as any;
 
 export type ListLegalHoldsError =
@@ -4543,7 +4707,7 @@ export type ListLegalHoldsError =
  * This action returns metadata about active and previous legal holds.
  */
 export const listLegalHolds: API.PaginatedOperationMethod<
-  ListLegalHoldsInput,
+  ListLegalHoldsInput & RegionInput,
   ListLegalHoldsOutput,
   ListLegalHoldsError,
   Credentials | HttpClient.HttpClient,
@@ -4561,6 +4725,8 @@ export const listLegalHolds: API.PaginatedOperationMethod<
     items: "LegalHolds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLegalHolds",
 })) as any;
 
 export type ListProtectedResourcesError =
@@ -4574,7 +4740,7 @@ export type ListProtectedResourcesError =
  * and a resource type.
  */
 export const listProtectedResources: API.PaginatedOperationMethod<
-  ListProtectedResourcesInput,
+  ListProtectedResourcesInput & RegionInput,
   ListProtectedResourcesOutput,
   ListProtectedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4592,6 +4758,8 @@ export const listProtectedResources: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtectedResources",
 })) as any;
 
 export type ListProtectedResourcesByBackupVaultError =
@@ -4603,7 +4771,7 @@ export type ListProtectedResourcesByBackupVaultError =
  * This request lists the protected resources corresponding to each backup vault.
  */
 export const listProtectedResourcesByBackupVault: API.PaginatedOperationMethod<
-  ListProtectedResourcesByBackupVaultInput,
+  ListProtectedResourcesByBackupVaultInput & RegionInput,
   ListProtectedResourcesByBackupVaultOutput,
   ListProtectedResourcesByBackupVaultError,
   Credentials | HttpClient.HttpClient,
@@ -4621,6 +4789,8 @@ export const listProtectedResourcesByBackupVault: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtectedResourcesByBackupVault",
 })) as any;
 
 export type ListRecoveryPointsByBackupVaultError =
@@ -4633,7 +4803,7 @@ export type ListRecoveryPointsByBackupVaultError =
  * Returns detailed information about the recovery points stored in a backup vault.
  */
 export const listRecoveryPointsByBackupVault: API.PaginatedOperationMethod<
-  ListRecoveryPointsByBackupVaultInput,
+  ListRecoveryPointsByBackupVaultInput & RegionInput,
   ListRecoveryPointsByBackupVaultOutput,
   ListRecoveryPointsByBackupVaultError,
   Credentials | HttpClient.HttpClient,
@@ -4656,6 +4826,8 @@ export const listRecoveryPointsByBackupVault: API.PaginatedOperationMethod<
     items: "RecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPointsByBackupVault",
 })) as any;
 
 export type ListRecoveryPointsByLegalHoldError =
@@ -4668,7 +4840,7 @@ export type ListRecoveryPointsByLegalHoldError =
  * specified legal hold.
  */
 export const listRecoveryPointsByLegalHold: API.PaginatedOperationMethod<
-  ListRecoveryPointsByLegalHoldInput,
+  ListRecoveryPointsByLegalHoldInput & RegionInput,
   ListRecoveryPointsByLegalHoldOutput,
   ListRecoveryPointsByLegalHoldError,
   Credentials | HttpClient.HttpClient,
@@ -4690,6 +4862,8 @@ export const listRecoveryPointsByLegalHold: API.PaginatedOperationMethod<
     items: "RecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPointsByLegalHold",
 })) as any;
 
 export type ListRecoveryPointsByResourceError =
@@ -4706,7 +4880,7 @@ export type ListRecoveryPointsByResourceError =
  * created by Backup.
  */
 export const listRecoveryPointsByResource: API.PaginatedOperationMethod<
-  ListRecoveryPointsByResourceInput,
+  ListRecoveryPointsByResourceInput & RegionInput,
   ListRecoveryPointsByResourceOutput,
   ListRecoveryPointsByResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4729,6 +4903,8 @@ export const listRecoveryPointsByResource: API.PaginatedOperationMethod<
     items: "RecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPointsByResource",
 })) as any;
 
 export type ListReportJobsError =
@@ -4740,7 +4916,7 @@ export type ListReportJobsError =
  * Returns details about your report jobs.
  */
 export const listReportJobs: API.PaginatedOperationMethod<
-  ListReportJobsInput,
+  ListReportJobsInput & RegionInput,
   ListReportJobsOutput,
   ListReportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4757,6 +4933,8 @@ export const listReportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportJobs",
 })) as any;
 
 export type ListReportPlansError =
@@ -4768,7 +4946,7 @@ export type ListReportPlansError =
  * plan, use `DescribeReportPlan`.
  */
 export const listReportPlans: API.PaginatedOperationMethod<
-  ListReportPlansInput,
+  ListReportPlansInput & RegionInput,
   ListReportPlansOutput,
   ListReportPlansError,
   Credentials | HttpClient.HttpClient,
@@ -4785,6 +4963,8 @@ export const listReportPlans: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportPlans",
 })) as any;
 
 export type ListRestoreAccessBackupVaultsError =
@@ -4797,7 +4977,7 @@ export type ListRestoreAccessBackupVaultsError =
  * Returns a list of restore access backup vaults associated with a specified backup vault.
  */
 export const listRestoreAccessBackupVaults: API.PaginatedOperationMethod<
-  ListRestoreAccessBackupVaultsInput,
+  ListRestoreAccessBackupVaultsInput & RegionInput,
   ListRestoreAccessBackupVaultsOutput,
   ListRestoreAccessBackupVaultsError,
   Credentials | HttpClient.HttpClient,
@@ -4820,6 +5000,8 @@ export const listRestoreAccessBackupVaults: API.PaginatedOperationMethod<
     items: "RestoreAccessBackupVaults",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreAccessBackupVaults",
 })) as any;
 
 export type ListRestoreJobsError =
@@ -4833,7 +5015,7 @@ export type ListRestoreJobsError =
  * including details about the recovery process.
  */
 export const listRestoreJobs: API.PaginatedOperationMethod<
-  ListRestoreJobsInput,
+  ListRestoreJobsInput & RegionInput,
   ListRestoreJobsOutput,
   ListRestoreJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4856,6 +5038,8 @@ export const listRestoreJobs: API.PaginatedOperationMethod<
     items: "RestoreJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreJobs",
 })) as any;
 
 export type ListRestoreJobsByProtectedResourceError =
@@ -4873,7 +5057,7 @@ export type ListRestoreJobsByProtectedResourceError =
  * `ByRecoveryPointCreationDateBefore`.
  */
 export const listRestoreJobsByProtectedResource: API.PaginatedOperationMethod<
-  ListRestoreJobsByProtectedResourceInput,
+  ListRestoreJobsByProtectedResourceInput & RegionInput,
   ListRestoreJobsByProtectedResourceOutput,
   ListRestoreJobsByProtectedResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4896,6 +5080,8 @@ export const listRestoreJobsByProtectedResource: API.PaginatedOperationMethod<
     items: "RestoreJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreJobsByProtectedResource",
 })) as any;
 
 export type ListRestoreJobSummariesError =
@@ -4914,7 +5100,7 @@ export type ListRestoreJobSummariesError =
  * StartTime, EndTime, and Count of included jobs.
  */
 export const listRestoreJobSummaries: API.PaginatedOperationMethod<
-  ListRestoreJobSummariesInput,
+  ListRestoreJobSummariesInput & RegionInput,
   ListRestoreJobSummariesOutput,
   ListRestoreJobSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -4931,6 +5117,8 @@ export const listRestoreJobSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreJobSummaries",
 })) as any;
 
 export type ListRestoreTestingPlansError =
@@ -4941,7 +5129,7 @@ export type ListRestoreTestingPlansError =
  * Returns a list of restore testing plans.
  */
 export const listRestoreTestingPlans: API.PaginatedOperationMethod<
-  ListRestoreTestingPlansInput,
+  ListRestoreTestingPlansInput & RegionInput,
   ListRestoreTestingPlansOutput,
   ListRestoreTestingPlansError,
   Credentials | HttpClient.HttpClient,
@@ -4959,6 +5147,8 @@ export const listRestoreTestingPlans: API.PaginatedOperationMethod<
     items: "RestoreTestingPlans",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreTestingPlans",
 })) as any;
 
 export type ListRestoreTestingSelectionsError =
@@ -4971,7 +5161,7 @@ export type ListRestoreTestingSelectionsError =
  * by `MaxResults` and `RestoreTestingPlanName`.
  */
 export const listRestoreTestingSelections: API.PaginatedOperationMethod<
-  ListRestoreTestingSelectionsInput,
+  ListRestoreTestingSelectionsInput & RegionInput,
   ListRestoreTestingSelectionsOutput,
   ListRestoreTestingSelectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4989,6 +5179,8 @@ export const listRestoreTestingSelections: API.PaginatedOperationMethod<
     items: "RestoreTestingSelections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreTestingSelections",
 })) as any;
 
 export type ListScanJobsError =
@@ -4999,7 +5191,7 @@ export type ListScanJobsError =
  * Returns a list of existing scan jobs for an authenticated account for the last 30 days.
  */
 export const listScanJobs: API.PaginatedOperationMethod<
-  ListScanJobsInput,
+  ListScanJobsInput & RegionInput,
   ListScanJobsOutput,
   ListScanJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5017,6 +5209,8 @@ export const listScanJobs: API.PaginatedOperationMethod<
     items: "ScanJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScanJobs",
 })) as any;
 
 export type ListScanJobSummariesError =
@@ -5027,7 +5221,7 @@ export type ListScanJobSummariesError =
  * This is a request for a summary of scan jobs created or running within the most recent 14 days.
  */
 export const listScanJobSummaries: API.PaginatedOperationMethod<
-  ListScanJobSummariesInput,
+  ListScanJobSummariesInput & RegionInput,
   ListScanJobSummariesOutput,
   ListScanJobSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -5045,6 +5239,8 @@ export const listScanJobSummaries: API.PaginatedOperationMethod<
     items: "ScanJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScanJobSummaries",
 })) as any;
 
 export type ListTagsError =
@@ -5071,7 +5267,7 @@ export type ListTagsError =
  * `arn:aws:backup` and they are noted in the Feature availability by resource table.
  */
 export const listTags: API.PaginatedOperationMethod<
-  ListTagsInput,
+  ListTagsInput & RegionInput,
   ListTagsOutput,
   ListTagsError,
   Credentials | HttpClient.HttpClient,
@@ -5093,6 +5289,8 @@ export const listTags: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 })) as any;
 
 export type ListTieringConfigurationsError =
@@ -5103,7 +5301,7 @@ export type ListTieringConfigurationsError =
  * Returns a list of tiering configurations.
  */
 export const listTieringConfigurations: API.PaginatedOperationMethod<
-  ListTieringConfigurationsInput,
+  ListTieringConfigurationsInput & RegionInput,
   ListTieringConfigurationsOutput,
   ListTieringConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -5121,6 +5319,8 @@ export const listTieringConfigurations: API.PaginatedOperationMethod<
     items: "TieringConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTieringConfigurations",
 })) as any;
 
 export type PutBackupVaultAccessPolicyError =
@@ -5135,7 +5335,7 @@ export type PutBackupVaultAccessPolicyError =
  * format.
  */
 export const putBackupVaultAccessPolicy: API.OperationMethod<
-  PutBackupVaultAccessPolicyInput,
+  PutBackupVaultAccessPolicyInput & RegionInput,
   PutBackupVaultAccessPolicyResponse,
   PutBackupVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5151,6 +5351,8 @@ export const putBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "PutBackupVaultAccessPolicy",
 }));
 
 export type PutBackupVaultLockConfigurationError =
@@ -5176,7 +5378,7 @@ export type PutBackupVaultLockConfigurationError =
  * For more information, see Backup Vault Lock.
  */
 export const putBackupVaultLockConfiguration: API.OperationMethod<
-  PutBackupVaultLockConfigurationInput,
+  PutBackupVaultLockConfigurationInput & RegionInput,
   PutBackupVaultLockConfigurationResponse,
   PutBackupVaultLockConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5193,6 +5395,8 @@ export const putBackupVaultLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultLockConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBackupVaultLockConfiguration",
 }));
 
 export type PutBackupVaultNotificationsError =
@@ -5205,7 +5409,7 @@ export type PutBackupVaultNotificationsError =
  * Turns on notifications on a backup vault for the specified topic and events.
  */
 export const putBackupVaultNotifications: API.OperationMethod<
-  PutBackupVaultNotificationsInput,
+  PutBackupVaultNotificationsInput & RegionInput,
   PutBackupVaultNotificationsResponse,
   PutBackupVaultNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -5221,6 +5425,8 @@ export const putBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "PutBackupVaultNotifications",
 }));
 
 export type PutRestoreValidationResultError =
@@ -5238,7 +5444,7 @@ export type PutRestoreValidationResultError =
  * `ValidationStatusMessage`.
  */
 export const putRestoreValidationResult: API.OperationMethod<
-  PutRestoreValidationResultInput,
+  PutRestoreValidationResultInput & RegionInput,
   PutRestoreValidationResultResponse,
   PutRestoreValidationResultError,
   Credentials | HttpClient.HttpClient
@@ -5255,6 +5461,8 @@ export const putRestoreValidationResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRestoreValidationResult",
+  telemetry: TELEMETRY,
+  span: "PutRestoreValidationResult",
 }));
 
 export type RevokeRestoreAccessBackupVaultError =
@@ -5268,7 +5476,7 @@ export type RevokeRestoreAccessBackupVaultError =
  * Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault.
  */
 export const revokeRestoreAccessBackupVault: API.OperationMethod<
-  RevokeRestoreAccessBackupVaultInput,
+  RevokeRestoreAccessBackupVaultInput & RegionInput,
   RevokeRestoreAccessBackupVaultResponse,
   RevokeRestoreAccessBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -5285,6 +5493,8 @@ export const revokeRestoreAccessBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeRestoreAccessBackupVault",
+  telemetry: TELEMETRY,
+  span: "RevokeRestoreAccessBackupVault",
 }));
 
 export type StartBackupJobError =
@@ -5299,7 +5509,7 @@ export type StartBackupJobError =
  * Starts an on-demand backup job for the specified resource.
  */
 export const startBackupJob: API.OperationMethod<
-  StartBackupJobInput,
+  StartBackupJobInput & RegionInput,
   StartBackupJobOutput,
   StartBackupJobError,
   Credentials | HttpClient.HttpClient
@@ -5317,6 +5527,8 @@ export const startBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBackupJob",
+  telemetry: TELEMETRY,
+  span: "StartBackupJob",
 }));
 
 export type StartCopyJobError =
@@ -5337,7 +5549,7 @@ export type StartCopyJobError =
  * operations.
  */
 export const startCopyJob: API.OperationMethod<
-  StartCopyJobInput,
+  StartCopyJobInput & RegionInput,
   StartCopyJobOutput,
   StartCopyJobError,
   Credentials | HttpClient.HttpClient
@@ -5355,6 +5567,8 @@ export const startCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCopyJob",
+  telemetry: TELEMETRY,
+  span: "StartCopyJob",
 }));
 
 export type StartReportJobError =
@@ -5367,7 +5581,7 @@ export type StartReportJobError =
  * Starts an on-demand report job for the specified report plan.
  */
 export const startReportJob: API.OperationMethod<
-  StartReportJobInput,
+  StartReportJobInput & RegionInput,
   StartReportJobOutput,
   StartReportJobError,
   Credentials | HttpClient.HttpClient
@@ -5383,6 +5597,8 @@ export const startReportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReportJob",
+  telemetry: TELEMETRY,
+  span: "StartReportJob",
 }));
 
 export type StartRestoreJobError =
@@ -5396,7 +5612,7 @@ export type StartRestoreJobError =
  * Recovers the saved resource identified by an Amazon Resource Name (ARN).
  */
 export const startRestoreJob: API.OperationMethod<
-  StartRestoreJobInput,
+  StartRestoreJobInput & RegionInput,
   StartRestoreJobOutput,
   StartRestoreJobError,
   Credentials | HttpClient.HttpClient
@@ -5413,6 +5629,8 @@ export const startRestoreJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRestoreJob",
+  telemetry: TELEMETRY,
+  span: "StartRestoreJob",
 }));
 
 export type StartScanJobError =
@@ -5427,7 +5645,7 @@ export type StartScanJobError =
  * Starts scanning jobs for specific resources.
  */
 export const startScanJob: API.OperationMethod<
-  StartScanJobInput,
+  StartScanJobInput & RegionInput,
   StartScanJobOutput,
   StartScanJobError,
   Credentials | HttpClient.HttpClient
@@ -5445,6 +5663,8 @@ export const startScanJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartScanJob",
+  telemetry: TELEMETRY,
+  span: "StartScanJob",
 }));
 
 export type StopBackupJobError =
@@ -5478,7 +5698,7 @@ export type StopBackupJobError =
  * - Amazon RDS
  */
 export const stopBackupJob: API.OperationMethod<
-  StopBackupJobInput,
+  StopBackupJobInput & RegionInput,
   StopBackupJobResponse,
   StopBackupJobError,
   Credentials | HttpClient.HttpClient
@@ -5495,6 +5715,8 @@ export const stopBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBackupJob",
+  telemetry: TELEMETRY,
+  span: "StopBackupJob",
 }));
 
 export type TagResourceError =
@@ -5508,7 +5730,7 @@ export type TagResourceError =
  * Assigns a set of key-value pairs to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5525,6 +5747,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5542,7 +5766,7 @@ export type UntagResourceError =
  * Amazon FSx, Neptune, and Amazon RDS.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5558,6 +5782,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBackupPlanError =
@@ -5570,7 +5796,7 @@ export type UpdateBackupPlanError =
  * Updates the specified backup plan. The new version is uniquely identified by its ID.
  */
 export const updateBackupPlan: API.OperationMethod<
-  UpdateBackupPlanInput,
+  UpdateBackupPlanInput & RegionInput,
   UpdateBackupPlanOutput,
   UpdateBackupPlanError,
   Credentials | HttpClient.HttpClient
@@ -5586,6 +5812,8 @@ export const updateBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackupPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateBackupPlan",
 }));
 
 export type UpdateFrameworkError =
@@ -5601,7 +5829,7 @@ export type UpdateFrameworkError =
  * Updates the specified framework.
  */
 export const updateFramework: API.OperationMethod<
-  UpdateFrameworkInput,
+  UpdateFrameworkInput & RegionInput,
   UpdateFrameworkOutput,
   UpdateFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -5620,6 +5848,8 @@ export const updateFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFramework",
+  telemetry: TELEMETRY,
+  span: "UpdateFramework",
 }));
 
 export type UpdateGlobalSettingsError =
@@ -5632,7 +5862,7 @@ export type UpdateGlobalSettingsError =
  * Updates whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not an Organizations management account. Use the `DescribeGlobalSettings` API to determine the current settings.
  */
 export const updateGlobalSettings: API.OperationMethod<
-  UpdateGlobalSettingsInput,
+  UpdateGlobalSettingsInput & RegionInput,
   UpdateGlobalSettingsResponse,
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5648,6 +5878,8 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalSettings",
 }));
 
 export type UpdateRecoveryPointIndexSettingsError =
@@ -5663,7 +5895,7 @@ export type UpdateRecoveryPointIndexSettingsError =
  * Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn
  */
 export const updateRecoveryPointIndexSettings: API.OperationMethod<
-  UpdateRecoveryPointIndexSettingsInput,
+  UpdateRecoveryPointIndexSettingsInput & RegionInput,
   UpdateRecoveryPointIndexSettingsOutput,
   UpdateRecoveryPointIndexSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5680,6 +5912,8 @@ export const updateRecoveryPointIndexSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPointIndexSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPointIndexSettings",
 }));
 
 export type UpdateRecoveryPointLifecycleError =
@@ -5711,7 +5945,7 @@ export type UpdateRecoveryPointLifecycleError =
  * This operation does not support continuous backups.
  */
 export const updateRecoveryPointLifecycle: API.OperationMethod<
-  UpdateRecoveryPointLifecycleInput,
+  UpdateRecoveryPointLifecycleInput & RegionInput,
   UpdateRecoveryPointLifecycleOutput,
   UpdateRecoveryPointLifecycleError,
   Credentials | HttpClient.HttpClient
@@ -5728,6 +5962,8 @@ export const updateRecoveryPointLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPointLifecycle",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPointLifecycle",
 }));
 
 export type UpdateRegionSettingsError =
@@ -5743,7 +5979,7 @@ export type UpdateRegionSettingsError =
  * supported.
  */
 export const updateRegionSettings: API.OperationMethod<
-  UpdateRegionSettingsInput,
+  UpdateRegionSettingsInput & RegionInput,
   UpdateRegionSettingsResponse,
   UpdateRegionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5758,6 +5994,8 @@ export const updateRegionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegionSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateRegionSettings",
 }));
 
 export type UpdateReportPlanError =
@@ -5771,7 +6009,7 @@ export type UpdateReportPlanError =
  * Updates the specified report plan.
  */
 export const updateReportPlan: API.OperationMethod<
-  UpdateReportPlanInput,
+  UpdateReportPlanInput & RegionInput,
   UpdateReportPlanOutput,
   UpdateReportPlanError,
   Credentials | HttpClient.HttpClient
@@ -5788,6 +6026,8 @@ export const updateReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReportPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateReportPlan",
 }));
 
 export type UpdateRestoreTestingPlanError =
@@ -5815,7 +6055,7 @@ export type UpdateRestoreTestingPlanError =
  * - `SelectionWindowDays`
  */
 export const updateRestoreTestingPlan: API.OperationMethod<
-  UpdateRestoreTestingPlanInput,
+  UpdateRestoreTestingPlanInput & RegionInput,
   UpdateRestoreTestingPlanOutput,
   UpdateRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
@@ -5832,6 +6072,8 @@ export const updateRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestoreTestingPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateRestoreTestingPlan",
 }));
 
 export type UpdateRestoreTestingSelectionError =
@@ -5850,7 +6092,7 @@ export type UpdateRestoreTestingSelectionError =
  * You can use either protected resource ARNs or conditions, but not both.
  */
 export const updateRestoreTestingSelection: API.OperationMethod<
-  UpdateRestoreTestingSelectionInput,
+  UpdateRestoreTestingSelectionInput & RegionInput,
   UpdateRestoreTestingSelectionOutput,
   UpdateRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
@@ -5867,6 +6109,8 @@ export const updateRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestoreTestingSelection",
+  telemetry: TELEMETRY,
+  span: "UpdateRestoreTestingSelection",
 }));
 
 export type UpdateTieringConfigurationError =
@@ -5892,7 +6136,7 @@ export type UpdateTieringConfigurationError =
  * - `ResourceType`
  */
 export const updateTieringConfiguration: API.OperationMethod<
-  UpdateTieringConfigurationInput,
+  UpdateTieringConfigurationInput & RegionInput,
   UpdateTieringConfigurationOutput,
   UpdateTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5911,6 +6155,8 @@ export const updateTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateTieringConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

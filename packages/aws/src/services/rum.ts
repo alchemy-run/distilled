@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -68,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rum.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RUM",
+  service: "RUM",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -516,7 +532,7 @@ export type BatchCreateRumMetricDefinitionsError =
  * If some metric definitions specified in a `BatchCreateRumMetricDefinitions` operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
  */
 export const batchCreateRumMetricDefinitions: API.OperationMethod<
-  BatchCreateRumMetricDefinitionsRequest,
+  BatchCreateRumMetricDefinitionsRequest & RegionInput,
   BatchCreateRumMetricDefinitionsResponse,
   BatchCreateRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -535,6 +551,8 @@ export const batchCreateRumMetricDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateRumMetricDefinitions",
+  telemetry: TELEMETRY,
+  span: "BatchCreateRumMetricDefinitions",
 }));
 
 export type BatchDeleteRumMetricDefinitionsError =
@@ -553,7 +571,7 @@ export type BatchDeleteRumMetricDefinitionsError =
  * The maximum number of metric definitions that you can specify in one `BatchDeleteRumMetricDefinitions` operation is 200.
  */
 export const batchDeleteRumMetricDefinitions: API.OperationMethod<
-  BatchDeleteRumMetricDefinitionsRequest,
+  BatchDeleteRumMetricDefinitionsRequest & RegionInput,
   BatchDeleteRumMetricDefinitionsResponse,
   BatchDeleteRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -571,6 +589,8 @@ export const batchDeleteRumMetricDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteRumMetricDefinitions",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteRumMetricDefinitions",
 }));
 
 export type BatchGetRumMetricDefinitionsError =
@@ -583,7 +603,7 @@ export type BatchGetRumMetricDefinitionsError =
  * Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
  */
 export const batchGetRumMetricDefinitions: API.PaginatedOperationMethod<
-  BatchGetRumMetricDefinitionsRequest,
+  BatchGetRumMetricDefinitionsRequest & RegionInput,
   BatchGetRumMetricDefinitionsResponse,
   BatchGetRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -606,6 +626,8 @@ export const batchGetRumMetricDefinitions: API.PaginatedOperationMethod<
     items: "MetricDefinitions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetRumMetricDefinitions",
 })) as any;
 
 export type CreateAppMonitorError =
@@ -625,7 +647,7 @@ export type CreateAppMonitorError =
  * After you create an app monitor, sign in to the CloudWatch RUM console to get the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
 export const createAppMonitor: API.OperationMethod<
-  CreateAppMonitorRequest,
+  CreateAppMonitorRequest & RegionInput,
   CreateAppMonitorResponse,
   CreateAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -644,6 +666,8 @@ export const createAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppMonitor",
+  telemetry: TELEMETRY,
+  span: "CreateAppMonitor",
 }));
 
 export type DeleteAppMonitorError =
@@ -658,7 +682,7 @@ export type DeleteAppMonitorError =
  * Deletes an existing app monitor. This immediately stops the collection of data.
  */
 export const deleteAppMonitor: API.OperationMethod<
-  DeleteAppMonitorRequest,
+  DeleteAppMonitorRequest & RegionInput,
   DeleteAppMonitorResponse,
   DeleteAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -676,6 +700,8 @@ export const deleteAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppMonitor",
+  telemetry: TELEMETRY,
+  span: "DeleteAppMonitor",
 }));
 
 export type DeleteResourcePolicyError =
@@ -692,7 +718,7 @@ export type DeleteResourcePolicyError =
  * Removes the association of a resource-based policy from an app monitor.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -712,6 +738,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRumMetricsDestinationError =
@@ -726,7 +754,7 @@ export type DeleteRumMetricsDestinationError =
  * Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
  */
 export const deleteRumMetricsDestination: API.OperationMethod<
-  DeleteRumMetricsDestinationRequest,
+  DeleteRumMetricsDestinationRequest & RegionInput,
   DeleteRumMetricsDestinationResponse,
   DeleteRumMetricsDestinationError,
   Credentials | HttpClient.HttpClient
@@ -744,6 +772,8 @@ export const deleteRumMetricsDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRumMetricsDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteRumMetricsDestination",
 }));
 
 export type GetAppMonitorError =
@@ -757,7 +787,7 @@ export type GetAppMonitorError =
  * Retrieves the complete configuration information for one app monitor.
  */
 export const getAppMonitor: API.OperationMethod<
-  GetAppMonitorRequest,
+  GetAppMonitorRequest & RegionInput,
   GetAppMonitorResponse,
   GetAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -774,6 +804,8 @@ export const getAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppMonitor",
+  telemetry: TELEMETRY,
+  span: "GetAppMonitor",
 }));
 
 export type GetAppMonitorDataError =
@@ -787,7 +819,7 @@ export type GetAppMonitorDataError =
  * Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
  */
 export const getAppMonitorData: API.PaginatedOperationMethod<
-  GetAppMonitorDataRequest,
+  GetAppMonitorDataRequest & RegionInput,
   GetAppMonitorDataResponse,
   GetAppMonitorDataError,
   Credentials | HttpClient.HttpClient,
@@ -811,6 +843,8 @@ export const getAppMonitorData: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAppMonitorData",
 })) as any;
 
 export type GetResourcePolicyError =
@@ -826,7 +860,7 @@ export type GetResourcePolicyError =
  * Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -845,6 +879,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListAppMonitorsError =
@@ -857,7 +893,7 @@ export type ListAppMonitorsError =
  * Returns a list of the Amazon CloudWatch RUM app monitors in the account.
  */
 export const listAppMonitors: API.PaginatedOperationMethod<
-  ListAppMonitorsRequest,
+  ListAppMonitorsRequest & RegionInput,
   ListAppMonitorsResponse,
   ListAppMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -880,6 +916,8 @@ export const listAppMonitors: API.PaginatedOperationMethod<
     items: "AppMonitorSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppMonitors",
 })) as any;
 
 export type ListRumMetricsDestinationsError =
@@ -894,7 +932,7 @@ export type ListRumMetricsDestinationsError =
  * For more information about extended metrics, see AddRumMetrics.
  */
 export const listRumMetricsDestinations: API.PaginatedOperationMethod<
-  ListRumMetricsDestinationsRequest,
+  ListRumMetricsDestinationsRequest & RegionInput,
   ListRumMetricsDestinationsResponse,
   ListRumMetricsDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -917,6 +955,8 @@ export const listRumMetricsDestinations: API.PaginatedOperationMethod<
     items: "Destinations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRumMetricsDestinations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -928,7 +968,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a CloudWatch RUM resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -939,6 +979,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutResourcePolicyError =
@@ -956,7 +998,7 @@ export type PutResourcePolicyError =
  * Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -977,6 +1019,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type PutRumEventsError =
@@ -992,7 +1036,7 @@ export type PutRumEventsError =
  * Each `PutRumEvents` operation can send a batch of events from one user session.
  */
 export const putRumEvents: API.OperationMethod<
-  PutRumEventsRequest,
+  PutRumEventsRequest & RegionInput,
   PutRumEventsResponse,
   PutRumEventsError,
   Credentials | HttpClient.HttpClient
@@ -1010,6 +1054,8 @@ export const putRumEvents: API.OperationMethod<
   retry: Retry,
   operationName: "PutRumEvents",
   endpointHostPrefix: "dataplane.",
+  telemetry: TELEMETRY,
+  span: "PutRumEvents",
 }));
 
 export type PutRumMetricsDestinationError =
@@ -1026,7 +1072,7 @@ export type PutRumMetricsDestinationError =
  * For more information about extended metrics, see BatchCreateRumMetricDefinitions.
  */
 export const putRumMetricsDestination: API.OperationMethod<
-  PutRumMetricsDestinationRequest,
+  PutRumMetricsDestinationRequest & RegionInput,
   PutRumMetricsDestinationResponse,
   PutRumMetricsDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1044,6 +1090,8 @@ export const putRumMetricsDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRumMetricsDestination",
+  telemetry: TELEMETRY,
+  span: "PutRumMetricsDestination",
 }));
 
 export type TagResourceError =
@@ -1065,7 +1113,7 @@ export type TagResourceError =
  * For more information, see Tagging Amazon Web Services resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1076,6 +1124,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1087,7 +1137,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1098,6 +1148,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppMonitorError =
@@ -1118,7 +1170,7 @@ export type UpdateAppMonitorError =
  * After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
 export const updateAppMonitor: API.OperationMethod<
-  UpdateAppMonitorRequest,
+  UpdateAppMonitorRequest & RegionInput,
   UpdateAppMonitorResponse,
   UpdateAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -1136,6 +1188,8 @@ export const updateAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppMonitor",
+  telemetry: TELEMETRY,
+  span: "UpdateAppMonitor",
 }));
 
 export type UpdateRumMetricDefinitionError =
@@ -1151,7 +1205,7 @@ export type UpdateRumMetricDefinitionError =
  * Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
  */
 export const updateRumMetricDefinition: API.OperationMethod<
-  UpdateRumMetricDefinitionRequest,
+  UpdateRumMetricDefinitionRequest & RegionInput,
   UpdateRumMetricDefinitionResponse,
   UpdateRumMetricDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1170,6 +1224,8 @@ export const updateRumMetricDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRumMetricDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateRumMetricDefinition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

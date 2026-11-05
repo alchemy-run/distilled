@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://aco-automation.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ComputeOptimizerAutomation",
+  service: "ComputeOptimizerAutomation",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -725,7 +742,7 @@ export type AssociateAccountsError =
  * Only the management account or a delegated administrator can perform this action.
  */
 export const associateAccounts: API.OperationMethod<
-  AssociateAccountsRequest,
+  AssociateAccountsRequest & RegionInput,
   AssociateAccountsResponse,
   AssociateAccountsError,
   Credentials | HttpClient.HttpClient
@@ -747,6 +764,8 @@ export const associateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAccounts",
+  telemetry: TELEMETRY,
+  span: "AssociateAccounts",
 }));
 
 export type CreateAutomationRuleError =
@@ -766,7 +785,7 @@ export type CreateAutomationRuleError =
  * Creates a new automation rule to apply recommended actions to resources based on specified criteria.
  */
 export const createAutomationRule: API.OperationMethod<
-  CreateAutomationRuleRequest,
+  CreateAutomationRuleRequest & RegionInput,
   CreateAutomationRuleResponse,
   CreateAutomationRuleError,
   Credentials | HttpClient.HttpClient
@@ -789,6 +808,8 @@ export const createAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRule",
+  telemetry: TELEMETRY,
+  span: "CreateAutomationRule",
 }));
 
 export type DeleteAutomationRuleError =
@@ -807,7 +828,7 @@ export type DeleteAutomationRuleError =
  * Deletes an existing automation rule.
  */
 export const deleteAutomationRule: API.OperationMethod<
-  DeleteAutomationRuleRequest,
+  DeleteAutomationRuleRequest & RegionInput,
   DeleteAutomationRuleResponse,
   DeleteAutomationRuleError,
   Credentials | HttpClient.HttpClient
@@ -829,6 +850,8 @@ export const deleteAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomationRule",
+  telemetry: TELEMETRY,
+  span: "DeleteAutomationRule",
 }));
 
 export type DisassociateAccountsError =
@@ -849,7 +872,7 @@ export type DisassociateAccountsError =
  * Only the management account or a delegated administrator can perform this action.
  */
 export const disassociateAccounts: API.OperationMethod<
-  DisassociateAccountsRequest,
+  DisassociateAccountsRequest & RegionInput,
   DisassociateAccountsResponse,
   DisassociateAccountsError,
   Credentials | HttpClient.HttpClient
@@ -871,6 +894,8 @@ export const disassociateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAccounts",
+  telemetry: TELEMETRY,
+  span: "DisassociateAccounts",
 }));
 
 export type GetAutomationEventError =
@@ -887,7 +912,7 @@ export type GetAutomationEventError =
  * Retrieves details about a specific automation event.
  */
 export const getAutomationEvent: API.OperationMethod<
-  GetAutomationEventRequest,
+  GetAutomationEventRequest & RegionInput,
   GetAutomationEventResponse,
   GetAutomationEventError,
   Credentials | HttpClient.HttpClient
@@ -907,6 +932,8 @@ export const getAutomationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationEvent",
+  telemetry: TELEMETRY,
+  span: "GetAutomationEvent",
 }));
 
 export type GetAutomationRuleError =
@@ -923,7 +950,7 @@ export type GetAutomationRuleError =
  * Retrieves details about a specific automation rule.
  */
 export const getAutomationRule: API.OperationMethod<
-  GetAutomationRuleRequest,
+  GetAutomationRuleRequest & RegionInput,
   GetAutomationRuleResponse,
   GetAutomationRuleError,
   Credentials | HttpClient.HttpClient
@@ -943,6 +970,8 @@ export const getAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationRule",
+  telemetry: TELEMETRY,
+  span: "GetAutomationRule",
 }));
 
 export type GetEnrollmentConfigurationError =
@@ -959,7 +988,7 @@ export type GetEnrollmentConfigurationError =
  * Retrieves the current enrollment configuration for Compute Optimizer Automation.
  */
 export const getEnrollmentConfiguration: API.OperationMethod<
-  GetEnrollmentConfigurationRequest,
+  GetEnrollmentConfigurationRequest & RegionInput,
   GetEnrollmentConfigurationResponse,
   GetEnrollmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -979,6 +1008,8 @@ export const getEnrollmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnrollmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEnrollmentConfiguration",
 }));
 
 export type ListAccountsError =
@@ -997,7 +1028,7 @@ export type ListAccountsError =
  * Only the management account or a delegated administrator can perform this action.
  */
 export const listAccounts: API.PaginatedOperationMethod<
-  ListAccountsRequest,
+  ListAccountsRequest & RegionInput,
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1024,6 +1055,8 @@ export const listAccounts: API.PaginatedOperationMethod<
     items: "accounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
 })) as any;
 
 export type ListAutomationEventsError =
@@ -1039,7 +1072,7 @@ export type ListAutomationEventsError =
  * Lists automation events based on specified filters. You can retrieve events that were created within the past year.
  */
 export const listAutomationEvents: API.PaginatedOperationMethod<
-  ListAutomationEventsRequest,
+  ListAutomationEventsRequest & RegionInput,
   ListAutomationEventsResponse,
   ListAutomationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1065,6 +1098,8 @@ export const listAutomationEvents: API.PaginatedOperationMethod<
     items: "automationEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationEvents",
 })) as any;
 
 export type ListAutomationEventStepsError =
@@ -1081,7 +1116,7 @@ export type ListAutomationEventStepsError =
  * Lists the steps for a specific automation event. You can only list steps for events created within the past year.
  */
 export const listAutomationEventSteps: API.PaginatedOperationMethod<
-  ListAutomationEventStepsRequest,
+  ListAutomationEventStepsRequest & RegionInput,
   ListAutomationEventStepsResponse,
   ListAutomationEventStepsError,
   Credentials | HttpClient.HttpClient,
@@ -1108,6 +1143,8 @@ export const listAutomationEventSteps: API.PaginatedOperationMethod<
     items: "automationEventSteps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationEventSteps",
 })) as any;
 
 export type ListAutomationEventSummariesError =
@@ -1123,7 +1160,7 @@ export type ListAutomationEventSummariesError =
  * Provides a summary of automation events based on specified filters. Only events created within the past year will be included in the summary.
  */
 export const listAutomationEventSummaries: API.PaginatedOperationMethod<
-  ListAutomationEventSummariesRequest,
+  ListAutomationEventSummariesRequest & RegionInput,
   ListAutomationEventSummariesResponse,
   ListAutomationEventSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1149,6 +1186,8 @@ export const listAutomationEventSummaries: API.PaginatedOperationMethod<
     items: "automationEventSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationEventSummaries",
 })) as any;
 
 export type ListAutomationRulePreviewError =
@@ -1164,7 +1203,7 @@ export type ListAutomationRulePreviewError =
  * Returns a preview of the recommended actions that match your Automation rule's configuration and criteria.
  */
 export const listAutomationRulePreview: API.PaginatedOperationMethod<
-  ListAutomationRulePreviewRequest,
+  ListAutomationRulePreviewRequest & RegionInput,
   ListAutomationRulePreviewResponse,
   ListAutomationRulePreviewError,
   Credentials | HttpClient.HttpClient,
@@ -1190,6 +1229,8 @@ export const listAutomationRulePreview: API.PaginatedOperationMethod<
     items: "previewResults",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationRulePreview",
 })) as any;
 
 export type ListAutomationRulePreviewSummariesError =
@@ -1205,7 +1246,7 @@ export type ListAutomationRulePreviewSummariesError =
  * Returns a summary of the recommended actions that match your rule preview configuration and criteria.
  */
 export const listAutomationRulePreviewSummaries: API.PaginatedOperationMethod<
-  ListAutomationRulePreviewSummariesRequest,
+  ListAutomationRulePreviewSummariesRequest & RegionInput,
   ListAutomationRulePreviewSummariesResponse,
   ListAutomationRulePreviewSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1231,6 +1272,8 @@ export const listAutomationRulePreviewSummaries: API.PaginatedOperationMethod<
     items: "previewResultSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationRulePreviewSummaries",
 })) as any;
 
 export type ListAutomationRulesError =
@@ -1246,7 +1289,7 @@ export type ListAutomationRulesError =
  * Lists the automation rules that match specified filters.
  */
 export const listAutomationRules: API.PaginatedOperationMethod<
-  ListAutomationRulesRequest,
+  ListAutomationRulesRequest & RegionInput,
   ListAutomationRulesResponse,
   ListAutomationRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1272,6 +1315,8 @@ export const listAutomationRules: API.PaginatedOperationMethod<
     items: "automationRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationRules",
 })) as any;
 
 export type ListRecommendedActionsError =
@@ -1289,7 +1334,7 @@ export type ListRecommendedActionsError =
  * Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
 export const listRecommendedActions: API.PaginatedOperationMethod<
-  ListRecommendedActionsRequest,
+  ListRecommendedActionsRequest & RegionInput,
   ListRecommendedActionsResponse,
   ListRecommendedActionsError,
   Credentials | HttpClient.HttpClient,
@@ -1315,6 +1360,8 @@ export const listRecommendedActions: API.PaginatedOperationMethod<
     items: "recommendedActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendedActions",
 })) as any;
 
 export type ListRecommendedActionSummariesError =
@@ -1332,7 +1379,7 @@ export type ListRecommendedActionSummariesError =
  * Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
 export const listRecommendedActionSummaries: API.PaginatedOperationMethod<
-  ListRecommendedActionSummariesRequest,
+  ListRecommendedActionSummariesRequest & RegionInput,
   ListRecommendedActionSummariesResponse,
   ListRecommendedActionSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1358,6 +1405,8 @@ export const listRecommendedActionSummaries: API.PaginatedOperationMethod<
     items: "recommendedActionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendedActionSummaries",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1374,7 +1423,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1394,6 +1443,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RollbackAutomationEventError =
@@ -1414,7 +1465,7 @@ export type RollbackAutomationEventError =
  * Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
 export const rollbackAutomationEvent: API.OperationMethod<
-  RollbackAutomationEventRequest,
+  RollbackAutomationEventRequest & RegionInput,
   RollbackAutomationEventResponse,
   RollbackAutomationEventError,
   Credentials | HttpClient.HttpClient
@@ -1436,6 +1487,8 @@ export const rollbackAutomationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackAutomationEvent",
+  telemetry: TELEMETRY,
+  span: "RollbackAutomationEvent",
 }));
 
 export type StartAutomationEventError =
@@ -1457,7 +1510,7 @@ export type StartAutomationEventError =
  * Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
 export const startAutomationEvent: API.OperationMethod<
-  StartAutomationEventRequest,
+  StartAutomationEventRequest & RegionInput,
   StartAutomationEventResponse,
   StartAutomationEventError,
   Credentials | HttpClient.HttpClient
@@ -1480,6 +1533,8 @@ export const startAutomationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationEvent",
+  telemetry: TELEMETRY,
+  span: "StartAutomationEvent",
 }));
 
 export type TagResourceError =
@@ -1498,7 +1553,7 @@ export type TagResourceError =
  * Adds tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1520,6 +1575,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1538,7 +1595,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1560,6 +1617,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAutomationRuleError =
@@ -1578,7 +1637,7 @@ export type UpdateAutomationRuleError =
  * Updates an existing automation rule.
  */
 export const updateAutomationRule: API.OperationMethod<
-  UpdateAutomationRuleRequest,
+  UpdateAutomationRuleRequest & RegionInput,
   UpdateAutomationRuleResponse,
   UpdateAutomationRuleError,
   Credentials | HttpClient.HttpClient
@@ -1600,6 +1659,8 @@ export const updateAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomationRule",
+  telemetry: TELEMETRY,
+  span: "UpdateAutomationRule",
 }));
 
 export type UpdateEnrollmentConfigurationError =
@@ -1619,7 +1680,7 @@ export type UpdateEnrollmentConfigurationError =
  * Updates your account's Compute Optimizer Automation enrollment configuration.
  */
 export const updateEnrollmentConfiguration: API.OperationMethod<
-  UpdateEnrollmentConfigurationRequest,
+  UpdateEnrollmentConfigurationRequest & RegionInput,
   UpdateEnrollmentConfigurationResponse,
   UpdateEnrollmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1642,6 +1703,8 @@ export const updateEnrollmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnrollmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateEnrollmentConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ProductTours",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -291,6 +304,8 @@ export const createProductTour: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProductTour",
 }));
 
 export type GetProductTourError = Forbidden | NotFound | PosthogOpError;
@@ -306,6 +321,8 @@ export const getProductTour: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductTour",
 }));
 
 export type GetProductToursDraftStatusError = Forbidden | NotFound | PosthogOpError;
@@ -321,6 +338,8 @@ export const getProductToursDraftStatus: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductToursDraftStatus",
 }));
 
 export type ListProductToursError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -336,6 +355,8 @@ export const listProductTours: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductTours",
 }));
 
 export type ProductToursDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -351,6 +372,8 @@ export const productToursDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductToursDestroy",
 }));
 
 export type ProductToursDiscardDraftDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -366,6 +389,8 @@ export const productToursDiscardDraftDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductToursDiscardDraftDestroy",
 }));
 
 export type ProductToursGenerateCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -381,6 +406,8 @@ export const productToursGenerateCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductToursGenerateCreate",
 }));
 
 export type ProductToursPublishDraftCreateError =
@@ -400,6 +427,8 @@ export const productToursPublishDraftCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductToursPublishDraftCreate",
 }));
 
 export type UpdateProductTourError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -415,6 +444,8 @@ export const updateProductTour: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProductTour",
 }));
 
 export type UpdateProductToursDraftPartialError =
@@ -434,6 +465,8 @@ export const updateProductToursDraftPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProductToursDraftPartial",
 }));
 
 export type UpdateProductToursPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -449,6 +482,8 @@ export const updateProductToursPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProductToursPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

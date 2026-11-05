@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ds-data.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DirectoryServiceData",
+  service: "DirectoryServiceData",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -459,7 +475,7 @@ export type AddGroupMemberError =
  * Adds an existing user, group, or computer as a group member.
  */
 export const addGroupMember: API.OperationMethod<
-  AddGroupMemberRequest,
+  AddGroupMemberRequest & RegionInput,
   AddGroupMemberResult,
   AddGroupMemberError,
   Credentials | HttpClient.HttpClient
@@ -478,6 +494,8 @@ export const addGroupMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddGroupMember",
+  telemetry: TELEMETRY,
+  span: "AddGroupMember",
 }));
 
 export type CreateGroupError =
@@ -492,7 +510,7 @@ export type CreateGroupError =
  * Creates a new group.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResult,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -510,6 +528,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateUserError =
@@ -524,7 +544,7 @@ export type CreateUserError =
  * Creates a new user.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResult,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -542,6 +562,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteGroupError =
@@ -557,7 +579,7 @@ export type DeleteGroupError =
  * Deletes a group.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResult,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -576,6 +598,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteUserError =
@@ -591,7 +615,7 @@ export type DeleteUserError =
  * Deletes a user.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResult,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -610,6 +634,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeGroupError =
@@ -624,7 +650,7 @@ export type DescribeGroupError =
  * Returns information about a specific group.
  */
 export const describeGroup: API.OperationMethod<
-  DescribeGroupRequest,
+  DescribeGroupRequest & RegionInput,
   DescribeGroupResult,
   DescribeGroupError,
   Credentials | HttpClient.HttpClient
@@ -642,6 +668,8 @@ export const describeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeGroup",
 }));
 
 export type DescribeUserError =
@@ -656,7 +684,7 @@ export type DescribeUserError =
  * Returns information about a specific user.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResult,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -674,6 +702,8 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  telemetry: TELEMETRY,
+  span: "DescribeUser",
 }));
 
 export type DisableUserError =
@@ -691,7 +721,7 @@ export type DisableUserError =
  * in the *Directory Service API Reference*.
  */
 export const disableUser: API.OperationMethod<
-  DisableUserRequest,
+  DisableUserRequest & RegionInput,
   DisableUserResult,
   DisableUserError,
   Credentials | HttpClient.HttpClient
@@ -710,6 +740,8 @@ export const disableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableUser",
+  telemetry: TELEMETRY,
+  span: "DisableUser",
 }));
 
 export type ListGroupMembersError =
@@ -732,7 +764,7 @@ export type ListGroupMembersError =
  * parameter.
  */
 export const listGroupMembers: API.PaginatedOperationMethod<
-  ListGroupMembersRequest,
+  ListGroupMembersRequest & RegionInput,
   ListGroupMembersResult,
   ListGroupMembersError,
   Credentials | HttpClient.HttpClient,
@@ -757,6 +789,8 @@ export const listGroupMembers: API.PaginatedOperationMethod<
     items: "Members",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupMembers",
 })) as any;
 
 export type ListGroupsError =
@@ -778,7 +812,7 @@ export type ListGroupsError =
  * parameter.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResult,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -802,6 +836,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListGroupsForMemberError =
@@ -824,7 +860,7 @@ export type ListGroupsForMemberError =
  * parameter.
  */
 export const listGroupsForMember: API.PaginatedOperationMethod<
-  ListGroupsForMemberRequest,
+  ListGroupsForMemberRequest & RegionInput,
   ListGroupsForMemberResult,
   ListGroupsForMemberError,
   Credentials | HttpClient.HttpClient,
@@ -849,6 +885,8 @@ export const listGroupsForMember: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupsForMember",
 })) as any;
 
 export type ListUsersError =
@@ -870,7 +908,7 @@ export type ListUsersError =
  * parameter.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResult,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -894,6 +932,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type RemoveGroupMemberError =
@@ -909,7 +949,7 @@ export type RemoveGroupMemberError =
  * Removes a member from a group.
  */
 export const removeGroupMember: API.OperationMethod<
-  RemoveGroupMemberRequest,
+  RemoveGroupMemberRequest & RegionInput,
   RemoveGroupMemberResult,
   RemoveGroupMemberError,
   Credentials | HttpClient.HttpClient
@@ -928,6 +968,8 @@ export const removeGroupMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveGroupMember",
+  telemetry: TELEMETRY,
+  span: "RemoveGroupMember",
 }));
 
 export type SearchGroupsError =
@@ -951,7 +993,7 @@ export type SearchGroupsError =
  * parameter.
  */
 export const searchGroups: API.PaginatedOperationMethod<
-  SearchGroupsRequest,
+  SearchGroupsRequest & RegionInput,
   SearchGroupsResult,
   SearchGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -975,6 +1017,8 @@ export const searchGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchGroups",
 })) as any;
 
 export type SearchUsersError =
@@ -998,7 +1042,7 @@ export type SearchUsersError =
  * parameter.
  */
 export const searchUsers: API.PaginatedOperationMethod<
-  SearchUsersRequest,
+  SearchUsersRequest & RegionInput,
   SearchUsersResult,
   SearchUsersError,
   Credentials | HttpClient.HttpClient,
@@ -1022,6 +1066,8 @@ export const searchUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchUsers",
 })) as any;
 
 export type UpdateGroupError =
@@ -1037,7 +1083,7 @@ export type UpdateGroupError =
  * Updates group information.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResult,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1056,6 +1102,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateUserError =
@@ -1071,7 +1119,7 @@ export type UpdateUserError =
  * Updates user information.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResult,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -1090,6 +1138,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

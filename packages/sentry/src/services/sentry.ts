@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { SentryOpError, SentryOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "sentry-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Sentry",
+  service: "Sentry",
+  labels: "sentry",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -18344,6 +18357,8 @@ export const addOrganizationMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrganizationMember",
 }));
 
 export type AddOrganizationMemberTeamError = Forbidden | NotFound | SentryOpError;
@@ -18359,6 +18374,8 @@ export const addOrganizationMemberTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrganizationMemberTeam",
 }));
 
 export type AddProjectSymbolSourceError = BadRequest | Forbidden | SentryOpError;
@@ -18374,6 +18391,8 @@ export const addProjectSymbolSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddProjectSymbolSource",
 }));
 
 export type AddProjectTeamError = Forbidden | NotFound | SentryOpError;
@@ -18389,6 +18408,8 @@ export const addProjectTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddProjectTeam",
 }));
 
 export type BulkMutateAListOfIssuesError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18404,6 +18425,8 @@ export const bulkMutateAListOfIssues: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkMutateAListOfIssues",
 }));
 
 export type BulkRemoveAListOfIssuesError = Forbidden | NotFound | SentryOpError;
@@ -18419,6 +18442,8 @@ export const bulkRemoveAListOfIssues: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkRemoveAListOfIssues",
 }));
 
 export type BulkUpdateProjectEnvironmentsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18434,6 +18459,8 @@ export const bulkUpdateProjectEnvironments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateProjectEnvironments",
 }));
 
 export type CreateACustomInboundFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18449,6 +18476,8 @@ export const createACustomInboundFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateACustomInboundFilter",
 }));
 
 export type CreateAnExternalIssueAndLinkItToAnIssueError = BadRequest | NotFound | SentryOpError;
@@ -18464,6 +18493,8 @@ export const createAnExternalIssueAndLinkItToAnIssue: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnExternalIssueAndLinkItToAnIssue",
 }));
 
 export type CreateOrganizationDashboardError =
@@ -18484,6 +18515,8 @@ export const createOrganizationDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationDashboard",
 }));
 
 export type CreateOrganizationDiscoverSavedQueryError =
@@ -18503,6 +18536,8 @@ export const createOrganizationDiscoverSavedQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationDiscoverSavedQuery",
 }));
 
 export type CreateOrganizationExternalUserError = BadRequest | Forbidden | SentryOpError;
@@ -18518,6 +18553,8 @@ export const createOrganizationExternalUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationExternalUser",
 }));
 
 export type CreateOrganizationForwardingError = BadRequest | Forbidden | SentryOpError;
@@ -18533,6 +18570,8 @@ export const createOrganizationForwarding: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationForwarding",
 }));
 
 export type CreateOrganizationIssueViewError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18548,6 +18587,8 @@ export const createOrganizationIssueView: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationIssueView",
 }));
 
 export type CreateOrganizationMonitorError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18563,6 +18604,8 @@ export const createOrganizationMonitor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationMonitor",
 }));
 
 export type CreateOrganizationNotificationsActionError = BadRequest | Forbidden | SentryOpError;
@@ -18578,6 +18621,8 @@ export const createOrganizationNotificationsAction: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationNotificationsAction",
 }));
 
 export type CreateOrganizationProjectError =
@@ -18598,6 +18643,8 @@ export const createOrganizationProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationProject",
 }));
 
 export type CreateOrganizationProjectDetectorError =
@@ -18617,6 +18664,8 @@ export const createOrganizationProjectDetector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationProjectDetector",
 }));
 
 export type CreateOrganizationReleaseError = BadRequest | Forbidden | SentryOpError;
@@ -18632,6 +18681,8 @@ export const createOrganizationRelease: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationRelease",
 }));
 
 export type CreateOrganizationReleaseDeployError = BadRequest | SentryOpError;
@@ -18647,6 +18698,8 @@ export const createOrganizationReleaseDeploy: API.OperationMethod<
   errors: [BadRequest, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationReleaseDeploy",
 }));
 
 export type CreateOrganizationTeamError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18662,6 +18715,8 @@ export const createOrganizationTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationTeam",
 }));
 
 export type CreateOrganizationWorkflowError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18677,6 +18732,8 @@ export const createOrganizationWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationWorkflow",
 }));
 
 export type CreateOrUpdateAnExternalIssueError = Forbidden | NotFound | SentryOpError;
@@ -18692,6 +18749,8 @@ export const createOrUpdateAnExternalIssue: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateAnExternalIssue",
 }));
 
 export type CreateProjectCodeOwnersError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18707,6 +18766,8 @@ export const createProjectCodeOwners: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectCodeOwners",
 }));
 
 export type CreateProjectKeyError = BadRequest | Forbidden | SentryOpError;
@@ -18722,6 +18783,8 @@ export const createProjectKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectKey",
 }));
 
 export type CreateProjectPreprodSizeAnalysisSkippedStatusCheckError =
@@ -18749,6 +18812,8 @@ export const createProjectPreprodSizeAnalysisSkippedStatusCheck: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectPreprodSizeAnalysisSkippedStatusCheck",
 }));
 
 export type CreateProjectPreprodSnapshotSkippedStatusCheckError =
@@ -18776,6 +18841,8 @@ export const createProjectPreprodSnapshotSkippedStatusCheck: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectPreprodSnapshotSkippedStatusCheck",
 }));
 
 export type CreateProjectReplayDeletionJobError = BadRequest | Forbidden | SentryOpError;
@@ -18791,6 +18858,8 @@ export const createProjectReplayDeletionJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectReplayDeletionJob",
 }));
 
 export type CreateTeamExternalTeamError = BadRequest | Forbidden | SentryOpError;
@@ -18806,6 +18875,8 @@ export const createTeamExternalTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamExternalTeam",
 }));
 
 export type CreateTeamProjectError = BadRequest | Forbidden | NotFound | Conflict | SentryOpError;
@@ -18821,6 +18892,8 @@ export const createTeamProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamProject",
 }));
 
 export type DeleteACustomInboundFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18836,6 +18909,8 @@ export const deleteACustomInboundFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteACustomInboundFilter",
 }));
 
 export type DeleteAnExternalIssueError = Forbidden | NotFound | Conflict | SentryOpError;
@@ -18851,6 +18926,8 @@ export const deleteAnExternalIssue: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnExternalIssue",
 }));
 
 export type DeleteOrganizationDashboardError = Forbidden | NotFound | SentryOpError;
@@ -18866,6 +18943,8 @@ export const deleteOrganizationDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationDashboard",
 }));
 
 export type DeleteOrganizationDetectorError = Forbidden | NotFound | SentryOpError;
@@ -18881,6 +18960,8 @@ export const deleteOrganizationDetector: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationDetector",
 }));
 
 export type DeleteOrganizationDetectorsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -18896,6 +18977,8 @@ export const deleteOrganizationDetectors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationDetectors",
 }));
 
 export type DeleteOrganizationDiscoverSavedQueryError = Forbidden | NotFound | SentryOpError;
@@ -18911,6 +18994,8 @@ export const deleteOrganizationDiscoverSavedQuery: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationDiscoverSavedQuery",
 }));
 
 export type DeleteOrganizationExternalUserError = BadRequest | Forbidden | SentryOpError;
@@ -18926,6 +19011,8 @@ export const deleteOrganizationExternalUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationExternalUser",
 }));
 
 export type DeleteOrganizationForwardingError = Forbidden | SentryOpError;
@@ -18941,6 +19028,8 @@ export const deleteOrganizationForwarding: API.OperationMethod<
   errors: [Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationForwarding",
 }));
 
 export type DeleteOrganizationIntegrationError = NotFound | SentryOpError;
@@ -18956,6 +19045,8 @@ export const deleteOrganizationIntegration: API.OperationMethod<
   errors: [NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationIntegration",
 }));
 
 export type DeleteOrganizationIssueError = Forbidden | NotFound | SentryOpError;
@@ -18971,6 +19062,8 @@ export const deleteOrganizationIssue: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationIssue",
 }));
 
 export type DeleteOrganizationIssueExternalIssueError =
@@ -18990,6 +19083,8 @@ export const deleteOrganizationIssueExternalIssue: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationIssueExternalIssue",
 }));
 
 export type DeleteOrganizationIssuesError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19005,6 +19100,8 @@ export const deleteOrganizationIssues: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationIssues",
 }));
 
 export type DeleteOrganizationMemberError = Forbidden | NotFound | SentryOpError;
@@ -19020,6 +19117,8 @@ export const deleteOrganizationMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationMember",
 }));
 
 export type DeleteOrganizationMemberTeamError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19035,6 +19134,8 @@ export const deleteOrganizationMemberTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationMemberTeam",
 }));
 
 export type DeleteOrganizationMonitorError = Forbidden | NotFound | SentryOpError;
@@ -19050,6 +19151,8 @@ export const deleteOrganizationMonitor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationMonitor",
 }));
 
 export type DeleteOrganizationNotificationsActionError = SentryOpError;
@@ -19065,6 +19168,8 @@ export const deleteOrganizationNotificationsAction: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationNotificationsAction",
 }));
 
 export type DeleteOrganizationPreprodArtifactSnapshotError = Forbidden | NotFound | SentryOpError;
@@ -19084,6 +19189,8 @@ export const deleteOrganizationPreprodArtifactSnapshot: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationPreprodArtifactSnapshot",
 }));
 
 export type DeleteOrganizationReleaseError = Forbidden | NotFound | SentryOpError;
@@ -19099,6 +19206,8 @@ export const deleteOrganizationRelease: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationRelease",
 }));
 
 export type DeleteOrganizationReleaseFileError = Forbidden | NotFound | SentryOpError;
@@ -19114,6 +19223,8 @@ export const deleteOrganizationReleaseFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationReleaseFile",
 }));
 
 export type DeleteOrganizationScimV2GroupError = Forbidden | NotFound | SentryOpError;
@@ -19129,6 +19240,8 @@ export const deleteOrganizationScimV2Group: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationScimV2Group",
 }));
 
 export type DeleteOrganizationScimV2UserError = Forbidden | NotFound | SentryOpError;
@@ -19144,6 +19257,8 @@ export const deleteOrganizationScimV2User: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationScimV2User",
 }));
 
 export type DeleteOrganizationWorkflowError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19159,6 +19274,8 @@ export const deleteOrganizationWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationWorkflow",
 }));
 
 export type DeleteOrganizationWorkflowsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19174,6 +19291,8 @@ export const deleteOrganizationWorkflows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationWorkflows",
 }));
 
 export type DeleteProjectError = Forbidden | NotFound | SentryOpError;
@@ -19189,6 +19308,8 @@ export const deleteProject: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectCodeOwnersError = Forbidden | NotFound | SentryOpError;
@@ -19204,6 +19325,8 @@ export const deleteProjectCodeOwners: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectCodeOwners",
 }));
 
 export type DeleteProjectKeyError = Forbidden | NotFound | SentryOpError;
@@ -19219,6 +19342,8 @@ export const deleteProjectKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectKey",
 }));
 
 export type DeleteProjectMonitorError = Forbidden | NotFound | SentryOpError;
@@ -19234,6 +19359,8 @@ export const deleteProjectMonitor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectMonitor",
 }));
 
 export type DeleteProjectReleaseFileError = Forbidden | NotFound | SentryOpError;
@@ -19249,6 +19376,8 @@ export const deleteProjectReleaseFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectReleaseFile",
 }));
 
 export type DeleteProjectReplayError = NotFound | SentryOpError;
@@ -19264,6 +19393,8 @@ export const deleteProjectReplay: API.OperationMethod<
   errors: [NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectReplay",
 }));
 
 export type DeleteProjectSymbolSourceError = Forbidden | NotFound | SentryOpError;
@@ -19279,6 +19410,8 @@ export const deleteProjectSymbolSource: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectSymbolSource",
 }));
 
 export type DeleteProjectTeamError = Forbidden | NotFound | SentryOpError;
@@ -19294,6 +19427,8 @@ export const deleteProjectTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectTeam",
 }));
 
 export type DeleteSentryAppError = Forbidden | SentryOpError;
@@ -19309,6 +19444,8 @@ export const deleteSentryApp: API.OperationMethod<
   errors: [Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSentryApp",
 }));
 
 export type DeleteTeamError = Forbidden | NotFound | SentryOpError;
@@ -19324,6 +19461,8 @@ export const deleteTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeam",
 }));
 
 export type DeleteTeamExternalTeamError = BadRequest | Forbidden | SentryOpError;
@@ -19339,6 +19478,8 @@ export const deleteTeamExternalTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamExternalTeam",
 }));
 
 export type DisableSpikeProtectionError = BadRequest | Forbidden | SentryOpError;
@@ -19354,6 +19495,8 @@ export const disableSpikeProtection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableSpikeProtection",
 }));
 
 export type EnableSpikeProtectionError = BadRequest | Forbidden | SentryOpError;
@@ -19369,6 +19512,8 @@ export const enableSpikeProtection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableSpikeProtection",
 }));
 
 export type ExecuteSentryAppInstallationExternalIssueActionError =
@@ -19397,6 +19542,8 @@ export const executeSentryAppInstallationExternalIssueAction: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteSentryAppInstallationExternalIssueAction",
 }));
 
 export type GetACustomInboundFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19412,6 +19559,8 @@ export const getACustomInboundFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetACustomInboundFilter",
 }));
 
 export type GetAnIntegrationSIssueConfigForAnIssueError =
@@ -19431,6 +19580,8 @@ export const getAnIntegrationSIssueConfigForAnIssue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnIntegrationSIssueConfigForAnIssue",
 }));
 
 export type GetAServiceHookError = Forbidden | NotFound | SentryOpError;
@@ -19446,6 +19597,8 @@ export const getAServiceHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAServiceHook",
 }));
 
 export type GetFilesChangedInAReleaseSCommitsError = Forbidden | NotFound | SentryOpError;
@@ -19461,6 +19614,8 @@ export const getFilesChangedInAReleaseSCommits: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFilesChangedInAReleaseSCommits",
 }));
 
 export type GetOrganizationError = Forbidden | NotFound | SentryOpError;
@@ -19476,6 +19631,8 @@ export const getOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationAIConversationError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19491,6 +19648,8 @@ export const getOrganizationAIConversation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationAIConversation",
 }));
 
 export type GetOrganizationConfigIntegrationsError = NotFound | SentryOpError;
@@ -19506,6 +19665,8 @@ export const getOrganizationConfigIntegrations: API.OperationMethod<
   errors: [NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationConfigIntegrations",
 }));
 
 export type GetOrganizationDashboardError = Forbidden | NotFound | SentryOpError;
@@ -19521,6 +19682,8 @@ export const getOrganizationDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationDashboard",
 }));
 
 export type GetOrganizationDetectorError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19536,6 +19699,8 @@ export const getOrganizationDetector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationDetector",
 }));
 
 export type GetOrganizationDiscoverSavedQueryError = Forbidden | NotFound | SentryOpError;
@@ -19551,6 +19716,8 @@ export const getOrganizationDiscoverSavedQuery: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationDiscoverSavedQuery",
 }));
 
 export type GetOrganizationIntegrationError = SentryOpError;
@@ -19566,6 +19733,8 @@ export const getOrganizationIntegration: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationIntegration",
 }));
 
 export type GetOrganizationIssueError = Forbidden | NotFound | SentryOpError;
@@ -19581,6 +19750,8 @@ export const getOrganizationIssue: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationIssue",
 }));
 
 export type GetOrganizationIssueAutofixStateError = Forbidden | NotFound | SentryOpError;
@@ -19596,6 +19767,8 @@ export const getOrganizationIssueAutofixState: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationIssueAutofixState",
 }));
 
 export type GetOrganizationIssueEventError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19611,6 +19784,8 @@ export const getOrganizationIssueEvent: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationIssueEvent",
 }));
 
 export type GetOrganizationIssueTagError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19626,6 +19801,8 @@ export const getOrganizationIssueTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationIssueTag",
 }));
 
 export type GetOrganizationMemberError = Forbidden | NotFound | SentryOpError;
@@ -19641,6 +19818,8 @@ export const getOrganizationMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMember",
 }));
 
 export type GetOrganizationMonitorError = Forbidden | NotFound | SentryOpError;
@@ -19656,6 +19835,8 @@ export const getOrganizationMonitor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMonitor",
 }));
 
 export type GetOrganizationNotificationsActionError = SentryOpError;
@@ -19671,6 +19852,8 @@ export const getOrganizationNotificationsAction: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationNotificationsAction",
 }));
 
 export type GetOrganizationPreprodArtifactInstallDetailsError =
@@ -19697,6 +19880,8 @@ export const getOrganizationPreprodArtifactInstallDetails: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationPreprodArtifactInstallDetails",
 }));
 
 export type GetOrganizationPreprodArtifactSizeAnalysisError =
@@ -19720,6 +19905,8 @@ export const getOrganizationPreprodArtifactSizeAnalysis: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationPreprodArtifactSizeAnalysis",
 }));
 
 export type GetOrganizationPreprodArtifactSnapshotError = Forbidden | NotFound | SentryOpError;
@@ -19735,6 +19922,8 @@ export const getOrganizationPreprodArtifactSnapshot: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationPreprodArtifactSnapshot",
 }));
 
 export type GetOrganizationPreprodArtifactSnapshotImageError = Forbidden | NotFound | SentryOpError;
@@ -19758,6 +19947,8 @@ export const getOrganizationPreprodArtifactSnapshotImage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationPreprodArtifactSnapshotImage",
 }));
 
 export type GetOrganizationPreprodArtifactSnapshotLatestBaseError =
@@ -19785,6 +19976,8 @@ export const getOrganizationPreprodArtifactSnapshotLatestBase: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationPreprodArtifactSnapshotLatestBase",
 }));
 
 export type GetOrganizationProfilingFlamegraphError = Forbidden | NotFound | SentryOpError;
@@ -19800,6 +19993,8 @@ export const getOrganizationProfilingFlamegraph: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationProfilingFlamegraph",
 }));
 
 export type GetOrganizationReleaseError = Forbidden | NotFound | SentryOpError;
@@ -19815,6 +20010,8 @@ export const getOrganizationRelease: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationRelease",
 }));
 
 export type GetOrganizationReleaseFileError = Forbidden | NotFound | SentryOpError;
@@ -19830,6 +20027,8 @@ export const getOrganizationReleaseFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationReleaseFile",
 }));
 
 export type GetOrganizationReplayError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -19845,6 +20044,8 @@ export const getOrganizationReplay: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationReplay",
 }));
 
 export type GetOrganizationReplayCountError = BadRequest | Forbidden | SentryOpError;
@@ -19860,6 +20061,8 @@ export const getOrganizationReplayCount: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationReplayCount",
 }));
 
 export type GetOrganizationScimV2GroupError = Forbidden | NotFound | SentryOpError;
@@ -19875,6 +20078,8 @@ export const getOrganizationScimV2Group: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationScimV2Group",
 }));
 
 export type GetOrganizationScimV2ResourceTypeError = Forbidden | NotFound | SentryOpError;
@@ -19890,6 +20095,8 @@ export const getOrganizationScimV2ResourceType: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationScimV2ResourceType",
 }));
 
 export type GetOrganizationScimV2SchemaError = Forbidden | NotFound | SentryOpError;
@@ -19905,6 +20112,8 @@ export const getOrganizationScimV2Schema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationScimV2Schema",
 }));
 
 export type GetOrganizationScimV2ServiceProviderConfigError = Forbidden | NotFound | SentryOpError;
@@ -19920,6 +20129,8 @@ export const getOrganizationScimV2ServiceProviderConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationScimV2ServiceProviderConfig",
 }));
 
 export type GetOrganizationScimV2UserError = Forbidden | NotFound | SentryOpError;
@@ -19935,6 +20146,8 @@ export const getOrganizationScimV2User: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationScimV2User",
 }));
 
 export type GetOrganizationSessionsError = BadRequest | SentryOpError;
@@ -19950,6 +20163,8 @@ export const getOrganizationSessions: API.OperationMethod<
   errors: [BadRequest, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationSessions",
 }));
 
 export type GetOrganizationStatsSummaryError = NotFound | SentryOpError;
@@ -19965,6 +20180,8 @@ export const getOrganizationStatsSummary: API.OperationMethod<
   errors: [NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationStatsSummary",
 }));
 
 export type GetOrganizationTraceError = Forbidden | NotFound | SentryOpError;
@@ -19980,6 +20197,8 @@ export const getOrganizationTrace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationTrace",
 }));
 
 export type GetOrganizationTraceMetaError = Forbidden | NotFound | SentryOpError;
@@ -19995,6 +20214,8 @@ export const getOrganizationTraceMeta: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationTraceMeta",
 }));
 
 export type GetOrganizationWorkflowError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -20010,6 +20231,8 @@ export const getOrganizationWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationWorkflow",
 }));
 
 export type GetProjectError = Forbidden | NotFound | SentryOpError;
@@ -20025,6 +20248,8 @@ export const getProject: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectCodeOwnersError = Forbidden | NotFound | SentryOpError;
@@ -20040,6 +20265,8 @@ export const getProjectCodeOwners: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectCodeOwners",
 }));
 
 export type GetProjectEnvironmentError = Forbidden | NotFound | SentryOpError;
@@ -20055,6 +20282,8 @@ export const getProjectEnvironment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectEnvironment",
 }));
 
 export type GetProjectEventError = Forbidden | NotFound | SentryOpError;
@@ -20070,6 +20299,8 @@ export const getProjectEvent: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectEvent",
 }));
 
 export type GetProjectEventAttachmentError = Forbidden | NotFound | SentryOpError;
@@ -20085,6 +20316,8 @@ export const getProjectEventAttachment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectEventAttachment",
 }));
 
 export type GetProjectEventSourceMapDebugError = Forbidden | NotFound | SentryOpError;
@@ -20100,6 +20333,8 @@ export const getProjectEventSourceMapDebug: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectEventSourceMapDebug",
 }));
 
 export type GetProjectInstallableBuildLatestError = BadRequest | Forbidden | SentryOpError;
@@ -20115,6 +20350,8 @@ export const getProjectInstallableBuildLatest: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectInstallableBuildLatest",
 }));
 
 export type GetProjectKeyError = Forbidden | NotFound | SentryOpError;
@@ -20130,6 +20367,8 @@ export const getProjectKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectKey",
 }));
 
 export type GetProjectMonitorError = Forbidden | NotFound | SentryOpError;
@@ -20145,6 +20384,8 @@ export const getProjectMonitor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectMonitor",
 }));
 
 export type GetProjectOwnershipError = SentryOpError;
@@ -20160,6 +20401,8 @@ export const getProjectOwnership: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectOwnership",
 }));
 
 export type GetProjectPreprodSizeAnalysisStatusCheckRulesError =
@@ -20186,6 +20429,8 @@ export const getProjectPreprodSizeAnalysisStatusCheckRules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectPreprodSizeAnalysisStatusCheckRules",
 }));
 
 export type GetProjectPreprodSnapshotStatusCheckRulesError = Forbidden | NotFound | SentryOpError;
@@ -20201,6 +20446,8 @@ export const getProjectPreprodSnapshotStatusCheckRules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectPreprodSnapshotStatusCheckRules",
 }));
 
 export type GetProjectProfilingProfileError = Forbidden | NotFound | SentryOpError;
@@ -20216,6 +20463,8 @@ export const getProjectProfilingProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectProfilingProfile",
 }));
 
 export type GetProjectReleaseFileError = Forbidden | NotFound | SentryOpError;
@@ -20231,6 +20480,8 @@ export const getProjectReleaseFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectReleaseFile",
 }));
 
 export type GetProjectReplayDeletionJobError = Forbidden | NotFound | SentryOpError;
@@ -20246,6 +20497,8 @@ export const getProjectReplayDeletionJob: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectReplayDeletionJob",
 }));
 
 export type GetProjectReplayRecordingSegmentError =
@@ -20265,6 +20518,8 @@ export const getProjectReplayRecordingSegment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectReplayRecordingSegment",
 }));
 
 export type GetSentryAppError = SentryOpError;
@@ -20280,6 +20535,8 @@ export const getSentryApp: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSentryApp",
 }));
 
 export type GetSentryAppInstallationExternalRequestOptionsError =
@@ -20307,6 +20564,8 @@ export const getSentryAppInstallationExternalRequestOptions: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSentryAppInstallationExternalRequestOptions",
 }));
 
 export type GetTeamError = Forbidden | NotFound | SentryOpError;
@@ -20322,6 +20581,8 @@ export const getTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeam",
 }));
 
 export type GetTraceItemStatisticsError = Forbidden | NotFound | SentryOpError;
@@ -20337,6 +20598,8 @@ export const getTraceItemStatistics: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTraceItemStatistics",
 }));
 
 export type LinkAnExistingExternalIssueToAnIssueError =
@@ -20356,6 +20619,8 @@ export const linkAnExistingExternalIssueToAnIssue: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkAnExistingExternalIssueToAnIssue",
 }));
 
 export type LinkProjectRepositoryError = BadRequest | NotFound | SentryOpError;
@@ -20371,6 +20636,8 @@ export const linkProjectRepository: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkProjectRepository",
 }));
 
 export type ListAnOrganizationSIntegrationPlatformInstallationsError =
@@ -20397,6 +20664,8 @@ export const listAnOrganizationSIntegrationPlatformInstallations: API.OperationM
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnOrganizationSIntegrationPlatformInstallations",
 }));
 
 export type ListAProjectSCustomInboundFiltersError =
@@ -20416,6 +20685,8 @@ export const listAProjectSCustomInboundFilters: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAProjectSCustomInboundFilters",
 }));
 
 export type ListAProjectSServiceHooksError = Forbidden | SentryOpError;
@@ -20431,6 +20702,8 @@ export const listAProjectSServiceHooks: API.OperationMethod<
   errors: [Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAProjectSServiceHooks",
 }));
 
 export type ListAProjectSUserFeedbackError = Forbidden | NotFound | SentryOpError;
@@ -20446,6 +20719,8 @@ export const listAProjectSUserFeedback: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAProjectSUserFeedback",
 }));
 
 export type ListATagSValuesError = Forbidden | SentryOpError;
@@ -20461,6 +20736,8 @@ export const listATagSValues: API.OperationMethod<
   errors: [Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListATagSValues",
 }));
 
 export type ListOrganizationAIConversationsError =
@@ -20480,6 +20757,8 @@ export const listOrganizationAIConversations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAIConversations",
 }));
 
 export type ListOrganizationDashboardsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -20495,6 +20774,8 @@ export const listOrganizationDashboards: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationDashboards",
 }));
 
 export type ListOrganizationDetectorsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -20510,6 +20791,8 @@ export const listOrganizationDetectors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationDetectors",
 }));
 
 export type ListOrganizationDiscoverSavedQueriesError =
@@ -20529,6 +20812,8 @@ export const listOrganizationDiscoverSavedQueries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationDiscoverSavedQueries",
 }));
 
 export type ListOrganizationEnvironmentsError = BadRequest | Forbidden | SentryOpError;
@@ -20544,6 +20829,8 @@ export const listOrganizationEnvironments: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationEnvironments",
 }));
 
 export type ListOrganizationEventsError = BadRequest | Forbidden | SentryOpError;
@@ -20559,6 +20846,8 @@ export const listOrganizationEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationEvents",
 }));
 
 export type ListOrganizationEventsTimeseriesError = BadRequest | NotFound | SentryOpError;
@@ -20574,6 +20863,8 @@ export const listOrganizationEventsTimeseries: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationEventsTimeseries",
 }));
 
 export type ListOrganizationForwardingError = SentryOpError;
@@ -20589,6 +20880,8 @@ export const listOrganizationForwarding: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationForwarding",
 }));
 
 export type ListOrganizationIntegrationRepositoriesError =
@@ -20608,6 +20901,8 @@ export const listOrganizationIntegrationRepositories: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIntegrationRepositories",
 }));
 
 export type ListOrganizationIntegrationsError = SentryOpError;
@@ -20623,6 +20918,8 @@ export const listOrganizationIntegrations: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIntegrations",
 }));
 
 export type ListOrganizationIssueEventsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -20638,6 +20935,8 @@ export const listOrganizationIssueEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIssueEvents",
 }));
 
 export type ListOrganizationIssueExternalIssuesError = SentryOpError;
@@ -20653,6 +20952,8 @@ export const listOrganizationIssueExternalIssues: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIssueExternalIssues",
 }));
 
 export type ListOrganizationIssueHashesError = Forbidden | NotFound | SentryOpError;
@@ -20668,6 +20969,8 @@ export const listOrganizationIssueHashes: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIssueHashes",
 }));
 
 export type ListOrganizationIssueIntegrationsError = SentryOpError;
@@ -20683,6 +20986,8 @@ export const listOrganizationIssueIntegrations: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIssueIntegrations",
 }));
 
 export type ListOrganizationIssuesError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -20698,6 +21003,8 @@ export const listOrganizationIssues: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIssues",
 }));
 
 export type ListOrganizationIssueTagValuesError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -20713,6 +21020,8 @@ export const listOrganizationIssueTagValues: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIssueTagValues",
 }));
 
 export type ListOrganizationIssueViewsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -20728,6 +21037,8 @@ export const listOrganizationIssueViews: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIssueViews",
 }));
 
 export type ListOrganizationMembersError = Forbidden | NotFound | SentryOpError;
@@ -20743,6 +21054,8 @@ export const listOrganizationMembers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMembers",
 }));
 
 export type ListOrganizationMonitorCheckinsError = Forbidden | NotFound | SentryOpError;
@@ -20758,6 +21071,8 @@ export const listOrganizationMonitorCheckins: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMonitorCheckins",
 }));
 
 export type ListOrganizationMonitorsError = Forbidden | NotFound | SentryOpError;
@@ -20773,6 +21088,8 @@ export const listOrganizationMonitors: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMonitors",
 }));
 
 export type ListOrganizationNotificationsActionsError = BadRequest | Forbidden | SentryOpError;
@@ -20788,6 +21105,8 @@ export const listOrganizationNotificationsActions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationNotificationsActions",
 }));
 
 export type ListOrganizationProfilingChunksError =
@@ -20807,6 +21126,8 @@ export const listOrganizationProfilingChunks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationProfilingChunks",
 }));
 
 export type ListOrganizationProjectKeysError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -20822,6 +21143,8 @@ export const listOrganizationProjectKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationProjectKeys",
 }));
 
 export type ListOrganizationProjectsError = Forbidden | NotFound | SentryOpError;
@@ -20837,6 +21160,8 @@ export const listOrganizationProjects: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationProjects",
 }));
 
 export type ListOrganizationRelayUsageError = NotFound | SentryOpError;
@@ -20852,6 +21177,8 @@ export const listOrganizationRelayUsage: API.OperationMethod<
   errors: [NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRelayUsage",
 }));
 
 export type ListOrganizationReleaseCommitsError = Forbidden | NotFound | SentryOpError;
@@ -20867,6 +21194,8 @@ export const listOrganizationReleaseCommits: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationReleaseCommits",
 }));
 
 export type ListOrganizationReleaseDeploysError = SentryOpError;
@@ -20882,6 +21211,8 @@ export const listOrganizationReleaseDeploys: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationReleaseDeploys",
 }));
 
 export type ListOrganizationReleaseFilesError = Forbidden | NotFound | SentryOpError;
@@ -20897,6 +21228,8 @@ export const listOrganizationReleaseFiles: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationReleaseFiles",
 }));
 
 export type ListOrganizationReleasesError = Forbidden | NotFound | SentryOpError;
@@ -20912,6 +21245,8 @@ export const listOrganizationReleases: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationReleases",
 }));
 
 export type ListOrganizationReleaseThresholdStatusesError = BadRequest | SentryOpError;
@@ -20927,6 +21262,8 @@ export const listOrganizationReleaseThresholdStatuses: API.OperationMethod<
   errors: [BadRequest, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationReleaseThresholdStatuses",
 }));
 
 export type ListOrganizationReplaysError = BadRequest | Forbidden | SentryOpError;
@@ -20942,6 +21279,8 @@ export const listOrganizationReplays: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationReplays",
 }));
 
 export type ListOrganizationReplaySelectorsError = BadRequest | Forbidden | SentryOpError;
@@ -20957,6 +21296,8 @@ export const listOrganizationReplaySelectors: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationReplaySelectors",
 }));
 
 export type ListOrganizationRepoCommitsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -20972,6 +21313,8 @@ export const listOrganizationRepoCommits: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRepoCommits",
 }));
 
 export type ListOrganizationReposError = Forbidden | NotFound | SentryOpError;
@@ -20987,6 +21330,8 @@ export const listOrganizationRepos: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRepos",
 }));
 
 export type ListOrganizationsError = Forbidden | NotFound | SentryOpError;
@@ -21002,6 +21347,8 @@ export const listOrganizations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizations",
 }));
 
 export type ListOrganizationScimV2GroupsError = Forbidden | NotFound | SentryOpError;
@@ -21017,6 +21364,8 @@ export const listOrganizationScimV2Groups: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationScimV2Groups",
 }));
 
 export type ListOrganizationScimV2ResourceTypesError = Forbidden | NotFound | SentryOpError;
@@ -21032,6 +21381,8 @@ export const listOrganizationScimV2ResourceTypes: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationScimV2ResourceTypes",
 }));
 
 export type ListOrganizationScimV2UsersError = Forbidden | NotFound | SentryOpError;
@@ -21047,6 +21398,8 @@ export const listOrganizationScimV2Users: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationScimV2Users",
 }));
 
 export type ListOrganizationSentryAppComponentsError = Forbidden | NotFound | SentryOpError;
@@ -21062,6 +21415,8 @@ export const listOrganizationSentryAppComponents: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSentryAppComponents",
 }));
 
 export type ListOrganizationSentryAppsError = SentryOpError;
@@ -21077,6 +21432,8 @@ export const listOrganizationSentryApps: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSentryApps",
 }));
 
 export type ListOrganizationStatsV2Error = NotFound | SentryOpError;
@@ -21092,6 +21449,8 @@ export const listOrganizationStatsV2: API.OperationMethod<
   errors: [NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationStatsV2",
 }));
 
 export type ListOrganizationTagsError = BadRequest | Forbidden | SentryOpError;
@@ -21107,6 +21466,8 @@ export const listOrganizationTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationTags",
 }));
 
 export type ListOrganizationTeamsError = Forbidden | NotFound | SentryOpError;
@@ -21122,6 +21483,8 @@ export const listOrganizationTeams: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationTeams",
 }));
 
 export type ListOrganizationTraceItemAttributesError = Forbidden | NotFound | SentryOpError;
@@ -21137,6 +21500,8 @@ export const listOrganizationTraceItemAttributes: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationTraceItemAttributes",
 }));
 
 export type ListOrganizationTraceMetricsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21152,6 +21517,8 @@ export const listOrganizationTraceMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationTraceMetrics",
 }));
 
 export type ListOrganizationUserTeamsError = BadRequest | Forbidden | SentryOpError;
@@ -21167,6 +21534,8 @@ export const listOrganizationUserTeams: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationUserTeams",
 }));
 
 export type ListOrganizationWorkflowsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21182,6 +21551,8 @@ export const listOrganizationWorkflows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationWorkflows",
 }));
 
 export type ListProjectCodeOwnersError = Forbidden | NotFound | SentryOpError;
@@ -21197,6 +21568,8 @@ export const listProjectCodeOwners: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectCodeOwners",
 }));
 
 export type ListProjectDebugFilesError = Forbidden | NotFound | SentryOpError;
@@ -21212,6 +21585,8 @@ export const listProjectDebugFiles: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectDebugFiles",
 }));
 
 export type ListProjectEnvironmentsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21227,6 +21602,8 @@ export const listProjectEnvironments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectEnvironments",
 }));
 
 export type ListProjectEventAttachmentsError = Forbidden | NotFound | SentryOpError;
@@ -21242,6 +21619,8 @@ export const listProjectEventAttachments: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectEventAttachments",
 }));
 
 export type ListProjectEventsError = Forbidden | NotFound | SentryOpError;
@@ -21257,6 +21636,8 @@ export const listProjectEvents: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectEvents",
 }));
 
 export type ListProjectFiltersError = Forbidden | SentryOpError;
@@ -21272,6 +21653,8 @@ export const listProjectFilters: API.OperationMethod<
   errors: [Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectFilters",
 }));
 
 export type ListProjectKeysError = BadRequest | Forbidden | SentryOpError;
@@ -21287,6 +21670,8 @@ export const listProjectKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectKeys",
 }));
 
 export type ListProjectMembersError = BadRequest | Forbidden | SentryOpError;
@@ -21302,6 +21687,8 @@ export const listProjectMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectMembers",
 }));
 
 export type ListProjectMonitorCheckinsError = Forbidden | NotFound | SentryOpError;
@@ -21317,6 +21704,8 @@ export const listProjectMonitorCheckins: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectMonitorCheckins",
 }));
 
 export type ListProjectReleaseCommitsError = Forbidden | NotFound | SentryOpError;
@@ -21332,6 +21721,8 @@ export const listProjectReleaseCommits: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectReleaseCommits",
 }));
 
 export type ListProjectReleaseFilesError = Forbidden | NotFound | SentryOpError;
@@ -21347,6 +21738,8 @@ export const listProjectReleaseFiles: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectReleaseFiles",
 }));
 
 export type ListProjectReleasesError = Forbidden | NotFound | SentryOpError;
@@ -21362,6 +21755,8 @@ export const listProjectReleases: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectReleases",
 }));
 
 export type ListProjectReplayClicksError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21377,6 +21772,8 @@ export const listProjectReplayClicks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectReplayClicks",
 }));
 
 export type ListProjectReplayDeletionJobsError = Forbidden | SentryOpError;
@@ -21392,6 +21789,8 @@ export const listProjectReplayDeletionJobs: API.OperationMethod<
   errors: [Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectReplayDeletionJobs",
 }));
 
 export type ListProjectReplayRecordingSegmentsError =
@@ -21411,6 +21810,8 @@ export const listProjectReplayRecordingSegments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectReplayRecordingSegments",
 }));
 
 export type ListProjectReplayViewedByError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21426,6 +21827,8 @@ export const listProjectReplayViewedBy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectReplayViewedBy",
 }));
 
 export type ListProjectRepositoriesError = SentryOpError;
@@ -21441,6 +21844,8 @@ export const listProjectRepositories: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectRepositories",
 }));
 
 export type ListProjectStatsError = Forbidden | NotFound | SentryOpError;
@@ -21456,6 +21861,8 @@ export const listProjectStats: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectStats",
 }));
 
 export type ListProjectSymbolSourcesError = Forbidden | NotFound | SentryOpError;
@@ -21471,6 +21878,8 @@ export const listProjectSymbolSources: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectSymbolSources",
 }));
 
 export type ListProjectTeamsError = Forbidden | NotFound | SentryOpError;
@@ -21486,6 +21895,8 @@ export const listProjectTeams: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectTeams",
 }));
 
 export type ListProjectUsersError = Forbidden | NotFound | SentryOpError;
@@ -21501,6 +21912,8 @@ export const listProjectUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectUsers",
 }));
 
 export type ListSeerModelsError = SentryOpError;
@@ -21516,6 +21929,8 @@ export const listSeerModels: API.OperationMethod<
   errors: [UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSeerModels",
 }));
 
 export type ListTeamMembersError = Forbidden | NotFound | SentryOpError;
@@ -21531,6 +21946,8 @@ export const listTeamMembers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamMembers",
 }));
 
 export type ListTeamProjectsError = Forbidden | NotFound | SentryOpError;
@@ -21546,6 +21963,8 @@ export const listTeamProjects: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamProjects",
 }));
 
 export type ProvisionOrganizationScimV2GroupError = Forbidden | NotFound | SentryOpError;
@@ -21561,6 +21980,8 @@ export const provisionOrganizationScimV2Group: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionOrganizationScimV2Group",
 }));
 
 export type ProvisionOrganizationScimV2UserError = Forbidden | NotFound | SentryOpError;
@@ -21576,6 +21997,8 @@ export const provisionOrganizationScimV2User: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionOrganizationScimV2User",
 }));
 
 export type RegisterANewServiceHookError = Forbidden | NotFound | SentryOpError;
@@ -21591,6 +22014,8 @@ export const registerANewServiceHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterANewServiceHook",
 }));
 
 export type RemoveAServiceHookError = Forbidden | NotFound | SentryOpError;
@@ -21606,6 +22031,8 @@ export const removeAServiceHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAServiceHook",
 }));
 
 export type ResolveOrganizationEventIdError = NotFound | SentryOpError;
@@ -21621,6 +22048,8 @@ export const resolveOrganizationEventId: API.OperationMethod<
   errors: [NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResolveOrganizationEventId",
 }));
 
 export type ResolveOrganizationShortIdError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21636,6 +22065,8 @@ export const resolveOrganizationShortId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResolveOrganizationShortId",
 }));
 
 export type StartOrganizationIssueAutofixError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21651,6 +22082,8 @@ export const startOrganizationIssueAutofix: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartOrganizationIssueAutofix",
 }));
 
 export type UnlinkAnExternalIssueFromAnIssueError =
@@ -21671,6 +22104,8 @@ export const unlinkAnExternalIssueFromAnIssue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkAnExternalIssueFromAnIssue",
 }));
 
 export type UpdateACustomInboundFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21686,6 +22121,8 @@ export const updateACustomInboundFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateACustomInboundFilter",
 }));
 
 export type UpdateAServiceHookError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21701,6 +22138,8 @@ export const updateAServiceHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAServiceHook",
 }));
 
 export type UpdateOrganizationError = BadRequest | Forbidden | NotFound | Conflict | SentryOpError;
@@ -21716,6 +22155,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type UpdateOrganizationDashboardError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21731,6 +22172,8 @@ export const updateOrganizationDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationDashboard",
 }));
 
 export type UpdateOrganizationDetectorError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21746,6 +22189,8 @@ export const updateOrganizationDetector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationDetector",
 }));
 
 export type UpdateOrganizationDetectorsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21761,6 +22206,8 @@ export const updateOrganizationDetectors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationDetectors",
 }));
 
 export type UpdateOrganizationDiscoverSavedQueryError =
@@ -21780,6 +22227,8 @@ export const updateOrganizationDiscoverSavedQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationDiscoverSavedQuery",
 }));
 
 export type UpdateOrganizationExternalUserError = BadRequest | Forbidden | SentryOpError;
@@ -21795,6 +22244,8 @@ export const updateOrganizationExternalUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationExternalUser",
 }));
 
 export type UpdateOrganizationForwardingError = BadRequest | Forbidden | SentryOpError;
@@ -21810,6 +22261,8 @@ export const updateOrganizationForwarding: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationForwarding",
 }));
 
 export type UpdateOrganizationIssueError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21825,6 +22278,8 @@ export const updateOrganizationIssue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationIssue",
 }));
 
 export type UpdateOrganizationIssuesError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21840,6 +22295,8 @@ export const updateOrganizationIssues: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationIssues",
 }));
 
 export type UpdateOrganizationMemberError = BadRequest | Forbidden | SentryOpError;
@@ -21855,6 +22312,8 @@ export const updateOrganizationMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationMember",
 }));
 
 export type UpdateOrganizationMemberTeamError = BadRequest | NotFound | SentryOpError;
@@ -21870,6 +22329,8 @@ export const updateOrganizationMemberTeam: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationMemberTeam",
 }));
 
 export type UpdateOrganizationMonitorError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21885,6 +22346,8 @@ export const updateOrganizationMonitor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationMonitor",
 }));
 
 export type UpdateOrganizationNotificationsActionError = BadRequest | SentryOpError;
@@ -21900,6 +22363,8 @@ export const updateOrganizationNotificationsAction: API.OperationMethod<
   errors: [BadRequest, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationNotificationsAction",
 }));
 
 export type UpdateOrganizationReleaseError = Forbidden | NotFound | SentryOpError;
@@ -21915,6 +22380,8 @@ export const updateOrganizationRelease: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationRelease",
 }));
 
 export type UpdateOrganizationReleaseFileError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21930,6 +22397,8 @@ export const updateOrganizationReleaseFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationReleaseFile",
 }));
 
 export type UpdateOrganizationScimV2GroupError = Forbidden | NotFound | SentryOpError;
@@ -21945,6 +22414,8 @@ export const updateOrganizationScimV2Group: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationScimV2Group",
 }));
 
 export type UpdateOrganizationScimV2UserError = Forbidden | NotFound | SentryOpError;
@@ -21960,6 +22431,8 @@ export const updateOrganizationScimV2User: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationScimV2User",
 }));
 
 export type UpdateOrganizationWorkflowError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21975,6 +22448,8 @@ export const updateOrganizationWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationWorkflow",
 }));
 
 export type UpdateOrganizationWorkflowsError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -21990,6 +22465,8 @@ export const updateOrganizationWorkflows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationWorkflows",
 }));
 
 export type UpdateProjectError = Forbidden | NotFound | SentryOpError;
@@ -22005,6 +22482,8 @@ export const updateProject: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateProjectCodeOwnersError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -22020,6 +22499,8 @@ export const updateProjectCodeOwners: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectCodeOwners",
 }));
 
 export type UpdateProjectEnvironmentError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -22035,6 +22516,8 @@ export const updateProjectEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectEnvironment",
 }));
 
 export type UpdateProjectFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -22050,6 +22533,8 @@ export const updateProjectFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectFilter",
 }));
 
 export type UpdateProjectKeyError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -22065,6 +22550,8 @@ export const updateProjectKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectKey",
 }));
 
 export type UpdateProjectMonitorError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -22080,6 +22567,8 @@ export const updateProjectMonitor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectMonitor",
 }));
 
 export type UpdateProjectOwnershipError = BadRequest | SentryOpError;
@@ -22095,6 +22584,8 @@ export const updateProjectOwnership: API.OperationMethod<
   errors: [BadRequest, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectOwnership",
 }));
 
 export type UpdateProjectReleaseFileError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -22110,6 +22601,8 @@ export const updateProjectReleaseFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectReleaseFile",
 }));
 
 export type UpdateProjectSymbolSourceError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -22125,6 +22618,8 @@ export const updateProjectSymbolSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectSymbolSource",
 }));
 
 export type UpdateSentryAppError = BadRequest | Forbidden | SentryOpError;
@@ -22140,6 +22635,8 @@ export const updateSentryApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSentryApp",
 }));
 
 export type UpdateTeamError = Forbidden | NotFound | SentryOpError;
@@ -22155,6 +22652,8 @@ export const updateTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeam",
 }));
 
 export type UpdateTeamExternalTeamError = BadRequest | Forbidden | SentryOpError;
@@ -22170,6 +22669,8 @@ export const updateTeamExternalTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamExternalTeam",
 }));
 
 export type UploadOrganizationReleaseFileError =
@@ -22190,6 +22691,8 @@ export const uploadOrganizationReleaseFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadOrganizationReleaseFile",
 }));
 
 export type UploadProjectPreprodArtifactSnapshotError = BadRequest | Forbidden | SentryOpError;
@@ -22205,6 +22708,8 @@ export const uploadProjectPreprodArtifactSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadProjectPreprodArtifactSnapshot",
 }));
 
 export type UploadProjectReleaseFileError =
@@ -22225,6 +22730,8 @@ export const uploadProjectReleaseFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadProjectReleaseFile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

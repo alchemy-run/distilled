@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "testing" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Testing",
+  service: "testing",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1189,6 +1208,8 @@ export const cancelProjectsDeviceSessions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelProjectsDeviceSessions",
 }));
 
 export type CancelProjectsTestMatricesError =
@@ -1209,6 +1230,8 @@ export const cancelProjectsTestMatrices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelProjectsTestMatrices",
 }));
 
 export type CreateProjectsDeviceSessionsError =
@@ -1229,6 +1252,8 @@ export const createProjectsDeviceSessions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsDeviceSessions",
 }));
 
 export type CreateProjectsTestMatricesError =
@@ -1249,6 +1274,8 @@ export const createProjectsTestMatrices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTestMatrices",
 }));
 
 export type GetApkDetailsApplicationDetailServiceError =
@@ -1269,6 +1296,8 @@ export const getApkDetailsApplicationDetailService: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApkDetailsApplicationDetailService",
 }));
 
 export type GetProjectsDeviceSessionsError = NotFound | Forbidden | GcpOpError;
@@ -1284,6 +1313,8 @@ export const getProjectsDeviceSessions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDeviceSessions",
 }));
 
 export type GetProjectsTestMatricesError = NotFound | Forbidden | GcpOpError;
@@ -1299,6 +1330,8 @@ export const getProjectsTestMatrices: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsTestMatrices",
 }));
 
 export type GetTestEnvironmentCatalogError = NotFound | Forbidden | GcpOpError;
@@ -1314,6 +1347,8 @@ export const getTestEnvironmentCatalog: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTestEnvironmentCatalog",
 }));
 
 export type ListProjectsDeviceSessionsError = NotFound | Forbidden | GcpOpError;
@@ -1330,6 +1365,8 @@ export const listProjectsDeviceSessions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDeviceSessions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1351,6 +1388,8 @@ export const patchProjectsDeviceSessions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsDeviceSessions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

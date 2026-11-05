@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Pubsub",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -382,6 +395,8 @@ export const createSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type CreateTopicError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -397,6 +412,8 @@ export const createTopic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTopic",
 }));
 
 export type DeleteSubscriptionError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -412,6 +429,8 @@ export const deleteSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscription",
 }));
 
 export type DeleteTopicError =
@@ -432,6 +451,8 @@ export const deleteTopic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTopic",
 }));
 
 export type GetSubscriptionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -447,6 +468,8 @@ export const getSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type GetTopicError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -462,6 +485,8 @@ export const getTopic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTopic",
 }));
 
 export type GrantSubscriptionSubscriberAccessError =
@@ -482,6 +507,8 @@ export const grantSubscriptionSubscriberAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GrantSubscriptionSubscriberAccess",
 }));
 
 export type GrantTopicPublisherAccessError =
@@ -502,6 +529,8 @@ export const grantTopicPublisherAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GrantTopicPublisherAccess",
 }));
 
 export type ListSubscriptionsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -517,6 +546,8 @@ export const listSubscriptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 }));
 
 export type ListSubscriptionSubscribersError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -532,6 +563,8 @@ export const listSubscriptionSubscribers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionSubscribers",
 }));
 
 export type ListTopicPublishersError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -547,6 +580,8 @@ export const listTopicPublishers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTopicPublishers",
 }));
 
 export type ListTopicsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -562,6 +597,8 @@ export const listTopics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTopics",
 }));
 
 export type RevokeSubscriptionSubscriberAccessError =
@@ -582,6 +619,8 @@ export const revokeSubscriptionSubscriberAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeSubscriptionSubscriberAccess",
 }));
 
 export type RevokeTopicPublisherAccessError =
@@ -602,6 +641,8 @@ export const revokeTopicPublisherAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeTopicPublisherAccess",
 }));
 
 export type UpdatePublisherAccessError =
@@ -622,6 +663,8 @@ export const updatePublisherAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePublisherAccess",
 }));
 
 export type UpdateSubscriptionError =
@@ -643,6 +686,8 @@ export const updateSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 export type UpdateSubscriptionSubscriberAccessError =
@@ -663,6 +708,8 @@ export const updateSubscriptionSubscriberAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionSubscriberAccess",
 }));
 
 export type UpdateTopicError =
@@ -684,6 +731,8 @@ export const updateTopic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTopic",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

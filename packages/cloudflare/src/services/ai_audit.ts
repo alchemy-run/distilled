@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "AiAudit",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface GetRobotRequest {
   zoneId: string;
   /** Optional subdomain to fetch robots.txt for. If omitted, fetches robots.txt for the zone apex domain. */
@@ -112,6 +126,8 @@ export const getRobot: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRobot",
 }));
 
 export type RobotsBulkGetError = CloudflareOpError;
@@ -127,6 +143,8 @@ export const robotsBulkGet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RobotsBulkGet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

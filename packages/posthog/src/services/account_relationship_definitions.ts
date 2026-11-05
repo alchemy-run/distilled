@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "AccountRelationshipDefinitions",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface AccountRelationshipDefinitionsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -94,6 +107,8 @@ export const accountRelationshipDefinitionsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountRelationshipDefinitionsDestroy",
 }));
 
 export type CreateAccountRelationshipDefinitionError = PosthogOpError;
@@ -108,6 +123,8 @@ export const createAccountRelationshipDefinition: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountRelationshipDefinition",
 }));
 
 export type GetAccountRelationshipDefinitionError = PosthogOpError;
@@ -122,6 +139,8 @@ export const getAccountRelationshipDefinition: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountRelationshipDefinition",
 }));
 
 export type ListAccountRelationshipDefinitionsError = PosthogOpError;
@@ -136,6 +155,8 @@ export const listAccountRelationshipDefinitions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountRelationshipDefinitions",
 }));
 
 export type UpdateAccountRelationshipDefinitionError = PosthogOpError;
@@ -150,6 +171,8 @@ export const updateAccountRelationshipDefinition: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountRelationshipDefinition",
 }));
 
 export type UpdateAccountRelationshipDefinitionsPartialError = PosthogOpError;
@@ -164,6 +187,8 @@ export const updateAccountRelationshipDefinitionsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountRelationshipDefinitionsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

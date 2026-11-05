@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ProjectSecretApiKeys",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -154,6 +167,8 @@ export const createProjectSecretApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectSecretApiKey",
 }));
 
 export type CreateProjectSecretApiKeysRollError = Forbidden | NotFound | PosthogOpError;
@@ -169,6 +184,8 @@ export const createProjectSecretApiKeysRoll: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectSecretApiKeysRoll",
 }));
 
 export type GetProjectSecretApiKeyError = Forbidden | NotFound | PosthogOpError;
@@ -183,6 +200,8 @@ export const getProjectSecretApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectSecretApiKey",
 }));
 
 export type ListProjectSecretApiKeysError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -197,6 +216,8 @@ export const listProjectSecretApiKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectSecretApiKeys",
 }));
 
 export type ProjectSecretApiKeysDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -211,6 +232,8 @@ export const projectSecretApiKeysDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectSecretApiKeysDestroy",
 }));
 
 export type UpdateProjectSecretApiKeyError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -225,6 +248,8 @@ export const updateProjectSecretApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectSecretApiKey",
 }));
 
 export type UpdateProjectSecretApiKeysPartialError =
@@ -243,6 +268,8 @@ export const updateProjectSecretApiKeysPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectSecretApiKeysPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

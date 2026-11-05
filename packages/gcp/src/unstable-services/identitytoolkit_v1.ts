@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "identitytoolkit" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Identitytoolkit",
+  service: "identitytoolkit",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1488,6 +1507,8 @@ export const accountsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsProjects",
 }));
 
 export type AccountsProjectsTenantsError =
@@ -1508,6 +1529,8 @@ export const accountsProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsProjectsTenants",
 }));
 
 export type BatchCreateProjectsAccountsError =
@@ -1528,6 +1551,8 @@ export const batchCreateProjectsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreateProjectsAccounts",
 }));
 
 export type BatchCreateProjectsTenantsAccountsError =
@@ -1548,6 +1573,8 @@ export const batchCreateProjectsTenantsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreateProjectsTenantsAccounts",
 }));
 
 export type BatchDeleteProjectsAccountsError =
@@ -1572,6 +1599,8 @@ export const batchDeleteProjectsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteProjectsAccounts",
 }));
 
 export type BatchDeleteProjectsTenantsAccountsError =
@@ -1596,6 +1625,8 @@ export const batchDeleteProjectsTenantsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteProjectsTenantsAccounts",
 }));
 
 export type BatchGetProjectsAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1611,6 +1642,8 @@ export const batchGetProjectsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetProjectsAccounts",
 }));
 
 export type BatchGetProjectsTenantsAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1626,6 +1659,8 @@ export const batchGetProjectsTenantsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetProjectsTenantsAccounts",
 }));
 
 export type CreateAuthUriAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1641,6 +1676,8 @@ export const createAuthUriAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthUriAccounts",
 }));
 
 export type CreateSessionCookieProjectsError =
@@ -1665,6 +1702,8 @@ export const createSessionCookieProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionCookieProjects",
 }));
 
 export type CreateSessionCookieProjectsTenantsError =
@@ -1689,6 +1728,8 @@ export const createSessionCookieProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionCookieProjectsTenants",
 }));
 
 export type DeleteAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1704,6 +1745,8 @@ export const deleteAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccounts",
 }));
 
 export type DeleteProjectsAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1719,6 +1762,8 @@ export const deleteProjectsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsAccounts",
 }));
 
 export type DeleteProjectsTenantsAccountsError =
@@ -1739,6 +1784,8 @@ export const deleteProjectsTenantsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsTenantsAccounts",
 }));
 
 export type GetProjectsV1Error = NotFound | Forbidden | GcpOpError;
@@ -1758,6 +1805,8 @@ export const getProjectsV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsV1",
 }));
 
 export type GetPublicKeysV1Error = NotFound | Forbidden | GcpOpError;
@@ -1773,6 +1822,8 @@ export const getPublicKeysV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicKeysV1",
 }));
 
 export type GetRecaptchaParamsV1Error = NotFound | Forbidden | GcpOpError;
@@ -1792,6 +1843,8 @@ export const getRecaptchaParamsV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecaptchaParamsV1",
 }));
 
 export type GetSessionCookiePublicKeysV1Error = NotFound | Forbidden | GcpOpError;
@@ -1811,6 +1864,8 @@ export const getSessionCookiePublicKeysV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionCookiePublicKeysV1",
 }));
 
 export type IssueSamlResponseAccountsError =
@@ -1835,6 +1890,8 @@ export const issueSamlResponseAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueSamlResponseAccounts",
 }));
 
 export type LookupAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1850,6 +1907,8 @@ export const lookupAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupAccounts",
 }));
 
 export type LookupProjectsAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1865,6 +1924,8 @@ export const lookupProjectsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupProjectsAccounts",
 }));
 
 export type LookupProjectsTenantsAccountsError =
@@ -1885,6 +1946,8 @@ export const lookupProjectsTenantsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupProjectsTenantsAccounts",
 }));
 
 export type QueryAccountsProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1900,6 +1963,8 @@ export const queryAccountsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryAccountsProjects",
 }));
 
 export type QueryProjectsAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1915,6 +1980,8 @@ export const queryProjectsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProjectsAccounts",
 }));
 
 export type QueryProjectsTenantsAccountsError =
@@ -1935,6 +2002,8 @@ export const queryProjectsTenantsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProjectsTenantsAccounts",
 }));
 
 export type ResetPasswordAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1950,6 +2019,8 @@ export const resetPasswordAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetPasswordAccounts",
 }));
 
 export type SendOobCodeAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1965,6 +2036,8 @@ export const sendOobCodeAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendOobCodeAccounts",
 }));
 
 export type SendOobCodeProjectsAccountsError =
@@ -1985,6 +2058,8 @@ export const sendOobCodeProjectsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendOobCodeProjectsAccounts",
 }));
 
 export type SendOobCodeProjectsTenantsAccountsError =
@@ -2005,6 +2080,8 @@ export const sendOobCodeProjectsTenantsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendOobCodeProjectsTenantsAccounts",
 }));
 
 export type SendVerificationCodeAccountsError =
@@ -2029,6 +2106,8 @@ export const sendVerificationCodeAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendVerificationCodeAccounts",
 }));
 
 export type SignInWithCustomTokenAccountsError =
@@ -2053,6 +2132,8 @@ export const signInWithCustomTokenAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignInWithCustomTokenAccounts",
 }));
 
 export type SignInWithEmailLinkAccountsError =
@@ -2077,6 +2158,8 @@ export const signInWithEmailLinkAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignInWithEmailLinkAccounts",
 }));
 
 export type SignInWithGameCenterAccountsError =
@@ -2101,6 +2184,8 @@ export const signInWithGameCenterAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignInWithGameCenterAccounts",
 }));
 
 export type SignInWithIdpAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2116,6 +2201,8 @@ export const signInWithIdpAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignInWithIdpAccounts",
 }));
 
 export type SignInWithPasswordAccountsError =
@@ -2140,6 +2227,8 @@ export const signInWithPasswordAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignInWithPasswordAccounts",
 }));
 
 export type SignInWithPhoneNumberAccountsError =
@@ -2164,6 +2253,8 @@ export const signInWithPhoneNumberAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignInWithPhoneNumberAccounts",
 }));
 
 export type SignUpAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2179,6 +2270,8 @@ export const signUpAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignUpAccounts",
 }));
 
 export type UpdateAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2194,6 +2287,8 @@ export const updateAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccounts",
 }));
 
 export type UpdateProjectsAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2209,6 +2304,8 @@ export const updateProjectsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectsAccounts",
 }));
 
 export type UpdateProjectsTenantsAccountsError =
@@ -2229,6 +2326,8 @@ export const updateProjectsTenantsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectsTenantsAccounts",
 }));
 
 export type VerifyIosClientAccountsError =
@@ -2253,6 +2352,8 @@ export const verifyIosClientAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyIosClientAccounts",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -8,7 +8,7 @@
  * Output: .generated-specs/discord.json (OpenAPI + Smithy patches applied)
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Discord's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Discord's pipeline
  * config. Patches in `patches/discord/*.json` apply around conversion:
  * OpenAPI pointers (`/paths`, `/components`) before it, Smithy pointers
  * (`/shapes`) after. `scripts/generate.ts` compiles the already-patched model.
@@ -29,7 +29,7 @@
  *     the union handling in scripts/generate.ts.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 /**
  * Rewrite Discord's enum spelling into the plain `enum` form the converter

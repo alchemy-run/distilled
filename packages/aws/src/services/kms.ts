@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -71,6 +73,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kms.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KMS",
+  service: "KMS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()(
@@ -1481,7 +1498,7 @@ export type CancelKeyDeletionError =
  * For more information, see KMS eventual consistency.
  */
 export const cancelKeyDeletion: API.OperationMethod<
-  CancelKeyDeletionRequest,
+  CancelKeyDeletionRequest & RegionInput,
   CancelKeyDeletionResponse,
   CancelKeyDeletionError,
   Credentials | HttpClient.HttpClient
@@ -1498,6 +1515,8 @@ export const cancelKeyDeletion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelKeyDeletion",
+  telemetry: TELEMETRY,
+  span: "CancelKeyDeletion",
 }));
 
 export type ConnectCustomKeyStoreError =
@@ -1592,7 +1611,7 @@ export type ConnectCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const connectCustomKeyStore: API.OperationMethod<
-  ConnectCustomKeyStoreRequest,
+  ConnectCustomKeyStoreRequest & RegionInput,
   ConnectCustomKeyStoreResponse,
   ConnectCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -1609,6 +1628,8 @@ export const connectCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConnectCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "ConnectCustomKeyStore",
 }));
 
 export type CreateAliasError =
@@ -1668,7 +1689,7 @@ export type CreateAliasError =
  * For more information, see KMS eventual consistency.
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasRequest,
+  CreateAliasRequest & RegionInput,
   CreateAliasResponse,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -1687,6 +1708,8 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  telemetry: TELEMETRY,
+  span: "CreateAlias",
 }));
 
 export type CreateCustomKeyStoreError =
@@ -1784,7 +1807,7 @@ export type CreateCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const createCustomKeyStore: API.OperationMethod<
-  CreateCustomKeyStoreRequest,
+  CreateCustomKeyStoreRequest & RegionInput,
   CreateCustomKeyStoreResponse,
   CreateCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -1813,6 +1836,8 @@ export const createCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "CreateCustomKeyStore",
 }));
 
 export type CreateGrantError =
@@ -1885,7 +1910,7 @@ export type CreateGrantError =
  * For more information, see KMS eventual consistency.
  */
 export const createGrant: API.OperationMethod<
-  CreateGrantRequest,
+  CreateGrantRequest & RegionInput,
   CreateGrantResponse,
   CreateGrantError,
   Credentials | HttpClient.HttpClient
@@ -1906,6 +1931,8 @@ export const createGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGrant",
+  telemetry: TELEMETRY,
+  span: "CreateGrant",
 }));
 
 export type CreateKeyError =
@@ -2091,7 +2118,7 @@ export type CreateKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const createKey: API.OperationMethod<
-  CreateKeyRequest,
+  CreateKeyRequest & RegionInput,
   CreateKeyResponse,
   CreateKeyError,
   Credentials | HttpClient.HttpClient
@@ -2116,6 +2143,8 @@ export const createKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKey",
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type DecryptError =
@@ -2206,7 +2235,7 @@ export type DecryptError =
  * For more information, see KMS eventual consistency.
  */
 export const decrypt: API.OperationMethod<
-  DecryptRequest,
+  DecryptRequest & RegionInput,
   DecryptResponse,
   DecryptError,
   Credentials | HttpClient.HttpClient
@@ -2229,6 +2258,8 @@ export const decrypt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Decrypt",
+  telemetry: TELEMETRY,
+  span: "Decrypt",
 }));
 
 export type DeleteAliasError =
@@ -2274,7 +2305,7 @@ export type DeleteAliasError =
  * For more information, see KMS eventual consistency.
  */
 export const deleteAlias: API.OperationMethod<
-  DeleteAliasRequest,
+  DeleteAliasRequest & RegionInput,
   DeleteAliasResponse,
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
@@ -2290,6 +2321,8 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteAlias",
 }));
 
 export type DeleteCustomKeyStoreError =
@@ -2350,7 +2383,7 @@ export type DeleteCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const deleteCustomKeyStore: API.OperationMethod<
-  DeleteCustomKeyStoreRequest,
+  DeleteCustomKeyStoreRequest & RegionInput,
   DeleteCustomKeyStoreResponse,
   DeleteCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -2366,6 +2399,8 @@ export const deleteCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomKeyStore",
 }));
 
 export type DeleteImportedKeyMaterialError =
@@ -2414,7 +2449,7 @@ export type DeleteImportedKeyMaterialError =
  * For more information, see KMS eventual consistency.
  */
 export const deleteImportedKeyMaterial: API.OperationMethod<
-  DeleteImportedKeyMaterialRequest,
+  DeleteImportedKeyMaterialRequest & RegionInput,
   DeleteImportedKeyMaterialResponse,
   DeleteImportedKeyMaterialError,
   Credentials | HttpClient.HttpClient
@@ -2432,6 +2467,8 @@ export const deleteImportedKeyMaterial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportedKeyMaterial",
+  telemetry: TELEMETRY,
+  span: "DeleteImportedKeyMaterial",
 }));
 
 export type DeriveSharedSecretError =
@@ -2522,7 +2559,7 @@ export type DeriveSharedSecretError =
  * For more information, see KMS eventual consistency.
  */
 export const deriveSharedSecret: API.OperationMethod<
-  DeriveSharedSecretRequest,
+  DeriveSharedSecretRequest & RegionInput,
   DeriveSharedSecretResponse,
   DeriveSharedSecretError,
   Credentials | HttpClient.HttpClient
@@ -2543,6 +2580,8 @@ export const deriveSharedSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeriveSharedSecret",
+  telemetry: TELEMETRY,
+  span: "DeriveSharedSecret",
 }));
 
 export type DescribeCustomKeyStoresError =
@@ -2602,7 +2641,7 @@ export type DescribeCustomKeyStoresError =
  * For more information, see KMS eventual consistency.
  */
 export const describeCustomKeyStores: API.PaginatedOperationMethod<
-  DescribeCustomKeyStoresRequest,
+  DescribeCustomKeyStoresRequest & RegionInput,
   DescribeCustomKeyStoresResponse,
   DescribeCustomKeyStoresError,
   Credentials | HttpClient.HttpClient,
@@ -2620,6 +2659,8 @@ export const describeCustomKeyStores: API.PaginatedOperationMethod<
     items: "CustomKeyStores",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCustomKeyStores",
 })) as any;
 
 export type DescribeKeyError =
@@ -2688,7 +2729,7 @@ export type DescribeKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const describeKey: API.OperationMethod<
-  DescribeKeyRequest,
+  DescribeKeyRequest & RegionInput,
   DescribeKeyResponse,
   DescribeKeyError,
   Credentials | HttpClient.HttpClient
@@ -2704,6 +2745,8 @@ export const describeKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKey",
+  telemetry: TELEMETRY,
+  span: "DescribeKey",
 }));
 
 export type DisableKeyError =
@@ -2733,7 +2776,7 @@ export type DisableKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const disableKey: API.OperationMethod<
-  DisableKeyRequest,
+  DisableKeyRequest & RegionInput,
   DisableKeyResponse,
   DisableKeyError,
   Credentials | HttpClient.HttpClient
@@ -2750,6 +2793,8 @@ export const disableKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableKey",
+  telemetry: TELEMETRY,
+  span: "DisableKey",
 }));
 
 export type DisableKeyRotationError =
@@ -2797,7 +2842,7 @@ export type DisableKeyRotationError =
  * For more information, see KMS eventual consistency.
  */
 export const disableKeyRotation: API.OperationMethod<
-  DisableKeyRotationRequest,
+  DisableKeyRotationRequest & RegionInput,
   DisableKeyRotationResponse,
   DisableKeyRotationError,
   Credentials | HttpClient.HttpClient
@@ -2816,6 +2861,8 @@ export const disableKeyRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableKeyRotation",
+  telemetry: TELEMETRY,
+  span: "DisableKeyRotation",
 }));
 
 export type DisconnectCustomKeyStoreError =
@@ -2866,7 +2913,7 @@ export type DisconnectCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const disconnectCustomKeyStore: API.OperationMethod<
-  DisconnectCustomKeyStoreRequest,
+  DisconnectCustomKeyStoreRequest & RegionInput,
   DisconnectCustomKeyStoreResponse,
   DisconnectCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -2881,6 +2928,8 @@ export const disconnectCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "DisconnectCustomKeyStore",
 }));
 
 export type EnableKeyError =
@@ -2908,7 +2957,7 @@ export type EnableKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const enableKey: API.OperationMethod<
-  EnableKeyRequest,
+  EnableKeyRequest & RegionInput,
   EnableKeyResponse,
   EnableKeyError,
   Credentials | HttpClient.HttpClient
@@ -2926,6 +2975,8 @@ export const enableKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableKey",
+  telemetry: TELEMETRY,
+  span: "EnableKey",
 }));
 
 export type EnableKeyRotationError =
@@ -2993,7 +3044,7 @@ export type EnableKeyRotationError =
  * For more information, see KMS eventual consistency.
  */
 export const enableKeyRotation: API.OperationMethod<
-  EnableKeyRotationRequest,
+  EnableKeyRotationRequest & RegionInput,
   EnableKeyRotationResponse,
   EnableKeyRotationError,
   Credentials | HttpClient.HttpClient
@@ -3012,6 +3063,8 @@ export const enableKeyRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableKeyRotation",
+  telemetry: TELEMETRY,
+  span: "EnableKeyRotation",
 }));
 
 export type EncryptError =
@@ -3097,7 +3150,7 @@ export type EncryptError =
  * For more information, see KMS eventual consistency.
  */
 export const encrypt: API.OperationMethod<
-  EncryptRequest,
+  EncryptRequest & RegionInput,
   EncryptResponse,
   EncryptError,
   Credentials | HttpClient.HttpClient
@@ -3118,6 +3171,8 @@ export const encrypt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Encrypt",
+  telemetry: TELEMETRY,
+  span: "Encrypt",
 }));
 
 export type GenerateDataKeyError =
@@ -3221,7 +3276,7 @@ export type GenerateDataKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKey: API.OperationMethod<
-  GenerateDataKeyRequest,
+  GenerateDataKeyRequest & RegionInput,
   GenerateDataKeyResponse,
   GenerateDataKeyError,
   Credentials | HttpClient.HttpClient
@@ -3242,6 +3297,8 @@ export const generateDataKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKey",
+  telemetry: TELEMETRY,
+  span: "GenerateDataKey",
 }));
 
 export type GenerateDataKeyPairError =
@@ -3332,7 +3389,7 @@ export type GenerateDataKeyPairError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKeyPair: API.OperationMethod<
-  GenerateDataKeyPairRequest,
+  GenerateDataKeyPairRequest & RegionInput,
   GenerateDataKeyPairResponse,
   GenerateDataKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -3354,6 +3411,8 @@ export const generateDataKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKeyPair",
+  telemetry: TELEMETRY,
+  span: "GenerateDataKeyPair",
 }));
 
 export type GenerateDataKeyPairWithoutPlaintextError =
@@ -3425,7 +3484,7 @@ export type GenerateDataKeyPairWithoutPlaintextError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
-  GenerateDataKeyPairWithoutPlaintextRequest,
+  GenerateDataKeyPairWithoutPlaintextRequest & RegionInput,
   GenerateDataKeyPairWithoutPlaintextResponse,
   GenerateDataKeyPairWithoutPlaintextError,
   Credentials | HttpClient.HttpClient
@@ -3447,6 +3506,8 @@ export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKeyPairWithoutPlaintext",
+  telemetry: TELEMETRY,
+  span: "GenerateDataKeyPairWithoutPlaintext",
 }));
 
 export type GenerateDataKeyWithoutPlaintextError =
@@ -3530,7 +3591,7 @@ export type GenerateDataKeyWithoutPlaintextError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKeyWithoutPlaintext: API.OperationMethod<
-  GenerateDataKeyWithoutPlaintextRequest,
+  GenerateDataKeyWithoutPlaintextRequest & RegionInput,
   GenerateDataKeyWithoutPlaintextResponse,
   GenerateDataKeyWithoutPlaintextError,
   Credentials | HttpClient.HttpClient
@@ -3551,6 +3612,8 @@ export const generateDataKeyWithoutPlaintext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKeyWithoutPlaintext",
+  telemetry: TELEMETRY,
+  span: "GenerateDataKeyWithoutPlaintext",
 }));
 
 export type GenerateMacError =
@@ -3598,7 +3661,7 @@ export type GenerateMacError =
  * For more information, see KMS eventual consistency.
  */
 export const generateMac: API.OperationMethod<
-  GenerateMacRequest,
+  GenerateMacRequest & RegionInput,
   GenerateMacResponse,
   GenerateMacError,
   Credentials | HttpClient.HttpClient
@@ -3618,6 +3681,8 @@ export const generateMac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMac",
+  telemetry: TELEMETRY,
+  span: "GenerateMac",
 }));
 
 export type GenerateRandomError =
@@ -3656,7 +3721,7 @@ export type GenerateRandomError =
  * For more information, see KMS eventual consistency.
  */
 export const generateRandom: API.OperationMethod<
-  GenerateRandomRequest,
+  GenerateRandomRequest & RegionInput,
   GenerateRandomResponse,
   GenerateRandomError,
   Credentials | HttpClient.HttpClient
@@ -3673,6 +3738,8 @@ export const generateRandom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateRandom",
+  telemetry: TELEMETRY,
+  span: "GenerateRandom",
 }));
 
 export type GetKeyLastUsageError =
@@ -3737,7 +3804,7 @@ export type GetKeyLastUsageError =
  * For more information, see KMS eventual consistency.
  */
 export const getKeyLastUsage: API.OperationMethod<
-  GetKeyLastUsageRequest,
+  GetKeyLastUsageRequest & RegionInput,
   GetKeyLastUsageResponse,
   GetKeyLastUsageError,
   Credentials | HttpClient.HttpClient
@@ -3753,6 +3820,8 @@ export const getKeyLastUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyLastUsage",
+  telemetry: TELEMETRY,
+  span: "GetKeyLastUsage",
 }));
 
 export type GetKeyPolicyError =
@@ -3775,7 +3844,7 @@ export type GetKeyPolicyError =
  * For more information, see KMS eventual consistency.
  */
 export const getKeyPolicy: API.OperationMethod<
-  GetKeyPolicyRequest,
+  GetKeyPolicyRequest & RegionInput,
   GetKeyPolicyResponse,
   GetKeyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3792,6 +3861,8 @@ export const getKeyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyPolicy",
+  telemetry: TELEMETRY,
+  span: "GetKeyPolicy",
 }));
 
 export type GetKeyRotationStatusError =
@@ -3858,7 +3929,7 @@ export type GetKeyRotationStatusError =
  * For more information, see KMS eventual consistency.
  */
 export const getKeyRotationStatus: API.OperationMethod<
-  GetKeyRotationStatusRequest,
+  GetKeyRotationStatusRequest & RegionInput,
   GetKeyRotationStatusResponse,
   GetKeyRotationStatusError,
   Credentials | HttpClient.HttpClient
@@ -3876,6 +3947,8 @@ export const getKeyRotationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyRotationStatus",
+  telemetry: TELEMETRY,
+  span: "GetKeyRotationStatus",
 }));
 
 export type GetParametersForImportError =
@@ -3954,7 +4027,7 @@ export type GetParametersForImportError =
  * For more information, see KMS eventual consistency.
  */
 export const getParametersForImport: API.OperationMethod<
-  GetParametersForImportRequest,
+  GetParametersForImportRequest & RegionInput,
   GetParametersForImportResponse,
   GetParametersForImportError,
   Credentials | HttpClient.HttpClient
@@ -3972,6 +4045,8 @@ export const getParametersForImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParametersForImport",
+  telemetry: TELEMETRY,
+  span: "GetParametersForImport",
 }));
 
 export type GetPublicKeyError =
@@ -4037,7 +4112,7 @@ export type GetPublicKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const getPublicKey: API.OperationMethod<
-  GetPublicKeyRequest,
+  GetPublicKeyRequest & RegionInput,
   GetPublicKeyResponse,
   GetPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -4059,6 +4134,8 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
+  telemetry: TELEMETRY,
+  span: "GetPublicKey",
 }));
 
 export type ImportKeyMaterialError =
@@ -4190,7 +4267,7 @@ export type ImportKeyMaterialError =
  * For more information, see KMS eventual consistency.
  */
 export const importKeyMaterial: API.OperationMethod<
-  ImportKeyMaterialRequest,
+  ImportKeyMaterialRequest & RegionInput,
   ImportKeyMaterialResponse,
   ImportKeyMaterialError,
   Credentials | HttpClient.HttpClient
@@ -4212,6 +4289,8 @@ export const importKeyMaterial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportKeyMaterial",
+  telemetry: TELEMETRY,
+  span: "ImportKeyMaterial",
 }));
 
 export type ListAliasesError =
@@ -4259,7 +4338,7 @@ export type ListAliasesError =
  * For more information, see KMS eventual consistency.
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesRequest,
+  ListAliasesRequest & RegionInput,
   ListAliasesResponse,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -4283,6 +4362,8 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAliases",
 })) as any;
 
 export type ListGrantsError =
@@ -4334,7 +4415,7 @@ export type ListGrantsError =
  * For more information, see KMS eventual consistency.
  */
 export const listGrants: API.PaginatedOperationMethod<
-  ListGrantsRequest,
+  ListGrantsRequest & RegionInput,
   ListGrantsResponse,
   ListGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -4360,6 +4441,8 @@ export const listGrants: API.PaginatedOperationMethod<
     items: "Grants",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGrants",
 })) as any;
 
 export type ListKeyPoliciesError =
@@ -4388,7 +4471,7 @@ export type ListKeyPoliciesError =
  * For more information, see KMS eventual consistency.
  */
 export const listKeyPolicies: API.PaginatedOperationMethod<
-  ListKeyPoliciesRequest,
+  ListKeyPoliciesRequest & RegionInput,
   ListKeyPoliciesResponse,
   ListKeyPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -4412,6 +4495,8 @@ export const listKeyPolicies: API.PaginatedOperationMethod<
     items: "PolicyNames",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyPolicies",
 })) as any;
 
 export type ListKeyRotationsError =
@@ -4455,7 +4540,7 @@ export type ListKeyRotationsError =
  * For more information, see KMS eventual consistency.
  */
 export const listKeyRotations: API.PaginatedOperationMethod<
-  ListKeyRotationsRequest,
+  ListKeyRotationsRequest & RegionInput,
   ListKeyRotationsResponse,
   ListKeyRotationsError,
   Credentials | HttpClient.HttpClient,
@@ -4480,6 +4565,8 @@ export const listKeyRotations: API.PaginatedOperationMethod<
     items: "Rotations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyRotations",
 })) as any;
 
 export type ListKeysError =
@@ -4508,7 +4595,7 @@ export type ListKeysError =
  * For more information, see KMS eventual consistency.
  */
 export const listKeys: API.PaginatedOperationMethod<
-  ListKeysRequest,
+  ListKeysRequest & RegionInput,
   ListKeysResponse,
   ListKeysError,
   Credentials | HttpClient.HttpClient,
@@ -4526,6 +4613,8 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Keys",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeys",
 })) as any;
 
 export type ListResourceTagsError =
@@ -4560,7 +4649,7 @@ export type ListResourceTagsError =
  * For more information, see KMS eventual consistency.
  */
 export const listResourceTags: API.PaginatedOperationMethod<
-  ListResourceTagsRequest,
+  ListResourceTagsRequest & RegionInput,
   ListResourceTagsResponse,
   ListResourceTagsError,
   Credentials | HttpClient.HttpClient,
@@ -4578,6 +4667,8 @@ export const listResourceTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceTags",
 })) as any;
 
 export type ListRetirableGrantsError =
@@ -4635,7 +4726,7 @@ export type ListRetirableGrantsError =
  * For more information, see KMS eventual consistency.
  */
 export const listRetirableGrants: API.PaginatedOperationMethod<
-  ListRetirableGrantsRequest,
+  ListRetirableGrantsRequest & RegionInput,
   ListGrantsResponse,
   ListRetirableGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -4659,6 +4750,8 @@ export const listRetirableGrants: API.PaginatedOperationMethod<
     items: "Grants",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetirableGrants",
 })) as any;
 
 export type PutKeyPolicyError =
@@ -4691,7 +4784,7 @@ export type PutKeyPolicyError =
  * For more information, see KMS eventual consistency.
  */
 export const putKeyPolicy: API.OperationMethod<
-  PutKeyPolicyRequest,
+  PutKeyPolicyRequest & RegionInput,
   PutKeyPolicyResponse,
   PutKeyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4711,6 +4804,8 @@ export const putKeyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKeyPolicy",
+  telemetry: TELEMETRY,
+  span: "PutKeyPolicy",
 }));
 
 export type ReEncryptError =
@@ -4809,7 +4904,7 @@ export type ReEncryptError =
  * For more information, see KMS eventual consistency.
  */
 export const reEncrypt: API.OperationMethod<
-  ReEncryptRequest,
+  ReEncryptRequest & RegionInput,
   ReEncryptResponse,
   ReEncryptError,
   Credentials | HttpClient.HttpClient
@@ -4832,6 +4927,8 @@ export const reEncrypt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReEncrypt",
+  telemetry: TELEMETRY,
+  span: "ReEncrypt",
 }));
 
 export type ReplicateKeyError =
@@ -4920,7 +5017,7 @@ export type ReplicateKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const replicateKey: API.OperationMethod<
-  ReplicateKeyRequest,
+  ReplicateKeyRequest & RegionInput,
   ReplicateKeyResponse,
   ReplicateKeyError,
   Credentials | HttpClient.HttpClient
@@ -4942,6 +5039,8 @@ export const replicateKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplicateKey",
+  telemetry: TELEMETRY,
+  span: "ReplicateKey",
 }));
 
 export type RetireGrantError =
@@ -4992,7 +5091,7 @@ export type RetireGrantError =
  * For more information, see KMS eventual consistency.
  */
 export const retireGrant: API.OperationMethod<
-  RetireGrantRequest,
+  RetireGrantRequest & RegionInput,
   RetireGrantResponse,
   RetireGrantError,
   Credentials | HttpClient.HttpClient
@@ -5012,6 +5111,8 @@ export const retireGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetireGrant",
+  telemetry: TELEMETRY,
+  span: "RetireGrant",
 }));
 
 export type RevokeGrantError =
@@ -5060,7 +5161,7 @@ export type RevokeGrantError =
  * For more information, see KMS eventual consistency.
  */
 export const revokeGrant: API.OperationMethod<
-  RevokeGrantRequest,
+  RevokeGrantRequest & RegionInput,
   RevokeGrantResponse,
   RevokeGrantError,
   Credentials | HttpClient.HttpClient
@@ -5079,6 +5180,8 @@ export const revokeGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeGrant",
+  telemetry: TELEMETRY,
+  span: "RevokeGrant",
 }));
 
 export type RotateKeyOnDemandError =
@@ -5150,7 +5253,7 @@ export type RotateKeyOnDemandError =
  * For more information, see KMS eventual consistency.
  */
 export const rotateKeyOnDemand: API.OperationMethod<
-  RotateKeyOnDemandRequest,
+  RotateKeyOnDemandRequest & RegionInput,
   RotateKeyOnDemandResponse,
   RotateKeyOnDemandError,
   Credentials | HttpClient.HttpClient
@@ -5171,6 +5274,8 @@ export const rotateKeyOnDemand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateKeyOnDemand",
+  telemetry: TELEMETRY,
+  span: "RotateKeyOnDemand",
 }));
 
 export type ScheduleKeyDeletionError =
@@ -5237,7 +5342,7 @@ export type ScheduleKeyDeletionError =
  * For more information, see KMS eventual consistency.
  */
 export const scheduleKeyDeletion: API.OperationMethod<
-  ScheduleKeyDeletionRequest,
+  ScheduleKeyDeletionRequest & RegionInput,
   ScheduleKeyDeletionResponse,
   ScheduleKeyDeletionError,
   Credentials | HttpClient.HttpClient
@@ -5254,6 +5359,8 @@ export const scheduleKeyDeletion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScheduleKeyDeletion",
+  telemetry: TELEMETRY,
+  span: "ScheduleKeyDeletion",
 }));
 
 export type SignError =
@@ -5321,7 +5428,7 @@ export type SignError =
  * For more information, see KMS eventual consistency.
  */
 export const sign: API.OperationMethod<
-  SignRequest,
+  SignRequest & RegionInput,
   SignResponse,
   SignError,
   Credentials | HttpClient.HttpClient
@@ -5342,6 +5449,8 @@ export const sign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Sign",
+  telemetry: TELEMETRY,
+  span: "Sign",
 }));
 
 export type TagResourceError =
@@ -5393,7 +5502,7 @@ export type TagResourceError =
  * For more information, see KMS eventual consistency.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5411,6 +5520,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5455,7 +5566,7 @@ export type UntagResourceError =
  * For more information, see KMS eventual consistency.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5472,6 +5583,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAliasError =
@@ -5533,7 +5646,7 @@ export type UpdateAliasError =
  * For more information, see KMS eventual consistency.
  */
 export const updateAlias: API.OperationMethod<
-  UpdateAliasRequest,
+  UpdateAliasRequest & RegionInput,
   UpdateAliasResponse,
   UpdateAliasError,
   Credentials | HttpClient.HttpClient
@@ -5550,6 +5663,8 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateAlias",
 }));
 
 export type UpdateCustomKeyStoreError =
@@ -5659,7 +5774,7 @@ export type UpdateCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const updateCustomKeyStore: API.OperationMethod<
-  UpdateCustomKeyStoreRequest,
+  UpdateCustomKeyStoreRequest & RegionInput,
   UpdateCustomKeyStoreResponse,
   UpdateCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -5688,6 +5803,8 @@ export const updateCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomKeyStore",
 }));
 
 export type UpdateKeyDescriptionError =
@@ -5717,7 +5834,7 @@ export type UpdateKeyDescriptionError =
  * For more information, see KMS eventual consistency.
  */
 export const updateKeyDescription: API.OperationMethod<
-  UpdateKeyDescriptionRequest,
+  UpdateKeyDescriptionRequest & RegionInput,
   UpdateKeyDescriptionResponse,
   UpdateKeyDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -5734,6 +5851,8 @@ export const updateKeyDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyDescription",
+  telemetry: TELEMETRY,
+  span: "UpdateKeyDescription",
 }));
 
 export type UpdatePrimaryRegionError =
@@ -5808,7 +5927,7 @@ export type UpdatePrimaryRegionError =
  * For more information, see KMS eventual consistency.
  */
 export const updatePrimaryRegion: API.OperationMethod<
-  UpdatePrimaryRegionRequest,
+  UpdatePrimaryRegionRequest & RegionInput,
   UpdatePrimaryRegionResponse,
   UpdatePrimaryRegionError,
   Credentials | HttpClient.HttpClient
@@ -5826,6 +5945,8 @@ export const updatePrimaryRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrimaryRegion",
+  telemetry: TELEMETRY,
+  span: "UpdatePrimaryRegion",
 }));
 
 export type VerifyError =
@@ -5885,7 +6006,7 @@ export type VerifyError =
  * For more information, see KMS eventual consistency.
  */
 export const verify: API.OperationMethod<
-  VerifyRequest,
+  VerifyRequest & RegionInput,
   VerifyResponse,
   VerifyError,
   Credentials | HttpClient.HttpClient
@@ -5907,6 +6028,8 @@ export const verify: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Verify",
+  telemetry: TELEMETRY,
+  span: "Verify",
 }));
 
 export type VerifyMacError =
@@ -5949,7 +6072,7 @@ export type VerifyMacError =
  * For more information, see KMS eventual consistency.
  */
 export const verifyMac: API.OperationMethod<
-  VerifyMacRequest,
+  VerifyMacRequest & RegionInput,
   VerifyMacResponse,
   VerifyMacError,
   Credentials | HttpClient.HttpClient
@@ -5970,6 +6093,8 @@ export const verifyMac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyMac",
+  telemetry: TELEMETRY,
+  span: "VerifyMac",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -8,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://runtime-v2-lex.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LexRuntimeV2",
+  service: "LexRuntimeV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -748,7 +764,7 @@ export type DeleteSessionError =
  * `BadRequestException`.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
@@ -766,6 +782,8 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type GetSessionError =
@@ -789,7 +807,7 @@ export type GetSessionError =
  * `BadRequestException`.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -806,6 +824,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type PutSessionError =
@@ -824,7 +844,7 @@ export type PutSessionError =
  * the bot.
  */
 export const putSession: API.OperationMethod<
-  PutSessionRequest,
+  PutSessionRequest & RegionInput,
   PutSessionResponse,
   PutSessionError,
   Credentials | HttpClient.HttpClient
@@ -844,6 +864,8 @@ export const putSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSession",
+  telemetry: TELEMETRY,
+  span: "PutSession",
 }));
 
 export type RecognizeTextError =
@@ -885,7 +907,7 @@ export type RecognizeTextError =
  * For more information, see Completion message.
  */
 export const recognizeText: API.OperationMethod<
-  RecognizeTextRequest,
+  RecognizeTextRequest & RegionInput,
   RecognizeTextResponse,
   RecognizeTextError,
   Credentials | HttpClient.HttpClient
@@ -905,6 +927,8 @@ export const recognizeText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecognizeText",
+  telemetry: TELEMETRY,
+  span: "RecognizeText",
 }));
 
 export type RecognizeUtteranceError =
@@ -969,7 +993,7 @@ export type RecognizeUtteranceError =
  * For more information, see Completion message.
  */
 export const recognizeUtterance: API.OperationMethod<
-  RecognizeUtteranceRequest,
+  RecognizeUtteranceRequest & RegionInput,
   RecognizeUtteranceResponse,
   RecognizeUtteranceError,
   Credentials | HttpClient.HttpClient
@@ -989,6 +1013,8 @@ export const recognizeUtterance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecognizeUtterance",
+  telemetry: TELEMETRY,
+  span: "RecognizeUtterance",
 }));
 
 export type StartConversationError =
@@ -1045,7 +1071,7 @@ export type StartConversationError =
  * - AWS SDK for Ruby V3
  */
 export const startConversation: API.OperationMethod<
-  StartConversationRequest,
+  StartConversationRequest & RegionInput,
   StartConversationResponse,
   StartConversationError,
   Credentials | HttpClient.HttpClient
@@ -1061,6 +1087,8 @@ export const startConversation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConversation",
+  telemetry: TELEMETRY,
+  span: "StartConversation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

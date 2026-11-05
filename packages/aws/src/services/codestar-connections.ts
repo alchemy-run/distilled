@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codestar-connections.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeStarconnections",
+  service: "CodeStarconnections",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -589,7 +606,7 @@ export type CreateConnectionError =
  * the third-party connection handshake is completed from the console.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionInput,
+  CreateConnectionInput & RegionInput,
   CreateConnectionOutput,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -600,6 +617,8 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateHostError = LimitExceededException | CommonErrors;
@@ -613,7 +632,7 @@ export type CreateHostError = LimitExceededException | CommonErrors;
  * default. You can make its status `AVAILABLE` by setting up the host in the console.
  */
 export const createHost: API.OperationMethod<
-  CreateHostInput,
+  CreateHostInput & RegionInput,
   CreateHostOutput,
   CreateHostError,
   Credentials | HttpClient.HttpClient
@@ -624,6 +643,8 @@ export const createHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHost",
+  telemetry: TELEMETRY,
+  span: "CreateHost",
 }));
 
 export type CreateRepositoryLinkError =
@@ -639,7 +660,7 @@ export type CreateRepositoryLinkError =
  * Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
  */
 export const createRepositoryLink: API.OperationMethod<
-  CreateRepositoryLinkInput,
+  CreateRepositoryLinkInput & RegionInput,
   CreateRepositoryLinkOutput,
   CreateRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -658,6 +679,8 @@ export const createRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepositoryLink",
+  telemetry: TELEMETRY,
+  span: "CreateRepositoryLink",
 }));
 
 export type CreateSyncConfigurationError =
@@ -675,7 +698,7 @@ export type CreateSyncConfigurationError =
  * configuration are determined by the sync type.
  */
 export const createSyncConfiguration: API.OperationMethod<
-  CreateSyncConfigurationInput,
+  CreateSyncConfigurationInput & RegionInput,
   CreateSyncConfigurationOutput,
   CreateSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -694,6 +717,8 @@ export const createSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSyncConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSyncConfiguration",
 }));
 
 export type DeleteConnectionError = ResourceNotFoundException | CommonErrors;
@@ -701,7 +726,7 @@ export type DeleteConnectionError = ResourceNotFoundException | CommonErrors;
  * The connection to be deleted.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionInput,
+  DeleteConnectionInput & RegionInput,
   DeleteConnectionOutput,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -712,6 +737,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteHostError =
@@ -724,7 +751,7 @@ export type DeleteHostError =
  * A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
  */
 export const deleteHost: API.OperationMethod<
-  DeleteHostInput,
+  DeleteHostInput & RegionInput,
   DeleteHostOutput,
   DeleteHostError,
   Credentials | HttpClient.HttpClient
@@ -735,6 +762,8 @@ export const deleteHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHost",
+  telemetry: TELEMETRY,
+  span: "DeleteHost",
 }));
 
 export type DeleteRepositoryLinkError =
@@ -751,7 +780,7 @@ export type DeleteRepositoryLinkError =
  * Deletes the association between your connection and a specified external Git repository.
  */
 export const deleteRepositoryLink: API.OperationMethod<
-  DeleteRepositoryLinkInput,
+  DeleteRepositoryLinkInput & RegionInput,
   DeleteRepositoryLinkOutput,
   DeleteRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -771,6 +800,8 @@ export const deleteRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryLink",
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryLink",
 }));
 
 export type DeleteSyncConfigurationError =
@@ -785,7 +816,7 @@ export type DeleteSyncConfigurationError =
  * Deletes the sync configuration for a specified repository and connection.
  */
 export const deleteSyncConfiguration: API.OperationMethod<
-  DeleteSyncConfigurationInput,
+  DeleteSyncConfigurationInput & RegionInput,
   DeleteSyncConfigurationOutput,
   DeleteSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -803,6 +834,8 @@ export const deleteSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSyncConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSyncConfiguration",
 }));
 
 export type GetConnectionError =
@@ -813,7 +846,7 @@ export type GetConnectionError =
  * Returns the connection ARN and details such as status, owner, and provider type.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionInput,
+  GetConnectionInput & RegionInput,
   GetConnectionOutput,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -824,6 +857,8 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetHostError = ResourceNotFoundException | ResourceUnavailableException | CommonErrors;
@@ -832,7 +867,7 @@ export type GetHostError = ResourceNotFoundException | ResourceUnavailableExcept
  * applicable, the VPC configuration.
  */
 export const getHost: API.OperationMethod<
-  GetHostInput,
+  GetHostInput & RegionInput,
   GetHostOutput,
   GetHostError,
   Credentials | HttpClient.HttpClient
@@ -843,6 +878,8 @@ export const getHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHost",
+  telemetry: TELEMETRY,
+  span: "GetHost",
 }));
 
 export type GetRepositoryLinkError =
@@ -858,7 +895,7 @@ export type GetRepositoryLinkError =
  * and sync changes from files in a specified Git repository.
  */
 export const getRepositoryLink: API.OperationMethod<
-  GetRepositoryLinkInput,
+  GetRepositoryLinkInput & RegionInput,
   GetRepositoryLinkOutput,
   GetRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -876,6 +913,8 @@ export const getRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryLink",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryLink",
 }));
 
 export type GetRepositorySyncStatusError =
@@ -890,7 +929,7 @@ export type GetRepositorySyncStatusError =
  * to push and pull changes from your remote repository.
  */
 export const getRepositorySyncStatus: API.OperationMethod<
-  GetRepositorySyncStatusInput,
+  GetRepositorySyncStatusInput & RegionInput,
   GetRepositorySyncStatusOutput,
   GetRepositorySyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -907,6 +946,8 @@ export const getRepositorySyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositorySyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetRepositorySyncStatus",
 }));
 
 export type GetResourceSyncStatusError =
@@ -921,7 +962,7 @@ export type GetResourceSyncStatusError =
  * resource.
  */
 export const getResourceSyncStatus: API.OperationMethod<
-  GetResourceSyncStatusInput,
+  GetResourceSyncStatusInput & RegionInput,
   GetResourceSyncStatusOutput,
   GetResourceSyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -938,6 +979,8 @@ export const getResourceSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetResourceSyncStatus",
 }));
 
 export type GetSyncBlockerSummaryError =
@@ -951,7 +994,7 @@ export type GetSyncBlockerSummaryError =
  * Returns a list of the most recent sync blockers.
  */
 export const getSyncBlockerSummary: API.OperationMethod<
-  GetSyncBlockerSummaryInput,
+  GetSyncBlockerSummaryInput & RegionInput,
   GetSyncBlockerSummaryOutput,
   GetSyncBlockerSummaryError,
   Credentials | HttpClient.HttpClient
@@ -968,6 +1011,8 @@ export const getSyncBlockerSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncBlockerSummary",
+  telemetry: TELEMETRY,
+  span: "GetSyncBlockerSummary",
 }));
 
 export type GetSyncConfigurationError =
@@ -981,7 +1026,7 @@ export type GetSyncConfigurationError =
  * Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
  */
 export const getSyncConfiguration: API.OperationMethod<
-  GetSyncConfigurationInput,
+  GetSyncConfigurationInput & RegionInput,
   GetSyncConfigurationOutput,
   GetSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -998,6 +1043,8 @@ export const getSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetSyncConfiguration",
 }));
 
 export type ListConnectionsError = ResourceNotFoundException | CommonErrors;
@@ -1005,7 +1052,7 @@ export type ListConnectionsError = ResourceNotFoundException | CommonErrors;
  * Lists the connections associated with your account.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsInput,
+  ListConnectionsInput & RegionInput,
   ListConnectionsOutput,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1022,6 +1069,8 @@ export const listConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 })) as any;
 
 export type ListHostsError = CommonErrors;
@@ -1029,7 +1078,7 @@ export type ListHostsError = CommonErrors;
  * Lists the hosts associated with your account.
  */
 export const listHosts: API.PaginatedOperationMethod<
-  ListHostsInput,
+  ListHostsInput & RegionInput,
   ListHostsOutput,
   ListHostsError,
   Credentials | HttpClient.HttpClient,
@@ -1046,6 +1095,8 @@ export const listHosts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHosts",
 })) as any;
 
 export type ListRepositoryLinksError =
@@ -1060,7 +1111,7 @@ export type ListRepositoryLinksError =
  * Lists the repository links created for connections in your account.
  */
 export const listRepositoryLinks: API.PaginatedOperationMethod<
-  ListRepositoryLinksInput,
+  ListRepositoryLinksInput & RegionInput,
   ListRepositoryLinksOutput,
   ListRepositoryLinksError,
   Credentials | HttpClient.HttpClient,
@@ -1084,6 +1135,8 @@ export const listRepositoryLinks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryLinks",
 })) as any;
 
 export type ListRepositorySyncDefinitionsError =
@@ -1097,7 +1150,7 @@ export type ListRepositorySyncDefinitionsError =
  * Lists the repository sync definitions for repository links in your account.
  */
 export const listRepositorySyncDefinitions: API.OperationMethod<
-  ListRepositorySyncDefinitionsInput,
+  ListRepositorySyncDefinitionsInput & RegionInput,
   ListRepositorySyncDefinitionsOutput,
   ListRepositorySyncDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -1114,6 +1167,8 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRepositorySyncDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListRepositorySyncDefinitions",
 }));
 
 export type ListSyncConfigurationsError =
@@ -1127,7 +1182,7 @@ export type ListSyncConfigurationsError =
  * Returns a list of sync configurations for a specified repository.
  */
 export const listSyncConfigurations: API.PaginatedOperationMethod<
-  ListSyncConfigurationsInput,
+  ListSyncConfigurationsInput & RegionInput,
   ListSyncConfigurationsOutput,
   ListSyncConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1150,6 +1205,8 @@ export const listSyncConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSyncConfigurations",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1157,7 +1214,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Gets the set of key-value pairs (metadata) that are used to manage the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1168,6 +1225,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError = LimitExceededException | ResourceNotFoundException | CommonErrors;
@@ -1176,7 +1235,7 @@ export type TagResourceError = LimitExceededException | ResourceNotFoundExceptio
  * to manage a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1187,6 +1246,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -1194,7 +1255,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1205,6 +1266,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateHostError =
@@ -1217,7 +1280,7 @@ export type UpdateHostError =
  * Updates a specified host with the provided configurations.
  */
 export const updateHost: API.OperationMethod<
-  UpdateHostInput,
+  UpdateHostInput & RegionInput,
   UpdateHostOutput,
   UpdateHostError,
   Credentials | HttpClient.HttpClient
@@ -1233,6 +1296,8 @@ export const updateHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHost",
+  telemetry: TELEMETRY,
+  span: "UpdateHost",
 }));
 
 export type UpdateRepositoryLinkError =
@@ -1250,7 +1315,7 @@ export type UpdateRepositoryLinkError =
  * repository.
  */
 export const updateRepositoryLink: API.OperationMethod<
-  UpdateRepositoryLinkInput,
+  UpdateRepositoryLinkInput & RegionInput,
   UpdateRepositoryLinkOutput,
   UpdateRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -1269,6 +1334,8 @@ export const updateRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryLink",
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryLink",
 }));
 
 export type UpdateSyncBlockerError =
@@ -1284,7 +1351,7 @@ export type UpdateSyncBlockerError =
  * Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
  */
 export const updateSyncBlocker: API.OperationMethod<
-  UpdateSyncBlockerInput,
+  UpdateSyncBlockerInput & RegionInput,
   UpdateSyncBlockerOutput,
   UpdateSyncBlockerError,
   Credentials | HttpClient.HttpClient
@@ -1303,6 +1370,8 @@ export const updateSyncBlocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncBlocker",
+  telemetry: TELEMETRY,
+  span: "UpdateSyncBlocker",
 }));
 
 export type UpdateSyncConfigurationError =
@@ -1318,7 +1387,7 @@ export type UpdateSyncConfigurationError =
  * Updates the sync configuration for your connection and a specified external Git repository.
  */
 export const updateSyncConfiguration: API.OperationMethod<
-  UpdateSyncConfigurationInput,
+  UpdateSyncConfigurationInput & RegionInput,
   UpdateSyncConfigurationOutput,
   UpdateSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1337,6 +1406,8 @@ export const updateSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSyncConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

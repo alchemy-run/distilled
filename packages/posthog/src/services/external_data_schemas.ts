@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ExternalDataSchemas",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -380,6 +393,8 @@ export const createExternalDataSchemasIncrementalField: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSchemasIncrementalField",
 }));
 
 export type CreateExternalDataSchemasReloadError =
@@ -399,6 +414,8 @@ export const createExternalDataSchemasReload: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSchemasReload",
 }));
 
 export type CreateExternalDataSchemasResyncError =
@@ -418,6 +435,8 @@ export const createExternalDataSchemasResync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSchemasResync",
 }));
 
 export type DeleteExternalDataSchemaDataDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -432,6 +451,8 @@ export const deleteExternalDataSchemaDataDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExternalDataSchemaDataDestroy",
 }));
 
 export type ExternalDataSchemasCancelCreateError =
@@ -450,6 +471,8 @@ export const externalDataSchemasCancelCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSchemasCancelCreate",
 }));
 
 export type ExternalDataSchemasDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -464,6 +487,8 @@ export const externalDataSchemasDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSchemasDestroy",
 }));
 
 export type GetExternalDataSchemaError = Forbidden | NotFound | PosthogOpError;
@@ -478,6 +503,8 @@ export const getExternalDataSchema: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSchema",
 }));
 
 export type GetExternalDataSchemasDestinationError = PosthogOpError;
@@ -493,6 +520,8 @@ export const getExternalDataSchemasDestination: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSchemasDestination",
 }));
 
 export type GetExternalDataSchemasLogError = PosthogOpError;
@@ -507,6 +536,8 @@ export const getExternalDataSchemasLog: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSchemasLog",
 }));
 
 export type ListExternalDataSchemasError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -521,6 +552,8 @@ export const listExternalDataSchemas: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalDataSchemas",
 }));
 
 export type UpdateExternalDataSchemaError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -535,6 +568,8 @@ export const updateExternalDataSchema: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalDataSchema",
 }));
 
 export type UpdateExternalDataSchemasDestinationsPartialError = PosthogOpError;
@@ -550,6 +585,8 @@ export const updateExternalDataSchemasDestinationsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalDataSchemasDestinationsPartial",
 }));
 
 export type UpdateExternalDataSchemasPartialError =
@@ -568,6 +605,8 @@ export const updateExternalDataSchemasPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalDataSchemasPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

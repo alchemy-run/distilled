@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://vpc-lattice.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "VPCLattice",
+  service: "VPCLattice",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1503,7 +1519,7 @@ export type BatchUpdateRuleError =
  * For more information, see How Amazon VPC Lattice works with IAM in the *Amazon VPC Lattice User Guide*.
  */
 export const batchUpdateRule: API.OperationMethod<
-  BatchUpdateRuleRequest,
+  BatchUpdateRuleRequest & RegionInput,
   BatchUpdateRuleResponse,
   BatchUpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1521,6 +1537,8 @@ export const batchUpdateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateRule",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateRule",
 }));
 
 export type CreateAccessLogSubscriptionError =
@@ -1535,7 +1553,7 @@ export type CreateAccessLogSubscriptionError =
  * Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner can only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see Access logs in the *Amazon VPC Lattice User Guide*.
  */
 export const createAccessLogSubscription: API.OperationMethod<
-  CreateAccessLogSubscriptionRequest,
+  CreateAccessLogSubscriptionRequest & RegionInput,
   CreateAccessLogSubscriptionResponse,
   CreateAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1553,6 +1571,8 @@ export const createAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessLogSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateAccessLogSubscription",
 }));
 
 export type CreateListenerError =
@@ -1568,7 +1588,7 @@ export type CreateListenerError =
  * Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see Listeners in the *Amazon VPC Lattice User Guide*.
  */
 export const createListener: API.OperationMethod<
-  CreateListenerRequest,
+  CreateListenerRequest & RegionInput,
   CreateListenerResponse,
   CreateListenerError,
   Credentials | HttpClient.HttpClient
@@ -1587,6 +1607,8 @@ export const createListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
+  telemetry: TELEMETRY,
+  span: "CreateListener",
 }));
 
 export type CreateResourceConfigurationError =
@@ -1602,7 +1624,7 @@ export type CreateResourceConfigurationError =
  * Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
  */
 export const createResourceConfiguration: API.OperationMethod<
-  CreateResourceConfigurationRequest,
+  CreateResourceConfigurationRequest & RegionInput,
   CreateResourceConfigurationResponse,
   CreateResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1621,6 +1643,8 @@ export const createResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateResourceConfiguration",
 }));
 
 export type CreateResourceGatewayError =
@@ -1636,7 +1660,7 @@ export type CreateResourceGatewayError =
  * A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
  */
 export const createResourceGateway: API.OperationMethod<
-  CreateResourceGatewayRequest,
+  CreateResourceGatewayRequest & RegionInput,
   CreateResourceGatewayResponse,
   CreateResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1655,6 +1679,8 @@ export const createResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceGateway",
+  telemetry: TELEMETRY,
+  span: "CreateResourceGateway",
 }));
 
 export type CreateRuleError =
@@ -1670,7 +1696,7 @@ export type CreateRuleError =
  * Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1689,6 +1715,8 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateServiceError =
@@ -1706,7 +1734,7 @@ export type CreateServiceError =
  * For more information, see Services in the *Amazon VPC Lattice User Guide*.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -1725,6 +1753,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateServiceNetworkError =
@@ -1742,7 +1772,7 @@ export type CreateServiceNetworkError =
  * For more information, see Service networks in the *Amazon VPC Lattice User Guide*.
  */
 export const createServiceNetwork: API.OperationMethod<
-  CreateServiceNetworkRequest,
+  CreateServiceNetworkRequest & RegionInput,
   CreateServiceNetworkResponse,
   CreateServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1761,6 +1791,8 @@ export const createServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateServiceNetwork",
 }));
 
 export type CreateServiceNetworkResourceAssociationError =
@@ -1776,7 +1808,7 @@ export type CreateServiceNetworkResourceAssociationError =
  * Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
  */
 export const createServiceNetworkResourceAssociation: API.OperationMethod<
-  CreateServiceNetworkResourceAssociationRequest,
+  CreateServiceNetworkResourceAssociationRequest & RegionInput,
   CreateServiceNetworkResourceAssociationResponse,
   CreateServiceNetworkResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1795,6 +1827,8 @@ export const createServiceNetworkResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetworkResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateServiceNetworkResourceAssociation",
 }));
 
 export type CreateServiceNetworkServiceAssociationError =
@@ -1816,7 +1850,7 @@ export type CreateServiceNetworkServiceAssociationError =
  * As a result of this operation, the association is created in the service network account and the association owner account.
  */
 export const createServiceNetworkServiceAssociation: API.OperationMethod<
-  CreateServiceNetworkServiceAssociationRequest,
+  CreateServiceNetworkServiceAssociationRequest & RegionInput,
   CreateServiceNetworkServiceAssociationResponse,
   CreateServiceNetworkServiceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1835,6 +1869,8 @@ export const createServiceNetworkServiceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetworkServiceAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateServiceNetworkServiceAssociation",
 }));
 
 export type CreateServiceNetworkVpcAssociationError =
@@ -1856,7 +1892,7 @@ export type CreateServiceNetworkVpcAssociationError =
  * If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
  */
 export const createServiceNetworkVpcAssociation: API.OperationMethod<
-  CreateServiceNetworkVpcAssociationRequest,
+  CreateServiceNetworkVpcAssociationRequest & RegionInput,
   CreateServiceNetworkVpcAssociationResponse,
   CreateServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1875,6 +1911,8 @@ export const createServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetworkVpcAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateServiceNetworkVpcAssociation",
 }));
 
 export type CreateTargetGroupError =
@@ -1892,7 +1930,7 @@ export type CreateTargetGroupError =
  * For more information, see Target groups in the *Amazon VPC Lattice User Guide*.
  */
 export const createTargetGroup: API.OperationMethod<
-  CreateTargetGroupRequest,
+  CreateTargetGroupRequest & RegionInput,
   CreateTargetGroupResponse,
   CreateTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1911,6 +1949,8 @@ export const createTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateTargetGroup",
 }));
 
 export type DeleteAccessLogSubscriptionError =
@@ -1924,7 +1964,7 @@ export type DeleteAccessLogSubscriptionError =
  * Deletes the specified access log subscription.
  */
 export const deleteAccessLogSubscription: API.OperationMethod<
-  DeleteAccessLogSubscriptionRequest,
+  DeleteAccessLogSubscriptionRequest & RegionInput,
   DeleteAccessLogSubscriptionResponse,
   DeleteAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1941,6 +1981,8 @@ export const deleteAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessLogSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessLogSubscription",
 }));
 
 export type DeleteAuthPolicyError =
@@ -1954,7 +1996,7 @@ export type DeleteAuthPolicyError =
  * Deletes the specified auth policy. If an auth is set to `AWS_IAM` and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to `NONE`. If auth is enabled on the resource, but no auth policy is set, all requests are denied.
  */
 export const deleteAuthPolicy: API.OperationMethod<
-  DeleteAuthPolicyRequest,
+  DeleteAuthPolicyRequest & RegionInput,
   DeleteAuthPolicyResponse,
   DeleteAuthPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1971,6 +2013,8 @@ export const deleteAuthPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteAuthPolicy",
 }));
 
 export type DeleteDomainVerificationError =
@@ -1984,7 +2028,7 @@ export type DeleteDomainVerificationError =
  * Deletes the specified domain verification.
  */
 export const deleteDomainVerification: API.OperationMethod<
-  DeleteDomainVerificationRequest,
+  DeleteDomainVerificationRequest & RegionInput,
   DeleteDomainVerificationResponse,
   DeleteDomainVerificationError,
   Credentials | HttpClient.HttpClient
@@ -2001,6 +2045,8 @@ export const deleteDomainVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainVerification",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainVerification",
 }));
 
 export type DeleteListenerError =
@@ -2015,7 +2061,7 @@ export type DeleteListenerError =
  * Deletes the specified listener.
  */
 export const deleteListener: API.OperationMethod<
-  DeleteListenerRequest,
+  DeleteListenerRequest & RegionInput,
   DeleteListenerResponse,
   DeleteListenerError,
   Credentials | HttpClient.HttpClient
@@ -2033,6 +2079,8 @@ export const deleteListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
+  telemetry: TELEMETRY,
+  span: "DeleteListener",
 }));
 
 export type DeleteResourceConfigurationError =
@@ -2047,7 +2095,7 @@ export type DeleteResourceConfigurationError =
  * Deletes the specified resource configuration.
  */
 export const deleteResourceConfiguration: API.OperationMethod<
-  DeleteResourceConfigurationRequest,
+  DeleteResourceConfigurationRequest & RegionInput,
   DeleteResourceConfigurationResponse,
   DeleteResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2065,6 +2113,8 @@ export const deleteResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceConfiguration",
 }));
 
 export type DeleteResourceEndpointAssociationError =
@@ -2078,7 +2128,7 @@ export type DeleteResourceEndpointAssociationError =
  * Disassociates the resource configuration from the resource VPC endpoint.
  */
 export const deleteResourceEndpointAssociation: API.OperationMethod<
-  DeleteResourceEndpointAssociationRequest,
+  DeleteResourceEndpointAssociationRequest & RegionInput,
   DeleteResourceEndpointAssociationResponse,
   DeleteResourceEndpointAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2095,6 +2145,8 @@ export const deleteResourceEndpointAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceEndpointAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceEndpointAssociation",
 }));
 
 export type DeleteResourceGatewayError =
@@ -2109,7 +2161,7 @@ export type DeleteResourceGatewayError =
  * Deletes the specified resource gateway.
  */
 export const deleteResourceGateway: API.OperationMethod<
-  DeleteResourceGatewayRequest,
+  DeleteResourceGatewayRequest & RegionInput,
   DeleteResourceGatewayResponse,
   DeleteResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2127,6 +2179,8 @@ export const deleteResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceGateway",
 }));
 
 export type DeleteResourcePolicyError =
@@ -2140,7 +2194,7 @@ export type DeleteResourcePolicyError =
  * Deletes the specified resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2157,6 +2211,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRuleError =
@@ -2173,7 +2229,7 @@ export type DeleteRuleError =
  * For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2191,6 +2247,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteServiceError =
@@ -2205,7 +2263,7 @@ export type DeleteServiceError =
  * Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see Delete a service in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -2223,6 +2281,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteServiceNetworkError =
@@ -2237,7 +2297,7 @@ export type DeleteServiceNetworkError =
  * Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteServiceNetwork: API.OperationMethod<
-  DeleteServiceNetworkRequest,
+  DeleteServiceNetworkRequest & RegionInput,
   DeleteServiceNetworkResponse,
   DeleteServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2255,6 +2315,8 @@ export const deleteServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceNetwork",
 }));
 
 export type DeleteServiceNetworkResourceAssociationError =
@@ -2269,7 +2331,7 @@ export type DeleteServiceNetworkResourceAssociationError =
  * Deletes the association between a service network and a resource configuration.
  */
 export const deleteServiceNetworkResourceAssociation: API.OperationMethod<
-  DeleteServiceNetworkResourceAssociationRequest,
+  DeleteServiceNetworkResourceAssociationRequest & RegionInput,
   DeleteServiceNetworkResourceAssociationResponse,
   DeleteServiceNetworkResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2287,6 +2349,8 @@ export const deleteServiceNetworkResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetworkResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceNetworkResourceAssociation",
 }));
 
 export type DeleteServiceNetworkServiceAssociationError =
@@ -2301,7 +2365,7 @@ export type DeleteServiceNetworkServiceAssociationError =
  * Deletes the association between a service and a service network. This operation fails if an association is still in progress.
  */
 export const deleteServiceNetworkServiceAssociation: API.OperationMethod<
-  DeleteServiceNetworkServiceAssociationRequest,
+  DeleteServiceNetworkServiceAssociationRequest & RegionInput,
   DeleteServiceNetworkServiceAssociationResponse,
   DeleteServiceNetworkServiceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2319,6 +2383,8 @@ export const deleteServiceNetworkServiceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetworkServiceAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceNetworkServiceAssociation",
 }));
 
 export type DeleteServiceNetworkVpcAssociationError =
@@ -2333,7 +2399,7 @@ export type DeleteServiceNetworkVpcAssociationError =
  * Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
  */
 export const deleteServiceNetworkVpcAssociation: API.OperationMethod<
-  DeleteServiceNetworkVpcAssociationRequest,
+  DeleteServiceNetworkVpcAssociationRequest & RegionInput,
   DeleteServiceNetworkVpcAssociationResponse,
   DeleteServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2351,6 +2417,8 @@ export const deleteServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetworkVpcAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceNetworkVpcAssociation",
 }));
 
 export type DeleteTargetGroupError =
@@ -2364,7 +2432,7 @@ export type DeleteTargetGroupError =
  * Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
  */
 export const deleteTargetGroup: API.OperationMethod<
-  DeleteTargetGroupRequest,
+  DeleteTargetGroupRequest & RegionInput,
   DeleteTargetGroupResponse,
   DeleteTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2381,6 +2449,8 @@ export const deleteTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteTargetGroup",
 }));
 
 export type DeregisterTargetsError =
@@ -2395,7 +2465,7 @@ export type DeregisterTargetsError =
  * Deregisters the specified targets from the specified target group.
  */
 export const deregisterTargets: API.OperationMethod<
-  DeregisterTargetsRequest,
+  DeregisterTargetsRequest & RegionInput,
   DeregisterTargetsResponse,
   DeregisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2413,6 +2483,8 @@ export const deregisterTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargets",
+  telemetry: TELEMETRY,
+  span: "DeregisterTargets",
 }));
 
 export type GetAccessLogSubscriptionError =
@@ -2426,7 +2498,7 @@ export type GetAccessLogSubscriptionError =
  * Retrieves information about the specified access log subscription.
  */
 export const getAccessLogSubscription: API.OperationMethod<
-  GetAccessLogSubscriptionRequest,
+  GetAccessLogSubscriptionRequest & RegionInput,
   GetAccessLogSubscriptionResponse,
   GetAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2443,6 +2515,8 @@ export const getAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessLogSubscription",
+  telemetry: TELEMETRY,
+  span: "GetAccessLogSubscription",
 }));
 
 export type GetAuthPolicyError =
@@ -2456,7 +2530,7 @@ export type GetAuthPolicyError =
  * Retrieves information about the auth policy for the specified service or service network.
  */
 export const getAuthPolicy: API.OperationMethod<
-  GetAuthPolicyRequest,
+  GetAuthPolicyRequest & RegionInput,
   GetAuthPolicyResponse,
   GetAuthPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2473,6 +2547,8 @@ export const getAuthPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthPolicy",
+  telemetry: TELEMETRY,
+  span: "GetAuthPolicy",
 }));
 
 export type GetDomainVerificationError =
@@ -2486,7 +2562,7 @@ export type GetDomainVerificationError =
  * Retrieves information about a domain verification.ß
  */
 export const getDomainVerification: API.OperationMethod<
-  GetDomainVerificationRequest,
+  GetDomainVerificationRequest & RegionInput,
   GetDomainVerificationResponse,
   GetDomainVerificationError,
   Credentials | HttpClient.HttpClient
@@ -2503,6 +2579,8 @@ export const getDomainVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainVerification",
+  telemetry: TELEMETRY,
+  span: "GetDomainVerification",
 }));
 
 export type GetListenerError =
@@ -2516,7 +2594,7 @@ export type GetListenerError =
  * Retrieves information about the specified listener for the specified service.
  */
 export const getListener: API.OperationMethod<
-  GetListenerRequest,
+  GetListenerRequest & RegionInput,
   GetListenerResponse,
   GetListenerError,
   Credentials | HttpClient.HttpClient
@@ -2533,6 +2611,8 @@ export const getListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListener",
+  telemetry: TELEMETRY,
+  span: "GetListener",
 }));
 
 export type GetResourceConfigurationError =
@@ -2546,7 +2626,7 @@ export type GetResourceConfigurationError =
  * Retrieves information about the specified resource configuration.
  */
 export const getResourceConfiguration: API.OperationMethod<
-  GetResourceConfigurationRequest,
+  GetResourceConfigurationRequest & RegionInput,
   GetResourceConfigurationResponse,
   GetResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2563,6 +2643,8 @@ export const getResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetResourceConfiguration",
 }));
 
 export type GetResourceGatewayError =
@@ -2576,7 +2658,7 @@ export type GetResourceGatewayError =
  * Retrieves information about the specified resource gateway.
  */
 export const getResourceGateway: API.OperationMethod<
-  GetResourceGatewayRequest,
+  GetResourceGatewayRequest & RegionInput,
   GetResourceGatewayResponse,
   GetResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2593,6 +2675,8 @@ export const getResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceGateway",
+  telemetry: TELEMETRY,
+  span: "GetResourceGateway",
 }));
 
 export type GetResourcePolicyError =
@@ -2606,7 +2690,7 @@ export type GetResourcePolicyError =
  * Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2623,6 +2707,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetRuleError =
@@ -2636,7 +2722,7 @@ export type GetRuleError =
  * Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
 export const getRule: API.OperationMethod<
-  GetRuleRequest,
+  GetRuleRequest & RegionInput,
   GetRuleResponse,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -2653,6 +2739,8 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type GetServiceError =
@@ -2666,7 +2754,7 @@ export type GetServiceError =
  * Retrieves information about the specified service.
  */
 export const getService: API.OperationMethod<
-  GetServiceRequest,
+  GetServiceRequest & RegionInput,
   GetServiceResponse,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -2683,6 +2771,8 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceNetworkError =
@@ -2696,7 +2786,7 @@ export type GetServiceNetworkError =
  * Retrieves information about the specified service network.
  */
 export const getServiceNetwork: API.OperationMethod<
-  GetServiceNetworkRequest,
+  GetServiceNetworkRequest & RegionInput,
   GetServiceNetworkResponse,
   GetServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2713,6 +2803,8 @@ export const getServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetwork",
+  telemetry: TELEMETRY,
+  span: "GetServiceNetwork",
 }));
 
 export type GetServiceNetworkResourceAssociationError =
@@ -2726,7 +2818,7 @@ export type GetServiceNetworkResourceAssociationError =
  * Retrieves information about the specified association between a service network and a resource configuration.
  */
 export const getServiceNetworkResourceAssociation: API.OperationMethod<
-  GetServiceNetworkResourceAssociationRequest,
+  GetServiceNetworkResourceAssociationRequest & RegionInput,
   GetServiceNetworkResourceAssociationResponse,
   GetServiceNetworkResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2743,6 +2835,8 @@ export const getServiceNetworkResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetworkResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "GetServiceNetworkResourceAssociation",
 }));
 
 export type GetServiceNetworkServiceAssociationError =
@@ -2756,7 +2850,7 @@ export type GetServiceNetworkServiceAssociationError =
  * Retrieves information about the specified association between a service network and a service.
  */
 export const getServiceNetworkServiceAssociation: API.OperationMethod<
-  GetServiceNetworkServiceAssociationRequest,
+  GetServiceNetworkServiceAssociationRequest & RegionInput,
   GetServiceNetworkServiceAssociationResponse,
   GetServiceNetworkServiceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2773,6 +2867,8 @@ export const getServiceNetworkServiceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetworkServiceAssociation",
+  telemetry: TELEMETRY,
+  span: "GetServiceNetworkServiceAssociation",
 }));
 
 export type GetServiceNetworkVpcAssociationError =
@@ -2786,7 +2882,7 @@ export type GetServiceNetworkVpcAssociationError =
  * Retrieves information about the specified association between a service network and a VPC.
  */
 export const getServiceNetworkVpcAssociation: API.OperationMethod<
-  GetServiceNetworkVpcAssociationRequest,
+  GetServiceNetworkVpcAssociationRequest & RegionInput,
   GetServiceNetworkVpcAssociationResponse,
   GetServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2803,6 +2899,8 @@ export const getServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetworkVpcAssociation",
+  telemetry: TELEMETRY,
+  span: "GetServiceNetworkVpcAssociation",
 }));
 
 export type GetTargetGroupError =
@@ -2816,7 +2914,7 @@ export type GetTargetGroupError =
  * Retrieves information about the specified target group.
  */
 export const getTargetGroup: API.OperationMethod<
-  GetTargetGroupRequest,
+  GetTargetGroupRequest & RegionInput,
   GetTargetGroupResponse,
   GetTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2833,6 +2931,8 @@ export const getTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetGroup",
+  telemetry: TELEMETRY,
+  span: "GetTargetGroup",
 }));
 
 export type ListAccessLogSubscriptionsError =
@@ -2846,7 +2946,7 @@ export type ListAccessLogSubscriptionsError =
  * Lists the access log subscriptions for the specified service network or service.
  */
 export const listAccessLogSubscriptions: API.PaginatedOperationMethod<
-  ListAccessLogSubscriptionsRequest,
+  ListAccessLogSubscriptionsRequest & RegionInput,
   ListAccessLogSubscriptionsResponse,
   ListAccessLogSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2870,6 +2970,8 @@ export const listAccessLogSubscriptions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessLogSubscriptions",
 })) as any;
 
 export type ListDomainVerificationsError =
@@ -2883,7 +2985,7 @@ export type ListDomainVerificationsError =
  * Lists the domain verifications.
  */
 export const listDomainVerifications: API.PaginatedOperationMethod<
-  ListDomainVerificationsRequest,
+  ListDomainVerificationsRequest & RegionInput,
   ListDomainVerificationsResponse,
   ListDomainVerificationsError,
   Credentials | HttpClient.HttpClient,
@@ -2907,6 +3009,8 @@ export const listDomainVerifications: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainVerifications",
 })) as any;
 
 export type ListListenersError =
@@ -2920,7 +3024,7 @@ export type ListListenersError =
  * Lists the listeners for the specified service.
  */
 export const listListeners: API.PaginatedOperationMethod<
-  ListListenersRequest,
+  ListListenersRequest & RegionInput,
   ListListenersResponse,
   ListListenersError,
   Credentials | HttpClient.HttpClient,
@@ -2944,6 +3048,8 @@ export const listListeners: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListListeners",
 })) as any;
 
 export type ListResourceConfigurationsError =
@@ -2956,7 +3062,7 @@ export type ListResourceConfigurationsError =
  * Lists the resource configurations owned by or shared with this account.
  */
 export const listResourceConfigurations: API.PaginatedOperationMethod<
-  ListResourceConfigurationsRequest,
+  ListResourceConfigurationsRequest & RegionInput,
   ListResourceConfigurationsResponse,
   ListResourceConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -2979,6 +3085,8 @@ export const listResourceConfigurations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceConfigurations",
 })) as any;
 
 export type ListResourceEndpointAssociationsError =
@@ -2991,7 +3099,7 @@ export type ListResourceEndpointAssociationsError =
  * Lists the associations for the specified VPC endpoint.
  */
 export const listResourceEndpointAssociations: API.PaginatedOperationMethod<
-  ListResourceEndpointAssociationsRequest,
+  ListResourceEndpointAssociationsRequest & RegionInput,
   ListResourceEndpointAssociationsResponse,
   ListResourceEndpointAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3014,6 +3122,8 @@ export const listResourceEndpointAssociations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceEndpointAssociations",
 })) as any;
 
 export type ListResourceGatewaysError =
@@ -3026,7 +3136,7 @@ export type ListResourceGatewaysError =
  * Lists the resource gateways that you own or that were shared with you.
  */
 export const listResourceGateways: API.PaginatedOperationMethod<
-  ListResourceGatewaysRequest,
+  ListResourceGatewaysRequest & RegionInput,
   ListResourceGatewaysResponse,
   ListResourceGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -3049,6 +3159,8 @@ export const listResourceGateways: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceGateways",
 })) as any;
 
 export type ListRulesError =
@@ -3062,7 +3174,7 @@ export type ListRulesError =
  * Lists the rules for the specified listener.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3086,6 +3198,8 @@ export const listRules: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 })) as any;
 
 export type ListServiceNetworkResourceAssociationsError =
@@ -3098,7 +3212,7 @@ export type ListServiceNetworkResourceAssociationsError =
  * Lists the associations between a service network and a resource configuration.
  */
 export const listServiceNetworkResourceAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkResourceAssociationsRequest,
+  ListServiceNetworkResourceAssociationsRequest & RegionInput,
   ListServiceNetworkResourceAssociationsResponse,
   ListServiceNetworkResourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3121,6 +3235,8 @@ export const listServiceNetworkResourceAssociations: API.PaginatedOperationMetho
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworkResourceAssociations",
 })) as any;
 
 export type ListServiceNetworksError =
@@ -3133,7 +3249,7 @@ export type ListServiceNetworksError =
  * Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
  */
 export const listServiceNetworks: API.PaginatedOperationMethod<
-  ListServiceNetworksRequest,
+  ListServiceNetworksRequest & RegionInput,
   ListServiceNetworksResponse,
   ListServiceNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -3156,6 +3272,8 @@ export const listServiceNetworks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworks",
 })) as any;
 
 export type ListServiceNetworkServiceAssociationsError =
@@ -3170,7 +3288,7 @@ export type ListServiceNetworkServiceAssociationsError =
  * Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
  */
 export const listServiceNetworkServiceAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkServiceAssociationsRequest,
+  ListServiceNetworkServiceAssociationsRequest & RegionInput,
   ListServiceNetworkServiceAssociationsResponse,
   ListServiceNetworkServiceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3193,6 +3311,8 @@ export const listServiceNetworkServiceAssociations: API.PaginatedOperationMethod
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworkServiceAssociations",
 })) as any;
 
 export type ListServiceNetworkVpcAssociationsError =
@@ -3205,7 +3325,7 @@ export type ListServiceNetworkVpcAssociationsError =
  * Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
  */
 export const listServiceNetworkVpcAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkVpcAssociationsRequest,
+  ListServiceNetworkVpcAssociationsRequest & RegionInput,
   ListServiceNetworkVpcAssociationsResponse,
   ListServiceNetworkVpcAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3228,6 +3348,8 @@ export const listServiceNetworkVpcAssociations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworkVpcAssociations",
 })) as any;
 
 export type ListServiceNetworkVpcEndpointAssociationsError =
@@ -3240,7 +3362,7 @@ export type ListServiceNetworkVpcEndpointAssociationsError =
  * Lists the associations between a service network and a VPC endpoint.
  */
 export const listServiceNetworkVpcEndpointAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkVpcEndpointAssociationsRequest,
+  ListServiceNetworkVpcEndpointAssociationsRequest & RegionInput,
   ListServiceNetworkVpcEndpointAssociationsResponse,
   ListServiceNetworkVpcEndpointAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3263,6 +3385,8 @@ export const listServiceNetworkVpcEndpointAssociations: API.PaginatedOperationMe
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworkVpcEndpointAssociations",
 })) as any;
 
 export type ListServicesError =
@@ -3275,7 +3399,7 @@ export type ListServicesError =
  * Lists the services owned by the caller account or shared with the caller account.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -3298,6 +3422,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3310,7 +3436,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3326,6 +3452,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetGroupsError =
@@ -3338,7 +3466,7 @@ export type ListTargetGroupsError =
  * Lists your target groups. You can narrow your search by using the filters below in your request.
  */
 export const listTargetGroups: API.PaginatedOperationMethod<
-  ListTargetGroupsRequest,
+  ListTargetGroupsRequest & RegionInput,
   ListTargetGroupsResponse,
   ListTargetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3361,6 +3489,8 @@ export const listTargetGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetGroups",
 })) as any;
 
 export type ListTargetsError =
@@ -3374,7 +3504,7 @@ export type ListTargetsError =
  * Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also U+FB01lter the results by target.
  */
 export const listTargets: API.PaginatedOperationMethod<
-  ListTargetsRequest,
+  ListTargetsRequest & RegionInput,
   ListTargetsResponse,
   ListTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -3398,6 +3528,8 @@ export const listTargets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargets",
 })) as any;
 
 export type PutAuthPolicyError =
@@ -3413,7 +3545,7 @@ export type PutAuthPolicyError =
  * For more information, see Auth policies in the *Amazon VPC Lattice User Guide*.
  */
 export const putAuthPolicy: API.OperationMethod<
-  PutAuthPolicyRequest,
+  PutAuthPolicyRequest & RegionInput,
   PutAuthPolicyResponse,
   PutAuthPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3430,6 +3562,8 @@ export const putAuthPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAuthPolicy",
+  telemetry: TELEMETRY,
+  span: "PutAuthPolicy",
 }));
 
 export type PutResourcePolicyError =
@@ -3443,7 +3577,7 @@ export type PutResourcePolicyError =
  * Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3460,6 +3594,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterTargetsError =
@@ -3475,7 +3611,7 @@ export type RegisterTargetsError =
  * Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
  */
 export const registerTargets: API.OperationMethod<
-  RegisterTargetsRequest,
+  RegisterTargetsRequest & RegionInput,
   RegisterTargetsResponse,
   RegisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -3494,6 +3630,8 @@ export const registerTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargets",
+  telemetry: TELEMETRY,
+  span: "RegisterTargets",
 }));
 
 export type StartDomainVerificationError =
@@ -3508,7 +3646,7 @@ export type StartDomainVerificationError =
  * Starts the domain verification process for a custom domain name.
  */
 export const startDomainVerification: API.OperationMethod<
-  StartDomainVerificationRequest,
+  StartDomainVerificationRequest & RegionInput,
   StartDomainVerificationResponse,
   StartDomainVerificationError,
   Credentials | HttpClient.HttpClient
@@ -3526,6 +3664,8 @@ export const startDomainVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainVerification",
+  telemetry: TELEMETRY,
+  span: "StartDomainVerification",
 }));
 
 export type TagResourceError =
@@ -3539,7 +3679,7 @@ export type TagResourceError =
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3556,6 +3696,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3568,7 +3710,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3584,6 +3726,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessLogSubscriptionError =
@@ -3598,7 +3742,7 @@ export type UpdateAccessLogSubscriptionError =
  * Updates the specified access log subscription.
  */
 export const updateAccessLogSubscription: API.OperationMethod<
-  UpdateAccessLogSubscriptionRequest,
+  UpdateAccessLogSubscriptionRequest & RegionInput,
   UpdateAccessLogSubscriptionResponse,
   UpdateAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3616,6 +3760,8 @@ export const updateAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessLogSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessLogSubscription",
 }));
 
 export type UpdateListenerError =
@@ -3631,7 +3777,7 @@ export type UpdateListenerError =
  * Updates the specified listener for the specified service.
  */
 export const updateListener: API.OperationMethod<
-  UpdateListenerRequest,
+  UpdateListenerRequest & RegionInput,
   UpdateListenerResponse,
   UpdateListenerError,
   Credentials | HttpClient.HttpClient
@@ -3650,6 +3796,8 @@ export const updateListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateListener",
+  telemetry: TELEMETRY,
+  span: "UpdateListener",
 }));
 
 export type UpdateResourceConfigurationError =
@@ -3664,7 +3812,7 @@ export type UpdateResourceConfigurationError =
  * Updates the specified resource configuration.
  */
 export const updateResourceConfiguration: API.OperationMethod<
-  UpdateResourceConfigurationRequest,
+  UpdateResourceConfigurationRequest & RegionInput,
   UpdateResourceConfigurationResponse,
   UpdateResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3682,6 +3830,8 @@ export const updateResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceConfiguration",
 }));
 
 export type UpdateResourceGatewayError =
@@ -3696,7 +3846,7 @@ export type UpdateResourceGatewayError =
  * Updates the specified resource gateway.
  */
 export const updateResourceGateway: API.OperationMethod<
-  UpdateResourceGatewayRequest,
+  UpdateResourceGatewayRequest & RegionInput,
   UpdateResourceGatewayResponse,
   UpdateResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3714,6 +3864,8 @@ export const updateResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceGateway",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceGateway",
 }));
 
 export type UpdateRuleError =
@@ -3729,7 +3881,7 @@ export type UpdateRuleError =
  * Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use `UpdateListener`.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -3748,6 +3900,8 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 export type UpdateServiceError =
@@ -3763,7 +3917,7 @@ export type UpdateServiceError =
  * Updates the specified service.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
+  UpdateServiceRequest & RegionInput,
   UpdateServiceResponse,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -3782,6 +3936,8 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateServiceNetworkError =
@@ -3796,7 +3952,7 @@ export type UpdateServiceNetworkError =
  * Updates the specified service network.
  */
 export const updateServiceNetwork: API.OperationMethod<
-  UpdateServiceNetworkRequest,
+  UpdateServiceNetworkRequest & RegionInput,
   UpdateServiceNetworkResponse,
   UpdateServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3814,6 +3970,8 @@ export const updateServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceNetwork",
 }));
 
 export type UpdateServiceNetworkVpcAssociationError =
@@ -3828,7 +3986,7 @@ export type UpdateServiceNetworkVpcAssociationError =
  * Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
  */
 export const updateServiceNetworkVpcAssociation: API.OperationMethod<
-  UpdateServiceNetworkVpcAssociationRequest,
+  UpdateServiceNetworkVpcAssociationRequest & RegionInput,
   UpdateServiceNetworkVpcAssociationResponse,
   UpdateServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3846,6 +4004,8 @@ export const updateServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceNetworkVpcAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceNetworkVpcAssociation",
 }));
 
 export type UpdateTargetGroupError =
@@ -3861,7 +4021,7 @@ export type UpdateTargetGroupError =
  * Updates the specified target group.
  */
 export const updateTargetGroup: API.OperationMethod<
-  UpdateTargetGroupRequest,
+  UpdateTargetGroupRequest & RegionInput,
   UpdateTargetGroupResponse,
   UpdateTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3880,6 +4040,8 @@ export const updateTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateTargetGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

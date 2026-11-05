@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "DockerRegistry",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface CreateRegistryRequest {
   /** Use with JWT to specify the organization ID */
   xDaytonaOrganizationID?: string;
@@ -114,6 +127,8 @@ export const createRegistry: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegistry",
 }));
 
 export type DeleteRegistryError = DaytonaOpError;
@@ -129,6 +144,8 @@ export const deleteRegistry: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistry",
 }));
 
 export type GetRegistryError = DaytonaOpError;
@@ -144,6 +161,8 @@ export const getRegistry: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistry",
 }));
 
 export type GetTransientPushAccessError = DaytonaOpError;
@@ -159,6 +178,8 @@ export const getTransientPushAccess: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransientPushAccess",
 }));
 
 export type ListRegistriesError = DaytonaOpError;
@@ -174,6 +195,8 @@ export const listRegistries: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistries",
 }));
 
 export type UpdateRegistryError = DaytonaOpError;
@@ -189,6 +212,8 @@ export const updateRegistry: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRegistry",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Insights",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -8869,6 +8882,8 @@ export const createInsight: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsight",
 }));
 
 export type CreateInsightsSharingPasswordError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8884,6 +8899,8 @@ export const createInsightsSharingPassword: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsightsSharingPassword",
 }));
 
 export type CreateInsightsViewedError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8899,6 +8916,8 @@ export const createInsightsViewed: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsightsViewed",
 }));
 
 export type GetInsightError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8913,6 +8932,8 @@ export const getInsight: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsight",
 }));
 
 export type GetInsightsActivityError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8928,6 +8949,8 @@ export const getInsightsActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsActivity",
 }));
 
 export type GetInsightsAllActivityError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8943,6 +8966,8 @@ export const getInsightsAllActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsAllActivity",
 }));
 
 export type GetInsightsMyLastViewedError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8958,6 +8983,8 @@ export const getInsightsMyLastViewed: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsMyLastViewed",
 }));
 
 export type GetInsightsThresholdError = Forbidden | NotFound | PosthogOpError;
@@ -8972,6 +8999,8 @@ export const getInsightsThreshold: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsThreshold",
 }));
 
 export type GetInsightsTrendingError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8987,6 +9016,8 @@ export const getInsightsTrending: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsTrending",
 }));
 
 export type InsightsBulkDeleteCreateError = PosthogOpError;
@@ -9002,6 +9033,8 @@ export const insightsBulkDeleteCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsBulkDeleteCreate",
 }));
 
 export type InsightsBulkRestoreCreateError = PosthogOpError;
@@ -9017,6 +9050,8 @@ export const insightsBulkRestoreCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsBulkRestoreCreate",
 }));
 
 export type InsightsBulkSetTestAccountFilterCreateError = PosthogOpError;
@@ -9032,6 +9067,8 @@ export const insightsBulkSetTestAccountFilterCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsBulkSetTestAccountFilterCreate",
 }));
 
 export type InsightsBulkUpdateTagsCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9047,6 +9084,8 @@ export const insightsBulkUpdateTagsCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsBulkUpdateTagsCreate",
 }));
 
 export type InsightsCancelCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9061,6 +9100,8 @@ export const insightsCancelCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsCancelCreate",
 }));
 
 export type InsightsDestroyError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9076,6 +9117,8 @@ export const insightsDestroy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsDestroy",
 }));
 
 export type InsightsGenerateMetadataCreateError =
@@ -9095,6 +9138,8 @@ export const insightsGenerateMetadataCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsGenerateMetadataCreate",
 }));
 
 export type InsightsSharingPasswordsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -9110,6 +9155,8 @@ export const insightsSharingPasswordsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsSharingPasswordsDestroy",
 }));
 
 export type InsightsSharingRefreshCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9124,6 +9171,8 @@ export const insightsSharingRefreshCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsSharingRefreshCreate",
 }));
 
 export type ListInsightsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9138,6 +9187,8 @@ export const listInsights: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsights",
 }));
 
 export type ListInsightsSharingError = Forbidden | NotFound | PosthogOpError;
@@ -9152,6 +9203,8 @@ export const listInsightsSharing: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightsSharing",
 }));
 
 export type ListInsightsThresholdsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9166,6 +9219,8 @@ export const listInsightsThresholds: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightsThresholds",
 }));
 
 export type UpdateInsightError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9180,6 +9235,8 @@ export const updateInsight: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInsight",
 }));
 
 export type UpdateInsightsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9194,6 +9251,8 @@ export const updateInsightsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInsightsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://docdb-elastic.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DocDBElastic",
+  service: "DocDBElastic",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -399,7 +415,7 @@ export type ApplyPendingMaintenanceActionError =
  * The type of pending maintenance action to be applied to the resource.
  */
 export const applyPendingMaintenanceAction: API.OperationMethod<
-  ApplyPendingMaintenanceActionInput,
+  ApplyPendingMaintenanceActionInput & RegionInput,
   ApplyPendingMaintenanceActionOutput,
   ApplyPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -417,6 +433,8 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
+  telemetry: TELEMETRY,
+  span: "ApplyPendingMaintenanceAction",
 }));
 
 export type CopyClusterSnapshotError =
@@ -432,7 +450,7 @@ export type CopyClusterSnapshotError =
  * Copies a snapshot of an elastic cluster.
  */
 export const copyClusterSnapshot: API.OperationMethod<
-  CopyClusterSnapshotInput,
+  CopyClusterSnapshotInput & RegionInput,
   CopyClusterSnapshotOutput,
   CopyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -451,6 +469,8 @@ export const copyClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CopyClusterSnapshot",
 }));
 
 export type CreateClusterError =
@@ -465,7 +485,7 @@ export type CreateClusterError =
  * Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterInput,
+  CreateClusterInput & RegionInput,
   CreateClusterOutput,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -483,6 +503,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateClusterSnapshotError =
@@ -498,7 +520,7 @@ export type CreateClusterSnapshotError =
  * Creates a snapshot of an elastic cluster.
  */
 export const createClusterSnapshot: API.OperationMethod<
-  CreateClusterSnapshotInput,
+  CreateClusterSnapshotInput & RegionInput,
   CreateClusterSnapshotOutput,
   CreateClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -517,6 +539,8 @@ export const createClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateClusterSnapshot",
 }));
 
 export type DeleteClusterError =
@@ -531,7 +555,7 @@ export type DeleteClusterError =
  * Delete an elastic cluster.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterInput,
+  DeleteClusterInput & RegionInput,
   DeleteClusterOutput,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -549,6 +573,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteClusterSnapshotError =
@@ -563,7 +589,7 @@ export type DeleteClusterSnapshotError =
  * Delete an elastic cluster snapshot.
  */
 export const deleteClusterSnapshot: API.OperationMethod<
-  DeleteClusterSnapshotInput,
+  DeleteClusterSnapshotInput & RegionInput,
   DeleteClusterSnapshotOutput,
   DeleteClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -581,6 +607,8 @@ export const deleteClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterSnapshot",
 }));
 
 export type GetClusterError =
@@ -594,7 +622,7 @@ export type GetClusterError =
  * Returns information about a specific elastic cluster.
  */
 export const getCluster: API.OperationMethod<
-  GetClusterInput,
+  GetClusterInput & RegionInput,
   GetClusterOutput,
   GetClusterError,
   Credentials | HttpClient.HttpClient
@@ -611,6 +639,8 @@ export const getCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetClusterSnapshotError =
@@ -624,7 +654,7 @@ export type GetClusterSnapshotError =
  * Returns information about a specific elastic cluster snapshot
  */
 export const getClusterSnapshot: API.OperationMethod<
-  GetClusterSnapshotInput,
+  GetClusterSnapshotInput & RegionInput,
   GetClusterSnapshotOutput,
   GetClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -641,6 +671,8 @@ export const getClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetClusterSnapshot",
 }));
 
 export type GetPendingMaintenanceActionError =
@@ -655,7 +687,7 @@ export type GetPendingMaintenanceActionError =
  * Retrieves all maintenance actions that are pending.
  */
 export const getPendingMaintenanceAction: API.OperationMethod<
-  GetPendingMaintenanceActionInput,
+  GetPendingMaintenanceActionInput & RegionInput,
   GetPendingMaintenanceActionOutput,
   GetPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -673,6 +705,8 @@ export const getPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPendingMaintenanceAction",
+  telemetry: TELEMETRY,
+  span: "GetPendingMaintenanceAction",
 }));
 
 export type ListClustersError =
@@ -685,7 +719,7 @@ export type ListClustersError =
  * Returns information about provisioned Amazon DocumentDB elastic clusters.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersInput,
+  ListClustersInput & RegionInput,
   ListClustersOutput,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -708,6 +742,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListClusterSnapshotsError =
@@ -720,7 +756,7 @@ export type ListClusterSnapshotsError =
  * Returns information about snapshots for a specified elastic cluster.
  */
 export const listClusterSnapshots: API.PaginatedOperationMethod<
-  ListClusterSnapshotsInput,
+  ListClusterSnapshotsInput & RegionInput,
   ListClusterSnapshotsOutput,
   ListClusterSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -743,6 +779,8 @@ export const listClusterSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterSnapshots",
 })) as any;
 
 export type ListPendingMaintenanceActionsError =
@@ -755,7 +793,7 @@ export type ListPendingMaintenanceActionsError =
  * Retrieves a list of all maintenance actions that are pending.
  */
 export const listPendingMaintenanceActions: API.PaginatedOperationMethod<
-  ListPendingMaintenanceActionsInput,
+  ListPendingMaintenanceActionsInput & RegionInput,
   ListPendingMaintenanceActionsOutput,
   ListPendingMaintenanceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -778,6 +816,8 @@ export const listPendingMaintenanceActions: API.PaginatedOperationMethod<
     items: "resourcePendingMaintenanceActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPendingMaintenanceActions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -790,7 +830,7 @@ export type ListTagsForResourceError =
  * Lists all tags on a elastic cluster resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -806,6 +846,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RestoreClusterFromSnapshotError =
@@ -821,7 +863,7 @@ export type RestoreClusterFromSnapshotError =
  * Restores an elastic cluster from a snapshot.
  */
 export const restoreClusterFromSnapshot: API.OperationMethod<
-  RestoreClusterFromSnapshotInput,
+  RestoreClusterFromSnapshotInput & RegionInput,
   RestoreClusterFromSnapshotOutput,
   RestoreClusterFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -840,6 +882,8 @@ export const restoreClusterFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreClusterFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreClusterFromSnapshot",
 }));
 
 export type StartClusterError =
@@ -853,7 +897,7 @@ export type StartClusterError =
  * Restarts the stopped elastic cluster that is specified by `clusterARN`.
  */
 export const startCluster: API.OperationMethod<
-  StartClusterInput,
+  StartClusterInput & RegionInput,
   StartClusterOutput,
   StartClusterError,
   Credentials | HttpClient.HttpClient
@@ -870,6 +914,8 @@ export const startCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCluster",
+  telemetry: TELEMETRY,
+  span: "StartCluster",
 }));
 
 export type StopClusterError =
@@ -884,7 +930,7 @@ export type StopClusterError =
  * The elastic cluster must be in the *available* state.
  */
 export const stopCluster: API.OperationMethod<
-  StopClusterInput,
+  StopClusterInput & RegionInput,
   StopClusterOutput,
   StopClusterError,
   Credentials | HttpClient.HttpClient
@@ -901,6 +947,8 @@ export const stopCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCluster",
+  telemetry: TELEMETRY,
+  span: "StopCluster",
 }));
 
 export type TagResourceError =
@@ -913,7 +961,7 @@ export type TagResourceError =
  * Adds metadata tags to an elastic cluster resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -929,6 +977,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -941,7 +991,7 @@ export type UntagResourceError =
  * Removes metadata tags from an elastic cluster resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -957,6 +1007,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateClusterError =
@@ -972,7 +1024,7 @@ export type UpdateClusterError =
  * upgrading the API version, and setting up a backup window and maintenance window
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterInput,
+  UpdateClusterInput & RegionInput,
   UpdateClusterOutput,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -990,6 +1042,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

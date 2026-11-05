@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -131,6 +133,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://wellarchitected.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WellArchitected",
+  service: "WellArchitected",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2218,7 +2234,7 @@ export type AssociateLensesError =
  * By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
  */
 export const associateLenses: API.OperationMethod<
-  AssociateLensesInput,
+  AssociateLensesInput & RegionInput,
   AssociateLensesResponse,
   AssociateLensesError,
   Credentials | HttpClient.HttpClient
@@ -2236,6 +2252,8 @@ export const associateLenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLenses",
+  telemetry: TELEMETRY,
+  span: "AssociateLenses",
 }));
 
 export type AssociateProfilesError =
@@ -2250,7 +2268,7 @@ export type AssociateProfilesError =
  * Associate a profile with a workload.
  */
 export const associateProfiles: API.OperationMethod<
-  AssociateProfilesInput,
+  AssociateProfilesInput & RegionInput,
   AssociateProfilesResponse,
   AssociateProfilesError,
   Credentials | HttpClient.HttpClient
@@ -2268,6 +2286,8 @@ export const associateProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProfiles",
+  telemetry: TELEMETRY,
+  span: "AssociateProfiles",
 }));
 
 export type CreateAgentContextError =
@@ -2283,7 +2303,7 @@ export type CreateAgentContextError =
  * Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommendation generation.
  */
 export const createAgentContext: API.OperationMethod<
-  CreateAgentContextRequest,
+  CreateAgentContextRequest & RegionInput,
   CreateAgentContextResponse,
   CreateAgentContextError,
   Credentials | HttpClient.HttpClient
@@ -2302,6 +2322,8 @@ export const createAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentContext",
+  telemetry: TELEMETRY,
+  span: "CreateAgentContext",
 }));
 
 export type CreateAgentGoalError =
@@ -2317,7 +2339,7 @@ export type CreateAgentGoalError =
  * Creates an optimization goal associated with a profile. Goals define specific targets and objectives for the optimization process.
  */
 export const createAgentGoal: API.OperationMethod<
-  CreateAgentGoalRequest,
+  CreateAgentGoalRequest & RegionInput,
   CreateAgentGoalResponse,
   CreateAgentGoalError,
   Credentials | HttpClient.HttpClient
@@ -2336,6 +2358,8 @@ export const createAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentGoal",
+  telemetry: TELEMETRY,
+  span: "CreateAgentGoal",
 }));
 
 export type CreateAgentProfileError =
@@ -2350,7 +2374,7 @@ export type CreateAgentProfileError =
  * Creates an optimization profile that defines the scope and configuration for generating recommendations. A profile specifies the execution role, target pillars, and aggregation settings for analyzing your Amazon Web Services resources.
  */
 export const createAgentProfile: API.OperationMethod<
-  CreateAgentProfileRequest,
+  CreateAgentProfileRequest & RegionInput,
   CreateAgentProfileResponse,
   CreateAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -2368,6 +2392,8 @@ export const createAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentProfile",
+  telemetry: TELEMETRY,
+  span: "CreateAgentProfile",
 }));
 
 export type CreateLensShareError =
@@ -2395,7 +2421,7 @@ export type CreateLensShareError =
  * By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const createLensShare: API.OperationMethod<
-  CreateLensShareInput,
+  CreateLensShareInput & RegionInput,
   CreateLensShareOutput,
   CreateLensShareError,
   Credentials | HttpClient.HttpClient
@@ -2414,6 +2440,8 @@ export const createLensShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLensShare",
+  telemetry: TELEMETRY,
+  span: "CreateLensShare",
 }));
 
 export type CreateLensVersionError =
@@ -2433,7 +2461,7 @@ export type CreateLensVersionError =
  * Use this operation to publish a new lens version after you have imported a lens. The `LensAlias` is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
  */
 export const createLensVersion: API.OperationMethod<
-  CreateLensVersionInput,
+  CreateLensVersionInput & RegionInput,
   CreateLensVersionOutput,
   CreateLensVersionError,
   Credentials | HttpClient.HttpClient
@@ -2452,6 +2480,8 @@ export const createLensVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLensVersion",
+  telemetry: TELEMETRY,
+  span: "CreateLensVersion",
 }));
 
 export type CreateMilestoneError =
@@ -2467,7 +2497,7 @@ export type CreateMilestoneError =
  * Create a milestone for an existing workload.
  */
 export const createMilestone: API.OperationMethod<
-  CreateMilestoneInput,
+  CreateMilestoneInput & RegionInput,
   CreateMilestoneOutput,
   CreateMilestoneError,
   Credentials | HttpClient.HttpClient
@@ -2486,6 +2516,8 @@ export const createMilestone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMilestone",
+  telemetry: TELEMETRY,
+  span: "CreateMilestone",
 }));
 
 export type CreateProfileError =
@@ -2500,7 +2532,7 @@ export type CreateProfileError =
  * Create a profile.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileInput,
+  CreateProfileInput & RegionInput,
   CreateProfileOutput,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -2518,6 +2550,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type CreateProfileShareError =
@@ -2533,7 +2567,7 @@ export type CreateProfileShareError =
  * Create a profile share.
  */
 export const createProfileShare: API.OperationMethod<
-  CreateProfileShareInput,
+  CreateProfileShareInput & RegionInput,
   CreateProfileShareOutput,
   CreateProfileShareError,
   Credentials | HttpClient.HttpClient
@@ -2552,6 +2586,8 @@ export const createProfileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfileShare",
+  telemetry: TELEMETRY,
+  span: "CreateProfileShare",
 }));
 
 export type CreateReviewTemplateError =
@@ -2571,7 +2607,7 @@ export type CreateReviewTemplateError =
  * Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
  */
 export const createReviewTemplate: API.OperationMethod<
-  CreateReviewTemplateInput,
+  CreateReviewTemplateInput & RegionInput,
   CreateReviewTemplateOutput,
   CreateReviewTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2590,6 +2626,8 @@ export const createReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReviewTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateReviewTemplate",
 }));
 
 export type CreateTemplateShareError =
@@ -2615,7 +2653,7 @@ export type CreateTemplateShareError =
  * By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
  */
 export const createTemplateShare: API.OperationMethod<
-  CreateTemplateShareInput,
+  CreateTemplateShareInput & RegionInput,
   CreateTemplateShareOutput,
   CreateTemplateShareError,
   Credentials | HttpClient.HttpClient
@@ -2634,6 +2672,8 @@ export const createTemplateShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateShare",
+  telemetry: TELEMETRY,
+  span: "CreateTemplateShare",
 }));
 
 export type CreateWorkloadError =
@@ -2667,7 +2707,7 @@ export type CreateWorkloadError =
  * - `wellarchitected:GetReviewTemplateLensReview`
  */
 export const createWorkload: API.OperationMethod<
-  CreateWorkloadInput,
+  CreateWorkloadInput & RegionInput,
   CreateWorkloadOutput,
   CreateWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -2686,6 +2726,8 @@ export const createWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkload",
+  telemetry: TELEMETRY,
+  span: "CreateWorkload",
 }));
 
 export type CreateWorkloadShareError =
@@ -2707,7 +2749,7 @@ export type CreateWorkloadShareError =
  * For more information, see Sharing a workload in the *Well-Architected Tool User Guide*.
  */
 export const createWorkloadShare: API.OperationMethod<
-  CreateWorkloadShareInput,
+  CreateWorkloadShareInput & RegionInput,
   CreateWorkloadShareOutput,
   CreateWorkloadShareError,
   Credentials | HttpClient.HttpClient
@@ -2726,6 +2768,8 @@ export const createWorkloadShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadShare",
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadShare",
 }));
 
 export type DeleteAgentContextError =
@@ -2739,7 +2783,7 @@ export type DeleteAgentContextError =
  * Deletes a context associated with a profile.
  */
 export const deleteAgentContext: API.OperationMethod<
-  DeleteAgentContextRequest,
+  DeleteAgentContextRequest & RegionInput,
   DeleteAgentContextResponse,
   DeleteAgentContextError,
   Credentials | HttpClient.HttpClient
@@ -2756,6 +2800,8 @@ export const deleteAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentContext",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentContext",
 }));
 
 export type DeleteAgentGoalError =
@@ -2769,7 +2815,7 @@ export type DeleteAgentGoalError =
  * Deletes an optimization goal from a profile.
  */
 export const deleteAgentGoal: API.OperationMethod<
-  DeleteAgentGoalRequest,
+  DeleteAgentGoalRequest & RegionInput,
   DeleteAgentGoalResponse,
   DeleteAgentGoalError,
   Credentials | HttpClient.HttpClient
@@ -2786,6 +2832,8 @@ export const deleteAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentGoal",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentGoal",
 }));
 
 export type DeleteAgentProfileError =
@@ -2800,7 +2848,7 @@ export type DeleteAgentProfileError =
  * Deletes an optimization profile and its associated configuration. This action cannot be undone.
  */
 export const deleteAgentProfile: API.OperationMethod<
-  DeleteAgentProfileRequest,
+  DeleteAgentProfileRequest & RegionInput,
   DeleteAgentProfileResponse,
   DeleteAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -2818,6 +2866,8 @@ export const deleteAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentProfile",
 }));
 
 export type DeleteLensError =
@@ -2838,7 +2888,7 @@ export type DeleteLensError =
  * By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const deleteLens: API.OperationMethod<
-  DeleteLensInput,
+  DeleteLensInput & RegionInput,
   DeleteLensResponse,
   DeleteLensError,
   Credentials | HttpClient.HttpClient
@@ -2856,6 +2906,8 @@ export const deleteLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLens",
+  telemetry: TELEMETRY,
+  span: "DeleteLens",
 }));
 
 export type DeleteLensShareError =
@@ -2876,7 +2928,7 @@ export type DeleteLensShareError =
  * By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const deleteLensShare: API.OperationMethod<
-  DeleteLensShareInput,
+  DeleteLensShareInput & RegionInput,
   DeleteLensShareResponse,
   DeleteLensShareError,
   Credentials | HttpClient.HttpClient
@@ -2894,6 +2946,8 @@ export const deleteLensShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLensShare",
+  telemetry: TELEMETRY,
+  span: "DeleteLensShare",
 }));
 
 export type DeleteProfileError =
@@ -2912,7 +2966,7 @@ export type DeleteProfileError =
  * By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const deleteProfile: API.OperationMethod<
-  DeleteProfileInput,
+  DeleteProfileInput & RegionInput,
   DeleteProfileResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -2930,6 +2984,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DeleteProfileShareError =
@@ -2944,7 +3000,7 @@ export type DeleteProfileShareError =
  * Delete a profile share.
  */
 export const deleteProfileShare: API.OperationMethod<
-  DeleteProfileShareInput,
+  DeleteProfileShareInput & RegionInput,
   DeleteProfileShareResponse,
   DeleteProfileShareError,
   Credentials | HttpClient.HttpClient
@@ -2962,6 +3018,8 @@ export const deleteProfileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileShare",
+  telemetry: TELEMETRY,
+  span: "DeleteProfileShare",
 }));
 
 export type DeleteReviewTemplateError =
@@ -2980,7 +3038,7 @@ export type DeleteReviewTemplateError =
  * After the review template is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
  */
 export const deleteReviewTemplate: API.OperationMethod<
-  DeleteReviewTemplateInput,
+  DeleteReviewTemplateInput & RegionInput,
   DeleteReviewTemplateResponse,
   DeleteReviewTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2998,6 +3056,8 @@ export const deleteReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReviewTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteReviewTemplate",
 }));
 
 export type DeleteTemplateShareError =
@@ -3014,7 +3074,7 @@ export type DeleteTemplateShareError =
  * After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
  */
 export const deleteTemplateShare: API.OperationMethod<
-  DeleteTemplateShareInput,
+  DeleteTemplateShareInput & RegionInput,
   DeleteTemplateShareResponse,
   DeleteTemplateShareError,
   Credentials | HttpClient.HttpClient
@@ -3032,6 +3092,8 @@ export const deleteTemplateShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateShare",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplateShare",
 }));
 
 export type DeleteWorkloadError =
@@ -3046,7 +3108,7 @@ export type DeleteWorkloadError =
  * Delete an existing workload.
  */
 export const deleteWorkload: API.OperationMethod<
-  DeleteWorkloadInput,
+  DeleteWorkloadInput & RegionInput,
   DeleteWorkloadResponse,
   DeleteWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -3064,6 +3126,8 @@ export const deleteWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkload",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkload",
 }));
 
 export type DeleteWorkloadShareError =
@@ -3078,7 +3142,7 @@ export type DeleteWorkloadShareError =
  * Delete a workload share.
  */
 export const deleteWorkloadShare: API.OperationMethod<
-  DeleteWorkloadShareInput,
+  DeleteWorkloadShareInput & RegionInput,
   DeleteWorkloadShareResponse,
   DeleteWorkloadShareError,
   Credentials | HttpClient.HttpClient
@@ -3096,6 +3160,8 @@ export const deleteWorkloadShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadShare",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadShare",
 }));
 
 export type DisassociateLensesError =
@@ -3114,7 +3180,7 @@ export type DisassociateLensesError =
  * The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be removed from a workload.
  */
 export const disassociateLenses: API.OperationMethod<
-  DisassociateLensesInput,
+  DisassociateLensesInput & RegionInput,
   DisassociateLensesResponse,
   DisassociateLensesError,
   Credentials | HttpClient.HttpClient
@@ -3132,6 +3198,8 @@ export const disassociateLenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLenses",
+  telemetry: TELEMETRY,
+  span: "DisassociateLenses",
 }));
 
 export type DisassociateProfilesError =
@@ -3146,7 +3214,7 @@ export type DisassociateProfilesError =
  * Disassociate a profile from a workload.
  */
 export const disassociateProfiles: API.OperationMethod<
-  DisassociateProfilesInput,
+  DisassociateProfilesInput & RegionInput,
   DisassociateProfilesResponse,
   DisassociateProfilesError,
   Credentials | HttpClient.HttpClient
@@ -3164,6 +3232,8 @@ export const disassociateProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProfiles",
+  telemetry: TELEMETRY,
+  span: "DisassociateProfiles",
 }));
 
 export type ExportLensError =
@@ -3185,7 +3255,7 @@ export type ExportLensError =
  * Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
  */
 export const exportLens: API.OperationMethod<
-  ExportLensInput,
+  ExportLensInput & RegionInput,
   ExportLensOutput,
   ExportLensError,
   Credentials | HttpClient.HttpClient
@@ -3202,6 +3272,8 @@ export const exportLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportLens",
+  telemetry: TELEMETRY,
+  span: "ExportLens",
 }));
 
 export type GetAgentContextError =
@@ -3215,7 +3287,7 @@ export type GetAgentContextError =
  * Retrieves detailed information about a specific context associated with a profile.
  */
 export const getAgentContext: API.OperationMethod<
-  GetAgentContextRequest,
+  GetAgentContextRequest & RegionInput,
   GetAgentContextResponse,
   GetAgentContextError,
   Credentials | HttpClient.HttpClient
@@ -3232,6 +3304,8 @@ export const getAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentContext",
+  telemetry: TELEMETRY,
+  span: "GetAgentContext",
 }));
 
 export type GetAgentGoalError =
@@ -3245,7 +3319,7 @@ export type GetAgentGoalError =
  * Retrieves detailed information about a specific optimization goal.
  */
 export const getAgentGoal: API.OperationMethod<
-  GetAgentGoalRequest,
+  GetAgentGoalRequest & RegionInput,
   GetAgentGoalResponse,
   GetAgentGoalError,
   Credentials | HttpClient.HttpClient
@@ -3262,6 +3336,8 @@ export const getAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentGoal",
+  telemetry: TELEMETRY,
+  span: "GetAgentGoal",
 }));
 
 export type GetAgentProfileError =
@@ -3275,7 +3351,7 @@ export type GetAgentProfileError =
  * Retrieves detailed information about an optimization profile, including its configuration and metadata.
  */
 export const getAgentProfile: API.OperationMethod<
-  GetAgentProfileRequest,
+  GetAgentProfileRequest & RegionInput,
   GetAgentProfileResponse,
   GetAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -3292,6 +3368,8 @@ export const getAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentProfile",
+  telemetry: TELEMETRY,
+  span: "GetAgentProfile",
 }));
 
 export type GetAgentRecommendationError =
@@ -3305,7 +3383,7 @@ export type GetAgentRecommendationError =
  * Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance.
  */
 export const getAgentRecommendation: API.OperationMethod<
-  GetAgentRecommendationRequest,
+  GetAgentRecommendationRequest & RegionInput,
   GetAgentRecommendationResponse,
   GetAgentRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -3322,6 +3400,8 @@ export const getAgentRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRecommendation",
+  telemetry: TELEMETRY,
+  span: "GetAgentRecommendation",
 }));
 
 export type GetAgentRecommendationGenerationError =
@@ -3335,7 +3415,7 @@ export type GetAgentRecommendationGenerationError =
  * Retrieves information about a recommendation generation process, including its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Intermediate values are QUEUED and IN_PROGRESS.
  */
 export const getAgentRecommendationGeneration: API.OperationMethod<
-  GetAgentRecommendationGenerationRequest,
+  GetAgentRecommendationGenerationRequest & RegionInput,
   GetAgentRecommendationGenerationResponse,
   GetAgentRecommendationGenerationError,
   Credentials | HttpClient.HttpClient
@@ -3352,6 +3432,8 @@ export const getAgentRecommendationGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRecommendationGeneration",
+  telemetry: TELEMETRY,
+  span: "GetAgentRecommendationGeneration",
 }));
 
 export type GetAnswerError =
@@ -3365,7 +3447,7 @@ export type GetAnswerError =
  * Get the answer to a specific question in a workload review.
  */
 export const getAnswer: API.OperationMethod<
-  GetAnswerInput,
+  GetAnswerInput & RegionInput,
   GetAnswerOutput,
   GetAnswerError,
   Credentials | HttpClient.HttpClient
@@ -3382,6 +3464,8 @@ export const getAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnswer",
+  telemetry: TELEMETRY,
+  span: "GetAnswer",
 }));
 
 export type GetConsolidatedReportError =
@@ -3397,7 +3481,7 @@ export type GetConsolidatedReportError =
  * You can optionally choose to include workloads that have been shared with you.
  */
 export const getConsolidatedReport: API.PaginatedOperationMethod<
-  GetConsolidatedReportInput,
+  GetConsolidatedReportInput & RegionInput,
   GetConsolidatedReportOutput,
   GetConsolidatedReportError,
   Credentials | HttpClient.HttpClient,
@@ -3420,6 +3504,8 @@ export const getConsolidatedReport: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetConsolidatedReport",
 })) as any;
 
 export type GetGlobalSettingsError =
@@ -3432,7 +3518,7 @@ export type GetGlobalSettingsError =
  * Global settings for all workloads.
  */
 export const getGlobalSettings: API.OperationMethod<
-  GetGlobalSettingsRequest,
+  GetGlobalSettingsRequest & RegionInput,
   GetGlobalSettingsOutput,
   GetGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3448,6 +3534,8 @@ export const getGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "GetGlobalSettings",
 }));
 
 export type GetLensError =
@@ -3461,7 +3549,7 @@ export type GetLensError =
  * Get an existing lens.
  */
 export const getLens: API.OperationMethod<
-  GetLensInput,
+  GetLensInput & RegionInput,
   GetLensOutput,
   GetLensError,
   Credentials | HttpClient.HttpClient
@@ -3478,6 +3566,8 @@ export const getLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLens",
+  telemetry: TELEMETRY,
+  span: "GetLens",
 }));
 
 export type GetLensReviewError =
@@ -3491,7 +3581,7 @@ export type GetLensReviewError =
  * Get lens review.
  */
 export const getLensReview: API.OperationMethod<
-  GetLensReviewInput,
+  GetLensReviewInput & RegionInput,
   GetLensReviewOutput,
   GetLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -3508,6 +3598,8 @@ export const getLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLensReview",
+  telemetry: TELEMETRY,
+  span: "GetLensReview",
 }));
 
 export type GetLensReviewReportError =
@@ -3521,7 +3613,7 @@ export type GetLensReviewReportError =
  * Get lens review report.
  */
 export const getLensReviewReport: API.OperationMethod<
-  GetLensReviewReportInput,
+  GetLensReviewReportInput & RegionInput,
   GetLensReviewReportOutput,
   GetLensReviewReportError,
   Credentials | HttpClient.HttpClient
@@ -3538,6 +3630,8 @@ export const getLensReviewReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLensReviewReport",
+  telemetry: TELEMETRY,
+  span: "GetLensReviewReport",
 }));
 
 export type GetLensVersionDifferenceError =
@@ -3551,7 +3645,7 @@ export type GetLensVersionDifferenceError =
  * Get lens version differences.
  */
 export const getLensVersionDifference: API.OperationMethod<
-  GetLensVersionDifferenceInput,
+  GetLensVersionDifferenceInput & RegionInput,
   GetLensVersionDifferenceOutput,
   GetLensVersionDifferenceError,
   Credentials | HttpClient.HttpClient
@@ -3568,6 +3662,8 @@ export const getLensVersionDifference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLensVersionDifference",
+  telemetry: TELEMETRY,
+  span: "GetLensVersionDifference",
 }));
 
 export type GetMilestoneError =
@@ -3581,7 +3677,7 @@ export type GetMilestoneError =
  * Get a milestone for an existing workload.
  */
 export const getMilestone: API.OperationMethod<
-  GetMilestoneInput,
+  GetMilestoneInput & RegionInput,
   GetMilestoneOutput,
   GetMilestoneError,
   Credentials | HttpClient.HttpClient
@@ -3598,6 +3694,8 @@ export const getMilestone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMilestone",
+  telemetry: TELEMETRY,
+  span: "GetMilestone",
 }));
 
 export type GetProfileError =
@@ -3611,7 +3709,7 @@ export type GetProfileError =
  * Get profile information.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileInput,
+  GetProfileInput & RegionInput,
   GetProfileOutput,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -3628,6 +3726,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetProfileTemplateError =
@@ -3641,7 +3741,7 @@ export type GetProfileTemplateError =
  * Get profile template.
  */
 export const getProfileTemplate: API.OperationMethod<
-  GetProfileTemplateInput,
+  GetProfileTemplateInput & RegionInput,
   GetProfileTemplateOutput,
   GetProfileTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3658,6 +3758,8 @@ export const getProfileTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileTemplate",
+  telemetry: TELEMETRY,
+  span: "GetProfileTemplate",
 }));
 
 export type GetReviewTemplateError =
@@ -3671,7 +3773,7 @@ export type GetReviewTemplateError =
  * Get review template.
  */
 export const getReviewTemplate: API.OperationMethod<
-  GetReviewTemplateInput,
+  GetReviewTemplateInput & RegionInput,
   GetReviewTemplateOutput,
   GetReviewTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3688,6 +3790,8 @@ export const getReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReviewTemplate",
+  telemetry: TELEMETRY,
+  span: "GetReviewTemplate",
 }));
 
 export type GetReviewTemplateAnswerError =
@@ -3701,7 +3805,7 @@ export type GetReviewTemplateAnswerError =
  * Get review template answer.
  */
 export const getReviewTemplateAnswer: API.OperationMethod<
-  GetReviewTemplateAnswerInput,
+  GetReviewTemplateAnswerInput & RegionInput,
   GetReviewTemplateAnswerOutput,
   GetReviewTemplateAnswerError,
   Credentials | HttpClient.HttpClient
@@ -3718,6 +3822,8 @@ export const getReviewTemplateAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReviewTemplateAnswer",
+  telemetry: TELEMETRY,
+  span: "GetReviewTemplateAnswer",
 }));
 
 export type GetReviewTemplateLensReviewError =
@@ -3731,7 +3837,7 @@ export type GetReviewTemplateLensReviewError =
  * Get a lens review associated with a review template.
  */
 export const getReviewTemplateLensReview: API.OperationMethod<
-  GetReviewTemplateLensReviewInput,
+  GetReviewTemplateLensReviewInput & RegionInput,
   GetReviewTemplateLensReviewOutput,
   GetReviewTemplateLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -3748,6 +3854,8 @@ export const getReviewTemplateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReviewTemplateLensReview",
+  telemetry: TELEMETRY,
+  span: "GetReviewTemplateLensReview",
 }));
 
 export type GetWorkloadError =
@@ -3761,7 +3869,7 @@ export type GetWorkloadError =
  * Get an existing workload.
  */
 export const getWorkload: API.OperationMethod<
-  GetWorkloadInput,
+  GetWorkloadInput & RegionInput,
   GetWorkloadOutput,
   GetWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -3778,6 +3886,8 @@ export const getWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkload",
+  telemetry: TELEMETRY,
+  span: "GetWorkload",
 }));
 
 export type ImportLensError =
@@ -3805,7 +3915,7 @@ export type ImportLensError =
  * Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
  */
 export const importLens: API.OperationMethod<
-  ImportLensInput,
+  ImportLensInput & RegionInput,
   ImportLensOutput,
   ImportLensError,
   Credentials | HttpClient.HttpClient
@@ -3824,6 +3934,8 @@ export const importLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportLens",
+  telemetry: TELEMETRY,
+  span: "ImportLens",
 }));
 
 export type ListAgentContextsError =
@@ -3836,7 +3948,7 @@ export type ListAgentContextsError =
  * Lists contexts associated with a profile.
  */
 export const listAgentContexts: API.PaginatedOperationMethod<
-  ListAgentContextsRequest,
+  ListAgentContextsRequest & RegionInput,
   ListAgentContextsResponse,
   ListAgentContextsError,
   Credentials | HttpClient.HttpClient,
@@ -3859,6 +3971,8 @@ export const listAgentContexts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentContexts",
 })) as any;
 
 export type ListAgentGoalsError =
@@ -3871,7 +3985,7 @@ export type ListAgentGoalsError =
  * Lists optimization goals associated with a specified profile. Goals define specific targets and objectives for the optimization process.
  */
 export const listAgentGoals: API.PaginatedOperationMethod<
-  ListAgentGoalsRequest,
+  ListAgentGoalsRequest & RegionInput,
   ListAgentGoalsResponse,
   ListAgentGoalsError,
   Credentials | HttpClient.HttpClient,
@@ -3894,6 +4008,8 @@ export const listAgentGoals: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentGoals",
 })) as any;
 
 export type ListAgentProfilesError =
@@ -3906,7 +4022,7 @@ export type ListAgentProfilesError =
  * Lists optimization profiles in your account. Profiles define the scope and configuration for generating optimization recommendations.
  */
 export const listAgentProfiles: API.PaginatedOperationMethod<
-  ListAgentProfilesRequest,
+  ListAgentProfilesRequest & RegionInput,
   ListAgentProfilesResponse,
   ListAgentProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -3929,6 +4045,8 @@ export const listAgentProfiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentProfiles",
 })) as any;
 
 export type ListAgentRecommendationGenerationsError =
@@ -3942,7 +4060,7 @@ export type ListAgentRecommendationGenerationsError =
  * Lists recommendation generation processes for a specified profile.
  */
 export const listAgentRecommendationGenerations: API.PaginatedOperationMethod<
-  ListAgentRecommendationGenerationsRequest,
+  ListAgentRecommendationGenerationsRequest & RegionInput,
   ListAgentRecommendationGenerationsResponse,
   ListAgentRecommendationGenerationsError,
   Credentials | HttpClient.HttpClient,
@@ -3966,6 +4084,8 @@ export const listAgentRecommendationGenerations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentRecommendationGenerations",
 })) as any;
 
 export type ListAgentRecommendationItemsError =
@@ -3979,7 +4099,7 @@ export type ListAgentRecommendationItemsError =
  * Lists recommendation items for a specific recommendation. Recommendation items provide detailed information about individual optimization opportunities.
  */
 export const listAgentRecommendationItems: API.PaginatedOperationMethod<
-  ListAgentRecommendationItemsRequest,
+  ListAgentRecommendationItemsRequest & RegionInput,
   ListAgentRecommendationItemsResponse,
   ListAgentRecommendationItemsError,
   Credentials | HttpClient.HttpClient,
@@ -4003,6 +4123,8 @@ export const listAgentRecommendationItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentRecommendationItems",
 })) as any;
 
 export type ListAgentRecommendationsError =
@@ -4016,7 +4138,7 @@ export type ListAgentRecommendationsError =
  * Lists active optimization recommendations for a specified profile with optional filtering by state.
  */
 export const listAgentRecommendations: API.PaginatedOperationMethod<
-  ListAgentRecommendationsRequest,
+  ListAgentRecommendationsRequest & RegionInput,
   ListAgentRecommendationsResponse,
   ListAgentRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -4040,6 +4162,8 @@ export const listAgentRecommendations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentRecommendations",
 })) as any;
 
 export type ListAnswersError =
@@ -4053,7 +4177,7 @@ export type ListAnswersError =
  * List of answers for a particular workload and lens.
  */
 export const listAnswers: API.PaginatedOperationMethod<
-  ListAnswersInput,
+  ListAnswersInput & RegionInput,
   ListAnswersOutput,
   ListAnswersError,
   Credentials | HttpClient.HttpClient,
@@ -4076,6 +4200,8 @@ export const listAnswers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnswers",
 })) as any;
 
 export type ListCheckDetailsError =
@@ -4089,7 +4215,7 @@ export type ListCheckDetailsError =
  * List of Trusted Advisor check details by account related to the workload.
  */
 export const listCheckDetails: API.PaginatedOperationMethod<
-  ListCheckDetailsInput,
+  ListCheckDetailsInput & RegionInput,
   ListCheckDetailsOutput,
   ListCheckDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -4112,6 +4238,8 @@ export const listCheckDetails: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCheckDetails",
 })) as any;
 
 export type ListCheckSummariesError =
@@ -4125,7 +4253,7 @@ export type ListCheckSummariesError =
  * List of Trusted Advisor checks summarized for all accounts related to the workload.
  */
 export const listCheckSummaries: API.PaginatedOperationMethod<
-  ListCheckSummariesInput,
+  ListCheckSummariesInput & RegionInput,
   ListCheckSummariesOutput,
   ListCheckSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -4148,6 +4276,8 @@ export const listCheckSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCheckSummaries",
 })) as any;
 
 export type ListLensesError =
@@ -4160,7 +4290,7 @@ export type ListLensesError =
  * List the available lenses.
  */
 export const listLenses: API.PaginatedOperationMethod<
-  ListLensesInput,
+  ListLensesInput & RegionInput,
   ListLensesOutput,
   ListLensesError,
   Credentials | HttpClient.HttpClient,
@@ -4182,6 +4312,8 @@ export const listLenses: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLenses",
 })) as any;
 
 export type ListLensReviewImprovementsError =
@@ -4195,7 +4327,7 @@ export type ListLensReviewImprovementsError =
  * List the improvements of a particular lens review.
  */
 export const listLensReviewImprovements: API.PaginatedOperationMethod<
-  ListLensReviewImprovementsInput,
+  ListLensReviewImprovementsInput & RegionInput,
   ListLensReviewImprovementsOutput,
   ListLensReviewImprovementsError,
   Credentials | HttpClient.HttpClient,
@@ -4218,6 +4350,8 @@ export const listLensReviewImprovements: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLensReviewImprovements",
 })) as any;
 
 export type ListLensReviewsError =
@@ -4231,7 +4365,7 @@ export type ListLensReviewsError =
  * List lens reviews for a particular workload.
  */
 export const listLensReviews: API.PaginatedOperationMethod<
-  ListLensReviewsInput,
+  ListLensReviewsInput & RegionInput,
   ListLensReviewsOutput,
   ListLensReviewsError,
   Credentials | HttpClient.HttpClient,
@@ -4254,6 +4388,8 @@ export const listLensReviews: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLensReviews",
 })) as any;
 
 export type ListLensSharesError =
@@ -4267,7 +4403,7 @@ export type ListLensSharesError =
  * List the lens shares associated with the lens.
  */
 export const listLensShares: API.PaginatedOperationMethod<
-  ListLensSharesInput,
+  ListLensSharesInput & RegionInput,
   ListLensSharesOutput,
   ListLensSharesError,
   Credentials | HttpClient.HttpClient,
@@ -4290,6 +4426,8 @@ export const listLensShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLensShares",
 })) as any;
 
 export type ListMilestonesError =
@@ -4303,7 +4441,7 @@ export type ListMilestonesError =
  * List all milestones for an existing workload.
  */
 export const listMilestones: API.PaginatedOperationMethod<
-  ListMilestonesInput,
+  ListMilestonesInput & RegionInput,
   ListMilestonesOutput,
   ListMilestonesError,
   Credentials | HttpClient.HttpClient,
@@ -4326,6 +4464,8 @@ export const listMilestones: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMilestones",
 })) as any;
 
 export type ListNotificationsError =
@@ -4338,7 +4478,7 @@ export type ListNotificationsError =
  * List lens notifications.
  */
 export const listNotifications: API.PaginatedOperationMethod<
-  ListNotificationsInput,
+  ListNotificationsInput & RegionInput,
   ListNotificationsOutput,
   ListNotificationsError,
   Credentials | HttpClient.HttpClient,
@@ -4360,6 +4500,8 @@ export const listNotifications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotifications",
 })) as any;
 
 export type ListProfileNotificationsError =
@@ -4372,7 +4514,7 @@ export type ListProfileNotificationsError =
  * List profile notifications.
  */
 export const listProfileNotifications: API.PaginatedOperationMethod<
-  ListProfileNotificationsInput,
+  ListProfileNotificationsInput & RegionInput,
   ListProfileNotificationsOutput,
   ListProfileNotificationsError,
   Credentials | HttpClient.HttpClient,
@@ -4394,6 +4536,8 @@ export const listProfileNotifications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileNotifications",
 })) as any;
 
 export type ListProfilesError =
@@ -4406,7 +4550,7 @@ export type ListProfilesError =
  * List profiles.
  */
 export const listProfiles: API.PaginatedOperationMethod<
-  ListProfilesInput,
+  ListProfilesInput & RegionInput,
   ListProfilesOutput,
   ListProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -4428,6 +4572,8 @@ export const listProfiles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfiles",
 })) as any;
 
 export type ListProfileSharesError =
@@ -4441,7 +4587,7 @@ export type ListProfileSharesError =
  * List profile shares.
  */
 export const listProfileShares: API.PaginatedOperationMethod<
-  ListProfileSharesInput,
+  ListProfileSharesInput & RegionInput,
   ListProfileSharesOutput,
   ListProfileSharesError,
   Credentials | HttpClient.HttpClient,
@@ -4464,6 +4610,8 @@ export const listProfileShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileShares",
 })) as any;
 
 export type ListReviewTemplateAnswersError =
@@ -4477,7 +4625,7 @@ export type ListReviewTemplateAnswersError =
  * List the answers of a review template.
  */
 export const listReviewTemplateAnswers: API.PaginatedOperationMethod<
-  ListReviewTemplateAnswersInput,
+  ListReviewTemplateAnswersInput & RegionInput,
   ListReviewTemplateAnswersOutput,
   ListReviewTemplateAnswersError,
   Credentials | HttpClient.HttpClient,
@@ -4500,6 +4648,8 @@ export const listReviewTemplateAnswers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReviewTemplateAnswers",
 })) as any;
 
 export type ListReviewTemplatesError =
@@ -4512,7 +4662,7 @@ export type ListReviewTemplatesError =
  * List review templates.
  */
 export const listReviewTemplates: API.PaginatedOperationMethod<
-  ListReviewTemplatesInput,
+  ListReviewTemplatesInput & RegionInput,
   ListReviewTemplatesOutput,
   ListReviewTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4534,6 +4684,8 @@ export const listReviewTemplates: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReviewTemplates",
 })) as any;
 
 export type ListShareInvitationsError =
@@ -4548,7 +4700,7 @@ export type ListShareInvitationsError =
  * `WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and `TemplateNamePrefix` are mutually exclusive. Use the parameter that matches your `ShareResourceType`.
  */
 export const listShareInvitations: API.PaginatedOperationMethod<
-  ListShareInvitationsInput,
+  ListShareInvitationsInput & RegionInput,
   ListShareInvitationsOutput,
   ListShareInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -4570,6 +4722,8 @@ export const listShareInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListShareInvitations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4582,7 +4736,7 @@ export type ListTagsForResourceError =
  * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4593,6 +4747,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplateSharesError =
@@ -4606,7 +4762,7 @@ export type ListTemplateSharesError =
  * List review template shares.
  */
 export const listTemplateShares: API.PaginatedOperationMethod<
-  ListTemplateSharesInput,
+  ListTemplateSharesInput & RegionInput,
   ListTemplateSharesOutput,
   ListTemplateSharesError,
   Credentials | HttpClient.HttpClient,
@@ -4629,6 +4785,8 @@ export const listTemplateShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateShares",
 })) as any;
 
 export type ListWorkloadsError =
@@ -4641,7 +4799,7 @@ export type ListWorkloadsError =
  * Paginated list of workloads.
  */
 export const listWorkloads: API.PaginatedOperationMethod<
-  ListWorkloadsInput,
+  ListWorkloadsInput & RegionInput,
   ListWorkloadsOutput,
   ListWorkloadsError,
   Credentials | HttpClient.HttpClient,
@@ -4663,6 +4821,8 @@ export const listWorkloads: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloads",
 })) as any;
 
 export type ListWorkloadSharesError =
@@ -4676,7 +4836,7 @@ export type ListWorkloadSharesError =
  * List the workload shares associated with the workload.
  */
 export const listWorkloadShares: API.PaginatedOperationMethod<
-  ListWorkloadSharesInput,
+  ListWorkloadSharesInput & RegionInput,
   ListWorkloadSharesOutput,
   ListWorkloadSharesError,
   Credentials | HttpClient.HttpClient,
@@ -4699,6 +4859,8 @@ export const listWorkloadShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadShares",
 })) as any;
 
 export type PutAgentRecommendationFeedbackError =
@@ -4712,7 +4874,7 @@ export type PutAgentRecommendationFeedbackError =
  * Submits user feedback on a recommendation to help improve future optimization suggestions and track implementation outcomes.
  */
 export const putAgentRecommendationFeedback: API.OperationMethod<
-  PutAgentRecommendationFeedbackRequest,
+  PutAgentRecommendationFeedbackRequest & RegionInput,
   PutAgentRecommendationFeedbackResponse,
   PutAgentRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -4729,6 +4891,8 @@ export const putAgentRecommendationFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAgentRecommendationFeedback",
+  telemetry: TELEMETRY,
+  span: "PutAgentRecommendationFeedback",
 }));
 
 export type StartAgentRecommendationGenerationError =
@@ -4743,7 +4907,7 @@ export type StartAgentRecommendationGenerationError =
  * Initiates a new recommendation generation process for the specified optimization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGeneration to check status.
  */
 export const startAgentRecommendationGeneration: API.OperationMethod<
-  StartAgentRecommendationGenerationRequest,
+  StartAgentRecommendationGenerationRequest & RegionInput,
   StartAgentRecommendationGenerationResponse,
   StartAgentRecommendationGenerationError,
   Credentials | HttpClient.HttpClient
@@ -4761,6 +4925,8 @@ export const startAgentRecommendationGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAgentRecommendationGeneration",
+  telemetry: TELEMETRY,
+  span: "StartAgentRecommendationGeneration",
 }));
 
 export type TagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -4770,7 +4936,7 @@ export type TagResourceError = InternalServerException | ResourceNotFoundExcepti
  * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4781,6 +4947,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -4794,7 +4962,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * `DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2`
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4805,6 +4973,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentContextError =
@@ -4818,7 +4988,7 @@ export type UpdateAgentContextError =
  * Updates an existing context associated with a profile.
  */
 export const updateAgentContext: API.OperationMethod<
-  UpdateAgentContextRequest,
+  UpdateAgentContextRequest & RegionInput,
   UpdateAgentContextResponse,
   UpdateAgentContextError,
   Credentials | HttpClient.HttpClient
@@ -4835,6 +5005,8 @@ export const updateAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentContext",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentContext",
 }));
 
 export type UpdateAgentGoalError =
@@ -4848,7 +5020,7 @@ export type UpdateAgentGoalError =
  * Updates the pillars and title of an existing goal associated with a profile.
  */
 export const updateAgentGoal: API.OperationMethod<
-  UpdateAgentGoalRequest,
+  UpdateAgentGoalRequest & RegionInput,
   UpdateAgentGoalResponse,
   UpdateAgentGoalError,
   Credentials | HttpClient.HttpClient
@@ -4865,6 +5037,8 @@ export const updateAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentGoal",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentGoal",
 }));
 
 export type UpdateAgentProfileError =
@@ -4878,7 +5052,7 @@ export type UpdateAgentProfileError =
  * Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings.
  */
 export const updateAgentProfile: API.OperationMethod<
-  UpdateAgentProfileRequest,
+  UpdateAgentProfileRequest & RegionInput,
   UpdateAgentProfileResponse,
   UpdateAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -4895,6 +5069,8 @@ export const updateAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentProfile",
 }));
 
 export type UpdateAgentRecommendationStatusError =
@@ -4908,7 +5084,7 @@ export type UpdateAgentRecommendationStatusError =
  * Updates the status of a recommendation to track its progress through the implementation lifecycle.
  */
 export const updateAgentRecommendationStatus: API.OperationMethod<
-  UpdateAgentRecommendationStatusRequest,
+  UpdateAgentRecommendationStatusRequest & RegionInput,
   UpdateAgentRecommendationStatusResponse,
   UpdateAgentRecommendationStatusError,
   Credentials | HttpClient.HttpClient
@@ -4925,6 +5101,8 @@ export const updateAgentRecommendationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentRecommendationStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentRecommendationStatus",
 }));
 
 export type UpdateAnswerError =
@@ -4939,7 +5117,7 @@ export type UpdateAnswerError =
  * Update the answer to a specific question in a workload review.
  */
 export const updateAnswer: API.OperationMethod<
-  UpdateAnswerInput,
+  UpdateAnswerInput & RegionInput,
   UpdateAnswerOutput,
   UpdateAnswerError,
   Credentials | HttpClient.HttpClient
@@ -4957,6 +5135,8 @@ export const updateAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnswer",
+  telemetry: TELEMETRY,
+  span: "UpdateAnswer",
 }));
 
 export type UpdateGlobalSettingsError =
@@ -4970,7 +5150,7 @@ export type UpdateGlobalSettingsError =
  * Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
  */
 export const updateGlobalSettings: API.OperationMethod<
-  UpdateGlobalSettingsInput,
+  UpdateGlobalSettingsInput & RegionInput,
   UpdateGlobalSettingsResponse,
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4987,6 +5167,8 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalSettings",
 }));
 
 export type UpdateIntegrationError =
@@ -5001,7 +5183,7 @@ export type UpdateIntegrationError =
  * Update integration features.
  */
 export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationInput,
+  UpdateIntegrationInput & RegionInput,
   UpdateIntegrationResponse,
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -5019,6 +5201,8 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegration",
 }));
 
 export type UpdateLensReviewError =
@@ -5033,7 +5217,7 @@ export type UpdateLensReviewError =
  * Update lens review for a particular workload.
  */
 export const updateLensReview: API.OperationMethod<
-  UpdateLensReviewInput,
+  UpdateLensReviewInput & RegionInput,
   UpdateLensReviewOutput,
   UpdateLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -5051,6 +5235,8 @@ export const updateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLensReview",
+  telemetry: TELEMETRY,
+  span: "UpdateLensReview",
 }));
 
 export type UpdateProfileError =
@@ -5065,7 +5251,7 @@ export type UpdateProfileError =
  * Update a profile.
  */
 export const updateProfile: API.OperationMethod<
-  UpdateProfileInput,
+  UpdateProfileInput & RegionInput,
   UpdateProfileOutput,
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
@@ -5083,6 +5269,8 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 export type UpdateReviewTemplateError =
@@ -5097,7 +5285,7 @@ export type UpdateReviewTemplateError =
  * Update a review template.
  */
 export const updateReviewTemplate: API.OperationMethod<
-  UpdateReviewTemplateInput,
+  UpdateReviewTemplateInput & RegionInput,
   UpdateReviewTemplateOutput,
   UpdateReviewTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5115,6 +5303,8 @@ export const updateReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReviewTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateReviewTemplate",
 }));
 
 export type UpdateReviewTemplateAnswerError =
@@ -5129,7 +5319,7 @@ export type UpdateReviewTemplateAnswerError =
  * Update a review template answer.
  */
 export const updateReviewTemplateAnswer: API.OperationMethod<
-  UpdateReviewTemplateAnswerInput,
+  UpdateReviewTemplateAnswerInput & RegionInput,
   UpdateReviewTemplateAnswerOutput,
   UpdateReviewTemplateAnswerError,
   Credentials | HttpClient.HttpClient
@@ -5147,6 +5337,8 @@ export const updateReviewTemplateAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReviewTemplateAnswer",
+  telemetry: TELEMETRY,
+  span: "UpdateReviewTemplateAnswer",
 }));
 
 export type UpdateReviewTemplateLensReviewError =
@@ -5161,7 +5353,7 @@ export type UpdateReviewTemplateLensReviewError =
  * Update a lens review associated with a review template.
  */
 export const updateReviewTemplateLensReview: API.OperationMethod<
-  UpdateReviewTemplateLensReviewInput,
+  UpdateReviewTemplateLensReviewInput & RegionInput,
   UpdateReviewTemplateLensReviewOutput,
   UpdateReviewTemplateLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -5179,6 +5371,8 @@ export const updateReviewTemplateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReviewTemplateLensReview",
+  telemetry: TELEMETRY,
+  span: "UpdateReviewTemplateLensReview",
 }));
 
 export type UpdateShareInvitationError =
@@ -5195,7 +5389,7 @@ export type UpdateShareInvitationError =
  * This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
  */
 export const updateShareInvitation: API.OperationMethod<
-  UpdateShareInvitationInput,
+  UpdateShareInvitationInput & RegionInput,
   UpdateShareInvitationOutput,
   UpdateShareInvitationError,
   Credentials | HttpClient.HttpClient
@@ -5213,6 +5407,8 @@ export const updateShareInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateShareInvitation",
+  telemetry: TELEMETRY,
+  span: "UpdateShareInvitation",
 }));
 
 export type UpdateWorkloadError =
@@ -5227,7 +5423,7 @@ export type UpdateWorkloadError =
  * Update an existing workload.
  */
 export const updateWorkload: API.OperationMethod<
-  UpdateWorkloadInput,
+  UpdateWorkloadInput & RegionInput,
   UpdateWorkloadOutput,
   UpdateWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -5245,6 +5441,8 @@ export const updateWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkload",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkload",
 }));
 
 export type UpdateWorkloadShareError =
@@ -5259,7 +5457,7 @@ export type UpdateWorkloadShareError =
  * Update a workload share.
  */
 export const updateWorkloadShare: API.OperationMethod<
-  UpdateWorkloadShareInput,
+  UpdateWorkloadShareInput & RegionInput,
   UpdateWorkloadShareOutput,
   UpdateWorkloadShareError,
   Credentials | HttpClient.HttpClient
@@ -5277,6 +5475,8 @@ export const updateWorkloadShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadShare",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkloadShare",
 }));
 
 export type UpgradeLensReviewError =
@@ -5292,7 +5492,7 @@ export type UpgradeLensReviewError =
  * Upgrade lens review for a particular workload.
  */
 export const upgradeLensReview: API.OperationMethod<
-  UpgradeLensReviewInput,
+  UpgradeLensReviewInput & RegionInput,
   UpgradeLensReviewResponse,
   UpgradeLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -5311,6 +5511,8 @@ export const upgradeLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeLensReview",
+  telemetry: TELEMETRY,
+  span: "UpgradeLensReview",
 }));
 
 export type UpgradeProfileVersionError =
@@ -5326,7 +5528,7 @@ export type UpgradeProfileVersionError =
  * Upgrade a profile.
  */
 export const upgradeProfileVersion: API.OperationMethod<
-  UpgradeProfileVersionInput,
+  UpgradeProfileVersionInput & RegionInput,
   UpgradeProfileVersionResponse,
   UpgradeProfileVersionError,
   Credentials | HttpClient.HttpClient
@@ -5345,6 +5547,8 @@ export const upgradeProfileVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeProfileVersion",
+  telemetry: TELEMETRY,
+  span: "UpgradeProfileVersion",
 }));
 
 export type UpgradeReviewTemplateLensReviewError =
@@ -5359,7 +5563,7 @@ export type UpgradeReviewTemplateLensReviewError =
  * Upgrade the lens review of a review template.
  */
 export const upgradeReviewTemplateLensReview: API.OperationMethod<
-  UpgradeReviewTemplateLensReviewInput,
+  UpgradeReviewTemplateLensReviewInput & RegionInput,
   UpgradeReviewTemplateLensReviewResponse,
   UpgradeReviewTemplateLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -5377,6 +5581,8 @@ export const upgradeReviewTemplateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeReviewTemplateLensReview",
+  telemetry: TELEMETRY,
+  span: "UpgradeReviewTemplateLensReview",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

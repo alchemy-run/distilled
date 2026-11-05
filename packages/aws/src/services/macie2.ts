@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://macie2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Macie2",
+  service: "Macie2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1900,7 +1916,7 @@ export type AcceptInvitationError =
  * Accepts an Amazon Macie membership invitation that was received from a specific account.
  */
 export const acceptInvitation: API.OperationMethod<
-  AcceptInvitationRequest,
+  AcceptInvitationRequest & RegionInput,
   AcceptInvitationResponse,
   AcceptInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1919,6 +1935,8 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptInvitation",
 }));
 
 export type BatchGetCustomDataIdentifiersError =
@@ -1934,7 +1952,7 @@ export type BatchGetCustomDataIdentifiersError =
  * Retrieves information about one or more custom data identifiers.
  */
 export const batchGetCustomDataIdentifiers: API.OperationMethod<
-  BatchGetCustomDataIdentifiersRequest,
+  BatchGetCustomDataIdentifiersRequest & RegionInput,
   BatchGetCustomDataIdentifiersResponse,
   BatchGetCustomDataIdentifiersError,
   Credentials | HttpClient.HttpClient
@@ -1953,6 +1971,8 @@ export const batchGetCustomDataIdentifiers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCustomDataIdentifiers",
+  telemetry: TELEMETRY,
+  span: "BatchGetCustomDataIdentifiers",
 }));
 
 export type BatchUpdateAutomatedDiscoveryAccountsError =
@@ -1966,7 +1986,7 @@ export type BatchUpdateAutomatedDiscoveryAccountsError =
  * Changes the status of automated sensitive data discovery for one or more accounts.
  */
 export const batchUpdateAutomatedDiscoveryAccounts: API.OperationMethod<
-  BatchUpdateAutomatedDiscoveryAccountsRequest,
+  BatchUpdateAutomatedDiscoveryAccountsRequest & RegionInput,
   BatchUpdateAutomatedDiscoveryAccountsResponse,
   BatchUpdateAutomatedDiscoveryAccountsError,
   Credentials | HttpClient.HttpClient
@@ -1983,6 +2003,8 @@ export const batchUpdateAutomatedDiscoveryAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateAutomatedDiscoveryAccounts",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateAutomatedDiscoveryAccounts",
 }));
 
 export type CreateAllowListError =
@@ -1999,7 +2021,7 @@ export type CreateAllowListError =
  * Creates and defines the settings for an allow list.
  */
 export const createAllowList: API.OperationMethod<
-  CreateAllowListRequest,
+  CreateAllowListRequest & RegionInput,
   CreateAllowListResponse,
   CreateAllowListError,
   Credentials | HttpClient.HttpClient
@@ -2019,6 +2041,8 @@ export const createAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAllowList",
+  telemetry: TELEMETRY,
+  span: "CreateAllowList",
 }));
 
 export type CreateClassificationJobError =
@@ -2035,7 +2059,7 @@ export type CreateClassificationJobError =
  * Creates and defines the settings for a classification job.
  */
 export const createClassificationJob: API.OperationMethod<
-  CreateClassificationJobRequest,
+  CreateClassificationJobRequest & RegionInput,
   CreateClassificationJobResponse,
   CreateClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -2055,6 +2079,8 @@ export const createClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClassificationJob",
+  telemetry: TELEMETRY,
+  span: "CreateClassificationJob",
 }));
 
 export type CreateCustomDataIdentifierError =
@@ -2071,7 +2097,7 @@ export type CreateCustomDataIdentifierError =
  * Creates and defines the criteria and other settings for a custom data identifier.
  */
 export const createCustomDataIdentifier: API.OperationMethod<
-  CreateCustomDataIdentifierRequest,
+  CreateCustomDataIdentifierRequest & RegionInput,
   CreateCustomDataIdentifierResponse,
   CreateCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -2091,6 +2117,8 @@ export const createCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDataIdentifier",
+  telemetry: TELEMETRY,
+  span: "CreateCustomDataIdentifier",
 }));
 
 export type CreateFindingsFilterError =
@@ -2107,7 +2135,7 @@ export type CreateFindingsFilterError =
  * Creates and defines the criteria and other settings for a findings filter.
  */
 export const createFindingsFilter: API.OperationMethod<
-  CreateFindingsFilterRequest,
+  CreateFindingsFilterRequest & RegionInput,
   CreateFindingsFilterResponse,
   CreateFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -2127,6 +2155,8 @@ export const createFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFindingsFilter",
+  telemetry: TELEMETRY,
+  span: "CreateFindingsFilter",
 }));
 
 export type CreateInvitationsError =
@@ -2142,7 +2172,7 @@ export type CreateInvitationsError =
  * Sends an Amazon Macie membership invitation to one or more accounts.
  */
 export const createInvitations: API.OperationMethod<
-  CreateInvitationsRequest,
+  CreateInvitationsRequest & RegionInput,
   CreateInvitationsResponse,
   CreateInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -2161,6 +2191,8 @@ export const createInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvitations",
+  telemetry: TELEMETRY,
+  span: "CreateInvitations",
 }));
 
 export type CreateMemberError =
@@ -2176,7 +2208,7 @@ export type CreateMemberError =
  * Associates an account with an Amazon Macie administrator account.
  */
 export const createMember: API.OperationMethod<
-  CreateMemberRequest,
+  CreateMemberRequest & RegionInput,
   CreateMemberResponse,
   CreateMemberError,
   Credentials | HttpClient.HttpClient
@@ -2195,6 +2227,8 @@ export const createMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMember",
+  telemetry: TELEMETRY,
+  span: "CreateMember",
 }));
 
 export type CreateSampleFindingsError =
@@ -2210,7 +2244,7 @@ export type CreateSampleFindingsError =
  * Creates sample findings.
  */
 export const createSampleFindings: API.OperationMethod<
-  CreateSampleFindingsRequest,
+  CreateSampleFindingsRequest & RegionInput,
   CreateSampleFindingsResponse,
   CreateSampleFindingsError,
   Credentials | HttpClient.HttpClient
@@ -2229,6 +2263,8 @@ export const createSampleFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSampleFindings",
+  telemetry: TELEMETRY,
+  span: "CreateSampleFindings",
 }));
 
 export type DeclineInvitationsError =
@@ -2244,7 +2280,7 @@ export type DeclineInvitationsError =
  * Declines Amazon Macie membership invitations that were received from specific accounts.
  */
 export const declineInvitations: API.OperationMethod<
-  DeclineInvitationsRequest,
+  DeclineInvitationsRequest & RegionInput,
   DeclineInvitationsResponse,
   DeclineInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -2263,6 +2299,8 @@ export const declineInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineInvitations",
+  telemetry: TELEMETRY,
+  span: "DeclineInvitations",
 }));
 
 export type DeleteAllowListError =
@@ -2276,7 +2314,7 @@ export type DeleteAllowListError =
  * Deletes an allow list.
  */
 export const deleteAllowList: API.OperationMethod<
-  DeleteAllowListRequest,
+  DeleteAllowListRequest & RegionInput,
   DeleteAllowListResponse,
   DeleteAllowListError,
   Credentials | HttpClient.HttpClient
@@ -2293,6 +2331,8 @@ export const deleteAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAllowList",
+  telemetry: TELEMETRY,
+  span: "DeleteAllowList",
 }));
 
 export type DeleteCustomDataIdentifierError =
@@ -2308,7 +2348,7 @@ export type DeleteCustomDataIdentifierError =
  * Soft deletes a custom data identifier.
  */
 export const deleteCustomDataIdentifier: API.OperationMethod<
-  DeleteCustomDataIdentifierRequest,
+  DeleteCustomDataIdentifierRequest & RegionInput,
   DeleteCustomDataIdentifierResponse,
   DeleteCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -2327,6 +2367,8 @@ export const deleteCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDataIdentifier",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDataIdentifier",
 }));
 
 export type DeleteFindingsFilterError =
@@ -2342,7 +2384,7 @@ export type DeleteFindingsFilterError =
  * Deletes a findings filter.
  */
 export const deleteFindingsFilter: API.OperationMethod<
-  DeleteFindingsFilterRequest,
+  DeleteFindingsFilterRequest & RegionInput,
   DeleteFindingsFilterResponse,
   DeleteFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -2361,6 +2403,8 @@ export const deleteFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFindingsFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteFindingsFilter",
 }));
 
 export type DeleteInvitationsError =
@@ -2376,7 +2420,7 @@ export type DeleteInvitationsError =
  * Deletes Amazon Macie membership invitations that were received from specific accounts.
  */
 export const deleteInvitations: API.OperationMethod<
-  DeleteInvitationsRequest,
+  DeleteInvitationsRequest & RegionInput,
   DeleteInvitationsResponse,
   DeleteInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -2395,6 +2439,8 @@ export const deleteInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvitations",
+  telemetry: TELEMETRY,
+  span: "DeleteInvitations",
 }));
 
 export type DeleteMemberError =
@@ -2410,7 +2456,7 @@ export type DeleteMemberError =
  * Deletes the association between an Amazon Macie administrator account and an account.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberRequest,
+  DeleteMemberRequest & RegionInput,
   DeleteMemberResponse,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
@@ -2429,6 +2475,8 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DescribeBucketsError =
@@ -2444,7 +2492,7 @@ export type DescribeBucketsError =
  * Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
 export const describeBuckets: API.PaginatedOperationMethod<
-  DescribeBucketsRequest,
+  DescribeBucketsRequest & RegionInput,
   DescribeBucketsResponse,
   DescribeBucketsError,
   Credentials | HttpClient.HttpClient,
@@ -2470,6 +2518,8 @@ export const describeBuckets: API.PaginatedOperationMethod<
     items: "buckets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBuckets",
 })) as any;
 
 export type DescribeClassificationJobError =
@@ -2485,7 +2535,7 @@ export type DescribeClassificationJobError =
  * Retrieves the status and settings for a classification job.
  */
 export const describeClassificationJob: API.OperationMethod<
-  DescribeClassificationJobRequest,
+  DescribeClassificationJobRequest & RegionInput,
   DescribeClassificationJobResponse,
   DescribeClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -2504,6 +2554,8 @@ export const describeClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClassificationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeClassificationJob",
 }));
 
 export type DescribeOrganizationConfigurationError =
@@ -2519,7 +2571,7 @@ export type DescribeOrganizationConfigurationError =
  * Retrieves the Amazon Macie configuration settings for an organization in Organizations.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2538,6 +2590,8 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfiguration",
 }));
 
 export type DisableMacieError =
@@ -2553,7 +2607,7 @@ export type DisableMacieError =
  * Disables Amazon Macie and deletes all settings and resources for a Macie account.
  */
 export const disableMacie: API.OperationMethod<
-  DisableMacieRequest,
+  DisableMacieRequest & RegionInput,
   DisableMacieResponse,
   DisableMacieError,
   Credentials | HttpClient.HttpClient
@@ -2572,6 +2626,8 @@ export const disableMacie: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableMacie",
+  telemetry: TELEMETRY,
+  span: "DisableMacie",
 }));
 
 export type DisableOrganizationAdminAccountError =
@@ -2587,7 +2643,7 @@ export type DisableOrganizationAdminAccountError =
  * Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
 export const disableOrganizationAdminAccount: API.OperationMethod<
-  DisableOrganizationAdminAccountRequest,
+  DisableOrganizationAdminAccountRequest & RegionInput,
   DisableOrganizationAdminAccountResponse,
   DisableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2606,6 +2662,8 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DisableOrganizationAdminAccount",
 }));
 
 export type DisassociateFromAdministratorAccountError =
@@ -2621,7 +2679,7 @@ export type DisassociateFromAdministratorAccountError =
  * Disassociates a member account from its Amazon Macie administrator account.
  */
 export const disassociateFromAdministratorAccount: API.OperationMethod<
-  DisassociateFromAdministratorAccountRequest,
+  DisassociateFromAdministratorAccountRequest & RegionInput,
   DisassociateFromAdministratorAccountResponse,
   DisassociateFromAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -2640,6 +2698,8 @@ export const disassociateFromAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromAdministratorAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromAdministratorAccount",
 }));
 
 export type DisassociateFromMasterAccountError =
@@ -2655,7 +2715,7 @@ export type DisassociateFromMasterAccountError =
  * (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
  */
 export const disassociateFromMasterAccount: API.OperationMethod<
-  DisassociateFromMasterAccountRequest,
+  DisassociateFromMasterAccountRequest & RegionInput,
   DisassociateFromMasterAccountResponse,
   DisassociateFromMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -2674,6 +2734,8 @@ export const disassociateFromMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromMasterAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromMasterAccount",
 }));
 
 export type DisassociateMemberError =
@@ -2689,7 +2751,7 @@ export type DisassociateMemberError =
  * Disassociates an Amazon Macie administrator account from a member account.
  */
 export const disassociateMember: API.OperationMethod<
-  DisassociateMemberRequest,
+  DisassociateMemberRequest & RegionInput,
   DisassociateMemberResponse,
   DisassociateMemberError,
   Credentials | HttpClient.HttpClient
@@ -2708,6 +2770,8 @@ export const disassociateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMember",
+  telemetry: TELEMETRY,
+  span: "DisassociateMember",
 }));
 
 export type EnableMacieError =
@@ -2723,7 +2787,7 @@ export type EnableMacieError =
  * Enables Amazon Macie and specifies the configuration settings for a Macie account.
  */
 export const enableMacie: API.OperationMethod<
-  EnableMacieRequest,
+  EnableMacieRequest & RegionInput,
   EnableMacieResponse,
   EnableMacieError,
   Credentials | HttpClient.HttpClient
@@ -2742,6 +2806,8 @@ export const enableMacie: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMacie",
+  telemetry: TELEMETRY,
+  span: "EnableMacie",
 }));
 
 export type EnableOrganizationAdminAccountError =
@@ -2757,7 +2823,7 @@ export type EnableOrganizationAdminAccountError =
  * Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
 export const enableOrganizationAdminAccount: API.OperationMethod<
-  EnableOrganizationAdminAccountRequest,
+  EnableOrganizationAdminAccountRequest & RegionInput,
   EnableOrganizationAdminAccountResponse,
   EnableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2776,6 +2842,8 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "EnableOrganizationAdminAccount",
 }));
 
 export type GetAdministratorAccountError =
@@ -2791,7 +2859,7 @@ export type GetAdministratorAccountError =
  * Retrieves information about the Amazon Macie administrator account for an account.
  */
 export const getAdministratorAccount: API.OperationMethod<
-  GetAdministratorAccountRequest,
+  GetAdministratorAccountRequest & RegionInput,
   GetAdministratorAccountResponse,
   GetAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -2810,6 +2878,8 @@ export const getAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdministratorAccount",
+  telemetry: TELEMETRY,
+  span: "GetAdministratorAccount",
 }));
 
 export type GetAllowListError =
@@ -2823,7 +2893,7 @@ export type GetAllowListError =
  * Retrieves the settings and status of an allow list.
  */
 export const getAllowList: API.OperationMethod<
-  GetAllowListRequest,
+  GetAllowListRequest & RegionInput,
   GetAllowListResponse,
   GetAllowListError,
   Credentials | HttpClient.HttpClient
@@ -2840,6 +2910,8 @@ export const getAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAllowList",
+  telemetry: TELEMETRY,
+  span: "GetAllowList",
 }));
 
 export type GetAutomatedDiscoveryConfigurationError =
@@ -2852,7 +2924,7 @@ export type GetAutomatedDiscoveryConfigurationError =
  * Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
 export const getAutomatedDiscoveryConfiguration: API.OperationMethod<
-  GetAutomatedDiscoveryConfigurationRequest,
+  GetAutomatedDiscoveryConfigurationRequest & RegionInput,
   GetAutomatedDiscoveryConfigurationResponse,
   GetAutomatedDiscoveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2868,6 +2940,8 @@ export const getAutomatedDiscoveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedDiscoveryConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetAutomatedDiscoveryConfiguration",
 }));
 
 export type GetBucketStatisticsError =
@@ -2883,7 +2957,7 @@ export type GetBucketStatisticsError =
  * Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
 export const getBucketStatistics: API.OperationMethod<
-  GetBucketStatisticsRequest,
+  GetBucketStatisticsRequest & RegionInput,
   GetBucketStatisticsResponse,
   GetBucketStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2902,6 +2976,8 @@ export const getBucketStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketStatistics",
+  telemetry: TELEMETRY,
+  span: "GetBucketStatistics",
 }));
 
 export type GetClassificationExportConfigurationError =
@@ -2917,7 +2993,7 @@ export type GetClassificationExportConfigurationError =
  * Retrieves the configuration settings for storing data classification results.
  */
 export const getClassificationExportConfiguration: API.OperationMethod<
-  GetClassificationExportConfigurationRequest,
+  GetClassificationExportConfigurationRequest & RegionInput,
   GetClassificationExportConfigurationResponse,
   GetClassificationExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2936,6 +3012,8 @@ export const getClassificationExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClassificationExportConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetClassificationExportConfiguration",
 }));
 
 export type GetClassificationScopeError =
@@ -2949,7 +3027,7 @@ export type GetClassificationScopeError =
  * Retrieves the classification scope settings for an account.
  */
 export const getClassificationScope: API.OperationMethod<
-  GetClassificationScopeRequest,
+  GetClassificationScopeRequest & RegionInput,
   GetClassificationScopeResponse,
   GetClassificationScopeError,
   Credentials | HttpClient.HttpClient
@@ -2966,6 +3044,8 @@ export const getClassificationScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClassificationScope",
+  telemetry: TELEMETRY,
+  span: "GetClassificationScope",
 }));
 
 export type GetCustomDataIdentifierError =
@@ -2981,7 +3061,7 @@ export type GetCustomDataIdentifierError =
  * Retrieves the criteria and other settings for a custom data identifier.
  */
 export const getCustomDataIdentifier: API.OperationMethod<
-  GetCustomDataIdentifierRequest,
+  GetCustomDataIdentifierRequest & RegionInput,
   GetCustomDataIdentifierResponse,
   GetCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -3000,6 +3080,8 @@ export const getCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDataIdentifier",
+  telemetry: TELEMETRY,
+  span: "GetCustomDataIdentifier",
 }));
 
 export type GetFindingsError =
@@ -3015,7 +3097,7 @@ export type GetFindingsError =
  * Retrieves the details of one or more findings.
  */
 export const getFindings: API.OperationMethod<
-  GetFindingsRequest,
+  GetFindingsRequest & RegionInput,
   GetFindingsResponse,
   GetFindingsError,
   Credentials | HttpClient.HttpClient
@@ -3034,6 +3116,8 @@ export const getFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindings",
+  telemetry: TELEMETRY,
+  span: "GetFindings",
 }));
 
 export type GetFindingsFilterError =
@@ -3049,7 +3133,7 @@ export type GetFindingsFilterError =
  * Retrieves the criteria and other settings for a findings filter.
  */
 export const getFindingsFilter: API.OperationMethod<
-  GetFindingsFilterRequest,
+  GetFindingsFilterRequest & RegionInput,
   GetFindingsFilterResponse,
   GetFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -3068,6 +3152,8 @@ export const getFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsFilter",
+  telemetry: TELEMETRY,
+  span: "GetFindingsFilter",
 }));
 
 export type GetFindingsPublicationConfigurationError =
@@ -3083,7 +3169,7 @@ export type GetFindingsPublicationConfigurationError =
  * Retrieves the configuration settings for publishing findings to Security Hub.
  */
 export const getFindingsPublicationConfiguration: API.OperationMethod<
-  GetFindingsPublicationConfigurationRequest,
+  GetFindingsPublicationConfigurationRequest & RegionInput,
   GetFindingsPublicationConfigurationResponse,
   GetFindingsPublicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3102,6 +3188,8 @@ export const getFindingsPublicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsPublicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetFindingsPublicationConfiguration",
 }));
 
 export type GetFindingStatisticsError =
@@ -3117,7 +3205,7 @@ export type GetFindingStatisticsError =
  * Retrieves (queries) aggregated statistical data about findings.
  */
 export const getFindingStatistics: API.OperationMethod<
-  GetFindingStatisticsRequest,
+  GetFindingStatisticsRequest & RegionInput,
   GetFindingStatisticsResponse,
   GetFindingStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3136,6 +3224,8 @@ export const getFindingStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingStatistics",
+  telemetry: TELEMETRY,
+  span: "GetFindingStatistics",
 }));
 
 export type GetInvitationsCountError =
@@ -3151,7 +3241,7 @@ export type GetInvitationsCountError =
  * Retrieves the count of Amazon Macie membership invitations that were received by an account.
  */
 export const getInvitationsCount: API.OperationMethod<
-  GetInvitationsCountRequest,
+  GetInvitationsCountRequest & RegionInput,
   GetInvitationsCountResponse,
   GetInvitationsCountError,
   Credentials | HttpClient.HttpClient
@@ -3170,6 +3260,8 @@ export const getInvitationsCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvitationsCount",
+  telemetry: TELEMETRY,
+  span: "GetInvitationsCount",
 }));
 
 export type GetMacieSessionError =
@@ -3185,7 +3277,7 @@ export type GetMacieSessionError =
  * Retrieves the status and configuration settings for an Amazon Macie account.
  */
 export const getMacieSession: API.OperationMethod<
-  GetMacieSessionRequest,
+  GetMacieSessionRequest & RegionInput,
   GetMacieSessionResponse,
   GetMacieSessionError,
   Credentials | HttpClient.HttpClient
@@ -3204,6 +3296,8 @@ export const getMacieSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMacieSession",
+  telemetry: TELEMETRY,
+  span: "GetMacieSession",
 }));
 
 export type GetMasterAccountError =
@@ -3219,7 +3313,7 @@ export type GetMasterAccountError =
  * (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
  */
 export const getMasterAccount: API.OperationMethod<
-  GetMasterAccountRequest,
+  GetMasterAccountRequest & RegionInput,
   GetMasterAccountResponse,
   GetMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -3238,6 +3332,8 @@ export const getMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMasterAccount",
+  telemetry: TELEMETRY,
+  span: "GetMasterAccount",
 }));
 
 export type GetMemberError =
@@ -3253,7 +3349,7 @@ export type GetMemberError =
  * Retrieves information about an account that's associated with an Amazon Macie administrator account.
  */
 export const getMember: API.OperationMethod<
-  GetMemberRequest,
+  GetMemberRequest & RegionInput,
   GetMemberResponse,
   GetMemberError,
   Credentials | HttpClient.HttpClient
@@ -3272,6 +3368,8 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetResourceProfileError =
@@ -3286,7 +3384,7 @@ export type GetResourceProfileError =
  * Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
  */
 export const getResourceProfile: API.OperationMethod<
-  GetResourceProfileRequest,
+  GetResourceProfileRequest & RegionInput,
   GetResourceProfileResponse,
   GetResourceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3304,6 +3402,8 @@ export const getResourceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceProfile",
+  telemetry: TELEMETRY,
+  span: "GetResourceProfile",
 }));
 
 export type GetRevealConfigurationError =
@@ -3316,7 +3416,7 @@ export type GetRevealConfigurationError =
  * Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
 export const getRevealConfiguration: API.OperationMethod<
-  GetRevealConfigurationRequest,
+  GetRevealConfigurationRequest & RegionInput,
   GetRevealConfigurationResponse,
   GetRevealConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3332,6 +3432,8 @@ export const getRevealConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevealConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetRevealConfiguration",
 }));
 
 export type GetSensitiveDataOccurrencesError =
@@ -3346,7 +3448,7 @@ export type GetSensitiveDataOccurrencesError =
  * Retrieves occurrences of sensitive data reported by a finding.
  */
 export const getSensitiveDataOccurrences: API.OperationMethod<
-  GetSensitiveDataOccurrencesRequest,
+  GetSensitiveDataOccurrencesRequest & RegionInput,
   GetSensitiveDataOccurrencesResponse,
   GetSensitiveDataOccurrencesError,
   Credentials | HttpClient.HttpClient
@@ -3364,6 +3466,8 @@ export const getSensitiveDataOccurrences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSensitiveDataOccurrences",
+  telemetry: TELEMETRY,
+  span: "GetSensitiveDataOccurrences",
 }));
 
 export type GetSensitiveDataOccurrencesAvailabilityError =
@@ -3376,7 +3480,7 @@ export type GetSensitiveDataOccurrencesAvailabilityError =
  * Checks whether occurrences of sensitive data can be retrieved for a finding.
  */
 export const getSensitiveDataOccurrencesAvailability: API.OperationMethod<
-  GetSensitiveDataOccurrencesAvailabilityRequest,
+  GetSensitiveDataOccurrencesAvailabilityRequest & RegionInput,
   GetSensitiveDataOccurrencesAvailabilityResponse,
   GetSensitiveDataOccurrencesAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -3392,6 +3496,8 @@ export const getSensitiveDataOccurrencesAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSensitiveDataOccurrencesAvailability",
+  telemetry: TELEMETRY,
+  span: "GetSensitiveDataOccurrencesAvailability",
 }));
 
 export type GetSensitivityInspectionTemplateError =
@@ -3405,7 +3511,7 @@ export type GetSensitivityInspectionTemplateError =
  * Retrieves the settings for the sensitivity inspection template for an account.
  */
 export const getSensitivityInspectionTemplate: API.OperationMethod<
-  GetSensitivityInspectionTemplateRequest,
+  GetSensitivityInspectionTemplateRequest & RegionInput,
   GetSensitivityInspectionTemplateResponse,
   GetSensitivityInspectionTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3422,6 +3528,8 @@ export const getSensitivityInspectionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSensitivityInspectionTemplate",
+  telemetry: TELEMETRY,
+  span: "GetSensitivityInspectionTemplate",
 }));
 
 export type GetUsageStatisticsError =
@@ -3437,7 +3545,7 @@ export type GetUsageStatisticsError =
  * Retrieves (queries) quotas and aggregated usage data for one or more accounts.
  */
 export const getUsageStatistics: API.PaginatedOperationMethod<
-  GetUsageStatisticsRequest,
+  GetUsageStatisticsRequest & RegionInput,
   GetUsageStatisticsResponse,
   GetUsageStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -3463,6 +3571,8 @@ export const getUsageStatistics: API.PaginatedOperationMethod<
     items: "records",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUsageStatistics",
 })) as any;
 
 export type GetUsageTotalsError =
@@ -3478,7 +3588,7 @@ export type GetUsageTotalsError =
  * Retrieves (queries) aggregated usage data for an account.
  */
 export const getUsageTotals: API.OperationMethod<
-  GetUsageTotalsRequest,
+  GetUsageTotalsRequest & RegionInput,
   GetUsageTotalsResponse,
   GetUsageTotalsError,
   Credentials | HttpClient.HttpClient
@@ -3497,6 +3607,8 @@ export const getUsageTotals: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsageTotals",
+  telemetry: TELEMETRY,
+  span: "GetUsageTotals",
 }));
 
 export type ListAllowListsError =
@@ -3509,7 +3621,7 @@ export type ListAllowListsError =
  * Retrieves a subset of information about all the allow lists for an account.
  */
 export const listAllowLists: API.PaginatedOperationMethod<
-  ListAllowListsRequest,
+  ListAllowListsRequest & RegionInput,
   ListAllowListsResponse,
   ListAllowListsError,
   Credentials | HttpClient.HttpClient,
@@ -3532,6 +3644,8 @@ export const listAllowLists: API.PaginatedOperationMethod<
     items: "allowLists",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAllowLists",
 })) as any;
 
 export type ListAutomatedDiscoveryAccountsError =
@@ -3545,7 +3659,7 @@ export type ListAutomatedDiscoveryAccountsError =
  * Retrieves the status of automated sensitive data discovery for one or more accounts.
  */
 export const listAutomatedDiscoveryAccounts: API.PaginatedOperationMethod<
-  ListAutomatedDiscoveryAccountsRequest,
+  ListAutomatedDiscoveryAccountsRequest & RegionInput,
   ListAutomatedDiscoveryAccountsResponse,
   ListAutomatedDiscoveryAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -3569,6 +3683,8 @@ export const listAutomatedDiscoveryAccounts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomatedDiscoveryAccounts",
 })) as any;
 
 export type ListClassificationJobsError =
@@ -3584,7 +3700,7 @@ export type ListClassificationJobsError =
  * Retrieves a subset of information about one or more classification jobs.
  */
 export const listClassificationJobs: API.PaginatedOperationMethod<
-  ListClassificationJobsRequest,
+  ListClassificationJobsRequest & RegionInput,
   ListClassificationJobsResponse,
   ListClassificationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3610,6 +3726,8 @@ export const listClassificationJobs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClassificationJobs",
 })) as any;
 
 export type ListClassificationScopesError =
@@ -3622,7 +3740,7 @@ export type ListClassificationScopesError =
  * Retrieves a subset of information about the classification scope for an account.
  */
 export const listClassificationScopes: API.PaginatedOperationMethod<
-  ListClassificationScopesRequest,
+  ListClassificationScopesRequest & RegionInput,
   ListClassificationScopesResponse,
   ListClassificationScopesError,
   Credentials | HttpClient.HttpClient,
@@ -3644,6 +3762,8 @@ export const listClassificationScopes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "classificationScopes",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClassificationScopes",
 })) as any;
 
 export type ListCustomDataIdentifiersError =
@@ -3659,7 +3779,7 @@ export type ListCustomDataIdentifiersError =
  * Retrieves a subset of information about the custom data identifiers for an account.
  */
 export const listCustomDataIdentifiers: API.PaginatedOperationMethod<
-  ListCustomDataIdentifiersRequest,
+  ListCustomDataIdentifiersRequest & RegionInput,
   ListCustomDataIdentifiersResponse,
   ListCustomDataIdentifiersError,
   Credentials | HttpClient.HttpClient,
@@ -3685,6 +3805,8 @@ export const listCustomDataIdentifiers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomDataIdentifiers",
 })) as any;
 
 export type ListFindingsError =
@@ -3700,7 +3822,7 @@ export type ListFindingsError =
  * Retrieves a subset of information about one or more findings.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsRequest,
+  ListFindingsRequest & RegionInput,
   ListFindingsResponse,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -3726,6 +3848,8 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findingIds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListFindingsFiltersError =
@@ -3741,7 +3865,7 @@ export type ListFindingsFiltersError =
  * Retrieves a subset of information about all the findings filters for an account.
  */
 export const listFindingsFilters: API.PaginatedOperationMethod<
-  ListFindingsFiltersRequest,
+  ListFindingsFiltersRequest & RegionInput,
   ListFindingsFiltersResponse,
   ListFindingsFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -3767,6 +3891,8 @@ export const listFindingsFilters: API.PaginatedOperationMethod<
     items: "findingsFilterListItems",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindingsFilters",
 })) as any;
 
 export type ListInvitationsError =
@@ -3782,7 +3908,7 @@ export type ListInvitationsError =
  * Retrieves information about Amazon Macie membership invitations that were received by an account.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsRequest,
+  ListInvitationsRequest & RegionInput,
   ListInvitationsResponse,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -3808,6 +3934,8 @@ export const listInvitations: API.PaginatedOperationMethod<
     items: "invitations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 })) as any;
 
 export type ListManagedDataIdentifiersError = CommonErrors;
@@ -3815,7 +3943,7 @@ export type ListManagedDataIdentifiersError = CommonErrors;
  * Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
  */
 export const listManagedDataIdentifiers: API.PaginatedOperationMethod<
-  ListManagedDataIdentifiersRequest,
+  ListManagedDataIdentifiersRequest & RegionInput,
   ListManagedDataIdentifiersResponse,
   ListManagedDataIdentifiersError,
   Credentials | HttpClient.HttpClient,
@@ -3828,6 +3956,8 @@ export const listManagedDataIdentifiers: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListManagedDataIdentifiers",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "items" } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedDataIdentifiers",
 })) as any;
 
 export type ListMembersError =
@@ -3843,7 +3973,7 @@ export type ListMembersError =
  * Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -3869,6 +3999,8 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListOrganizationAdminAccountsError =
@@ -3884,7 +4016,7 @@ export type ListOrganizationAdminAccountsError =
  * Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
  */
 export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
-  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsRequest & RegionInput,
   ListOrganizationAdminAccountsResponse,
   ListOrganizationAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -3910,6 +4042,8 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     items: "adminAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAdminAccounts",
 })) as any;
 
 export type ListResourceProfileArtifactsError =
@@ -3923,7 +4057,7 @@ export type ListResourceProfileArtifactsError =
  * Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
  */
 export const listResourceProfileArtifacts: API.PaginatedOperationMethod<
-  ListResourceProfileArtifactsRequest,
+  ListResourceProfileArtifactsRequest & RegionInput,
   ListResourceProfileArtifactsResponse,
   ListResourceProfileArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -3942,6 +4076,8 @@ export const listResourceProfileArtifacts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListResourceProfileArtifacts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "artifacts" } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceProfileArtifacts",
 })) as any;
 
 export type ListResourceProfileDetectionsError =
@@ -3956,7 +4092,7 @@ export type ListResourceProfileDetectionsError =
  * Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
  */
 export const listResourceProfileDetections: API.PaginatedOperationMethod<
-  ListResourceProfileDetectionsRequest,
+  ListResourceProfileDetectionsRequest & RegionInput,
   ListResourceProfileDetectionsResponse,
   ListResourceProfileDetectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3981,6 +4117,8 @@ export const listResourceProfileDetections: API.PaginatedOperationMethod<
     items: "detections",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceProfileDetections",
 })) as any;
 
 export type ListSensitivityInspectionTemplatesError =
@@ -3994,7 +4132,7 @@ export type ListSensitivityInspectionTemplatesError =
  * Retrieves a subset of information about the sensitivity inspection template for an account.
  */
 export const listSensitivityInspectionTemplates: API.PaginatedOperationMethod<
-  ListSensitivityInspectionTemplatesRequest,
+  ListSensitivityInspectionTemplatesRequest & RegionInput,
   ListSensitivityInspectionTemplatesResponse,
   ListSensitivityInspectionTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4018,6 +4156,8 @@ export const listSensitivityInspectionTemplates: API.PaginatedOperationMethod<
     items: "sensitivityInspectionTemplates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSensitivityInspectionTemplates",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -4025,7 +4165,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4036,6 +4176,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutClassificationExportConfigurationError =
@@ -4051,7 +4193,7 @@ export type PutClassificationExportConfigurationError =
  * Adds or updates the configuration settings for storing data classification results.
  */
 export const putClassificationExportConfiguration: API.OperationMethod<
-  PutClassificationExportConfigurationRequest,
+  PutClassificationExportConfigurationRequest & RegionInput,
   PutClassificationExportConfigurationResponse,
   PutClassificationExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4070,6 +4212,8 @@ export const putClassificationExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClassificationExportConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutClassificationExportConfiguration",
 }));
 
 export type PutFindingsPublicationConfigurationError =
@@ -4085,7 +4229,7 @@ export type PutFindingsPublicationConfigurationError =
  * Updates the configuration settings for publishing findings to Security Hub.
  */
 export const putFindingsPublicationConfiguration: API.OperationMethod<
-  PutFindingsPublicationConfigurationRequest,
+  PutFindingsPublicationConfigurationRequest & RegionInput,
   PutFindingsPublicationConfigurationResponse,
   PutFindingsPublicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4104,6 +4248,8 @@ export const putFindingsPublicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFindingsPublicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutFindingsPublicationConfiguration",
 }));
 
 export type SearchResourcesError =
@@ -4119,7 +4265,7 @@ export type SearchResourcesError =
  * Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
  */
 export const searchResources: API.PaginatedOperationMethod<
-  SearchResourcesRequest,
+  SearchResourcesRequest & RegionInput,
   SearchResourcesResponse,
   SearchResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4145,6 +4291,8 @@ export const searchResources: API.PaginatedOperationMethod<
     items: "matchingResources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchResources",
 })) as any;
 
 export type TagResourceError = CommonErrors;
@@ -4152,7 +4300,7 @@ export type TagResourceError = CommonErrors;
  * Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4163,6 +4311,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestCustomDataIdentifierError =
@@ -4178,7 +4328,7 @@ export type TestCustomDataIdentifierError =
  * Tests criteria for a custom data identifier.
  */
 export const testCustomDataIdentifier: API.OperationMethod<
-  TestCustomDataIdentifierRequest,
+  TestCustomDataIdentifierRequest & RegionInput,
   TestCustomDataIdentifierResponse,
   TestCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -4197,6 +4347,8 @@ export const testCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestCustomDataIdentifier",
+  telemetry: TELEMETRY,
+  span: "TestCustomDataIdentifier",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -4204,7 +4356,7 @@ export type UntagResourceError = CommonErrors;
  * Removes one or more tags (keys and values) from an Amazon Macie resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4215,6 +4367,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAllowListError =
@@ -4228,7 +4382,7 @@ export type UpdateAllowListError =
  * Updates the settings for an allow list.
  */
 export const updateAllowList: API.OperationMethod<
-  UpdateAllowListRequest,
+  UpdateAllowListRequest & RegionInput,
   UpdateAllowListResponse,
   UpdateAllowListError,
   Credentials | HttpClient.HttpClient
@@ -4245,6 +4399,8 @@ export const updateAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAllowList",
+  telemetry: TELEMETRY,
+  span: "UpdateAllowList",
 }));
 
 export type UpdateAutomatedDiscoveryConfigurationError =
@@ -4257,7 +4413,7 @@ export type UpdateAutomatedDiscoveryConfigurationError =
  * Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
 export const updateAutomatedDiscoveryConfiguration: API.OperationMethod<
-  UpdateAutomatedDiscoveryConfigurationRequest,
+  UpdateAutomatedDiscoveryConfigurationRequest & RegionInput,
   UpdateAutomatedDiscoveryConfigurationResponse,
   UpdateAutomatedDiscoveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4273,6 +4429,8 @@ export const updateAutomatedDiscoveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomatedDiscoveryConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateAutomatedDiscoveryConfiguration",
 }));
 
 export type UpdateClassificationJobError =
@@ -4288,7 +4446,7 @@ export type UpdateClassificationJobError =
  * Changes the status of a classification job.
  */
 export const updateClassificationJob: API.OperationMethod<
-  UpdateClassificationJobRequest,
+  UpdateClassificationJobRequest & RegionInput,
   UpdateClassificationJobResponse,
   UpdateClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -4307,6 +4465,8 @@ export const updateClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClassificationJob",
+  telemetry: TELEMETRY,
+  span: "UpdateClassificationJob",
 }));
 
 export type UpdateClassificationScopeError =
@@ -4320,7 +4480,7 @@ export type UpdateClassificationScopeError =
  * Updates the classification scope settings for an account.
  */
 export const updateClassificationScope: API.OperationMethod<
-  UpdateClassificationScopeRequest,
+  UpdateClassificationScopeRequest & RegionInput,
   UpdateClassificationScopeResponse,
   UpdateClassificationScopeError,
   Credentials | HttpClient.HttpClient
@@ -4337,6 +4497,8 @@ export const updateClassificationScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClassificationScope",
+  telemetry: TELEMETRY,
+  span: "UpdateClassificationScope",
 }));
 
 export type UpdateFindingsFilterError =
@@ -4352,7 +4514,7 @@ export type UpdateFindingsFilterError =
  * Updates the criteria and other settings for a findings filter.
  */
 export const updateFindingsFilter: API.OperationMethod<
-  UpdateFindingsFilterRequest,
+  UpdateFindingsFilterRequest & RegionInput,
   UpdateFindingsFilterResponse,
   UpdateFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -4371,6 +4533,8 @@ export const updateFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindingsFilter",
+  telemetry: TELEMETRY,
+  span: "UpdateFindingsFilter",
 }));
 
 export type UpdateMacieSessionError =
@@ -4386,7 +4550,7 @@ export type UpdateMacieSessionError =
  * Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
  */
 export const updateMacieSession: API.OperationMethod<
-  UpdateMacieSessionRequest,
+  UpdateMacieSessionRequest & RegionInput,
   UpdateMacieSessionResponse,
   UpdateMacieSessionError,
   Credentials | HttpClient.HttpClient
@@ -4405,6 +4569,8 @@ export const updateMacieSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMacieSession",
+  telemetry: TELEMETRY,
+  span: "UpdateMacieSession",
 }));
 
 export type UpdateMemberSessionError =
@@ -4420,7 +4586,7 @@ export type UpdateMemberSessionError =
  * Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
  */
 export const updateMemberSession: API.OperationMethod<
-  UpdateMemberSessionRequest,
+  UpdateMemberSessionRequest & RegionInput,
   UpdateMemberSessionResponse,
   UpdateMemberSessionError,
   Credentials | HttpClient.HttpClient
@@ -4439,6 +4605,8 @@ export const updateMemberSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMemberSession",
+  telemetry: TELEMETRY,
+  span: "UpdateMemberSession",
 }));
 
 export type UpdateOrganizationConfigurationError =
@@ -4454,7 +4622,7 @@ export type UpdateOrganizationConfigurationError =
  * Updates the Amazon Macie configuration settings for an organization in Organizations.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4473,6 +4641,8 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationConfiguration",
 }));
 
 export type UpdateResourceProfileError =
@@ -4487,7 +4657,7 @@ export type UpdateResourceProfileError =
  * Updates the sensitivity score for an S3 bucket.
  */
 export const updateResourceProfile: API.OperationMethod<
-  UpdateResourceProfileRequest,
+  UpdateResourceProfileRequest & RegionInput,
   UpdateResourceProfileResponse,
   UpdateResourceProfileError,
   Credentials | HttpClient.HttpClient
@@ -4505,6 +4675,8 @@ export const updateResourceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceProfile",
 }));
 
 export type UpdateResourceProfileDetectionsError =
@@ -4519,7 +4691,7 @@ export type UpdateResourceProfileDetectionsError =
  * Updates the sensitivity scoring settings for an S3 bucket.
  */
 export const updateResourceProfileDetections: API.OperationMethod<
-  UpdateResourceProfileDetectionsRequest,
+  UpdateResourceProfileDetectionsRequest & RegionInput,
   UpdateResourceProfileDetectionsResponse,
   UpdateResourceProfileDetectionsError,
   Credentials | HttpClient.HttpClient
@@ -4537,6 +4709,8 @@ export const updateResourceProfileDetections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceProfileDetections",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceProfileDetections",
 }));
 
 export type UpdateRevealConfigurationError =
@@ -4549,7 +4723,7 @@ export type UpdateRevealConfigurationError =
  * Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
 export const updateRevealConfiguration: API.OperationMethod<
-  UpdateRevealConfigurationRequest,
+  UpdateRevealConfigurationRequest & RegionInput,
   UpdateRevealConfigurationResponse,
   UpdateRevealConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4565,6 +4739,8 @@ export const updateRevealConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRevealConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateRevealConfiguration",
 }));
 
 export type UpdateSensitivityInspectionTemplateError =
@@ -4578,7 +4754,7 @@ export type UpdateSensitivityInspectionTemplateError =
  * Updates the settings for the sensitivity inspection template for an account.
  */
 export const updateSensitivityInspectionTemplate: API.OperationMethod<
-  UpdateSensitivityInspectionTemplateRequest,
+  UpdateSensitivityInspectionTemplateRequest & RegionInput,
   UpdateSensitivityInspectionTemplateResponse,
   UpdateSensitivityInspectionTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4595,6 +4771,8 @@ export const updateSensitivityInspectionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSensitivityInspectionTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateSensitivityInspectionTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

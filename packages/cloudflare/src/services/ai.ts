@@ -50,6 +50,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   wordCount: "word_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Ai",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AccountNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AccountNotFound>()("AccountNotFound", {
@@ -575,6 +589,8 @@ export const createFinetune: API.OperationMethod<
   errors: [ModelNotSupported, AccountNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFinetune",
 }));
 
 export type CreateFinetuneAssetError = ModelNotSupported | AccountNotFound | CloudflareOpError;
@@ -590,6 +606,8 @@ export const createFinetuneAsset: API.OperationMethod<
   errors: [ModelNotSupported, AccountNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFinetuneAsset",
 }));
 
 export type GetModelSchemaError =
@@ -615,6 +633,8 @@ export const getModelSchema: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModelSchema",
 }));
 
 export type ListAuthorsError = CloudflareOpError;
@@ -632,6 +652,8 @@ export const listAuthors: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAuthors",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -652,6 +674,8 @@ export const listFinetunePublics: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFinetunePublics",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -670,6 +694,8 @@ export const listFinetunes: API.OperationMethod<
   errors: [AccountNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFinetunes",
 }));
 
 export type ListModelsError = CloudflareOpError;
@@ -685,6 +711,8 @@ export const listModels: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModels",
 }));
 
 export type ListTasksError = CloudflareOpError;
@@ -702,6 +730,8 @@ export const listTasks: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTasks",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -720,6 +750,8 @@ export const runAi: API.OperationMethod<
   errors: [ModelNotFound, InputTooBig, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunAi",
 }));
 
 export type SupportedToMarkdownError = CloudflareOpError;
@@ -737,6 +769,8 @@ export const supportedToMarkdown: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "SupportedToMarkdown",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -755,6 +789,8 @@ export const transformToMarkdown: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformToMarkdown",
 }));
 
 // Alias of transformToMarkdown (same route, alternate export name upstream).

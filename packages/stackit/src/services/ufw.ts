@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Ufw",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -259,6 +272,8 @@ export const createRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type DeleteRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -274,6 +289,8 @@ export const deleteRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type GetRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -289,6 +306,8 @@ export const getRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type ListFolderContainersError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -304,6 +323,8 @@ export const listFolderContainers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFolderContainers",
 }));
 
 export type ListOrganizationContainersError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -319,6 +340,8 @@ export const listOrganizationContainers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationContainers",
 }));
 
 export type ListProviderOptionsError = BadRequest | StackitOpError;
@@ -334,6 +357,8 @@ export const listProviderOptions: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderOptions",
 }));
 
 export type ListRulesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -349,6 +374,8 @@ export const listRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 }));
 
 export type UpdateRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -364,6 +391,8 @@ export const updateRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

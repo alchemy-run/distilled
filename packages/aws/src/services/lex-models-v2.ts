@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://models-v2-lex.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LexModelsV2",
+  service: "LexModelsV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -3639,7 +3655,7 @@ export type BatchCreateCustomVocabularyItemError =
  * custom vocabulary.
  */
 export const batchCreateCustomVocabularyItem: API.OperationMethod<
-  BatchCreateCustomVocabularyItemRequest,
+  BatchCreateCustomVocabularyItemRequest & RegionInput,
   BatchCreateCustomVocabularyItemResponse,
   BatchCreateCustomVocabularyItemError,
   Credentials | HttpClient.HttpClient
@@ -3656,6 +3672,8 @@ export const batchCreateCustomVocabularyItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateCustomVocabularyItem",
+  telemetry: TELEMETRY,
+  span: "BatchCreateCustomVocabularyItem",
 }));
 
 export type BatchDeleteCustomVocabularyItemError =
@@ -3670,7 +3688,7 @@ export type BatchDeleteCustomVocabularyItemError =
  * custom vocabulary.
  */
 export const batchDeleteCustomVocabularyItem: API.OperationMethod<
-  BatchDeleteCustomVocabularyItemRequest,
+  BatchDeleteCustomVocabularyItemRequest & RegionInput,
   BatchDeleteCustomVocabularyItemResponse,
   BatchDeleteCustomVocabularyItemError,
   Credentials | HttpClient.HttpClient
@@ -3687,6 +3705,8 @@ export const batchDeleteCustomVocabularyItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteCustomVocabularyItem",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteCustomVocabularyItem",
 }));
 
 export type BatchUpdateCustomVocabularyItemError =
@@ -3701,7 +3721,7 @@ export type BatchUpdateCustomVocabularyItemError =
  * vocabulary.
  */
 export const batchUpdateCustomVocabularyItem: API.OperationMethod<
-  BatchUpdateCustomVocabularyItemRequest,
+  BatchUpdateCustomVocabularyItemRequest & RegionInput,
   BatchUpdateCustomVocabularyItemResponse,
   BatchUpdateCustomVocabularyItemError,
   Credentials | HttpClient.HttpClient
@@ -3718,6 +3738,8 @@ export const batchUpdateCustomVocabularyItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateCustomVocabularyItem",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateCustomVocabularyItem",
 }));
 
 export type BuildBotLocaleError =
@@ -3734,7 +3756,7 @@ export type BuildBotLocaleError =
  * is used to choose a specific build of the bot.
  */
 export const buildBotLocale: API.OperationMethod<
-  BuildBotLocaleRequest,
+  BuildBotLocaleRequest & RegionInput,
   BuildBotLocaleResponse,
   BuildBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -3752,6 +3774,8 @@ export const buildBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BuildBotLocale",
+  telemetry: TELEMETRY,
+  span: "BuildBotLocale",
 }));
 
 export type CreateBotError =
@@ -3766,7 +3790,7 @@ export type CreateBotError =
  * Creates an Amazon Lex conversational bot.
  */
 export const createBot: API.OperationMethod<
-  CreateBotRequest,
+  CreateBotRequest & RegionInput,
   CreateBotResponse,
   CreateBotError,
   Credentials | HttpClient.HttpClient
@@ -3784,6 +3808,8 @@ export const createBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBot",
+  telemetry: TELEMETRY,
+  span: "CreateBot",
 }));
 
 export type CreateBotAliasError =
@@ -3803,7 +3829,7 @@ export type CreateBotAliasError =
  * applications use to call the Amazon Lex bot.
  */
 export const createBotAlias: API.OperationMethod<
-  CreateBotAliasRequest,
+  CreateBotAliasRequest & RegionInput,
   CreateBotAliasResponse,
   CreateBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -3821,6 +3847,8 @@ export const createBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotAlias",
+  telemetry: TELEMETRY,
+  span: "CreateBotAlias",
 }));
 
 export type CreateBotLocaleError =
@@ -3838,7 +3866,7 @@ export type CreateBotLocaleError =
  * you can add intents and slot types to the bot.
  */
 export const createBotLocale: API.OperationMethod<
-  CreateBotLocaleRequest,
+  CreateBotLocaleRequest & RegionInput,
   CreateBotLocaleResponse,
   CreateBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -3856,6 +3884,8 @@ export const createBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotLocale",
+  telemetry: TELEMETRY,
+  span: "CreateBotLocale",
 }));
 
 export type CreateBotReplicaError =
@@ -3870,7 +3900,7 @@ export type CreateBotReplicaError =
  * Action to create a replication of the source bot in the secondary region.
  */
 export const createBotReplica: API.OperationMethod<
-  CreateBotReplicaRequest,
+  CreateBotReplicaRequest & RegionInput,
   CreateBotReplicaResponse,
   CreateBotReplicaError,
   Credentials | HttpClient.HttpClient
@@ -3888,6 +3918,8 @@ export const createBotReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotReplica",
+  telemetry: TELEMETRY,
+  span: "CreateBotReplica",
 }));
 
 export type CreateBotVersionError =
@@ -3906,7 +3938,7 @@ export type CreateBotVersionError =
  * is deleted, that bot version number will not be reused.
  */
 export const createBotVersion: API.OperationMethod<
-  CreateBotVersionRequest,
+  CreateBotVersionRequest & RegionInput,
   CreateBotVersionResponse,
   CreateBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -3924,6 +3956,8 @@ export const createBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotVersion",
+  telemetry: TELEMETRY,
+  span: "CreateBotVersion",
 }));
 
 export type CreateExportError =
@@ -3948,7 +3982,7 @@ export type CreateExportError =
  * exporting bots
  */
 export const createExport: API.OperationMethod<
-  CreateExportRequest,
+  CreateExportRequest & RegionInput,
   CreateExportResponse,
   CreateExportError,
   Credentials | HttpClient.HttpClient
@@ -3966,6 +4000,8 @@ export const createExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExport",
+  telemetry: TELEMETRY,
+  span: "CreateExport",
 }));
 
 export type CreateIntentError =
@@ -4011,7 +4047,7 @@ export type CreateIntentError =
  * For example, "Do you want a drink with your pizza?"
  */
 export const createIntent: API.OperationMethod<
-  CreateIntentRequest,
+  CreateIntentRequest & RegionInput,
   CreateIntentResponse,
   CreateIntentError,
   Credentials | HttpClient.HttpClient
@@ -4029,6 +4065,8 @@ export const createIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntent",
+  telemetry: TELEMETRY,
+  span: "CreateIntent",
 }));
 
 export type CreateResourcePolicyError =
@@ -4044,7 +4082,7 @@ export type CreateResourcePolicyError =
  * statements.
  */
 export const createResourcePolicy: API.OperationMethod<
-  CreateResourcePolicyRequest,
+  CreateResourcePolicyRequest & RegionInput,
   CreateResourcePolicyResponse,
   CreateResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4062,6 +4100,8 @@ export const createResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "CreateResourcePolicy",
 }));
 
 export type CreateResourcePolicyStatementError =
@@ -4085,7 +4125,7 @@ export type CreateResourcePolicyStatementError =
  * action to the bot role in order to call the API.
  */
 export const createResourcePolicyStatement: API.OperationMethod<
-  CreateResourcePolicyStatementRequest,
+  CreateResourcePolicyStatementRequest & RegionInput,
   CreateResourcePolicyStatementResponse,
   CreateResourcePolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -4104,6 +4144,8 @@ export const createResourcePolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourcePolicyStatement",
+  telemetry: TELEMETRY,
+  span: "CreateResourcePolicyStatement",
 }));
 
 export type CreateSlotError =
@@ -4122,7 +4164,7 @@ export type CreateSlotError =
  * user.
  */
 export const createSlot: API.OperationMethod<
-  CreateSlotRequest,
+  CreateSlotRequest & RegionInput,
   CreateSlotResponse,
   CreateSlotError,
   Credentials | HttpClient.HttpClient
@@ -4140,6 +4182,8 @@ export const createSlot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlot",
+  telemetry: TELEMETRY,
+  span: "CreateSlot",
 }));
 
 export type CreateSlotTypeError =
@@ -4158,7 +4202,7 @@ export type CreateSlotTypeError =
  * assume.
  */
 export const createSlotType: API.OperationMethod<
-  CreateSlotTypeRequest,
+  CreateSlotTypeRequest & RegionInput,
   CreateSlotTypeResponse,
   CreateSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -4176,6 +4220,8 @@ export const createSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlotType",
+  telemetry: TELEMETRY,
+  span: "CreateSlotType",
 }));
 
 export type CreateTestSetDiscrepancyReportError =
@@ -4190,7 +4236,7 @@ export type CreateTestSetDiscrepancyReportError =
  * Create a report that describes the differences between the bot and the test set.
  */
 export const createTestSetDiscrepancyReport: API.OperationMethod<
-  CreateTestSetDiscrepancyReportRequest,
+  CreateTestSetDiscrepancyReportRequest & RegionInput,
   CreateTestSetDiscrepancyReportResponse,
   CreateTestSetDiscrepancyReportError,
   Credentials | HttpClient.HttpClient
@@ -4208,6 +4254,8 @@ export const createTestSetDiscrepancyReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestSetDiscrepancyReport",
+  telemetry: TELEMETRY,
+  span: "CreateTestSetDiscrepancyReport",
 }));
 
 export type CreateUploadUrlError =
@@ -4222,7 +4270,7 @@ export type CreateUploadUrlError =
  * archive when importing a bot or a bot locale.
  */
 export const createUploadUrl: API.OperationMethod<
-  CreateUploadUrlRequest,
+  CreateUploadUrlRequest & RegionInput,
   CreateUploadUrlResponse,
   CreateUploadUrlError,
   Credentials | HttpClient.HttpClient
@@ -4239,6 +4287,8 @@ export const createUploadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUploadUrl",
+  telemetry: TELEMETRY,
+  span: "CreateUploadUrl",
 }));
 
 export type DeleteBotError =
@@ -4264,7 +4314,7 @@ export type DeleteBotError =
  * parameter to `true`.
  */
 export const deleteBot: API.OperationMethod<
-  DeleteBotRequest,
+  DeleteBotRequest & RegionInput,
   DeleteBotResponse,
   DeleteBotError,
   Credentials | HttpClient.HttpClient
@@ -4282,6 +4332,8 @@ export const deleteBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBot",
+  telemetry: TELEMETRY,
+  span: "DeleteBot",
 }));
 
 export type DeleteBotAliasError =
@@ -4296,7 +4348,7 @@ export type DeleteBotAliasError =
  * Deletes the specified bot alias.
  */
 export const deleteBotAlias: API.OperationMethod<
-  DeleteBotAliasRequest,
+  DeleteBotAliasRequest & RegionInput,
   DeleteBotAliasResponse,
   DeleteBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -4314,6 +4366,8 @@ export const deleteBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteBotAlias",
 }));
 
 export type DeleteBotAnalyzerRecommendationError =
@@ -4328,7 +4382,7 @@ export type DeleteBotAnalyzerRecommendationError =
  * After deletion, the analysis results cannot be retrieved. The analysis request ID will still appear in the history list, but attempting to describe the recommendations will return a `ResourceNotFoundException`.
  */
 export const deleteBotAnalyzerRecommendation: API.OperationMethod<
-  DeleteBotAnalyzerRecommendationRequest,
+  DeleteBotAnalyzerRecommendationRequest & RegionInput,
   DeleteBotAnalyzerRecommendationResponse,
   DeleteBotAnalyzerRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -4344,6 +4398,8 @@ export const deleteBotAnalyzerRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotAnalyzerRecommendation",
+  telemetry: TELEMETRY,
+  span: "DeleteBotAnalyzerRecommendation",
 }));
 
 export type DeleteBotLocaleError =
@@ -4361,7 +4417,7 @@ export type DeleteBotLocaleError =
  * for the locale are also deleted.
  */
 export const deleteBotLocale: API.OperationMethod<
-  DeleteBotLocaleRequest,
+  DeleteBotLocaleRequest & RegionInput,
   DeleteBotLocaleResponse,
   DeleteBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -4379,6 +4435,8 @@ export const deleteBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotLocale",
+  telemetry: TELEMETRY,
+  span: "DeleteBotLocale",
 }));
 
 export type DeleteBotReplicaError =
@@ -4393,7 +4451,7 @@ export type DeleteBotReplicaError =
  * The action to delete the replicated bot in the secondary region.
  */
 export const deleteBotReplica: API.OperationMethod<
-  DeleteBotReplicaRequest,
+  DeleteBotReplicaRequest & RegionInput,
   DeleteBotReplicaResponse,
   DeleteBotReplicaError,
   Credentials | HttpClient.HttpClient
@@ -4411,6 +4469,8 @@ export const deleteBotReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotReplica",
+  telemetry: TELEMETRY,
+  span: "DeleteBotReplica",
 }));
 
 export type DeleteBotVersionError =
@@ -4426,7 +4486,7 @@ export type DeleteBotVersionError =
  * use the DeleteBot operation.
  */
 export const deleteBotVersion: API.OperationMethod<
-  DeleteBotVersionRequest,
+  DeleteBotVersionRequest & RegionInput,
   DeleteBotVersionResponse,
   DeleteBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -4444,6 +4504,8 @@ export const deleteBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteBotVersion",
 }));
 
 export type DeleteCustomVocabularyError =
@@ -4459,7 +4521,7 @@ export type DeleteCustomVocabularyError =
  * in the specified bot.
  */
 export const deleteCustomVocabulary: API.OperationMethod<
-  DeleteCustomVocabularyRequest,
+  DeleteCustomVocabularyRequest & RegionInput,
   DeleteCustomVocabularyResponse,
   DeleteCustomVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -4477,6 +4539,8 @@ export const deleteCustomVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomVocabulary",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomVocabulary",
 }));
 
 export type DeleteExportError =
@@ -4491,7 +4555,7 @@ export type DeleteExportError =
  * bucket.
  */
 export const deleteExport: API.OperationMethod<
-  DeleteExportRequest,
+  DeleteExportRequest & RegionInput,
   DeleteExportResponse,
   DeleteExportError,
   Credentials | HttpClient.HttpClient
@@ -4508,6 +4572,8 @@ export const deleteExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExport",
+  telemetry: TELEMETRY,
+  span: "DeleteExport",
 }));
 
 export type DeleteImportError =
@@ -4522,7 +4588,7 @@ export type DeleteImportError =
  * bucket.
  */
 export const deleteImport: API.OperationMethod<
-  DeleteImportRequest,
+  DeleteImportRequest & RegionInput,
   DeleteImportResponse,
   DeleteImportError,
   Credentials | HttpClient.HttpClient
@@ -4539,6 +4605,8 @@ export const deleteImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImport",
+  telemetry: TELEMETRY,
+  span: "DeleteImport",
 }));
 
 export type DeleteIntentError =
@@ -4556,7 +4624,7 @@ export type DeleteIntentError =
  * intent.
  */
 export const deleteIntent: API.OperationMethod<
-  DeleteIntentRequest,
+  DeleteIntentRequest & RegionInput,
   DeleteIntentResponse,
   DeleteIntentError,
   Credentials | HttpClient.HttpClient
@@ -4574,6 +4642,8 @@ export const deleteIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntent",
+  telemetry: TELEMETRY,
+  span: "DeleteIntent",
 }));
 
 export type DeleteResourcePolicyError =
@@ -4587,7 +4657,7 @@ export type DeleteResourcePolicyError =
  * doesn't have a policy attached, Amazon Lex returns an exception.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4603,6 +4673,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteResourcePolicyStatementError =
@@ -4622,7 +4694,7 @@ export type DeleteResourcePolicyStatementError =
  * action to the bot role in order to call the API.
  */
 export const deleteResourcePolicyStatement: API.OperationMethod<
-  DeleteResourcePolicyStatementRequest,
+  DeleteResourcePolicyStatementRequest & RegionInput,
   DeleteResourcePolicyStatementResponse,
   DeleteResourcePolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -4638,6 +4710,8 @@ export const deleteResourcePolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicyStatement",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicyStatement",
 }));
 
 export type DeleteSlotError =
@@ -4652,7 +4726,7 @@ export type DeleteSlotError =
  * Deletes the specified slot from an intent.
  */
 export const deleteSlot: API.OperationMethod<
-  DeleteSlotRequest,
+  DeleteSlotRequest & RegionInput,
   DeleteSlotResponse,
   DeleteSlotError,
   Credentials | HttpClient.HttpClient
@@ -4670,6 +4744,8 @@ export const deleteSlot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlot",
+  telemetry: TELEMETRY,
+  span: "DeleteSlot",
 }));
 
 export type DeleteSlotTypeError =
@@ -4689,7 +4765,7 @@ export type DeleteSlotTypeError =
  * `true`.
  */
 export const deleteSlotType: API.OperationMethod<
-  DeleteSlotTypeRequest,
+  DeleteSlotTypeRequest & RegionInput,
   DeleteSlotTypeResponse,
   DeleteSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -4707,6 +4783,8 @@ export const deleteSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotType",
+  telemetry: TELEMETRY,
+  span: "DeleteSlotType",
 }));
 
 export type DeleteTestSetError =
@@ -4721,7 +4799,7 @@ export type DeleteTestSetError =
  * The action to delete the selected test set.
  */
 export const deleteTestSet: API.OperationMethod<
-  DeleteTestSetRequest,
+  DeleteTestSetRequest & RegionInput,
   DeleteTestSetResponse,
   DeleteTestSetError,
   Credentials | HttpClient.HttpClient
@@ -4739,6 +4817,8 @@ export const deleteTestSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestSet",
+  telemetry: TELEMETRY,
+  span: "DeleteTestSet",
 }));
 
 export type DeleteUtterancesError =
@@ -4763,7 +4843,7 @@ export type DeleteUtterancesError =
  * days.
  */
 export const deleteUtterances: API.OperationMethod<
-  DeleteUtterancesRequest,
+  DeleteUtterancesRequest & RegionInput,
   DeleteUtterancesResponse,
   DeleteUtterancesError,
   Credentials | HttpClient.HttpClient
@@ -4774,6 +4854,8 @@ export const deleteUtterances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUtterances",
+  telemetry: TELEMETRY,
+  span: "DeleteUtterances",
 }));
 
 export type DescribeBotError =
@@ -4787,7 +4869,7 @@ export type DescribeBotError =
  * Provides metadata information about a bot.
  */
 export const describeBot: API.OperationMethod<
-  DescribeBotRequest,
+  DescribeBotRequest & RegionInput,
   DescribeBotResponse,
   DescribeBotError,
   Credentials | HttpClient.HttpClient
@@ -4804,6 +4886,8 @@ export const describeBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBot",
+  telemetry: TELEMETRY,
+  span: "DescribeBot",
 }));
 
 export type DescribeBotAliasError =
@@ -4817,7 +4901,7 @@ export type DescribeBotAliasError =
  * Get information about a specific bot alias.
  */
 export const describeBotAlias: API.OperationMethod<
-  DescribeBotAliasRequest,
+  DescribeBotAliasRequest & RegionInput,
   DescribeBotAliasResponse,
   DescribeBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -4834,6 +4918,8 @@ export const describeBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotAlias",
+  telemetry: TELEMETRY,
+  span: "DescribeBotAlias",
 }));
 
 export type DescribeBotAnalyzerRecommendationError =
@@ -4848,7 +4934,7 @@ export type DescribeBotAnalyzerRecommendationError =
  * Recommendations are returned with pagination support. Each recommendation includes the issue location, priority level, detailed description, and proposed fix.
  */
 export const describeBotAnalyzerRecommendation: API.PaginatedOperationMethod<
-  DescribeBotAnalyzerRecommendationRequest,
+  DescribeBotAnalyzerRecommendationRequest & RegionInput,
   DescribeBotAnalyzerRecommendationResponse,
   DescribeBotAnalyzerRecommendationError,
   Credentials | HttpClient.HttpClient,
@@ -4871,6 +4957,8 @@ export const describeBotAnalyzerRecommendation: API.PaginatedOperationMethod<
     items: "botAnalyzerRecommendationList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBotAnalyzerRecommendation",
 })) as any;
 
 export type DescribeBotLocaleError =
@@ -4884,7 +4972,7 @@ export type DescribeBotLocaleError =
  * Describes the settings that a bot has for a specific locale.
  */
 export const describeBotLocale: API.OperationMethod<
-  DescribeBotLocaleRequest,
+  DescribeBotLocaleRequest & RegionInput,
   DescribeBotLocaleResponse,
   DescribeBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -4901,6 +4989,8 @@ export const describeBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotLocale",
+  telemetry: TELEMETRY,
+  span: "DescribeBotLocale",
 }));
 
 export type DescribeBotRecommendationError =
@@ -4917,7 +5007,7 @@ export type DescribeBotRecommendationError =
  * recommendation.
  */
 export const describeBotRecommendation: API.OperationMethod<
-  DescribeBotRecommendationRequest,
+  DescribeBotRecommendationRequest & RegionInput,
   DescribeBotRecommendationResponse,
   DescribeBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -4933,6 +5023,8 @@ export const describeBotRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotRecommendation",
+  telemetry: TELEMETRY,
+  span: "DescribeBotRecommendation",
 }));
 
 export type DescribeBotReplicaError =
@@ -4946,7 +5038,7 @@ export type DescribeBotReplicaError =
  * Monitors the bot replication status through the UI console.
  */
 export const describeBotReplica: API.OperationMethod<
-  DescribeBotReplicaRequest,
+  DescribeBotReplicaRequest & RegionInput,
   DescribeBotReplicaResponse,
   DescribeBotReplicaError,
   Credentials | HttpClient.HttpClient
@@ -4963,6 +5055,8 @@ export const describeBotReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotReplica",
+  telemetry: TELEMETRY,
+  span: "DescribeBotReplica",
 }));
 
 export type DescribeBotResourceGenerationError =
@@ -4978,7 +5072,7 @@ export type DescribeBotResourceGenerationError =
  * then modify and import this configuration.
  */
 export const describeBotResourceGeneration: API.OperationMethod<
-  DescribeBotResourceGenerationRequest,
+  DescribeBotResourceGenerationRequest & RegionInput,
   DescribeBotResourceGenerationResponse,
   DescribeBotResourceGenerationError,
   Credentials | HttpClient.HttpClient
@@ -4994,6 +5088,8 @@ export const describeBotResourceGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotResourceGeneration",
+  telemetry: TELEMETRY,
+  span: "DescribeBotResourceGeneration",
 }));
 
 export type DescribeBotVersionError =
@@ -5007,7 +5103,7 @@ export type DescribeBotVersionError =
  * Provides metadata about a version of a bot.
  */
 export const describeBotVersion: API.OperationMethod<
-  DescribeBotVersionRequest,
+  DescribeBotVersionRequest & RegionInput,
   DescribeBotVersionResponse,
   DescribeBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -5024,6 +5120,8 @@ export const describeBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeBotVersion",
 }));
 
 export type DescribeCustomVocabularyMetadataError =
@@ -5037,7 +5135,7 @@ export type DescribeCustomVocabularyMetadataError =
  * Provides metadata information about a custom vocabulary.
  */
 export const describeCustomVocabularyMetadata: API.OperationMethod<
-  DescribeCustomVocabularyMetadataRequest,
+  DescribeCustomVocabularyMetadataRequest & RegionInput,
   DescribeCustomVocabularyMetadataResponse,
   DescribeCustomVocabularyMetadataError,
   Credentials | HttpClient.HttpClient
@@ -5054,6 +5152,8 @@ export const describeCustomVocabularyMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomVocabularyMetadata",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomVocabularyMetadata",
 }));
 
 export type DescribeExportError =
@@ -5066,7 +5166,7 @@ export type DescribeExportError =
  * Gets information about a specific export.
  */
 export const describeExport: API.OperationMethod<
-  DescribeExportRequest,
+  DescribeExportRequest & RegionInput,
   DescribeExportResponse,
   DescribeExportError,
   Credentials | HttpClient.HttpClient
@@ -5082,6 +5182,8 @@ export const describeExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExport",
+  telemetry: TELEMETRY,
+  span: "DescribeExport",
 }));
 
 export type DescribeImportError =
@@ -5094,7 +5196,7 @@ export type DescribeImportError =
  * Gets information about a specific import.
  */
 export const describeImport: API.OperationMethod<
-  DescribeImportRequest,
+  DescribeImportRequest & RegionInput,
   DescribeImportResponse,
   DescribeImportError,
   Credentials | HttpClient.HttpClient
@@ -5110,6 +5212,8 @@ export const describeImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImport",
+  telemetry: TELEMETRY,
+  span: "DescribeImport",
 }));
 
 export type DescribeIntentError =
@@ -5123,7 +5227,7 @@ export type DescribeIntentError =
  * Returns metadata about an intent.
  */
 export const describeIntent: API.OperationMethod<
-  DescribeIntentRequest,
+  DescribeIntentRequest & RegionInput,
   DescribeIntentResponse,
   DescribeIntentError,
   Credentials | HttpClient.HttpClient
@@ -5140,6 +5244,8 @@ export const describeIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIntent",
+  telemetry: TELEMETRY,
+  span: "DescribeIntent",
 }));
 
 export type DescribeResourcePolicyError =
@@ -5152,7 +5258,7 @@ export type DescribeResourcePolicyError =
  * alias.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5163,6 +5269,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeSlotError =
@@ -5176,7 +5284,7 @@ export type DescribeSlotError =
  * Gets metadata information about a slot.
  */
 export const describeSlot: API.OperationMethod<
-  DescribeSlotRequest,
+  DescribeSlotRequest & RegionInput,
   DescribeSlotResponse,
   DescribeSlotError,
   Credentials | HttpClient.HttpClient
@@ -5193,6 +5301,8 @@ export const describeSlot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSlot",
+  telemetry: TELEMETRY,
+  span: "DescribeSlot",
 }));
 
 export type DescribeSlotTypeError =
@@ -5206,7 +5316,7 @@ export type DescribeSlotTypeError =
  * Gets metadata information about a slot type.
  */
 export const describeSlotType: API.OperationMethod<
-  DescribeSlotTypeRequest,
+  DescribeSlotTypeRequest & RegionInput,
   DescribeSlotTypeResponse,
   DescribeSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -5223,6 +5333,8 @@ export const describeSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSlotType",
+  telemetry: TELEMETRY,
+  span: "DescribeSlotType",
 }));
 
 export type DescribeTestExecutionError =
@@ -5236,7 +5348,7 @@ export type DescribeTestExecutionError =
  * Gets metadata information about the test execution.
  */
 export const describeTestExecution: API.OperationMethod<
-  DescribeTestExecutionRequest,
+  DescribeTestExecutionRequest & RegionInput,
   DescribeTestExecutionResponse,
   DescribeTestExecutionError,
   Credentials | HttpClient.HttpClient
@@ -5253,6 +5365,8 @@ export const describeTestExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTestExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeTestExecution",
 }));
 
 export type DescribeTestSetError =
@@ -5266,7 +5380,7 @@ export type DescribeTestSetError =
  * Gets metadata information about the test set.
  */
 export const describeTestSet: API.OperationMethod<
-  DescribeTestSetRequest,
+  DescribeTestSetRequest & RegionInput,
   DescribeTestSetResponse,
   DescribeTestSetError,
   Credentials | HttpClient.HttpClient
@@ -5283,6 +5397,8 @@ export const describeTestSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTestSet",
+  telemetry: TELEMETRY,
+  span: "DescribeTestSet",
 }));
 
 export type DescribeTestSetDiscrepancyReportError =
@@ -5296,7 +5412,7 @@ export type DescribeTestSetDiscrepancyReportError =
  * Gets metadata information about the test set discrepancy report.
  */
 export const describeTestSetDiscrepancyReport: API.OperationMethod<
-  DescribeTestSetDiscrepancyReportRequest,
+  DescribeTestSetDiscrepancyReportRequest & RegionInput,
   DescribeTestSetDiscrepancyReportResponse,
   DescribeTestSetDiscrepancyReportError,
   Credentials | HttpClient.HttpClient
@@ -5313,6 +5429,8 @@ export const describeTestSetDiscrepancyReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTestSetDiscrepancyReport",
+  telemetry: TELEMETRY,
+  span: "DescribeTestSetDiscrepancyReport",
 }));
 
 export type DescribeTestSetGenerationError =
@@ -5326,7 +5444,7 @@ export type DescribeTestSetGenerationError =
  * Gets metadata information about the test set generation.
  */
 export const describeTestSetGeneration: API.OperationMethod<
-  DescribeTestSetGenerationRequest,
+  DescribeTestSetGenerationRequest & RegionInput,
   DescribeTestSetGenerationResponse,
   DescribeTestSetGenerationError,
   Credentials | HttpClient.HttpClient
@@ -5343,6 +5461,8 @@ export const describeTestSetGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTestSetGeneration",
+  telemetry: TELEMETRY,
+  span: "DescribeTestSetGeneration",
 }));
 
 export type GenerateBotElementError =
@@ -5358,7 +5478,7 @@ export type GenerateBotElementError =
  * Generates sample utterances for an intent.
  */
 export const generateBotElement: API.OperationMethod<
-  GenerateBotElementRequest,
+  GenerateBotElementRequest & RegionInput,
   GenerateBotElementResponse,
   GenerateBotElementError,
   Credentials | HttpClient.HttpClient
@@ -5377,6 +5497,8 @@ export const generateBotElement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateBotElement",
+  telemetry: TELEMETRY,
+  span: "GenerateBotElement",
 }));
 
 export type GetTestExecutionArtifactsUrlError =
@@ -5390,7 +5512,7 @@ export type GetTestExecutionArtifactsUrlError =
  * The pre-signed Amazon S3 URL to download the test execution result artifacts.
  */
 export const getTestExecutionArtifactsUrl: API.OperationMethod<
-  GetTestExecutionArtifactsUrlRequest,
+  GetTestExecutionArtifactsUrlRequest & RegionInput,
   GetTestExecutionArtifactsUrlResponse,
   GetTestExecutionArtifactsUrlError,
   Credentials | HttpClient.HttpClient
@@ -5407,6 +5529,8 @@ export const getTestExecutionArtifactsUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestExecutionArtifactsUrl",
+  telemetry: TELEMETRY,
+  span: "GetTestExecutionArtifactsUrl",
 }));
 
 export type ListAggregatedUtterancesError =
@@ -5442,7 +5566,7 @@ export type ListAggregatedUtterancesError =
  * - You opted out of participating in improving Amazon Lex.
  */
 export const listAggregatedUtterances: API.PaginatedOperationMethod<
-  ListAggregatedUtterancesRequest,
+  ListAggregatedUtterancesRequest & RegionInput,
   ListAggregatedUtterancesResponse,
   ListAggregatedUtterancesError,
   Credentials | HttpClient.HttpClient,
@@ -5464,6 +5588,8 @@ export const listAggregatedUtterances: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAggregatedUtterances",
 })) as any;
 
 export type ListBotAliasesError =
@@ -5477,7 +5603,7 @@ export type ListBotAliasesError =
  * Gets a list of aliases for the specified bot.
  */
 export const listBotAliases: API.PaginatedOperationMethod<
-  ListBotAliasesRequest,
+  ListBotAliasesRequest & RegionInput,
   ListBotAliasesResponse,
   ListBotAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -5500,6 +5626,8 @@ export const listBotAliases: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotAliases",
 })) as any;
 
 export type ListBotAliasReplicasError =
@@ -5512,7 +5640,7 @@ export type ListBotAliasReplicasError =
  * The action to list the replicated bots created from the source bot alias.
  */
 export const listBotAliasReplicas: API.PaginatedOperationMethod<
-  ListBotAliasReplicasRequest,
+  ListBotAliasReplicasRequest & RegionInput,
   ListBotAliasReplicasResponse,
   ListBotAliasReplicasError,
   Credentials | HttpClient.HttpClient,
@@ -5534,6 +5662,8 @@ export const listBotAliasReplicas: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotAliasReplicas",
 })) as any;
 
 export type ListBotAnalyzerHistoryError =
@@ -5548,7 +5678,7 @@ export type ListBotAnalyzerHistoryError =
  * The history includes all analysis executions regardless of their status, allowing you to track past analyses and their outcomes.
  */
 export const listBotAnalyzerHistory: API.PaginatedOperationMethod<
-  ListBotAnalyzerHistoryRequest,
+  ListBotAnalyzerHistoryRequest & RegionInput,
   ListBotAnalyzerHistoryResponse,
   ListBotAnalyzerHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -5571,6 +5701,8 @@ export const listBotAnalyzerHistory: API.PaginatedOperationMethod<
     items: "botAnalyzerHistoryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotAnalyzerHistory",
 })) as any;
 
 export type ListBotLocalesError =
@@ -5583,7 +5715,7 @@ export type ListBotLocalesError =
  * Gets a list of locales for the specified bot.
  */
 export const listBotLocales: API.PaginatedOperationMethod<
-  ListBotLocalesRequest,
+  ListBotLocalesRequest & RegionInput,
   ListBotLocalesResponse,
   ListBotLocalesError,
   Credentials | HttpClient.HttpClient,
@@ -5605,6 +5737,8 @@ export const listBotLocales: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotLocales",
 })) as any;
 
 export type ListBotRecommendationsError =
@@ -5618,7 +5752,7 @@ export type ListBotRecommendationsError =
  * criteria.
  */
 export const listBotRecommendations: API.PaginatedOperationMethod<
-  ListBotRecommendationsRequest,
+  ListBotRecommendationsRequest & RegionInput,
   ListBotRecommendationsResponse,
   ListBotRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -5640,6 +5774,8 @@ export const listBotRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotRecommendations",
 })) as any;
 
 export type ListBotReplicasError =
@@ -5652,7 +5788,7 @@ export type ListBotReplicasError =
  * The action to list the replicated bots.
  */
 export const listBotReplicas: API.OperationMethod<
-  ListBotReplicasRequest,
+  ListBotReplicasRequest & RegionInput,
   ListBotReplicasResponse,
   ListBotReplicasError,
   Credentials | HttpClient.HttpClient
@@ -5668,6 +5804,8 @@ export const listBotReplicas: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBotReplicas",
+  telemetry: TELEMETRY,
+  span: "ListBotReplicas",
 }));
 
 export type ListBotResourceGenerationsError =
@@ -5680,7 +5818,7 @@ export type ListBotResourceGenerationsError =
  * Lists the generation requests made for a bot locale.
  */
 export const listBotResourceGenerations: API.PaginatedOperationMethod<
-  ListBotResourceGenerationsRequest,
+  ListBotResourceGenerationsRequest & RegionInput,
   ListBotResourceGenerationsResponse,
   ListBotResourceGenerationsError,
   Credentials | HttpClient.HttpClient,
@@ -5702,6 +5840,8 @@ export const listBotResourceGenerations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotResourceGenerations",
 })) as any;
 
 export type ListBotsError =
@@ -5714,7 +5854,7 @@ export type ListBotsError =
  * Gets a list of available bots.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Credentials | HttpClient.HttpClient,
@@ -5736,6 +5876,8 @@ export const listBots: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBots",
 })) as any;
 
 export type ListBotVersionReplicasError =
@@ -5748,7 +5890,7 @@ export type ListBotVersionReplicasError =
  * Contains information about all the versions replication statuses applicable for Global Resiliency.
  */
 export const listBotVersionReplicas: API.PaginatedOperationMethod<
-  ListBotVersionReplicasRequest,
+  ListBotVersionReplicasRequest & RegionInput,
   ListBotVersionReplicasResponse,
   ListBotVersionReplicasError,
   Credentials | HttpClient.HttpClient,
@@ -5770,6 +5912,8 @@ export const listBotVersionReplicas: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotVersionReplicas",
 })) as any;
 
 export type ListBotVersionsError =
@@ -5791,7 +5935,7 @@ export type ListBotVersionsError =
  * one version, the `DRAFT` version.
  */
 export const listBotVersions: API.PaginatedOperationMethod<
-  ListBotVersionsRequest,
+  ListBotVersionsRequest & RegionInput,
   ListBotVersionsResponse,
   ListBotVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5813,6 +5957,8 @@ export const listBotVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotVersions",
 })) as any;
 
 export type ListBuiltInIntentsError =
@@ -5831,7 +5977,7 @@ export type ListBuiltInIntentsError =
  * more information, see CreateIntent.
  */
 export const listBuiltInIntents: API.PaginatedOperationMethod<
-  ListBuiltInIntentsRequest,
+  ListBuiltInIntentsRequest & RegionInput,
   ListBuiltInIntentsResponse,
   ListBuiltInIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -5853,6 +5999,8 @@ export const listBuiltInIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuiltInIntents",
 })) as any;
 
 export type ListBuiltInSlotTypesError =
@@ -5866,7 +6014,7 @@ export type ListBuiltInSlotTypesError =
  * criteria.
  */
 export const listBuiltInSlotTypes: API.PaginatedOperationMethod<
-  ListBuiltInSlotTypesRequest,
+  ListBuiltInSlotTypesRequest & RegionInput,
   ListBuiltInSlotTypesResponse,
   ListBuiltInSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -5888,6 +6036,8 @@ export const listBuiltInSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuiltInSlotTypes",
 })) as any;
 
 export type ListCustomVocabularyItemsError =
@@ -5902,7 +6052,7 @@ export type ListCustomVocabularyItemsError =
  * custom vocabulary.
  */
 export const listCustomVocabularyItems: API.PaginatedOperationMethod<
-  ListCustomVocabularyItemsRequest,
+  ListCustomVocabularyItemsRequest & RegionInput,
   ListCustomVocabularyItemsResponse,
   ListCustomVocabularyItemsError,
   Credentials | HttpClient.HttpClient,
@@ -5925,6 +6075,8 @@ export const listCustomVocabularyItems: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomVocabularyItems",
 })) as any;
 
 export type ListExportsError =
@@ -5937,7 +6089,7 @@ export type ListExportsError =
  * Exports are kept in the list for 7 days.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsRequest,
+  ListExportsRequest & RegionInput,
   ListExportsResponse,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -5954,6 +6106,8 @@ export const listExports: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExports",
 })) as any;
 
 export type ListImportsError =
@@ -5966,7 +6120,7 @@ export type ListImportsError =
  * Imports are kept in the list for 7 days.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsRequest,
+  ListImportsRequest & RegionInput,
   ListImportsResponse,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -5983,6 +6137,8 @@ export const listImports: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImports",
 })) as any;
 
 export type ListIntentMetricsError =
@@ -6008,7 +6164,7 @@ export type ListIntentMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. You can specify only one `order` in a given request.
  */
 export const listIntentMetrics: API.PaginatedOperationMethod<
-  ListIntentMetricsRequest,
+  ListIntentMetricsRequest & RegionInput,
   ListIntentMetricsResponse,
   ListIntentMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6031,6 +6187,8 @@ export const listIntentMetrics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntentMetrics",
 })) as any;
 
 export type ListIntentPathsError =
@@ -6050,7 +6208,7 @@ export type ListIntentPathsError =
  * Use the optional `filters` field to filter the results.
  */
 export const listIntentPaths: API.OperationMethod<
-  ListIntentPathsRequest,
+  ListIntentPathsRequest & RegionInput,
   ListIntentPathsResponse,
   ListIntentPathsError,
   Credentials | HttpClient.HttpClient
@@ -6067,6 +6225,8 @@ export const listIntentPaths: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIntentPaths",
+  telemetry: TELEMETRY,
+  span: "ListIntentPaths",
 }));
 
 export type ListIntentsError =
@@ -6080,7 +6240,7 @@ export type ListIntentsError =
  * Get a list of intents that meet the specified criteria.
  */
 export const listIntents: API.PaginatedOperationMethod<
-  ListIntentsRequest,
+  ListIntentsRequest & RegionInput,
   ListIntentsResponse,
   ListIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -6103,6 +6263,8 @@ export const listIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntents",
 })) as any;
 
 export type ListIntentStageMetricsError =
@@ -6128,7 +6290,7 @@ export type ListIntentStageMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. You can only specify one `order` in a given request.
  */
 export const listIntentStageMetrics: API.PaginatedOperationMethod<
-  ListIntentStageMetricsRequest,
+  ListIntentStageMetricsRequest & RegionInput,
   ListIntentStageMetricsResponse,
   ListIntentStageMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6151,6 +6313,8 @@ export const listIntentStageMetrics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntentStageMetrics",
 })) as any;
 
 export type ListRecommendedIntentsError =
@@ -6166,7 +6330,7 @@ export type ListRecommendedIntentsError =
  * response are ordered by relevance.
  */
 export const listRecommendedIntents: API.PaginatedOperationMethod<
-  ListRecommendedIntentsRequest,
+  ListRecommendedIntentsRequest & RegionInput,
   ListRecommendedIntentsResponse,
   ListRecommendedIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -6189,6 +6353,8 @@ export const listRecommendedIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendedIntents",
 })) as any;
 
 export type ListSessionAnalyticsDataError =
@@ -6206,7 +6372,7 @@ export type ListSessionAnalyticsDataError =
  * - Use the `maxResults` field to limit the number of results to return in a single response and the `nextToken` field to return the next batch of results if the response does not return the full set of results.
  */
 export const listSessionAnalyticsData: API.PaginatedOperationMethod<
-  ListSessionAnalyticsDataRequest,
+  ListSessionAnalyticsDataRequest & RegionInput,
   ListSessionAnalyticsDataResponse,
   ListSessionAnalyticsDataError,
   Credentials | HttpClient.HttpClient,
@@ -6229,6 +6395,8 @@ export const listSessionAnalyticsData: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessionAnalyticsData",
 })) as any;
 
 export type ListSessionMetricsError =
@@ -6254,7 +6422,7 @@ export type ListSessionMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. Currently, you can specify it in either field, but not in both.
  */
 export const listSessionMetrics: API.PaginatedOperationMethod<
-  ListSessionMetricsRequest,
+  ListSessionMetricsRequest & RegionInput,
   ListSessionMetricsResponse,
   ListSessionMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6277,6 +6445,8 @@ export const listSessionMetrics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessionMetrics",
 })) as any;
 
 export type ListSlotsError =
@@ -6289,7 +6459,7 @@ export type ListSlotsError =
  * Gets a list of slots that match the specified criteria.
  */
 export const listSlots: API.PaginatedOperationMethod<
-  ListSlotsRequest,
+  ListSlotsRequest & RegionInput,
   ListSlotsResponse,
   ListSlotsError,
   Credentials | HttpClient.HttpClient,
@@ -6311,6 +6481,8 @@ export const listSlots: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSlots",
 })) as any;
 
 export type ListSlotTypesError =
@@ -6324,7 +6496,7 @@ export type ListSlotTypesError =
  * Gets a list of slot types that match the specified criteria.
  */
 export const listSlotTypes: API.PaginatedOperationMethod<
-  ListSlotTypesRequest,
+  ListSlotTypesRequest & RegionInput,
   ListSlotTypesResponse,
   ListSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -6347,6 +6519,8 @@ export const listSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSlotTypes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -6360,7 +6534,7 @@ export type ListTagsForResourceError =
  * aliases, and bot channels can have tags associated with them.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -6376,6 +6550,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTestExecutionResultItemsError =
@@ -6389,7 +6565,7 @@ export type ListTestExecutionResultItemsError =
  * Gets a list of test execution result items.
  */
 export const listTestExecutionResultItems: API.PaginatedOperationMethod<
-  ListTestExecutionResultItemsRequest,
+  ListTestExecutionResultItemsRequest & RegionInput,
   ListTestExecutionResultItemsResponse,
   ListTestExecutionResultItemsError,
   Credentials | HttpClient.HttpClient,
@@ -6412,6 +6588,8 @@ export const listTestExecutionResultItems: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestExecutionResultItems",
 })) as any;
 
 export type ListTestExecutionsError =
@@ -6424,7 +6602,7 @@ export type ListTestExecutionsError =
  * The list of test set executions.
  */
 export const listTestExecutions: API.PaginatedOperationMethod<
-  ListTestExecutionsRequest,
+  ListTestExecutionsRequest & RegionInput,
   ListTestExecutionsResponse,
   ListTestExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -6446,6 +6624,8 @@ export const listTestExecutions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestExecutions",
 })) as any;
 
 export type ListTestSetRecordsError =
@@ -6459,7 +6639,7 @@ export type ListTestSetRecordsError =
  * The list of test set records.
  */
 export const listTestSetRecords: API.PaginatedOperationMethod<
-  ListTestSetRecordsRequest,
+  ListTestSetRecordsRequest & RegionInput,
   ListTestSetRecordsResponse,
   ListTestSetRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -6482,6 +6662,8 @@ export const listTestSetRecords: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestSetRecords",
 })) as any;
 
 export type ListTestSetsError =
@@ -6494,7 +6676,7 @@ export type ListTestSetsError =
  * The list of the test sets
  */
 export const listTestSets: API.PaginatedOperationMethod<
-  ListTestSetsRequest,
+  ListTestSetsRequest & RegionInput,
   ListTestSetsResponse,
   ListTestSetsError,
   Credentials | HttpClient.HttpClient,
@@ -6516,6 +6698,8 @@ export const listTestSets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestSets",
 })) as any;
 
 export type ListUtteranceAnalyticsDataError =
@@ -6542,7 +6726,7 @@ export type ListUtteranceAnalyticsDataError =
  * - Use the `maxResults` field to limit the number of results to return in a single response and the `nextToken` field to return the next batch of results if the response does not return the full set of results.
  */
 export const listUtteranceAnalyticsData: API.PaginatedOperationMethod<
-  ListUtteranceAnalyticsDataRequest,
+  ListUtteranceAnalyticsDataRequest & RegionInput,
   ListUtteranceAnalyticsDataResponse,
   ListUtteranceAnalyticsDataError,
   Credentials | HttpClient.HttpClient,
@@ -6565,6 +6749,8 @@ export const listUtteranceAnalyticsData: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUtteranceAnalyticsData",
 })) as any;
 
 export type ListUtteranceMetricsError =
@@ -6595,7 +6781,7 @@ export type ListUtteranceMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. Currently, you can specify it in either field, but not in both.
  */
 export const listUtteranceMetrics: API.PaginatedOperationMethod<
-  ListUtteranceMetricsRequest,
+  ListUtteranceMetricsRequest & RegionInput,
   ListUtteranceMetricsResponse,
   ListUtteranceMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6618,6 +6804,8 @@ export const listUtteranceMetrics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUtteranceMetrics",
 })) as any;
 
 export type SearchAssociatedTranscriptsError =
@@ -6632,7 +6820,7 @@ export type SearchAssociatedTranscriptsError =
  * criteria.
  */
 export const searchAssociatedTranscripts: API.OperationMethod<
-  SearchAssociatedTranscriptsRequest,
+  SearchAssociatedTranscriptsRequest & RegionInput,
   SearchAssociatedTranscriptsResponse,
   SearchAssociatedTranscriptsError,
   Credentials | HttpClient.HttpClient
@@ -6649,6 +6837,8 @@ export const searchAssociatedTranscripts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchAssociatedTranscripts",
+  telemetry: TELEMETRY,
+  span: "SearchAssociatedTranscripts",
 }));
 
 export type StartBotAnalyzerError =
@@ -6664,7 +6854,7 @@ export type StartBotAnalyzerError =
  * The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization.
  */
 export const startBotAnalyzer: API.OperationMethod<
-  StartBotAnalyzerRequest,
+  StartBotAnalyzerRequest & RegionInput,
   StartBotAnalyzerResponse,
   StartBotAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -6681,6 +6871,8 @@ export const startBotAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBotAnalyzer",
+  telemetry: TELEMETRY,
+  span: "StartBotAnalyzer",
 }));
 
 export type StartBotRecommendationError =
@@ -6697,7 +6889,7 @@ export type StartBotRecommendationError =
  * recommendation process.
  */
 export const startBotRecommendation: API.OperationMethod<
-  StartBotRecommendationRequest,
+  StartBotRecommendationRequest & RegionInput,
   StartBotRecommendationResponse,
   StartBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -6716,6 +6908,8 @@ export const startBotRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBotRecommendation",
+  telemetry: TELEMETRY,
+  span: "StartBotRecommendation",
 }));
 
 export type StartBotResourceGenerationError =
@@ -6734,7 +6928,7 @@ export type StartBotResourceGenerationError =
  * then modify and import this configuration.
  */
 export const startBotResourceGeneration: API.OperationMethod<
-  StartBotResourceGenerationRequest,
+  StartBotResourceGenerationRequest & RegionInput,
   StartBotResourceGenerationResponse,
   StartBotResourceGenerationError,
   Credentials | HttpClient.HttpClient
@@ -6752,6 +6946,8 @@ export const startBotResourceGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBotResourceGeneration",
+  telemetry: TELEMETRY,
+  span: "StartBotResourceGeneration",
 }));
 
 export type StartImportError =
@@ -6767,7 +6963,7 @@ export type StartImportError =
  * archive that you uploaded to an S3 bucket.
  */
 export const startImport: API.OperationMethod<
-  StartImportRequest,
+  StartImportRequest & RegionInput,
   StartImportResponse,
   StartImportError,
   Credentials | HttpClient.HttpClient
@@ -6785,6 +6981,8 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
+  telemetry: TELEMETRY,
+  span: "StartImport",
 }));
 
 export type StartTestExecutionError =
@@ -6799,7 +6997,7 @@ export type StartTestExecutionError =
  * The action to start test set execution.
  */
 export const startTestExecution: API.OperationMethod<
-  StartTestExecutionRequest,
+  StartTestExecutionRequest & RegionInput,
   StartTestExecutionResponse,
   StartTestExecutionError,
   Credentials | HttpClient.HttpClient
@@ -6817,6 +7015,8 @@ export const startTestExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTestExecution",
+  telemetry: TELEMETRY,
+  span: "StartTestExecution",
 }));
 
 export type StartTestSetGenerationError =
@@ -6831,7 +7031,7 @@ export type StartTestSetGenerationError =
  * The action to start the generation of test set.
  */
 export const startTestSetGeneration: API.OperationMethod<
-  StartTestSetGenerationRequest,
+  StartTestSetGenerationRequest & RegionInput,
   StartTestSetGenerationResponse,
   StartTestSetGenerationError,
   Credentials | HttpClient.HttpClient
@@ -6849,6 +7049,8 @@ export const startTestSetGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTestSetGeneration",
+  telemetry: TELEMETRY,
+  span: "StartTestSetGeneration",
 }));
 
 export type StopBotAnalyzerError =
@@ -6861,7 +7063,7 @@ export type StopBotAnalyzerError =
  * Cancels an ongoing bot analysis execution. Once stopped, the analysis cannot be resumed and no recommendations will be generated.
  */
 export const stopBotAnalyzer: API.OperationMethod<
-  StopBotAnalyzerRequest,
+  StopBotAnalyzerRequest & RegionInput,
   StopBotAnalyzerResponse,
   StopBotAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -6877,6 +7079,8 @@ export const stopBotAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBotAnalyzer",
+  telemetry: TELEMETRY,
+  span: "StopBotAnalyzer",
 }));
 
 export type StopBotRecommendationError =
@@ -6892,7 +7096,7 @@ export type StopBotRecommendationError =
  * Stop an already running Bot Recommendation request.
  */
 export const stopBotRecommendation: API.OperationMethod<
-  StopBotRecommendationRequest,
+  StopBotRecommendationRequest & RegionInput,
   StopBotRecommendationResponse,
   StopBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -6911,6 +7115,8 @@ export const stopBotRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBotRecommendation",
+  telemetry: TELEMETRY,
+  span: "StopBotRecommendation",
 }));
 
 export type TagResourceError =
@@ -6925,7 +7131,7 @@ export type TagResourceError =
  * value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6941,6 +7147,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6953,7 +7161,7 @@ export type UntagResourceError =
  * Removes tags from a bot, bot alias, or bot channel.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6969,6 +7177,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBotError =
@@ -6983,7 +7193,7 @@ export type UpdateBotError =
  * Updates the configuration of an existing bot.
  */
 export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
+  UpdateBotRequest & RegionInput,
   UpdateBotResponse,
   UpdateBotError,
   Credentials | HttpClient.HttpClient
@@ -7001,6 +7211,8 @@ export const updateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBot",
+  telemetry: TELEMETRY,
+  span: "UpdateBot",
 }));
 
 export type UpdateBotAliasError =
@@ -7015,7 +7227,7 @@ export type UpdateBotAliasError =
  * Updates the configuration of an existing bot alias.
  */
 export const updateBotAlias: API.OperationMethod<
-  UpdateBotAliasRequest,
+  UpdateBotAliasRequest & RegionInput,
   UpdateBotAliasResponse,
   UpdateBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -7033,6 +7245,8 @@ export const updateBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBotAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateBotAlias",
 }));
 
 export type UpdateBotLocaleError =
@@ -7047,7 +7261,7 @@ export type UpdateBotLocaleError =
  * Updates the settings that a bot has for a specific locale.
  */
 export const updateBotLocale: API.OperationMethod<
-  UpdateBotLocaleRequest,
+  UpdateBotLocaleRequest & RegionInput,
   UpdateBotLocaleResponse,
   UpdateBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -7065,6 +7279,8 @@ export const updateBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBotLocale",
+  telemetry: TELEMETRY,
+  span: "UpdateBotLocale",
 }));
 
 export type UpdateBotRecommendationError =
@@ -7080,7 +7296,7 @@ export type UpdateBotRecommendationError =
  * Updates an existing bot recommendation request.
  */
 export const updateBotRecommendation: API.OperationMethod<
-  UpdateBotRecommendationRequest,
+  UpdateBotRecommendationRequest & RegionInput,
   UpdateBotRecommendationResponse,
   UpdateBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -7099,6 +7315,8 @@ export const updateBotRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBotRecommendation",
+  telemetry: TELEMETRY,
+  span: "UpdateBotRecommendation",
 }));
 
 export type UpdateExportError =
@@ -7118,7 +7336,7 @@ export type UpdateExportError =
  * DescribeExport operation.
  */
 export const updateExport: API.OperationMethod<
-  UpdateExportRequest,
+  UpdateExportRequest & RegionInput,
   UpdateExportResponse,
   UpdateExportError,
   Credentials | HttpClient.HttpClient
@@ -7136,6 +7354,8 @@ export const updateExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExport",
+  telemetry: TELEMETRY,
+  span: "UpdateExport",
 }));
 
 export type UpdateIntentError =
@@ -7150,7 +7370,7 @@ export type UpdateIntentError =
  * Updates the settings for an intent.
  */
 export const updateIntent: API.OperationMethod<
-  UpdateIntentRequest,
+  UpdateIntentRequest & RegionInput,
   UpdateIntentResponse,
   UpdateIntentError,
   Credentials | HttpClient.HttpClient
@@ -7168,6 +7388,8 @@ export const updateIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntent",
+  telemetry: TELEMETRY,
+  span: "UpdateIntent",
 }));
 
 export type UpdateResourcePolicyError =
@@ -7184,7 +7406,7 @@ export type UpdateResourcePolicyError =
  * exception.
  */
 export const updateResourcePolicy: API.OperationMethod<
-  UpdateResourcePolicyRequest,
+  UpdateResourcePolicyRequest & RegionInput,
   UpdateResourcePolicyResponse,
   UpdateResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7202,6 +7424,8 @@ export const updateResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateResourcePolicy",
 }));
 
 export type UpdateSlotError =
@@ -7216,7 +7440,7 @@ export type UpdateSlotError =
  * Updates the settings for a slot.
  */
 export const updateSlot: API.OperationMethod<
-  UpdateSlotRequest,
+  UpdateSlotRequest & RegionInput,
   UpdateSlotResponse,
   UpdateSlotError,
   Credentials | HttpClient.HttpClient
@@ -7234,6 +7458,8 @@ export const updateSlot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlot",
+  telemetry: TELEMETRY,
+  span: "UpdateSlot",
 }));
 
 export type UpdateSlotTypeError =
@@ -7248,7 +7474,7 @@ export type UpdateSlotTypeError =
  * Updates the configuration of an existing slot type.
  */
 export const updateSlotType: API.OperationMethod<
-  UpdateSlotTypeRequest,
+  UpdateSlotTypeRequest & RegionInput,
   UpdateSlotTypeResponse,
   UpdateSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -7266,6 +7492,8 @@ export const updateSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlotType",
+  telemetry: TELEMETRY,
+  span: "UpdateSlotType",
 }));
 
 export type UpdateTestSetError =
@@ -7280,7 +7508,7 @@ export type UpdateTestSetError =
  * The action to update the test set.
  */
 export const updateTestSet: API.OperationMethod<
-  UpdateTestSetRequest,
+  UpdateTestSetRequest & RegionInput,
   UpdateTestSetResponse,
   UpdateTestSetError,
   Credentials | HttpClient.HttpClient
@@ -7298,6 +7526,8 @@ export const updateTestSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTestSet",
+  telemetry: TELEMETRY,
+  span: "UpdateTestSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

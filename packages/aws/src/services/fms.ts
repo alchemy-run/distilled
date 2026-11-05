@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -68,6 +70,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://fms.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "FMS",
+  service: "FMS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalErrorException>()("InternalErrorException", {
@@ -1211,7 +1228,7 @@ export type AssociateAdminAccountError =
  * For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators in the *Firewall Manager Developer Guide*.
  */
 export const associateAdminAccount: API.OperationMethod<
-  AssociateAdminAccountRequest,
+  AssociateAdminAccountRequest & RegionInput,
   AssociateAdminAccountResponse,
   AssociateAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1228,6 +1245,8 @@ export const associateAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAdminAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateAdminAccount",
 }));
 
 export type AssociateThirdPartyFirewallError =
@@ -1240,7 +1259,7 @@ export type AssociateThirdPartyFirewallError =
  * Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
  */
 export const associateThirdPartyFirewall: API.OperationMethod<
-  AssociateThirdPartyFirewallRequest,
+  AssociateThirdPartyFirewallRequest & RegionInput,
   AssociateThirdPartyFirewallResponse,
   AssociateThirdPartyFirewallError,
   Credentials | HttpClient.HttpClient
@@ -1256,6 +1275,8 @@ export const associateThirdPartyFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateThirdPartyFirewall",
+  telemetry: TELEMETRY,
+  span: "AssociateThirdPartyFirewall",
 }));
 
 export type BatchAssociateResourceError =
@@ -1269,7 +1290,7 @@ export type BatchAssociateResourceError =
  * Associate resources to a Firewall Manager resource set.
  */
 export const batchAssociateResource: API.OperationMethod<
-  BatchAssociateResourceRequest,
+  BatchAssociateResourceRequest & RegionInput,
   BatchAssociateResourceResponse,
   BatchAssociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1286,6 +1307,8 @@ export const batchAssociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateResource",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateResource",
 }));
 
 export type BatchDisassociateResourceError =
@@ -1298,7 +1321,7 @@ export type BatchDisassociateResourceError =
  * Disassociates resources from a Firewall Manager resource set.
  */
 export const batchDisassociateResource: API.OperationMethod<
-  BatchDisassociateResourceRequest,
+  BatchDisassociateResourceRequest & RegionInput,
   BatchDisassociateResourceResponse,
   BatchDisassociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1314,6 +1337,8 @@ export const batchDisassociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateResource",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateResource",
 }));
 
 export type DeleteAppsListError =
@@ -1325,7 +1350,7 @@ export type DeleteAppsListError =
  * Permanently deletes an Firewall Manager applications list.
  */
 export const deleteAppsList: API.OperationMethod<
-  DeleteAppsListRequest,
+  DeleteAppsListRequest & RegionInput,
   DeleteAppsListResponse,
   DeleteAppsListError,
   Credentials | HttpClient.HttpClient
@@ -1336,6 +1361,8 @@ export const deleteAppsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppsList",
+  telemetry: TELEMETRY,
+  span: "DeleteAppsList",
 }));
 
 export type DeleteNotificationChannelError =
@@ -1348,7 +1375,7 @@ export type DeleteNotificationChannelError =
  * Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
  */
 export const deleteNotificationChannel: API.OperationMethod<
-  DeleteNotificationChannelRequest,
+  DeleteNotificationChannelRequest & RegionInput,
   DeleteNotificationChannelResponse,
   DeleteNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -1359,6 +1386,8 @@ export const deleteNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationChannel",
 }));
 
 export type DeletePolicyError =
@@ -1372,7 +1401,7 @@ export type DeletePolicyError =
  * Permanently deletes an Firewall Manager policy.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1389,6 +1418,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeleteProtocolsListError =
@@ -1400,7 +1431,7 @@ export type DeleteProtocolsListError =
  * Permanently deletes an Firewall Manager protocols list.
  */
 export const deleteProtocolsList: API.OperationMethod<
-  DeleteProtocolsListRequest,
+  DeleteProtocolsListRequest & RegionInput,
   DeleteProtocolsListResponse,
   DeleteProtocolsListError,
   Credentials | HttpClient.HttpClient
@@ -1411,6 +1442,8 @@ export const deleteProtocolsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtocolsList",
+  telemetry: TELEMETRY,
+  span: "DeleteProtocolsList",
 }));
 
 export type DeleteResourceSetError =
@@ -1423,7 +1456,7 @@ export type DeleteResourceSetError =
  * Deletes the specified ResourceSet.
  */
 export const deleteResourceSet: API.OperationMethod<
-  DeleteResourceSetRequest,
+  DeleteResourceSetRequest & RegionInput,
   DeleteResourceSetResponse,
   DeleteResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -1439,6 +1472,8 @@ export const deleteResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceSet",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceSet",
 }));
 
 export type DisassociateAdminAccountError =
@@ -1452,7 +1487,7 @@ export type DisassociateAdminAccountError =
  * Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
  */
 export const disassociateAdminAccount: API.OperationMethod<
-  DisassociateAdminAccountRequest,
+  DisassociateAdminAccountRequest & RegionInput,
   DisassociateAdminAccountResponse,
   DisassociateAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1463,6 +1498,8 @@ export const disassociateAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateAdminAccount",
 }));
 
 export type DisassociateThirdPartyFirewallError =
@@ -1475,7 +1512,7 @@ export type DisassociateThirdPartyFirewallError =
  * Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call `DisassociateThirdPartyFirewall`, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
  */
 export const disassociateThirdPartyFirewall: API.OperationMethod<
-  DisassociateThirdPartyFirewallRequest,
+  DisassociateThirdPartyFirewallRequest & RegionInput,
   DisassociateThirdPartyFirewallResponse,
   DisassociateThirdPartyFirewallError,
   Credentials | HttpClient.HttpClient
@@ -1491,6 +1528,8 @@ export const disassociateThirdPartyFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateThirdPartyFirewall",
+  telemetry: TELEMETRY,
+  span: "DisassociateThirdPartyFirewall",
 }));
 
 export type GetAdminAccountError =
@@ -1503,7 +1542,7 @@ export type GetAdminAccountError =
  * as the Firewall Manager default administrator.
  */
 export const getAdminAccount: API.OperationMethod<
-  GetAdminAccountRequest,
+  GetAdminAccountRequest & RegionInput,
   GetAdminAccountResponse,
   GetAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1514,6 +1553,8 @@ export const getAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdminAccount",
+  telemetry: TELEMETRY,
+  span: "GetAdminAccount",
 }));
 
 export type GetAdminScopeError =
@@ -1527,7 +1568,7 @@ export type GetAdminScopeError =
  * Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
  */
 export const getAdminScope: API.OperationMethod<
-  GetAdminScopeRequest,
+  GetAdminScopeRequest & RegionInput,
   GetAdminScopeResponse,
   GetAdminScopeError,
   Credentials | HttpClient.HttpClient
@@ -1544,6 +1585,8 @@ export const getAdminScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdminScope",
+  telemetry: TELEMETRY,
+  span: "GetAdminScope",
 }));
 
 export type GetAppsListError =
@@ -1555,7 +1598,7 @@ export type GetAppsListError =
  * Returns information about the specified Firewall Manager applications list.
  */
 export const getAppsList: API.OperationMethod<
-  GetAppsListRequest,
+  GetAppsListRequest & RegionInput,
   GetAppsListResponse,
   GetAppsListError,
   Credentials | HttpClient.HttpClient
@@ -1566,6 +1609,8 @@ export const getAppsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppsList",
+  telemetry: TELEMETRY,
+  span: "GetAppsList",
 }));
 
 export type GetComplianceDetailError =
@@ -1581,7 +1626,7 @@ export type GetComplianceDetailError =
  * The reasons for resources being considered compliant depend on the Firewall Manager policy type.
  */
 export const getComplianceDetail: API.OperationMethod<
-  GetComplianceDetailRequest,
+  GetComplianceDetailRequest & RegionInput,
   GetComplianceDetailResponse,
   GetComplianceDetailError,
   Credentials | HttpClient.HttpClient
@@ -1597,6 +1642,8 @@ export const getComplianceDetail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceDetail",
+  telemetry: TELEMETRY,
+  span: "GetComplianceDetail",
 }));
 
 export type GetNotificationChannelError =
@@ -1610,7 +1657,7 @@ export type GetNotificationChannelError =
  * record Firewall Manager SNS logs.
  */
 export const getNotificationChannel: API.OperationMethod<
-  GetNotificationChannelRequest,
+  GetNotificationChannelRequest & RegionInput,
   GetNotificationChannelResponse,
   GetNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -1621,6 +1668,8 @@ export const getNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationChannel",
+  telemetry: TELEMETRY,
+  span: "GetNotificationChannel",
 }));
 
 export type GetPolicyError =
@@ -1633,7 +1682,7 @@ export type GetPolicyError =
  * Returns information about the specified Firewall Manager policy.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1649,6 +1698,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetProtectionStatusError =
@@ -1661,7 +1712,7 @@ export type GetProtectionStatusError =
  * in the event of a potential DDoS attack. Other policy types are currently unsupported.
  */
 export const getProtectionStatus: API.OperationMethod<
-  GetProtectionStatusRequest,
+  GetProtectionStatusRequest & RegionInput,
   GetProtectionStatusResponse,
   GetProtectionStatusError,
   Credentials | HttpClient.HttpClient
@@ -1672,6 +1723,8 @@ export const getProtectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectionStatus",
+  telemetry: TELEMETRY,
+  span: "GetProtectionStatus",
 }));
 
 export type GetProtocolsListError =
@@ -1683,7 +1736,7 @@ export type GetProtocolsListError =
  * Returns information about the specified Firewall Manager protocols list.
  */
 export const getProtocolsList: API.OperationMethod<
-  GetProtocolsListRequest,
+  GetProtocolsListRequest & RegionInput,
   GetProtocolsListResponse,
   GetProtocolsListError,
   Credentials | HttpClient.HttpClient
@@ -1694,6 +1747,8 @@ export const getProtocolsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtocolsList",
+  telemetry: TELEMETRY,
+  span: "GetProtocolsList",
 }));
 
 export type GetResourceSetError =
@@ -1706,7 +1761,7 @@ export type GetResourceSetError =
  * Gets information about a specific resource set.
  */
 export const getResourceSet: API.OperationMethod<
-  GetResourceSetRequest,
+  GetResourceSetRequest & RegionInput,
   GetResourceSetResponse,
   GetResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -1722,6 +1777,8 @@ export const getResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSet",
+  telemetry: TELEMETRY,
+  span: "GetResourceSet",
 }));
 
 export type GetThirdPartyFirewallAssociationStatusError =
@@ -1734,7 +1791,7 @@ export type GetThirdPartyFirewallAssociationStatusError =
  * The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
  */
 export const getThirdPartyFirewallAssociationStatus: API.OperationMethod<
-  GetThirdPartyFirewallAssociationStatusRequest,
+  GetThirdPartyFirewallAssociationStatusRequest & RegionInput,
   GetThirdPartyFirewallAssociationStatusResponse,
   GetThirdPartyFirewallAssociationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1750,6 +1807,8 @@ export const getThirdPartyFirewallAssociationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThirdPartyFirewallAssociationStatus",
+  telemetry: TELEMETRY,
+  span: "GetThirdPartyFirewallAssociationStatus",
 }));
 
 export type GetViolationDetailsError =
@@ -1761,7 +1820,7 @@ export type GetViolationDetailsError =
  * Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account.
  */
 export const getViolationDetails: API.OperationMethod<
-  GetViolationDetailsRequest,
+  GetViolationDetailsRequest & RegionInput,
   GetViolationDetailsResponse,
   GetViolationDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1772,6 +1831,8 @@ export const getViolationDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetViolationDetails",
+  telemetry: TELEMETRY,
+  span: "GetViolationDetails",
 }));
 
 export type ListAdminAccountsForOrganizationError =
@@ -1786,7 +1847,7 @@ export type ListAdminAccountsForOrganizationError =
  * This operation can be called only from the organization's management account.
  */
 export const listAdminAccountsForOrganization: API.PaginatedOperationMethod<
-  ListAdminAccountsForOrganizationRequest,
+  ListAdminAccountsForOrganizationRequest & RegionInput,
   ListAdminAccountsForOrganizationResponse,
   ListAdminAccountsForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -1809,6 +1870,8 @@ export const listAdminAccountsForOrganization: API.PaginatedOperationMethod<
     items: "AdminAccounts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAdminAccountsForOrganization",
 })) as any;
 
 export type ListAdminsManagingAccountError =
@@ -1820,7 +1883,7 @@ export type ListAdminsManagingAccountError =
  * Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their AdminScope.
  */
 export const listAdminsManagingAccount: API.PaginatedOperationMethod<
-  ListAdminsManagingAccountRequest,
+  ListAdminsManagingAccountRequest & RegionInput,
   ListAdminsManagingAccountResponse,
   ListAdminsManagingAccountError,
   Credentials | HttpClient.HttpClient,
@@ -1838,6 +1901,8 @@ export const listAdminsManagingAccount: API.PaginatedOperationMethod<
     items: "AdminAccounts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAdminsManagingAccount",
 })) as any;
 
 export type ListAppsListsError =
@@ -1850,7 +1915,7 @@ export type ListAppsListsError =
  * Returns an array of `AppsListDataSummary` objects.
  */
 export const listAppsLists: API.PaginatedOperationMethod<
-  ListAppsListsRequest,
+  ListAppsListsRequest & RegionInput,
   ListAppsListsResponse,
   ListAppsListsError,
   Credentials | HttpClient.HttpClient,
@@ -1873,6 +1938,8 @@ export const listAppsLists: API.PaginatedOperationMethod<
     items: "AppsLists",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppsLists",
 })) as any;
 
 export type ListComplianceStatusError =
@@ -1885,7 +1952,7 @@ export type ListComplianceStatusError =
  * by the specified policy.
  */
 export const listComplianceStatus: API.PaginatedOperationMethod<
-  ListComplianceStatusRequest,
+  ListComplianceStatusRequest & RegionInput,
   ListComplianceStatusResponse,
   ListComplianceStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1903,6 +1970,8 @@ export const listComplianceStatus: API.PaginatedOperationMethod<
     items: "PolicyComplianceStatusList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComplianceStatus",
 })) as any;
 
 export type ListDiscoveredResourcesError =
@@ -1914,7 +1983,7 @@ export type ListDiscoveredResourcesError =
  * Returns an array of resources in the organization's accounts that are available to be associated with a resource set.
  */
 export const listDiscoveredResources: API.OperationMethod<
-  ListDiscoveredResourcesRequest,
+  ListDiscoveredResourcesRequest & RegionInput,
   ListDiscoveredResourcesResponse,
   ListDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient
@@ -1925,6 +1994,8 @@ export const listDiscoveredResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDiscoveredResources",
+  telemetry: TELEMETRY,
+  span: "ListDiscoveredResources",
 }));
 
 export type ListMemberAccountsError =
@@ -1938,7 +2009,7 @@ export type ListMemberAccountsError =
  * Either an Firewall Manager administrator or the organization's management account can make this request.
  */
 export const listMemberAccounts: API.PaginatedOperationMethod<
-  ListMemberAccountsRequest,
+  ListMemberAccountsRequest & RegionInput,
   ListMemberAccountsResponse,
   ListMemberAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1956,6 +2027,8 @@ export const listMemberAccounts: API.PaginatedOperationMethod<
     items: "MemberAccounts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemberAccounts",
 })) as any;
 
 export type ListPoliciesError =
@@ -1968,7 +2041,7 @@ export type ListPoliciesError =
  * Returns an array of `PolicySummary` objects.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1991,6 +2064,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "PolicyList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 })) as any;
 
 export type ListProtocolsListsError =
@@ -2002,7 +2077,7 @@ export type ListProtocolsListsError =
  * Returns an array of `ProtocolsListDataSummary` objects.
  */
 export const listProtocolsLists: API.PaginatedOperationMethod<
-  ListProtocolsListsRequest,
+  ListProtocolsListsRequest & RegionInput,
   ListProtocolsListsResponse,
   ListProtocolsListsError,
   Credentials | HttpClient.HttpClient,
@@ -2020,6 +2095,8 @@ export const listProtocolsLists: API.PaginatedOperationMethod<
     items: "ProtocolsLists",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtocolsLists",
 })) as any;
 
 export type ListResourceSetResourcesError =
@@ -2032,7 +2109,7 @@ export type ListResourceSetResourcesError =
  * Returns an array of resources that are currently associated to a resource set.
  */
 export const listResourceSetResources: API.OperationMethod<
-  ListResourceSetResourcesRequest,
+  ListResourceSetResourcesRequest & RegionInput,
   ListResourceSetResourcesResponse,
   ListResourceSetResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2048,6 +2125,8 @@ export const listResourceSetResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceSetResources",
+  telemetry: TELEMETRY,
+  span: "ListResourceSetResources",
 }));
 
 export type ListResourceSetsError =
@@ -2059,7 +2138,7 @@ export type ListResourceSetsError =
  * Returns an array of `ResourceSetSummary` objects.
  */
 export const listResourceSets: API.OperationMethod<
-  ListResourceSetsRequest,
+  ListResourceSetsRequest & RegionInput,
   ListResourceSetsResponse,
   ListResourceSetsError,
   Credentials | HttpClient.HttpClient
@@ -2070,6 +2149,8 @@ export const listResourceSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceSets",
+  telemetry: TELEMETRY,
+  span: "ListResourceSets",
 }));
 
 export type ListTagsForResourceError =
@@ -2082,7 +2163,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of tags for the specified Amazon Web Services resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2098,6 +2179,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListThirdPartyFirewallFirewallPoliciesError =
@@ -2110,7 +2193,7 @@ export type ListThirdPartyFirewallFirewallPoliciesError =
  * Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
  */
 export const listThirdPartyFirewallFirewallPolicies: API.PaginatedOperationMethod<
-  ListThirdPartyFirewallFirewallPoliciesRequest,
+  ListThirdPartyFirewallFirewallPoliciesRequest & RegionInput,
   ListThirdPartyFirewallFirewallPoliciesResponse,
   ListThirdPartyFirewallFirewallPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2133,6 +2216,8 @@ export const listThirdPartyFirewallFirewallPolicies: API.PaginatedOperationMetho
     items: "ThirdPartyFirewallFirewallPolicies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThirdPartyFirewallFirewallPolicies",
 })) as any;
 
 export type PutAdminAccountError =
@@ -2146,7 +2231,7 @@ export type PutAdminAccountError =
  * Managing the Amazon Web Services Accounts in Your Organization.
  */
 export const putAdminAccount: API.OperationMethod<
-  PutAdminAccountRequest,
+  PutAdminAccountRequest & RegionInput,
   PutAdminAccountResponse,
   PutAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2162,6 +2247,8 @@ export const putAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAdminAccount",
+  telemetry: TELEMETRY,
+  span: "PutAdminAccount",
 }));
 
 export type PutAppsListError =
@@ -2175,7 +2262,7 @@ export type PutAppsListError =
  * Creates an Firewall Manager applications list.
  */
 export const putAppsList: API.OperationMethod<
-  PutAppsListRequest,
+  PutAppsListRequest & RegionInput,
   PutAppsListResponse,
   PutAppsListError,
   Credentials | HttpClient.HttpClient
@@ -2192,6 +2279,8 @@ export const putAppsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppsList",
+  telemetry: TELEMETRY,
+  span: "PutAppsList",
 }));
 
 export type PutNotificationChannelError =
@@ -2207,7 +2296,7 @@ export type PutNotificationChannelError =
  * Service roles for Firewall Manager in the *Firewall Manager Developer Guide*.
  */
 export const putNotificationChannel: API.OperationMethod<
-  PutNotificationChannelRequest,
+  PutNotificationChannelRequest & RegionInput,
   PutNotificationChannelResponse,
   PutNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -2218,6 +2307,8 @@ export const putNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationChannel",
+  telemetry: TELEMETRY,
+  span: "PutNotificationChannel",
 }));
 
 export type PutPolicyError =
@@ -2269,7 +2360,7 @@ export type PutPolicyError =
  * Fortigate Cloud Native Firewall (CNF) protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day threats and secures cloud infrastructures with industry-leading advanced threat prevention, smart web application firewalls (WAF), and API protection.
  */
 export const putPolicy: API.OperationMethod<
-  PutPolicyRequest,
+  PutPolicyRequest & RegionInput,
   PutPolicyResponse,
   PutPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2287,6 +2378,8 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
+  telemetry: TELEMETRY,
+  span: "PutPolicy",
 }));
 
 export type PutProtocolsListError =
@@ -2300,7 +2393,7 @@ export type PutProtocolsListError =
  * Creates an Firewall Manager protocols list.
  */
 export const putProtocolsList: API.OperationMethod<
-  PutProtocolsListRequest,
+  PutProtocolsListRequest & RegionInput,
   PutProtocolsListResponse,
   PutProtocolsListError,
   Credentials | HttpClient.HttpClient
@@ -2317,6 +2410,8 @@ export const putProtocolsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProtocolsList",
+  telemetry: TELEMETRY,
+  span: "PutProtocolsList",
 }));
 
 export type PutResourceSetError =
@@ -2331,7 +2426,7 @@ export type PutResourceSetError =
  * An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service.
  */
 export const putResourceSet: API.OperationMethod<
-  PutResourceSetRequest,
+  PutResourceSetRequest & RegionInput,
   PutResourceSetResponse,
   PutResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -2347,6 +2442,8 @@ export const putResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceSet",
+  telemetry: TELEMETRY,
+  span: "PutResourceSet",
 }));
 
 export type TagResourceError =
@@ -2360,7 +2457,7 @@ export type TagResourceError =
  * Adds one or more tags to an Amazon Web Services resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2377,6 +2474,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2389,7 +2488,7 @@ export type UntagResourceError =
  * Removes one or more tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2405,6 +2504,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

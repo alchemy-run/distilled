@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lambda.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LambdaWeb",
+  service: "LambdaWeb",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -567,7 +583,7 @@ export type CreateWebFunctionError =
  * To use this operation, you must have the `CreateWebFunction` permission on the web function. You don't need separate permissions for the initial revision or endpoint.
  */
 export const createWebFunction: API.OperationMethod<
-  CreateWebFunctionRequest,
+  CreateWebFunctionRequest & RegionInput,
   CreateWebFunctionResponse,
   CreateWebFunctionError,
   Credentials | HttpClient.HttpClient
@@ -587,6 +603,8 @@ export const createWebFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebFunction",
+  telemetry: TELEMETRY,
+  span: "CreateWebFunction",
 }));
 
 export type CreateWebFunctionEndpointError =
@@ -604,7 +622,7 @@ export type CreateWebFunctionEndpointError =
  * To use this operation, you must have the `CreateWebFunctionEndpoint` permission on the web function, not on the endpoint being created.
  */
 export const createWebFunctionEndpoint: API.OperationMethod<
-  CreateWebFunctionEndpointRequest,
+  CreateWebFunctionEndpointRequest & RegionInput,
   CreateWebFunctionEndpointResponse,
   CreateWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -623,6 +641,8 @@ export const createWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebFunctionEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateWebFunctionEndpoint",
 }));
 
 export type CreateWebFunctionRevisionError =
@@ -641,7 +661,7 @@ export type CreateWebFunctionRevisionError =
  * To use this operation, you must have the `CreateWebFunctionRevision` permission on the web function, not on the revision being created.
  */
 export const createWebFunctionRevision: API.OperationMethod<
-  CreateWebFunctionRevisionRequest,
+  CreateWebFunctionRevisionRequest & RegionInput,
   CreateWebFunctionRevisionResponse,
   CreateWebFunctionRevisionError,
   Credentials | HttpClient.HttpClient
@@ -661,6 +681,8 @@ export const createWebFunctionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebFunctionRevision",
+  telemetry: TELEMETRY,
+  span: "CreateWebFunctionRevision",
 }));
 
 export type DeleteResourcePolicyError =
@@ -675,7 +697,7 @@ export type DeleteResourcePolicyError =
  * Removes the resource-based policy from a web function.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -693,6 +715,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteWebFunctionError =
@@ -709,7 +733,7 @@ export type DeleteWebFunctionError =
  * To use this operation, you must have the `DeleteWebFunction` permission on the web function. You don't need the `DeleteWebFunctionRevision` or `DeleteWebFunctionEndpoint` permission.
  */
 export const deleteWebFunction: API.OperationMethod<
-  DeleteWebFunctionRequest,
+  DeleteWebFunctionRequest & RegionInput,
   DeleteWebFunctionResponse,
   DeleteWebFunctionError,
   Credentials | HttpClient.HttpClient
@@ -727,6 +751,8 @@ export const deleteWebFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteWebFunction",
 }));
 
 export type DeleteWebFunctionEndpointError =
@@ -741,7 +767,7 @@ export type DeleteWebFunctionEndpointError =
  * Deletes a web function endpoint.
  */
 export const deleteWebFunctionEndpoint: API.OperationMethod<
-  DeleteWebFunctionEndpointRequest,
+  DeleteWebFunctionEndpointRequest & RegionInput,
   DeleteWebFunctionEndpointResponse,
   DeleteWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -759,6 +785,8 @@ export const deleteWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebFunctionEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteWebFunctionEndpoint",
 }));
 
 export type DeleteWebFunctionRevisionError =
@@ -773,7 +801,7 @@ export type DeleteWebFunctionRevisionError =
  * Deletes a web function revision. You cannot delete a revision that is currently serving traffic on an endpoint.
  */
 export const deleteWebFunctionRevision: API.OperationMethod<
-  DeleteWebFunctionRevisionRequest,
+  DeleteWebFunctionRevisionRequest & RegionInput,
   DeleteWebFunctionRevisionResponse,
   DeleteWebFunctionRevisionError,
   Credentials | HttpClient.HttpClient
@@ -791,6 +819,8 @@ export const deleteWebFunctionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebFunctionRevision",
+  telemetry: TELEMETRY,
+  span: "DeleteWebFunctionRevision",
 }));
 
 export type GetResourcePolicyError =
@@ -804,7 +834,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to a web function.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -821,6 +851,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetWebAccountSettingsError =
@@ -832,7 +864,7 @@ export type GetWebAccountSettingsError =
  * Retrieves details about your AWS Lambda Web Functions account settings for the current AWS Region, including the quotas that apply to web functions and your current usage.
  */
 export const getWebAccountSettings: API.OperationMethod<
-  GetWebAccountSettingsRequest,
+  GetWebAccountSettingsRequest & RegionInput,
   GetWebAccountSettingsResponse,
   GetWebAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -843,6 +875,8 @@ export const getWebAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetWebAccountSettings",
 }));
 
 export type GetWebFunctionError =
@@ -856,7 +890,7 @@ export type GetWebFunctionError =
  * Retrieves details about a web function, including its current state and configuration.
  */
 export const getWebFunction: API.OperationMethod<
-  GetWebFunctionRequest,
+  GetWebFunctionRequest & RegionInput,
   GetWebFunctionResponse,
   GetWebFunctionError,
   Credentials | HttpClient.HttpClient
@@ -873,6 +907,8 @@ export const getWebFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebFunction",
+  telemetry: TELEMETRY,
+  span: "GetWebFunction",
 }));
 
 export type GetWebFunctionEndpointError =
@@ -886,7 +922,7 @@ export type GetWebFunctionEndpointError =
  * Retrieves details about a web function endpoint, including its current state, configuration, and domain name.
  */
 export const getWebFunctionEndpoint: API.OperationMethod<
-  GetWebFunctionEndpointRequest,
+  GetWebFunctionEndpointRequest & RegionInput,
   GetWebFunctionEndpointResponse,
   GetWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -903,6 +939,8 @@ export const getWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebFunctionEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetWebFunctionEndpoint",
 }));
 
 export type GetWebFunctionRevisionError =
@@ -916,7 +954,7 @@ export type GetWebFunctionRevisionError =
  * Retrieves details about a web function revision, including its state and configuration.
  */
 export const getWebFunctionRevision: API.OperationMethod<
-  GetWebFunctionRevisionRequest,
+  GetWebFunctionRevisionRequest & RegionInput,
   GetWebFunctionRevisionResponse,
   GetWebFunctionRevisionError,
   Credentials | HttpClient.HttpClient
@@ -933,6 +971,8 @@ export const getWebFunctionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebFunctionRevision",
+  telemetry: TELEMETRY,
+  span: "GetWebFunctionRevision",
 }));
 
 export type ListTagsError =
@@ -946,7 +986,7 @@ export type ListTagsError =
  * Returns a list of tags applied to a web function.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -963,6 +1003,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListWebFunctionEndpointsError =
@@ -976,7 +1018,7 @@ export type ListWebFunctionEndpointsError =
  * Lists endpoints for a web function. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listWebFunctionEndpoints: API.PaginatedOperationMethod<
-  ListWebFunctionEndpointsRequest,
+  ListWebFunctionEndpointsRequest & RegionInput,
   ListWebFunctionEndpointsResponse,
   ListWebFunctionEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1000,6 +1042,8 @@ export const listWebFunctionEndpoints: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWebFunctionEndpoints",
 })) as any;
 
 export type ListWebFunctionRevisionsError =
@@ -1013,7 +1057,7 @@ export type ListWebFunctionRevisionsError =
  * Lists revisions for a web function. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listWebFunctionRevisions: API.PaginatedOperationMethod<
-  ListWebFunctionRevisionsRequest,
+  ListWebFunctionRevisionsRequest & RegionInput,
   ListWebFunctionRevisionsResponse,
   ListWebFunctionRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1037,6 +1081,8 @@ export const listWebFunctionRevisions: API.PaginatedOperationMethod<
     items: "revisions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWebFunctionRevisions",
 })) as any;
 
 export type ListWebFunctionsError =
@@ -1049,7 +1095,7 @@ export type ListWebFunctionsError =
  * Lists web functions in your account. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listWebFunctions: API.PaginatedOperationMethod<
-  ListWebFunctionsRequest,
+  ListWebFunctionsRequest & RegionInput,
   ListWebFunctionsResponse,
   ListWebFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -1072,6 +1118,8 @@ export const listWebFunctions: API.PaginatedOperationMethod<
     items: "functions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWebFunctions",
 })) as any;
 
 export type PutResourcePolicyError =
@@ -1087,7 +1135,7 @@ export type PutResourcePolicyError =
  * Adds or updates a resource-based policy on a web function. A resource-based policy grants permissions to other AWS accounts or services to perform actions on the web function.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1106,6 +1154,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type TagResourceError =
@@ -1121,7 +1171,7 @@ export type TagResourceError =
  * Adds tags to a web function. If a tag key already exists, the existing value is overwritten with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1140,6 +1190,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1154,7 +1206,7 @@ export type UntagResourceError =
  * Removes tags from a web function.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1172,6 +1224,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateWebFunctionEndpointError =
@@ -1187,7 +1241,7 @@ export type UpdateWebFunctionEndpointError =
  * Updates the configuration of a web function endpoint. You can modify the authorization type, auto-deployment mode, revision weights, scaling, and throttling settings.
  */
 export const updateWebFunctionEndpoint: API.OperationMethod<
-  UpdateWebFunctionEndpointRequest,
+  UpdateWebFunctionEndpointRequest & RegionInput,
   UpdateWebFunctionEndpointResponse,
   UpdateWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1206,6 +1260,8 @@ export const updateWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebFunctionEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateWebFunctionEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

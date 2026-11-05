@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -79,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://autoscaling.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AutoScaling",
+  service: "AutoScaling",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ActiveInstanceRefreshNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ActiveInstanceRefreshNotFoundFault>()(
@@ -1954,7 +1971,7 @@ export type AttachInstancesError =
  * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const attachInstances: API.OperationMethod<
-  AttachInstancesQuery,
+  AttachInstancesQuery & RegionInput,
   AttachInstancesResponse,
   AttachInstancesError,
   Credentials | HttpClient.HttpClient
@@ -1965,6 +1982,8 @@ export const attachInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachInstances",
+  telemetry: TELEMETRY,
+  span: "AttachInstances",
 }));
 
 export type AttachLoadBalancersError =
@@ -1995,7 +2014,7 @@ export type AttachLoadBalancersError =
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const attachLoadBalancers: API.OperationMethod<
-  AttachLoadBalancersType,
+  AttachLoadBalancersType & RegionInput,
   AttachLoadBalancersResultType,
   AttachLoadBalancersError,
   Credentials | HttpClient.HttpClient
@@ -2006,6 +2025,8 @@ export const attachLoadBalancers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancers",
+  telemetry: TELEMETRY,
+  span: "AttachLoadBalancers",
 }));
 
 export type AttachLoadBalancerTargetGroupsError =
@@ -2045,7 +2066,7 @@ export type AttachLoadBalancerTargetGroupsError =
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const attachLoadBalancerTargetGroups: API.OperationMethod<
-  AttachLoadBalancerTargetGroupsType,
+  AttachLoadBalancerTargetGroupsType & RegionInput,
   AttachLoadBalancerTargetGroupsResultType,
   AttachLoadBalancerTargetGroupsError,
   Credentials | HttpClient.HttpClient
@@ -2056,6 +2077,8 @@ export const attachLoadBalancerTargetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancerTargetGroups",
+  telemetry: TELEMETRY,
+  span: "AttachLoadBalancerTargetGroups",
 }));
 
 export type AttachTrafficSourcesError =
@@ -2087,7 +2110,7 @@ export type AttachTrafficSourcesError =
  * DetachTrafficSources API.
  */
 export const attachTrafficSources: API.OperationMethod<
-  AttachTrafficSourcesType,
+  AttachTrafficSourcesType & RegionInput,
   AttachTrafficSourcesResultType,
   AttachTrafficSourcesError,
   Credentials | HttpClient.HttpClient
@@ -2098,6 +2121,8 @@ export const attachTrafficSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachTrafficSources",
+  telemetry: TELEMETRY,
+  span: "AttachTrafficSources",
 }));
 
 export type BatchDeleteScheduledActionError = ResourceContentionFault | CommonErrors;
@@ -2105,7 +2130,7 @@ export type BatchDeleteScheduledActionError = ResourceContentionFault | CommonEr
  * Deletes one or more scheduled actions for the specified Auto Scaling group.
  */
 export const batchDeleteScheduledAction: API.OperationMethod<
-  BatchDeleteScheduledActionType,
+  BatchDeleteScheduledActionType & RegionInput,
   BatchDeleteScheduledActionAnswer,
   BatchDeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -2116,6 +2141,8 @@ export const batchDeleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteScheduledAction",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteScheduledAction",
 }));
 
 export type BatchPutScheduledUpdateGroupActionError =
@@ -2127,7 +2154,7 @@ export type BatchPutScheduledUpdateGroupActionError =
  * Creates or updates one or more scheduled scaling actions for an Auto Scaling group.
  */
 export const batchPutScheduledUpdateGroupAction: API.OperationMethod<
-  BatchPutScheduledUpdateGroupActionType,
+  BatchPutScheduledUpdateGroupActionType & RegionInput,
   BatchPutScheduledUpdateGroupActionAnswer,
   BatchPutScheduledUpdateGroupActionError,
   Credentials | HttpClient.HttpClient
@@ -2138,6 +2165,8 @@ export const batchPutScheduledUpdateGroupAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutScheduledUpdateGroupAction",
+  telemetry: TELEMETRY,
+  span: "BatchPutScheduledUpdateGroupAction",
 }));
 
 export type CancelInstanceRefreshError =
@@ -2158,7 +2187,7 @@ export type CancelInstanceRefreshError =
  * Use the RollbackInstanceRefresh API to roll back instead.
  */
 export const cancelInstanceRefresh: API.OperationMethod<
-  CancelInstanceRefreshType,
+  CancelInstanceRefreshType & RegionInput,
   CancelInstanceRefreshAnswer,
   CancelInstanceRefreshError,
   Credentials | HttpClient.HttpClient
@@ -2169,6 +2198,8 @@ export const cancelInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelInstanceRefresh",
+  telemetry: TELEMETRY,
+  span: "CancelInstanceRefresh",
 }));
 
 export type CompleteLifecycleActionError = ResourceContentionFault | CommonErrors;
@@ -2205,7 +2236,7 @@ export type CompleteLifecycleActionError = ResourceContentionFault | CommonError
  * action in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const completeLifecycleAction: API.OperationMethod<
-  CompleteLifecycleActionType,
+  CompleteLifecycleActionType & RegionInput,
   CompleteLifecycleActionAnswer,
   CompleteLifecycleActionError,
   Credentials | HttpClient.HttpClient
@@ -2216,6 +2247,8 @@ export const completeLifecycleAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteLifecycleAction",
+  telemetry: TELEMETRY,
+  span: "CompleteLifecycleAction",
 }));
 
 export type CreateAutoScalingGroupError =
@@ -2245,7 +2278,7 @@ export type CreateAutoScalingGroupError =
  * units that you use for weighting instances.
  */
 export const createAutoScalingGroup: API.OperationMethod<
-  CreateAutoScalingGroupType,
+  CreateAutoScalingGroupType & RegionInput,
   CreateAutoScalingGroupResponse,
   CreateAutoScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -2262,6 +2295,8 @@ export const createAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoScalingGroup",
+  telemetry: TELEMETRY,
+  span: "CreateAutoScalingGroup",
 }));
 
 export type CreateLaunchConfigurationError =
@@ -2286,7 +2321,7 @@ export type CreateLaunchConfigurationError =
  * For information about using launch templates, see Launch templates in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const createLaunchConfiguration: API.OperationMethod<
-  CreateLaunchConfigurationType,
+  CreateLaunchConfigurationType & RegionInput,
   CreateLaunchConfigurationResponse,
   CreateLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2297,6 +2332,8 @@ export const createLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateLaunchConfiguration",
 }));
 
 export type CreateOrUpdateTagsError =
@@ -2315,7 +2352,7 @@ export type CreateOrUpdateTagsError =
  * instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const createOrUpdateTags: API.OperationMethod<
-  CreateOrUpdateTagsType,
+  CreateOrUpdateTagsType & RegionInput,
   CreateOrUpdateTagsResponse,
   CreateOrUpdateTagsError,
   Credentials | HttpClient.HttpClient
@@ -2326,6 +2363,8 @@ export const createOrUpdateTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrUpdateTags",
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateTags",
 }));
 
 export type DeleteAutoScalingGroupError =
@@ -2358,7 +2397,7 @@ export type DeleteAutoScalingGroupError =
  * infrastructure in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const deleteAutoScalingGroup: API.OperationMethod<
-  DeleteAutoScalingGroupType,
+  DeleteAutoScalingGroupType & RegionInput,
   DeleteAutoScalingGroupResponse,
   DeleteAutoScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -2369,6 +2408,8 @@ export const deleteAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutoScalingGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteAutoScalingGroup",
 }));
 
 export type DeleteLaunchConfigurationError =
@@ -2382,7 +2423,7 @@ export type DeleteLaunchConfigurationError =
  * completes, the launch configuration is no longer available for use.
  */
 export const deleteLaunchConfiguration: API.OperationMethod<
-  LaunchConfigurationNameType,
+  LaunchConfigurationNameType & RegionInput,
   DeleteLaunchConfigurationResponse,
   DeleteLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2393,6 +2434,8 @@ export const deleteLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLaunchConfiguration",
 }));
 
 export type DeleteLifecycleHookError =
@@ -2407,7 +2450,7 @@ export type DeleteLifecycleHookError =
  * instances).
  */
 export const deleteLifecycleHook: API.OperationMethod<
-  DeleteLifecycleHookType,
+  DeleteLifecycleHookType & RegionInput,
   DeleteLifecycleHookAnswer,
   DeleteLifecycleHookError,
   Credentials | HttpClient.HttpClient
@@ -2418,6 +2461,8 @@ export const deleteLifecycleHook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecycleHook",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecycleHook",
 }));
 
 export type DeleteNotificationConfigurationError = ResourceContentionFault | CommonErrors;
@@ -2425,7 +2470,7 @@ export type DeleteNotificationConfigurationError = ResourceContentionFault | Com
  * Deletes the specified notification.
  */
 export const deleteNotificationConfiguration: API.OperationMethod<
-  DeleteNotificationConfigurationType,
+  DeleteNotificationConfigurationType & RegionInput,
   DeleteNotificationConfigurationResponse,
   DeleteNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2436,6 +2481,8 @@ export const deleteNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationConfiguration",
 }));
 
 export type DeletePolicyError = ResourceContentionFault | ServiceLinkedRoleFailure | CommonErrors;
@@ -2450,7 +2497,7 @@ export type DeletePolicyError = ResourceContentionFault | ServiceLinkedRoleFailu
  * policy in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyType,
+  DeletePolicyType & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2461,6 +2508,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeleteScheduledActionError =
@@ -2471,7 +2520,7 @@ export type DeleteScheduledActionError =
  * Deletes the specified scheduled action.
  */
 export const deleteScheduledAction: API.OperationMethod<
-  DeleteScheduledActionType,
+  DeleteScheduledActionType & RegionInput,
   DeleteScheduledActionResponse,
   DeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -2482,6 +2531,8 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledAction",
 }));
 
 export type DeleteTagsError = ResourceContentionFault | ResourceInUseFault | CommonErrors;
@@ -2489,7 +2540,7 @@ export type DeleteTagsError = ResourceContentionFault | ResourceInUseFault | Com
  * Deletes the specified tags.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsType,
+  DeleteTagsType & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -2500,6 +2551,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DeleteWarmPoolError =
@@ -2515,7 +2568,7 @@ export type DeleteWarmPoolError =
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const deleteWarmPool: API.OperationMethod<
-  DeleteWarmPoolType,
+  DeleteWarmPoolType & RegionInput,
   DeleteWarmPoolAnswer,
   DeleteWarmPoolError,
   Credentials | HttpClient.HttpClient
@@ -2531,6 +2584,8 @@ export const deleteWarmPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWarmPool",
+  telemetry: TELEMETRY,
+  span: "DeleteWarmPool",
 }));
 
 export type DescribeAccountLimitsError = ResourceContentionFault | CommonErrors;
@@ -2543,7 +2598,7 @@ export type DescribeAccountLimitsError = ResourceContentionFault | CommonErrors;
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeAccountLimits: API.OperationMethod<
-  DescribeAccountLimitsRequest,
+  DescribeAccountLimitsRequest & RegionInput,
   DescribeAccountLimitsAnswer,
   DescribeAccountLimitsError,
   Credentials | HttpClient.HttpClient
@@ -2554,6 +2609,8 @@ export const describeAccountLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountLimits",
 }));
 
 export type DescribeAdjustmentTypesError = ResourceContentionFault | CommonErrors;
@@ -2570,7 +2627,7 @@ export type DescribeAdjustmentTypesError = ResourceContentionFault | CommonError
  * - `PercentChangeInCapacity`
  */
 export const describeAdjustmentTypes: API.OperationMethod<
-  DescribeAdjustmentTypesRequest,
+  DescribeAdjustmentTypesRequest & RegionInput,
   DescribeAdjustmentTypesAnswer,
   DescribeAdjustmentTypesError,
   Credentials | HttpClient.HttpClient
@@ -2581,6 +2638,8 @@ export const describeAdjustmentTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAdjustmentTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeAdjustmentTypes",
 }));
 
 export type DescribeAutoScalingGroupsError =
@@ -2600,7 +2659,7 @@ export type DescribeAutoScalingGroupsError =
  * DescribeWarmPool API.
  */
 export const describeAutoScalingGroups: API.PaginatedOperationMethod<
-  AutoScalingGroupNamesType,
+  AutoScalingGroupNamesType & RegionInput,
   AutoScalingGroupsType,
   DescribeAutoScalingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2618,6 +2677,8 @@ export const describeAutoScalingGroups: API.PaginatedOperationMethod<
     items: "AutoScalingGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAutoScalingGroups",
 })) as any;
 
 export type DescribeAutoScalingInstancesError =
@@ -2628,7 +2689,7 @@ export type DescribeAutoScalingInstancesError =
  * Gets information about the Auto Scaling instances in the account and Region.
  */
 export const describeAutoScalingInstances: API.PaginatedOperationMethod<
-  DescribeAutoScalingInstancesType,
+  DescribeAutoScalingInstancesType & RegionInput,
   AutoScalingInstancesType,
   DescribeAutoScalingInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2646,6 +2707,8 @@ export const describeAutoScalingInstances: API.PaginatedOperationMethod<
     items: "AutoScalingInstances",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAutoScalingInstances",
 })) as any;
 
 export type DescribeAutoScalingNotificationTypesError = ResourceContentionFault | CommonErrors;
@@ -2653,7 +2716,7 @@ export type DescribeAutoScalingNotificationTypesError = ResourceContentionFault 
  * Describes the notification types that are supported by Amazon EC2 Auto Scaling.
  */
 export const describeAutoScalingNotificationTypes: API.OperationMethod<
-  DescribeAutoScalingNotificationTypesRequest,
+  DescribeAutoScalingNotificationTypesRequest & RegionInput,
   DescribeAutoScalingNotificationTypesAnswer,
   DescribeAutoScalingNotificationTypesError,
   Credentials | HttpClient.HttpClient
@@ -2664,6 +2727,8 @@ export const describeAutoScalingNotificationTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoScalingNotificationTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeAutoScalingNotificationTypes",
 }));
 
 export type DescribeInstanceRefreshesError =
@@ -2686,7 +2751,7 @@ export type DescribeInstanceRefreshesError =
  * about the rollback of the instance refresh.
  */
 export const describeInstanceRefreshes: API.PaginatedOperationMethod<
-  DescribeInstanceRefreshesType,
+  DescribeInstanceRefreshesType & RegionInput,
   DescribeInstanceRefreshesAnswer,
   DescribeInstanceRefreshesError,
   Credentials | HttpClient.HttpClient,
@@ -2703,6 +2768,8 @@ export const describeInstanceRefreshes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceRefreshes",
 })) as any;
 
 export type DescribeLaunchConfigurationsError =
@@ -2713,7 +2780,7 @@ export type DescribeLaunchConfigurationsError =
  * Gets information about the launch configurations in the account and Region.
  */
 export const describeLaunchConfigurations: API.PaginatedOperationMethod<
-  LaunchConfigurationNamesType,
+  LaunchConfigurationNamesType & RegionInput,
   LaunchConfigurationsType,
   DescribeLaunchConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -2731,6 +2798,8 @@ export const describeLaunchConfigurations: API.PaginatedOperationMethod<
     items: "LaunchConfigurations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLaunchConfigurations",
 })) as any;
 
 export type DescribeLifecycleHooksError =
@@ -2741,7 +2810,7 @@ export type DescribeLifecycleHooksError =
  * Gets information about the lifecycle hooks for the specified Auto Scaling group.
  */
 export const describeLifecycleHooks: API.OperationMethod<
-  DescribeLifecycleHooksType,
+  DescribeLifecycleHooksType & RegionInput,
   DescribeLifecycleHooksAnswer,
   DescribeLifecycleHooksError,
   Credentials | HttpClient.HttpClient
@@ -2752,6 +2821,8 @@ export const describeLifecycleHooks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleHooks",
+  telemetry: TELEMETRY,
+  span: "DescribeLifecycleHooks",
 }));
 
 export type DescribeLifecycleHookTypesError = ResourceContentionFault | CommonErrors;
@@ -2765,7 +2836,7 @@ export type DescribeLifecycleHookTypesError = ResourceContentionFault | CommonEr
  * - `autoscaling:EC2_INSTANCE_TERMINATING`
  */
 export const describeLifecycleHookTypes: API.OperationMethod<
-  DescribeLifecycleHookTypesRequest,
+  DescribeLifecycleHookTypesRequest & RegionInput,
   DescribeLifecycleHookTypesAnswer,
   DescribeLifecycleHookTypesError,
   Credentials | HttpClient.HttpClient
@@ -2776,6 +2847,8 @@ export const describeLifecycleHookTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleHookTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeLifecycleHookTypes",
 }));
 
 export type DescribeLoadBalancersError = InvalidNextToken | ResourceContentionFault | CommonErrors;
@@ -2816,7 +2889,7 @@ export type DescribeLoadBalancersError = InvalidNextToken | ResourceContentionFa
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeLoadBalancers: API.PaginatedOperationMethod<
-  DescribeLoadBalancersRequest,
+  DescribeLoadBalancersRequest & RegionInput,
   DescribeLoadBalancersResponse,
   DescribeLoadBalancersError,
   Credentials | HttpClient.HttpClient,
@@ -2833,6 +2906,8 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancers",
 })) as any;
 
 export type DescribeLoadBalancerTargetGroupsError =
@@ -2876,7 +2951,7 @@ export type DescribeLoadBalancerTargetGroupsError =
  * were attached by using AttachTrafficSources.
  */
 export const describeLoadBalancerTargetGroups: API.PaginatedOperationMethod<
-  DescribeLoadBalancerTargetGroupsRequest,
+  DescribeLoadBalancerTargetGroupsRequest & RegionInput,
   DescribeLoadBalancerTargetGroupsResponse,
   DescribeLoadBalancerTargetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2893,6 +2968,8 @@ export const describeLoadBalancerTargetGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancerTargetGroups",
 })) as any;
 
 export type DescribeMetricCollectionTypesError = ResourceContentionFault | CommonErrors;
@@ -2900,7 +2977,7 @@ export type DescribeMetricCollectionTypesError = ResourceContentionFault | Commo
  * Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
  */
 export const describeMetricCollectionTypes: API.OperationMethod<
-  DescribeMetricCollectionTypesRequest,
+  DescribeMetricCollectionTypesRequest & RegionInput,
   DescribeMetricCollectionTypesAnswer,
   DescribeMetricCollectionTypesError,
   Credentials | HttpClient.HttpClient
@@ -2911,6 +2988,8 @@ export const describeMetricCollectionTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricCollectionTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeMetricCollectionTypes",
 }));
 
 export type DescribeNotificationConfigurationsError =
@@ -2922,7 +3001,7 @@ export type DescribeNotificationConfigurationsError =
  * Auto Scaling groups.
  */
 export const describeNotificationConfigurations: API.PaginatedOperationMethod<
-  DescribeNotificationConfigurationsType,
+  DescribeNotificationConfigurationsType & RegionInput,
   DescribeNotificationConfigurationsAnswer,
   DescribeNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -2940,6 +3019,8 @@ export const describeNotificationConfigurations: API.PaginatedOperationMethod<
     items: "NotificationConfigurations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeNotificationConfigurations",
 })) as any;
 
 export type DescribePoliciesError =
@@ -2951,7 +3032,7 @@ export type DescribePoliciesError =
  * Gets information about the scaling policies in the account and Region.
  */
 export const describePolicies: API.PaginatedOperationMethod<
-  DescribePoliciesType,
+  DescribePoliciesType & RegionInput,
   PoliciesType,
   DescribePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2969,6 +3050,8 @@ export const describePolicies: API.PaginatedOperationMethod<
     items: "ScalingPolicies",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePolicies",
 })) as any;
 
 export type DescribeScalingActivitiesError =
@@ -2989,7 +3072,7 @@ export type DescribeScalingActivitiesError =
  * failure. For help interpreting the `StatusMessage`, see Troubleshooting Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeScalingActivities: API.PaginatedOperationMethod<
-  DescribeScalingActivitiesType,
+  DescribeScalingActivitiesType & RegionInput,
   ActivitiesType,
   DescribeScalingActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -3007,6 +3090,8 @@ export const describeScalingActivities: API.PaginatedOperationMethod<
     items: "Activities",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScalingActivities",
 })) as any;
 
 export type DescribeScalingProcessTypesError = ResourceContentionFault | CommonErrors;
@@ -3015,7 +3100,7 @@ export type DescribeScalingProcessTypesError = ResourceContentionFault | CommonE
  * and SuspendProcesses APIs.
  */
 export const describeScalingProcessTypes: API.OperationMethod<
-  DescribeScalingProcessTypesRequest,
+  DescribeScalingProcessTypesRequest & RegionInput,
   ProcessesType,
   DescribeScalingProcessTypesError,
   Credentials | HttpClient.HttpClient
@@ -3026,6 +3111,8 @@ export const describeScalingProcessTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingProcessTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeScalingProcessTypes",
 }));
 
 export type DescribeScheduledActionsError =
@@ -3041,7 +3128,7 @@ export type DescribeScheduledActionsError =
  * the DescribeScalingActivities API.
  */
 export const describeScheduledActions: API.PaginatedOperationMethod<
-  DescribeScheduledActionsType,
+  DescribeScheduledActionsType & RegionInput,
   ScheduledActionsType,
   DescribeScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3059,6 +3146,8 @@ export const describeScheduledActions: API.PaginatedOperationMethod<
     items: "ScheduledUpdateGroupActions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScheduledActions",
 })) as any;
 
 export type DescribeTagsError = InvalidNextToken | ResourceContentionFault | CommonErrors;
@@ -3077,7 +3166,7 @@ export type DescribeTagsError = InvalidNextToken | ResourceContentionFault | Com
  * instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsType,
+  DescribeTagsType & RegionInput,
   TagsType,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -3095,6 +3184,8 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 })) as any;
 
 export type DescribeTerminationPolicyTypesError = ResourceContentionFault | CommonErrors;
@@ -3106,7 +3197,7 @@ export type DescribeTerminationPolicyTypesError = ResourceContentionFault | Comm
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeTerminationPolicyTypes: API.OperationMethod<
-  DescribeTerminationPolicyTypesRequest,
+  DescribeTerminationPolicyTypesRequest & RegionInput,
   DescribeTerminationPolicyTypesAnswer,
   DescribeTerminationPolicyTypesError,
   Credentials | HttpClient.HttpClient
@@ -3117,6 +3208,8 @@ export const describeTerminationPolicyTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTerminationPolicyTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeTerminationPolicyTypes",
 }));
 
 export type DescribeTrafficSourcesError = InvalidNextToken | ResourceContentionFault | CommonErrors;
@@ -3130,7 +3223,7 @@ export type DescribeTrafficSourcesError = InvalidNextToken | ResourceContentionF
  * sources for the specified Auto Scaling group.
  */
 export const describeTrafficSources: API.PaginatedOperationMethod<
-  DescribeTrafficSourcesRequest,
+  DescribeTrafficSourcesRequest & RegionInput,
   DescribeTrafficSourcesResponse,
   DescribeTrafficSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3147,6 +3240,8 @@ export const describeTrafficSources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTrafficSources",
 })) as any;
 
 export type DescribeWarmPoolError =
@@ -3161,7 +3256,7 @@ export type DescribeWarmPoolError =
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeWarmPool: API.PaginatedOperationMethod<
-  DescribeWarmPoolType,
+  DescribeWarmPoolType & RegionInput,
   DescribeWarmPoolAnswer,
   DescribeWarmPoolError,
   Credentials | HttpClient.HttpClient,
@@ -3179,6 +3274,8 @@ export const describeWarmPool: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeWarmPool",
 })) as any;
 
 export type DetachInstancesError = ResourceContentionFault | CommonErrors;
@@ -3199,7 +3296,7 @@ export type DetachInstancesError = ResourceContentionFault | CommonErrors;
  * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const detachInstances: API.OperationMethod<
-  DetachInstancesQuery,
+  DetachInstancesQuery & RegionInput,
   DetachInstancesAnswer,
   DetachInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3210,6 +3307,8 @@ export const detachInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachInstances",
+  telemetry: TELEMETRY,
+  span: "DetachInstances",
 }));
 
 export type DetachLoadBalancersError = ResourceContentionFault | CommonErrors;
@@ -3232,7 +3331,7 @@ export type DetachLoadBalancersError = ResourceContentionFault | CommonErrors;
  * API call. The instances remain running.
  */
 export const detachLoadBalancers: API.OperationMethod<
-  DetachLoadBalancersType,
+  DetachLoadBalancersType & RegionInput,
   DetachLoadBalancersResultType,
   DetachLoadBalancersError,
   Credentials | HttpClient.HttpClient
@@ -3243,6 +3342,8 @@ export const detachLoadBalancers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancers",
+  telemetry: TELEMETRY,
+  span: "DetachLoadBalancers",
 }));
 
 export type DetachLoadBalancerTargetGroupsError = ResourceContentionFault | CommonErrors;
@@ -3267,7 +3368,7 @@ export type DetachLoadBalancerTargetGroupsError = ResourceContentionFault | Comm
  * were attached by using AttachTrafficSources.
  */
 export const detachLoadBalancerTargetGroups: API.OperationMethod<
-  DetachLoadBalancerTargetGroupsType,
+  DetachLoadBalancerTargetGroupsType & RegionInput,
   DetachLoadBalancerTargetGroupsResultType,
   DetachLoadBalancerTargetGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3278,6 +3379,8 @@ export const detachLoadBalancerTargetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancerTargetGroups",
+  telemetry: TELEMETRY,
+  span: "DetachLoadBalancerTargetGroups",
 }));
 
 export type DetachTrafficSourcesError = ResourceContentionFault | CommonErrors;
@@ -3291,7 +3394,7 @@ export type DetachTrafficSourcesError = ResourceContentionFault | CommonErrors;
  * API call. The instances continue to run.
  */
 export const detachTrafficSources: API.OperationMethod<
-  DetachTrafficSourcesType,
+  DetachTrafficSourcesType & RegionInput,
   DetachTrafficSourcesResultType,
   DetachTrafficSourcesError,
   Credentials | HttpClient.HttpClient
@@ -3302,6 +3405,8 @@ export const detachTrafficSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachTrafficSources",
+  telemetry: TELEMETRY,
+  span: "DetachTrafficSources",
 }));
 
 export type DisableMetricsCollectionError = ResourceContentionFault | CommonErrors;
@@ -3309,7 +3414,7 @@ export type DisableMetricsCollectionError = ResourceContentionFault | CommonErro
  * Disables group metrics collection for the specified Auto Scaling group.
  */
 export const disableMetricsCollection: API.OperationMethod<
-  DisableMetricsCollectionQuery,
+  DisableMetricsCollectionQuery & RegionInput,
   DisableMetricsCollectionResponse,
   DisableMetricsCollectionError,
   Credentials | HttpClient.HttpClient
@@ -3320,6 +3425,8 @@ export const disableMetricsCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableMetricsCollection",
+  telemetry: TELEMETRY,
+  span: "DisableMetricsCollection",
 }));
 
 export type EnableMetricsCollectionError = ResourceContentionFault | CommonErrors;
@@ -3333,7 +3440,7 @@ export type EnableMetricsCollectionError = ResourceContentionFault | CommonError
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const enableMetricsCollection: API.OperationMethod<
-  EnableMetricsCollectionQuery,
+  EnableMetricsCollectionQuery & RegionInput,
   EnableMetricsCollectionResponse,
   EnableMetricsCollectionError,
   Credentials | HttpClient.HttpClient
@@ -3344,6 +3451,8 @@ export const enableMetricsCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMetricsCollection",
+  telemetry: TELEMETRY,
+  span: "EnableMetricsCollection",
 }));
 
 export type EnterStandbyError = ResourceContentionFault | CommonErrors;
@@ -3363,7 +3472,7 @@ export type EnterStandbyError = ResourceContentionFault | CommonErrors;
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const enterStandby: API.OperationMethod<
-  EnterStandbyQuery,
+  EnterStandbyQuery & RegionInput,
   EnterStandbyAnswer,
   EnterStandbyError,
   Credentials | HttpClient.HttpClient
@@ -3374,6 +3483,8 @@ export const enterStandby: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnterStandby",
+  telemetry: TELEMETRY,
+  span: "EnterStandby",
 }));
 
 export type ExecutePolicyError =
@@ -3385,7 +3496,7 @@ export type ExecutePolicyError =
  * scaling policy.
  */
 export const executePolicy: API.OperationMethod<
-  ExecutePolicyType,
+  ExecutePolicyType & RegionInput,
   ExecutePolicyResponse,
   ExecutePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3396,6 +3507,8 @@ export const executePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecutePolicy",
+  telemetry: TELEMETRY,
+  span: "ExecutePolicy",
 }));
 
 export type ExitStandbyError = ResourceContentionFault | CommonErrors;
@@ -3410,7 +3523,7 @@ export type ExitStandbyError = ResourceContentionFault | CommonErrors;
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const exitStandby: API.OperationMethod<
-  ExitStandbyQuery,
+  ExitStandbyQuery & RegionInput,
   ExitStandbyAnswer,
   ExitStandbyError,
   Credentials | HttpClient.HttpClient
@@ -3421,6 +3534,8 @@ export const exitStandby: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExitStandby",
+  telemetry: TELEMETRY,
+  span: "ExitStandby",
 }));
 
 export type GetPredictiveScalingForecastError = ResourceContentionFault | CommonErrors;
@@ -3439,7 +3554,7 @@ export type GetPredictiveScalingForecastError = ResourceContentionFault | Common
  * scaling for Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const getPredictiveScalingForecast: API.OperationMethod<
-  GetPredictiveScalingForecastType,
+  GetPredictiveScalingForecastType & RegionInput,
   GetPredictiveScalingForecastAnswer,
   GetPredictiveScalingForecastError,
   Credentials | HttpClient.HttpClient
@@ -3450,6 +3565,8 @@ export const getPredictiveScalingForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPredictiveScalingForecast",
+  telemetry: TELEMETRY,
+  span: "GetPredictiveScalingForecast",
 }));
 
 export type LaunchInstancesError =
@@ -3462,7 +3579,7 @@ export type LaunchInstancesError =
  * other details if launch is successful or error details if launch is unsuccessful.
  */
 export const launchInstances: API.OperationMethod<
-  LaunchInstancesRequest,
+  LaunchInstancesRequest & RegionInput,
   LaunchInstancesResult,
   LaunchInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3477,6 +3594,8 @@ export const launchInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LaunchInstances",
+  telemetry: TELEMETRY,
+  span: "LaunchInstances",
 }));
 
 export type PutLifecycleHookError =
@@ -3526,7 +3645,7 @@ export type PutLifecycleHookError =
  * hook, you can delete it by calling the DeleteLifecycleHook API.
  */
 export const putLifecycleHook: API.OperationMethod<
-  PutLifecycleHookType,
+  PutLifecycleHookType & RegionInput,
   PutLifecycleHookAnswer,
   PutLifecycleHookError,
   Credentials | HttpClient.HttpClient
@@ -3537,6 +3656,8 @@ export const putLifecycleHook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleHook",
+  telemetry: TELEMETRY,
+  span: "PutLifecycleHook",
 }));
 
 export type PutNotificationConfigurationError =
@@ -3559,7 +3680,7 @@ export type PutNotificationConfigurationError =
  * fails.
  */
 export const putNotificationConfiguration: API.OperationMethod<
-  PutNotificationConfigurationType,
+  PutNotificationConfigurationType & RegionInput,
   PutNotificationConfigurationResponse,
   PutNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3570,6 +3691,8 @@ export const putNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutNotificationConfiguration",
 }));
 
 export type PutScalingPolicyError =
@@ -3594,7 +3717,7 @@ export type PutScalingPolicyError =
  * you can delete it by calling the DeletePolicy API.
  */
 export const putScalingPolicy: API.OperationMethod<
-  PutScalingPolicyType,
+  PutScalingPolicyType & RegionInput,
   PolicyARNType,
   PutScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3605,6 +3728,8 @@ export const putScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutScalingPolicy",
 }));
 
 export type PutScheduledUpdateGroupActionError =
@@ -3628,7 +3753,7 @@ export type PutScheduledUpdateGroupActionError =
  * message.
  */
 export const putScheduledUpdateGroupAction: API.OperationMethod<
-  PutScheduledUpdateGroupActionType,
+  PutScheduledUpdateGroupActionType & RegionInput,
   PutScheduledUpdateGroupActionResponse,
   PutScheduledUpdateGroupActionError,
   Credentials | HttpClient.HttpClient
@@ -3644,6 +3769,8 @@ export const putScheduledUpdateGroupAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScheduledUpdateGroupAction",
+  telemetry: TELEMETRY,
+  span: "PutScheduledUpdateGroupAction",
 }));
 
 export type PutWarmPoolError =
@@ -3667,7 +3794,7 @@ export type PutWarmPoolError =
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const putWarmPool: API.OperationMethod<
-  PutWarmPoolType,
+  PutWarmPoolType & RegionInput,
   PutWarmPoolAnswer,
   PutWarmPoolError,
   Credentials | HttpClient.HttpClient
@@ -3678,6 +3805,8 @@ export const putWarmPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWarmPool",
+  telemetry: TELEMETRY,
+  span: "PutWarmPool",
 }));
 
 export type RecordLifecycleActionHeartbeatError = ResourceContentionFault | CommonErrors;
@@ -3714,7 +3843,7 @@ export type RecordLifecycleActionHeartbeatError = ResourceContentionFault | Comm
  * hooks in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const recordLifecycleActionHeartbeat: API.OperationMethod<
-  RecordLifecycleActionHeartbeatType,
+  RecordLifecycleActionHeartbeatType & RegionInput,
   RecordLifecycleActionHeartbeatAnswer,
   RecordLifecycleActionHeartbeatError,
   Credentials | HttpClient.HttpClient
@@ -3725,6 +3854,8 @@ export const recordLifecycleActionHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordLifecycleActionHeartbeat",
+  telemetry: TELEMETRY,
+  span: "RecordLifecycleActionHeartbeat",
 }));
 
 export type ResumeProcessesError = ResourceContentionFault | ResourceInUseFault | CommonErrors;
@@ -3736,7 +3867,7 @@ export type ResumeProcessesError = ResourceContentionFault | ResourceInUseFault 
  * Amazon EC2 Auto Scaling processes in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const resumeProcesses: API.OperationMethod<
-  ScalingProcessQuery,
+  ScalingProcessQuery & RegionInput,
   ResumeProcessesResponse,
   ResumeProcessesError,
   Credentials | HttpClient.HttpClient
@@ -3747,6 +3878,8 @@ export const resumeProcesses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeProcesses",
+  telemetry: TELEMETRY,
+  span: "ResumeProcesses",
 }));
 
 export type RollbackInstanceRefreshError =
@@ -3780,7 +3913,7 @@ export type RollbackInstanceRefreshError =
  * DescribeInstanceRefreshes API operation.
  */
 export const rollbackInstanceRefresh: API.OperationMethod<
-  RollbackInstanceRefreshType,
+  RollbackInstanceRefreshType & RegionInput,
   RollbackInstanceRefreshAnswer,
   RollbackInstanceRefreshError,
   Credentials | HttpClient.HttpClient
@@ -3796,6 +3929,8 @@ export const rollbackInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackInstanceRefresh",
+  telemetry: TELEMETRY,
+  span: "RollbackInstanceRefresh",
 }));
 
 export type SetDesiredCapacityError =
@@ -3813,7 +3948,7 @@ export type SetDesiredCapacityError =
  * scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const setDesiredCapacity: API.OperationMethod<
-  SetDesiredCapacityType,
+  SetDesiredCapacityType & RegionInput,
   SetDesiredCapacityResponse,
   SetDesiredCapacityError,
   Credentials | HttpClient.HttpClient
@@ -3824,6 +3959,8 @@ export const setDesiredCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDesiredCapacity",
+  telemetry: TELEMETRY,
+  span: "SetDesiredCapacity",
 }));
 
 export type SetInstanceHealthError = ResourceContentionFault | CommonErrors;
@@ -3835,7 +3972,7 @@ export type SetInstanceHealthError = ResourceContentionFault | CommonErrors;
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const setInstanceHealth: API.OperationMethod<
-  SetInstanceHealthQuery,
+  SetInstanceHealthQuery & RegionInput,
   SetInstanceHealthResponse,
   SetInstanceHealthError,
   Credentials | HttpClient.HttpClient
@@ -3846,6 +3983,8 @@ export const setInstanceHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetInstanceHealth",
+  telemetry: TELEMETRY,
+  span: "SetInstanceHealth",
 }));
 
 export type SetInstanceProtectionError =
@@ -3864,7 +4003,7 @@ export type SetInstanceProtectionError =
  * fails.
  */
 export const setInstanceProtection: API.OperationMethod<
-  SetInstanceProtectionQuery,
+  SetInstanceProtectionQuery & RegionInput,
   SetInstanceProtectionAnswer,
   SetInstanceProtectionError,
   Credentials | HttpClient.HttpClient
@@ -3875,6 +4014,8 @@ export const setInstanceProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetInstanceProtection",
+  telemetry: TELEMETRY,
+  span: "SetInstanceProtection",
 }));
 
 export type StartInstanceRefreshError =
@@ -3912,7 +4053,7 @@ export type StartInstanceRefreshError =
  * RollbackInstanceRefresh API.
  */
 export const startInstanceRefresh: API.OperationMethod<
-  StartInstanceRefreshType,
+  StartInstanceRefreshType & RegionInput,
   StartInstanceRefreshAnswer,
   StartInstanceRefreshError,
   Credentials | HttpClient.HttpClient
@@ -3923,6 +4064,8 @@ export const startInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstanceRefresh",
+  telemetry: TELEMETRY,
+  span: "StartInstanceRefresh",
 }));
 
 export type SuspendProcessesError = ResourceContentionFault | ResourceInUseFault | CommonErrors;
@@ -3938,7 +4081,7 @@ export type SuspendProcessesError = ResourceContentionFault | ResourceInUseFault
  * To resume processes that have been suspended, call the ResumeProcesses API.
  */
 export const suspendProcesses: API.OperationMethod<
-  ScalingProcessQuery,
+  ScalingProcessQuery & RegionInput,
   SuspendProcessesResponse,
   SuspendProcessesError,
   Credentials | HttpClient.HttpClient
@@ -3949,6 +4092,8 @@ export const suspendProcesses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendProcesses",
+  telemetry: TELEMETRY,
+  span: "SuspendProcesses",
 }));
 
 export type TerminateInstanceInAutoScalingGroupError =
@@ -3979,7 +4124,7 @@ export type TerminateInstanceInAutoScalingGroupError =
  * scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const terminateInstanceInAutoScalingGroup: API.OperationMethod<
-  TerminateInstanceInAutoScalingGroupType,
+  TerminateInstanceInAutoScalingGroupType & RegionInput,
   ActivityType,
   TerminateInstanceInAutoScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -3990,6 +4135,8 @@ export const terminateInstanceInAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateInstanceInAutoScalingGroup",
+  telemetry: TELEMETRY,
+  span: "TerminateInstanceInAutoScalingGroup",
 }));
 
 export type UpdateAutoScalingGroupError =
@@ -4042,7 +4189,7 @@ export type UpdateAutoScalingGroupError =
  * policies, you can update them by calling the PutScalingPolicy API.
  */
 export const updateAutoScalingGroup: API.OperationMethod<
-  UpdateAutoScalingGroupType,
+  UpdateAutoScalingGroupType & RegionInput,
   UpdateAutoScalingGroupResponse,
   UpdateAutoScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -4058,6 +4205,8 @@ export const updateAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoScalingGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateAutoScalingGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

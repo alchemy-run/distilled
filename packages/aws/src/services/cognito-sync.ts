@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -76,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cognito-sync.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CognitoSync",
+  service: "CognitoSync",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyStreamedException
   extends /*@__PURE__*/ S.TaggedError<AlreadyStreamedException>()(
@@ -436,7 +452,7 @@ export type BulkPublishError =
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
 export const bulkPublish: API.OperationMethod<
-  BulkPublishRequest,
+  BulkPublishRequest & RegionInput,
   BulkPublishResponse,
   BulkPublishError,
   Credentials | HttpClient.HttpClient
@@ -454,6 +470,8 @@ export const bulkPublish: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BulkPublish",
+  telemetry: TELEMETRY,
+  span: "BulkPublish",
 }));
 
 export type DeleteDatasetError =
@@ -473,7 +491,7 @@ export type DeleteDatasetError =
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -491,6 +509,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DescribeDatasetError =
@@ -508,7 +528,7 @@ export type DescribeDatasetError =
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -525,6 +545,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeIdentityPoolUsageError =
@@ -581,7 +603,7 @@ export type DescribeIdentityPoolUsageError =
  * }
  */
 export const describeIdentityPoolUsage: API.OperationMethod<
-  DescribeIdentityPoolUsageRequest,
+  DescribeIdentityPoolUsageRequest & RegionInput,
   DescribeIdentityPoolUsageResponse,
   DescribeIdentityPoolUsageError,
   Credentials | HttpClient.HttpClient
@@ -598,6 +620,8 @@ export const describeIdentityPoolUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityPoolUsage",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityPoolUsage",
 }));
 
 export type DescribeIdentityUsageError =
@@ -656,7 +680,7 @@ export type DescribeIdentityUsageError =
  * }
  */
 export const describeIdentityUsage: API.OperationMethod<
-  DescribeIdentityUsageRequest,
+  DescribeIdentityUsageRequest & RegionInput,
   DescribeIdentityUsageResponse,
   DescribeIdentityUsageError,
   Credentials | HttpClient.HttpClient
@@ -673,6 +697,8 @@ export const describeIdentityUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityUsage",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityUsage",
 }));
 
 export type GetBulkPublishDetailsError =
@@ -687,7 +713,7 @@ export type GetBulkPublishDetailsError =
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
 export const getBulkPublishDetails: API.OperationMethod<
-  GetBulkPublishDetailsRequest,
+  GetBulkPublishDetailsRequest & RegionInput,
   GetBulkPublishDetailsResponse,
   GetBulkPublishDetailsError,
   Credentials | HttpClient.HttpClient
@@ -703,6 +729,8 @@ export const getBulkPublishDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBulkPublishDetails",
+  telemetry: TELEMETRY,
+  span: "GetBulkPublishDetails",
 }));
 
 export type GetCognitoEventsError =
@@ -718,7 +746,7 @@ export type GetCognitoEventsError =
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
 export const getCognitoEvents: API.OperationMethod<
-  GetCognitoEventsRequest,
+  GetCognitoEventsRequest & RegionInput,
   GetCognitoEventsResponse,
   GetCognitoEventsError,
   Credentials | HttpClient.HttpClient
@@ -735,6 +763,8 @@ export const getCognitoEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCognitoEvents",
+  telemetry: TELEMETRY,
+  span: "GetCognitoEvents",
 }));
 
 export type GetIdentityPoolConfigurationError =
@@ -790,7 +820,7 @@ export type GetIdentityPoolConfigurationError =
  * }
  */
 export const getIdentityPoolConfiguration: API.OperationMethod<
-  GetIdentityPoolConfigurationRequest,
+  GetIdentityPoolConfigurationRequest & RegionInput,
   GetIdentityPoolConfigurationResponse,
   GetIdentityPoolConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -807,6 +837,8 @@ export const getIdentityPoolConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPoolConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetIdentityPoolConfiguration",
 }));
 
 export type ListDatasetsError =
@@ -873,7 +905,7 @@ export type ListDatasetsError =
  * }
  */
 export const listDatasets: API.OperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient
@@ -889,6 +921,8 @@ export const listDatasets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDatasets",
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 }));
 
 export type ListIdentityPoolUsageError =
@@ -955,7 +989,7 @@ export type ListIdentityPoolUsageError =
  * }
  */
 export const listIdentityPoolUsage: API.OperationMethod<
-  ListIdentityPoolUsageRequest,
+  ListIdentityPoolUsageRequest & RegionInput,
   ListIdentityPoolUsageResponse,
   ListIdentityPoolUsageError,
   Credentials | HttpClient.HttpClient
@@ -971,6 +1005,8 @@ export const listIdentityPoolUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityPoolUsage",
+  telemetry: TELEMETRY,
+  span: "ListIdentityPoolUsage",
 }));
 
 export type ListRecordsError =
@@ -1034,7 +1070,7 @@ export type ListRecordsError =
  * }
  */
 export const listRecords: API.OperationMethod<
-  ListRecordsRequest,
+  ListRecordsRequest & RegionInput,
   ListRecordsResponse,
   ListRecordsError,
   Credentials | HttpClient.HttpClient
@@ -1050,6 +1086,8 @@ export const listRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecords",
+  telemetry: TELEMETRY,
+  span: "ListRecords",
 }));
 
 export type RegisterDeviceError =
@@ -1105,7 +1143,7 @@ export type RegisterDeviceError =
  * }
  */
 export const registerDevice: API.OperationMethod<
-  RegisterDeviceRequest,
+  RegisterDeviceRequest & RegionInput,
   RegisterDeviceResponse,
   RegisterDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1123,6 +1161,8 @@ export const registerDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDevice",
+  telemetry: TELEMETRY,
+  span: "RegisterDevice",
 }));
 
 export type SetCognitoEventsError =
@@ -1138,7 +1178,7 @@ export type SetCognitoEventsError =
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
 export const setCognitoEvents: API.OperationMethod<
-  SetCognitoEventsRequest,
+  SetCognitoEventsRequest & RegionInput,
   SetCognitoEventsResponse,
   SetCognitoEventsError,
   Credentials | HttpClient.HttpClient
@@ -1155,6 +1195,8 @@ export const setCognitoEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetCognitoEvents",
+  telemetry: TELEMETRY,
+  span: "SetCognitoEvents",
 }));
 
 export type SetIdentityPoolConfigurationError =
@@ -1216,7 +1258,7 @@ export type SetIdentityPoolConfigurationError =
  * }
  */
 export const setIdentityPoolConfiguration: API.OperationMethod<
-  SetIdentityPoolConfigurationRequest,
+  SetIdentityPoolConfigurationRequest & RegionInput,
   SetIdentityPoolConfigurationResponse,
   SetIdentityPoolConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1234,6 +1276,8 @@ export const setIdentityPoolConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityPoolConfiguration",
+  telemetry: TELEMETRY,
+  span: "SetIdentityPoolConfiguration",
 }));
 
 export type SubscribeToDatasetError =
@@ -1288,7 +1332,7 @@ export type SubscribeToDatasetError =
  * }
  */
 export const subscribeToDataset: API.OperationMethod<
-  SubscribeToDatasetRequest,
+  SubscribeToDatasetRequest & RegionInput,
   SubscribeToDatasetResponse,
   SubscribeToDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1306,6 +1350,8 @@ export const subscribeToDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToDataset",
+  telemetry: TELEMETRY,
+  span: "SubscribeToDataset",
 }));
 
 export type UnsubscribeFromDatasetError =
@@ -1361,7 +1407,7 @@ export type UnsubscribeFromDatasetError =
  * }
  */
 export const unsubscribeFromDataset: API.OperationMethod<
-  UnsubscribeFromDatasetRequest,
+  UnsubscribeFromDatasetRequest & RegionInput,
   UnsubscribeFromDatasetResponse,
   UnsubscribeFromDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1379,6 +1425,8 @@ export const unsubscribeFromDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnsubscribeFromDataset",
+  telemetry: TELEMETRY,
+  span: "UnsubscribeFromDataset",
 }));
 
 export type UpdateRecordsError =
@@ -1402,7 +1450,7 @@ export type UpdateRecordsError =
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
  */
 export const updateRecords: API.OperationMethod<
-  UpdateRecordsRequest,
+  UpdateRecordsRequest & RegionInput,
   UpdateRecordsResponse,
   UpdateRecordsError,
   Credentials | HttpClient.HttpClient
@@ -1423,6 +1471,8 @@ export const updateRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecords",
+  telemetry: TELEMETRY,
+  span: "UpdateRecords",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codeguru-reviewer.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeGuruReviewer",
+  service: "CodeGuruReviewer",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -517,7 +533,7 @@ export type AssociateRepositoryError =
  * CodeGuru Reviewer in the *CodeGuru Reviewer User Guide.*
  */
 export const associateRepository: API.OperationMethod<
-  AssociateRepositoryRequest,
+  AssociateRepositoryRequest & RegionInput,
   AssociateRepositoryResponse,
   AssociateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -534,6 +550,8 @@ export const associateRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRepository",
+  telemetry: TELEMETRY,
+  span: "AssociateRepository",
 }));
 
 export type CreateCodeReviewError =
@@ -551,7 +569,7 @@ export type CreateCodeReviewError =
  * automatically triggered by a pull request.
  */
 export const createCodeReview: API.OperationMethod<
-  CreateCodeReviewRequest,
+  CreateCodeReviewRequest & RegionInput,
   CreateCodeReviewResponse,
   CreateCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -569,6 +587,8 @@ export const createCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeReview",
+  telemetry: TELEMETRY,
+  span: "CreateCodeReview",
 }));
 
 export type DescribeCodeReviewError =
@@ -582,7 +602,7 @@ export type DescribeCodeReviewError =
  * Returns the metadata associated with the code review along with its status.
  */
 export const describeCodeReview: API.OperationMethod<
-  DescribeCodeReviewRequest,
+  DescribeCodeReviewRequest & RegionInput,
   DescribeCodeReviewResponse,
   DescribeCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -599,6 +619,8 @@ export const describeCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCodeReview",
+  telemetry: TELEMETRY,
+  span: "DescribeCodeReview",
 }));
 
 export type DescribeRecommendationFeedbackError =
@@ -612,7 +634,7 @@ export type DescribeRecommendationFeedbackError =
  * Describes the customer feedback for a CodeGuru Reviewer recommendation.
  */
 export const describeRecommendationFeedback: API.OperationMethod<
-  DescribeRecommendationFeedbackRequest,
+  DescribeRecommendationFeedbackRequest & RegionInput,
   DescribeRecommendationFeedbackResponse,
   DescribeRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -629,6 +651,8 @@ export const describeRecommendationFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecommendationFeedback",
+  telemetry: TELEMETRY,
+  span: "DescribeRecommendationFeedback",
 }));
 
 export type DescribeRepositoryAssociationError =
@@ -643,7 +667,7 @@ export type DescribeRepositoryAssociationError =
  * repository association.
  */
 export const describeRepositoryAssociation: API.OperationMethod<
-  DescribeRepositoryAssociationRequest,
+  DescribeRepositoryAssociationRequest & RegionInput,
   DescribeRepositoryAssociationResponse,
   DescribeRepositoryAssociationError,
   Credentials | HttpClient.HttpClient
@@ -660,6 +684,8 @@ export const describeRepositoryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRepositoryAssociation",
+  telemetry: TELEMETRY,
+  span: "DescribeRepositoryAssociation",
 }));
 
 export type DisassociateRepositoryError =
@@ -674,7 +700,7 @@ export type DisassociateRepositoryError =
  * Removes the association between Amazon CodeGuru Reviewer and a repository.
  */
 export const disassociateRepository: API.OperationMethod<
-  DisassociateRepositoryRequest,
+  DisassociateRepositoryRequest & RegionInput,
   DisassociateRepositoryResponse,
   DisassociateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -692,6 +718,8 @@ export const disassociateRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRepository",
+  telemetry: TELEMETRY,
+  span: "DisassociateRepository",
 }));
 
 export type ListCodeReviewsError =
@@ -704,7 +732,7 @@ export type ListCodeReviewsError =
  * Lists all the code reviews that the customer has created in the past 90 days.
  */
 export const listCodeReviews: API.PaginatedOperationMethod<
-  ListCodeReviewsRequest,
+  ListCodeReviewsRequest & RegionInput,
   ListCodeReviewsResponse,
   ListCodeReviewsError,
   Credentials | HttpClient.HttpClient,
@@ -726,6 +754,8 @@ export const listCodeReviews: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeReviews",
 })) as any;
 
 export type ListRecommendationFeedbackError =
@@ -740,7 +770,7 @@ export type ListRecommendationFeedbackError =
  * feedback for all CodeGuru Reviewer users.
  */
 export const listRecommendationFeedback: API.PaginatedOperationMethod<
-  ListRecommendationFeedbackRequest,
+  ListRecommendationFeedbackRequest & RegionInput,
   ListRecommendationFeedbackResponse,
   ListRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient,
@@ -763,6 +793,8 @@ export const listRecommendationFeedback: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendationFeedback",
 })) as any;
 
 export type ListRecommendationsError =
@@ -776,7 +808,7 @@ export type ListRecommendationsError =
  * Returns the list of all recommendations for a completed code review.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -799,6 +831,8 @@ export const listRecommendations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 })) as any;
 
 export type ListRepositoryAssociationsError =
@@ -811,7 +845,7 @@ export type ListRepositoryAssociationsError =
  * repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
  */
 export const listRepositoryAssociations: API.PaginatedOperationMethod<
-  ListRepositoryAssociationsRequest,
+  ListRepositoryAssociationsRequest & RegionInput,
   ListRepositoryAssociationsResponse,
   ListRepositoryAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -829,6 +863,8 @@ export const listRepositoryAssociations: API.PaginatedOperationMethod<
     items: "RepositoryAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryAssociations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -840,7 +876,7 @@ export type ListTagsForResourceError =
  * Returns the list of tags associated with an associated repository resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -851,6 +887,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutRecommendationFeedbackError =
@@ -865,7 +903,7 @@ export type PutRecommendationFeedbackError =
  * different reactions the previous feedback is overwritten.
  */
 export const putRecommendationFeedback: API.OperationMethod<
-  PutRecommendationFeedbackRequest,
+  PutRecommendationFeedbackRequest & RegionInput,
   PutRecommendationFeedbackResponse,
   PutRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -882,6 +920,8 @@ export const putRecommendationFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecommendationFeedback",
+  telemetry: TELEMETRY,
+  span: "PutRecommendationFeedback",
 }));
 
 export type TagResourceError =
@@ -893,7 +933,7 @@ export type TagResourceError =
  * Adds one or more tags to an associated repository.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -904,6 +944,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -915,7 +957,7 @@ export type UntagResourceError =
  * Removes a tag from an associated repository.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -926,6 +968,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

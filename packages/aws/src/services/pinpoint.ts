@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -85,6 +87,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pinpoint.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Pinpoint",
+  service: "Pinpoint",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -5326,7 +5342,7 @@ export type CreateAppError =
  * Creates an application.
  */
 export const createApp: API.OperationMethod<
-  CreateAppRequest,
+  CreateAppRequest & RegionInput,
   CreateAppResponse,
   CreateAppError,
   Credentials | HttpClient.HttpClient
@@ -5345,6 +5361,8 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateCampaignError =
@@ -5360,7 +5378,7 @@ export type CreateCampaignError =
  * Creates a new campaign for an application or updates the settings of an existing campaign for an application.
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -5379,6 +5397,8 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  telemetry: TELEMETRY,
+  span: "CreateCampaign",
 }));
 
 export type CreateEmailTemplateError =
@@ -5392,7 +5412,7 @@ export type CreateEmailTemplateError =
  * Creates a message template for messages that are sent through the email channel.
  */
 export const createEmailTemplate: API.OperationMethod<
-  CreateEmailTemplateRequest,
+  CreateEmailTemplateRequest & RegionInput,
   CreateEmailTemplateResponse,
   CreateEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5409,6 +5429,8 @@ export const createEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateEmailTemplate",
 }));
 
 export type CreateExportJobError =
@@ -5424,7 +5446,7 @@ export type CreateExportJobError =
  * Creates an export job for an application.
  */
 export const createExportJob: API.OperationMethod<
-  CreateExportJobRequest,
+  CreateExportJobRequest & RegionInput,
   CreateExportJobResponse,
   CreateExportJobError,
   Credentials | HttpClient.HttpClient
@@ -5443,6 +5465,8 @@ export const createExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExportJob",
+  telemetry: TELEMETRY,
+  span: "CreateExportJob",
 }));
 
 export type CreateImportJobError =
@@ -5458,7 +5482,7 @@ export type CreateImportJobError =
  * Creates an import job for an application.
  */
 export const createImportJob: API.OperationMethod<
-  CreateImportJobRequest,
+  CreateImportJobRequest & RegionInput,
   CreateImportJobResponse,
   CreateImportJobError,
   Credentials | HttpClient.HttpClient
@@ -5477,6 +5501,8 @@ export const createImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateImportJob",
 }));
 
 export type CreateInAppTemplateError =
@@ -5490,7 +5516,7 @@ export type CreateInAppTemplateError =
  * Creates a new message template for messages using the in-app message channel.
  */
 export const createInAppTemplate: API.OperationMethod<
-  CreateInAppTemplateRequest,
+  CreateInAppTemplateRequest & RegionInput,
   CreateInAppTemplateResponse,
   CreateInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5507,6 +5533,8 @@ export const createInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInAppTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateInAppTemplate",
 }));
 
 export type CreateJourneyError =
@@ -5522,7 +5550,7 @@ export type CreateJourneyError =
  * Creates a journey for an application.
  */
 export const createJourney: API.OperationMethod<
-  CreateJourneyRequest,
+  CreateJourneyRequest & RegionInput,
   CreateJourneyResponse,
   CreateJourneyError,
   Credentials | HttpClient.HttpClient
@@ -5541,6 +5569,8 @@ export const createJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJourney",
+  telemetry: TELEMETRY,
+  span: "CreateJourney",
 }));
 
 export type CreatePushTemplateError =
@@ -5554,7 +5584,7 @@ export type CreatePushTemplateError =
  * Creates a message template for messages that are sent through a push notification channel.
  */
 export const createPushTemplate: API.OperationMethod<
-  CreatePushTemplateRequest,
+  CreatePushTemplateRequest & RegionInput,
   CreatePushTemplateResponse,
   CreatePushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5571,6 +5601,8 @@ export const createPushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePushTemplate",
+  telemetry: TELEMETRY,
+  span: "CreatePushTemplate",
 }));
 
 export type CreateRecommenderConfigurationError =
@@ -5586,7 +5618,7 @@ export type CreateRecommenderConfigurationError =
  * Creates an Amazon Pinpoint configuration for a recommender model.
  */
 export const createRecommenderConfiguration: API.OperationMethod<
-  CreateRecommenderConfigurationRequest,
+  CreateRecommenderConfigurationRequest & RegionInput,
   CreateRecommenderConfigurationResponse,
   CreateRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5605,6 +5637,8 @@ export const createRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommenderConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateRecommenderConfiguration",
 }));
 
 export type CreateSegmentError =
@@ -5620,7 +5654,7 @@ export type CreateSegmentError =
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
 export const createSegment: API.OperationMethod<
-  CreateSegmentRequest,
+  CreateSegmentRequest & RegionInput,
   CreateSegmentResponse,
   CreateSegmentError,
   Credentials | HttpClient.HttpClient
@@ -5639,6 +5673,8 @@ export const createSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegment",
+  telemetry: TELEMETRY,
+  span: "CreateSegment",
 }));
 
 export type CreateSmsTemplateError =
@@ -5652,7 +5688,7 @@ export type CreateSmsTemplateError =
  * Creates a message template for messages that are sent through the SMS channel.
  */
 export const createSmsTemplate: API.OperationMethod<
-  CreateSmsTemplateRequest,
+  CreateSmsTemplateRequest & RegionInput,
   CreateSmsTemplateResponse,
   CreateSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5669,6 +5705,8 @@ export const createSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSmsTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateSmsTemplate",
 }));
 
 export type CreateVoiceTemplateError =
@@ -5682,7 +5720,7 @@ export type CreateVoiceTemplateError =
  * Creates a message template for messages that are sent through the voice channel.
  */
 export const createVoiceTemplate: API.OperationMethod<
-  CreateVoiceTemplateRequest,
+  CreateVoiceTemplateRequest & RegionInput,
   CreateVoiceTemplateResponse,
   CreateVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5699,6 +5737,8 @@ export const createVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateVoiceTemplate",
 }));
 
 export type DeleteAdmChannelError =
@@ -5714,7 +5754,7 @@ export type DeleteAdmChannelError =
  * Disables the ADM channel for an application and deletes any existing settings for the channel.
  */
 export const deleteAdmChannel: API.OperationMethod<
-  DeleteAdmChannelRequest,
+  DeleteAdmChannelRequest & RegionInput,
   DeleteAdmChannelResponse,
   DeleteAdmChannelError,
   Credentials | HttpClient.HttpClient
@@ -5733,6 +5773,8 @@ export const deleteAdmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdmChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteAdmChannel",
 }));
 
 export type DeleteApnsChannelError =
@@ -5748,7 +5790,7 @@ export type DeleteApnsChannelError =
  * Disables the APNs channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsChannel: API.OperationMethod<
-  DeleteApnsChannelRequest,
+  DeleteApnsChannelRequest & RegionInput,
   DeleteApnsChannelResponse,
   DeleteApnsChannelError,
   Credentials | HttpClient.HttpClient
@@ -5767,6 +5809,8 @@ export const deleteApnsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteApnsChannel",
 }));
 
 export type DeleteApnsSandboxChannelError =
@@ -5782,7 +5826,7 @@ export type DeleteApnsSandboxChannelError =
  * Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsSandboxChannel: API.OperationMethod<
-  DeleteApnsSandboxChannelRequest,
+  DeleteApnsSandboxChannelRequest & RegionInput,
   DeleteApnsSandboxChannelResponse,
   DeleteApnsSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -5801,6 +5845,8 @@ export const deleteApnsSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteApnsSandboxChannel",
 }));
 
 export type DeleteApnsVoipChannelError =
@@ -5816,7 +5862,7 @@ export type DeleteApnsVoipChannelError =
  * Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsVoipChannel: API.OperationMethod<
-  DeleteApnsVoipChannelRequest,
+  DeleteApnsVoipChannelRequest & RegionInput,
   DeleteApnsVoipChannelResponse,
   DeleteApnsVoipChannelError,
   Credentials | HttpClient.HttpClient
@@ -5835,6 +5881,8 @@ export const deleteApnsVoipChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsVoipChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteApnsVoipChannel",
 }));
 
 export type DeleteApnsVoipSandboxChannelError =
@@ -5850,7 +5898,7 @@ export type DeleteApnsVoipSandboxChannelError =
  * Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsVoipSandboxChannel: API.OperationMethod<
-  DeleteApnsVoipSandboxChannelRequest,
+  DeleteApnsVoipSandboxChannelRequest & RegionInput,
   DeleteApnsVoipSandboxChannelResponse,
   DeleteApnsVoipSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -5869,6 +5917,8 @@ export const deleteApnsVoipSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsVoipSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteApnsVoipSandboxChannel",
 }));
 
 export type DeleteAppError =
@@ -5884,7 +5934,7 @@ export type DeleteAppError =
  * Deletes an application.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResponse,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -5903,6 +5953,8 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteBaiduChannelError =
@@ -5918,7 +5970,7 @@ export type DeleteBaiduChannelError =
  * Disables the Baidu channel for an application and deletes any existing settings for the channel.
  */
 export const deleteBaiduChannel: API.OperationMethod<
-  DeleteBaiduChannelRequest,
+  DeleteBaiduChannelRequest & RegionInput,
   DeleteBaiduChannelResponse,
   DeleteBaiduChannelError,
   Credentials | HttpClient.HttpClient
@@ -5937,6 +5989,8 @@ export const deleteBaiduChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBaiduChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteBaiduChannel",
 }));
 
 export type DeleteCampaignError =
@@ -5952,7 +6006,7 @@ export type DeleteCampaignError =
  * Deletes a campaign from an application.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -5971,6 +6025,8 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaign",
 }));
 
 export type DeleteEmailChannelError =
@@ -5986,7 +6042,7 @@ export type DeleteEmailChannelError =
  * Disables the email channel for an application and deletes any existing settings for the channel.
  */
 export const deleteEmailChannel: API.OperationMethod<
-  DeleteEmailChannelRequest,
+  DeleteEmailChannelRequest & RegionInput,
   DeleteEmailChannelResponse,
   DeleteEmailChannelError,
   Credentials | HttpClient.HttpClient
@@ -6005,6 +6061,8 @@ export const deleteEmailChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteEmailChannel",
 }));
 
 export type DeleteEmailTemplateError =
@@ -6020,7 +6078,7 @@ export type DeleteEmailTemplateError =
  * Deletes a message template for messages that were sent through the email channel.
  */
 export const deleteEmailTemplate: API.OperationMethod<
-  DeleteEmailTemplateRequest,
+  DeleteEmailTemplateRequest & RegionInput,
   DeleteEmailTemplateResponse,
   DeleteEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6039,6 +6097,8 @@ export const deleteEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteEmailTemplate",
 }));
 
 export type DeleteEndpointError =
@@ -6054,7 +6114,7 @@ export type DeleteEndpointError =
  * Deletes an endpoint from an application.
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -6073,6 +6133,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeleteEventStreamError =
@@ -6088,7 +6150,7 @@ export type DeleteEventStreamError =
  * Deletes the event stream for an application.
  */
 export const deleteEventStream: API.OperationMethod<
-  DeleteEventStreamRequest,
+  DeleteEventStreamRequest & RegionInput,
   DeleteEventStreamResponse,
   DeleteEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -6107,6 +6169,8 @@ export const deleteEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventStream",
+  telemetry: TELEMETRY,
+  span: "DeleteEventStream",
 }));
 
 export type DeleteGcmChannelError =
@@ -6122,7 +6186,7 @@ export type DeleteGcmChannelError =
  * Disables the GCM channel for an application and deletes any existing settings for the channel.
  */
 export const deleteGcmChannel: API.OperationMethod<
-  DeleteGcmChannelRequest,
+  DeleteGcmChannelRequest & RegionInput,
   DeleteGcmChannelResponse,
   DeleteGcmChannelError,
   Credentials | HttpClient.HttpClient
@@ -6141,6 +6205,8 @@ export const deleteGcmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGcmChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteGcmChannel",
 }));
 
 export type DeleteInAppTemplateError =
@@ -6156,7 +6222,7 @@ export type DeleteInAppTemplateError =
  * Deletes a message template for messages sent using the in-app message channel.
  */
 export const deleteInAppTemplate: API.OperationMethod<
-  DeleteInAppTemplateRequest,
+  DeleteInAppTemplateRequest & RegionInput,
   DeleteInAppTemplateResponse,
   DeleteInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6175,6 +6241,8 @@ export const deleteInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInAppTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteInAppTemplate",
 }));
 
 export type DeleteJourneyError =
@@ -6190,7 +6258,7 @@ export type DeleteJourneyError =
  * Deletes a journey from an application.
  */
 export const deleteJourney: API.OperationMethod<
-  DeleteJourneyRequest,
+  DeleteJourneyRequest & RegionInput,
   DeleteJourneyResponse,
   DeleteJourneyError,
   Credentials | HttpClient.HttpClient
@@ -6209,6 +6277,8 @@ export const deleteJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJourney",
+  telemetry: TELEMETRY,
+  span: "DeleteJourney",
 }));
 
 export type DeletePushTemplateError =
@@ -6224,7 +6294,7 @@ export type DeletePushTemplateError =
  * Deletes a message template for messages that were sent through a push notification channel.
  */
 export const deletePushTemplate: API.OperationMethod<
-  DeletePushTemplateRequest,
+  DeletePushTemplateRequest & RegionInput,
   DeletePushTemplateResponse,
   DeletePushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6243,6 +6313,8 @@ export const deletePushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePushTemplate",
+  telemetry: TELEMETRY,
+  span: "DeletePushTemplate",
 }));
 
 export type DeleteRecommenderConfigurationError =
@@ -6258,7 +6330,7 @@ export type DeleteRecommenderConfigurationError =
  * Deletes an Amazon Pinpoint configuration for a recommender model.
  */
 export const deleteRecommenderConfiguration: API.OperationMethod<
-  DeleteRecommenderConfigurationRequest,
+  DeleteRecommenderConfigurationRequest & RegionInput,
   DeleteRecommenderConfigurationResponse,
   DeleteRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6277,6 +6349,8 @@ export const deleteRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommenderConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommenderConfiguration",
 }));
 
 export type DeleteSegmentError =
@@ -6292,7 +6366,7 @@ export type DeleteSegmentError =
  * Deletes a segment from an application.
  */
 export const deleteSegment: API.OperationMethod<
-  DeleteSegmentRequest,
+  DeleteSegmentRequest & RegionInput,
   DeleteSegmentResponse,
   DeleteSegmentError,
   Credentials | HttpClient.HttpClient
@@ -6311,6 +6385,8 @@ export const deleteSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSegment",
+  telemetry: TELEMETRY,
+  span: "DeleteSegment",
 }));
 
 export type DeleteSmsChannelError =
@@ -6326,7 +6402,7 @@ export type DeleteSmsChannelError =
  * Disables the SMS channel for an application and deletes any existing settings for the channel.
  */
 export const deleteSmsChannel: API.OperationMethod<
-  DeleteSmsChannelRequest,
+  DeleteSmsChannelRequest & RegionInput,
   DeleteSmsChannelResponse,
   DeleteSmsChannelError,
   Credentials | HttpClient.HttpClient
@@ -6345,6 +6421,8 @@ export const deleteSmsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSmsChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteSmsChannel",
 }));
 
 export type DeleteSmsTemplateError =
@@ -6360,7 +6438,7 @@ export type DeleteSmsTemplateError =
  * Deletes a message template for messages that were sent through the SMS channel.
  */
 export const deleteSmsTemplate: API.OperationMethod<
-  DeleteSmsTemplateRequest,
+  DeleteSmsTemplateRequest & RegionInput,
   DeleteSmsTemplateResponse,
   DeleteSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6379,6 +6457,8 @@ export const deleteSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSmsTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteSmsTemplate",
 }));
 
 export type DeleteUserEndpointsError =
@@ -6394,7 +6474,7 @@ export type DeleteUserEndpointsError =
  * Deletes all the endpoints that are associated with a specific user ID.
  */
 export const deleteUserEndpoints: API.OperationMethod<
-  DeleteUserEndpointsRequest,
+  DeleteUserEndpointsRequest & RegionInput,
   DeleteUserEndpointsResponse,
   DeleteUserEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -6413,6 +6493,8 @@ export const deleteUserEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserEndpoints",
+  telemetry: TELEMETRY,
+  span: "DeleteUserEndpoints",
 }));
 
 export type DeleteVoiceChannelError =
@@ -6428,7 +6510,7 @@ export type DeleteVoiceChannelError =
  * Disables the voice channel for an application and deletes any existing settings for the channel.
  */
 export const deleteVoiceChannel: API.OperationMethod<
-  DeleteVoiceChannelRequest,
+  DeleteVoiceChannelRequest & RegionInput,
   DeleteVoiceChannelResponse,
   DeleteVoiceChannelError,
   Credentials | HttpClient.HttpClient
@@ -6447,6 +6529,8 @@ export const deleteVoiceChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceChannel",
 }));
 
 export type DeleteVoiceTemplateError =
@@ -6462,7 +6546,7 @@ export type DeleteVoiceTemplateError =
  * Deletes a message template for messages that were sent through the voice channel.
  */
 export const deleteVoiceTemplate: API.OperationMethod<
-  DeleteVoiceTemplateRequest,
+  DeleteVoiceTemplateRequest & RegionInput,
   DeleteVoiceTemplateResponse,
   DeleteVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6481,6 +6565,8 @@ export const deleteVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceTemplate",
 }));
 
 export type GetAdmChannelError =
@@ -6496,7 +6582,7 @@ export type GetAdmChannelError =
  * Retrieves information about the status and settings of the ADM channel for an application.
  */
 export const getAdmChannel: API.OperationMethod<
-  GetAdmChannelRequest,
+  GetAdmChannelRequest & RegionInput,
   GetAdmChannelResponse,
   GetAdmChannelError,
   Credentials | HttpClient.HttpClient
@@ -6515,6 +6601,8 @@ export const getAdmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdmChannel",
+  telemetry: TELEMETRY,
+  span: "GetAdmChannel",
 }));
 
 export type GetApnsChannelError =
@@ -6530,7 +6618,7 @@ export type GetApnsChannelError =
  * Retrieves information about the status and settings of the APNs channel for an application.
  */
 export const getApnsChannel: API.OperationMethod<
-  GetApnsChannelRequest,
+  GetApnsChannelRequest & RegionInput,
   GetApnsChannelResponse,
   GetApnsChannelError,
   Credentials | HttpClient.HttpClient
@@ -6549,6 +6637,8 @@ export const getApnsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsChannel",
+  telemetry: TELEMETRY,
+  span: "GetApnsChannel",
 }));
 
 export type GetApnsSandboxChannelError =
@@ -6564,7 +6654,7 @@ export type GetApnsSandboxChannelError =
  * Retrieves information about the status and settings of the APNs sandbox channel for an application.
  */
 export const getApnsSandboxChannel: API.OperationMethod<
-  GetApnsSandboxChannelRequest,
+  GetApnsSandboxChannelRequest & RegionInput,
   GetApnsSandboxChannelResponse,
   GetApnsSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -6583,6 +6673,8 @@ export const getApnsSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "GetApnsSandboxChannel",
 }));
 
 export type GetApnsVoipChannelError =
@@ -6598,7 +6690,7 @@ export type GetApnsVoipChannelError =
  * Retrieves information about the status and settings of the APNs VoIP channel for an application.
  */
 export const getApnsVoipChannel: API.OperationMethod<
-  GetApnsVoipChannelRequest,
+  GetApnsVoipChannelRequest & RegionInput,
   GetApnsVoipChannelResponse,
   GetApnsVoipChannelError,
   Credentials | HttpClient.HttpClient
@@ -6617,6 +6709,8 @@ export const getApnsVoipChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsVoipChannel",
+  telemetry: TELEMETRY,
+  span: "GetApnsVoipChannel",
 }));
 
 export type GetApnsVoipSandboxChannelError =
@@ -6632,7 +6726,7 @@ export type GetApnsVoipSandboxChannelError =
  * Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
  */
 export const getApnsVoipSandboxChannel: API.OperationMethod<
-  GetApnsVoipSandboxChannelRequest,
+  GetApnsVoipSandboxChannelRequest & RegionInput,
   GetApnsVoipSandboxChannelResponse,
   GetApnsVoipSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -6651,6 +6745,8 @@ export const getApnsVoipSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsVoipSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "GetApnsVoipSandboxChannel",
 }));
 
 export type GetAppError =
@@ -6666,7 +6762,7 @@ export type GetAppError =
  * Retrieves information about an application.
  */
 export const getApp: API.OperationMethod<
-  GetAppRequest,
+  GetAppRequest & RegionInput,
   GetAppResponse,
   GetAppError,
   Credentials | HttpClient.HttpClient
@@ -6685,6 +6781,8 @@ export const getApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApp",
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type GetApplicationDateRangeKpiError =
@@ -6700,7 +6798,7 @@ export type GetApplicationDateRangeKpiError =
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
  */
 export const getApplicationDateRangeKpi: API.OperationMethod<
-  GetApplicationDateRangeKpiRequest,
+  GetApplicationDateRangeKpiRequest & RegionInput,
   GetApplicationDateRangeKpiResponse,
   GetApplicationDateRangeKpiError,
   Credentials | HttpClient.HttpClient
@@ -6719,6 +6817,8 @@ export const getApplicationDateRangeKpi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationDateRangeKpi",
+  telemetry: TELEMETRY,
+  span: "GetApplicationDateRangeKpi",
 }));
 
 export type GetApplicationSettingsError =
@@ -6734,7 +6834,7 @@ export type GetApplicationSettingsError =
  * Retrieves information about the settings for an application.
  */
 export const getApplicationSettings: API.OperationMethod<
-  GetApplicationSettingsRequest,
+  GetApplicationSettingsRequest & RegionInput,
   GetApplicationSettingsResponse,
   GetApplicationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -6753,6 +6853,8 @@ export const getApplicationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationSettings",
+  telemetry: TELEMETRY,
+  span: "GetApplicationSettings",
 }));
 
 export type GetAppsError =
@@ -6768,7 +6870,7 @@ export type GetAppsError =
  * Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
  */
 export const getApps: API.OperationMethod<
-  GetAppsRequest,
+  GetAppsRequest & RegionInput,
   GetAppsResponse,
   GetAppsError,
   Credentials | HttpClient.HttpClient
@@ -6787,6 +6889,8 @@ export const getApps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApps",
+  telemetry: TELEMETRY,
+  span: "GetApps",
 }));
 
 export type GetBaiduChannelError =
@@ -6802,7 +6906,7 @@ export type GetBaiduChannelError =
  * Retrieves information about the status and settings of the Baidu channel for an application.
  */
 export const getBaiduChannel: API.OperationMethod<
-  GetBaiduChannelRequest,
+  GetBaiduChannelRequest & RegionInput,
   GetBaiduChannelResponse,
   GetBaiduChannelError,
   Credentials | HttpClient.HttpClient
@@ -6821,6 +6925,8 @@ export const getBaiduChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaiduChannel",
+  telemetry: TELEMETRY,
+  span: "GetBaiduChannel",
 }));
 
 export type GetCampaignError =
@@ -6836,7 +6942,7 @@ export type GetCampaignError =
  * Retrieves information about the status, configuration, and other settings for a campaign.
  */
 export const getCampaign: API.OperationMethod<
-  GetCampaignRequest,
+  GetCampaignRequest & RegionInput,
   GetCampaignResponse,
   GetCampaignError,
   Credentials | HttpClient.HttpClient
@@ -6855,6 +6961,8 @@ export const getCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaign",
+  telemetry: TELEMETRY,
+  span: "GetCampaign",
 }));
 
 export type GetCampaignActivitiesError =
@@ -6870,7 +6978,7 @@ export type GetCampaignActivitiesError =
  * Retrieves information about all the activities for a campaign.
  */
 export const getCampaignActivities: API.OperationMethod<
-  GetCampaignActivitiesRequest,
+  GetCampaignActivitiesRequest & RegionInput,
   GetCampaignActivitiesResponse,
   GetCampaignActivitiesError,
   Credentials | HttpClient.HttpClient
@@ -6889,6 +6997,8 @@ export const getCampaignActivities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignActivities",
+  telemetry: TELEMETRY,
+  span: "GetCampaignActivities",
 }));
 
 export type GetCampaignDateRangeKpiError =
@@ -6904,7 +7014,7 @@ export type GetCampaignDateRangeKpiError =
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
  */
 export const getCampaignDateRangeKpi: API.OperationMethod<
-  GetCampaignDateRangeKpiRequest,
+  GetCampaignDateRangeKpiRequest & RegionInput,
   GetCampaignDateRangeKpiResponse,
   GetCampaignDateRangeKpiError,
   Credentials | HttpClient.HttpClient
@@ -6923,6 +7033,8 @@ export const getCampaignDateRangeKpi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignDateRangeKpi",
+  telemetry: TELEMETRY,
+  span: "GetCampaignDateRangeKpi",
 }));
 
 export type GetCampaignsError =
@@ -6938,7 +7050,7 @@ export type GetCampaignsError =
  * Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
  */
 export const getCampaigns: API.OperationMethod<
-  GetCampaignsRequest,
+  GetCampaignsRequest & RegionInput,
   GetCampaignsResponse,
   GetCampaignsError,
   Credentials | HttpClient.HttpClient
@@ -6957,6 +7069,8 @@ export const getCampaigns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaigns",
+  telemetry: TELEMETRY,
+  span: "GetCampaigns",
 }));
 
 export type GetCampaignVersionError =
@@ -6972,7 +7086,7 @@ export type GetCampaignVersionError =
  * Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
  */
 export const getCampaignVersion: API.OperationMethod<
-  GetCampaignVersionRequest,
+  GetCampaignVersionRequest & RegionInput,
   GetCampaignVersionResponse,
   GetCampaignVersionError,
   Credentials | HttpClient.HttpClient
@@ -6991,6 +7105,8 @@ export const getCampaignVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignVersion",
+  telemetry: TELEMETRY,
+  span: "GetCampaignVersion",
 }));
 
 export type GetCampaignVersionsError =
@@ -7006,7 +7122,7 @@ export type GetCampaignVersionsError =
  * Retrieves information about the status, configuration, and other settings for all versions of a campaign.
  */
 export const getCampaignVersions: API.OperationMethod<
-  GetCampaignVersionsRequest,
+  GetCampaignVersionsRequest & RegionInput,
   GetCampaignVersionsResponse,
   GetCampaignVersionsError,
   Credentials | HttpClient.HttpClient
@@ -7025,6 +7141,8 @@ export const getCampaignVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignVersions",
+  telemetry: TELEMETRY,
+  span: "GetCampaignVersions",
 }));
 
 export type GetChannelsError =
@@ -7040,7 +7158,7 @@ export type GetChannelsError =
  * Retrieves information about the history and status of each channel for an application.
  */
 export const getChannels: API.OperationMethod<
-  GetChannelsRequest,
+  GetChannelsRequest & RegionInput,
   GetChannelsResponse,
   GetChannelsError,
   Credentials | HttpClient.HttpClient
@@ -7059,6 +7177,8 @@ export const getChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannels",
+  telemetry: TELEMETRY,
+  span: "GetChannels",
 }));
 
 export type GetEmailChannelError =
@@ -7074,7 +7194,7 @@ export type GetEmailChannelError =
  * Retrieves information about the status and settings of the email channel for an application.
  */
 export const getEmailChannel: API.OperationMethod<
-  GetEmailChannelRequest,
+  GetEmailChannelRequest & RegionInput,
   GetEmailChannelResponse,
   GetEmailChannelError,
   Credentials | HttpClient.HttpClient
@@ -7093,6 +7213,8 @@ export const getEmailChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailChannel",
+  telemetry: TELEMETRY,
+  span: "GetEmailChannel",
 }));
 
 export type GetEmailTemplateError =
@@ -7108,7 +7230,7 @@ export type GetEmailTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through the email channel.
  */
 export const getEmailTemplate: API.OperationMethod<
-  GetEmailTemplateRequest,
+  GetEmailTemplateRequest & RegionInput,
   GetEmailTemplateResponse,
   GetEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7127,6 +7249,8 @@ export const getEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "GetEmailTemplate",
 }));
 
 export type GetEndpointError =
@@ -7142,7 +7266,7 @@ export type GetEndpointError =
  * Retrieves information about the settings and attributes of a specific endpoint for an application.
  */
 export const getEndpoint: API.OperationMethod<
-  GetEndpointRequest,
+  GetEndpointRequest & RegionInput,
   GetEndpointResponse,
   GetEndpointError,
   Credentials | HttpClient.HttpClient
@@ -7161,6 +7285,8 @@ export const getEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetEndpoint",
 }));
 
 export type GetEventStreamError =
@@ -7176,7 +7302,7 @@ export type GetEventStreamError =
  * Retrieves information about the event stream settings for an application.
  */
 export const getEventStream: API.OperationMethod<
-  GetEventStreamRequest,
+  GetEventStreamRequest & RegionInput,
   GetEventStreamResponse,
   GetEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -7195,6 +7321,8 @@ export const getEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventStream",
+  telemetry: TELEMETRY,
+  span: "GetEventStream",
 }));
 
 export type GetExportJobError =
@@ -7210,7 +7338,7 @@ export type GetExportJobError =
  * Retrieves information about the status and settings of a specific export job for an application.
  */
 export const getExportJob: API.OperationMethod<
-  GetExportJobRequest,
+  GetExportJobRequest & RegionInput,
   GetExportJobResponse,
   GetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -7229,6 +7357,8 @@ export const getExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportJob",
+  telemetry: TELEMETRY,
+  span: "GetExportJob",
 }));
 
 export type GetExportJobsError =
@@ -7244,7 +7374,7 @@ export type GetExportJobsError =
  * Retrieves information about the status and settings of all the export jobs for an application.
  */
 export const getExportJobs: API.OperationMethod<
-  GetExportJobsRequest,
+  GetExportJobsRequest & RegionInput,
   GetExportJobsResponse,
   GetExportJobsError,
   Credentials | HttpClient.HttpClient
@@ -7263,6 +7393,8 @@ export const getExportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportJobs",
+  telemetry: TELEMETRY,
+  span: "GetExportJobs",
 }));
 
 export type GetGcmChannelError =
@@ -7278,7 +7410,7 @@ export type GetGcmChannelError =
  * Retrieves information about the status and settings of the GCM channel for an application.
  */
 export const getGcmChannel: API.OperationMethod<
-  GetGcmChannelRequest,
+  GetGcmChannelRequest & RegionInput,
   GetGcmChannelResponse,
   GetGcmChannelError,
   Credentials | HttpClient.HttpClient
@@ -7297,6 +7429,8 @@ export const getGcmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGcmChannel",
+  telemetry: TELEMETRY,
+  span: "GetGcmChannel",
 }));
 
 export type GetImportJobError =
@@ -7312,7 +7446,7 @@ export type GetImportJobError =
  * Retrieves information about the status and settings of a specific import job for an application.
  */
 export const getImportJob: API.OperationMethod<
-  GetImportJobRequest,
+  GetImportJobRequest & RegionInput,
   GetImportJobResponse,
   GetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -7331,6 +7465,8 @@ export const getImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
+  telemetry: TELEMETRY,
+  span: "GetImportJob",
 }));
 
 export type GetImportJobsError =
@@ -7346,7 +7482,7 @@ export type GetImportJobsError =
  * Retrieves information about the status and settings of all the import jobs for an application.
  */
 export const getImportJobs: API.OperationMethod<
-  GetImportJobsRequest,
+  GetImportJobsRequest & RegionInput,
   GetImportJobsResponse,
   GetImportJobsError,
   Credentials | HttpClient.HttpClient
@@ -7365,6 +7501,8 @@ export const getImportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJobs",
+  telemetry: TELEMETRY,
+  span: "GetImportJobs",
 }));
 
 export type GetInAppMessagesError =
@@ -7380,7 +7518,7 @@ export type GetInAppMessagesError =
  * Retrieves the in-app messages targeted for the provided endpoint ID.
  */
 export const getInAppMessages: API.OperationMethod<
-  GetInAppMessagesRequest,
+  GetInAppMessagesRequest & RegionInput,
   GetInAppMessagesResponse,
   GetInAppMessagesError,
   Credentials | HttpClient.HttpClient
@@ -7399,6 +7537,8 @@ export const getInAppMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInAppMessages",
+  telemetry: TELEMETRY,
+  span: "GetInAppMessages",
 }));
 
 export type GetInAppTemplateError =
@@ -7414,7 +7554,7 @@ export type GetInAppTemplateError =
  * Retrieves the content and settings of a message template for messages sent through the in-app channel.
  */
 export const getInAppTemplate: API.OperationMethod<
-  GetInAppTemplateRequest,
+  GetInAppTemplateRequest & RegionInput,
   GetInAppTemplateResponse,
   GetInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7433,6 +7573,8 @@ export const getInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInAppTemplate",
+  telemetry: TELEMETRY,
+  span: "GetInAppTemplate",
 }));
 
 export type GetJourneyError =
@@ -7448,7 +7590,7 @@ export type GetJourneyError =
  * Retrieves information about the status, configuration, and other settings for a journey.
  */
 export const getJourney: API.OperationMethod<
-  GetJourneyRequest,
+  GetJourneyRequest & RegionInput,
   GetJourneyResponse,
   GetJourneyError,
   Credentials | HttpClient.HttpClient
@@ -7467,6 +7609,8 @@ export const getJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourney",
+  telemetry: TELEMETRY,
+  span: "GetJourney",
 }));
 
 export type GetJourneyDateRangeKpiError =
@@ -7482,7 +7626,7 @@ export type GetJourneyDateRangeKpiError =
  * Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
  */
 export const getJourneyDateRangeKpi: API.OperationMethod<
-  GetJourneyDateRangeKpiRequest,
+  GetJourneyDateRangeKpiRequest & RegionInput,
   GetJourneyDateRangeKpiResponse,
   GetJourneyDateRangeKpiError,
   Credentials | HttpClient.HttpClient
@@ -7501,6 +7645,8 @@ export const getJourneyDateRangeKpi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyDateRangeKpi",
+  telemetry: TELEMETRY,
+  span: "GetJourneyDateRangeKpi",
 }));
 
 export type GetJourneyExecutionActivityMetricsError =
@@ -7516,7 +7662,7 @@ export type GetJourneyExecutionActivityMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
  */
 export const getJourneyExecutionActivityMetrics: API.OperationMethod<
-  GetJourneyExecutionActivityMetricsRequest,
+  GetJourneyExecutionActivityMetricsRequest & RegionInput,
   GetJourneyExecutionActivityMetricsResponse,
   GetJourneyExecutionActivityMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7535,6 +7681,8 @@ export const getJourneyExecutionActivityMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyExecutionActivityMetrics",
+  telemetry: TELEMETRY,
+  span: "GetJourneyExecutionActivityMetrics",
 }));
 
 export type GetJourneyExecutionMetricsError =
@@ -7550,7 +7698,7 @@ export type GetJourneyExecutionMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
  */
 export const getJourneyExecutionMetrics: API.OperationMethod<
-  GetJourneyExecutionMetricsRequest,
+  GetJourneyExecutionMetricsRequest & RegionInput,
   GetJourneyExecutionMetricsResponse,
   GetJourneyExecutionMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7569,6 +7717,8 @@ export const getJourneyExecutionMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyExecutionMetrics",
+  telemetry: TELEMETRY,
+  span: "GetJourneyExecutionMetrics",
 }));
 
 export type GetJourneyRunExecutionActivityMetricsError =
@@ -7584,7 +7734,7 @@ export type GetJourneyRunExecutionActivityMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
  */
 export const getJourneyRunExecutionActivityMetrics: API.OperationMethod<
-  GetJourneyRunExecutionActivityMetricsRequest,
+  GetJourneyRunExecutionActivityMetricsRequest & RegionInput,
   GetJourneyRunExecutionActivityMetricsResponse,
   GetJourneyRunExecutionActivityMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7603,6 +7753,8 @@ export const getJourneyRunExecutionActivityMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyRunExecutionActivityMetrics",
+  telemetry: TELEMETRY,
+  span: "GetJourneyRunExecutionActivityMetrics",
 }));
 
 export type GetJourneyRunExecutionMetricsError =
@@ -7618,7 +7770,7 @@ export type GetJourneyRunExecutionMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
  */
 export const getJourneyRunExecutionMetrics: API.OperationMethod<
-  GetJourneyRunExecutionMetricsRequest,
+  GetJourneyRunExecutionMetricsRequest & RegionInput,
   GetJourneyRunExecutionMetricsResponse,
   GetJourneyRunExecutionMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7637,6 +7789,8 @@ export const getJourneyRunExecutionMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyRunExecutionMetrics",
+  telemetry: TELEMETRY,
+  span: "GetJourneyRunExecutionMetrics",
 }));
 
 export type GetJourneyRunsError =
@@ -7652,7 +7806,7 @@ export type GetJourneyRunsError =
  * Provides information about the runs of a journey.
  */
 export const getJourneyRuns: API.OperationMethod<
-  GetJourneyRunsRequest,
+  GetJourneyRunsRequest & RegionInput,
   GetJourneyRunsResponse,
   GetJourneyRunsError,
   Credentials | HttpClient.HttpClient
@@ -7671,6 +7825,8 @@ export const getJourneyRuns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyRuns",
+  telemetry: TELEMETRY,
+  span: "GetJourneyRuns",
 }));
 
 export type GetPushTemplateError =
@@ -7686,7 +7842,7 @@ export type GetPushTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
  */
 export const getPushTemplate: API.OperationMethod<
-  GetPushTemplateRequest,
+  GetPushTemplateRequest & RegionInput,
   GetPushTemplateResponse,
   GetPushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7705,6 +7861,8 @@ export const getPushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPushTemplate",
+  telemetry: TELEMETRY,
+  span: "GetPushTemplate",
 }));
 
 export type GetRecommenderConfigurationError =
@@ -7720,7 +7878,7 @@ export type GetRecommenderConfigurationError =
  * Retrieves information about an Amazon Pinpoint configuration for a recommender model.
  */
 export const getRecommenderConfiguration: API.OperationMethod<
-  GetRecommenderConfigurationRequest,
+  GetRecommenderConfigurationRequest & RegionInput,
   GetRecommenderConfigurationResponse,
   GetRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7739,6 +7897,8 @@ export const getRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetRecommenderConfiguration",
 }));
 
 export type GetRecommenderConfigurationsError =
@@ -7754,7 +7914,7 @@ export type GetRecommenderConfigurationsError =
  * Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
  */
 export const getRecommenderConfigurations: API.OperationMethod<
-  GetRecommenderConfigurationsRequest,
+  GetRecommenderConfigurationsRequest & RegionInput,
   GetRecommenderConfigurationsResponse,
   GetRecommenderConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -7773,6 +7933,8 @@ export const getRecommenderConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderConfigurations",
+  telemetry: TELEMETRY,
+  span: "GetRecommenderConfigurations",
 }));
 
 export type GetSegmentError =
@@ -7788,7 +7950,7 @@ export type GetSegmentError =
  * Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
  */
 export const getSegment: API.OperationMethod<
-  GetSegmentRequest,
+  GetSegmentRequest & RegionInput,
   GetSegmentResponse,
   GetSegmentError,
   Credentials | HttpClient.HttpClient
@@ -7807,6 +7969,8 @@ export const getSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegment",
+  telemetry: TELEMETRY,
+  span: "GetSegment",
 }));
 
 export type GetSegmentExportJobsError =
@@ -7822,7 +7986,7 @@ export type GetSegmentExportJobsError =
  * Retrieves information about the status and settings of the export jobs for a segment.
  */
 export const getSegmentExportJobs: API.OperationMethod<
-  GetSegmentExportJobsRequest,
+  GetSegmentExportJobsRequest & RegionInput,
   GetSegmentExportJobsResponse,
   GetSegmentExportJobsError,
   Credentials | HttpClient.HttpClient
@@ -7841,6 +8005,8 @@ export const getSegmentExportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentExportJobs",
+  telemetry: TELEMETRY,
+  span: "GetSegmentExportJobs",
 }));
 
 export type GetSegmentImportJobsError =
@@ -7856,7 +8022,7 @@ export type GetSegmentImportJobsError =
  * Retrieves information about the status and settings of the import jobs for a segment.
  */
 export const getSegmentImportJobs: API.OperationMethod<
-  GetSegmentImportJobsRequest,
+  GetSegmentImportJobsRequest & RegionInput,
   GetSegmentImportJobsResponse,
   GetSegmentImportJobsError,
   Credentials | HttpClient.HttpClient
@@ -7875,6 +8041,8 @@ export const getSegmentImportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentImportJobs",
+  telemetry: TELEMETRY,
+  span: "GetSegmentImportJobs",
 }));
 
 export type GetSegmentsError =
@@ -7890,7 +8058,7 @@ export type GetSegmentsError =
  * Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
  */
 export const getSegments: API.OperationMethod<
-  GetSegmentsRequest,
+  GetSegmentsRequest & RegionInput,
   GetSegmentsResponse,
   GetSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -7909,6 +8077,8 @@ export const getSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegments",
+  telemetry: TELEMETRY,
+  span: "GetSegments",
 }));
 
 export type GetSegmentVersionError =
@@ -7924,7 +8094,7 @@ export type GetSegmentVersionError =
  * Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
  */
 export const getSegmentVersion: API.OperationMethod<
-  GetSegmentVersionRequest,
+  GetSegmentVersionRequest & RegionInput,
   GetSegmentVersionResponse,
   GetSegmentVersionError,
   Credentials | HttpClient.HttpClient
@@ -7943,6 +8113,8 @@ export const getSegmentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentVersion",
+  telemetry: TELEMETRY,
+  span: "GetSegmentVersion",
 }));
 
 export type GetSegmentVersionsError =
@@ -7958,7 +8130,7 @@ export type GetSegmentVersionsError =
  * Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
  */
 export const getSegmentVersions: API.OperationMethod<
-  GetSegmentVersionsRequest,
+  GetSegmentVersionsRequest & RegionInput,
   GetSegmentVersionsResponse,
   GetSegmentVersionsError,
   Credentials | HttpClient.HttpClient
@@ -7977,6 +8149,8 @@ export const getSegmentVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentVersions",
+  telemetry: TELEMETRY,
+  span: "GetSegmentVersions",
 }));
 
 export type GetSmsChannelError =
@@ -7992,7 +8166,7 @@ export type GetSmsChannelError =
  * Retrieves information about the status and settings of the SMS channel for an application.
  */
 export const getSmsChannel: API.OperationMethod<
-  GetSmsChannelRequest,
+  GetSmsChannelRequest & RegionInput,
   GetSmsChannelResponse,
   GetSmsChannelError,
   Credentials | HttpClient.HttpClient
@@ -8011,6 +8185,8 @@ export const getSmsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSmsChannel",
+  telemetry: TELEMETRY,
+  span: "GetSmsChannel",
 }));
 
 export type GetSmsTemplateError =
@@ -8026,7 +8202,7 @@ export type GetSmsTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
  */
 export const getSmsTemplate: API.OperationMethod<
-  GetSmsTemplateRequest,
+  GetSmsTemplateRequest & RegionInput,
   GetSmsTemplateResponse,
   GetSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -8045,6 +8221,8 @@ export const getSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSmsTemplate",
+  telemetry: TELEMETRY,
+  span: "GetSmsTemplate",
 }));
 
 export type GetUserEndpointsError =
@@ -8060,7 +8238,7 @@ export type GetUserEndpointsError =
  * Retrieves information about all the endpoints that are associated with a specific user ID.
  */
 export const getUserEndpoints: API.OperationMethod<
-  GetUserEndpointsRequest,
+  GetUserEndpointsRequest & RegionInput,
   GetUserEndpointsResponse,
   GetUserEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -8079,6 +8257,8 @@ export const getUserEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserEndpoints",
+  telemetry: TELEMETRY,
+  span: "GetUserEndpoints",
 }));
 
 export type GetVoiceChannelError =
@@ -8094,7 +8274,7 @@ export type GetVoiceChannelError =
  * Retrieves information about the status and settings of the voice channel for an application.
  */
 export const getVoiceChannel: API.OperationMethod<
-  GetVoiceChannelRequest,
+  GetVoiceChannelRequest & RegionInput,
   GetVoiceChannelResponse,
   GetVoiceChannelError,
   Credentials | HttpClient.HttpClient
@@ -8113,6 +8293,8 @@ export const getVoiceChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceChannel",
+  telemetry: TELEMETRY,
+  span: "GetVoiceChannel",
 }));
 
 export type GetVoiceTemplateError =
@@ -8128,7 +8310,7 @@ export type GetVoiceTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through the voice channel.
  */
 export const getVoiceTemplate: API.OperationMethod<
-  GetVoiceTemplateRequest,
+  GetVoiceTemplateRequest & RegionInput,
   GetVoiceTemplateResponse,
   GetVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -8147,6 +8329,8 @@ export const getVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceTemplate",
+  telemetry: TELEMETRY,
+  span: "GetVoiceTemplate",
 }));
 
 export type ListJourneysError =
@@ -8162,7 +8346,7 @@ export type ListJourneysError =
  * Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
  */
 export const listJourneys: API.OperationMethod<
-  ListJourneysRequest,
+  ListJourneysRequest & RegionInput,
   ListJourneysResponse,
   ListJourneysError,
   Credentials | HttpClient.HttpClient
@@ -8181,6 +8365,8 @@ export const listJourneys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJourneys",
+  telemetry: TELEMETRY,
+  span: "ListJourneys",
 }));
 
 export type ListTagsForResourceError = CommonErrors;
@@ -8188,7 +8374,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -8199,6 +8385,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplatesError =
@@ -8212,7 +8400,7 @@ export type ListTemplatesError =
  * Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
  */
 export const listTemplates: API.OperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -8229,6 +8417,8 @@ export const listTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplates",
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 }));
 
 export type ListTemplateVersionsError =
@@ -8244,7 +8434,7 @@ export type ListTemplateVersionsError =
  * Retrieves information about all the versions of a specific message template.
  */
 export const listTemplateVersions: API.OperationMethod<
-  ListTemplateVersionsRequest,
+  ListTemplateVersionsRequest & RegionInput,
   ListTemplateVersionsResponse,
   ListTemplateVersionsError,
   Credentials | HttpClient.HttpClient
@@ -8263,6 +8453,8 @@ export const listTemplateVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplateVersions",
+  telemetry: TELEMETRY,
+  span: "ListTemplateVersions",
 }));
 
 export type PhoneNumberValidateError =
@@ -8278,7 +8470,7 @@ export type PhoneNumberValidateError =
  * Retrieves information about a phone number.
  */
 export const phoneNumberValidate: API.OperationMethod<
-  PhoneNumberValidateRequest,
+  PhoneNumberValidateRequest & RegionInput,
   PhoneNumberValidateResponse,
   PhoneNumberValidateError,
   Credentials | HttpClient.HttpClient
@@ -8297,6 +8489,8 @@ export const phoneNumberValidate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PhoneNumberValidate",
+  telemetry: TELEMETRY,
+  span: "PhoneNumberValidate",
 }));
 
 export type PutEventsError =
@@ -8312,7 +8506,7 @@ export type PutEventsError =
  * Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
  */
 export const putEvents: API.OperationMethod<
-  PutEventsRequest,
+  PutEventsRequest & RegionInput,
   PutEventsResponse,
   PutEventsError,
   Credentials | HttpClient.HttpClient
@@ -8331,6 +8525,8 @@ export const putEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
+  telemetry: TELEMETRY,
+  span: "PutEvents",
 }));
 
 export type PutEventStreamError =
@@ -8346,7 +8542,7 @@ export type PutEventStreamError =
  * Creates a new event stream for an application or updates the settings of an existing event stream for an application.
  */
 export const putEventStream: API.OperationMethod<
-  PutEventStreamRequest,
+  PutEventStreamRequest & RegionInput,
   PutEventStreamResponse,
   PutEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -8365,6 +8561,8 @@ export const putEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventStream",
+  telemetry: TELEMETRY,
+  span: "PutEventStream",
 }));
 
 export type RemoveAttributesError =
@@ -8380,7 +8578,7 @@ export type RemoveAttributesError =
  * Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
  */
 export const removeAttributes: API.OperationMethod<
-  RemoveAttributesRequest,
+  RemoveAttributesRequest & RegionInput,
   RemoveAttributesResponse,
   RemoveAttributesError,
   Credentials | HttpClient.HttpClient
@@ -8399,6 +8597,8 @@ export const removeAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAttributes",
+  telemetry: TELEMETRY,
+  span: "RemoveAttributes",
 }));
 
 export type SendMessagesError =
@@ -8414,7 +8614,7 @@ export type SendMessagesError =
  * Creates and sends a direct message.
  */
 export const sendMessages: API.OperationMethod<
-  SendMessagesRequest,
+  SendMessagesRequest & RegionInput,
   SendMessagesResponse,
   SendMessagesError,
   Credentials | HttpClient.HttpClient
@@ -8433,6 +8633,8 @@ export const sendMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessages",
+  telemetry: TELEMETRY,
+  span: "SendMessages",
 }));
 
 export type SendOTPMessageError =
@@ -8448,7 +8650,7 @@ export type SendOTPMessageError =
  * Send an OTP message
  */
 export const sendOTPMessage: API.OperationMethod<
-  SendOTPMessageRequest,
+  SendOTPMessageRequest & RegionInput,
   SendOTPMessageResponse,
   SendOTPMessageError,
   Credentials | HttpClient.HttpClient
@@ -8467,6 +8669,8 @@ export const sendOTPMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendOTPMessage",
+  telemetry: TELEMETRY,
+  span: "SendOTPMessage",
 }));
 
 export type SendUsersMessagesError =
@@ -8482,7 +8686,7 @@ export type SendUsersMessagesError =
  * Creates and sends a message to a list of users.
  */
 export const sendUsersMessages: API.OperationMethod<
-  SendUsersMessagesRequest,
+  SendUsersMessagesRequest & RegionInput,
   SendUsersMessagesResponse,
   SendUsersMessagesError,
   Credentials | HttpClient.HttpClient
@@ -8501,6 +8705,8 @@ export const sendUsersMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendUsersMessages",
+  telemetry: TELEMETRY,
+  span: "SendUsersMessages",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -8508,7 +8714,7 @@ export type TagResourceError = CommonErrors;
  * Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8519,6 +8725,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -8526,7 +8734,7 @@ export type UntagResourceError = CommonErrors;
  * Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8537,6 +8745,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAdmChannelError =
@@ -8552,7 +8762,7 @@ export type UpdateAdmChannelError =
  * Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
  */
 export const updateAdmChannel: API.OperationMethod<
-  UpdateAdmChannelRequest,
+  UpdateAdmChannelRequest & RegionInput,
   UpdateAdmChannelResponse,
   UpdateAdmChannelError,
   Credentials | HttpClient.HttpClient
@@ -8571,6 +8781,8 @@ export const updateAdmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAdmChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateAdmChannel",
 }));
 
 export type UpdateApnsChannelError =
@@ -8586,7 +8798,7 @@ export type UpdateApnsChannelError =
  * Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
  */
 export const updateApnsChannel: API.OperationMethod<
-  UpdateApnsChannelRequest,
+  UpdateApnsChannelRequest & RegionInput,
   UpdateApnsChannelResponse,
   UpdateApnsChannelError,
   Credentials | HttpClient.HttpClient
@@ -8605,6 +8817,8 @@ export const updateApnsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateApnsChannel",
 }));
 
 export type UpdateApnsSandboxChannelError =
@@ -8620,7 +8834,7 @@ export type UpdateApnsSandboxChannelError =
  * Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
  */
 export const updateApnsSandboxChannel: API.OperationMethod<
-  UpdateApnsSandboxChannelRequest,
+  UpdateApnsSandboxChannelRequest & RegionInput,
   UpdateApnsSandboxChannelResponse,
   UpdateApnsSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -8639,6 +8853,8 @@ export const updateApnsSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateApnsSandboxChannel",
 }));
 
 export type UpdateApnsVoipChannelError =
@@ -8654,7 +8870,7 @@ export type UpdateApnsVoipChannelError =
  * Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
  */
 export const updateApnsVoipChannel: API.OperationMethod<
-  UpdateApnsVoipChannelRequest,
+  UpdateApnsVoipChannelRequest & RegionInput,
   UpdateApnsVoipChannelResponse,
   UpdateApnsVoipChannelError,
   Credentials | HttpClient.HttpClient
@@ -8673,6 +8889,8 @@ export const updateApnsVoipChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsVoipChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateApnsVoipChannel",
 }));
 
 export type UpdateApnsVoipSandboxChannelError =
@@ -8688,7 +8906,7 @@ export type UpdateApnsVoipSandboxChannelError =
  * Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
  */
 export const updateApnsVoipSandboxChannel: API.OperationMethod<
-  UpdateApnsVoipSandboxChannelRequest,
+  UpdateApnsVoipSandboxChannelRequest & RegionInput,
   UpdateApnsVoipSandboxChannelResponse,
   UpdateApnsVoipSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -8707,6 +8925,8 @@ export const updateApnsVoipSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsVoipSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateApnsVoipSandboxChannel",
 }));
 
 export type UpdateApplicationSettingsError =
@@ -8722,7 +8942,7 @@ export type UpdateApplicationSettingsError =
  * Updates the settings for an application.
  */
 export const updateApplicationSettings: API.OperationMethod<
-  UpdateApplicationSettingsRequest,
+  UpdateApplicationSettingsRequest & RegionInput,
   UpdateApplicationSettingsResponse,
   UpdateApplicationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -8741,6 +8961,8 @@ export const updateApplicationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationSettings",
 }));
 
 export type UpdateBaiduChannelError =
@@ -8756,7 +8978,7 @@ export type UpdateBaiduChannelError =
  * Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
  */
 export const updateBaiduChannel: API.OperationMethod<
-  UpdateBaiduChannelRequest,
+  UpdateBaiduChannelRequest & RegionInput,
   UpdateBaiduChannelResponse,
   UpdateBaiduChannelError,
   Credentials | HttpClient.HttpClient
@@ -8775,6 +8997,8 @@ export const updateBaiduChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBaiduChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateBaiduChannel",
 }));
 
 export type UpdateCampaignError =
@@ -8790,7 +9014,7 @@ export type UpdateCampaignError =
  * Updates the configuration and other settings for a campaign.
  */
 export const updateCampaign: API.OperationMethod<
-  UpdateCampaignRequest,
+  UpdateCampaignRequest & RegionInput,
   UpdateCampaignResponse,
   UpdateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -8809,6 +9033,8 @@ export const updateCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaign",
 }));
 
 export type UpdateEmailChannelError =
@@ -8824,7 +9050,7 @@ export type UpdateEmailChannelError =
  * Enables the email channel for an application or updates the status and settings of the email channel for an application.
  */
 export const updateEmailChannel: API.OperationMethod<
-  UpdateEmailChannelRequest,
+  UpdateEmailChannelRequest & RegionInput,
   UpdateEmailChannelResponse,
   UpdateEmailChannelError,
   Credentials | HttpClient.HttpClient
@@ -8843,6 +9069,8 @@ export const updateEmailChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmailChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateEmailChannel",
 }));
 
 export type UpdateEmailTemplateError =
@@ -8858,7 +9086,7 @@ export type UpdateEmailTemplateError =
  * Updates an existing message template for messages that are sent through the email channel.
  */
 export const updateEmailTemplate: API.OperationMethod<
-  UpdateEmailTemplateRequest,
+  UpdateEmailTemplateRequest & RegionInput,
   UpdateEmailTemplateResponse,
   UpdateEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -8877,6 +9105,8 @@ export const updateEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateEmailTemplate",
 }));
 
 export type UpdateEndpointError =
@@ -8892,7 +9122,7 @@ export type UpdateEndpointError =
  * Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
 export const updateEndpoint: API.OperationMethod<
-  UpdateEndpointRequest,
+  UpdateEndpointRequest & RegionInput,
   UpdateEndpointResponse,
   UpdateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -8911,6 +9141,8 @@ export const updateEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpoint",
 }));
 
 export type UpdateEndpointsBatchError =
@@ -8926,7 +9158,7 @@ export type UpdateEndpointsBatchError =
  * Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
 export const updateEndpointsBatch: API.OperationMethod<
-  UpdateEndpointsBatchRequest,
+  UpdateEndpointsBatchRequest & RegionInput,
   UpdateEndpointsBatchResponse,
   UpdateEndpointsBatchError,
   Credentials | HttpClient.HttpClient
@@ -8945,6 +9177,8 @@ export const updateEndpointsBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointsBatch",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpointsBatch",
 }));
 
 export type UpdateGcmChannelError =
@@ -8960,7 +9194,7 @@ export type UpdateGcmChannelError =
  * Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
  */
 export const updateGcmChannel: API.OperationMethod<
-  UpdateGcmChannelRequest,
+  UpdateGcmChannelRequest & RegionInput,
   UpdateGcmChannelResponse,
   UpdateGcmChannelError,
   Credentials | HttpClient.HttpClient
@@ -8979,6 +9213,8 @@ export const updateGcmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGcmChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateGcmChannel",
 }));
 
 export type UpdateInAppTemplateError =
@@ -8994,7 +9230,7 @@ export type UpdateInAppTemplateError =
  * Updates an existing message template for messages sent through the in-app message channel.
  */
 export const updateInAppTemplate: API.OperationMethod<
-  UpdateInAppTemplateRequest,
+  UpdateInAppTemplateRequest & RegionInput,
   UpdateInAppTemplateResponse,
   UpdateInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9013,6 +9249,8 @@ export const updateInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInAppTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateInAppTemplate",
 }));
 
 export type UpdateJourneyError =
@@ -9029,7 +9267,7 @@ export type UpdateJourneyError =
  * Updates the configuration and other settings for a journey.
  */
 export const updateJourney: API.OperationMethod<
-  UpdateJourneyRequest,
+  UpdateJourneyRequest & RegionInput,
   UpdateJourneyResponse,
   UpdateJourneyError,
   Credentials | HttpClient.HttpClient
@@ -9049,6 +9287,8 @@ export const updateJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJourney",
+  telemetry: TELEMETRY,
+  span: "UpdateJourney",
 }));
 
 export type UpdateJourneyStateError =
@@ -9064,7 +9304,7 @@ export type UpdateJourneyStateError =
  * Cancels (stops) an active journey.
  */
 export const updateJourneyState: API.OperationMethod<
-  UpdateJourneyStateRequest,
+  UpdateJourneyStateRequest & RegionInput,
   UpdateJourneyStateResponse,
   UpdateJourneyStateError,
   Credentials | HttpClient.HttpClient
@@ -9083,6 +9323,8 @@ export const updateJourneyState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJourneyState",
+  telemetry: TELEMETRY,
+  span: "UpdateJourneyState",
 }));
 
 export type UpdatePushTemplateError =
@@ -9098,7 +9340,7 @@ export type UpdatePushTemplateError =
  * Updates an existing message template for messages that are sent through a push notification channel.
  */
 export const updatePushTemplate: API.OperationMethod<
-  UpdatePushTemplateRequest,
+  UpdatePushTemplateRequest & RegionInput,
   UpdatePushTemplateResponse,
   UpdatePushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9117,6 +9359,8 @@ export const updatePushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePushTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdatePushTemplate",
 }));
 
 export type UpdateRecommenderConfigurationError =
@@ -9132,7 +9376,7 @@ export type UpdateRecommenderConfigurationError =
  * Updates an Amazon Pinpoint configuration for a recommender model.
  */
 export const updateRecommenderConfiguration: API.OperationMethod<
-  UpdateRecommenderConfigurationRequest,
+  UpdateRecommenderConfigurationRequest & RegionInput,
   UpdateRecommenderConfigurationResponse,
   UpdateRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9151,6 +9395,8 @@ export const updateRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommenderConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateRecommenderConfiguration",
 }));
 
 export type UpdateSegmentError =
@@ -9166,7 +9412,7 @@ export type UpdateSegmentError =
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
 export const updateSegment: API.OperationMethod<
-  UpdateSegmentRequest,
+  UpdateSegmentRequest & RegionInput,
   UpdateSegmentResponse,
   UpdateSegmentError,
   Credentials | HttpClient.HttpClient
@@ -9185,6 +9431,8 @@ export const updateSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSegment",
+  telemetry: TELEMETRY,
+  span: "UpdateSegment",
 }));
 
 export type UpdateSmsChannelError =
@@ -9200,7 +9448,7 @@ export type UpdateSmsChannelError =
  * Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
  */
 export const updateSmsChannel: API.OperationMethod<
-  UpdateSmsChannelRequest,
+  UpdateSmsChannelRequest & RegionInput,
   UpdateSmsChannelResponse,
   UpdateSmsChannelError,
   Credentials | HttpClient.HttpClient
@@ -9219,6 +9467,8 @@ export const updateSmsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSmsChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateSmsChannel",
 }));
 
 export type UpdateSmsTemplateError =
@@ -9234,7 +9484,7 @@ export type UpdateSmsTemplateError =
  * Updates an existing message template for messages that are sent through the SMS channel.
  */
 export const updateSmsTemplate: API.OperationMethod<
-  UpdateSmsTemplateRequest,
+  UpdateSmsTemplateRequest & RegionInput,
   UpdateSmsTemplateResponse,
   UpdateSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9253,6 +9503,8 @@ export const updateSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSmsTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateSmsTemplate",
 }));
 
 export type UpdateTemplateActiveVersionError =
@@ -9268,7 +9520,7 @@ export type UpdateTemplateActiveVersionError =
  * Changes the status of a specific version of a message template to *active*.
  */
 export const updateTemplateActiveVersion: API.OperationMethod<
-  UpdateTemplateActiveVersionRequest,
+  UpdateTemplateActiveVersionRequest & RegionInput,
   UpdateTemplateActiveVersionResponse,
   UpdateTemplateActiveVersionError,
   Credentials | HttpClient.HttpClient
@@ -9287,6 +9539,8 @@ export const updateTemplateActiveVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateActiveVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplateActiveVersion",
 }));
 
 export type UpdateVoiceChannelError =
@@ -9302,7 +9556,7 @@ export type UpdateVoiceChannelError =
  * Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
  */
 export const updateVoiceChannel: API.OperationMethod<
-  UpdateVoiceChannelRequest,
+  UpdateVoiceChannelRequest & RegionInput,
   UpdateVoiceChannelResponse,
   UpdateVoiceChannelError,
   Credentials | HttpClient.HttpClient
@@ -9321,6 +9575,8 @@ export const updateVoiceChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceChannel",
 }));
 
 export type UpdateVoiceTemplateError =
@@ -9336,7 +9592,7 @@ export type UpdateVoiceTemplateError =
  * Updates an existing message template for messages that are sent through the voice channel.
  */
 export const updateVoiceTemplate: API.OperationMethod<
-  UpdateVoiceTemplateRequest,
+  UpdateVoiceTemplateRequest & RegionInput,
   UpdateVoiceTemplateResponse,
   UpdateVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9355,6 +9611,8 @@ export const updateVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceTemplate",
 }));
 
 export type VerifyOTPMessageError =
@@ -9370,7 +9628,7 @@ export type VerifyOTPMessageError =
  * Verify an OTP
  */
 export const verifyOTPMessage: API.OperationMethod<
-  VerifyOTPMessageRequest,
+  VerifyOTPMessageRequest & RegionInput,
   VerifyOTPMessageResponse,
   VerifyOTPMessageError,
   Credentials | HttpClient.HttpClient
@@ -9389,6 +9647,8 @@ export const verifyOTPMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyOTPMessage",
+  telemetry: TELEMETRY,
+  span: "VerifyOTPMessage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

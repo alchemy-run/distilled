@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn Smithy JSON models in .generated-specs into Effect SDKs.
  *
@@ -7,16 +7,17 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  *   sprites.json   → src/services/sprites.ts    SpritesProtocol (mint from FLY_API_TOKEN)
  *   mpg.json       → src/services/mpg.ts        FlyApiProtocol (api.fly.io REST)
  *   addons.json    → src/services/addons.ts     FlyGraphqlProtocol
+ *   builders.json  → src/services/builders.ts   FlyGraphqlProtocol
  *
  * Patches and model stamps apply in scripts/convert.ts. Generate only
  * compiles the already-patched Smithy models.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const CORE_ERROR_CLASSES = [
   "BadRequest",
@@ -25,6 +26,7 @@ const CORE_ERROR_CLASSES = [
   "Forbidden",
   "GatewayTimeout",
   "NotFound",
+  "RemoteBuilderAppNotFound",
   "SpritesNotEnabled",
   "UnprocessableEntity",
 ];
@@ -145,9 +147,9 @@ const restSpec = (opts: {
   },
 });
 
-const addonsSpec = (model: any): SdkSpec => ({
+const graphqlSpec = (model: any, sourceNote: string): SdkSpec => ({
   nullableTrait: GQL_NULLABLE,
-  sourceNote: ".generated-specs (Fly GraphQL add-ons introspection → smithy)",
+  sourceNote,
   structPipes: (ctx) => {
     const traits = model.shapes?.[ctx.id]?.traits ?? {};
     const pipes: string[] = [];
@@ -197,9 +199,10 @@ const addonsSpec = (model: any): SdkSpec => ({
   memberTraitPipes: {
     "smithy.api#sensitive": "T.SensitiveValue",
   },
+  // A sensitive JSON scalar (AddOn.environment) is redacted whole.
   memberTsType: (m) =>
     "smithy.api#sensitive" in (m.traits ?? {})
-      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      ? `${m.target === "smithy.api#Document" ? "Redacted.Redacted<unknown>" : "string | Redacted.Redacted<string>"}${m.nullable ? " | null" : ""}`
       : undefined,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   errors: {
@@ -227,13 +230,15 @@ const addonsSpec = (model: any): SdkSpec => ({
           `import type * as Redacted from "effect/Redacted";\n`,
       );
     }
-    if (
-      next.includes("CreateExtensionTosAgreementNotAuthorized") &&
-      !next.includes("CreateExtensionTosAgreementNotAuthorized, FlyIoParseError")
-    ) {
+    // Hand-written error classes from errors.ts that the operations reference.
+    const commonImport = `import { FlyIoParseError, UnknownFlyIoError } from "../errors.ts";`;
+    const typed = CORE_ERROR_CLASSES.filter((n) =>
+      new RegExp(`\\b${n}\\b`).test(next.replace(commonImport, "")),
+    );
+    if (typed.length > 0) {
       next = next.replace(
-        `import { FlyIoParseError, UnknownFlyIoError } from "../errors.ts";`,
-        `import { CreateExtensionTosAgreementNotAuthorized, FlyIoParseError, UnknownFlyIoError } from "../errors.ts";`,
+        commonImport,
+        `import { ${[...typed, "FlyIoParseError", "UnknownFlyIoError"].sort().join(", ")} } from "../errors.ts";`,
       );
     }
     return next;
@@ -250,6 +255,7 @@ const machinesSpec = restSpec({
 
 runGeneratorCli({
   description: "Generate the Fly.io Effect SDK from Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: (model) => {
@@ -275,7 +281,13 @@ runGeneratorCli({
       });
     }
     if (ns === "com.flyio.addons") {
-      return addonsSpec(model);
+      return graphqlSpec(model, ".generated-specs (Fly GraphQL add-ons introspection → smithy)");
+    }
+    if (ns === "com.flyio.builders") {
+      return graphqlSpec(
+        model,
+        ".generated-specs (Fly GraphQL remote builders introspection → smithy)",
+      );
     }
     return machinesSpec;
   },

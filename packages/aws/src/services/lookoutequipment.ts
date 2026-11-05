@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lookoutequipment.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LookoutEquipment",
+  service: "LookoutEquipment",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1080,7 +1097,7 @@ export type CreateDatasetError =
  * information. A dataset also contains any tags associated with the ingested data.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1098,6 +1115,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateInferenceSchedulerError =
@@ -1117,7 +1136,7 @@ export type CreateInferenceSchedulerError =
  * You must also provide an S3 bucket location for the output data.
  */
 export const createInferenceScheduler: API.OperationMethod<
-  CreateInferenceSchedulerRequest,
+  CreateInferenceSchedulerRequest & RegionInput,
   CreateInferenceSchedulerResponse,
   CreateInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1136,6 +1155,8 @@ export const createInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "CreateInferenceScheduler",
 }));
 
 export type CreateLabelError =
@@ -1151,7 +1172,7 @@ export type CreateLabelError =
  * Creates a label for an event.
  */
 export const createLabel: API.OperationMethod<
-  CreateLabelRequest,
+  CreateLabelRequest & RegionInput,
   CreateLabelResponse,
   CreateLabelError,
   Credentials | HttpClient.HttpClient
@@ -1170,6 +1191,8 @@ export const createLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabel",
+  telemetry: TELEMETRY,
+  span: "CreateLabel",
 }));
 
 export type CreateLabelGroupError =
@@ -1184,7 +1207,7 @@ export type CreateLabelGroupError =
  * Creates a group of labels.
  */
 export const createLabelGroup: API.OperationMethod<
-  CreateLabelGroupRequest,
+  CreateLabelGroupRequest & RegionInput,
   CreateLabelGroupResponse,
   CreateLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1202,6 +1225,8 @@ export const createLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabelGroup",
+  telemetry: TELEMETRY,
+  span: "CreateLabelGroup",
 }));
 
 export type CreateModelError =
@@ -1227,7 +1252,7 @@ export type CreateModelError =
  * Another portion of the data is used to evaluate the model's accuracy.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   CreateModelResponse,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -1246,6 +1271,8 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
+  telemetry: TELEMETRY,
+  span: "CreateModel",
 }));
 
 export type CreateRetrainingSchedulerError =
@@ -1260,7 +1287,7 @@ export type CreateRetrainingSchedulerError =
  * Creates a retraining scheduler on the specified model.
  */
 export const createRetrainingScheduler: API.OperationMethod<
-  CreateRetrainingSchedulerRequest,
+  CreateRetrainingSchedulerRequest & RegionInput,
   CreateRetrainingSchedulerResponse,
   CreateRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1278,6 +1305,8 @@ export const createRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "CreateRetrainingScheduler",
 }));
 
 export type DeleteDatasetError =
@@ -1296,7 +1325,7 @@ export type DeleteDatasetError =
  * does prevent it from being used in the future.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1314,6 +1343,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteInferenceSchedulerError =
@@ -1329,7 +1360,7 @@ export type DeleteInferenceSchedulerError =
  * deleted.
  */
 export const deleteInferenceScheduler: API.OperationMethod<
-  DeleteInferenceSchedulerRequest,
+  DeleteInferenceSchedulerRequest & RegionInput,
   DeleteInferenceSchedulerResponse,
   DeleteInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1347,6 +1378,8 @@ export const deleteInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "DeleteInferenceScheduler",
 }));
 
 export type DeleteLabelError =
@@ -1361,7 +1394,7 @@ export type DeleteLabelError =
  * Deletes a label.
  */
 export const deleteLabel: API.OperationMethod<
-  DeleteLabelRequest,
+  DeleteLabelRequest & RegionInput,
   DeleteLabelResponse,
   DeleteLabelError,
   Credentials | HttpClient.HttpClient
@@ -1379,6 +1412,8 @@ export const deleteLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabel",
+  telemetry: TELEMETRY,
+  span: "DeleteLabel",
 }));
 
 export type DeleteLabelGroupError =
@@ -1393,7 +1428,7 @@ export type DeleteLabelGroupError =
  * Deletes a group of labels.
  */
 export const deleteLabelGroup: API.OperationMethod<
-  DeleteLabelGroupRequest,
+  DeleteLabelGroupRequest & RegionInput,
   DeleteLabelGroupResponse,
   DeleteLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1411,6 +1446,8 @@ export const deleteLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabelGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteLabelGroup",
 }));
 
 export type DeleteModelError =
@@ -1426,7 +1463,7 @@ export type DeleteModelError =
  * from being used with an inference scheduler, even one that is already set up.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResponse,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -1444,6 +1481,8 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
+  telemetry: TELEMETRY,
+  span: "DeleteModel",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1458,7 +1497,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy attached to the resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1476,6 +1515,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRetrainingSchedulerError =
@@ -1491,7 +1532,7 @@ export type DeleteRetrainingSchedulerError =
  * `STOPPED` status.
  */
 export const deleteRetrainingScheduler: API.OperationMethod<
-  DeleteRetrainingSchedulerRequest,
+  DeleteRetrainingSchedulerRequest & RegionInput,
   DeleteRetrainingSchedulerResponse,
   DeleteRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1509,6 +1550,8 @@ export const deleteRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "DeleteRetrainingScheduler",
 }));
 
 export type DescribeDataIngestionJobError =
@@ -1523,7 +1566,7 @@ export type DescribeDataIngestionJobError =
  * ARN, and status.
  */
 export const describeDataIngestionJob: API.OperationMethod<
-  DescribeDataIngestionJobRequest,
+  DescribeDataIngestionJobRequest & RegionInput,
   DescribeDataIngestionJobResponse,
   DescribeDataIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -1540,6 +1583,8 @@ export const describeDataIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataIngestionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDataIngestionJob",
 }));
 
 export type DescribeDatasetError =
@@ -1554,7 +1599,7 @@ export type DescribeDatasetError =
  * column names, and data types.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1571,6 +1616,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeInferenceSchedulerError =
@@ -1585,7 +1632,7 @@ export type DescribeInferenceSchedulerError =
  * status, and associated metadata
  */
 export const describeInferenceScheduler: API.OperationMethod<
-  DescribeInferenceSchedulerRequest,
+  DescribeInferenceSchedulerRequest & RegionInput,
   DescribeInferenceSchedulerResponse,
   DescribeInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1602,6 +1649,8 @@ export const describeInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "DescribeInferenceScheduler",
 }));
 
 export type DescribeLabelError =
@@ -1615,7 +1664,7 @@ export type DescribeLabelError =
  * Returns the name of the label.
  */
 export const describeLabel: API.OperationMethod<
-  DescribeLabelRequest,
+  DescribeLabelRequest & RegionInput,
   DescribeLabelResponse,
   DescribeLabelError,
   Credentials | HttpClient.HttpClient
@@ -1632,6 +1681,8 @@ export const describeLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabel",
+  telemetry: TELEMETRY,
+  span: "DescribeLabel",
 }));
 
 export type DescribeLabelGroupError =
@@ -1645,7 +1696,7 @@ export type DescribeLabelGroupError =
  * Returns information about the label group.
  */
 export const describeLabelGroup: API.OperationMethod<
-  DescribeLabelGroupRequest,
+  DescribeLabelGroupRequest & RegionInput,
   DescribeLabelGroupResponse,
   DescribeLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1662,6 +1713,8 @@ export const describeLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabelGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeLabelGroup",
 }));
 
 export type DescribeModelError =
@@ -1677,7 +1730,7 @@ export type DescribeModelError =
  * and so on.
  */
 export const describeModel: API.OperationMethod<
-  DescribeModelRequest,
+  DescribeModelRequest & RegionInput,
   DescribeModelResponse,
   DescribeModelError,
   Credentials | HttpClient.HttpClient
@@ -1694,6 +1747,8 @@ export const describeModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModel",
+  telemetry: TELEMETRY,
+  span: "DescribeModel",
 }));
 
 export type DescribeModelVersionError =
@@ -1707,7 +1762,7 @@ export type DescribeModelVersionError =
  * Retrieves information about a specific machine learning model version.
  */
 export const describeModelVersion: API.OperationMethod<
-  DescribeModelVersionRequest,
+  DescribeModelVersionRequest & RegionInput,
   DescribeModelVersionResponse,
   DescribeModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -1724,6 +1779,8 @@ export const describeModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeModelVersion",
 }));
 
 export type DescribeResourcePolicyError =
@@ -1737,7 +1794,7 @@ export type DescribeResourcePolicyError =
  * Provides the details of a resource policy attached to a resource.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1754,6 +1811,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeRetrainingSchedulerError =
@@ -1768,7 +1827,7 @@ export type DescribeRetrainingSchedulerError =
  * model name and retraining parameters.
  */
 export const describeRetrainingScheduler: API.OperationMethod<
-  DescribeRetrainingSchedulerRequest,
+  DescribeRetrainingSchedulerRequest & RegionInput,
   DescribeRetrainingSchedulerResponse,
   DescribeRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1785,6 +1844,8 @@ export const describeRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "DescribeRetrainingScheduler",
 }));
 
 export type ImportDatasetError =
@@ -1800,7 +1861,7 @@ export type ImportDatasetError =
  * Imports a dataset.
  */
 export const importDataset: API.OperationMethod<
-  ImportDatasetRequest,
+  ImportDatasetRequest & RegionInput,
   ImportDatasetResponse,
   ImportDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1819,6 +1880,8 @@ export const importDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDataset",
+  telemetry: TELEMETRY,
+  span: "ImportDataset",
 }));
 
 export type ImportModelVersionError =
@@ -1834,7 +1897,7 @@ export type ImportModelVersionError =
  * Imports a model that has been trained successfully.
  */
 export const importModelVersion: API.OperationMethod<
-  ImportModelVersionRequest,
+  ImportModelVersionRequest & RegionInput,
   ImportModelVersionResponse,
   ImportModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -1853,6 +1916,8 @@ export const importModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportModelVersion",
+  telemetry: TELEMETRY,
+  span: "ImportModelVersion",
 }));
 
 export type ListDataIngestionJobsError =
@@ -1866,7 +1931,7 @@ export type ListDataIngestionJobsError =
  * of the input data, status, and so on.
  */
 export const listDataIngestionJobs: API.PaginatedOperationMethod<
-  ListDataIngestionJobsRequest,
+  ListDataIngestionJobsRequest & RegionInput,
   ListDataIngestionJobsResponse,
   ListDataIngestionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1888,6 +1953,8 @@ export const listDataIngestionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataIngestionJobs",
 })) as any;
 
 export type ListDatasetsError =
@@ -1900,7 +1967,7 @@ export type ListDatasetsError =
  * Lists all datasets currently available in your account, filtering on the dataset name.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -1922,6 +1989,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListInferenceEventsError =
@@ -1935,7 +2004,7 @@ export type ListInferenceEventsError =
  * Lists all inference events that have been found for the specified inference scheduler.
  */
 export const listInferenceEvents: API.PaginatedOperationMethod<
-  ListInferenceEventsRequest,
+  ListInferenceEventsRequest & RegionInput,
   ListInferenceEventsResponse,
   ListInferenceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1958,6 +2027,8 @@ export const listInferenceEvents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceEvents",
 })) as any;
 
 export type ListInferenceExecutionsError =
@@ -1972,7 +2043,7 @@ export type ListInferenceExecutionsError =
  * scheduler.
  */
 export const listInferenceExecutions: API.PaginatedOperationMethod<
-  ListInferenceExecutionsRequest,
+  ListInferenceExecutionsRequest & RegionInput,
   ListInferenceExecutionsResponse,
   ListInferenceExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1995,6 +2066,8 @@ export const listInferenceExecutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceExecutions",
 })) as any;
 
 export type ListInferenceSchedulersError =
@@ -2007,7 +2080,7 @@ export type ListInferenceSchedulersError =
  * Retrieves a list of all inference schedulers currently available for your account.
  */
 export const listInferenceSchedulers: API.PaginatedOperationMethod<
-  ListInferenceSchedulersRequest,
+  ListInferenceSchedulersRequest & RegionInput,
   ListInferenceSchedulersResponse,
   ListInferenceSchedulersError,
   Credentials | HttpClient.HttpClient,
@@ -2029,6 +2102,8 @@ export const listInferenceSchedulers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceSchedulers",
 })) as any;
 
 export type ListLabelGroupsError =
@@ -2041,7 +2116,7 @@ export type ListLabelGroupsError =
  * Returns a list of the label groups.
  */
 export const listLabelGroups: API.PaginatedOperationMethod<
-  ListLabelGroupsRequest,
+  ListLabelGroupsRequest & RegionInput,
   ListLabelGroupsResponse,
   ListLabelGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2063,6 +2138,8 @@ export const listLabelGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLabelGroups",
 })) as any;
 
 export type ListLabelsError =
@@ -2075,7 +2152,7 @@ export type ListLabelsError =
  * Provides a list of labels.
  */
 export const listLabels: API.PaginatedOperationMethod<
-  ListLabelsRequest,
+  ListLabelsRequest & RegionInput,
   ListLabelsResponse,
   ListLabelsError,
   Credentials | HttpClient.HttpClient,
@@ -2097,6 +2174,8 @@ export const listLabels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLabels",
 })) as any;
 
 export type ListModelsError =
@@ -2110,7 +2189,7 @@ export type ListModelsError =
  * and status.
  */
 export const listModels: API.PaginatedOperationMethod<
-  ListModelsRequest,
+  ListModelsRequest & RegionInput,
   ListModelsResponse,
   ListModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2132,6 +2211,8 @@ export const listModels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModels",
 })) as any;
 
 export type ListModelVersionsError =
@@ -2147,7 +2228,7 @@ export type ListModelVersionsError =
  * `MaxModelVersion` and `MinModelVersion` fields.
  */
 export const listModelVersions: API.PaginatedOperationMethod<
-  ListModelVersionsRequest,
+  ListModelVersionsRequest & RegionInput,
   ListModelVersionsResponse,
   ListModelVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2170,6 +2251,8 @@ export const listModelVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelVersions",
 })) as any;
 
 export type ListRetrainingSchedulersError =
@@ -2183,7 +2266,7 @@ export type ListRetrainingSchedulersError =
  * status.
  */
 export const listRetrainingSchedulers: API.PaginatedOperationMethod<
-  ListRetrainingSchedulersRequest,
+  ListRetrainingSchedulersRequest & RegionInput,
   ListRetrainingSchedulersResponse,
   ListRetrainingSchedulersError,
   Credentials | HttpClient.HttpClient,
@@ -2205,6 +2288,8 @@ export const listRetrainingSchedulers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetrainingSchedulers",
 })) as any;
 
 export type ListSensorStatisticsError =
@@ -2220,7 +2305,7 @@ export type ListSensorStatisticsError =
  * Statistics for a previous ingestion job.
  */
 export const listSensorStatistics: API.PaginatedOperationMethod<
-  ListSensorStatisticsRequest,
+  ListSensorStatisticsRequest & RegionInput,
   ListSensorStatisticsResponse,
   ListSensorStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -2243,6 +2328,8 @@ export const listSensorStatistics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSensorStatistics",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2256,7 +2343,7 @@ export type ListTagsForResourceError =
  * Lists all the tags for a specified resource, including key and value.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2273,6 +2360,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutResourcePolicyError =
@@ -2288,7 +2377,7 @@ export type PutResourcePolicyError =
  * Creates a resource control policy for a given resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2307,6 +2396,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type StartDataIngestionJobError =
@@ -2322,7 +2413,7 @@ export type StartDataIngestionJobError =
  * Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
  */
 export const startDataIngestionJob: API.OperationMethod<
-  StartDataIngestionJobRequest,
+  StartDataIngestionJobRequest & RegionInput,
   StartDataIngestionJobResponse,
   StartDataIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -2341,6 +2432,8 @@ export const startDataIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataIngestionJob",
+  telemetry: TELEMETRY,
+  span: "StartDataIngestionJob",
 }));
 
 export type StartInferenceSchedulerError =
@@ -2355,7 +2448,7 @@ export type StartInferenceSchedulerError =
  * Starts an inference scheduler.
  */
 export const startInferenceScheduler: API.OperationMethod<
-  StartInferenceSchedulerRequest,
+  StartInferenceSchedulerRequest & RegionInput,
   StartInferenceSchedulerResponse,
   StartInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2373,6 +2466,8 @@ export const startInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "StartInferenceScheduler",
 }));
 
 export type StartRetrainingSchedulerError =
@@ -2387,7 +2482,7 @@ export type StartRetrainingSchedulerError =
  * Starts a retraining scheduler.
  */
 export const startRetrainingScheduler: API.OperationMethod<
-  StartRetrainingSchedulerRequest,
+  StartRetrainingSchedulerRequest & RegionInput,
   StartRetrainingSchedulerResponse,
   StartRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2405,6 +2500,8 @@ export const startRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "StartRetrainingScheduler",
 }));
 
 export type StopInferenceSchedulerError =
@@ -2419,7 +2516,7 @@ export type StopInferenceSchedulerError =
  * Stops an inference scheduler.
  */
 export const stopInferenceScheduler: API.OperationMethod<
-  StopInferenceSchedulerRequest,
+  StopInferenceSchedulerRequest & RegionInput,
   StopInferenceSchedulerResponse,
   StopInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2437,6 +2534,8 @@ export const stopInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "StopInferenceScheduler",
 }));
 
 export type StopRetrainingSchedulerError =
@@ -2451,7 +2550,7 @@ export type StopRetrainingSchedulerError =
  * Stops a retraining scheduler.
  */
 export const stopRetrainingScheduler: API.OperationMethod<
-  StopRetrainingSchedulerRequest,
+  StopRetrainingSchedulerRequest & RegionInput,
   StopRetrainingSchedulerResponse,
   StopRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2469,6 +2568,8 @@ export const stopRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "StopRetrainingScheduler",
 }));
 
 export type TagResourceError =
@@ -2487,7 +2588,7 @@ export type TagResourceError =
  * resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2505,6 +2606,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2518,7 +2621,7 @@ export type UntagResourceError =
  * Removes a specific tag from a given resource. The tag is specified by its key.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2535,6 +2638,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateActiveModelVersionError =
@@ -2549,7 +2654,7 @@ export type UpdateActiveModelVersionError =
  * Sets the active model version for a given machine learning model.
  */
 export const updateActiveModelVersion: API.OperationMethod<
-  UpdateActiveModelVersionRequest,
+  UpdateActiveModelVersionRequest & RegionInput,
   UpdateActiveModelVersionResponse,
   UpdateActiveModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -2567,6 +2672,8 @@ export const updateActiveModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActiveModelVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateActiveModelVersion",
 }));
 
 export type UpdateInferenceSchedulerError =
@@ -2581,7 +2688,7 @@ export type UpdateInferenceSchedulerError =
  * Updates an inference scheduler.
  */
 export const updateInferenceScheduler: API.OperationMethod<
-  UpdateInferenceSchedulerRequest,
+  UpdateInferenceSchedulerRequest & RegionInput,
   UpdateInferenceSchedulerResponse,
   UpdateInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2599,6 +2706,8 @@ export const updateInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "UpdateInferenceScheduler",
 }));
 
 export type UpdateLabelGroupError =
@@ -2613,7 +2722,7 @@ export type UpdateLabelGroupError =
  * Updates the label group.
  */
 export const updateLabelGroup: API.OperationMethod<
-  UpdateLabelGroupRequest,
+  UpdateLabelGroupRequest & RegionInput,
   UpdateLabelGroupResponse,
   UpdateLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -2631,6 +2740,8 @@ export const updateLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLabelGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateLabelGroup",
 }));
 
 export type UpdateModelError =
@@ -2645,7 +2756,7 @@ export type UpdateModelError =
  * Updates a model in the account.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   UpdateModelResponse,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -2663,6 +2774,8 @@ export const updateModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
+  telemetry: TELEMETRY,
+  span: "UpdateModel",
 }));
 
 export type UpdateRetrainingSchedulerError =
@@ -2677,7 +2790,7 @@ export type UpdateRetrainingSchedulerError =
  * Updates a retraining scheduler.
  */
 export const updateRetrainingScheduler: API.OperationMethod<
-  UpdateRetrainingSchedulerRequest,
+  UpdateRetrainingSchedulerRequest & RegionInput,
   UpdateRetrainingSchedulerResponse,
   UpdateRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2695,6 +2808,8 @@ export const updateRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "UpdateRetrainingScheduler",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

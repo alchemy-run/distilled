@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -123,6 +125,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticfilesystem.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EFS",
+  service: "EFS",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessPointAlreadyExists
   extends /*@__PURE__*/ S.TaggedError<AccessPointAlreadyExists>()(
@@ -860,7 +876,7 @@ export type CreateAccessPointError =
  * permissions to tag resources during creation.
  */
 export const createAccessPoint: API.OperationMethod<
-  CreateAccessPointRequest,
+  CreateAccessPointRequest & RegionInput,
   AccessPointDescription,
   CreateAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -879,6 +895,8 @@ export const createAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPoint",
+  telemetry: TELEMETRY,
+  span: "CreateAccessPoint",
 }));
 
 export type CreateFileSystemError =
@@ -954,7 +972,7 @@ export type CreateFileSystemError =
  * information, see Granting permissions to tag resources during creation.
  */
 export const createFileSystem: API.OperationMethod<
-  CreateFileSystemRequest,
+  CreateFileSystemRequest & RegionInput,
   FileSystemDescription,
   CreateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -973,6 +991,8 @@ export const createFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileSystem",
+  telemetry: TELEMETRY,
+  span: "CreateFileSystem",
 }));
 
 export type CreateMountTargetError =
@@ -1105,7 +1125,7 @@ export type CreateMountTargetError =
  * - `ec2:CreateNetworkInterface`
  */
 export const createMountTarget: API.OperationMethod<
-  CreateMountTargetRequest,
+  CreateMountTargetRequest & RegionInput,
   MountTargetDescription,
   CreateMountTargetError,
   Credentials | HttpClient.HttpClient
@@ -1130,6 +1150,8 @@ export const createMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMountTarget",
+  telemetry: TELEMETRY,
+  span: "CreateMountTarget",
 }));
 
 export type CreateReplicationConfigurationError =
@@ -1170,7 +1192,7 @@ export type CreateReplicationConfigurationError =
  * Guide.
  */
 export const createReplicationConfiguration: API.OperationMethod<
-  CreateReplicationConfigurationRequest,
+  CreateReplicationConfigurationRequest & RegionInput,
   ReplicationConfigurationDescription,
   CreateReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1193,6 +1215,8 @@ export const createReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationConfiguration",
 }));
 
 export type CreateTagsError = BadRequest | FileSystemNotFound | InternalServerError | CommonErrors;
@@ -1209,7 +1233,7 @@ export type CreateTagsError = BadRequest | FileSystemNotFound | InternalServerEr
  * action.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -1220,6 +1244,8 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  telemetry: TELEMETRY,
+  span: "CreateTags",
 }));
 
 export type DeleteAccessPointError =
@@ -1235,7 +1261,7 @@ export type DeleteAccessPointError =
  * This operation requires permissions for the `elasticfilesystem:DeleteAccessPoint` action.
  */
 export const deleteAccessPoint: API.OperationMethod<
-  DeleteAccessPointRequest,
+  DeleteAccessPointRequest & RegionInput,
   DeleteAccessPointResponse,
   DeleteAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -1246,6 +1272,8 @@ export const deleteAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPoint",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPoint",
 }));
 
 export type DeleteFileSystemError =
@@ -1278,7 +1306,7 @@ export type DeleteFileSystemError =
  * `elasticfilesystem:DeleteFileSystem` action.
  */
 export const deleteFileSystem: API.OperationMethod<
-  DeleteFileSystemRequest,
+  DeleteFileSystemRequest & RegionInput,
   DeleteFileSystemResponse,
   DeleteFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -1289,6 +1317,8 @@ export const deleteFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystem",
+  telemetry: TELEMETRY,
+  span: "DeleteFileSystem",
 }));
 
 export type DeleteFileSystemPolicyError =
@@ -1305,7 +1335,7 @@ export type DeleteFileSystemPolicyError =
  * This operation requires permissions for the `elasticfilesystem:DeleteFileSystemPolicy` action.
  */
 export const deleteFileSystemPolicy: API.OperationMethod<
-  DeleteFileSystemPolicyRequest,
+  DeleteFileSystemPolicyRequest & RegionInput,
   DeleteFileSystemPolicyResponse,
   DeleteFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1316,6 +1346,8 @@ export const deleteFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystemPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteFileSystemPolicy",
 }));
 
 export type DeleteMountTargetError =
@@ -1350,7 +1382,7 @@ export type DeleteMountTargetError =
  * - `ec2:DeleteNetworkInterface`
  */
 export const deleteMountTarget: API.OperationMethod<
-  DeleteMountTargetRequest,
+  DeleteMountTargetRequest & RegionInput,
   DeleteMountTargetResponse,
   DeleteMountTargetError,
   Credentials | HttpClient.HttpClient
@@ -1361,6 +1393,8 @@ export const deleteMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMountTarget",
+  telemetry: TELEMETRY,
+  span: "DeleteMountTarget",
 }));
 
 export type DeleteReplicationConfigurationError =
@@ -1379,7 +1413,7 @@ export type DeleteReplicationConfigurationError =
  * `elasticfilesystem:DeleteReplicationConfiguration` action.
  */
 export const deleteReplicationConfiguration: API.OperationMethod<
-  DeleteReplicationConfigurationRequest,
+  DeleteReplicationConfigurationRequest & RegionInput,
   DeleteReplicationConfigurationResponse,
   DeleteReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1390,6 +1424,8 @@ export const deleteReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationConfiguration",
 }));
 
 export type DeleteTagsError = BadRequest | FileSystemNotFound | InternalServerError | CommonErrors;
@@ -1406,7 +1442,7 @@ export type DeleteTagsError = BadRequest | FileSystemNotFound | InternalServerEr
  * action.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -1417,6 +1453,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DescribeAccessPointsError =
@@ -1435,7 +1473,7 @@ export type DescribeAccessPointsError =
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
 export const describeAccessPoints: API.PaginatedOperationMethod<
-  DescribeAccessPointsRequest,
+  DescribeAccessPointsRequest & RegionInput,
   DescribeAccessPointsResponse,
   DescribeAccessPointsError,
   Credentials | HttpClient.HttpClient,
@@ -1453,6 +1491,8 @@ export const describeAccessPoints: API.PaginatedOperationMethod<
     items: "AccessPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAccessPoints",
 })) as any;
 
 export type DescribeAccountPreferencesError = InternalServerError | CommonErrors;
@@ -1460,7 +1500,7 @@ export type DescribeAccountPreferencesError = InternalServerError | CommonErrors
  * Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
  */
 export const describeAccountPreferences: API.OperationMethod<
-  DescribeAccountPreferencesRequest,
+  DescribeAccountPreferencesRequest & RegionInput,
   DescribeAccountPreferencesResponse,
   DescribeAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1471,6 +1511,8 @@ export const describeAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountPreferences",
 }));
 
 export type DescribeBackupPolicyError =
@@ -1484,7 +1526,7 @@ export type DescribeBackupPolicyError =
  * Returns the backup policy for the specified EFS file system.
  */
 export const describeBackupPolicy: API.OperationMethod<
-  DescribeBackupPolicyRequest,
+  DescribeBackupPolicyRequest & RegionInput,
   BackupPolicyDescription,
   DescribeBackupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1501,6 +1543,8 @@ export const describeBackupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeBackupPolicy",
 }));
 
 export type DescribeFileSystemPolicyError =
@@ -1516,7 +1560,7 @@ export type DescribeFileSystemPolicyError =
  * This operation requires permissions for the `elasticfilesystem:DescribeFileSystemPolicy` action.
  */
 export const describeFileSystemPolicy: API.OperationMethod<
-  DescribeFileSystemPolicyRequest,
+  DescribeFileSystemPolicyRequest & RegionInput,
   FileSystemPolicyDescription,
   DescribeFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1527,6 +1571,8 @@ export const describeFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFileSystemPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeFileSystemPolicy",
 }));
 
 export type DescribeFileSystemsError =
@@ -1561,7 +1607,7 @@ export type DescribeFileSystemsError =
  * `elasticfilesystem:DescribeFileSystems` action.
  */
 export const describeFileSystems: API.PaginatedOperationMethod<
-  DescribeFileSystemsRequest,
+  DescribeFileSystemsRequest & RegionInput,
   DescribeFileSystemsResponse,
   DescribeFileSystemsError,
   Credentials | HttpClient.HttpClient,
@@ -1579,6 +1625,8 @@ export const describeFileSystems: API.PaginatedOperationMethod<
     items: "FileSystems",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFileSystems",
 })) as any;
 
 export type DescribeLifecycleConfigurationError =
@@ -1597,7 +1645,7 @@ export type DescribeLifecycleConfigurationError =
  * `elasticfilesystem:DescribeLifecycleConfiguration` operation.
  */
 export const describeLifecycleConfiguration: API.OperationMethod<
-  DescribeLifecycleConfigurationRequest,
+  DescribeLifecycleConfigurationRequest & RegionInput,
   LifecycleConfigurationDescription,
   DescribeLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1608,6 +1656,8 @@ export const describeLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeLifecycleConfiguration",
 }));
 
 export type DescribeMountTargetsError =
@@ -1628,7 +1678,7 @@ export type DescribeMountTargetsError =
  * you specify in `MountTargetId`.
  */
 export const describeMountTargets: API.PaginatedOperationMethod<
-  DescribeMountTargetsRequest,
+  DescribeMountTargetsRequest & RegionInput,
   DescribeMountTargetsResponse,
   DescribeMountTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -1652,6 +1702,8 @@ export const describeMountTargets: API.PaginatedOperationMethod<
     items: "MountTargets",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMountTargets",
 })) as any;
 
 export type DescribeMountTargetSecurityGroupsError =
@@ -1674,7 +1726,7 @@ export type DescribeMountTargetSecurityGroupsError =
  * network interface.
  */
 export const describeMountTargetSecurityGroups: API.OperationMethod<
-  DescribeMountTargetSecurityGroupsRequest,
+  DescribeMountTargetSecurityGroupsRequest & RegionInput,
   DescribeMountTargetSecurityGroupsResponse,
   DescribeMountTargetSecurityGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1685,6 +1737,8 @@ export const describeMountTargetSecurityGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMountTargetSecurityGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeMountTargetSecurityGroups",
 }));
 
 export type DescribeReplicationConfigurationsError =
@@ -1700,7 +1754,7 @@ export type DescribeReplicationConfigurationsError =
  * Amazon Web Services Region are retrieved.
  */
 export const describeReplicationConfigurations: API.PaginatedOperationMethod<
-  DescribeReplicationConfigurationsRequest,
+  DescribeReplicationConfigurationsRequest & RegionInput,
   DescribeReplicationConfigurationsResponse,
   DescribeReplicationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1724,6 +1778,8 @@ export const describeReplicationConfigurations: API.PaginatedOperationMethod<
     items: "Replications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationConfigurations",
 })) as any;
 
 export type DescribeTagsError =
@@ -1744,7 +1800,7 @@ export type DescribeTagsError =
  * `elasticfilesystem:DescribeTags` action.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsRequest,
+  DescribeTagsRequest & RegionInput,
   DescribeTagsResponse,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -1762,6 +1818,8 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1777,7 +1835,7 @@ export type ListTagsForResourceError =
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1794,6 +1852,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ModifyMountTargetSecurityGroupsError =
@@ -1823,7 +1883,7 @@ export type ModifyMountTargetSecurityGroupsError =
  * interface.
  */
 export const modifyMountTargetSecurityGroups: API.OperationMethod<
-  ModifyMountTargetSecurityGroupsRequest,
+  ModifyMountTargetSecurityGroupsRequest & RegionInput,
   ModifyMountTargetSecurityGroupsResponse,
   ModifyMountTargetSecurityGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1841,6 +1901,8 @@ export const modifyMountTargetSecurityGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyMountTargetSecurityGroups",
+  telemetry: TELEMETRY,
+  span: "ModifyMountTargetSecurityGroups",
 }));
 
 export type PutAccountPreferencesError = BadRequest | InternalServerError | CommonErrors;
@@ -1856,7 +1918,7 @@ export type PutAccountPreferencesError = BadRequest | InternalServerError | Comm
  * receive an error and must use short IDs for file system and mount target resources.
  */
 export const putAccountPreferences: API.OperationMethod<
-  PutAccountPreferencesRequest,
+  PutAccountPreferencesRequest & RegionInput,
   PutAccountPreferencesResponse,
   PutAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1867,6 +1929,8 @@ export const putAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "PutAccountPreferences",
 }));
 
 export type PutBackupPolicyError =
@@ -1880,7 +1944,7 @@ export type PutBackupPolicyError =
  * Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system.
  */
 export const putBackupPolicy: API.OperationMethod<
-  PutBackupPolicyRequest,
+  PutBackupPolicyRequest & RegionInput,
   BackupPolicyDescription,
   PutBackupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1897,6 +1961,8 @@ export const putBackupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupPolicy",
+  telemetry: TELEMETRY,
+  span: "PutBackupPolicy",
 }));
 
 export type PutFileSystemPolicyError =
@@ -1921,7 +1987,7 @@ export type PutFileSystemPolicyError =
  * This operation requires permissions for the `elasticfilesystem:PutFileSystemPolicy` action.
  */
 export const putFileSystemPolicy: API.OperationMethod<
-  PutFileSystemPolicyRequest,
+  PutFileSystemPolicyRequest & RegionInput,
   FileSystemPolicyDescription,
   PutFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1938,6 +2004,8 @@ export const putFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFileSystemPolicy",
+  telemetry: TELEMETRY,
+  span: "PutFileSystemPolicy",
 }));
 
 export type PutLifecycleConfigurationError =
@@ -2002,7 +2070,7 @@ export type PutLifecycleConfigurationError =
  * need the same Key Management Service permissions as when you created the encrypted file system.
  */
 export const putLifecycleConfiguration: API.OperationMethod<
-  PutLifecycleConfigurationRequest,
+  PutLifecycleConfigurationRequest & RegionInput,
   LifecycleConfigurationDescription,
   PutLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2013,6 +2081,8 @@ export const putLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutLifecycleConfiguration",
 }));
 
 export type TagResourceError =
@@ -2028,7 +2098,7 @@ export type TagResourceError =
  * This operation requires permissions for the `elasticfilesystem:TagResource` action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2039,6 +2109,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2054,7 +2126,7 @@ export type UntagResourceError =
  * This operation requires permissions for the `elasticfilesystem:UntagResource` action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2065,6 +2137,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFileSystemError =
@@ -2081,7 +2155,7 @@ export type UpdateFileSystemError =
  * system.
  */
 export const updateFileSystem: API.OperationMethod<
-  UpdateFileSystemRequest,
+  UpdateFileSystemRequest & RegionInput,
   FileSystemDescription,
   UpdateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -2100,6 +2174,8 @@ export const updateFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystem",
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystem",
 }));
 
 export type UpdateFileSystemProtectionError =
@@ -2119,7 +2195,7 @@ export type UpdateFileSystemProtectionError =
  * `elasticfilesystem:UpdateFileSystemProtection` action.
  */
 export const updateFileSystemProtection: API.OperationMethod<
-  UpdateFileSystemProtectionRequest,
+  UpdateFileSystemProtectionRequest & RegionInput,
   FileSystemProtectionDescription,
   UpdateFileSystemProtectionError,
   Credentials | HttpClient.HttpClient
@@ -2139,6 +2215,8 @@ export const updateFileSystemProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystemProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystemProtection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://backup-gateway.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BackupGateway",
+  service: "BackupGateway",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -416,7 +433,7 @@ export type AssociateGatewayToServerError = ConflictException | CommonErrors;
  * Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
  */
 export const associateGatewayToServer: API.OperationMethod<
-  AssociateGatewayToServerInput,
+  AssociateGatewayToServerInput & RegionInput,
   AssociateGatewayToServerOutput,
   AssociateGatewayToServerError,
   Credentials | HttpClient.HttpClient
@@ -427,6 +444,8 @@ export const associateGatewayToServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateGatewayToServer",
+  telemetry: TELEMETRY,
+  span: "AssociateGatewayToServer",
 }));
 
 export type CreateGatewayError = CommonErrors;
@@ -434,7 +453,7 @@ export type CreateGatewayError = CommonErrors;
  * Creates a backup gateway. After you create a gateway, you can associate it with a server using the `AssociateGatewayToServer` operation.
  */
 export const createGateway: API.OperationMethod<
-  CreateGatewayInput,
+  CreateGatewayInput & RegionInput,
   CreateGatewayOutput,
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -445,6 +464,8 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
+  telemetry: TELEMETRY,
+  span: "CreateGateway",
 }));
 
 export type DeleteGatewayError = ResourceNotFoundException | CommonErrors;
@@ -452,7 +473,7 @@ export type DeleteGatewayError = ResourceNotFoundException | CommonErrors;
  * Deletes a backup gateway.
  */
 export const deleteGateway: API.OperationMethod<
-  DeleteGatewayInput,
+  DeleteGatewayInput & RegionInput,
   DeleteGatewayOutput,
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
@@ -463,6 +484,8 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteGateway",
 }));
 
 export type DeleteHypervisorError =
@@ -474,7 +497,7 @@ export type DeleteHypervisorError =
  * Deletes a hypervisor.
  */
 export const deleteHypervisor: API.OperationMethod<
-  DeleteHypervisorInput,
+  DeleteHypervisorInput & RegionInput,
   DeleteHypervisorOutput,
   DeleteHypervisorError,
   Credentials | HttpClient.HttpClient
@@ -485,6 +508,8 @@ export const deleteHypervisor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHypervisor",
+  telemetry: TELEMETRY,
+  span: "DeleteHypervisor",
 }));
 
 export type DisassociateGatewayFromServerError =
@@ -495,7 +520,7 @@ export type DisassociateGatewayFromServerError =
  * Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
  */
 export const disassociateGatewayFromServer: API.OperationMethod<
-  DisassociateGatewayFromServerInput,
+  DisassociateGatewayFromServerInput & RegionInput,
   DisassociateGatewayFromServerOutput,
   DisassociateGatewayFromServerError,
   Credentials | HttpClient.HttpClient
@@ -506,6 +531,8 @@ export const disassociateGatewayFromServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGatewayFromServer",
+  telemetry: TELEMETRY,
+  span: "DisassociateGatewayFromServer",
 }));
 
 export type GetBandwidthRateLimitScheduleError = ResourceNotFoundException | CommonErrors;
@@ -513,7 +540,7 @@ export type GetBandwidthRateLimitScheduleError = ResourceNotFoundException | Com
  * Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
  */
 export const getBandwidthRateLimitSchedule: API.OperationMethod<
-  GetBandwidthRateLimitScheduleInput,
+  GetBandwidthRateLimitScheduleInput & RegionInput,
   GetBandwidthRateLimitScheduleOutput,
   GetBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -524,6 +551,8 @@ export const getBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBandwidthRateLimitSchedule",
+  telemetry: TELEMETRY,
+  span: "GetBandwidthRateLimitSchedule",
 }));
 
 export type GetGatewayError = ResourceNotFoundException | CommonErrors;
@@ -531,7 +560,7 @@ export type GetGatewayError = ResourceNotFoundException | CommonErrors;
  * By providing the ARN (Amazon Resource Name), this API returns the gateway.
  */
 export const getGateway: API.OperationMethod<
-  GetGatewayInput,
+  GetGatewayInput & RegionInput,
   GetGatewayOutput,
   GetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -542,6 +571,8 @@ export const getGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGateway",
+  telemetry: TELEMETRY,
+  span: "GetGateway",
 }));
 
 export type GetHypervisorError = ResourceNotFoundException | CommonErrors;
@@ -549,7 +580,7 @@ export type GetHypervisorError = ResourceNotFoundException | CommonErrors;
  * This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
  */
 export const getHypervisor: API.OperationMethod<
-  GetHypervisorInput,
+  GetHypervisorInput & RegionInput,
   GetHypervisorOutput,
   GetHypervisorError,
   Credentials | HttpClient.HttpClient
@@ -560,6 +591,8 @@ export const getHypervisor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHypervisor",
+  telemetry: TELEMETRY,
+  span: "GetHypervisor",
 }));
 
 export type GetHypervisorPropertyMappingsError = ResourceNotFoundException | CommonErrors;
@@ -567,7 +600,7 @@ export type GetHypervisorPropertyMappingsError = ResourceNotFoundException | Com
  * This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const getHypervisorPropertyMappings: API.OperationMethod<
-  GetHypervisorPropertyMappingsInput,
+  GetHypervisorPropertyMappingsInput & RegionInput,
   GetHypervisorPropertyMappingsOutput,
   GetHypervisorPropertyMappingsError,
   Credentials | HttpClient.HttpClient
@@ -578,6 +611,8 @@ export const getHypervisorPropertyMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHypervisorPropertyMappings",
+  telemetry: TELEMETRY,
+  span: "GetHypervisorPropertyMappings",
 }));
 
 export type GetVirtualMachineError = ResourceNotFoundException | CommonErrors;
@@ -585,7 +620,7 @@ export type GetVirtualMachineError = ResourceNotFoundException | CommonErrors;
  * By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
  */
 export const getVirtualMachine: API.OperationMethod<
-  GetVirtualMachineInput,
+  GetVirtualMachineInput & RegionInput,
   GetVirtualMachineOutput,
   GetVirtualMachineError,
   Credentials | HttpClient.HttpClient
@@ -596,6 +631,8 @@ export const getVirtualMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVirtualMachine",
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachine",
 }));
 
 export type ImportHypervisorConfigurationError =
@@ -606,7 +643,7 @@ export type ImportHypervisorConfigurationError =
  * Connect to a hypervisor by importing its configuration.
  */
 export const importHypervisorConfiguration: API.OperationMethod<
-  ImportHypervisorConfigurationInput,
+  ImportHypervisorConfigurationInput & RegionInput,
   ImportHypervisorConfigurationOutput,
   ImportHypervisorConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -617,6 +654,8 @@ export const importHypervisorConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportHypervisorConfiguration",
+  telemetry: TELEMETRY,
+  span: "ImportHypervisorConfiguration",
 }));
 
 export type ListGatewaysError = CommonErrors;
@@ -624,7 +663,7 @@ export type ListGatewaysError = CommonErrors;
  * Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
  */
 export const listGateways: API.PaginatedOperationMethod<
-  ListGatewaysInput,
+  ListGatewaysInput & RegionInput,
   ListGatewaysOutput,
   ListGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -642,6 +681,8 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "Gateways",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGateways",
 })) as any;
 
 export type ListHypervisorsError = CommonErrors;
@@ -649,7 +690,7 @@ export type ListHypervisorsError = CommonErrors;
  * Lists your hypervisors.
  */
 export const listHypervisors: API.PaginatedOperationMethod<
-  ListHypervisorsInput,
+  ListHypervisorsInput & RegionInput,
   ListHypervisorsOutput,
   ListHypervisorsError,
   Credentials | HttpClient.HttpClient,
@@ -667,6 +708,8 @@ export const listHypervisors: API.PaginatedOperationMethod<
     items: "Hypervisors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHypervisors",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -674,7 +717,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -685,6 +728,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVirtualMachinesError = CommonErrors;
@@ -692,7 +737,7 @@ export type ListVirtualMachinesError = CommonErrors;
  * Lists your virtual machines.
  */
 export const listVirtualMachines: API.PaginatedOperationMethod<
-  ListVirtualMachinesInput,
+  ListVirtualMachinesInput & RegionInput,
   ListVirtualMachinesOutput,
   ListVirtualMachinesError,
   Credentials | HttpClient.HttpClient,
@@ -710,6 +755,8 @@ export const listVirtualMachines: API.PaginatedOperationMethod<
     items: "VirtualMachines",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachines",
 })) as any;
 
 export type PutBandwidthRateLimitScheduleError = ResourceNotFoundException | CommonErrors;
@@ -717,7 +764,7 @@ export type PutBandwidthRateLimitScheduleError = ResourceNotFoundException | Com
  * This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
  */
 export const putBandwidthRateLimitSchedule: API.OperationMethod<
-  PutBandwidthRateLimitScheduleInput,
+  PutBandwidthRateLimitScheduleInput & RegionInput,
   PutBandwidthRateLimitScheduleOutput,
   PutBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -728,6 +775,8 @@ export const putBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBandwidthRateLimitSchedule",
+  telemetry: TELEMETRY,
+  span: "PutBandwidthRateLimitSchedule",
 }));
 
 export type PutHypervisorPropertyMappingsError =
@@ -739,7 +788,7 @@ export type PutHypervisorPropertyMappingsError =
  * This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const putHypervisorPropertyMappings: API.OperationMethod<
-  PutHypervisorPropertyMappingsInput,
+  PutHypervisorPropertyMappingsInput & RegionInput,
   PutHypervisorPropertyMappingsOutput,
   PutHypervisorPropertyMappingsError,
   Credentials | HttpClient.HttpClient
@@ -750,6 +799,8 @@ export const putHypervisorPropertyMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutHypervisorPropertyMappings",
+  telemetry: TELEMETRY,
+  span: "PutHypervisorPropertyMappings",
 }));
 
 export type PutMaintenanceStartTimeError =
@@ -760,7 +811,7 @@ export type PutMaintenanceStartTimeError =
  * Set the maintenance start time for a gateway.
  */
 export const putMaintenanceStartTime: API.OperationMethod<
-  PutMaintenanceStartTimeInput,
+  PutMaintenanceStartTimeInput & RegionInput,
   PutMaintenanceStartTimeOutput,
   PutMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -771,6 +822,8 @@ export const putMaintenanceStartTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMaintenanceStartTime",
+  telemetry: TELEMETRY,
+  span: "PutMaintenanceStartTime",
 }));
 
 export type StartVirtualMachinesMetadataSyncError =
@@ -781,7 +834,7 @@ export type StartVirtualMachinesMetadataSyncError =
  * This action sends a request to sync metadata across the specified virtual machines.
  */
 export const startVirtualMachinesMetadataSync: API.OperationMethod<
-  StartVirtualMachinesMetadataSyncInput,
+  StartVirtualMachinesMetadataSyncInput & RegionInput,
   StartVirtualMachinesMetadataSyncOutput,
   StartVirtualMachinesMetadataSyncError,
   Credentials | HttpClient.HttpClient
@@ -792,6 +845,8 @@ export const startVirtualMachinesMetadataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVirtualMachinesMetadataSync",
+  telemetry: TELEMETRY,
+  span: "StartVirtualMachinesMetadataSync",
 }));
 
 export type TagResourceError = ResourceNotFoundException | CommonErrors;
@@ -799,7 +854,7 @@ export type TagResourceError = ResourceNotFoundException | CommonErrors;
  * Tag the resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -810,6 +865,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestHypervisorConfigurationError =
@@ -820,7 +877,7 @@ export type TestHypervisorConfigurationError =
  * Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
  */
 export const testHypervisorConfiguration: API.OperationMethod<
-  TestHypervisorConfigurationInput,
+  TestHypervisorConfigurationInput & RegionInput,
   TestHypervisorConfigurationOutput,
   TestHypervisorConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -831,6 +888,8 @@ export const testHypervisorConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestHypervisorConfiguration",
+  telemetry: TELEMETRY,
+  span: "TestHypervisorConfiguration",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -838,7 +897,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes tags from the resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -849,6 +908,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGatewayInformationError =
@@ -859,7 +920,7 @@ export type UpdateGatewayInformationError =
  * Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
  */
 export const updateGatewayInformation: API.OperationMethod<
-  UpdateGatewayInformationInput,
+  UpdateGatewayInformationInput & RegionInput,
   UpdateGatewayInformationOutput,
   UpdateGatewayInformationError,
   Credentials | HttpClient.HttpClient
@@ -870,6 +931,8 @@ export const updateGatewayInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInformation",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayInformation",
 }));
 
 export type UpdateGatewaySoftwareNowError = ResourceNotFoundException | CommonErrors;
@@ -879,7 +942,7 @@ export type UpdateGatewaySoftwareNowError = ResourceNotFoundException | CommonEr
  * When you make this request, you get a `200 OK` success response immediately. However, it might take some time for the update to complete.
  */
 export const updateGatewaySoftwareNow: API.OperationMethod<
-  UpdateGatewaySoftwareNowInput,
+  UpdateGatewaySoftwareNowInput & RegionInput,
   UpdateGatewaySoftwareNowOutput,
   UpdateGatewaySoftwareNowError,
   Credentials | HttpClient.HttpClient
@@ -890,6 +953,8 @@ export const updateGatewaySoftwareNow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewaySoftwareNow",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewaySoftwareNow",
 }));
 
 export type UpdateHypervisorError =
@@ -901,7 +966,7 @@ export type UpdateHypervisorError =
  * Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
  */
 export const updateHypervisor: API.OperationMethod<
-  UpdateHypervisorInput,
+  UpdateHypervisorInput & RegionInput,
   UpdateHypervisorOutput,
   UpdateHypervisorError,
   Credentials | HttpClient.HttpClient
@@ -912,6 +977,8 @@ export const updateHypervisor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHypervisor",
+  telemetry: TELEMETRY,
+  span: "UpdateHypervisor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

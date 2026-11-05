@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "EarlyAccessFeature",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -242,6 +255,8 @@ export const createEarlyAccessFeature: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEarlyAccessFeature",
 }));
 
 export type EarlyAccessFeatureDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -256,6 +271,8 @@ export const earlyAccessFeatureDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EarlyAccessFeatureDestroy",
 }));
 
 export type GetEarlyAccessFeatureError = Forbidden | NotFound | PosthogOpError;
@@ -270,6 +287,8 @@ export const getEarlyAccessFeature: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEarlyAccessFeature",
 }));
 
 export type ListEarlyAccessFeatureError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -284,6 +303,8 @@ export const listEarlyAccessFeature: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEarlyAccessFeature",
 }));
 
 export type UpdateEarlyAccessFeatureError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -298,6 +319,8 @@ export const updateEarlyAccessFeature: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEarlyAccessFeature",
 }));
 
 export type UpdateEarlyAccessFeaturePartialError =
@@ -316,6 +339,8 @@ export const updateEarlyAccessFeaturePartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEarlyAccessFeaturePartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

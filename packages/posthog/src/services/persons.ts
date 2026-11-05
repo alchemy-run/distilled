@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Persons",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -531,6 +544,8 @@ export const createPersonsBatchByDistinctIds: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersonsBatchByDistinctIds",
 }));
 
 export type CreatePersonsBatchByUuidError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -546,6 +561,8 @@ export const createPersonsBatchByUuid: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersonsBatchByUuid",
 }));
 
 export type CreatePersonsSplitError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -561,6 +578,8 @@ export const createPersonsSplit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersonsSplit",
 }));
 
 export type GetPersonError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -576,6 +595,8 @@ export const getPerson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPerson",
 }));
 
 export type GetPersonsActivityError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -591,6 +612,8 @@ export const getPersonsActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonsActivity",
 }));
 
 export type GetPersonsAllActivityError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -606,6 +629,8 @@ export const getPersonsAllActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonsAllActivity",
 }));
 
 export type GetPersonsCohortError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -621,6 +646,8 @@ export const getPersonsCohort: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonsCohort",
 }));
 
 export type GetPersonsPropertiesAtTimeError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -636,6 +663,8 @@ export const getPersonsPropertiesAtTime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonsPropertiesAtTime",
 }));
 
 export type GetPersonsPropertiesTimelineError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -651,6 +680,8 @@ export const getPersonsPropertiesTimeline: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonsPropertiesTimeline",
 }));
 
 export type GetPersonsValueError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -666,6 +697,8 @@ export const getPersonsValue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonsValue",
 }));
 
 export type ListPersonsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -681,6 +714,8 @@ export const listPersons: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPersons",
 }));
 
 export type ListPersonsDeletionStatusError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -696,6 +731,8 @@ export const listPersonsDeletionStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPersonsDeletionStatus",
 }));
 
 export type ListPersonsEmailsError = PosthogOpError;
@@ -711,6 +748,8 @@ export const listPersonsEmails: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPersonsEmails",
 }));
 
 export type ListPersonsPushNotificationsError = PosthogOpError;
@@ -726,6 +765,8 @@ export const listPersonsPushNotifications: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPersonsPushNotifications",
 }));
 
 export type PersonsBulkDeleteCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -741,6 +782,8 @@ export const personsBulkDeleteCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PersonsBulkDeleteCreate",
 }));
 
 export type PersonsDeletePropertyCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -756,6 +799,8 @@ export const personsDeletePropertyCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PersonsDeletePropertyCreate",
 }));
 
 export type PersonsResetPersonDistinctIdCreateError =
@@ -775,6 +820,8 @@ export const personsResetPersonDistinctIdCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PersonsResetPersonDistinctIdCreate",
 }));
 
 export type PersonsUpdatePropertyCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -790,6 +837,8 @@ export const personsUpdatePropertyCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PersonsUpdatePropertyCreate",
 }));
 
 export type UpdatePersonError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -805,6 +854,8 @@ export const updatePerson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePerson",
 }));
 
 export type UpdatePersonsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -820,6 +871,8 @@ export const updatePersonsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePersonsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

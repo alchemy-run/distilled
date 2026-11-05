@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -71,6 +73,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mgh.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MigrationHub",
+  service: "MigrationHub",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -406,7 +423,7 @@ export type AssociateCreatedArtifactError =
  * or DMS endpoint, etc.
  */
 export const associateCreatedArtifact: API.OperationMethod<
-  AssociateCreatedArtifactRequest,
+  AssociateCreatedArtifactRequest & RegionInput,
   AssociateCreatedArtifactResult,
   AssociateCreatedArtifactError,
   Credentials | HttpClient.HttpClient
@@ -427,6 +444,8 @@ export const associateCreatedArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCreatedArtifact",
+  telemetry: TELEMETRY,
+  span: "AssociateCreatedArtifact",
 }));
 
 export type AssociateDiscoveredResourceError =
@@ -446,7 +465,7 @@ export type AssociateDiscoveredResourceError =
  * task.
  */
 export const associateDiscoveredResource: API.OperationMethod<
-  AssociateDiscoveredResourceRequest,
+  AssociateDiscoveredResourceRequest & RegionInput,
   AssociateDiscoveredResourceResult,
   AssociateDiscoveredResourceError,
   Credentials | HttpClient.HttpClient
@@ -468,6 +487,8 @@ export const associateDiscoveredResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDiscoveredResource",
+  telemetry: TELEMETRY,
+  span: "AssociateDiscoveredResource",
 }));
 
 export type AssociateSourceResourceError =
@@ -485,7 +506,7 @@ export type AssociateSourceResourceError =
  * be a source server, an application, or a migration wave.
  */
 export const associateSourceResource: API.OperationMethod<
-  AssociateSourceResourceRequest,
+  AssociateSourceResourceRequest & RegionInput,
   AssociateSourceResourceResult,
   AssociateSourceResourceError,
   Credentials | HttpClient.HttpClient
@@ -505,6 +526,8 @@ export const associateSourceResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceResource",
+  telemetry: TELEMETRY,
+  span: "AssociateSourceResource",
 }));
 
 export type CreateProgressUpdateStreamError =
@@ -525,7 +548,7 @@ export type CreateProgressUpdateStreamError =
  * the AWS account.
  */
 export const createProgressUpdateStream: API.OperationMethod<
-  CreateProgressUpdateStreamRequest,
+  CreateProgressUpdateStreamRequest & RegionInput,
   CreateProgressUpdateStreamResult,
   CreateProgressUpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -545,6 +568,8 @@ export const createProgressUpdateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProgressUpdateStream",
+  telemetry: TELEMETRY,
+  span: "CreateProgressUpdateStream",
 }));
 
 export type DeleteProgressUpdateStreamError =
@@ -584,7 +609,7 @@ export type DeleteProgressUpdateStreamError =
  * resources associated with the old stream).
  */
 export const deleteProgressUpdateStream: API.OperationMethod<
-  DeleteProgressUpdateStreamRequest,
+  DeleteProgressUpdateStreamRequest & RegionInput,
   DeleteProgressUpdateStreamResult,
   DeleteProgressUpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -605,6 +630,8 @@ export const deleteProgressUpdateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProgressUpdateStream",
+  telemetry: TELEMETRY,
+  span: "DeleteProgressUpdateStream",
 }));
 
 export type DescribeApplicationStateError =
@@ -621,7 +648,7 @@ export type DescribeApplicationStateError =
  * Gets the migration status of an application.
  */
 export const describeApplicationState: API.OperationMethod<
-  DescribeApplicationStateRequest,
+  DescribeApplicationStateRequest & RegionInput,
   DescribeApplicationStateResult,
   DescribeApplicationStateError,
   Credentials | HttpClient.HttpClient
@@ -641,6 +668,8 @@ export const describeApplicationState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationState",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationState",
 }));
 
 export type DescribeMigrationTaskError =
@@ -656,7 +685,7 @@ export type DescribeMigrationTaskError =
  * Retrieves a list of all attributes associated with a specific migration task.
  */
 export const describeMigrationTask: API.OperationMethod<
-  DescribeMigrationTaskRequest,
+  DescribeMigrationTaskRequest & RegionInput,
   DescribeMigrationTaskResult,
   DescribeMigrationTaskError,
   Credentials | HttpClient.HttpClient
@@ -675,6 +704,8 @@ export const describeMigrationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMigrationTask",
+  telemetry: TELEMETRY,
+  span: "DescribeMigrationTask",
 }));
 
 export type DisassociateCreatedArtifactError =
@@ -703,7 +734,7 @@ export type DisassociateCreatedArtifactError =
  * or RDS instance, etc.
  */
 export const disassociateCreatedArtifact: API.OperationMethod<
-  DisassociateCreatedArtifactRequest,
+  DisassociateCreatedArtifactRequest & RegionInput,
   DisassociateCreatedArtifactResult,
   DisassociateCreatedArtifactError,
   Credentials | HttpClient.HttpClient
@@ -724,6 +755,8 @@ export const disassociateCreatedArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCreatedArtifact",
+  telemetry: TELEMETRY,
+  span: "DisassociateCreatedArtifact",
 }));
 
 export type DisassociateDiscoveredResourceError =
@@ -742,7 +775,7 @@ export type DisassociateDiscoveredResourceError =
  * task.
  */
 export const disassociateDiscoveredResource: API.OperationMethod<
-  DisassociateDiscoveredResourceRequest,
+  DisassociateDiscoveredResourceRequest & RegionInput,
   DisassociateDiscoveredResourceResult,
   DisassociateDiscoveredResourceError,
   Credentials | HttpClient.HttpClient
@@ -763,6 +796,8 @@ export const disassociateDiscoveredResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDiscoveredResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateDiscoveredResource",
 }));
 
 export type DisassociateSourceResourceError =
@@ -779,7 +814,7 @@ export type DisassociateSourceResourceError =
  * Removes the association between a source resource and a migration task.
  */
 export const disassociateSourceResource: API.OperationMethod<
-  DisassociateSourceResourceRequest,
+  DisassociateSourceResourceRequest & RegionInput,
   DisassociateSourceResourceResult,
   DisassociateSourceResourceError,
   Credentials | HttpClient.HttpClient
@@ -799,6 +834,8 @@ export const disassociateSourceResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateSourceResource",
 }));
 
 export type ImportMigrationTaskError =
@@ -820,7 +857,7 @@ export type ImportMigrationTaskError =
  * the migration tool must first register the migration task with Migration Hub.
  */
 export const importMigrationTask: API.OperationMethod<
-  ImportMigrationTaskRequest,
+  ImportMigrationTaskRequest & RegionInput,
   ImportMigrationTaskResult,
   ImportMigrationTaskError,
   Credentials | HttpClient.HttpClient
@@ -841,6 +878,8 @@ export const importMigrationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportMigrationTask",
+  telemetry: TELEMETRY,
+  span: "ImportMigrationTask",
 }));
 
 export type ListApplicationStatesError =
@@ -857,7 +896,7 @@ export type ListApplicationStatesError =
  * applications will be returned.
  */
 export const listApplicationStates: API.PaginatedOperationMethod<
-  ListApplicationStatesRequest,
+  ListApplicationStatesRequest & RegionInput,
   ListApplicationStatesResult,
   ListApplicationStatesError,
   Credentials | HttpClient.HttpClient,
@@ -882,6 +921,8 @@ export const listApplicationStates: API.PaginatedOperationMethod<
     items: "ApplicationStateList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationStates",
 })) as any;
 
 export type ListCreatedArtifactsError =
@@ -906,7 +947,7 @@ export type ListCreatedArtifactsError =
  * - Lists created artifacts in a paginated interface.
  */
 export const listCreatedArtifacts: API.PaginatedOperationMethod<
-  ListCreatedArtifactsRequest,
+  ListCreatedArtifactsRequest & RegionInput,
   ListCreatedArtifactsResult,
   ListCreatedArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -932,6 +973,8 @@ export const listCreatedArtifacts: API.PaginatedOperationMethod<
     items: "CreatedArtifactList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCreatedArtifacts",
 })) as any;
 
 export type ListDiscoveredResourcesError =
@@ -947,7 +990,7 @@ export type ListDiscoveredResourcesError =
  * Lists discovered resources associated with the given `MigrationTask`.
  */
 export const listDiscoveredResources: API.PaginatedOperationMethod<
-  ListDiscoveredResourcesRequest,
+  ListDiscoveredResourcesRequest & RegionInput,
   ListDiscoveredResourcesResult,
   ListDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -973,6 +1016,8 @@ export const listDiscoveredResources: API.PaginatedOperationMethod<
     items: "DiscoveredResourceList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveredResources",
 })) as any;
 
 export type ListMigrationTasksError =
@@ -997,7 +1042,7 @@ export type ListMigrationTasksError =
  * - Lists migration tasks in a paginated interface.
  */
 export const listMigrationTasks: API.PaginatedOperationMethod<
-  ListMigrationTasksRequest,
+  ListMigrationTasksRequest & RegionInput,
   ListMigrationTasksResult,
   ListMigrationTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1024,6 +1069,8 @@ export const listMigrationTasks: API.PaginatedOperationMethod<
     items: "MigrationTaskSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMigrationTasks",
 })) as any;
 
 export type ListMigrationTaskUpdatesError =
@@ -1039,7 +1086,7 @@ export type ListMigrationTaskUpdatesError =
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
 export const listMigrationTaskUpdates: API.PaginatedOperationMethod<
-  ListMigrationTaskUpdatesRequest,
+  ListMigrationTaskUpdatesRequest & RegionInput,
   ListMigrationTaskUpdatesResult,
   ListMigrationTaskUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -1064,6 +1111,8 @@ export const listMigrationTaskUpdates: API.PaginatedOperationMethod<
     items: "MigrationTaskUpdateList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMigrationTaskUpdates",
 })) as any;
 
 export type ListProgressUpdateStreamsError =
@@ -1078,7 +1127,7 @@ export type ListProgressUpdateStreamsError =
  * Lists progress update streams associated with the user account making this call.
  */
 export const listProgressUpdateStreams: API.PaginatedOperationMethod<
-  ListProgressUpdateStreamsRequest,
+  ListProgressUpdateStreamsRequest & RegionInput,
   ListProgressUpdateStreamsResult,
   ListProgressUpdateStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -1103,6 +1152,8 @@ export const listProgressUpdateStreams: API.PaginatedOperationMethod<
     items: "ProgressUpdateStreamSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProgressUpdateStreams",
 })) as any;
 
 export type ListSourceResourcesError =
@@ -1118,7 +1169,7 @@ export type ListSourceResourcesError =
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
 export const listSourceResources: API.PaginatedOperationMethod<
-  ListSourceResourcesRequest,
+  ListSourceResourcesRequest & RegionInput,
   ListSourceResourcesResult,
   ListSourceResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1143,6 +1194,8 @@ export const listSourceResources: API.PaginatedOperationMethod<
     items: "SourceResourceList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceResources",
 })) as any;
 
 export type NotifyApplicationStateError =
@@ -1164,7 +1217,7 @@ export type NotifyApplicationStateError =
  * COMPLETED.
  */
 export const notifyApplicationState: API.OperationMethod<
-  NotifyApplicationStateRequest,
+  NotifyApplicationStateRequest & RegionInput,
   NotifyApplicationStateResult,
   NotifyApplicationStateError,
   Credentials | HttpClient.HttpClient
@@ -1186,6 +1239,8 @@ export const notifyApplicationState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyApplicationState",
+  telemetry: TELEMETRY,
+  span: "NotifyApplicationState",
 }));
 
 export type NotifyMigrationTaskStateError =
@@ -1213,7 +1268,7 @@ export type NotifyMigrationTaskStateError =
  * namespace for each migration tool.
  */
 export const notifyMigrationTaskState: API.OperationMethod<
-  NotifyMigrationTaskStateRequest,
+  NotifyMigrationTaskStateRequest & RegionInput,
   NotifyMigrationTaskStateResult,
   NotifyMigrationTaskStateError,
   Credentials | HttpClient.HttpClient
@@ -1234,6 +1289,8 @@ export const notifyMigrationTaskState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyMigrationTaskState",
+  telemetry: TELEMETRY,
+  span: "NotifyMigrationTaskState",
 }));
 
 export type PutResourceAttributesError =
@@ -1268,7 +1325,7 @@ export type PutResourceAttributesError =
  * details, call `ListDiscoveredResources`.
  */
 export const putResourceAttributes: API.OperationMethod<
-  PutResourceAttributesRequest,
+  PutResourceAttributesRequest & RegionInput,
   PutResourceAttributesResult,
   PutResourceAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1289,6 +1346,8 @@ export const putResourceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceAttributes",
+  telemetry: TELEMETRY,
+  span: "PutResourceAttributes",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

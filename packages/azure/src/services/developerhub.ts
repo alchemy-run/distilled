@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DevHub" },
+  prefix: "Developerhub",
+  service: "Developerhub",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface DeleteWorkflowRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -483,6 +504,8 @@ export const DeleteWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type GeneratePreviewArtifactsError = AzureOpError;
@@ -498,6 +521,8 @@ export const GeneratePreviewArtifacts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GeneratePreviewArtifacts",
 }));
 
 export type GetWorkflowError = AzureOpError;
@@ -513,6 +538,8 @@ export const GetWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GitHubOAuthError = AzureOpError;
@@ -528,6 +555,8 @@ export const GitHubOAuth: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GitHubOAuth",
 }));
 
 export type GitHubOAuthCallbackError = AzureOpError;
@@ -543,6 +572,8 @@ export const GitHubOAuthCallback: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GitHubOAuthCallback",
 }));
 
 export type ListGitHubOAuthError = AzureOpError;
@@ -558,6 +589,8 @@ export const ListGitHubOAuth: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitHubOAuth",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -573,6 +606,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListWorkflowError = AzureOpError;
@@ -588,6 +623,8 @@ export const ListWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflow",
 }));
 
 export type ListWorkflowByResourceGroupError = AzureOpError;
@@ -603,6 +640,8 @@ export const ListWorkflowByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowByResourceGroup",
 }));
 
 export type UpdateWorkflowTagsError = AzureOpError;
@@ -618,6 +657,8 @@ export const UpdateWorkflowTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflowTags",
 }));
 
 export type WorkflowCreateOrUpdateError = AzureOpError;
@@ -633,6 +674,8 @@ export const WorkflowCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkflowCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

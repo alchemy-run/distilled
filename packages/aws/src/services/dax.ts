@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -69,6 +71,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://dax.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DAX",
+  service: "DAX",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ClusterAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ClusterAlreadyExistsFault>()(
@@ -666,7 +683,7 @@ export type CreateClusterError =
  * Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -693,6 +710,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateParameterGroupError =
@@ -708,7 +727,7 @@ export type CreateParameterGroupError =
  * you apply to all of the nodes in a DAX cluster.
  */
 export const createParameterGroup: API.OperationMethod<
-  CreateParameterGroupRequest,
+  CreateParameterGroupRequest & RegionInput,
   CreateParameterGroupResponse,
   CreateParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -726,6 +745,8 @@ export const createParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateParameterGroup",
 }));
 
 export type CreateSubnetGroupError =
@@ -740,7 +761,7 @@ export type CreateSubnetGroupError =
  * Creates a new subnet group.
  */
 export const createSubnetGroup: API.OperationMethod<
-  CreateSubnetGroupRequest,
+  CreateSubnetGroupRequest & RegionInput,
   CreateSubnetGroupResponse,
   CreateSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -758,6 +779,8 @@ export const createSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateSubnetGroup",
 }));
 
 export type DecreaseReplicationFactorError =
@@ -776,7 +799,7 @@ export type DecreaseReplicationFactorError =
  * `DeleteCluster` instead.
  */
 export const decreaseReplicationFactor: API.OperationMethod<
-  DecreaseReplicationFactorRequest,
+  DecreaseReplicationFactorRequest & RegionInput,
   DecreaseReplicationFactorResponse,
   DecreaseReplicationFactorError,
   Credentials | HttpClient.HttpClient
@@ -794,6 +817,8 @@ export const decreaseReplicationFactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseReplicationFactor",
+  telemetry: TELEMETRY,
+  span: "DecreaseReplicationFactor",
 }));
 
 export type DeleteClusterError =
@@ -811,7 +836,7 @@ export type DeleteClusterError =
  * revert this action.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -828,6 +853,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteParameterGroupError =
@@ -842,7 +869,7 @@ export type DeleteParameterGroupError =
  * associated with any DAX clusters.
  */
 export const deleteParameterGroup: API.OperationMethod<
-  DeleteParameterGroupRequest,
+  DeleteParameterGroupRequest & RegionInput,
   DeleteParameterGroupResponse,
   DeleteParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -859,6 +886,8 @@ export const deleteParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteParameterGroup",
 }));
 
 export type DeleteSubnetGroupError =
@@ -873,7 +902,7 @@ export type DeleteSubnetGroupError =
  * clusters.
  */
 export const deleteSubnetGroup: API.OperationMethod<
-  DeleteSubnetGroupRequest,
+  DeleteSubnetGroupRequest & RegionInput,
   DeleteSubnetGroupResponse,
   DeleteSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -884,6 +913,8 @@ export const deleteSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteSubnetGroup",
 }));
 
 export type DescribeClustersError =
@@ -912,7 +943,7 @@ export type DescribeClustersError =
  * endpoint information for the removed nodes is displayed.
  */
 export const describeClusters: API.OperationMethod<
-  DescribeClustersRequest,
+  DescribeClustersRequest & RegionInput,
   DescribeClustersResponse,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient
@@ -928,6 +959,8 @@ export const describeClusters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusters",
+  telemetry: TELEMETRY,
+  span: "DescribeClusters",
 }));
 
 export type DescribeDefaultParametersError =
@@ -940,7 +973,7 @@ export type DescribeDefaultParametersError =
  * software.
  */
 export const describeDefaultParameters: API.OperationMethod<
-  DescribeDefaultParametersRequest,
+  DescribeDefaultParametersRequest & RegionInput,
   DescribeDefaultParametersResponse,
   DescribeDefaultParametersError,
   Credentials | HttpClient.HttpClient
@@ -955,6 +988,8 @@ export const describeDefaultParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDefaultParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeDefaultParameters",
 }));
 
 export type DescribeEventsError =
@@ -971,7 +1006,7 @@ export type DescribeEventsError =
  * however, you can retrieve up to 14 days' worth of events if necessary.
  */
 export const describeEvents: API.OperationMethod<
-  DescribeEventsRequest,
+  DescribeEventsRequest & RegionInput,
   DescribeEventsResponse,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient
@@ -986,6 +1021,8 @@ export const describeEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEvents",
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 }));
 
 export type DescribeParameterGroupsError =
@@ -999,7 +1036,7 @@ export type DescribeParameterGroupsError =
  * specified, the list will contain only the descriptions for that group.
  */
 export const describeParameterGroups: API.OperationMethod<
-  DescribeParameterGroupsRequest,
+  DescribeParameterGroupsRequest & RegionInput,
   DescribeParameterGroupsResponse,
   DescribeParameterGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1015,6 +1052,8 @@ export const describeParameterGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeParameterGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeParameterGroups",
 }));
 
 export type DescribeParametersError =
@@ -1027,7 +1066,7 @@ export type DescribeParametersError =
  * Returns the detailed parameter list for a particular parameter group.
  */
 export const describeParameters: API.OperationMethod<
-  DescribeParametersRequest,
+  DescribeParametersRequest & RegionInput,
   DescribeParametersResponse,
   DescribeParametersError,
   Credentials | HttpClient.HttpClient
@@ -1043,6 +1082,8 @@ export const describeParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeParameters",
 }));
 
 export type DescribeSubnetGroupsError =
@@ -1054,7 +1095,7 @@ export type DescribeSubnetGroupsError =
  * the list will contain only the description of that group.
  */
 export const describeSubnetGroups: API.OperationMethod<
-  DescribeSubnetGroupsRequest,
+  DescribeSubnetGroupsRequest & RegionInput,
   DescribeSubnetGroupsResponse,
   DescribeSubnetGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1065,6 +1106,8 @@ export const describeSubnetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSubnetGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeSubnetGroups",
 }));
 
 export type IncreaseReplicationFactorError =
@@ -1082,7 +1125,7 @@ export type IncreaseReplicationFactorError =
  * Adds one or more nodes to a DAX cluster.
  */
 export const increaseReplicationFactor: API.OperationMethod<
-  IncreaseReplicationFactorRequest,
+  IncreaseReplicationFactorRequest & RegionInput,
   IncreaseReplicationFactorResponse,
   IncreaseReplicationFactorError,
   Credentials | HttpClient.HttpClient
@@ -1103,6 +1146,8 @@ export const increaseReplicationFactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseReplicationFactor",
+  telemetry: TELEMETRY,
+  span: "IncreaseReplicationFactor",
 }));
 
 export type ListTagsError =
@@ -1118,7 +1163,7 @@ export type ListTagsError =
  * `ListTags` up to 10 times per second, per account.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -1136,6 +1181,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type RebootNodeError =
@@ -1155,7 +1202,7 @@ export type RebootNodeError =
  * contents of the cache.
  */
 export const rebootNode: API.OperationMethod<
-  RebootNodeRequest,
+  RebootNodeRequest & RegionInput,
   RebootNodeResponse,
   RebootNodeError,
   Credentials | HttpClient.HttpClient
@@ -1173,6 +1220,8 @@ export const rebootNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootNode",
+  telemetry: TELEMETRY,
+  span: "RebootNode",
 }));
 
 export type TagResourceError =
@@ -1190,7 +1239,7 @@ export type TagResourceError =
  * 5 times per second, per account.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1209,6 +1258,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1225,7 +1276,7 @@ export type UntagResourceError =
  * `UntagResource` up to 5 times per second, per account.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1244,6 +1295,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateClusterError =
@@ -1261,7 +1314,7 @@ export type UpdateClusterError =
  * new values.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -1280,6 +1333,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateParameterGroupError =
@@ -1294,7 +1349,7 @@ export type UpdateParameterGroupError =
  * a single request by submitting a list parameter name and value pairs.
  */
 export const updateParameterGroup: API.OperationMethod<
-  UpdateParameterGroupRequest,
+  UpdateParameterGroupRequest & RegionInput,
   UpdateParameterGroupResponse,
   UpdateParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1311,6 +1366,8 @@ export const updateParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParameterGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateParameterGroup",
 }));
 
 export type UpdateSubnetGroupError =
@@ -1325,7 +1382,7 @@ export type UpdateSubnetGroupError =
  * Modifies an existing subnet group.
  */
 export const updateSubnetGroup: API.OperationMethod<
-  UpdateSubnetGroupRequest,
+  UpdateSubnetGroupRequest & RegionInput,
   UpdateSubnetGroupResponse,
   UpdateSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1343,6 +1400,8 @@ export const updateSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateSubnetGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

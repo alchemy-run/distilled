@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Vision",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2313,6 +2326,8 @@ export const createVisionAlert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionAlert",
 }));
 
 export type CreateVisionAlertsDestinationError = PosthogOpError;
@@ -2328,6 +2343,8 @@ export const createVisionAlertsDestination: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionAlertsDestination",
 }));
 
 export type CreateVisionObservationsLabelError = PosthogOpError;
@@ -2343,6 +2360,8 @@ export const createVisionObservationsLabel: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionObservationsLabel",
 }));
 
 export type CreateVisionObservationsViewedError = PosthogOpError;
@@ -2358,6 +2377,8 @@ export const createVisionObservationsViewed: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionObservationsViewed",
 }));
 
 export type CreateVisionScannerError = PosthogOpError;
@@ -2373,6 +2394,8 @@ export const createVisionScanner: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScanner",
 }));
 
 export type CreateVisionScannersAffectedCohortError = PosthogOpError;
@@ -2388,6 +2411,8 @@ export const createVisionScannersAffectedCohort: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersAffectedCohort",
 }));
 
 export type CreateVisionScannersBackfillError = PosthogOpError;
@@ -2403,6 +2428,8 @@ export const createVisionScannersBackfill: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersBackfill",
 }));
 
 export type CreateVisionScannersBackfillsEstimateError = PosthogOpError;
@@ -2418,6 +2445,8 @@ export const createVisionScannersBackfillsEstimate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersBackfillsEstimate",
 }));
 
 export type CreateVisionScannersDraftError = BadRequest | Forbidden | PosthogOpError;
@@ -2433,6 +2462,8 @@ export const createVisionScannersDraft: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersDraft",
 }));
 
 export type CreateVisionScannersEstimateError = PosthogOpError;
@@ -2448,6 +2479,8 @@ export const createVisionScannersEstimate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersEstimate",
 }));
 
 export type CreateVisionScannersInlineScanError = PosthogOpError;
@@ -2463,6 +2496,8 @@ export const createVisionScannersInlineScan: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersInlineScan",
 }));
 
 export type CreateVisionScannersObservationsLabelError = PosthogOpError;
@@ -2478,6 +2513,8 @@ export const createVisionScannersObservationsLabel: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersObservationsLabel",
 }));
 
 export type CreateVisionScannersObservationsViewedError = PosthogOpError;
@@ -2493,6 +2530,8 @@ export const createVisionScannersObservationsViewed: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersObservationsViewed",
 }));
 
 export type CreateVisionScannersObserveError = PosthogOpError;
@@ -2508,6 +2547,8 @@ export const createVisionScannersObserve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersObserve",
 }));
 
 export type CreateVisionScannersScoutError = Forbidden | PosthogOpError;
@@ -2523,6 +2564,8 @@ export const createVisionScannersScout: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersScout",
 }));
 
 export type CreateVisionScannersSuggestTagError = PosthogOpError;
@@ -2538,6 +2581,8 @@ export const createVisionScannersSuggestTag: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersSuggestTag",
 }));
 
 export type GetEnvironmentVisionQuotaError = PosthogOpError;
@@ -2552,6 +2597,8 @@ export const getEnvironmentVisionQuota: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentVisionQuota",
 }));
 
 export type GetEnvironmentVisionQuotaSpendSeriesError = PosthogOpError;
@@ -2566,6 +2613,8 @@ export const getEnvironmentVisionQuotaSpendSeries: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentVisionQuotaSpendSeries",
 }));
 
 export type GetVisionAlertError = PosthogOpError;
@@ -2580,6 +2629,8 @@ export const getVisionAlert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionAlert",
 }));
 
 export type GetVisionObservationError = PosthogOpError;
@@ -2595,6 +2646,8 @@ export const getVisionObservation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionObservation",
 }));
 
 export type GetVisionObservationsThumbnailError = NotFound | PosthogOpError;
@@ -2610,6 +2663,8 @@ export const getVisionObservationsThumbnail: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionObservationsThumbnail",
 }));
 
 export type GetVisionScannerError = PosthogOpError;
@@ -2625,6 +2680,8 @@ export const getVisionScanner: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScanner",
 }));
 
 export type GetVisionScannersBackfillError = PosthogOpError;
@@ -2640,6 +2697,8 @@ export const getVisionScannersBackfill: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersBackfill",
 }));
 
 export type GetVisionScannersCreatorError = PosthogOpError;
@@ -2655,6 +2714,8 @@ export const getVisionScannersCreator: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersCreator",
 }));
 
 export type GetVisionScannersImpactError = PosthogOpError;
@@ -2670,6 +2731,8 @@ export const getVisionScannersImpact: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersImpact",
 }));
 
 export type GetVisionScannersObservationError = PosthogOpError;
@@ -2685,6 +2748,8 @@ export const getVisionScannersObservation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersObservation",
 }));
 
 export type GetVisionScannersObservationsStatError = PosthogOpError;
@@ -2700,6 +2765,8 @@ export const getVisionScannersObservationsStat: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersObservationsStat",
 }));
 
 export type GetVisionScannersObservationsThumbnailError = NotFound | PosthogOpError;
@@ -2715,6 +2782,8 @@ export const getVisionScannersObservationsThumbnail: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersObservationsThumbnail",
 }));
 
 export type GetVisionScannersScoutReportError = PosthogOpError;
@@ -2730,6 +2799,8 @@ export const getVisionScannersScoutReport: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersScoutReport",
 }));
 
 export type GetVisionScannersSelfDrivingStatError = PosthogOpError;
@@ -2745,6 +2816,8 @@ export const getVisionScannersSelfDrivingStat: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersSelfDrivingStat",
 }));
 
 export type GetVisionScannersStatError = PosthogOpError;
@@ -2760,6 +2833,8 @@ export const getVisionScannersStat: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersStat",
 }));
 
 export type ListVisionAlertsError = PosthogOpError;
@@ -2774,6 +2849,8 @@ export const listVisionAlerts: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionAlerts",
 }));
 
 export type ListVisionAlertsEventsError = PosthogOpError;
@@ -2789,6 +2866,8 @@ export const listVisionAlertsEvents: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionAlertsEvents",
 }));
 
 export type ListVisionObservationsError = PosthogOpError;
@@ -2804,6 +2883,8 @@ export const listVisionObservations: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionObservations",
 }));
 
 export type ListVisionObservationsSignalReportsError = PosthogOpError;
@@ -2819,6 +2900,8 @@ export const listVisionObservationsSignalReports: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionObservationsSignalReports",
 }));
 
 export type ListVisionScannersError = PosthogOpError;
@@ -2834,6 +2917,8 @@ export const listVisionScanners: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionScanners",
 }));
 
 export type ListVisionScannersBackfillsError = PosthogOpError;
@@ -2849,6 +2934,8 @@ export const listVisionScannersBackfills: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionScannersBackfills",
 }));
 
 export type ListVisionScannersObservationsError = PosthogOpError;
@@ -2864,6 +2951,8 @@ export const listVisionScannersObservations: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionScannersObservations",
 }));
 
 export type ListVisionScannersObservationsSignalReportsError = PosthogOpError;
@@ -2883,6 +2972,8 @@ export const listVisionScannersObservationsSignalReports: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionScannersObservationsSignalReports",
 }));
 
 export type ListVisionScannersScoutReportsError = PosthogOpError;
@@ -2898,6 +2989,8 @@ export const listVisionScannersScoutReports: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionScannersScoutReports",
 }));
 
 export type ListVisionScannersVariantsError = BadRequest | PosthogOpError;
@@ -2913,6 +3006,8 @@ export const listVisionScannersVariants: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionScannersVariants",
 }));
 
 export type UpdateVisionAlertError = PosthogOpError;
@@ -2927,6 +3022,8 @@ export const updateVisionAlert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVisionAlert",
 }));
 
 export type UpdateVisionAlertsPartialError = PosthogOpError;
@@ -2941,6 +3038,8 @@ export const updateVisionAlertsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVisionAlertsPartial",
 }));
 
 export type UpdateVisionScannersPartialError = PosthogOpError;
@@ -2956,6 +3055,8 @@ export const updateVisionScannersPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVisionScannersPartial",
 }));
 
 export type VisionAlertsDestinationsDeleteCreateError = PosthogOpError;
@@ -2971,6 +3072,8 @@ export const visionAlertsDestinationsDeleteCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionAlertsDestinationsDeleteCreate",
 }));
 
 export type VisionAlertsDestroyError = PosthogOpError;
@@ -2985,6 +3088,8 @@ export const visionAlertsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionAlertsDestroy",
 }));
 
 export type VisionAlertsResetCreateError = PosthogOpError;
@@ -3000,6 +3105,8 @@ export const visionAlertsResetCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionAlertsResetCreate",
 }));
 
 export type VisionObservationsCreateTaskCreateError = PosthogOpError;
@@ -3015,6 +3122,8 @@ export const visionObservationsCreateTaskCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionObservationsCreateTaskCreate",
 }));
 
 export type VisionObservationsLabelDestroyError = PosthogOpError;
@@ -3030,6 +3139,8 @@ export const visionObservationsLabelDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionObservationsLabelDestroy",
 }));
 
 export type VisionObservationsRetryCreateError = Conflict | PosthogOpError;
@@ -3045,6 +3156,8 @@ export const visionObservationsRetryCreate: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionObservationsRetryCreate",
 }));
 
 export type VisionObservationsSearchRetrieveError = PosthogOpError;
@@ -3060,6 +3173,8 @@ export const visionObservationsSearchRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionObservationsSearchRetrieve",
 }));
 
 export type VisionObservationsSearchSuggestionsRetrieveError = PosthogOpError;
@@ -3075,6 +3190,8 @@ export const visionObservationsSearchSuggestionsRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionObservationsSearchSuggestionsRetrieve",
 }));
 
 export type VisionObservationsSearchViewedCreateError = PosthogOpError;
@@ -3090,6 +3207,8 @@ export const visionObservationsSearchViewedCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionObservationsSearchViewedCreate",
 }));
 
 export type VisionScannersBackfillsCancelCreateError = PosthogOpError;
@@ -3105,6 +3224,8 @@ export const visionScannersBackfillsCancelCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersBackfillsCancelCreate",
 }));
 
 export type VisionScannersBackfillsResumeCreateError = PosthogOpError;
@@ -3120,6 +3241,8 @@ export const visionScannersBackfillsResumeCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersBackfillsResumeCreate",
 }));
 
 export type VisionScannersBulkObserveCreateError = PosthogOpError;
@@ -3135,6 +3258,8 @@ export const visionScannersBulkObserveCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersBulkObserveCreate",
 }));
 
 export type VisionScannersDestroyError = PosthogOpError;
@@ -3150,6 +3275,8 @@ export const visionScannersDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersDestroy",
 }));
 
 export type VisionScannersDuplicateCreateError = PosthogOpError;
@@ -3165,6 +3292,8 @@ export const visionScannersDuplicateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersDuplicateCreate",
 }));
 
 export type VisionScannersObservationsCreateTaskCreateError = PosthogOpError;
@@ -3180,6 +3309,8 @@ export const visionScannersObservationsCreateTaskCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersObservationsCreateTaskCreate",
 }));
 
 export type VisionScannersObservationsLabelDestroyError = PosthogOpError;
@@ -3195,6 +3326,8 @@ export const visionScannersObservationsLabelDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersObservationsLabelDestroy",
 }));
 
 export type VisionScannersObservationsRetryCreateError = Conflict | PosthogOpError;
@@ -3210,6 +3343,8 @@ export const visionScannersObservationsRetryCreate: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersObservationsRetryCreate",
 }));
 
 export type VisionScannersWatchFeedRetrieveError = PosthogOpError;
@@ -3225,6 +3360,8 @@ export const visionScannersWatchFeedRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersWatchFeedRetrieve",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

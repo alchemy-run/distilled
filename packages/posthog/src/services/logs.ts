@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Logs",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2402,6 +2415,8 @@ export const createLogsAlert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsAlert",
 }));
 
 export type CreateLogsAlertsDestinationError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2417,6 +2432,8 @@ export const createLogsAlertsDestination: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsAlertsDestination",
 }));
 
 export type CreateLogsAlertsSimulateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2432,6 +2449,8 @@ export const createLogsAlertsSimulate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsAlertsSimulate",
 }));
 
 export type CreateLogsAnomaliesScanError = UnprocessableEntity | PosthogOpError;
@@ -2447,6 +2466,8 @@ export const createLogsAnomaliesScan: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsAnomaliesScan",
 }));
 
 export type CreateLogsAnomaliesSeriesBandError = BadRequest | UnprocessableEntity | PosthogOpError;
@@ -2462,6 +2483,8 @@ export const createLogsAnomaliesSeriesBand: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsAnomaliesSeriesBand",
 }));
 
 export type CreateLogsCountError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2476,6 +2499,8 @@ export const createLogsCount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsCount",
 }));
 
 export type CreateLogsCountRangeError = PosthogOpError;
@@ -2490,6 +2515,8 @@ export const createLogsCountRange: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsCountRange",
 }));
 
 export type CreateLogsExplainLogWithAIError = PosthogOpError;
@@ -2505,6 +2532,8 @@ export const createLogsExplainLogWithAI: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsExplainLogWithAI",
 }));
 
 export type CreateLogsFacetValueError = PosthogOpError;
@@ -2519,6 +2548,8 @@ export const createLogsFacetValue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsFacetValue",
 }));
 
 export type CreateLogsGroupByError = PosthogOpError;
@@ -2533,6 +2564,8 @@ export const createLogsGroupBy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsGroupBy",
 }));
 
 export type CreateLogsImpactError = PosthogOpError;
@@ -2547,6 +2580,8 @@ export const createLogsImpact: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsImpact",
 }));
 
 export type CreateLogsMetricRuleError = PosthogOpError;
@@ -2561,6 +2596,8 @@ export const createLogsMetricRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsMetricRule",
 }));
 
 export type CreateLogsPatternError = PosthogOpError;
@@ -2575,6 +2612,8 @@ export const createLogsPattern: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsPattern",
 }));
 
 export type CreateLogsPatternsDiffError = PosthogOpError;
@@ -2589,6 +2628,8 @@ export const createLogsPatternsDiff: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsPatternsDiff",
 }));
 
 export type CreateLogsQueryError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2603,6 +2644,8 @@ export const createLogsQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsQuery",
 }));
 
 export type CreateLogsRetentionRuleError = PosthogOpError;
@@ -2618,6 +2661,8 @@ export const createLogsRetentionRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsRetentionRule",
 }));
 
 export type CreateLogsRetentionRulesReorderError = PosthogOpError;
@@ -2633,6 +2678,8 @@ export const createLogsRetentionRulesReorder: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsRetentionRulesReorder",
 }));
 
 export type CreateLogsRetentionRulesSuggestNameError = PosthogOpError;
@@ -2648,6 +2695,8 @@ export const createLogsRetentionRulesSuggestName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsRetentionRulesSuggestName",
 }));
 
 export type CreateLogsSamplingRuleError = PosthogOpError;
@@ -2662,6 +2711,8 @@ export const createLogsSamplingRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsSamplingRule",
 }));
 
 export type CreateLogsSamplingRulesReorderError = PosthogOpError;
@@ -2677,6 +2728,8 @@ export const createLogsSamplingRulesReorder: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsSamplingRulesReorder",
 }));
 
 export type CreateLogsSamplingRulesSimulateError = PosthogOpError;
@@ -2692,6 +2745,8 @@ export const createLogsSamplingRulesSimulate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsSamplingRulesSimulate",
 }));
 
 export type CreateLogsServiceError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2706,6 +2761,8 @@ export const createLogsService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsService",
 }));
 
 export type CreateLogsSparklineError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2720,6 +2777,8 @@ export const createLogsSparkline: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsSparkline",
 }));
 
 export type CreateLogsViewError = PosthogOpError;
@@ -2734,6 +2793,8 @@ export const createLogsView: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsView",
 }));
 
 export type GetLogsAlertError = Forbidden | NotFound | PosthogOpError;
@@ -2748,6 +2809,8 @@ export const getLogsAlert: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsAlert",
 }));
 
 export type GetLogsAttributeError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2762,6 +2825,8 @@ export const getLogsAttribute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsAttribute",
 }));
 
 export type GetLogsHasLogError = Forbidden | NotFound | PosthogOpError;
@@ -2776,6 +2841,8 @@ export const getLogsHasLog: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsHasLog",
 }));
 
 export type GetLogsMetricRuleError = PosthogOpError;
@@ -2790,6 +2857,8 @@ export const getLogsMetricRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsMetricRule",
 }));
 
 export type GetLogsRetentionRuleError = PosthogOpError;
@@ -2805,6 +2874,8 @@ export const getLogsRetentionRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsRetentionRule",
 }));
 
 export type GetLogsSamplingRuleError = PosthogOpError;
@@ -2819,6 +2890,8 @@ export const getLogsSamplingRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsSamplingRule",
 }));
 
 export type GetLogsValueError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2833,6 +2906,8 @@ export const getLogsValue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsValue",
 }));
 
 export type GetLogsViewError = PosthogOpError;
@@ -2847,6 +2922,8 @@ export const getLogsView: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsView",
 }));
 
 export type ListLogsAlertsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2861,6 +2938,8 @@ export const listLogsAlerts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsAlerts",
 }));
 
 export type ListLogsAlertsEventsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2876,6 +2955,8 @@ export const listLogsAlertsEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsAlertsEvents",
 }));
 
 export type ListLogsMetricRulesError = PosthogOpError;
@@ -2890,6 +2971,8 @@ export const listLogsMetricRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsMetricRules",
 }));
 
 export type ListLogsRetentionRulesError = PosthogOpError;
@@ -2905,6 +2988,8 @@ export const listLogsRetentionRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsRetentionRules",
 }));
 
 export type ListLogsSamplingRulesError = PosthogOpError;
@@ -2919,6 +3004,8 @@ export const listLogsSamplingRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsSamplingRules",
 }));
 
 export type ListLogsViewsError = PosthogOpError;
@@ -2933,6 +3020,8 @@ export const listLogsViews: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsViews",
 }));
 
 export type LogsAlertsDestinationsDeleteCreateError =
@@ -2952,6 +3041,8 @@ export const logsAlertsDestinationsDeleteCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsAlertsDestinationsDeleteCreate",
 }));
 
 export type LogsAlertsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -2966,6 +3057,8 @@ export const logsAlertsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsAlertsDestroy",
 }));
 
 export type LogsAlertsResetCreateError = Forbidden | NotFound | PosthogOpError;
@@ -2981,6 +3074,8 @@ export const logsAlertsResetCreate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsAlertsResetCreate",
 }));
 
 export type LogsExportCreateError = Forbidden | NotFound | PosthogOpError;
@@ -2995,6 +3090,8 @@ export const logsExportCreate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsExportCreate",
 }));
 
 export type LogsMetricRulesDestroyError = PosthogOpError;
@@ -3009,6 +3106,8 @@ export const logsMetricRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsMetricRulesDestroy",
 }));
 
 export type LogsRetentionRulesDestroyError = PosthogOpError;
@@ -3024,6 +3123,8 @@ export const logsRetentionRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsRetentionRulesDestroy",
 }));
 
 export type LogsSamplingRulesDestroyError = PosthogOpError;
@@ -3038,6 +3139,8 @@ export const logsSamplingRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsSamplingRulesDestroy",
 }));
 
 export type LogsViewsDestroyError = PosthogOpError;
@@ -3052,6 +3155,8 @@ export const logsViewsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsViewsDestroy",
 }));
 
 export type UpdateLogsAlertError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3066,6 +3171,8 @@ export const updateLogsAlert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsAlert",
 }));
 
 export type UpdateLogsAlertsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3080,6 +3187,8 @@ export const updateLogsAlertsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsAlertsPartial",
 }));
 
 export type UpdateLogsMetricRuleError = PosthogOpError;
@@ -3094,6 +3203,8 @@ export const updateLogsMetricRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsMetricRule",
 }));
 
 export type UpdateLogsMetricRulesPartialError = PosthogOpError;
@@ -3108,6 +3219,8 @@ export const updateLogsMetricRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsMetricRulesPartial",
 }));
 
 export type UpdateLogsRetentionRuleError = PosthogOpError;
@@ -3123,6 +3236,8 @@ export const updateLogsRetentionRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsRetentionRule",
 }));
 
 export type UpdateLogsRetentionRulesPartialError = PosthogOpError;
@@ -3138,6 +3253,8 @@ export const updateLogsRetentionRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsRetentionRulesPartial",
 }));
 
 export type UpdateLogsSamplingRuleError = PosthogOpError;
@@ -3152,6 +3269,8 @@ export const updateLogsSamplingRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsSamplingRule",
 }));
 
 export type UpdateLogsSamplingRulesPartialError = PosthogOpError;
@@ -3166,6 +3285,8 @@ export const updateLogsSamplingRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsSamplingRulesPartial",
 }));
 
 export type UpdateLogsViewError = PosthogOpError;
@@ -3180,6 +3301,8 @@ export const updateLogsView: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsView",
 }));
 
 export type UpdateLogsViewsPartialError = PosthogOpError;
@@ -3194,6 +3317,8 @@ export const updateLogsViewsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsViewsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

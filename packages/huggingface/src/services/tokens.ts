@@ -14,6 +14,18 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Tokens",
+  propagate: "w3c",
+} as const;
+
 /** Raw access token values to invalidate, at most 1000. */
 export type RevokeLeakedTokensRequestCredentialsList = Array<string>;
 export interface RevokeLeakedTokensRequest {
@@ -34,6 +46,8 @@ export const revokeLeakedTokens: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeLeakedTokens",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

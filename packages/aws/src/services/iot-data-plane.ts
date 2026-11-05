@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -112,6 +114,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://data-ats.iot.{R}.{D}","properties":{},"headers":{}}',
   ["cn-north-1"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTDataPlane",
+  service: "IoTDataPlane",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -361,7 +377,7 @@ export type DeleteConnectionError =
  * Requires permission to access the DeleteConnection action.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -378,6 +394,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteThingShadowError =
@@ -399,7 +417,7 @@ export type DeleteThingShadowError =
  * For more information, see DeleteThingShadow in the IoT Developer Guide.
  */
 export const deleteThingShadow: API.OperationMethod<
-  DeleteThingShadowRequest,
+  DeleteThingShadowRequest & RegionInput,
   DeleteThingShadowResponse,
   DeleteThingShadowError,
   Credentials | HttpClient.HttpClient
@@ -420,6 +438,8 @@ export const deleteThingShadow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThingShadow",
+  telemetry: TELEMETRY,
+  span: "DeleteThingShadow",
 }));
 
 export type GetConnectionError =
@@ -435,7 +455,7 @@ export type GetConnectionError =
  * Requires permission to access the GetConnection action.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -452,6 +472,8 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetRetainedMessageError =
@@ -477,7 +499,7 @@ export type GetRetainedMessageError =
  * pricing - Messaging.
  */
 export const getRetainedMessage: API.OperationMethod<
-  GetRetainedMessageRequest,
+  GetRetainedMessageRequest & RegionInput,
   GetRetainedMessageResponse,
   GetRetainedMessageError,
   Credentials | HttpClient.HttpClient
@@ -497,6 +519,8 @@ export const getRetainedMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetainedMessage",
+  telemetry: TELEMETRY,
+  span: "GetRetainedMessage",
 }));
 
 export type GetThingShadowError =
@@ -519,7 +543,7 @@ export type GetThingShadowError =
  * IoT Developer Guide.
  */
 export const getThingShadow: API.OperationMethod<
-  GetThingShadowRequest,
+  GetThingShadowRequest & RegionInput,
   GetThingShadowResponse,
   GetThingShadowError,
   Credentials | HttpClient.HttpClient
@@ -540,6 +564,8 @@ export const getThingShadow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThingShadow",
+  telemetry: TELEMETRY,
+  span: "GetThingShadow",
 }));
 
 export type ListNamedShadowsForThingError =
@@ -558,7 +584,7 @@ export type ListNamedShadowsForThingError =
  * Requires permission to access the ListNamedShadowsForThing action.
  */
 export const listNamedShadowsForThing: API.OperationMethod<
-  ListNamedShadowsForThingRequest,
+  ListNamedShadowsForThingRequest & RegionInput,
   ListNamedShadowsForThingResponse,
   ListNamedShadowsForThingError,
   Credentials | HttpClient.HttpClient
@@ -578,6 +604,8 @@ export const listNamedShadowsForThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNamedShadowsForThing",
+  telemetry: TELEMETRY,
+  span: "ListNamedShadowsForThing",
 }));
 
 export type ListRetainedMessagesError =
@@ -606,7 +634,7 @@ export type ListRetainedMessagesError =
  * pricing - Messaging.
  */
 export const listRetainedMessages: API.PaginatedOperationMethod<
-  ListRetainedMessagesRequest,
+  ListRetainedMessagesRequest & RegionInput,
   ListRetainedMessagesResponse,
   ListRetainedMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -632,6 +660,8 @@ export const listRetainedMessages: API.PaginatedOperationMethod<
     items: "retainedTopics",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetainedMessages",
 })) as any;
 
 export type ListSubscriptionsError =
@@ -647,7 +677,7 @@ export type ListSubscriptionsError =
  * Requires permission to access the ListSubscriptions action.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsRequest,
+  ListSubscriptionsRequest & RegionInput,
   ListSubscriptionsResponse,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -671,6 +701,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type PublishError =
@@ -694,7 +726,7 @@ export type PublishError =
  * pricing - Messaging.
  */
 export const publish: API.OperationMethod<
-  PublishRequest,
+  PublishRequest & RegionInput,
   PublishResponse,
   PublishError,
   Credentials | HttpClient.HttpClient
@@ -712,6 +744,8 @@ export const publish: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Publish",
+  telemetry: TELEMETRY,
+  span: "Publish",
 }));
 
 export type SendDirectMessageError =
@@ -736,7 +770,7 @@ export type SendDirectMessageError =
  * pricing.
  */
 export const sendDirectMessage: API.OperationMethod<
-  SendDirectMessageRequest,
+  SendDirectMessageRequest & RegionInput,
   SendDirectMessageResponse,
   SendDirectMessageError,
   Credentials | HttpClient.HttpClient
@@ -756,6 +790,8 @@ export const sendDirectMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDirectMessage",
+  telemetry: TELEMETRY,
+  span: "SendDirectMessage",
 }));
 
 export type UpdateThingShadowError =
@@ -779,7 +815,7 @@ export type UpdateThingShadowError =
  * IoT Developer Guide.
  */
 export const updateThingShadow: API.OperationMethod<
-  UpdateThingShadowRequest,
+  UpdateThingShadowRequest & RegionInput,
   UpdateThingShadowResponse,
   UpdateThingShadowError,
   Credentials | HttpClient.HttpClient
@@ -801,6 +837,8 @@ export const updateThingShadow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingShadow",
+  telemetry: TELEMETRY,
+  span: "UpdateThingShadow",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

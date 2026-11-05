@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Functions",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export type CreateFunctionRequestLabelsMap = { [key: string]: string | undefined };
 /** Status of this function's latest revision. */
 export type CreateFunctionRequestState = "CREATING" | "ACTIVE" | "FAILED";
@@ -316,6 +329,8 @@ export const createFunction: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFunction",
 }));
 
 export type CreateFunctionRevisionError = StackitOpError;
@@ -331,6 +346,8 @@ export const createFunctionRevision: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFunctionRevision",
 }));
 
 export type CreatePullCredentialError = StackitOpError;
@@ -346,6 +363,8 @@ export const createPullCredential: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePullCredential",
 }));
 
 export type DeleteFunctionError = StackitOpError;
@@ -361,6 +380,8 @@ export const deleteFunction: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFunction",
 }));
 
 export type DeletePullCredentialError = StackitOpError;
@@ -376,6 +397,8 @@ export const deletePullCredential: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePullCredential",
 }));
 
 export type DeleteRevisionError = StackitOpError;
@@ -391,6 +414,8 @@ export const deleteRevision: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRevision",
 }));
 
 export type GetFunctionError = StackitOpError;
@@ -406,6 +431,8 @@ export const getFunction: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFunction",
 }));
 
 export type GetPullCredentialError = StackitOpError;
@@ -421,6 +448,8 @@ export const getPullCredential: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPullCredential",
 }));
 
 export type GetRevisionError = StackitOpError;
@@ -436,6 +465,8 @@ export const getRevision: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRevision",
 }));
 
 export type ListFunctions2Error = StackitOpError;
@@ -451,6 +482,8 @@ export const listFunctions2: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFunctions2",
 }));
 
 export type ListPullCredentials2Error = StackitOpError;
@@ -466,6 +499,8 @@ export const listPullCredentials2: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPullCredentials2",
 }));
 
 export type ListRevisions2Error = StackitOpError;
@@ -481,6 +516,8 @@ export const listRevisions2: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRevisions2",
 }));
 
 export type UpdateFunctionError = StackitOpError;
@@ -496,6 +533,8 @@ export const updateFunction: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFunction",
 }));
 
 export type UpdatePullCredentialError = StackitOpError;
@@ -511,6 +550,8 @@ export const updatePullCredential: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePullCredential",
 }));
 
 export type UpdateRevisionError = StackitOpError;
@@ -526,6 +567,8 @@ export const updateRevision: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRevision",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

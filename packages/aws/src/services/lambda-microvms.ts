@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lambda.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LambdaMicrovms",
+  service: "LambdaMicrovms",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -708,7 +724,7 @@ export type CreateMicrovmAuthTokenError =
  * Creates an authentication token for accessing a running MicroVM. The token grants access to the specified ports on the MicroVM endpoint.
  */
 export const createMicrovmAuthToken: API.OperationMethod<
-  CreateMicrovmAuthTokenRequest,
+  CreateMicrovmAuthTokenRequest & RegionInput,
   CreateMicrovmAuthTokenResponse,
   CreateMicrovmAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -726,6 +742,8 @@ export const createMicrovmAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmAuthToken",
+  telemetry: TELEMETRY,
+  span: "CreateMicrovmAuthToken",
 }));
 
 export type CreateMicrovmImageError =
@@ -741,7 +759,7 @@ export type CreateMicrovmImageError =
  * Creates a MicroVM image from the specified code artifact and base image. The build is asynchronous -- the image transitions from CREATING to CREATED on success, or CREATE_FAILED on failure. Use GetMicrovmImage to poll for completion.
  */
 export const createMicrovmImage: API.OperationMethod<
-  CreateMicrovmImageRequest,
+  CreateMicrovmImageRequest & RegionInput,
   CreateMicrovmImageResponse,
   CreateMicrovmImageError,
   Credentials | HttpClient.HttpClient
@@ -760,6 +778,8 @@ export const createMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmImage",
+  telemetry: TELEMETRY,
+  span: "CreateMicrovmImage",
 }));
 
 export type CreateMicrovmShellAuthTokenError =
@@ -774,7 +794,7 @@ export type CreateMicrovmShellAuthTokenError =
  * Creates a shell authentication token for interactive shell access to a running MicroVM. The MicroVM must have been run with the SHELL_INGRESS network connector attached.
  */
 export const createMicrovmShellAuthToken: API.OperationMethod<
-  CreateMicrovmShellAuthTokenRequest,
+  CreateMicrovmShellAuthTokenRequest & RegionInput,
   CreateMicrovmShellAuthTokenResponse,
   CreateMicrovmShellAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -792,6 +812,8 @@ export const createMicrovmShellAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmShellAuthToken",
+  telemetry: TELEMETRY,
+  span: "CreateMicrovmShellAuthToken",
 }));
 
 export type DeleteMicrovmImageError =
@@ -806,7 +828,7 @@ export type DeleteMicrovmImageError =
  * Deletes a MicroVM image. This operation is idempotent; deleting an image that has already been deleted succeeds without error.
  */
 export const deleteMicrovmImage: API.OperationMethod<
-  DeleteMicrovmImageInput,
+  DeleteMicrovmImageInput & RegionInput,
   DeleteMicrovmImageOutput,
   DeleteMicrovmImageError,
   Credentials | HttpClient.HttpClient
@@ -824,6 +846,8 @@ export const deleteMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrovmImage",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrovmImage",
 }));
 
 export type DeleteMicrovmImageVersionError =
@@ -838,7 +862,7 @@ export type DeleteMicrovmImageVersionError =
  * Deletes a specific version of a MicroVM image. This operation is idempotent; deleting a version that has already been deleted succeeds without error.
  */
 export const deleteMicrovmImageVersion: API.OperationMethod<
-  DeleteMicrovmImageVersionInput,
+  DeleteMicrovmImageVersionInput & RegionInput,
   DeleteMicrovmImageVersionOutput,
   DeleteMicrovmImageVersionError,
   Credentials | HttpClient.HttpClient
@@ -856,6 +880,8 @@ export const deleteMicrovmImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrovmImageVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrovmImageVersion",
 }));
 
 export type GetMicrovmError =
@@ -869,7 +895,7 @@ export type GetMicrovmError =
  * Retrieves the details of a specific MicroVM, including its state, endpoint, image information, and configuration. The state field is eventually consistent -- determine readiness by connecting to the endpoint.
  */
 export const getMicrovm: API.OperationMethod<
-  GetMicrovmRequest,
+  GetMicrovmRequest & RegionInput,
   GetMicrovmResponse,
   GetMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -886,6 +912,8 @@ export const getMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovm",
+  telemetry: TELEMETRY,
+  span: "GetMicrovm",
 }));
 
 export type GetMicrovmImageError =
@@ -899,7 +927,7 @@ export type GetMicrovmImageError =
  * Retrieves the details of a MicroVM image, including its state, versions, and configuration.
  */
 export const getMicrovmImage: API.OperationMethod<
-  GetMicrovmImageInput,
+  GetMicrovmImageInput & RegionInput,
   GetMicrovmImageOutput,
   GetMicrovmImageError,
   Credentials | HttpClient.HttpClient
@@ -916,6 +944,8 @@ export const getMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImage",
+  telemetry: TELEMETRY,
+  span: "GetMicrovmImage",
 }));
 
 export type GetMicrovmImageBuildError =
@@ -929,7 +959,7 @@ export type GetMicrovmImageBuildError =
  * Retrieves the details of a specific MicroVM image build, including its state, target architecture, and snapshot information.
  */
 export const getMicrovmImageBuild: API.OperationMethod<
-  GetMicrovmImageBuildInput,
+  GetMicrovmImageBuildInput & RegionInput,
   GetMicrovmImageBuildOutput,
   GetMicrovmImageBuildError,
   Credentials | HttpClient.HttpClient
@@ -946,6 +976,8 @@ export const getMicrovmImageBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImageBuild",
+  telemetry: TELEMETRY,
+  span: "GetMicrovmImageBuild",
 }));
 
 export type GetMicrovmImageVersionError =
@@ -959,7 +991,7 @@ export type GetMicrovmImageVersionError =
  * Retrieves the details of a specific version of a MicroVM image, including its configuration, state, and build information.
  */
 export const getMicrovmImageVersion: API.OperationMethod<
-  GetMicrovmImageVersionInput,
+  GetMicrovmImageVersionInput & RegionInput,
   GetMicrovmImageVersionOutput,
   GetMicrovmImageVersionError,
   Credentials | HttpClient.HttpClient
@@ -976,6 +1008,8 @@ export const getMicrovmImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImageVersion",
+  telemetry: TELEMETRY,
+  span: "GetMicrovmImageVersion",
 }));
 
 export type ListManagedMicrovmImagesError =
@@ -988,7 +1022,7 @@ export type ListManagedMicrovmImagesError =
  * Lists AWS managed MicroVM images available for use as base images. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listManagedMicrovmImages: API.PaginatedOperationMethod<
-  ListManagedMicrovmImagesInput,
+  ListManagedMicrovmImagesInput & RegionInput,
   ListManagedMicrovmImagesOutput,
   ListManagedMicrovmImagesError,
   Credentials | HttpClient.HttpClient,
@@ -1011,6 +1045,8 @@ export const listManagedMicrovmImages: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedMicrovmImages",
 })) as any;
 
 export type ListManagedMicrovmImageVersionsError =
@@ -1024,7 +1060,7 @@ export type ListManagedMicrovmImageVersionsError =
  * Lists versions of a managed MicroVM image. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listManagedMicrovmImageVersions: API.PaginatedOperationMethod<
-  ListManagedMicrovmImageVersionsInput,
+  ListManagedMicrovmImageVersionsInput & RegionInput,
   ListManagedMicrovmImageVersionsOutput,
   ListManagedMicrovmImageVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1048,6 +1084,8 @@ export const listManagedMicrovmImageVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedMicrovmImageVersions",
 })) as any;
 
 export type ListMicrovmImageBuildsError =
@@ -1061,7 +1099,7 @@ export type ListMicrovmImageBuildsError =
  * Lists builds for a MicroVM image version with optional filtering by architecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMicrovmImageBuilds: API.PaginatedOperationMethod<
-  ListMicrovmImageBuildsInput,
+  ListMicrovmImageBuildsInput & RegionInput,
   ListMicrovmImageBuildsOutput,
   ListMicrovmImageBuildsError,
   Credentials | HttpClient.HttpClient,
@@ -1085,6 +1123,8 @@ export const listMicrovmImageBuilds: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrovmImageBuilds",
 })) as any;
 
 export type ListMicrovmImagesError =
@@ -1097,7 +1137,7 @@ export type ListMicrovmImagesError =
  * Lists MicroVM images in the account with optional name filtering. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMicrovmImages: API.PaginatedOperationMethod<
-  ListMicrovmImagesRequest,
+  ListMicrovmImagesRequest & RegionInput,
   ListMicrovmImagesResponse,
   ListMicrovmImagesError,
   Credentials | HttpClient.HttpClient,
@@ -1120,6 +1160,8 @@ export const listMicrovmImages: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrovmImages",
 })) as any;
 
 export type ListMicrovmImageVersionsError =
@@ -1133,7 +1175,7 @@ export type ListMicrovmImageVersionsError =
  * Lists versions of a MicroVM image. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMicrovmImageVersions: API.PaginatedOperationMethod<
-  ListMicrovmImageVersionsInput,
+  ListMicrovmImageVersionsInput & RegionInput,
   ListMicrovmImageVersionsOutput,
   ListMicrovmImageVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1157,6 +1199,8 @@ export const listMicrovmImageVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrovmImageVersions",
 })) as any;
 
 export type ListMicrovmsError =
@@ -1170,7 +1214,7 @@ export type ListMicrovmsError =
  * Lists MicroVMs in the account with optional filtering by image and version. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMicrovms: API.PaginatedOperationMethod<
-  ListMicrovmsRequest,
+  ListMicrovmsRequest & RegionInput,
   ListMicrovmsResponse,
   ListMicrovmsError,
   Credentials | HttpClient.HttpClient,
@@ -1194,6 +1238,8 @@ export const listMicrovms: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrovms",
 })) as any;
 
 export type ListTagsError =
@@ -1206,7 +1252,7 @@ export type ListTagsError =
  * Lists the tags associated with a Lambda MicroVM resource.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -1222,6 +1268,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ResumeMicrovmError =
@@ -1236,7 +1284,7 @@ export type ResumeMicrovmError =
  * Resumes a suspended MicroVM, restoring it to RUNNING state with all state intact. The MicroVM must be in SUSPENDED state.
  */
 export const resumeMicrovm: API.OperationMethod<
-  ResumeMicrovmRequest,
+  ResumeMicrovmRequest & RegionInput,
   ResumeMicrovmResponse,
   ResumeMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -1254,6 +1302,8 @@ export const resumeMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeMicrovm",
+  telemetry: TELEMETRY,
+  span: "ResumeMicrovm",
 }));
 
 export type RunMicrovmError =
@@ -1270,7 +1320,7 @@ export type RunMicrovmError =
  * Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthToken.
  */
 export const runMicrovm: API.OperationMethod<
-  RunMicrovmRequest,
+  RunMicrovmRequest & RegionInput,
   RunMicrovmResponse,
   RunMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -1290,6 +1340,8 @@ export const runMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunMicrovm",
+  telemetry: TELEMETRY,
+  span: "RunMicrovm",
 }));
 
 export type SuspendMicrovmError =
@@ -1304,7 +1356,7 @@ export type SuspendMicrovmError =
  * Suspends a running MicroVM, preserving its full memory and disk state. The MicroVM transitions through SUSPENDING to SUSPENDED. To restore, call ResumeMicrovm or send traffic to the endpoint if autoResumeEnabled is true.
  */
 export const suspendMicrovm: API.OperationMethod<
-  SuspendMicrovmRequest,
+  SuspendMicrovmRequest & RegionInput,
   SuspendMicrovmResponse,
   SuspendMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -1322,6 +1374,8 @@ export const suspendMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendMicrovm",
+  telemetry: TELEMETRY,
+  span: "SuspendMicrovm",
 }));
 
 export type TagResourceError =
@@ -1335,7 +1389,7 @@ export type TagResourceError =
  * Adds tags to a Lambda MicroVM resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1352,6 +1406,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateMicrovmError =
@@ -1366,7 +1422,7 @@ export type TerminateMicrovmError =
  * Terminates a MicroVM. This operation is idempotent; terminating a MicroVM that has already been terminated succeeds without error.
  */
 export const terminateMicrovm: API.OperationMethod<
-  TerminateMicrovmRequest,
+  TerminateMicrovmRequest & RegionInput,
   TerminateMicrovmResponse,
   TerminateMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -1384,6 +1440,8 @@ export const terminateMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateMicrovm",
+  telemetry: TELEMETRY,
+  span: "TerminateMicrovm",
 }));
 
 export type UntagResourceError =
@@ -1397,7 +1455,7 @@ export type UntagResourceError =
  * Removes tags from a Lambda MicroVM resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1414,6 +1472,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMicrovmImageError =
@@ -1429,7 +1489,7 @@ export type UpdateMicrovmImageError =
  * Updates the configuration of a MicroVM image and triggers a new version build. This operation uses PUT semantics -- all required fields (codeArtifact, baseImageArn, buildRoleArn) must be provided with every request.
  */
 export const updateMicrovmImage: API.OperationMethod<
-  UpdateMicrovmImageRequest,
+  UpdateMicrovmImageRequest & RegionInput,
   UpdateMicrovmImageResponse,
   UpdateMicrovmImageError,
   Credentials | HttpClient.HttpClient
@@ -1448,6 +1508,8 @@ export const updateMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrovmImage",
+  telemetry: TELEMETRY,
+  span: "UpdateMicrovmImage",
 }));
 
 export type UpdateMicrovmImageVersionError =
@@ -1462,7 +1524,7 @@ export type UpdateMicrovmImageVersionError =
  * Updates the status of a specific MicroVM image version.
  */
 export const updateMicrovmImageVersion: API.OperationMethod<
-  UpdateMicrovmImageVersionRequest,
+  UpdateMicrovmImageVersionRequest & RegionInput,
   UpdateMicrovmImageVersionResponse,
   UpdateMicrovmImageVersionError,
   Credentials | HttpClient.HttpClient
@@ -1480,6 +1542,8 @@ export const updateMicrovmImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrovmImageVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateMicrovmImageVersion",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

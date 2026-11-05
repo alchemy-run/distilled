@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://internetmonitor.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "InternetMonitor",
+  service: "InternetMonitor",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -488,7 +504,7 @@ export type CreateMonitorError =
  * at any time to change the percentage of traffic to monitor or the city-networks maximum. For more information, see Choosing a city-network maximum value in the *Amazon CloudWatch User Guide*.
  */
 export const createMonitor: API.OperationMethod<
-  CreateMonitorInput,
+  CreateMonitorInput & RegionInput,
   CreateMonitorOutput,
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -506,6 +522,8 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type DeleteMonitorError =
@@ -519,7 +537,7 @@ export type DeleteMonitorError =
  * Deletes a monitor in Amazon CloudWatch Internet Monitor.
  */
 export const deleteMonitor: API.OperationMethod<
-  DeleteMonitorInput,
+  DeleteMonitorInput & RegionInput,
   DeleteMonitorOutput,
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
@@ -536,6 +554,8 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type GetHealthEventError =
@@ -554,7 +574,7 @@ export type GetHealthEventError =
  * Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
  */
 export const getHealthEvent: API.OperationMethod<
-  GetHealthEventInput,
+  GetHealthEventInput & RegionInput,
   GetHealthEventOutput,
   GetHealthEventError,
   Credentials | HttpClient.HttpClient
@@ -570,6 +590,8 @@ export const getHealthEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthEvent",
+  telemetry: TELEMETRY,
+  span: "GetHealthEvent",
 }));
 
 export type GetInternetEventError =
@@ -588,7 +610,7 @@ export type GetInternetEventError =
  * and the status (`ACTIVE` or `RESOLVED`).
  */
 export const getInternetEvent: API.OperationMethod<
-  GetInternetEventInput,
+  GetInternetEventInput & RegionInput,
   GetInternetEventOutput,
   GetInternetEventError,
   Credentials | HttpClient.HttpClient
@@ -604,6 +626,8 @@ export const getInternetEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInternetEvent",
+  telemetry: TELEMETRY,
+  span: "GetInternetEvent",
 }));
 
 export type GetMonitorError =
@@ -618,7 +642,7 @@ export type GetMonitorError =
  * modified time, resources included in the monitor, and status information.
  */
 export const getMonitor: API.OperationMethod<
-  GetMonitorInput,
+  GetMonitorInput & RegionInput,
   GetMonitorOutput,
   GetMonitorError,
   Credentials | HttpClient.HttpClient
@@ -635,6 +659,8 @@ export const getMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitor",
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetQueryResultsError =
@@ -653,7 +679,7 @@ export type GetQueryResultsError =
  * in the Amazon CloudWatch Internet Monitor User Guide.
  */
 export const getQueryResults: API.PaginatedOperationMethod<
-  GetQueryResultsInput,
+  GetQueryResultsInput & RegionInput,
   GetQueryResultsOutput,
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient,
@@ -676,6 +702,8 @@ export const getQueryResults: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResults",
 })) as any;
 
 export type GetQueryStatusError =
@@ -700,7 +728,7 @@ export type GetQueryStatusError =
  * - `CANCELED`: The query was canceled.
  */
 export const getQueryStatus: API.OperationMethod<
-  GetQueryStatusInput,
+  GetQueryStatusInput & RegionInput,
   GetQueryStatusOutput,
   GetQueryStatusError,
   Credentials | HttpClient.HttpClient
@@ -717,6 +745,8 @@ export const getQueryStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatus",
+  telemetry: TELEMETRY,
+  span: "GetQueryStatus",
 }));
 
 export type ListHealthEventsError =
@@ -732,7 +762,7 @@ export type ListHealthEventsError =
  * Health events that have start times during the time frame that is requested are not included in the list of health events.
  */
 export const listHealthEvents: API.PaginatedOperationMethod<
-  ListHealthEventsInput,
+  ListHealthEventsInput & RegionInput,
   ListHealthEventsOutput,
   ListHealthEventsError,
   Credentials | HttpClient.HttpClient,
@@ -755,6 +785,8 @@ export const listHealthEvents: API.PaginatedOperationMethod<
     items: "HealthEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHealthEvents",
 })) as any;
 
 export type ListInternetEventsError =
@@ -776,7 +808,7 @@ export type ListInternetEventsError =
  * (`ACTIVE` or `RESOLVED`) or type (`PERFORMANCE` or `AVAILABILITY`).
  */
 export const listInternetEvents: API.PaginatedOperationMethod<
-  ListInternetEventsInput,
+  ListInternetEventsInput & RegionInput,
   ListInternetEventsOutput,
   ListInternetEventsError,
   Credentials | HttpClient.HttpClient,
@@ -799,6 +831,8 @@ export const listInternetEvents: API.PaginatedOperationMethod<
     items: "InternetEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInternetEvents",
 })) as any;
 
 export type ListMonitorsError =
@@ -811,7 +845,7 @@ export type ListMonitorsError =
  * Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
  */
 export const listMonitors: API.PaginatedOperationMethod<
-  ListMonitorsInput,
+  ListMonitorsInput & RegionInput,
   ListMonitorsOutput,
   ListMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -834,6 +868,8 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "Monitors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -847,7 +883,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -864,6 +900,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartQueryError =
@@ -883,7 +921,7 @@ export type StartQueryError =
  * in the Amazon CloudWatch Internet Monitor User Guide.
  */
 export const startQuery: API.OperationMethod<
-  StartQueryInput,
+  StartQueryInput & RegionInput,
   StartQueryOutput,
   StartQueryError,
   Credentials | HttpClient.HttpClient
@@ -900,6 +938,8 @@ export const startQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuery",
+  telemetry: TELEMETRY,
+  span: "StartQuery",
 }));
 
 export type StopQueryError =
@@ -913,7 +953,7 @@ export type StopQueryError =
  * Stop a query that is progress for a specific monitor.
  */
 export const stopQuery: API.OperationMethod<
-  StopQueryInput,
+  StopQueryInput & RegionInput,
   StopQueryOutput,
   StopQueryError,
   Credentials | HttpClient.HttpClient
@@ -930,6 +970,8 @@ export const stopQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQuery",
+  telemetry: TELEMETRY,
+  span: "StopQuery",
 }));
 
 export type TagResourceError =
@@ -945,7 +987,7 @@ export type TagResourceError =
  * A minimum of one tag is required for this call. It returns an error if you use the `TagResource` request with 0 tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -962,6 +1004,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -975,7 +1019,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -992,6 +1036,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMonitorError =
@@ -1010,7 +1056,7 @@ export type UpdateMonitorError =
  * For more information, see Choosing a city-network maximum value in the *Amazon CloudWatch User Guide*.
  */
 export const updateMonitor: API.OperationMethod<
-  UpdateMonitorInput,
+  UpdateMonitorInput & RegionInput,
   UpdateMonitorOutput,
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -1028,6 +1074,8 @@ export const updateMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitor",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

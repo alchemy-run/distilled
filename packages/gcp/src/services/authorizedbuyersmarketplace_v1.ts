@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "authorizedbuyersmarketplace" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Authorizedbuyersmarketplace",
+  service: "authorizedbuyersmarketplace",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 /** The access token lacks the `https://www.googleapis.com/auth/authorized-buyers-marketplace` OAuth scope (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable. */
 export class AuthorizedBuyersScopeInsufficient
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -1160,6 +1179,8 @@ export const acceptBuyersProposals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptBuyersProposals",
 }));
 
 export type ActivateBuyersClientsError =
@@ -1188,6 +1209,8 @@ export const activateBuyersClients: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateBuyersClients",
 }));
 
 export type ActivateBuyersClientsUsersError =
@@ -1216,6 +1239,8 @@ export const activateBuyersClientsUsers: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateBuyersClientsUsers",
 }));
 
 export type AddCreativeBuyersFinalizedDealsError =
@@ -1244,6 +1269,8 @@ export const addCreativeBuyersFinalizedDeals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCreativeBuyersFinalizedDeals",
 }));
 
 export type AddNoteBuyersProposalsError =
@@ -1272,6 +1299,8 @@ export const addNoteBuyersProposals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddNoteBuyersProposals",
 }));
 
 export type BatchUpdateBuyersProposalsDealsError =
@@ -1300,6 +1329,8 @@ export const batchUpdateBuyersProposalsDeals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateBuyersProposalsDeals",
 }));
 
 export type CancelNegotiationBuyersProposalsError =
@@ -1328,6 +1359,8 @@ export const cancelNegotiationBuyersProposals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelNegotiationBuyersProposals",
 }));
 
 export type CreateBuyersClientsError =
@@ -1356,6 +1389,8 @@ export const createBuyersClients: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBuyersClients",
 }));
 
 export type CreateBuyersClientsUsersError =
@@ -1384,6 +1419,8 @@ export const createBuyersClientsUsers: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBuyersClientsUsers",
 }));
 
 export type DeactivateBuyersClientsError =
@@ -1412,6 +1449,8 @@ export const deactivateBuyersClients: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateBuyersClients",
 }));
 
 export type DeactivateBuyersClientsUsersError =
@@ -1440,6 +1479,8 @@ export const deactivateBuyersClientsUsers: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateBuyersClientsUsers",
 }));
 
 export type DeleteBuyersClientsUsersError =
@@ -1468,6 +1509,8 @@ export const deleteBuyersClientsUsers: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBuyersClientsUsers",
 }));
 
 export type GetBuyersAuctionPackagesError =
@@ -1487,6 +1530,8 @@ export const getBuyersAuctionPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersAuctionPackages",
 }));
 
 export type GetBuyersClientsError =
@@ -1506,6 +1551,8 @@ export const getBuyersClients: API.OperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersClients",
 }));
 
 export type GetBuyersClientsUsersError =
@@ -1525,6 +1572,8 @@ export const getBuyersClientsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersClientsUsers",
 }));
 
 export type GetBuyersFinalizedDealsError =
@@ -1544,6 +1593,8 @@ export const getBuyersFinalizedDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersFinalizedDeals",
 }));
 
 export type GetBuyersProposalsError =
@@ -1563,6 +1614,8 @@ export const getBuyersProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersProposals",
 }));
 
 export type GetBuyersProposalsDealsError =
@@ -1582,6 +1635,8 @@ export const getBuyersProposalsDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersProposalsDeals",
 }));
 
 export type GetBuyersPublisherProfilesError =
@@ -1601,6 +1656,8 @@ export const getBuyersPublisherProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersPublisherProfiles",
 }));
 
 export type ListBiddersAuctionPackagesError =
@@ -1621,6 +1678,8 @@ export const listBiddersAuctionPackages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAuctionPackages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1642,6 +1701,8 @@ export const listBiddersFinalizedDeals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFinalizedDeals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1663,6 +1724,8 @@ export const listBuyersAuctionPackages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersAuctionPackages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1684,6 +1747,8 @@ export const listBuyersClients: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersClients",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1705,6 +1770,8 @@ export const listBuyersClientsUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersClientsUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1726,6 +1793,8 @@ export const listBuyersFinalizedDeals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFinalizedDeals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1747,6 +1816,8 @@ export const listBuyersProposals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersProposals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1768,6 +1839,8 @@ export const listBuyersProposalsDeals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersProposalsDeals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1789,6 +1862,8 @@ export const listBuyersPublisherProfiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, AuthorizedBuyersScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersPublisherProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1818,6 +1893,8 @@ export const patchBuyersClients: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBuyersClients",
 }));
 
 export type PatchBuyersProposalsError =
@@ -1846,6 +1923,8 @@ export const patchBuyersProposals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBuyersProposals",
 }));
 
 export type PatchBuyersProposalsDealsError =
@@ -1874,6 +1953,8 @@ export const patchBuyersProposalsDeals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBuyersProposalsDeals",
 }));
 
 export type PauseBuyersFinalizedDealsError =
@@ -1902,6 +1983,8 @@ export const pauseBuyersFinalizedDeals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseBuyersFinalizedDeals",
 }));
 
 export type ResumeBuyersFinalizedDealsError =
@@ -1930,6 +2013,8 @@ export const resumeBuyersFinalizedDeals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeBuyersFinalizedDeals",
 }));
 
 export type SendRfpBuyersProposalsError =
@@ -1958,6 +2043,8 @@ export const sendRfpBuyersProposals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendRfpBuyersProposals",
 }));
 
 export type SetReadyToServeBiddersFinalizedDealsError =
@@ -1986,6 +2073,8 @@ export const setReadyToServeBiddersFinalizedDeals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetReadyToServeBiddersFinalizedDeals",
 }));
 
 export type SetReadyToServeBuyersFinalizedDealsError =
@@ -2014,6 +2103,8 @@ export const setReadyToServeBuyersFinalizedDeals: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetReadyToServeBuyersFinalizedDeals",
 }));
 
 export type SubscribeBuyersAuctionPackagesError =
@@ -2042,6 +2133,8 @@ export const subscribeBuyersAuctionPackages: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeBuyersAuctionPackages",
 }));
 
 export type SubscribeClientsBuyersAuctionPackagesError =
@@ -2070,6 +2163,8 @@ export const subscribeClientsBuyersAuctionPackages: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeClientsBuyersAuctionPackages",
 }));
 
 export type UnsubscribeBuyersAuctionPackagesError =
@@ -2098,6 +2193,8 @@ export const unsubscribeBuyersAuctionPackages: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsubscribeBuyersAuctionPackages",
 }));
 
 export type UnsubscribeClientsBuyersAuctionPackagesError =
@@ -2126,6 +2223,8 @@ export const unsubscribeClientsBuyersAuctionPackages: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsubscribeClientsBuyersAuctionPackages",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

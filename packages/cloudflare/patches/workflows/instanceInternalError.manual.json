@@ -1,0 +1,20 @@
+{
+  "description": "Type code 10001 (workflows.api.error.internal_server, sent as a 403) on instance operations: it answers createInstance, getInstance and patchInstanceStatus for a Workflow uploaded moments before, and passes when retried",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workflows#CreateInstance/errors/-",
+      "value": { "target": "com.cloudflare.workflows#WorkflowInternalError" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workflows#GetInstance/errors/-",
+      "value": { "target": "com.cloudflare.workflows#WorkflowInternalError" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workflows#PatchInstanceStatus/errors/-",
+      "value": { "target": "com.cloudflare.workflows#WorkflowInternalError" }
+    }
+  ]
+}

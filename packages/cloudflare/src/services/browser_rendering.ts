@@ -28,6 +28,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   webKitVersion: "WebKit-Version",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "BrowserRendering",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface ActivateDevtoolBrowserTargetRequest {
   /** Account ID. */
   accountId: string;
@@ -2297,6 +2311,8 @@ export const activateDevtoolBrowserTarget: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateDevtoolBrowserTarget",
 }));
 
 export type CloseDevtoolBrowserTargetError = CloudflareOpError;
@@ -2312,6 +2328,8 @@ export const closeDevtoolBrowserTarget: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloseDevtoolBrowserTarget",
 }));
 
 export type ConnectDevtoolBrowserError = CloudflareOpError;
@@ -2327,6 +2345,8 @@ export const connectDevtoolBrowser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectDevtoolBrowser",
 }));
 
 export type CreateAccessibilityTreeError = CloudflareOpError;
@@ -2342,6 +2362,8 @@ export const createAccessibilityTree: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessibilityTree",
 }));
 
 export type CreateContentError = CloudflareOpError;
@@ -2357,6 +2379,8 @@ export const createContent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContent",
 }));
 
 export type CreateCrawlError = CloudflareOpError;
@@ -2372,6 +2396,8 @@ export const createCrawl: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCrawl",
 }));
 
 export type CreateDevtoolBrowserError = CloudflareOpError;
@@ -2387,6 +2413,8 @@ export const createDevtoolBrowser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevtoolBrowser",
 }));
 
 export type CreateDevtoolBrowserTargetError = CloudflareOpError;
@@ -2402,6 +2430,8 @@ export const createDevtoolBrowserTarget: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevtoolBrowserTarget",
 }));
 
 export type CreateDevtoolsBrowserLiveViewError = CloudflareOpError;
@@ -2417,6 +2447,8 @@ export const createDevtoolsBrowserLiveView: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevtoolsBrowserLiveView",
 }));
 
 export type CreateJsonError = CloudflareOpError;
@@ -2432,6 +2464,8 @@ export const createJson: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJson",
 }));
 
 export type CreateLinkError = CloudflareOpError;
@@ -2447,6 +2481,8 @@ export const createLink: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLink",
 }));
 
 export type CreateMarkdownError = CloudflareOpError;
@@ -2462,6 +2498,8 @@ export const createMarkdown: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMarkdown",
 }));
 
 export type CreatePdfError = CloudflareOpError;
@@ -2477,6 +2515,8 @@ export const createPdf: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePdf",
 }));
 
 export type CreateScrapeError = CloudflareOpError;
@@ -2492,6 +2532,8 @@ export const createScrape: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScrape",
 }));
 
 export type CreateScreenshotError = CloudflareOpError;
@@ -2507,6 +2549,8 @@ export const createScreenshot: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScreenshot",
 }));
 
 export type CreateSnapshotError = CloudflareOpError;
@@ -2522,6 +2566,8 @@ export const createSnapshot: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type DeleteCrawlError = CloudflareOpError;
@@ -2537,6 +2583,8 @@ export const deleteCrawl: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCrawl",
 }));
 
 export type DeleteDevtoolBrowserError = CloudflareOpError;
@@ -2552,6 +2600,8 @@ export const deleteDevtoolBrowser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevtoolBrowser",
 }));
 
 export type GetCrawlError = CloudflareOpError;
@@ -2567,6 +2617,8 @@ export const getCrawl: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCrawl",
 }));
 
 export type GetDevtoolBrowserPageError = CloudflareOpError;
@@ -2582,6 +2634,8 @@ export const getDevtoolBrowserPage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevtoolBrowserPage",
 }));
 
 export type GetDevtoolBrowserTargetError = CloudflareOpError;
@@ -2597,6 +2651,8 @@ export const getDevtoolBrowserTarget: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevtoolBrowserTarget",
 }));
 
 export type GetDevtoolSessionError = CloudflareOpError;
@@ -2612,6 +2668,8 @@ export const getDevtoolSession: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevtoolSession",
 }));
 
 export type LaunchDevtoolBrowserError = CloudflareOpError;
@@ -2627,6 +2685,8 @@ export const launchDevtoolBrowser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LaunchDevtoolBrowser",
 }));
 
 export type ListDevtoolBrowserTargetsError = CloudflareOpError;
@@ -2642,6 +2702,8 @@ export const listDevtoolBrowserTargets: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevtoolBrowserTargets",
 }));
 
 export type ListDevtoolSessionsError = CloudflareOpError;
@@ -2657,6 +2719,8 @@ export const listDevtoolSessions: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevtoolSessions",
 }));
 
 export type ProtocolDevtoolBrowserError = CloudflareOpError;
@@ -2672,6 +2736,8 @@ export const protocolDevtoolBrowser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProtocolDevtoolBrowser",
 }));
 
 export type VersionDevtoolBrowserError = CloudflareOpError;
@@ -2687,6 +2753,8 @@ export const versionDevtoolBrowser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VersionDevtoolBrowser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

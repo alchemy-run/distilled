@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.MarketplaceOrdering" },
+  prefix: "Marketplaceordering",
+  service: "Marketplaceordering",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CancelMarketplaceAgreementRequest {
   /** The subscription ID that identifies an Azure subscription. */
   subscriptionId: string;
@@ -276,6 +296,8 @@ export const CancelMarketplaceAgreement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelMarketplaceAgreement",
 }));
 
 export type CreateMarketplaceAgreementError = AzureOpError;
@@ -291,6 +313,8 @@ export const CreateMarketplaceAgreement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMarketplaceAgreement",
 }));
 
 export type GetMarketplaceAgreementError = AzureOpError;
@@ -306,6 +330,8 @@ export const GetMarketplaceAgreement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketplaceAgreement",
 }));
 
 export type GetMarketplaceAgreementAgreementError = AzureOpError;
@@ -321,6 +347,8 @@ export const GetMarketplaceAgreementAgreement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketplaceAgreementAgreement",
 }));
 
 export type ListMarketplaceAgreementsError = AzureOpError;
@@ -336,6 +364,8 @@ export const ListMarketplaceAgreements: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketplaceAgreements",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -351,6 +381,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type SignMarketplaceAgreementError = AzureOpError;
@@ -366,6 +398,8 @@ export const SignMarketplaceAgreement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignMarketplaceAgreement",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

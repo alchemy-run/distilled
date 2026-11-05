@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import { ConfigError } from "@distilled.cloud/core/errors";
+import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
@@ -40,7 +40,11 @@ import {
  * S2OpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type S2OpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type S2OpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated S2 operation. */
 export type S2OpContext = Credentials | HttpClient.HttpClient;

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -93,6 +95,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kafkaconnect.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KafkaConnect",
+  service: "KafkaConnect",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -656,7 +672,7 @@ export type CreateConnectorError =
  * Creates a connector using the specified properties.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -676,6 +692,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateCustomPluginError =
@@ -692,7 +710,7 @@ export type CreateCustomPluginError =
  * Creates a custom plugin using the specified properties.
  */
 export const createCustomPlugin: API.OperationMethod<
-  CreateCustomPluginRequest,
+  CreateCustomPluginRequest & RegionInput,
   CreateCustomPluginResponse,
   CreateCustomPluginError,
   Credentials | HttpClient.HttpClient
@@ -712,6 +730,8 @@ export const createCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomPlugin",
+  telemetry: TELEMETRY,
+  span: "CreateCustomPlugin",
 }));
 
 export type CreateWorkerConfigurationError =
@@ -728,7 +748,7 @@ export type CreateWorkerConfigurationError =
  * Creates a worker configuration using the specified properties.
  */
 export const createWorkerConfiguration: API.OperationMethod<
-  CreateWorkerConfigurationRequest,
+  CreateWorkerConfigurationRequest & RegionInput,
   CreateWorkerConfigurationResponse,
   CreateWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -748,6 +768,8 @@ export const createWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkerConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateWorkerConfiguration",
 }));
 
 export type DeleteConnectorError =
@@ -763,7 +785,7 @@ export type DeleteConnectorError =
  * Deletes the specified connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -782,6 +804,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteCustomPluginError =
@@ -797,7 +821,7 @@ export type DeleteCustomPluginError =
  * Deletes a custom plugin.
  */
 export const deleteCustomPlugin: API.OperationMethod<
-  DeleteCustomPluginRequest,
+  DeleteCustomPluginRequest & RegionInput,
   DeleteCustomPluginResponse,
   DeleteCustomPluginError,
   Credentials | HttpClient.HttpClient
@@ -816,6 +840,8 @@ export const deleteCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomPlugin",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomPlugin",
 }));
 
 export type DeleteWorkerConfigurationError =
@@ -831,7 +857,7 @@ export type DeleteWorkerConfigurationError =
  * Deletes the specified worker configuration.
  */
 export const deleteWorkerConfiguration: API.OperationMethod<
-  DeleteWorkerConfigurationRequest,
+  DeleteWorkerConfigurationRequest & RegionInput,
   DeleteWorkerConfigurationResponse,
   DeleteWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -850,6 +876,8 @@ export const deleteWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkerConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkerConfiguration",
 }));
 
 export type DescribeConnectorError =
@@ -865,7 +893,7 @@ export type DescribeConnectorError =
  * Returns summary information about the connector.
  */
 export const describeConnector: API.OperationMethod<
-  DescribeConnectorRequest,
+  DescribeConnectorRequest & RegionInput,
   DescribeConnectorResponse,
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
@@ -884,6 +912,8 @@ export const describeConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnector",
+  telemetry: TELEMETRY,
+  span: "DescribeConnector",
 }));
 
 export type DescribeConnectorOperationError =
@@ -899,7 +929,7 @@ export type DescribeConnectorOperationError =
  * Returns information about the specified connector's operations.
  */
 export const describeConnectorOperation: API.OperationMethod<
-  DescribeConnectorOperationRequest,
+  DescribeConnectorOperationRequest & RegionInput,
   DescribeConnectorOperationResponse,
   DescribeConnectorOperationError,
   Credentials | HttpClient.HttpClient
@@ -918,6 +948,8 @@ export const describeConnectorOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectorOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeConnectorOperation",
 }));
 
 export type DescribeCustomPluginError =
@@ -933,7 +965,7 @@ export type DescribeCustomPluginError =
  * A summary description of the custom plugin.
  */
 export const describeCustomPlugin: API.OperationMethod<
-  DescribeCustomPluginRequest,
+  DescribeCustomPluginRequest & RegionInput,
   DescribeCustomPluginResponse,
   DescribeCustomPluginError,
   Credentials | HttpClient.HttpClient
@@ -952,6 +984,8 @@ export const describeCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomPlugin",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomPlugin",
 }));
 
 export type DescribeWorkerConfigurationError =
@@ -967,7 +1001,7 @@ export type DescribeWorkerConfigurationError =
  * Returns information about a worker configuration.
  */
 export const describeWorkerConfiguration: API.OperationMethod<
-  DescribeWorkerConfigurationRequest,
+  DescribeWorkerConfigurationRequest & RegionInput,
   DescribeWorkerConfigurationResponse,
   DescribeWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -986,6 +1020,8 @@ export const describeWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkerConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkerConfiguration",
 }));
 
 export type ListConnectorOperationsError =
@@ -1001,7 +1037,7 @@ export type ListConnectorOperationsError =
  * Lists information about a connector's operation(s).
  */
 export const listConnectorOperations: API.PaginatedOperationMethod<
-  ListConnectorOperationsRequest,
+  ListConnectorOperationsRequest & RegionInput,
   ListConnectorOperationsResponse,
   ListConnectorOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1027,6 +1063,8 @@ export const listConnectorOperations: API.PaginatedOperationMethod<
     items: "connectorOperations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectorOperations",
 })) as any;
 
 export type ListConnectorsError =
@@ -1042,7 +1080,7 @@ export type ListConnectorsError =
  * Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1068,6 +1106,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "connectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListCustomPluginsError =
@@ -1083,7 +1123,7 @@ export type ListCustomPluginsError =
  * Returns a list of all of the custom plugins in this account and Region.
  */
 export const listCustomPlugins: API.PaginatedOperationMethod<
-  ListCustomPluginsRequest,
+  ListCustomPluginsRequest & RegionInput,
   ListCustomPluginsResponse,
   ListCustomPluginsError,
   Credentials | HttpClient.HttpClient,
@@ -1109,6 +1149,8 @@ export const listCustomPlugins: API.PaginatedOperationMethod<
     items: "customPlugins",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomPlugins",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1124,7 +1166,7 @@ export type ListTagsForResourceError =
  * Lists all the tags attached to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1143,6 +1185,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkerConfigurationsError =
@@ -1158,7 +1202,7 @@ export type ListWorkerConfigurationsError =
  * Returns a list of all of the worker configurations in this account and Region.
  */
 export const listWorkerConfigurations: API.PaginatedOperationMethod<
-  ListWorkerConfigurationsRequest,
+  ListWorkerConfigurationsRequest & RegionInput,
   ListWorkerConfigurationsResponse,
   ListWorkerConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1184,6 +1228,8 @@ export const listWorkerConfigurations: API.PaginatedOperationMethod<
     items: "workerConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkerConfigurations",
 })) as any;
 
 export type RestartConnectorError =
@@ -1199,7 +1245,7 @@ export type RestartConnectorError =
  * Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to `DescribeConnectorOperation` to track the state of the restart.
  */
 export const restartConnector: API.OperationMethod<
-  RestartConnectorRequest,
+  RestartConnectorRequest & RegionInput,
   RestartConnectorResponse,
   RestartConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1218,6 +1264,8 @@ export const restartConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartConnector",
+  telemetry: TELEMETRY,
+  span: "RestartConnector",
 }));
 
 export type TagResourceError =
@@ -1234,7 +1282,7 @@ export type TagResourceError =
  * Attaches tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1254,6 +1302,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1269,7 +1319,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1288,6 +1338,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectorError =
@@ -1303,7 +1355,7 @@ export type UpdateConnectorError =
  * Updates the specified connector. For request body, specify only one parameter: either `capacity` or `connectorConfiguration`.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   UpdateConnectorResponse,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1322,6 +1374,8 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateConnector",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

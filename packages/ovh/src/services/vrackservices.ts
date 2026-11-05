@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Vrackservices",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -341,6 +355,8 @@ export const getVrackServiceResource: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackServiceResource",
 }));
 
 export type GetVrackServiceResourceTaskError = BadRequest | OvhOpError;
@@ -356,6 +372,8 @@ export const getVrackServiceResourceTask: API.OperationMethod<
   errors: [BadRequest, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackServiceResourceTask",
 }));
 
 export type ListVrackServiceReferenceCompatibleManagedServiceTypeError = OvhOpError;
@@ -379,6 +397,8 @@ export const listVrackServiceReferenceCompatibleManagedServiceType: API.Operatio
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackServiceReferenceCompatibleManagedServiceType",
 }));
 
 export type ListVrackServiceReferenceRegionError = OvhOpError;
@@ -394,6 +414,8 @@ export const listVrackServiceReferenceRegion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackServiceReferenceRegion",
 }));
 
 export type ListVrackServiceResourceError = OvhOpError;
@@ -409,6 +431,8 @@ export const listVrackServiceResource: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackServiceResource",
 }));
 
 export type ListVrackServiceResourceEligibleManagedServiceError = OvhOpError;
@@ -432,6 +456,8 @@ export const listVrackServiceResourceEligibleManagedService: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackServiceResourceEligibleManagedService",
 }));
 
 export type ListVrackServiceResourceTaskError = OvhOpError;
@@ -447,6 +473,8 @@ export const listVrackServiceResourceTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackServiceResourceTask",
 }));
 
 export type PutVrackServiceResourceError = BadRequest | NotFound | OvhOpError;
@@ -462,6 +490,8 @@ export const putVrackServiceResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVrackServiceResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

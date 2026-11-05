@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 /**
@@ -35,7 +35,11 @@ import { type DefaultErrors, UnknownPosthogError, PosthogParseError } from "./er
  * PosthogOpError, PosthogOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type PosthogOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type PosthogOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated PostHog operation. */
 export type PosthogOpContext = Credentials | HttpClient.HttpClient;

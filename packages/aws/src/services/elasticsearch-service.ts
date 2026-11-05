@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -83,6 +85,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://es.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElasticsearchService",
+  service: "ElasticsearchService",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1397,7 +1413,7 @@ export type AcceptInboundCrossClusterSearchConnectionError =
  * Allows the destination domain owner to accept an inbound cross-cluster search connection request.
  */
 export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
-  AcceptInboundCrossClusterSearchConnectionRequest,
+  AcceptInboundCrossClusterSearchConnectionRequest & RegionInput,
   AcceptInboundCrossClusterSearchConnectionResponse,
   AcceptInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1408,6 +1424,8 @@ export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "AcceptInboundCrossClusterSearchConnection",
 }));
 
 export type AddTagsError =
@@ -1421,7 +1439,7 @@ export type AddTagsError =
  * Tagging Amazon Elasticsearch Service Domains for more information.
  */
 export const addTags: API.OperationMethod<
-  AddTagsRequest,
+  AddTagsRequest & RegionInput,
   AddTagsResponse,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -1432,6 +1450,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type AssociatePackageError =
@@ -1446,7 +1466,7 @@ export type AssociatePackageError =
  * Associates a package with an Amazon ES domain.
  */
 export const associatePackage: API.OperationMethod<
-  AssociatePackageRequest,
+  AssociatePackageRequest & RegionInput,
   AssociatePackageResponse,
   AssociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -1464,6 +1484,8 @@ export const associatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePackage",
+  telemetry: TELEMETRY,
+  span: "AssociatePackage",
 }));
 
 export type AuthorizeVpcEndpointAccessError =
@@ -1478,7 +1500,7 @@ export type AuthorizeVpcEndpointAccessError =
  * Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
  */
 export const authorizeVpcEndpointAccess: API.OperationMethod<
-  AuthorizeVpcEndpointAccessRequest,
+  AuthorizeVpcEndpointAccessRequest & RegionInput,
   AuthorizeVpcEndpointAccessResponse,
   AuthorizeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -1496,6 +1518,8 @@ export const authorizeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "AuthorizeVpcEndpointAccess",
 }));
 
 export type CancelDomainConfigChangeError =
@@ -1509,7 +1533,7 @@ export type CancelDomainConfigChangeError =
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
 export const cancelDomainConfigChange: API.OperationMethod<
-  CancelDomainConfigChangeRequest,
+  CancelDomainConfigChangeRequest & RegionInput,
   CancelDomainConfigChangeResponse,
   CancelDomainConfigChangeError,
   Credentials | HttpClient.HttpClient
@@ -1526,6 +1550,8 @@ export const cancelDomainConfigChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDomainConfigChange",
+  telemetry: TELEMETRY,
+  span: "CancelDomainConfigChange",
 }));
 
 export type CancelElasticsearchServiceSoftwareUpdateError =
@@ -1538,7 +1564,7 @@ export type CancelElasticsearchServiceSoftwareUpdateError =
  * Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the `AutomatedUpdateDate` and when the `UpdateStatus` is in the `PENDING_UPDATE` state.
  */
 export const cancelElasticsearchServiceSoftwareUpdate: API.OperationMethod<
-  CancelElasticsearchServiceSoftwareUpdateRequest,
+  CancelElasticsearchServiceSoftwareUpdateRequest & RegionInput,
   CancelElasticsearchServiceSoftwareUpdateResponse,
   CancelElasticsearchServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -1549,6 +1575,8 @@ export const cancelElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelElasticsearchServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "CancelElasticsearchServiceSoftwareUpdate",
 }));
 
 export type CreateElasticsearchDomainError =
@@ -1565,7 +1593,7 @@ export type CreateElasticsearchDomainError =
  * see Creating Elasticsearch Domains in the *Amazon Elasticsearch Service Developer Guide*.
  */
 export const createElasticsearchDomain: API.OperationMethod<
-  CreateElasticsearchDomainRequest,
+  CreateElasticsearchDomainRequest & RegionInput,
   CreateElasticsearchDomainResponse,
   CreateElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -1584,6 +1612,8 @@ export const createElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateElasticsearchDomain",
+  telemetry: TELEMETRY,
+  span: "CreateElasticsearchDomain",
 }));
 
 export type CreateOutboundCrossClusterSearchConnectionError =
@@ -1596,7 +1626,7 @@ export type CreateOutboundCrossClusterSearchConnectionError =
  * Creates a new cross-cluster search connection from a source domain to a destination domain.
  */
 export const createOutboundCrossClusterSearchConnection: API.OperationMethod<
-  CreateOutboundCrossClusterSearchConnectionRequest,
+  CreateOutboundCrossClusterSearchConnectionRequest & RegionInput,
   CreateOutboundCrossClusterSearchConnectionResponse,
   CreateOutboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1612,6 +1642,8 @@ export const createOutboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "CreateOutboundCrossClusterSearchConnection",
 }));
 
 export type CreatePackageError =
@@ -1627,7 +1659,7 @@ export type CreatePackageError =
  * Create a package for use with Amazon ES domains.
  */
 export const createPackage: API.OperationMethod<
-  CreatePackageRequest,
+  CreatePackageRequest & RegionInput,
   CreatePackageResponse,
   CreatePackageError,
   Credentials | HttpClient.HttpClient
@@ -1646,6 +1678,8 @@ export const createPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackage",
+  telemetry: TELEMETRY,
+  span: "CreatePackage",
 }));
 
 export type CreateVpcEndpointError =
@@ -1660,7 +1694,7 @@ export type CreateVpcEndpointError =
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResponse,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1678,6 +1712,8 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateVpcEndpoint",
 }));
 
 export type DeleteElasticsearchDomainError =
@@ -1690,7 +1726,7 @@ export type DeleteElasticsearchDomainError =
  * Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
  */
 export const deleteElasticsearchDomain: API.OperationMethod<
-  DeleteElasticsearchDomainRequest,
+  DeleteElasticsearchDomainRequest & RegionInput,
   DeleteElasticsearchDomainResponse,
   DeleteElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -1701,6 +1737,8 @@ export const deleteElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteElasticsearchDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteElasticsearchDomain",
 }));
 
 export type DeleteElasticsearchServiceRoleError =
@@ -1712,7 +1750,7 @@ export type DeleteElasticsearchServiceRoleError =
  * Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in *VPC Endpoints for Amazon Elasticsearch Service Domains*.
  */
 export const deleteElasticsearchServiceRole: API.OperationMethod<
-  DeleteElasticsearchServiceRoleRequest,
+  DeleteElasticsearchServiceRoleRequest & RegionInput,
   DeleteElasticsearchServiceRoleResponse,
   DeleteElasticsearchServiceRoleError,
   Credentials | HttpClient.HttpClient
@@ -1723,6 +1761,8 @@ export const deleteElasticsearchServiceRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteElasticsearchServiceRole",
+  telemetry: TELEMETRY,
+  span: "DeleteElasticsearchServiceRole",
 }));
 
 export type DeleteInboundCrossClusterSearchConnectionError =
@@ -1733,7 +1773,7 @@ export type DeleteInboundCrossClusterSearchConnectionError =
  * Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
  */
 export const deleteInboundCrossClusterSearchConnection: API.OperationMethod<
-  DeleteInboundCrossClusterSearchConnectionRequest,
+  DeleteInboundCrossClusterSearchConnectionRequest & RegionInput,
   DeleteInboundCrossClusterSearchConnectionResponse,
   DeleteInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1744,6 +1784,8 @@ export const deleteInboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteInboundCrossClusterSearchConnection",
 }));
 
 export type DeleteOutboundCrossClusterSearchConnectionError =
@@ -1754,7 +1796,7 @@ export type DeleteOutboundCrossClusterSearchConnectionError =
  * Allows the source domain owner to delete an existing outbound cross-cluster search connection.
  */
 export const deleteOutboundCrossClusterSearchConnection: API.OperationMethod<
-  DeleteOutboundCrossClusterSearchConnectionRequest,
+  DeleteOutboundCrossClusterSearchConnectionRequest & RegionInput,
   DeleteOutboundCrossClusterSearchConnectionResponse,
   DeleteOutboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1769,6 +1811,8 @@ export const deleteOutboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteOutboundCrossClusterSearchConnection",
 }));
 
 export type DeletePackageError =
@@ -1783,7 +1827,7 @@ export type DeletePackageError =
  * Delete the package.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResponse,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -1801,6 +1845,8 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
+  telemetry: TELEMETRY,
+  span: "DeletePackage",
 }));
 
 export type DeleteVpcEndpointError =
@@ -1813,7 +1859,7 @@ export type DeleteVpcEndpointError =
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
-  DeleteVpcEndpointRequest,
+  DeleteVpcEndpointRequest & RegionInput,
   DeleteVpcEndpointResponse,
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1824,6 +1870,8 @@ export const deleteVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcEndpoint",
 }));
 
 export type DescribeDomainAutoTunesError =
@@ -1836,7 +1884,7 @@ export type DescribeDomainAutoTunesError =
  * Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
  */
 export const describeDomainAutoTunes: API.PaginatedOperationMethod<
-  DescribeDomainAutoTunesRequest,
+  DescribeDomainAutoTunesRequest & RegionInput,
   DescribeDomainAutoTunesResponse,
   DescribeDomainAutoTunesError,
   Credentials | HttpClient.HttpClient,
@@ -1853,6 +1901,8 @@ export const describeDomainAutoTunes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDomainAutoTunes",
 })) as any;
 
 export type DescribeDomainChangeProgressError =
@@ -1866,7 +1916,7 @@ export type DescribeDomainChangeProgressError =
  * a change ID, status, and progress stages.
  */
 export const describeDomainChangeProgress: API.OperationMethod<
-  DescribeDomainChangeProgressRequest,
+  DescribeDomainChangeProgressRequest & RegionInput,
   DescribeDomainChangeProgressResponse,
   DescribeDomainChangeProgressError,
   Credentials | HttpClient.HttpClient
@@ -1877,6 +1927,8 @@ export const describeDomainChangeProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainChangeProgress",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainChangeProgress",
 }));
 
 export type DescribeElasticsearchDomainError =
@@ -1889,7 +1941,7 @@ export type DescribeElasticsearchDomainError =
  * Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
  */
 export const describeElasticsearchDomain: API.OperationMethod<
-  DescribeElasticsearchDomainRequest,
+  DescribeElasticsearchDomainRequest & RegionInput,
   DescribeElasticsearchDomainResponse,
   DescribeElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -1900,6 +1952,8 @@ export const describeElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeElasticsearchDomain",
 }));
 
 export type DescribeElasticsearchDomainConfigError =
@@ -1912,7 +1966,7 @@ export type DescribeElasticsearchDomainConfigError =
  * Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
  */
 export const describeElasticsearchDomainConfig: API.OperationMethod<
-  DescribeElasticsearchDomainConfigRequest,
+  DescribeElasticsearchDomainConfigRequest & RegionInput,
   DescribeElasticsearchDomainConfigResponse,
   DescribeElasticsearchDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -1923,6 +1977,8 @@ export const describeElasticsearchDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchDomainConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeElasticsearchDomainConfig",
 }));
 
 export type DescribeElasticsearchDomainsError =
@@ -1934,7 +1990,7 @@ export type DescribeElasticsearchDomainsError =
  * Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
  */
 export const describeElasticsearchDomains: API.OperationMethod<
-  DescribeElasticsearchDomainsRequest,
+  DescribeElasticsearchDomainsRequest & RegionInput,
   DescribeElasticsearchDomainsResponse,
   DescribeElasticsearchDomainsError,
   Credentials | HttpClient.HttpClient
@@ -1945,6 +2001,8 @@ export const describeElasticsearchDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchDomains",
+  telemetry: TELEMETRY,
+  span: "DescribeElasticsearchDomains",
 }));
 
 export type DescribeElasticsearchInstanceTypeLimitsError =
@@ -1964,7 +2022,7 @@ export type DescribeElasticsearchInstanceTypeLimitsError =
  * to know what Limits are supported for modifying.
  */
 export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
-  DescribeElasticsearchInstanceTypeLimitsRequest,
+  DescribeElasticsearchInstanceTypeLimitsRequest & RegionInput,
   DescribeElasticsearchInstanceTypeLimitsResponse,
   DescribeElasticsearchInstanceTypeLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1982,6 +2040,8 @@ export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchInstanceTypeLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeElasticsearchInstanceTypeLimits",
 }));
 
 export type DescribeInboundCrossClusterSearchConnectionsError =
@@ -1992,7 +2052,7 @@ export type DescribeInboundCrossClusterSearchConnectionsError =
  * Lists all the inbound cross-cluster search connections for a destination domain.
  */
 export const describeInboundCrossClusterSearchConnections: API.PaginatedOperationMethod<
-  DescribeInboundCrossClusterSearchConnectionsRequest,
+  DescribeInboundCrossClusterSearchConnectionsRequest & RegionInput,
   DescribeInboundCrossClusterSearchConnectionsResponse,
   DescribeInboundCrossClusterSearchConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -2017,6 +2077,8 @@ export const describeInboundCrossClusterSearchConnections: API.PaginatedOperatio
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInboundCrossClusterSearchConnections",
 })) as any;
 
 export type DescribeOutboundCrossClusterSearchConnectionsError =
@@ -2027,7 +2089,7 @@ export type DescribeOutboundCrossClusterSearchConnectionsError =
  * Lists all the outbound cross-cluster search connections for a source domain.
  */
 export const describeOutboundCrossClusterSearchConnections: API.PaginatedOperationMethod<
-  DescribeOutboundCrossClusterSearchConnectionsRequest,
+  DescribeOutboundCrossClusterSearchConnectionsRequest & RegionInput,
   DescribeOutboundCrossClusterSearchConnectionsResponse,
   DescribeOutboundCrossClusterSearchConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -2052,6 +2114,8 @@ export const describeOutboundCrossClusterSearchConnections: API.PaginatedOperati
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOutboundCrossClusterSearchConnections",
 })) as any;
 
 export type DescribePackagesError =
@@ -2065,7 +2129,7 @@ export type DescribePackagesError =
  * Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
  */
 export const describePackages: API.PaginatedOperationMethod<
-  DescribePackagesRequest,
+  DescribePackagesRequest & RegionInput,
   DescribePackagesResponse,
   DescribePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -2088,6 +2152,8 @@ export const describePackages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePackages",
 })) as any;
 
 export type DescribeReservedElasticsearchInstanceOfferingsError =
@@ -2100,7 +2166,7 @@ export type DescribeReservedElasticsearchInstanceOfferingsError =
  * Lists available reserved Elasticsearch instance offerings.
  */
 export const describeReservedElasticsearchInstanceOfferings: API.PaginatedOperationMethod<
-  DescribeReservedElasticsearchInstanceOfferingsRequest,
+  DescribeReservedElasticsearchInstanceOfferingsRequest & RegionInput,
   DescribeReservedElasticsearchInstanceOfferingsResponse,
   DescribeReservedElasticsearchInstanceOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -2130,6 +2196,8 @@ export const describeReservedElasticsearchInstanceOfferings: API.PaginatedOperat
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedElasticsearchInstanceOfferings",
 })) as any;
 
 export type DescribeReservedElasticsearchInstancesError =
@@ -2142,7 +2210,7 @@ export type DescribeReservedElasticsearchInstancesError =
  * Returns information about reserved Elasticsearch instances for this account.
  */
 export const describeReservedElasticsearchInstances: API.PaginatedOperationMethod<
-  DescribeReservedElasticsearchInstancesRequest,
+  DescribeReservedElasticsearchInstancesRequest & RegionInput,
   DescribeReservedElasticsearchInstancesResponse,
   DescribeReservedElasticsearchInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2164,6 +2232,8 @@ export const describeReservedElasticsearchInstances: API.PaginatedOperationMetho
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedElasticsearchInstances",
 })) as any;
 
 export type DescribeVpcEndpointsError =
@@ -2176,7 +2246,7 @@ export type DescribeVpcEndpointsError =
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
 export const describeVpcEndpoints: API.OperationMethod<
-  DescribeVpcEndpointsRequest,
+  DescribeVpcEndpointsRequest & RegionInput,
   DescribeVpcEndpointsResponse,
   DescribeVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2187,6 +2257,8 @@ export const describeVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpoints",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcEndpoints",
 }));
 
 export type DissociatePackageError =
@@ -2201,7 +2273,7 @@ export type DissociatePackageError =
  * Dissociates a package from the Amazon ES domain.
  */
 export const dissociatePackage: API.OperationMethod<
-  DissociatePackageRequest,
+  DissociatePackageRequest & RegionInput,
   DissociatePackageResponse,
   DissociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -2219,6 +2291,8 @@ export const dissociatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociatePackage",
+  telemetry: TELEMETRY,
+  span: "DissociatePackage",
 }));
 
 export type GetCompatibleElasticsearchVersionsError =
@@ -2237,7 +2311,7 @@ export type GetCompatibleElasticsearchVersionsError =
  * to get all upgrade compatible Elasticsearch versions for that specific domain.
  */
 export const getCompatibleElasticsearchVersions: API.OperationMethod<
-  GetCompatibleElasticsearchVersionsRequest,
+  GetCompatibleElasticsearchVersionsRequest & RegionInput,
   GetCompatibleElasticsearchVersionsResponse,
   GetCompatibleElasticsearchVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2254,6 +2328,8 @@ export const getCompatibleElasticsearchVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleElasticsearchVersions",
+  telemetry: TELEMETRY,
+  span: "GetCompatibleElasticsearchVersions",
 }));
 
 export type GetPackageVersionHistoryError =
@@ -2267,7 +2343,7 @@ export type GetPackageVersionHistoryError =
  * Returns a list of versions of the package, along with their creation time and commit message.
  */
 export const getPackageVersionHistory: API.PaginatedOperationMethod<
-  GetPackageVersionHistoryRequest,
+  GetPackageVersionHistoryRequest & RegionInput,
   GetPackageVersionHistoryResponse,
   GetPackageVersionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2290,6 +2366,8 @@ export const getPackageVersionHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionHistory",
 })) as any;
 
 export type GetUpgradeHistoryError =
@@ -2303,7 +2381,7 @@ export type GetUpgradeHistoryError =
  * Retrieves the complete history of the last 10 upgrades that were performed on the domain.
  */
 export const getUpgradeHistory: API.PaginatedOperationMethod<
-  GetUpgradeHistoryRequest,
+  GetUpgradeHistoryRequest & RegionInput,
   GetUpgradeHistoryResponse,
   GetUpgradeHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2326,6 +2404,8 @@ export const getUpgradeHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUpgradeHistory",
 })) as any;
 
 export type GetUpgradeStatusError =
@@ -2339,7 +2419,7 @@ export type GetUpgradeStatusError =
  * Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
  */
 export const getUpgradeStatus: API.OperationMethod<
-  GetUpgradeStatusRequest,
+  GetUpgradeStatusRequest & RegionInput,
   GetUpgradeStatusResponse,
   GetUpgradeStatusError,
   Credentials | HttpClient.HttpClient
@@ -2356,6 +2436,8 @@ export const getUpgradeStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpgradeStatus",
+  telemetry: TELEMETRY,
+  span: "GetUpgradeStatus",
 }));
 
 export type ListDomainNamesError = BaseException | ValidationException | CommonErrors;
@@ -2363,7 +2445,7 @@ export type ListDomainNamesError = BaseException | ValidationException | CommonE
  * Returns the name of all Elasticsearch domains owned by the current user's account.
  */
 export const listDomainNames: API.OperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient
@@ -2374,6 +2456,8 @@ export const listDomainNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainNames",
+  telemetry: TELEMETRY,
+  span: "ListDomainNames",
 }));
 
 export type ListDomainsForPackageError =
@@ -2387,7 +2471,7 @@ export type ListDomainsForPackageError =
  * Lists all Amazon ES domains associated with the package.
  */
 export const listDomainsForPackage: API.PaginatedOperationMethod<
-  ListDomainsForPackageRequest,
+  ListDomainsForPackageRequest & RegionInput,
   ListDomainsForPackageResponse,
   ListDomainsForPackageError,
   Credentials | HttpClient.HttpClient,
@@ -2410,6 +2494,8 @@ export const listDomainsForPackage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainsForPackage",
 })) as any;
 
 export type ListElasticsearchInstanceTypesError =
@@ -2422,7 +2508,7 @@ export type ListElasticsearchInstanceTypesError =
  * List all Elasticsearch instance types that are supported for given ElasticsearchVersion
  */
 export const listElasticsearchInstanceTypes: API.PaginatedOperationMethod<
-  ListElasticsearchInstanceTypesRequest,
+  ListElasticsearchInstanceTypesRequest & RegionInput,
   ListElasticsearchInstanceTypesResponse,
   ListElasticsearchInstanceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2439,6 +2525,8 @@ export const listElasticsearchInstanceTypes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListElasticsearchInstanceTypes",
 })) as any;
 
 export type ListElasticsearchVersionsError =
@@ -2451,7 +2539,7 @@ export type ListElasticsearchVersionsError =
  * List all supported Elasticsearch versions
  */
 export const listElasticsearchVersions: API.PaginatedOperationMethod<
-  ListElasticsearchVersionsRequest,
+  ListElasticsearchVersionsRequest & RegionInput,
   ListElasticsearchVersionsResponse,
   ListElasticsearchVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2468,6 +2556,8 @@ export const listElasticsearchVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListElasticsearchVersions",
 })) as any;
 
 export type ListPackagesForDomainError =
@@ -2481,7 +2571,7 @@ export type ListPackagesForDomainError =
  * Lists all packages associated with the Amazon ES domain.
  */
 export const listPackagesForDomain: API.PaginatedOperationMethod<
-  ListPackagesForDomainRequest,
+  ListPackagesForDomainRequest & RegionInput,
   ListPackagesForDomainResponse,
   ListPackagesForDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2504,6 +2594,8 @@ export const listPackagesForDomain: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackagesForDomain",
 })) as any;
 
 export type ListTagsError =
@@ -2516,7 +2608,7 @@ export type ListTagsError =
  * Returns all tags for the given Elasticsearch domain.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -2527,6 +2619,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListVpcEndpointAccessError =
@@ -2540,7 +2634,7 @@ export type ListVpcEndpointAccessError =
  * given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
  */
 export const listVpcEndpointAccess: API.OperationMethod<
-  ListVpcEndpointAccessRequest,
+  ListVpcEndpointAccessRequest & RegionInput,
   ListVpcEndpointAccessResponse,
   ListVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2551,6 +2645,8 @@ export const listVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpointAccess",
 }));
 
 export type ListVpcEndpointsError =
@@ -2562,7 +2658,7 @@ export type ListVpcEndpointsError =
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
  */
 export const listVpcEndpoints: API.OperationMethod<
-  ListVpcEndpointsRequest,
+  ListVpcEndpointsRequest & RegionInput,
   ListVpcEndpointsResponse,
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2573,6 +2669,8 @@ export const listVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpoints",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpoints",
 }));
 
 export type ListVpcEndpointsForDomainError =
@@ -2585,7 +2683,7 @@ export type ListVpcEndpointsForDomainError =
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
  */
 export const listVpcEndpointsForDomain: API.OperationMethod<
-  ListVpcEndpointsForDomainRequest,
+  ListVpcEndpointsForDomainRequest & RegionInput,
   ListVpcEndpointsForDomainResponse,
   ListVpcEndpointsForDomainError,
   Credentials | HttpClient.HttpClient
@@ -2596,6 +2694,8 @@ export const listVpcEndpointsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointsForDomain",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpointsForDomain",
 }));
 
 export type PurchaseReservedElasticsearchInstanceOfferingError =
@@ -2610,7 +2710,7 @@ export type PurchaseReservedElasticsearchInstanceOfferingError =
  * Allows you to purchase reserved Elasticsearch instances.
  */
 export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
-  PurchaseReservedElasticsearchInstanceOfferingRequest,
+  PurchaseReservedElasticsearchInstanceOfferingRequest & RegionInput,
   PurchaseReservedElasticsearchInstanceOfferingResponse,
   PurchaseReservedElasticsearchInstanceOfferingError,
   Credentials | HttpClient.HttpClient
@@ -2636,6 +2736,8 @@ export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedElasticsearchInstanceOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedElasticsearchInstanceOffering",
 }));
 
 export type RejectInboundCrossClusterSearchConnectionError =
@@ -2646,7 +2748,7 @@ export type RejectInboundCrossClusterSearchConnectionError =
  * Allows the destination domain owner to reject an inbound cross-cluster search connection request.
  */
 export const rejectInboundCrossClusterSearchConnection: API.OperationMethod<
-  RejectInboundCrossClusterSearchConnectionRequest,
+  RejectInboundCrossClusterSearchConnectionRequest & RegionInput,
   RejectInboundCrossClusterSearchConnectionResponse,
   RejectInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2657,6 +2759,8 @@ export const rejectInboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "RejectInboundCrossClusterSearchConnection",
 }));
 
 export type RemoveTagsError =
@@ -2668,7 +2772,7 @@ export type RemoveTagsError =
  * Removes the specified set of tags from the specified Elasticsearch domain.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsRequest,
+  RemoveTagsRequest & RegionInput,
   RemoveTagsResponse,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -2679,6 +2783,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type RevokeVpcEndpointAccessError =
@@ -2693,7 +2799,7 @@ export type RevokeVpcEndpointAccessError =
  * VPC endpoint.
  */
 export const revokeVpcEndpointAccess: API.OperationMethod<
-  RevokeVpcEndpointAccessRequest,
+  RevokeVpcEndpointAccessRequest & RegionInput,
   RevokeVpcEndpointAccessResponse,
   RevokeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2710,6 +2816,8 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "RevokeVpcEndpointAccess",
 }));
 
 export type StartElasticsearchServiceSoftwareUpdateError =
@@ -2722,7 +2830,7 @@ export type StartElasticsearchServiceSoftwareUpdateError =
  * Schedules a service software update for an Amazon ES domain.
  */
 export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
-  StartElasticsearchServiceSoftwareUpdateRequest,
+  StartElasticsearchServiceSoftwareUpdateRequest & RegionInput,
   StartElasticsearchServiceSoftwareUpdateResponse,
   StartElasticsearchServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -2733,6 +2841,8 @@ export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartElasticsearchServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "StartElasticsearchServiceSoftwareUpdate",
 }));
 
 export type UpdateElasticsearchDomainConfigError =
@@ -2747,7 +2857,7 @@ export type UpdateElasticsearchDomainConfigError =
  * Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
  */
 export const updateElasticsearchDomainConfig: API.OperationMethod<
-  UpdateElasticsearchDomainConfigRequest,
+  UpdateElasticsearchDomainConfigRequest & RegionInput,
   UpdateElasticsearchDomainConfigResponse,
   UpdateElasticsearchDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -2765,6 +2875,8 @@ export const updateElasticsearchDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateElasticsearchDomainConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateElasticsearchDomainConfig",
 }));
 
 export type UpdatePackageError =
@@ -2779,7 +2891,7 @@ export type UpdatePackageError =
  * Updates a package for use with Amazon ES domains.
  */
 export const updatePackage: API.OperationMethod<
-  UpdatePackageRequest,
+  UpdatePackageRequest & RegionInput,
   UpdatePackageResponse,
   UpdatePackageError,
   Credentials | HttpClient.HttpClient
@@ -2797,6 +2909,8 @@ export const updatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackage",
+  telemetry: TELEMETRY,
+  span: "UpdatePackage",
 }));
 
 export type UpdateVpcEndpointError =
@@ -2811,7 +2925,7 @@ export type UpdateVpcEndpointError =
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointRequest & RegionInput,
   UpdateVpcEndpointResponse,
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2829,6 +2943,8 @@ export const updateVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcEndpoint",
 }));
 
 export type UpgradeElasticsearchDomainError =
@@ -2843,7 +2959,7 @@ export type UpgradeElasticsearchDomainError =
  * Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
  */
 export const upgradeElasticsearchDomain: API.OperationMethod<
-  UpgradeElasticsearchDomainRequest,
+  UpgradeElasticsearchDomainRequest & RegionInput,
   UpgradeElasticsearchDomainResponse,
   UpgradeElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -2861,6 +2977,8 @@ export const upgradeElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeElasticsearchDomain",
+  telemetry: TELEMETRY,
+  span: "UpgradeElasticsearchDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

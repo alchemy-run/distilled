@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ScheduledChanges",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `FeatureFlag` - feature flag */
 export type ScheduledChangeAllowedModelsEnum = "FeatureFlag";
 /** * `daily` - daily * `weekly` - weekly * `monthly` - monthly * `yearly` - yearly */
@@ -189,6 +202,8 @@ export const createScheduledChange: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScheduledChange",
 }));
 
 export type GetScheduledChangeError = PosthogOpError;
@@ -204,6 +219,8 @@ export const getScheduledChange: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScheduledChange",
 }));
 
 export type ListScheduledChangesError = PosthogOpError;
@@ -219,6 +236,8 @@ export const listScheduledChanges: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduledChanges",
 }));
 
 export type ScheduledChangesDestroyError = PosthogOpError;
@@ -234,6 +253,8 @@ export const scheduledChangesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledChangesDestroy",
 }));
 
 export type UpdateScheduledChangeError = PosthogOpError;
@@ -249,6 +270,8 @@ export const updateScheduledChange: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledChange",
 }));
 
 export type UpdateScheduledChangesPartialError = PosthogOpError;
@@ -264,6 +287,8 @@ export const updateScheduledChangesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledChangesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

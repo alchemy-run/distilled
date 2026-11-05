@@ -28,6 +28,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Snippets",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -217,6 +231,8 @@ export const deleteRule: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteSnippetError = SnippetNotFound | SnippetInUse | CloudflareOpError;
@@ -232,6 +248,8 @@ export const deleteSnippet: API.OperationMethod<
   errors: [SnippetNotFound, SnippetInUse, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnippet",
 }));
 
 export type GetContentError = CloudflareOpError;
@@ -247,6 +265,8 @@ export const getContent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContent",
 }));
 
 export type GetSnippetError = SnippetNotFound | CloudflareOpError;
@@ -262,6 +282,8 @@ export const getSnippet: API.OperationMethod<
   errors: [SnippetNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnippet",
 }));
 
 export type ListRulesError = SnippetRulesNotFound | Forbidden | CloudflareOpError;
@@ -277,6 +299,8 @@ export const listRules: API.OperationMethod<
   errors: [SnippetRulesNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 }));
 
 export type ListSnippetsError = Forbidden | CloudflareOpError;
@@ -294,6 +318,8 @@ export const listSnippets: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSnippets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -318,6 +344,8 @@ export const putRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutRule",
 }));
 
 export type PutSnippetError = CloudflareOpError;
@@ -333,6 +361,8 @@ export const putSnippet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSnippet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

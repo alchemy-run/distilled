@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -80,6 +82,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://identitystore.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "identitystore",
+  service: "identitystore",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -592,7 +609,7 @@ export type CreateGroupError =
  * Creates a group within the specified identity store.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -608,6 +625,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateGroupMembershipError =
@@ -620,7 +639,7 @@ export type CreateGroupMembershipError =
  * Creates a relationship between a member and a group. The following identifiers must be specified: `GroupId`, `IdentityStoreId`, and `MemberId`.
  */
 export const createGroupMembership: API.OperationMethod<
-  CreateGroupMembershipRequest,
+  CreateGroupMembershipRequest & RegionInput,
   CreateGroupMembershipResponse,
   CreateGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -636,6 +655,8 @@ export const createGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupMembership",
+  telemetry: TELEMETRY,
+  span: "CreateGroupMembership",
 }));
 
 export type CreateUserError =
@@ -648,7 +669,7 @@ export type CreateUserError =
  * Creates a user within the specified identity store.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -664,6 +685,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteGroupError =
@@ -675,7 +698,7 @@ export type DeleteGroupError =
  * Delete a group within an identity store given `GroupId`.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -686,6 +709,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteGroupMembershipError =
@@ -697,7 +722,7 @@ export type DeleteGroupMembershipError =
  * Delete a membership within a group given `MembershipId`.
  */
 export const deleteGroupMembership: API.OperationMethod<
-  DeleteGroupMembershipRequest,
+  DeleteGroupMembershipRequest & RegionInput,
   DeleteGroupMembershipResponse,
   DeleteGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -708,6 +733,8 @@ export const deleteGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteGroupMembership",
 }));
 
 export type DeleteUserError =
@@ -719,7 +746,7 @@ export type DeleteUserError =
  * Deletes a user within an identity store given `UserId`.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -730,6 +757,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeGroupError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -739,7 +768,7 @@ export type DescribeGroupError = ResourceNotFoundException | ValidationException
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const describeGroup: API.OperationMethod<
-  DescribeGroupRequest,
+  DescribeGroupRequest & RegionInput,
   DescribeGroupResponse,
   DescribeGroupError,
   Credentials | HttpClient.HttpClient
@@ -750,6 +779,8 @@ export const describeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeGroup",
 }));
 
 export type DescribeGroupMembershipError =
@@ -762,7 +793,7 @@ export type DescribeGroupMembershipError =
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const describeGroupMembership: API.OperationMethod<
-  DescribeGroupMembershipRequest,
+  DescribeGroupMembershipRequest & RegionInput,
   DescribeGroupMembershipResponse,
   DescribeGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -773,6 +804,8 @@ export const describeGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroupMembership",
+  telemetry: TELEMETRY,
+  span: "DescribeGroupMembership",
 }));
 
 export type DescribeIdentityStoreError =
@@ -783,7 +816,7 @@ export type DescribeIdentityStoreError =
  * Retrieves details about the specified identity store, including its Amazon Resource Name (ARN) and network configuration.
  */
 export const describeIdentityStore: API.OperationMethod<
-  DescribeIdentityStoreRequest,
+  DescribeIdentityStoreRequest & RegionInput,
   DescribeIdentityStoreResponse,
   DescribeIdentityStoreError,
   Credentials | HttpClient.HttpClient
@@ -794,6 +827,8 @@ export const describeIdentityStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityStore",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityStore",
 }));
 
 export type DescribeUserError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -803,7 +838,7 @@ export type DescribeUserError = ResourceNotFoundException | ValidationException 
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -814,6 +849,8 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  telemetry: TELEMETRY,
+  span: "DescribeUser",
 }));
 
 export type GetGroupIdError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -823,7 +860,7 @@ export type GetGroupIdError = ResourceNotFoundException | ValidationException | 
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const getGroupId: API.OperationMethod<
-  GetGroupIdRequest,
+  GetGroupIdRequest & RegionInput,
   GetGroupIdResponse,
   GetGroupIdError,
   Credentials | HttpClient.HttpClient
@@ -834,6 +871,8 @@ export const getGroupId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupId",
+  telemetry: TELEMETRY,
+  span: "GetGroupId",
 }));
 
 export type GetGroupMembershipIdError =
@@ -846,7 +885,7 @@ export type GetGroupMembershipIdError =
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const getGroupMembershipId: API.OperationMethod<
-  GetGroupMembershipIdRequest,
+  GetGroupMembershipIdRequest & RegionInput,
   GetGroupMembershipIdResponse,
   GetGroupMembershipIdError,
   Credentials | HttpClient.HttpClient
@@ -857,6 +896,8 @@ export const getGroupMembershipId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupMembershipId",
+  telemetry: TELEMETRY,
+  span: "GetGroupMembershipId",
 }));
 
 export type GetUserIdError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -866,7 +907,7 @@ export type GetUserIdError = ResourceNotFoundException | ValidationException | C
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const getUserId: API.OperationMethod<
-  GetUserIdRequest,
+  GetUserIdRequest & RegionInput,
   GetUserIdResponse,
   GetUserIdError,
   Credentials | HttpClient.HttpClient
@@ -877,6 +918,8 @@ export const getUserId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserId",
+  telemetry: TELEMETRY,
+  span: "GetUserId",
 }));
 
 export type IsMemberInGroupsError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -886,7 +929,7 @@ export type IsMemberInGroupsError = ResourceNotFoundException | ValidationExcept
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const isMemberInGroups: API.OperationMethod<
-  IsMemberInGroupsRequest,
+  IsMemberInGroupsRequest & RegionInput,
   IsMemberInGroupsResponse,
   IsMemberInGroupsError,
   Credentials | HttpClient.HttpClient
@@ -897,6 +940,8 @@ export const isMemberInGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsMemberInGroups",
+  telemetry: TELEMETRY,
+  span: "IsMemberInGroups",
 }));
 
 export type ListGroupMembershipsError =
@@ -909,7 +954,7 @@ export type ListGroupMembershipsError =
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const listGroupMemberships: API.PaginatedOperationMethod<
-  ListGroupMembershipsRequest,
+  ListGroupMembershipsRequest & RegionInput,
   ListGroupMembershipsResponse,
   ListGroupMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -927,6 +972,8 @@ export const listGroupMemberships: API.PaginatedOperationMethod<
     items: "GroupMemberships",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupMemberships",
 })) as any;
 
 export type ListGroupMembershipsForMemberError =
@@ -939,7 +986,7 @@ export type ListGroupMembershipsForMemberError =
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const listGroupMembershipsForMember: API.PaginatedOperationMethod<
-  ListGroupMembershipsForMemberRequest,
+  ListGroupMembershipsForMemberRequest & RegionInput,
   ListGroupMembershipsForMemberResponse,
   ListGroupMembershipsForMemberError,
   Credentials | HttpClient.HttpClient,
@@ -957,6 +1004,8 @@ export const listGroupMembershipsForMember: API.PaginatedOperationMethod<
     items: "GroupMemberships",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupMembershipsForMember",
 })) as any;
 
 export type ListGroupsError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -966,7 +1015,7 @@ export type ListGroupsError = ResourceNotFoundException | ValidationException | 
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -984,6 +1033,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListIdentityStoresError = ValidationException | CommonErrors;
@@ -993,7 +1044,7 @@ export type ListIdentityStoresError = ValidationException | CommonErrors;
  * This operation returns results in paginated form. Use the `NextToken` parameter to retrieve additional pages of results.
  */
 export const listIdentityStores: API.PaginatedOperationMethod<
-  ListIdentityStoresRequest,
+  ListIdentityStoresRequest & RegionInput,
   ListIdentityStoresResponse,
   ListIdentityStoresError,
   Credentials | HttpClient.HttpClient,
@@ -1011,6 +1062,8 @@ export const listIdentityStores: API.PaginatedOperationMethod<
     items: "IdentityStores",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityStores",
 })) as any;
 
 export type ListUsersError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1020,7 +1073,7 @@ export type ListUsersError = ResourceNotFoundException | ValidationException | C
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -1038,6 +1091,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type UpdateGroupError =
@@ -1050,7 +1105,7 @@ export type UpdateGroupError =
  * Updates the specified group metadata and attributes in the specified identity store.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1066,6 +1121,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateIdentityStoreError =
@@ -1077,7 +1134,7 @@ export type UpdateIdentityStoreError =
  * Updates the configuration of the specified identity store, including its network configuration.
  */
 export const updateIdentityStore: API.OperationMethod<
-  UpdateIdentityStoreRequest,
+  UpdateIdentityStoreRequest & RegionInput,
   UpdateIdentityStoreResponse,
   UpdateIdentityStoreError,
   Credentials | HttpClient.HttpClient
@@ -1088,6 +1145,8 @@ export const updateIdentityStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityStore",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityStore",
 }));
 
 export type UpdateUserError =
@@ -1100,7 +1159,7 @@ export type UpdateUserError =
  * Updates the specified user metadata and attributes in the specified identity store.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -1116,6 +1175,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

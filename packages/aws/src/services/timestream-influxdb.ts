@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://timestream-influxdb.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "TimestreamInfluxDB",
+  service: "TimestreamInfluxDB",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1022,7 +1039,7 @@ export type CreateDbBackupError =
  * Creates a new on-demand backup of a Timestream for InfluxDB resource.
  */
 export const createDbBackup: API.OperationMethod<
-  CreateDbBackupInput,
+  CreateDbBackupInput & RegionInput,
   CreateDbBackupOutput,
   CreateDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1041,6 +1058,8 @@ export const createDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbBackup",
+  telemetry: TELEMETRY,
+  span: "CreateDbBackup",
 }));
 
 export type CreateDbClusterError =
@@ -1056,7 +1075,7 @@ export type CreateDbClusterError =
  * Creates a new Timestream for InfluxDB cluster.
  */
 export const createDbCluster: API.OperationMethod<
-  CreateDbClusterInput,
+  CreateDbClusterInput & RegionInput,
   CreateDbClusterOutput,
   CreateDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1075,6 +1094,8 @@ export const createDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbCluster",
+  telemetry: TELEMETRY,
+  span: "CreateDbCluster",
 }));
 
 export type CreateDbInstanceError =
@@ -1090,7 +1111,7 @@ export type CreateDbInstanceError =
  * Creates a new Timestream for InfluxDB DB instance.
  */
 export const createDbInstance: API.OperationMethod<
-  CreateDbInstanceInput,
+  CreateDbInstanceInput & RegionInput,
   CreateDbInstanceOutput,
   CreateDbInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1109,6 +1130,8 @@ export const createDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbInstance",
+  telemetry: TELEMETRY,
+  span: "CreateDbInstance",
 }));
 
 export type CreateDbParameterGroupError =
@@ -1124,7 +1147,7 @@ export type CreateDbParameterGroupError =
  * Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
  */
 export const createDbParameterGroup: API.OperationMethod<
-  CreateDbParameterGroupInput,
+  CreateDbParameterGroupInput & RegionInput,
   CreateDbParameterGroupOutput,
   CreateDbParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1143,6 +1166,8 @@ export const createDbParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDbParameterGroup",
 }));
 
 export type DeleteDbBackupError =
@@ -1157,7 +1182,7 @@ export type DeleteDbBackupError =
  * Deletes a Timestream for InfluxDB backup.
  */
 export const deleteDbBackup: API.OperationMethod<
-  DeleteDbBackupInput,
+  DeleteDbBackupInput & RegionInput,
   DeleteDbBackupOutput,
   DeleteDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1175,6 +1200,8 @@ export const deleteDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDbBackup",
+  telemetry: TELEMETRY,
+  span: "DeleteDbBackup",
 }));
 
 export type DeleteDbClusterError =
@@ -1189,7 +1216,7 @@ export type DeleteDbClusterError =
  * Deletes a Timestream for InfluxDB cluster.
  */
 export const deleteDbCluster: API.OperationMethod<
-  DeleteDbClusterInput,
+  DeleteDbClusterInput & RegionInput,
   DeleteDbClusterOutput,
   DeleteDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1207,6 +1234,8 @@ export const deleteDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDbCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteDbCluster",
 }));
 
 export type DeleteDbInstanceError =
@@ -1221,7 +1250,7 @@ export type DeleteDbInstanceError =
  * Deletes a Timestream for InfluxDB DB instance.
  */
 export const deleteDbInstance: API.OperationMethod<
-  DeleteDbInstanceInput,
+  DeleteDbInstanceInput & RegionInput,
   DeleteDbInstanceOutput,
   DeleteDbInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1239,6 +1268,8 @@ export const deleteDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDbInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteDbInstance",
 }));
 
 export type GetDbBackupError =
@@ -1252,7 +1283,7 @@ export type GetDbBackupError =
  * Returns information about a specific Timestream for InfluxDB backup.
  */
 export const getDbBackup: API.OperationMethod<
-  GetDbBackupInput,
+  GetDbBackupInput & RegionInput,
   GetDbBackupOutput,
   GetDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1269,6 +1300,8 @@ export const getDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbBackup",
+  telemetry: TELEMETRY,
+  span: "GetDbBackup",
 }));
 
 export type GetDbClusterError =
@@ -1282,7 +1315,7 @@ export type GetDbClusterError =
  * Retrieves information about a Timestream for InfluxDB cluster.
  */
 export const getDbCluster: API.OperationMethod<
-  GetDbClusterInput,
+  GetDbClusterInput & RegionInput,
   GetDbClusterOutput,
   GetDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1299,6 +1332,8 @@ export const getDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbCluster",
+  telemetry: TELEMETRY,
+  span: "GetDbCluster",
 }));
 
 export type GetDbInstanceError =
@@ -1312,7 +1347,7 @@ export type GetDbInstanceError =
  * Returns a Timestream for InfluxDB DB instance.
  */
 export const getDbInstance: API.OperationMethod<
-  GetDbInstanceInput,
+  GetDbInstanceInput & RegionInput,
   GetDbInstanceOutput,
   GetDbInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1329,6 +1364,8 @@ export const getDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbInstance",
+  telemetry: TELEMETRY,
+  span: "GetDbInstance",
 }));
 
 export type GetDbParameterGroupError =
@@ -1342,7 +1379,7 @@ export type GetDbParameterGroupError =
  * Returns a Timestream for InfluxDB DB parameter group.
  */
 export const getDbParameterGroup: API.OperationMethod<
-  GetDbParameterGroupInput,
+  GetDbParameterGroupInput & RegionInput,
   GetDbParameterGroupOutput,
   GetDbParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1359,6 +1396,8 @@ export const getDbParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbParameterGroup",
+  telemetry: TELEMETRY,
+  span: "GetDbParameterGroup",
 }));
 
 export type ListDbBackupsError =
@@ -1372,7 +1411,7 @@ export type ListDbBackupsError =
  * Returns a list of Timestream for InfluxDB backups.
  */
 export const listDbBackups: API.PaginatedOperationMethod<
-  ListDbBackupsInput,
+  ListDbBackupsInput & RegionInput,
   ListDbBackupsOutput,
   ListDbBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -1396,6 +1435,8 @@ export const listDbBackups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbBackups",
 })) as any;
 
 export type ListDbClustersError =
@@ -1409,7 +1450,7 @@ export type ListDbClustersError =
  * Returns a list of Timestream for InfluxDB DB clusters.
  */
 export const listDbClusters: API.PaginatedOperationMethod<
-  ListDbClustersInput,
+  ListDbClustersInput & RegionInput,
   ListDbClustersOutput,
   ListDbClustersError,
   Credentials | HttpClient.HttpClient,
@@ -1433,6 +1474,8 @@ export const listDbClusters: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbClusters",
 })) as any;
 
 export type ListDbInstancesError =
@@ -1446,7 +1489,7 @@ export type ListDbInstancesError =
  * Returns a list of Timestream for InfluxDB DB instances.
  */
 export const listDbInstances: API.PaginatedOperationMethod<
-  ListDbInstancesInput,
+  ListDbInstancesInput & RegionInput,
   ListDbInstancesOutput,
   ListDbInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1470,6 +1513,8 @@ export const listDbInstances: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbInstances",
 })) as any;
 
 export type ListDbInstancesForClusterError =
@@ -1483,7 +1528,7 @@ export type ListDbInstancesForClusterError =
  * Returns a list of Timestream for InfluxDB clusters.
  */
 export const listDbInstancesForCluster: API.PaginatedOperationMethod<
-  ListDbInstancesForClusterInput,
+  ListDbInstancesForClusterInput & RegionInput,
   ListDbInstancesForClusterOutput,
   ListDbInstancesForClusterError,
   Credentials | HttpClient.HttpClient,
@@ -1507,6 +1552,8 @@ export const listDbInstancesForCluster: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbInstancesForCluster",
 })) as any;
 
 export type ListDbParameterGroupsError =
@@ -1520,7 +1567,7 @@ export type ListDbParameterGroupsError =
  * Returns a list of Timestream for InfluxDB DB parameter groups.
  */
 export const listDbParameterGroups: API.PaginatedOperationMethod<
-  ListDbParameterGroupsInput,
+  ListDbParameterGroupsInput & RegionInput,
   ListDbParameterGroupsOutput,
   ListDbParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1544,6 +1591,8 @@ export const listDbParameterGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbParameterGroups",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1551,7 +1600,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * A list of tags applied to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1562,6 +1611,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RebootDbClusterError =
@@ -1576,7 +1627,7 @@ export type RebootDbClusterError =
  * Reboots a Timestream for InfluxDB cluster.
  */
 export const rebootDbCluster: API.OperationMethod<
-  RebootDbClusterInput,
+  RebootDbClusterInput & RegionInput,
   RebootDbClusterOutput,
   RebootDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1594,6 +1645,8 @@ export const rebootDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDbCluster",
+  telemetry: TELEMETRY,
+  span: "RebootDbCluster",
 }));
 
 export type RebootDbInstanceError =
@@ -1608,7 +1661,7 @@ export type RebootDbInstanceError =
  * Reboots a Timestream for InfluxDB instance.
  */
 export const rebootDbInstance: API.OperationMethod<
-  RebootDbInstanceInput,
+  RebootDbInstanceInput & RegionInput,
   RebootDbInstanceOutput,
   RebootDbInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1626,6 +1679,8 @@ export const rebootDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDbInstance",
+  telemetry: TELEMETRY,
+  span: "RebootDbInstance",
 }));
 
 export type RestoreFromDbBackupError =
@@ -1641,7 +1696,7 @@ export type RestoreFromDbBackupError =
  * Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same resource using the REPLACE_EXISTING restore mode.
  */
 export const restoreFromDbBackup: API.OperationMethod<
-  RestoreFromDbBackupInput,
+  RestoreFromDbBackupInput & RegionInput,
   RestoreFromDbBackupOutput,
   RestoreFromDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1660,6 +1715,8 @@ export const restoreFromDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromDbBackup",
+  telemetry: TELEMETRY,
+  span: "RestoreFromDbBackup",
 }));
 
 export type TagResourceError =
@@ -1670,7 +1727,7 @@ export type TagResourceError =
  * Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1681,6 +1738,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -1688,7 +1747,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes the tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1699,6 +1758,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDbClusterError =
@@ -1713,7 +1774,7 @@ export type UpdateDbClusterError =
  * Updates a Timestream for InfluxDB cluster.
  */
 export const updateDbCluster: API.OperationMethod<
-  UpdateDbClusterInput,
+  UpdateDbClusterInput & RegionInput,
   UpdateDbClusterOutput,
   UpdateDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1731,6 +1792,8 @@ export const updateDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDbCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateDbCluster",
 }));
 
 export type UpdateDbInstanceError =
@@ -1745,7 +1808,7 @@ export type UpdateDbInstanceError =
  * Updates a Timestream for InfluxDB DB instance.
  */
 export const updateDbInstance: API.OperationMethod<
-  UpdateDbInstanceInput,
+  UpdateDbInstanceInput & RegionInput,
   UpdateDbInstanceOutput,
   UpdateDbInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1763,6 +1826,8 @@ export const updateDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDbInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateDbInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

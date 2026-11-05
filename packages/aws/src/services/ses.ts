@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -69,6 +71,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://email.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SES",
+  service: "SES",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccountSendingPausedException
   extends /*@__PURE__*/ S.TaggedError<AccountSendingPausedException>()(
@@ -1338,7 +1355,7 @@ export type CloneReceiptRuleSetError =
  * You can execute this operation no more than once per second.
  */
 export const cloneReceiptRuleSet: API.OperationMethod<
-  CloneReceiptRuleSetRequest,
+  CloneReceiptRuleSetRequest & RegionInput,
   CloneReceiptRuleSetResponse,
   CloneReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1349,6 +1366,8 @@ export const cloneReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloneReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "CloneReceiptRuleSet",
 }));
 
 export type CreateConfigurationSetError =
@@ -1366,7 +1385,7 @@ export type CreateConfigurationSetError =
  * You can execute this operation no more than once per second.
  */
 export const createConfigurationSet: API.OperationMethod<
-  CreateConfigurationSetRequest,
+  CreateConfigurationSetRequest & RegionInput,
   CreateConfigurationSetResponse,
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -1381,6 +1400,8 @@ export const createConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSet",
 }));
 
 export type CreateConfigurationSetEventDestinationError =
@@ -1405,7 +1426,7 @@ export type CreateConfigurationSetEventDestinationError =
  * You can execute this operation no more than once per second.
  */
 export const createConfigurationSetEventDestination: API.OperationMethod<
-  CreateConfigurationSetEventDestinationRequest,
+  CreateConfigurationSetEventDestinationRequest & RegionInput,
   CreateConfigurationSetEventDestinationResponse,
   CreateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1423,6 +1444,8 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSetEventDestination",
 }));
 
 export type CreateConfigurationSetTrackingOptionsError =
@@ -1439,7 +1462,7 @@ export type CreateConfigurationSetTrackingOptionsError =
  * events. For information about using custom domains, see the Amazon SES Developer Guide.
  */
 export const createConfigurationSetTrackingOptions: API.OperationMethod<
-  CreateConfigurationSetTrackingOptionsRequest,
+  CreateConfigurationSetTrackingOptionsRequest & RegionInput,
   CreateConfigurationSetTrackingOptionsResponse,
   CreateConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1454,6 +1477,8 @@ export const createConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetTrackingOptions",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSetTrackingOptions",
 }));
 
 export type CreateCustomVerificationEmailTemplateError =
@@ -1472,7 +1497,7 @@ export type CreateCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const createCustomVerificationEmailTemplate: API.OperationMethod<
-  CreateCustomVerificationEmailTemplateRequest,
+  CreateCustomVerificationEmailTemplateRequest & RegionInput,
   CreateCustomVerificationEmailTemplateResponse,
   CreateCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1488,6 +1513,8 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomVerificationEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateCustomVerificationEmailTemplate",
 }));
 
 export type CreateReceiptFilterError =
@@ -1503,7 +1530,7 @@ export type CreateReceiptFilterError =
  * You can execute this operation no more than once per second.
  */
 export const createReceiptFilter: API.OperationMethod<
-  CreateReceiptFilterRequest,
+  CreateReceiptFilterRequest & RegionInput,
   CreateReceiptFilterResponse,
   CreateReceiptFilterError,
   Credentials | HttpClient.HttpClient
@@ -1514,6 +1541,8 @@ export const createReceiptFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptFilter",
+  telemetry: TELEMETRY,
+  span: "CreateReceiptFilter",
 }));
 
 export type CreateReceiptRuleError =
@@ -1537,7 +1566,7 @@ export type CreateReceiptRuleError =
  * You can execute this operation no more than once per second.
  */
 export const createReceiptRule: API.OperationMethod<
-  CreateReceiptRuleRequest,
+  CreateReceiptRuleRequest & RegionInput,
   CreateReceiptRuleResponse,
   CreateReceiptRuleError,
   Credentials | HttpClient.HttpClient
@@ -1559,6 +1588,8 @@ export const createReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptRule",
+  telemetry: TELEMETRY,
+  span: "CreateReceiptRule",
 }));
 
 export type CreateReceiptRuleSetError =
@@ -1573,7 +1604,7 @@ export type CreateReceiptRuleSetError =
  * You can execute this operation no more than once per second.
  */
 export const createReceiptRuleSet: API.OperationMethod<
-  CreateReceiptRuleSetRequest,
+  CreateReceiptRuleSetRequest & RegionInput,
   CreateReceiptRuleSetResponse,
   CreateReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1584,6 +1615,8 @@ export const createReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "CreateReceiptRuleSet",
 }));
 
 export type CreateTemplateError =
@@ -1599,7 +1632,7 @@ export type CreateTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1610,6 +1643,8 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type DeleteConfigurationSetError = ConfigurationSetDoesNotExistException | CommonErrors;
@@ -1621,7 +1656,7 @@ export type DeleteConfigurationSetError = ConfigurationSetDoesNotExistException 
  * You can execute this operation no more than once per second.
  */
 export const deleteConfigurationSet: API.OperationMethod<
-  DeleteConfigurationSetRequest,
+  DeleteConfigurationSetRequest & RegionInput,
   DeleteConfigurationSetResponse,
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -1632,6 +1667,8 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSet",
 }));
 
 export type DeleteConfigurationSetEventDestinationError =
@@ -1647,7 +1684,7 @@ export type DeleteConfigurationSetEventDestinationError =
  * You can execute this operation no more than once per second.
  */
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
-  DeleteConfigurationSetEventDestinationRequest,
+  DeleteConfigurationSetEventDestinationRequest & RegionInput,
   DeleteConfigurationSetEventDestinationResponse,
   DeleteConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1658,6 +1695,8 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSetEventDestination",
 }));
 
 export type DeleteConfigurationSetTrackingOptionsError =
@@ -1677,7 +1716,7 @@ export type DeleteConfigurationSetTrackingOptionsError =
  * Amazon SES-operated domains.
  */
 export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
-  DeleteConfigurationSetTrackingOptionsRequest,
+  DeleteConfigurationSetTrackingOptionsRequest & RegionInput,
   DeleteConfigurationSetTrackingOptionsResponse,
   DeleteConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1688,6 +1727,8 @@ export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetTrackingOptions",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSetTrackingOptions",
 }));
 
 export type DeleteCustomVerificationEmailTemplateError = CommonErrors;
@@ -1701,7 +1742,7 @@ export type DeleteCustomVerificationEmailTemplateError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
-  DeleteCustomVerificationEmailTemplateRequest,
+  DeleteCustomVerificationEmailTemplateRequest & RegionInput,
   DeleteCustomVerificationEmailTemplateResponse,
   DeleteCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1712,6 +1753,8 @@ export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomVerificationEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomVerificationEmailTemplate",
 }));
 
 export type DeleteIdentityError = CommonErrors;
@@ -1722,7 +1765,7 @@ export type DeleteIdentityError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteIdentity: API.OperationMethod<
-  DeleteIdentityRequest,
+  DeleteIdentityRequest & RegionInput,
   DeleteIdentityResponse,
   DeleteIdentityError,
   Credentials | HttpClient.HttpClient
@@ -1733,6 +1776,8 @@ export const deleteIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentity",
 }));
 
 export type DeleteIdentityPolicyError = CommonErrors;
@@ -1752,7 +1797,7 @@ export type DeleteIdentityPolicyError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteIdentityPolicy: API.OperationMethod<
-  DeleteIdentityPolicyRequest,
+  DeleteIdentityPolicyRequest & RegionInput,
   DeleteIdentityPolicyResponse,
   DeleteIdentityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1763,6 +1808,8 @@ export const deleteIdentityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityPolicy",
 }));
 
 export type DeleteReceiptFilterError = CommonErrors;
@@ -1775,7 +1822,7 @@ export type DeleteReceiptFilterError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteReceiptFilter: API.OperationMethod<
-  DeleteReceiptFilterRequest,
+  DeleteReceiptFilterRequest & RegionInput,
   DeleteReceiptFilterResponse,
   DeleteReceiptFilterError,
   Credentials | HttpClient.HttpClient
@@ -1786,6 +1833,8 @@ export const deleteReceiptFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteReceiptFilter",
 }));
 
 export type DeleteReceiptRuleError = RuleSetDoesNotExistException | CommonErrors;
@@ -1798,7 +1847,7 @@ export type DeleteReceiptRuleError = RuleSetDoesNotExistException | CommonErrors
  * You can execute this operation no more than once per second.
  */
 export const deleteReceiptRule: API.OperationMethod<
-  DeleteReceiptRuleRequest,
+  DeleteReceiptRuleRequest & RegionInput,
   DeleteReceiptRuleResponse,
   DeleteReceiptRuleError,
   Credentials | HttpClient.HttpClient
@@ -1809,6 +1858,8 @@ export const deleteReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptRule",
+  telemetry: TELEMETRY,
+  span: "DeleteReceiptRule",
 }));
 
 export type DeleteReceiptRuleSetError = CannotDeleteException | CommonErrors;
@@ -1824,7 +1875,7 @@ export type DeleteReceiptRuleSetError = CannotDeleteException | CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteReceiptRuleSet: API.OperationMethod<
-  DeleteReceiptRuleSetRequest,
+  DeleteReceiptRuleSetRequest & RegionInput,
   DeleteReceiptRuleSetResponse,
   DeleteReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1835,6 +1886,8 @@ export const deleteReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "DeleteReceiptRuleSet",
 }));
 
 export type DeleteTemplateError = CommonErrors;
@@ -1844,7 +1897,7 @@ export type DeleteTemplateError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1855,6 +1908,8 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type DeleteVerifiedEmailAddressError = CommonErrors;
@@ -1863,7 +1918,7 @@ export type DeleteVerifiedEmailAddressError = CommonErrors;
  * and domains.
  */
 export const deleteVerifiedEmailAddress: API.OperationMethod<
-  DeleteVerifiedEmailAddressRequest,
+  DeleteVerifiedEmailAddressRequest & RegionInput,
   DeleteVerifiedEmailAddressResponse,
   DeleteVerifiedEmailAddressError,
   Credentials | HttpClient.HttpClient
@@ -1874,6 +1929,8 @@ export const deleteVerifiedEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedEmailAddress",
+  telemetry: TELEMETRY,
+  span: "DeleteVerifiedEmailAddress",
 }));
 
 export type DescribeActiveReceiptRuleSetError = CommonErrors;
@@ -1886,7 +1943,7 @@ export type DescribeActiveReceiptRuleSetError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const describeActiveReceiptRuleSet: API.OperationMethod<
-  DescribeActiveReceiptRuleSetRequest,
+  DescribeActiveReceiptRuleSetRequest & RegionInput,
   DescribeActiveReceiptRuleSetResponse,
   DescribeActiveReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1897,6 +1954,8 @@ export const describeActiveReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActiveReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "DescribeActiveReceiptRuleSet",
 }));
 
 export type DescribeConfigurationSetError = ConfigurationSetDoesNotExistException | CommonErrors;
@@ -1908,7 +1967,7 @@ export type DescribeConfigurationSetError = ConfigurationSetDoesNotExistExceptio
  * You can execute this operation no more than once per second.
  */
 export const describeConfigurationSet: API.OperationMethod<
-  DescribeConfigurationSetRequest,
+  DescribeConfigurationSetRequest & RegionInput,
   DescribeConfigurationSetResponse,
   DescribeConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -1919,6 +1978,8 @@ export const describeConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationSet",
 }));
 
 export type DescribeReceiptRuleError =
@@ -1934,7 +1995,7 @@ export type DescribeReceiptRuleError =
  * You can execute this operation no more than once per second.
  */
 export const describeReceiptRule: API.OperationMethod<
-  DescribeReceiptRuleRequest,
+  DescribeReceiptRuleRequest & RegionInput,
   DescribeReceiptRuleResponse,
   DescribeReceiptRuleError,
   Credentials | HttpClient.HttpClient
@@ -1945,6 +2006,8 @@ export const describeReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReceiptRule",
+  telemetry: TELEMETRY,
+  span: "DescribeReceiptRule",
 }));
 
 export type DescribeReceiptRuleSetError = RuleSetDoesNotExistException | CommonErrors;
@@ -1957,7 +2020,7 @@ export type DescribeReceiptRuleSetError = RuleSetDoesNotExistException | CommonE
  * You can execute this operation no more than once per second.
  */
 export const describeReceiptRuleSet: API.OperationMethod<
-  DescribeReceiptRuleSetRequest,
+  DescribeReceiptRuleSetRequest & RegionInput,
   DescribeReceiptRuleSetResponse,
   DescribeReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1968,6 +2031,8 @@ export const describeReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "DescribeReceiptRuleSet",
 }));
 
 export type GetAccountSendingEnabledError = CommonErrors;
@@ -1977,7 +2042,7 @@ export type GetAccountSendingEnabledError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getAccountSendingEnabled: API.OperationMethod<
-  GetAccountSendingEnabledRequest,
+  GetAccountSendingEnabledRequest & RegionInput,
   GetAccountSendingEnabledResponse,
   GetAccountSendingEnabledError,
   Credentials | HttpClient.HttpClient
@@ -1988,6 +2053,8 @@ export const getAccountSendingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSendingEnabled",
+  telemetry: TELEMETRY,
+  span: "GetAccountSendingEnabled",
 }));
 
 export type GetCustomVerificationEmailTemplateError =
@@ -2004,7 +2071,7 @@ export type GetCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const getCustomVerificationEmailTemplate: API.OperationMethod<
-  GetCustomVerificationEmailTemplateRequest,
+  GetCustomVerificationEmailTemplateRequest & RegionInput,
   GetCustomVerificationEmailTemplateResponse,
   GetCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2015,6 +2082,8 @@ export const getCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomVerificationEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "GetCustomVerificationEmailTemplate",
 }));
 
 export type GetIdentityDkimAttributesError = CommonErrors;
@@ -2043,7 +2112,7 @@ export type GetIdentityDkimAttributesError = CommonErrors;
  * Developer Guide.
  */
 export const getIdentityDkimAttributes: API.OperationMethod<
-  GetIdentityDkimAttributesRequest,
+  GetIdentityDkimAttributesRequest & RegionInput,
   GetIdentityDkimAttributesResponse,
   GetIdentityDkimAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2054,6 +2123,8 @@ export const getIdentityDkimAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityDkimAttributes",
+  telemetry: TELEMETRY,
+  span: "GetIdentityDkimAttributes",
 }));
 
 export type GetIdentityMailFromDomainAttributesError = CommonErrors;
@@ -2065,7 +2136,7 @@ export type GetIdentityMailFromDomainAttributesError = CommonErrors;
  * FROM attributes for up to 100 identities at a time.
  */
 export const getIdentityMailFromDomainAttributes: API.OperationMethod<
-  GetIdentityMailFromDomainAttributesRequest,
+  GetIdentityMailFromDomainAttributesRequest & RegionInput,
   GetIdentityMailFromDomainAttributesResponse,
   GetIdentityMailFromDomainAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2076,6 +2147,8 @@ export const getIdentityMailFromDomainAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityMailFromDomainAttributes",
+  telemetry: TELEMETRY,
+  span: "GetIdentityMailFromDomainAttributes",
 }));
 
 export type GetIdentityNotificationAttributesError = CommonErrors;
@@ -2090,7 +2163,7 @@ export type GetIdentityNotificationAttributesError = CommonErrors;
  * Developer Guide.
  */
 export const getIdentityNotificationAttributes: API.OperationMethod<
-  GetIdentityNotificationAttributesRequest,
+  GetIdentityNotificationAttributesRequest & RegionInput,
   GetIdentityNotificationAttributesResponse,
   GetIdentityNotificationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2101,6 +2174,8 @@ export const getIdentityNotificationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityNotificationAttributes",
+  telemetry: TELEMETRY,
+  span: "GetIdentityNotificationAttributes",
 }));
 
 export type GetIdentityPoliciesError = CommonErrors;
@@ -2120,7 +2195,7 @@ export type GetIdentityPoliciesError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getIdentityPolicies: API.OperationMethod<
-  GetIdentityPoliciesRequest,
+  GetIdentityPoliciesRequest & RegionInput,
   GetIdentityPoliciesResponse,
   GetIdentityPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -2131,6 +2206,8 @@ export const getIdentityPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPolicies",
+  telemetry: TELEMETRY,
+  span: "GetIdentityPolicies",
 }));
 
 export type GetIdentityVerificationAttributesError = CommonErrors;
@@ -2156,7 +2233,7 @@ export type GetIdentityVerificationAttributesError = CommonErrors;
  * attributes for up to 100 identities at a time.
  */
 export const getIdentityVerificationAttributes: API.OperationMethod<
-  GetIdentityVerificationAttributesRequest,
+  GetIdentityVerificationAttributesRequest & RegionInput,
   GetIdentityVerificationAttributesResponse,
   GetIdentityVerificationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2167,6 +2244,8 @@ export const getIdentityVerificationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityVerificationAttributes",
+  telemetry: TELEMETRY,
+  span: "GetIdentityVerificationAttributes",
 }));
 
 export type GetSendQuotaError = CommonErrors;
@@ -2176,7 +2255,7 @@ export type GetSendQuotaError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getSendQuota: API.OperationMethod<
-  GetSendQuotaRequest,
+  GetSendQuotaRequest & RegionInput,
   GetSendQuotaResponse,
   GetSendQuotaError,
   Credentials | HttpClient.HttpClient
@@ -2187,6 +2266,8 @@ export const getSendQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSendQuota",
+  telemetry: TELEMETRY,
+  span: "GetSendQuota",
 }));
 
 export type GetSendStatisticsError = CommonErrors;
@@ -2198,7 +2279,7 @@ export type GetSendStatisticsError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getSendStatistics: API.OperationMethod<
-  GetSendStatisticsRequest,
+  GetSendStatisticsRequest & RegionInput,
   GetSendStatisticsResponse,
   GetSendStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2209,6 +2290,8 @@ export const getSendStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSendStatistics",
+  telemetry: TELEMETRY,
+  span: "GetSendStatistics",
 }));
 
 export type GetTemplateError = TemplateDoesNotExistException | CommonErrors;
@@ -2219,7 +2302,7 @@ export type GetTemplateError = TemplateDoesNotExistException | CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateRequest,
+  GetTemplateRequest & RegionInput,
   GetTemplateResponse,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2230,6 +2313,8 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type ListConfigurationSetsError = CommonErrors;
@@ -2247,7 +2332,7 @@ export type ListConfigurationSetsError = CommonErrors;
  * additional results.
  */
 export const listConfigurationSets: API.OperationMethod<
-  ListConfigurationSetsRequest,
+  ListConfigurationSetsRequest & RegionInput,
   ListConfigurationSetsResponse,
   ListConfigurationSetsError,
   Credentials | HttpClient.HttpClient
@@ -2258,6 +2343,8 @@ export const listConfigurationSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationSets",
+  telemetry: TELEMETRY,
+  span: "ListConfigurationSets",
 }));
 
 export type ListCustomVerificationEmailTemplatesError = CommonErrors;
@@ -2272,7 +2359,7 @@ export type ListCustomVerificationEmailTemplatesError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listCustomVerificationEmailTemplates: API.PaginatedOperationMethod<
-  ListCustomVerificationEmailTemplatesRequest,
+  ListCustomVerificationEmailTemplatesRequest & RegionInput,
   ListCustomVerificationEmailTemplatesResponse,
   ListCustomVerificationEmailTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2289,6 +2376,8 @@ export const listCustomVerificationEmailTemplates: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomVerificationEmailTemplates",
 })) as any;
 
 export type ListIdentitiesError = CommonErrors;
@@ -2308,7 +2397,7 @@ export type ListIdentitiesError = CommonErrors;
  * Using this protocol will ensure consistent results.
  */
 export const listIdentities: API.PaginatedOperationMethod<
-  ListIdentitiesRequest,
+  ListIdentitiesRequest & RegionInput,
   ListIdentitiesResponse,
   ListIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -2326,6 +2415,8 @@ export const listIdentities: API.PaginatedOperationMethod<
     items: "Identities",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentities",
 })) as any;
 
 export type ListIdentityPoliciesError = CommonErrors;
@@ -2345,7 +2436,7 @@ export type ListIdentityPoliciesError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listIdentityPolicies: API.OperationMethod<
-  ListIdentityPoliciesRequest,
+  ListIdentityPoliciesRequest & RegionInput,
   ListIdentityPoliciesResponse,
   ListIdentityPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -2356,6 +2447,8 @@ export const listIdentityPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityPolicies",
+  telemetry: TELEMETRY,
+  span: "ListIdentityPolicies",
 }));
 
 export type ListReceiptFiltersError = CommonErrors;
@@ -2369,7 +2462,7 @@ export type ListReceiptFiltersError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listReceiptFilters: API.OperationMethod<
-  ListReceiptFiltersRequest,
+  ListReceiptFiltersRequest & RegionInput,
   ListReceiptFiltersResponse,
   ListReceiptFiltersError,
   Credentials | HttpClient.HttpClient
@@ -2380,6 +2473,8 @@ export const listReceiptFilters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceiptFilters",
+  telemetry: TELEMETRY,
+  span: "ListReceiptFilters",
 }));
 
 export type ListReceiptRuleSetsError = CommonErrors;
@@ -2395,7 +2490,7 @@ export type ListReceiptRuleSetsError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listReceiptRuleSets: API.OperationMethod<
-  ListReceiptRuleSetsRequest,
+  ListReceiptRuleSetsRequest & RegionInput,
   ListReceiptRuleSetsResponse,
   ListReceiptRuleSetsError,
   Credentials | HttpClient.HttpClient
@@ -2406,6 +2501,8 @@ export const listReceiptRuleSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceiptRuleSets",
+  telemetry: TELEMETRY,
+  span: "ListReceiptRuleSets",
 }));
 
 export type ListTemplatesError = CommonErrors;
@@ -2416,7 +2513,7 @@ export type ListTemplatesError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listTemplates: API.OperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -2427,6 +2524,8 @@ export const listTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplates",
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 }));
 
 export type ListVerifiedEmailAddressesError = CommonErrors;
@@ -2435,7 +2534,7 @@ export type ListVerifiedEmailAddressesError = CommonErrors;
  * and domains associated with your account.
  */
 export const listVerifiedEmailAddresses: API.OperationMethod<
-  ListVerifiedEmailAddressesRequest,
+  ListVerifiedEmailAddressesRequest & RegionInput,
   ListVerifiedEmailAddressesResponse,
   ListVerifiedEmailAddressesError,
   Credentials | HttpClient.HttpClient
@@ -2446,6 +2545,8 @@ export const listVerifiedEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVerifiedEmailAddresses",
+  telemetry: TELEMETRY,
+  span: "ListVerifiedEmailAddresses",
 }));
 
 export type PutConfigurationSetDeliveryOptionsError =
@@ -2456,7 +2557,7 @@ export type PutConfigurationSetDeliveryOptionsError =
  * Adds or updates the delivery options for a configuration set.
  */
 export const putConfigurationSetDeliveryOptions: API.OperationMethod<
-  PutConfigurationSetDeliveryOptionsRequest,
+  PutConfigurationSetDeliveryOptionsRequest & RegionInput,
   PutConfigurationSetDeliveryOptionsResponse,
   PutConfigurationSetDeliveryOptionsError,
   Credentials | HttpClient.HttpClient
@@ -2467,6 +2568,8 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetDeliveryOptions",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationSetDeliveryOptions",
 }));
 
 export type PutIdentityPolicyError = InvalidPolicyException | CommonErrors;
@@ -2485,7 +2588,7 @@ export type PutIdentityPolicyError = InvalidPolicyException | CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const putIdentityPolicy: API.OperationMethod<
-  PutIdentityPolicyRequest,
+  PutIdentityPolicyRequest & RegionInput,
   PutIdentityPolicyResponse,
   PutIdentityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2496,6 +2599,8 @@ export const putIdentityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIdentityPolicy",
+  telemetry: TELEMETRY,
+  span: "PutIdentityPolicy",
 }));
 
 export type ReorderReceiptRuleSetError =
@@ -2514,7 +2619,7 @@ export type ReorderReceiptRuleSetError =
  * You can execute this operation no more than once per second.
  */
 export const reorderReceiptRuleSet: API.OperationMethod<
-  ReorderReceiptRuleSetRequest,
+  ReorderReceiptRuleSetRequest & RegionInput,
   ReorderReceiptRuleSetResponse,
   ReorderReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -2525,6 +2630,8 @@ export const reorderReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReorderReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "ReorderReceiptRuleSet",
 }));
 
 export type SendBounceError = MessageRejected | CommonErrors;
@@ -2542,7 +2649,7 @@ export type SendBounceError = MessageRejected | CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const sendBounce: API.OperationMethod<
-  SendBounceRequest,
+  SendBounceRequest & RegionInput,
   SendBounceResponse,
   SendBounceError,
   Credentials | HttpClient.HttpClient
@@ -2553,6 +2660,8 @@ export const sendBounce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBounce",
+  telemetry: TELEMETRY,
+  span: "SendBounce",
 }));
 
 export type SendBulkTemplatedEmailError =
@@ -2600,7 +2709,7 @@ export type SendBulkTemplatedEmailError =
  * your account's maximum sending rate.
  */
 export const sendBulkTemplatedEmail: API.OperationMethod<
-  SendBulkTemplatedEmailRequest,
+  SendBulkTemplatedEmailRequest & RegionInput,
   SendBulkTemplatedEmailResponse,
   SendBulkTemplatedEmailError,
   Credentials | HttpClient.HttpClient
@@ -2618,6 +2727,8 @@ export const sendBulkTemplatedEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBulkTemplatedEmail",
+  telemetry: TELEMETRY,
+  span: "SendBulkTemplatedEmail",
 }));
 
 export type SendCustomVerificationEmailError =
@@ -2641,7 +2752,7 @@ export type SendCustomVerificationEmailError =
  * You can execute this operation no more than once per second.
  */
 export const sendCustomVerificationEmail: API.OperationMethod<
-  SendCustomVerificationEmailRequest,
+  SendCustomVerificationEmailRequest & RegionInput,
   SendCustomVerificationEmailResponse,
   SendCustomVerificationEmailError,
   Credentials | HttpClient.HttpClient
@@ -2658,6 +2769,8 @@ export const sendCustomVerificationEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCustomVerificationEmail",
+  telemetry: TELEMETRY,
+  span: "SendCustomVerificationEmail",
 }));
 
 export type SendEmailError =
@@ -2703,7 +2816,7 @@ export type SendEmailError =
  * Limits in the *Amazon SES Developer Guide.*
  */
 export const sendEmail: API.OperationMethod<
-  SendEmailRequest,
+  SendEmailRequest & RegionInput,
   SendEmailResponse,
   SendEmailError,
   Credentials | HttpClient.HttpClient
@@ -2720,6 +2833,8 @@ export const sendEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEmail",
+  telemetry: TELEMETRY,
+  span: "SendEmail",
 }));
 
 export type SendRawEmailError =
@@ -2810,7 +2925,7 @@ export type SendRawEmailError =
  * Guide.
  */
 export const sendRawEmail: API.OperationMethod<
-  SendRawEmailRequest,
+  SendRawEmailRequest & RegionInput,
   SendRawEmailResponse,
   SendRawEmailError,
   Credentials | HttpClient.HttpClient
@@ -2827,6 +2942,8 @@ export const sendRawEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendRawEmail",
+  telemetry: TELEMETRY,
+  span: "SendRawEmail",
 }));
 
 export type SendTemplatedEmailError =
@@ -2881,7 +2998,7 @@ export type SendTemplatedEmailError =
  * *Amazon Simple Email Service Developer Guide*.
  */
 export const sendTemplatedEmail: API.OperationMethod<
-  SendTemplatedEmailRequest,
+  SendTemplatedEmailRequest & RegionInput,
   SendTemplatedEmailResponse,
   SendTemplatedEmailError,
   Credentials | HttpClient.HttpClient
@@ -2899,6 +3016,8 @@ export const sendTemplatedEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTemplatedEmail",
+  telemetry: TELEMETRY,
+  span: "SendTemplatedEmail",
 }));
 
 export type SetActiveReceiptRuleSetError = RuleSetDoesNotExistException | CommonErrors;
@@ -2914,7 +3033,7 @@ export type SetActiveReceiptRuleSetError = RuleSetDoesNotExistException | Common
  * You can execute this operation no more than once per second.
  */
 export const setActiveReceiptRuleSet: API.OperationMethod<
-  SetActiveReceiptRuleSetRequest,
+  SetActiveReceiptRuleSetRequest & RegionInput,
   SetActiveReceiptRuleSetResponse,
   SetActiveReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -2925,6 +3044,8 @@ export const setActiveReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetActiveReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "SetActiveReceiptRuleSet",
 }));
 
 export type SetIdentityDkimEnabledError = CommonErrors;
@@ -2947,7 +3068,7 @@ export type SetIdentityDkimEnabledError = CommonErrors;
  * Guide.
  */
 export const setIdentityDkimEnabled: API.OperationMethod<
-  SetIdentityDkimEnabledRequest,
+  SetIdentityDkimEnabledRequest & RegionInput,
   SetIdentityDkimEnabledResponse,
   SetIdentityDkimEnabledError,
   Credentials | HttpClient.HttpClient
@@ -2958,6 +3079,8 @@ export const setIdentityDkimEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityDkimEnabled",
+  telemetry: TELEMETRY,
+  span: "SetIdentityDkimEnabled",
 }));
 
 export type SetIdentityFeedbackForwardingEnabledError = CommonErrors;
@@ -2976,7 +3099,7 @@ export type SetIdentityFeedbackForwardingEnabledError = CommonErrors;
  * Developer Guide.
  */
 export const setIdentityFeedbackForwardingEnabled: API.OperationMethod<
-  SetIdentityFeedbackForwardingEnabledRequest,
+  SetIdentityFeedbackForwardingEnabledRequest & RegionInput,
   SetIdentityFeedbackForwardingEnabledResponse,
   SetIdentityFeedbackForwardingEnabledError,
   Credentials | HttpClient.HttpClient
@@ -2987,6 +3110,8 @@ export const setIdentityFeedbackForwardingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityFeedbackForwardingEnabled",
+  telemetry: TELEMETRY,
+  span: "SetIdentityFeedbackForwardingEnabled",
 }));
 
 export type SetIdentityHeadersInNotificationsEnabledError = CommonErrors;
@@ -3001,7 +3126,7 @@ export type SetIdentityHeadersInNotificationsEnabledError = CommonErrors;
  * Developer Guide.
  */
 export const setIdentityHeadersInNotificationsEnabled: API.OperationMethod<
-  SetIdentityHeadersInNotificationsEnabledRequest,
+  SetIdentityHeadersInNotificationsEnabledRequest & RegionInput,
   SetIdentityHeadersInNotificationsEnabledResponse,
   SetIdentityHeadersInNotificationsEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3012,6 +3137,8 @@ export const setIdentityHeadersInNotificationsEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityHeadersInNotificationsEnabled",
+  telemetry: TELEMETRY,
+  span: "SetIdentityHeadersInNotificationsEnabled",
 }));
 
 export type SetIdentityMailFromDomainError = CommonErrors;
@@ -3027,7 +3154,7 @@ export type SetIdentityMailFromDomainError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const setIdentityMailFromDomain: API.OperationMethod<
-  SetIdentityMailFromDomainRequest,
+  SetIdentityMailFromDomainRequest & RegionInput,
   SetIdentityMailFromDomainResponse,
   SetIdentityMailFromDomainError,
   Credentials | HttpClient.HttpClient
@@ -3038,6 +3165,8 @@ export const setIdentityMailFromDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityMailFromDomain",
+  telemetry: TELEMETRY,
+  span: "SetIdentityMailFromDomain",
 }));
 
 export type SetIdentityNotificationTopicError = CommonErrors;
@@ -3055,7 +3184,7 @@ export type SetIdentityNotificationTopicError = CommonErrors;
  * Developer Guide.
  */
 export const setIdentityNotificationTopic: API.OperationMethod<
-  SetIdentityNotificationTopicRequest,
+  SetIdentityNotificationTopicRequest & RegionInput,
   SetIdentityNotificationTopicResponse,
   SetIdentityNotificationTopicError,
   Credentials | HttpClient.HttpClient
@@ -3066,6 +3195,8 @@ export const setIdentityNotificationTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityNotificationTopic",
+  telemetry: TELEMETRY,
+  span: "SetIdentityNotificationTopic",
 }));
 
 export type SetReceiptRulePositionError =
@@ -3081,7 +3212,7 @@ export type SetReceiptRulePositionError =
  * You can execute this operation no more than once per second.
  */
 export const setReceiptRulePosition: API.OperationMethod<
-  SetReceiptRulePositionRequest,
+  SetReceiptRulePositionRequest & RegionInput,
   SetReceiptRulePositionResponse,
   SetReceiptRulePositionError,
   Credentials | HttpClient.HttpClient
@@ -3092,6 +3223,8 @@ export const setReceiptRulePosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetReceiptRulePosition",
+  telemetry: TELEMETRY,
+  span: "SetReceiptRulePosition",
 }));
 
 export type TestRenderTemplateError =
@@ -3106,7 +3239,7 @@ export type TestRenderTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const testRenderTemplate: API.OperationMethod<
-  TestRenderTemplateRequest,
+  TestRenderTemplateRequest & RegionInput,
   TestRenderTemplateResponse,
   TestRenderTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3121,6 +3254,8 @@ export const testRenderTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestRenderTemplate",
+  telemetry: TELEMETRY,
+  span: "TestRenderTemplate",
 }));
 
 export type UpdateAccountSendingEnabledError = CommonErrors;
@@ -3134,7 +3269,7 @@ export type UpdateAccountSendingEnabledError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const updateAccountSendingEnabled: API.OperationMethod<
-  UpdateAccountSendingEnabledRequest,
+  UpdateAccountSendingEnabledRequest & RegionInput,
   UpdateAccountSendingEnabledResponse,
   UpdateAccountSendingEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3145,6 +3280,8 @@ export const updateAccountSendingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSendingEnabled",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSendingEnabled",
 }));
 
 export type UpdateConfigurationSetEventDestinationError =
@@ -3168,7 +3305,7 @@ export type UpdateConfigurationSetEventDestinationError =
  * You can execute this operation no more than once per second.
  */
 export const updateConfigurationSetEventDestination: API.OperationMethod<
-  UpdateConfigurationSetEventDestinationRequest,
+  UpdateConfigurationSetEventDestinationRequest & RegionInput,
   UpdateConfigurationSetEventDestinationResponse,
   UpdateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3185,6 +3322,8 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetEventDestination",
 }));
 
 export type UpdateConfigurationSetReputationMetricsEnabledError =
@@ -3199,7 +3338,7 @@ export type UpdateConfigurationSetReputationMetricsEnabledError =
  * You can execute this operation no more than once per second.
  */
 export const updateConfigurationSetReputationMetricsEnabled: API.OperationMethod<
-  UpdateConfigurationSetReputationMetricsEnabledRequest,
+  UpdateConfigurationSetReputationMetricsEnabledRequest & RegionInput,
   UpdateConfigurationSetReputationMetricsEnabledResponse,
   UpdateConfigurationSetReputationMetricsEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3218,6 +3357,8 @@ export const updateConfigurationSetReputationMetricsEnabled: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetReputationMetricsEnabled",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetReputationMetricsEnabled",
 }));
 
 export type UpdateConfigurationSetSendingEnabledError =
@@ -3233,7 +3374,7 @@ export type UpdateConfigurationSetSendingEnabledError =
  * You can execute this operation no more than once per second.
  */
 export const updateConfigurationSetSendingEnabled: API.OperationMethod<
-  UpdateConfigurationSetSendingEnabledRequest,
+  UpdateConfigurationSetSendingEnabledRequest & RegionInput,
   UpdateConfigurationSetSendingEnabledResponse,
   UpdateConfigurationSetSendingEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3244,6 +3385,8 @@ export const updateConfigurationSetSendingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetSendingEnabled",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetSendingEnabled",
 }));
 
 export type UpdateConfigurationSetTrackingOptionsError =
@@ -3260,7 +3403,7 @@ export type UpdateConfigurationSetTrackingOptionsError =
  * events. For information about using custom domains, see the Amazon SES Developer Guide.
  */
 export const updateConfigurationSetTrackingOptions: API.OperationMethod<
-  UpdateConfigurationSetTrackingOptionsRequest,
+  UpdateConfigurationSetTrackingOptionsRequest & RegionInput,
   UpdateConfigurationSetTrackingOptionsResponse,
   UpdateConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -3275,6 +3418,8 @@ export const updateConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetTrackingOptions",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetTrackingOptions",
 }));
 
 export type UpdateCustomVerificationEmailTemplateError =
@@ -3292,7 +3437,7 @@ export type UpdateCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const updateCustomVerificationEmailTemplate: API.OperationMethod<
-  UpdateCustomVerificationEmailTemplateRequest,
+  UpdateCustomVerificationEmailTemplateRequest & RegionInput,
   UpdateCustomVerificationEmailTemplateResponse,
   UpdateCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3307,6 +3452,8 @@ export const updateCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomVerificationEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomVerificationEmailTemplate",
 }));
 
 export type UpdateReceiptRuleError =
@@ -3329,7 +3476,7 @@ export type UpdateReceiptRuleError =
  * You can execute this operation no more than once per second.
  */
 export const updateReceiptRule: API.OperationMethod<
-  UpdateReceiptRuleRequest,
+  UpdateReceiptRuleRequest & RegionInput,
   UpdateReceiptRuleResponse,
   UpdateReceiptRuleError,
   Credentials | HttpClient.HttpClient
@@ -3350,6 +3497,8 @@ export const updateReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReceiptRule",
+  telemetry: TELEMETRY,
+  span: "UpdateReceiptRule",
 }));
 
 export type UpdateTemplateError =
@@ -3364,7 +3513,7 @@ export type UpdateTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3375,6 +3524,8 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 export type VerifyDomainDkimError = CommonErrors;
@@ -3414,7 +3565,7 @@ export type VerifyDomainDkimError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const verifyDomainDkim: API.OperationMethod<
-  VerifyDomainDkimRequest,
+  VerifyDomainDkimRequest & RegionInput,
   VerifyDomainDkimResponse,
   VerifyDomainDkimError,
   Credentials | HttpClient.HttpClient
@@ -3425,6 +3576,8 @@ export const verifyDomainDkim: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDomainDkim",
+  telemetry: TELEMETRY,
+  span: "VerifyDomainDkim",
 }));
 
 export type VerifyDomainIdentityError = CommonErrors;
@@ -3437,7 +3590,7 @@ export type VerifyDomainIdentityError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const verifyDomainIdentity: API.OperationMethod<
-  VerifyDomainIdentityRequest,
+  VerifyDomainIdentityRequest & RegionInput,
   VerifyDomainIdentityResponse,
   VerifyDomainIdentityError,
   Credentials | HttpClient.HttpClient
@@ -3448,6 +3601,8 @@ export const verifyDomainIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDomainIdentity",
+  telemetry: TELEMETRY,
+  span: "VerifyDomainIdentity",
 }));
 
 export type VerifyEmailAddressError = CommonErrors;
@@ -3456,7 +3611,7 @@ export type VerifyEmailAddressError = CommonErrors;
  * address.
  */
 export const verifyEmailAddress: API.OperationMethod<
-  VerifyEmailAddressRequest,
+  VerifyEmailAddressRequest & RegionInput,
   VerifyEmailAddressResponse,
   VerifyEmailAddressError,
   Credentials | HttpClient.HttpClient
@@ -3467,6 +3622,8 @@ export const verifyEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyEmailAddress",
+  telemetry: TELEMETRY,
+  span: "VerifyEmailAddress",
 }));
 
 export type VerifyEmailIdentityError = CommonErrors;
@@ -3478,7 +3635,7 @@ export type VerifyEmailIdentityError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const verifyEmailIdentity: API.OperationMethod<
-  VerifyEmailIdentityRequest,
+  VerifyEmailIdentityRequest & RegionInput,
   VerifyEmailIdentityResponse,
   VerifyEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -3489,6 +3646,8 @@ export const verifyEmailIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyEmailIdentity",
+  telemetry: TELEMETRY,
+  span: "VerifyEmailIdentity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ObjectMediaPreviews",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -119,6 +132,8 @@ export const createObjectMediaPreview: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateObjectMediaPreview",
 }));
 
 export type GetObjectMediaPreviewError = Forbidden | NotFound | PosthogOpError;
@@ -133,6 +148,8 @@ export const getObjectMediaPreview: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjectMediaPreview",
 }));
 
 export type GetObjectMediaPreviewsPreferredForEventError = Forbidden | NotFound | PosthogOpError;
@@ -148,6 +165,8 @@ export const getObjectMediaPreviewsPreferredForEvent: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjectMediaPreviewsPreferredForEvent",
 }));
 
 export type ListObjectMediaPreviewsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -162,6 +181,8 @@ export const listObjectMediaPreviews: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListObjectMediaPreviews",
 }));
 
 export type ObjectMediaPreviewsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -176,6 +197,8 @@ export const objectMediaPreviewsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ObjectMediaPreviewsDestroy",
 }));
 
 export type UpdateObjectMediaPreviewError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -190,6 +213,8 @@ export const updateObjectMediaPreview: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObjectMediaPreview",
 }));
 
 export type UpdateObjectMediaPreviewsPartialError =
@@ -208,6 +233,8 @@ export const updateObjectMediaPreviewsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObjectMediaPreviewsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

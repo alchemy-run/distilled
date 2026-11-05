@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ec2-instance-connect.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EC2InstanceConnect",
+  service: "EC2InstanceConnect",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AuthException
   extends /*@__PURE__*/ S.TaggedError<AuthException>()(
@@ -242,7 +259,7 @@ export type SendSerialConsoleSSHPublicKeyError =
  * the *Amazon EC2 User Guide*.
  */
 export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
-  SendSerialConsoleSSHPublicKeyRequest,
+  SendSerialConsoleSSHPublicKeyRequest & RegionInput,
   SendSerialConsoleSSHPublicKeyResponse,
   SendSerialConsoleSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -266,6 +283,8 @@ export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendSerialConsoleSSHPublicKey",
+  telemetry: TELEMETRY,
+  span: "SendSerialConsoleSSHPublicKey",
 }));
 
 export type SendSSHPublicKeyError =
@@ -284,7 +303,7 @@ export type SendSSHPublicKeyError =
  * User Guide.
  */
 export const sendSSHPublicKey: API.OperationMethod<
-  SendSSHPublicKeyRequest,
+  SendSSHPublicKeyRequest & RegionInput,
   SendSSHPublicKeyResponse,
   SendSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -303,6 +322,8 @@ export const sendSSHPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendSSHPublicKey",
+  telemetry: TELEMETRY,
+  span: "SendSSHPublicKey",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

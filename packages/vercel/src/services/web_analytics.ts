@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "WebAnalytics",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -403,6 +416,8 @@ export const aggregateEvents: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateEvents",
 }));
 
 export type AggregatePageviewsError =
@@ -423,6 +438,8 @@ export const aggregatePageviews: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregatePageviews",
 }));
 
 export type CountEventsError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -438,6 +455,8 @@ export const countEvents: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountEvents",
 }));
 
 export type CountPageviewsError =
@@ -458,6 +477,8 @@ export const countPageviews: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountPageviews",
 }));
 
 export type CreateSpeedInsightsToggleError =
@@ -477,6 +498,8 @@ export const createSpeedInsightsToggle: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpeedInsightsToggle",
 }));
 
 export type CreateWebInsightsToggleError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -491,6 +514,8 @@ export const createWebInsightsToggle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebInsightsToggle",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

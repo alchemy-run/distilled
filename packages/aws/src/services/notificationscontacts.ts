@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NotificationsContacts",
+  service: "NotificationsContacts",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -251,7 +267,7 @@ export type ActivateEmailContactError =
  * Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
  */
 export const activateEmailContact: API.OperationMethod<
-  ActivateEmailContactRequest,
+  ActivateEmailContactRequest & RegionInput,
   ActivateEmailContactResponse,
   ActivateEmailContactError,
   Credentials | HttpClient.HttpClient
@@ -269,6 +285,8 @@ export const activateEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateEmailContact",
+  telemetry: TELEMETRY,
+  span: "ActivateEmailContact",
 }));
 
 export type CreateEmailContactError =
@@ -283,7 +301,7 @@ export type CreateEmailContactError =
  * Creates an email contact for the provided email address.
  */
 export const createEmailContact: API.OperationMethod<
-  CreateEmailContactRequest,
+  CreateEmailContactRequest & RegionInput,
   CreateEmailContactResponse,
   CreateEmailContactError,
   Credentials | HttpClient.HttpClient
@@ -301,6 +319,8 @@ export const createEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEmailContact",
+  telemetry: TELEMETRY,
+  span: "CreateEmailContact",
 }));
 
 export type DeleteEmailContactError =
@@ -317,7 +337,7 @@ export type DeleteEmailContactError =
  * Deleting an email contact removes it from all associated notification configurations.
  */
 export const deleteEmailContact: API.OperationMethod<
-  DeleteEmailContactRequest,
+  DeleteEmailContactRequest & RegionInput,
   DeleteEmailContactResponse,
   DeleteEmailContactError,
   Credentials | HttpClient.HttpClient
@@ -335,6 +355,8 @@ export const deleteEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailContact",
+  telemetry: TELEMETRY,
+  span: "DeleteEmailContact",
 }));
 
 export type GetEmailContactError =
@@ -348,7 +370,7 @@ export type GetEmailContactError =
  * Returns an email contact.
  */
 export const getEmailContact: API.OperationMethod<
-  GetEmailContactRequest,
+  GetEmailContactRequest & RegionInput,
   GetEmailContactResponse,
   GetEmailContactError,
   Credentials | HttpClient.HttpClient
@@ -365,6 +387,8 @@ export const getEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailContact",
+  telemetry: TELEMETRY,
+  span: "GetEmailContact",
 }));
 
 export type ListEmailContactsError =
@@ -377,7 +401,7 @@ export type ListEmailContactsError =
  * Lists all email contacts created under the Account.
  */
 export const listEmailContacts: API.PaginatedOperationMethod<
-  ListEmailContactsRequest,
+  ListEmailContactsRequest & RegionInput,
   ListEmailContactsResponse,
   ListEmailContactsError,
   Credentials | HttpClient.HttpClient,
@@ -400,6 +424,8 @@ export const listEmailContacts: API.PaginatedOperationMethod<
     items: "emailContacts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEmailContacts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -413,7 +439,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -430,6 +456,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SendActivationCodeError =
@@ -446,7 +474,7 @@ export type SendActivationCodeError =
  * It might take a few minutes for the activation email to arrive. If it doesn't arrive, check in your spam folder or try sending another activation email.
  */
 export const sendActivationCode: API.OperationMethod<
-  SendActivationCodeRequest,
+  SendActivationCodeRequest & RegionInput,
   SendActivationCodeResponse,
   SendActivationCodeError,
   Credentials | HttpClient.HttpClient
@@ -464,6 +492,8 @@ export const sendActivationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendActivationCode",
+  telemetry: TELEMETRY,
+  span: "SendActivationCode",
 }));
 
 export type TagResourceError =
@@ -477,7 +507,7 @@ export type TagResourceError =
  * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -494,6 +524,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -507,7 +539,7 @@ export type UntagResourceError =
  * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts..
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -524,6 +556,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

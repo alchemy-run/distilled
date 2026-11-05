@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Assistant",
+  propagate: "w3c",
+} as const;
+
 export type SearchContextRequestChannelTypesItem =
   | "public_channel"
   | "private_channel"
@@ -275,6 +288,8 @@ export const searchContext: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchContext",
 }));
 
 export type SearchInfoError = SlackOpError;
@@ -290,6 +305,8 @@ export const searchInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchInfo",
 }));
 
 export type SetStatusError = SlackOpError;
@@ -305,6 +322,8 @@ export const setStatus: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetStatus",
 }));
 
 export type SetSuggestedPromptsError = SlackOpError;
@@ -320,6 +339,8 @@ export const setSuggestedPrompts: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSuggestedPrompts",
 }));
 
 export type SetTitleError = SlackOpError;
@@ -335,6 +356,8 @@ export const setTitle: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTitle",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

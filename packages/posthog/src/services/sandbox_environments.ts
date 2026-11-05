@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "SandboxEnvironments",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -168,6 +181,8 @@ export const createSandbox: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandbox",
 }));
 
 export type GetSandboxError = Forbidden | NotFound | PosthogOpError;
@@ -183,6 +198,8 @@ export const getSandbox: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandbox",
 }));
 
 export type ListSandboxError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -198,6 +215,8 @@ export const listSandbox: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandbox",
 }));
 
 export type SandboxDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -213,6 +232,8 @@ export const sandboxDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxDestroy",
 }));
 
 export type UpdateSandboxPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -228,6 +249,8 @@ export const updateSandboxPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandboxPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

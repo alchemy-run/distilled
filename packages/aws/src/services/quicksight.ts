@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://quicksight.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "QuickSight",
+  service: "QuickSight",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -14080,7 +14096,7 @@ export type BatchCreateTopicReviewedAnswerError =
  * Creates new reviewed answers for a Q Topic.
  */
 export const batchCreateTopicReviewedAnswer: API.OperationMethod<
-  BatchCreateTopicReviewedAnswerRequest,
+  BatchCreateTopicReviewedAnswerRequest & RegionInput,
   BatchCreateTopicReviewedAnswerResponse,
   BatchCreateTopicReviewedAnswerError,
   Credentials | HttpClient.HttpClient
@@ -14097,6 +14113,8 @@ export const batchCreateTopicReviewedAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateTopicReviewedAnswer",
+  telemetry: TELEMETRY,
+  span: "BatchCreateTopicReviewedAnswer",
 }));
 
 export type BatchDeleteKnowledgeBaseError =
@@ -14112,7 +14130,7 @@ export type BatchDeleteKnowledgeBaseError =
  * Deletes one or more knowledge bases.
  */
 export const batchDeleteKnowledgeBase: API.OperationMethod<
-  BatchDeleteKnowledgeBaseRequest,
+  BatchDeleteKnowledgeBaseRequest & RegionInput,
   BatchDeleteKnowledgeBaseResponse,
   BatchDeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -14131,6 +14149,8 @@ export const batchDeleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteKnowledgeBase",
 }));
 
 export type BatchDeleteTopicReviewedAnswerError =
@@ -14145,7 +14165,7 @@ export type BatchDeleteTopicReviewedAnswerError =
  * Deletes reviewed answers for Q Topic.
  */
 export const batchDeleteTopicReviewedAnswer: API.OperationMethod<
-  BatchDeleteTopicReviewedAnswerRequest,
+  BatchDeleteTopicReviewedAnswerRequest & RegionInput,
   BatchDeleteTopicReviewedAnswerResponse,
   BatchDeleteTopicReviewedAnswerError,
   Credentials | HttpClient.HttpClient
@@ -14163,6 +14183,8 @@ export const batchDeleteTopicReviewedAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteTopicReviewedAnswer",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteTopicReviewedAnswer",
 }));
 
 export type BatchDescribeUserLimitsError =
@@ -14175,7 +14197,7 @@ export type BatchDescribeUserLimitsError =
  * Describes the effective resource limits for one or more Amazon Quick Sight users, including the limits that apply to each user based on their profile assignments.
  */
 export const batchDescribeUserLimits: API.OperationMethod<
-  BatchDescribeUserLimitsRequest,
+  BatchDescribeUserLimitsRequest & RegionInput,
   BatchDescribeUserLimitsResponse,
   BatchDescribeUserLimitsError,
   Credentials | HttpClient.HttpClient
@@ -14191,6 +14213,8 @@ export const batchDescribeUserLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeUserLimits",
+  telemetry: TELEMETRY,
+  span: "BatchDescribeUserLimits",
 }));
 
 export type CancelIngestionError =
@@ -14205,7 +14229,7 @@ export type CancelIngestionError =
  * Cancels an ongoing ingestion of data into SPICE.
  */
 export const cancelIngestion: API.OperationMethod<
-  CancelIngestionRequest,
+  CancelIngestionRequest & RegionInput,
   CancelIngestionResponse,
   CancelIngestionError,
   Credentials | HttpClient.HttpClient
@@ -14223,6 +14247,8 @@ export const cancelIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelIngestion",
+  telemetry: TELEMETRY,
+  span: "CancelIngestion",
 }));
 
 export type CreateAccountCustomizationError =
@@ -14262,7 +14288,7 @@ export type CreateAccountCustomizationError =
  * API operation.
  */
 export const createAccountCustomization: API.OperationMethod<
-  CreateAccountCustomizationRequest,
+  CreateAccountCustomizationRequest & RegionInput,
   CreateAccountCustomizationResponse,
   CreateAccountCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -14282,6 +14308,8 @@ export const createAccountCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountCustomization",
+  telemetry: TELEMETRY,
+  span: "CreateAccountCustomization",
 }));
 
 export type CreateAccountSubscriptionError =
@@ -14325,7 +14353,7 @@ export type CreateAccountSubscriptionError =
  * User Guide.
  */
 export const createAccountSubscription: API.OperationMethod<
-  CreateAccountSubscriptionRequest,
+  CreateAccountSubscriptionRequest & RegionInput,
   CreateAccountSubscriptionResponse,
   CreateAccountSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -14346,6 +14374,8 @@ export const createAccountSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateAccountSubscription",
 }));
 
 export type CreateActionConnectorError =
@@ -14362,7 +14392,7 @@ export type CreateActionConnectorError =
  * like Amazon S3, Salesforce, JIRA.
  */
 export const createActionConnector: API.OperationMethod<
-  CreateActionConnectorRequest,
+  CreateActionConnectorRequest & RegionInput,
   CreateActionConnectorResponse,
   CreateActionConnectorError,
   Credentials | HttpClient.HttpClient
@@ -14380,6 +14410,8 @@ export const createActionConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActionConnector",
+  telemetry: TELEMETRY,
+  span: "CreateActionConnector",
 }));
 
 export type CreateAgentError =
@@ -14396,7 +14428,7 @@ export type CreateAgentError =
  * Creates an agent in Amazon QuickSight.
  */
 export const createAgent: API.OperationMethod<
-  CreateAgentRequest,
+  CreateAgentRequest & RegionInput,
   CreateAgentResponse,
   CreateAgentError,
   Credentials | HttpClient.HttpClient
@@ -14416,6 +14448,8 @@ export const createAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgent",
+  telemetry: TELEMETRY,
+  span: "CreateAgent",
 }));
 
 export type CreateAnalysisError =
@@ -14433,7 +14467,7 @@ export type CreateAnalysisError =
  * Creates an analysis in Amazon Quick Sight. Analyses can be created either from a template or from an `AnalysisDefinition`.
  */
 export const createAnalysis: API.OperationMethod<
-  CreateAnalysisRequest,
+  CreateAnalysisRequest & RegionInput,
   CreateAnalysisResponse,
   CreateAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -14454,6 +14488,8 @@ export const createAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnalysis",
+  telemetry: TELEMETRY,
+  span: "CreateAnalysis",
 }));
 
 export type CreateApprovalPolicyError =
@@ -14469,7 +14505,7 @@ export type CreateApprovalPolicyError =
  * Creates an approval policy in Quick Sight.
  */
 export const createApprovalPolicy: API.OperationMethod<
-  CreateApprovalPolicyRequest,
+  CreateApprovalPolicyRequest & RegionInput,
   CreateApprovalPolicyResponse,
   CreateApprovalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -14488,6 +14524,8 @@ export const createApprovalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApprovalPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateApprovalPolicy",
 }));
 
 export type CreateBrandError =
@@ -14502,7 +14540,7 @@ export type CreateBrandError =
  * Creates an Quick Sight brand.
  */
 export const createBrand: API.OperationMethod<
-  CreateBrandRequest,
+  CreateBrandRequest & RegionInput,
   CreateBrandResponse,
   CreateBrandError,
   Credentials | HttpClient.HttpClient
@@ -14520,6 +14558,8 @@ export const createBrand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrand",
+  telemetry: TELEMETRY,
+  span: "CreateBrand",
 }));
 
 export type CreateCustomPermissionsError =
@@ -14538,7 +14578,7 @@ export type CreateCustomPermissionsError =
  * Creates a custom permissions profile.
  */
 export const createCustomPermissions: API.OperationMethod<
-  CreateCustomPermissionsRequest,
+  CreateCustomPermissionsRequest & RegionInput,
   CreateCustomPermissionsResponse,
   CreateCustomPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -14560,6 +14600,8 @@ export const createCustomPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomPermissions",
+  telemetry: TELEMETRY,
+  span: "CreateCustomPermissions",
 }));
 
 export type CreateDashboardError =
@@ -14586,7 +14628,7 @@ export type CreateDashboardError =
  * different Amazon Web Services account.
  */
 export const createDashboard: API.OperationMethod<
-  CreateDashboardRequest,
+  CreateDashboardRequest & RegionInput,
   CreateDashboardResponse,
   CreateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -14607,6 +14649,8 @@ export const createDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDashboard",
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateDataSetError =
@@ -14626,7 +14670,7 @@ export type CreateDataSetError =
  * Creates a dataset.
  */
 export const createDataSet: API.OperationMethod<
-  CreateDataSetRequest,
+  CreateDataSetRequest & RegionInput,
   CreateDataSetResponse,
   CreateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -14649,6 +14693,8 @@ export const createDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSet",
+  telemetry: TELEMETRY,
+  span: "CreateDataSet",
 }));
 
 export type CreateDataSourceError =
@@ -14667,7 +14713,7 @@ export type CreateDataSourceError =
  * Creates a data source.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -14689,6 +14735,8 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
+  telemetry: TELEMETRY,
+  span: "CreateDataSource",
 }));
 
 export type CreateDlpSettingError =
@@ -14704,7 +14752,7 @@ export type CreateDlpSettingError =
  * Creates a data loss prevention (DLP) setting configuration for an Amazon Web Services account. A DLP setting defines the DLP provider, the enforcement behavior, and the Quick capabilities that the setting applies to.
  */
 export const createDlpSetting: API.OperationMethod<
-  CreateDlpSettingRequest,
+  CreateDlpSettingRequest & RegionInput,
   CreateDlpSettingResponse,
   CreateDlpSettingError,
   Credentials | HttpClient.HttpClient
@@ -14723,6 +14771,8 @@ export const createDlpSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDlpSetting",
+  telemetry: TELEMETRY,
+  span: "CreateDlpSetting",
 }));
 
 export type CreateFlowError =
@@ -14741,7 +14791,7 @@ export type CreateFlowError =
  * This operation is idempotent. Supply a `ClientToken` to safely retry without creating duplicate resources.
  */
 export const createFlow: API.OperationMethod<
-  CreateFlowRequest,
+  CreateFlowRequest & RegionInput,
   CreateFlowResponse,
   CreateFlowError,
   Credentials | HttpClient.HttpClient
@@ -14761,6 +14811,8 @@ export const createFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlow",
+  telemetry: TELEMETRY,
+  span: "CreateFlow",
 }));
 
 export type CreateFolderError =
@@ -14778,7 +14830,7 @@ export type CreateFolderError =
  * Creates an empty shared folder.
  */
 export const createFolder: API.OperationMethod<
-  CreateFolderRequest,
+  CreateFolderRequest & RegionInput,
   CreateFolderResponse,
   CreateFolderError,
   Credentials | HttpClient.HttpClient
@@ -14799,6 +14851,8 @@ export const createFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFolder",
+  telemetry: TELEMETRY,
+  span: "CreateFolder",
 }));
 
 export type CreateFolderMembershipError =
@@ -14815,7 +14869,7 @@ export type CreateFolderMembershipError =
  * Adds an asset, such as a dashboard, analysis, or dataset into a folder.
  */
 export const createFolderMembership: API.OperationMethod<
-  CreateFolderMembershipRequest,
+  CreateFolderMembershipRequest & RegionInput,
   CreateFolderMembershipResponse,
   CreateFolderMembershipError,
   Credentials | HttpClient.HttpClient
@@ -14835,6 +14889,8 @@ export const createFolderMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFolderMembership",
+  telemetry: TELEMETRY,
+  span: "CreateFolderMembership",
 }));
 
 export type CreateGroupError =
@@ -14858,7 +14914,7 @@ export type CreateGroupError =
  * The response is a group object.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -14879,6 +14935,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateGroupMembershipError =
@@ -14894,7 +14952,7 @@ export type CreateGroupMembershipError =
  * Adds an Amazon Quick Sight user to an Amazon Quick Sight group.
  */
 export const createGroupMembership: API.OperationMethod<
-  CreateGroupMembershipRequest,
+  CreateGroupMembershipRequest & RegionInput,
   CreateGroupMembershipResponse,
   CreateGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -14913,6 +14971,8 @@ export const createGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupMembership",
+  telemetry: TELEMETRY,
+  span: "CreateGroupMembership",
 }));
 
 export type CreateIAMPolicyAssignmentError =
@@ -14932,7 +14992,7 @@ export type CreateIAMPolicyAssignmentError =
  * unique.
  */
 export const createIAMPolicyAssignment: API.OperationMethod<
-  CreateIAMPolicyAssignmentRequest,
+  CreateIAMPolicyAssignmentRequest & RegionInput,
   CreateIAMPolicyAssignmentResponse,
   CreateIAMPolicyAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -14951,6 +15011,8 @@ export const createIAMPolicyAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIAMPolicyAssignment",
+  telemetry: TELEMETRY,
+  span: "CreateIAMPolicyAssignment",
 }));
 
 export type CreateIngestionError =
@@ -14973,7 +15035,7 @@ export type CreateIngestionError =
  * tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
  */
 export const createIngestion: API.OperationMethod<
-  CreateIngestionRequest,
+  CreateIngestionRequest & RegionInput,
   CreateIngestionResponse,
   CreateIngestionError,
   Credentials | HttpClient.HttpClient
@@ -14992,6 +15054,8 @@ export const createIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestion",
+  telemetry: TELEMETRY,
+  span: "CreateIngestion",
 }));
 
 export type CreateKnowledgeBaseError =
@@ -15019,7 +15083,7 @@ export type CreateKnowledgeBaseError =
  * - `ONE_DRIVE` - Uses OneDrive as the data source. Supports two-legged OAuth only.
  */
 export const createKnowledgeBase: API.OperationMethod<
-  CreateKnowledgeBaseRequest,
+  CreateKnowledgeBaseRequest & RegionInput,
   CreateKnowledgeBaseResponse,
   CreateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -15040,6 +15104,8 @@ export const createKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "CreateKnowledgeBase",
 }));
 
 export type CreateLimitsProfileError =
@@ -15054,7 +15120,7 @@ export type CreateLimitsProfileError =
  * Creates a limits profile that defines resource usage limits for Amazon Quick Sight users.
  */
 export const createLimitsProfile: API.OperationMethod<
-  CreateLimitsProfileRequest,
+  CreateLimitsProfileRequest & RegionInput,
   CreateLimitsProfileResponse,
   CreateLimitsProfileError,
   Credentials | HttpClient.HttpClient
@@ -15072,6 +15138,8 @@ export const createLimitsProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLimitsProfile",
+  telemetry: TELEMETRY,
+  span: "CreateLimitsProfile",
 }));
 
 export type CreateNamespaceError =
@@ -15098,7 +15166,7 @@ export type CreateNamespaceError =
  * Amazon Web Services Support.
  */
 export const createNamespace: API.OperationMethod<
-  CreateNamespaceRequest,
+  CreateNamespaceRequest & RegionInput,
   CreateNamespaceResponse,
   CreateNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -15120,6 +15188,8 @@ export const createNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateNamespace",
 }));
 
 export type CreateOAuthClientApplicationError =
@@ -15136,7 +15206,7 @@ export type CreateOAuthClientApplicationError =
  * Creates an OAuthClientApplication.
  */
 export const createOAuthClientApplication: API.OperationMethod<
-  CreateOAuthClientApplicationRequest,
+  CreateOAuthClientApplicationRequest & RegionInput,
   CreateOAuthClientApplicationResponse,
   CreateOAuthClientApplicationError,
   Credentials | HttpClient.HttpClient
@@ -15156,6 +15226,8 @@ export const createOAuthClientApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuthClientApplication",
+  telemetry: TELEMETRY,
+  span: "CreateOAuthClientApplication",
 }));
 
 export type CreateRefreshScheduleError =
@@ -15172,7 +15244,7 @@ export type CreateRefreshScheduleError =
  * Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
  */
 export const createRefreshSchedule: API.OperationMethod<
-  CreateRefreshScheduleRequest,
+  CreateRefreshScheduleRequest & RegionInput,
   CreateRefreshScheduleResponse,
   CreateRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -15192,6 +15264,8 @@ export const createRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRefreshSchedule",
+  telemetry: TELEMETRY,
+  span: "CreateRefreshSchedule",
 }));
 
 export type CreateRoleMembershipError =
@@ -15207,7 +15281,7 @@ export type CreateRoleMembershipError =
  * Use `CreateRoleMembership` to add an existing Quick Sight group to an existing role.
  */
 export const createRoleMembership: API.OperationMethod<
-  CreateRoleMembershipRequest,
+  CreateRoleMembershipRequest & RegionInput,
   CreateRoleMembershipResponse,
   CreateRoleMembershipError,
   Credentials | HttpClient.HttpClient
@@ -15226,6 +15300,8 @@ export const createRoleMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoleMembership",
+  telemetry: TELEMETRY,
+  span: "CreateRoleMembership",
 }));
 
 export type CreateSpaceError =
@@ -15241,7 +15317,7 @@ export type CreateSpaceError =
  * Creates a new Amazon QuickSight space. A space is a collection of resources that can be used to organize and manage QuickSight assets.
  */
 export const createSpace: API.OperationMethod<
-  CreateSpaceRequest,
+  CreateSpaceRequest & RegionInput,
   CreateSpaceResponse,
   CreateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -15260,6 +15336,8 @@ export const createSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpace",
+  telemetry: TELEMETRY,
+  span: "CreateSpace",
 }));
 
 export type CreateTemplateError =
@@ -15285,7 +15363,7 @@ export type CreateTemplateError =
  * and template.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -15306,6 +15384,8 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type CreateTemplateAliasError =
@@ -15321,7 +15401,7 @@ export type CreateTemplateAliasError =
  * Creates a template alias for a template.
  */
 export const createTemplateAlias: API.OperationMethod<
-  CreateTemplateAliasRequest,
+  CreateTemplateAliasRequest & RegionInput,
   CreateTemplateAliasResponse,
   CreateTemplateAliasError,
   Credentials | HttpClient.HttpClient
@@ -15340,6 +15420,8 @@ export const createTemplateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateAlias",
+  telemetry: TELEMETRY,
+  span: "CreateTemplateAlias",
 }));
 
 export type CreateThemeError =
@@ -15360,7 +15442,7 @@ export type CreateThemeError =
  * Themes in Amazon Quick Sight in the *Amazon Quick Sight User Guide*.
  */
 export const createTheme: API.OperationMethod<
-  CreateThemeRequest,
+  CreateThemeRequest & RegionInput,
   CreateThemeResponse,
   CreateThemeError,
   Credentials | HttpClient.HttpClient
@@ -15380,6 +15462,8 @@ export const createTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTheme",
+  telemetry: TELEMETRY,
+  span: "CreateTheme",
 }));
 
 export type CreateThemeAliasError =
@@ -15396,7 +15480,7 @@ export type CreateThemeAliasError =
  * Creates a theme alias for a theme.
  */
 export const createThemeAlias: API.OperationMethod<
-  CreateThemeAliasRequest,
+  CreateThemeAliasRequest & RegionInput,
   CreateThemeAliasResponse,
   CreateThemeAliasError,
   Credentials | HttpClient.HttpClient
@@ -15416,6 +15500,8 @@ export const createThemeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThemeAlias",
+  telemetry: TELEMETRY,
+  span: "CreateThemeAlias",
 }));
 
 export type CreateTopicError =
@@ -15432,7 +15518,7 @@ export type CreateTopicError =
  * Creates a new Q topic.
  */
 export const createTopic: API.OperationMethod<
-  CreateTopicRequest,
+  CreateTopicRequest & RegionInput,
   CreateTopicResponse,
   CreateTopicError,
   Credentials | HttpClient.HttpClient
@@ -15452,6 +15538,8 @@ export const createTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopic",
+  telemetry: TELEMETRY,
+  span: "CreateTopic",
 }));
 
 export type CreateTopicRefreshScheduleError =
@@ -15468,7 +15556,7 @@ export type CreateTopicRefreshScheduleError =
  * Creates a topic refresh schedule.
  */
 export const createTopicRefreshSchedule: API.OperationMethod<
-  CreateTopicRefreshScheduleRequest,
+  CreateTopicRefreshScheduleRequest & RegionInput,
   CreateTopicRefreshScheduleResponse,
   CreateTopicRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -15488,6 +15576,8 @@ export const createTopicRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopicRefreshSchedule",
+  telemetry: TELEMETRY,
+  span: "CreateTopicRefreshSchedule",
 }));
 
 export type CreateTopicV2Error =
@@ -15504,7 +15594,7 @@ export type CreateTopicV2Error =
  * Creates a new Q topic.
  */
 export const createTopicV2: API.OperationMethod<
-  CreateTopicV2Request,
+  CreateTopicV2Request & RegionInput,
   CreateTopicV2Response,
   CreateTopicV2Error,
   Credentials | HttpClient.HttpClient
@@ -15524,6 +15614,8 @@ export const createTopicV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopicV2",
+  telemetry: TELEMETRY,
+  span: "CreateTopicV2",
 }));
 
 export type CreateVPCConnectionError =
@@ -15540,7 +15632,7 @@ export type CreateVPCConnectionError =
  * Creates a new VPC connection.
  */
 export const createVPCConnection: API.OperationMethod<
-  CreateVPCConnectionRequest,
+  CreateVPCConnectionRequest & RegionInput,
   CreateVPCConnectionResponse,
   CreateVPCConnectionError,
   Credentials | HttpClient.HttpClient
@@ -15560,6 +15652,8 @@ export const createVPCConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVPCConnection",
+  telemetry: TELEMETRY,
+  span: "CreateVPCConnection",
 }));
 
 export type DeleteAccountCustomizationError =
@@ -15587,7 +15681,7 @@ export type DeleteAccountCustomizationError =
  * Deletes all Amazon Quick Sight customizations for the specified Amazon Web Services account and Quick Sight namespace.
  */
 export const deleteAccountCustomization: API.OperationMethod<
-  DeleteAccountCustomizationRequest,
+  DeleteAccountCustomizationRequest & RegionInput,
   DeleteAccountCustomizationResponse,
   DeleteAccountCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -15608,6 +15702,8 @@ export const deleteAccountCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountCustomization",
+  telemetry: TELEMETRY,
+  span: "DeleteAccountCustomization",
 }));
 
 export type DeleteAccountCustomPermissionError =
@@ -15621,7 +15717,7 @@ export type DeleteAccountCustomPermissionError =
  * Unapplies a custom permissions profile from an account.
  */
 export const deleteAccountCustomPermission: API.OperationMethod<
-  DeleteAccountCustomPermissionRequest,
+  DeleteAccountCustomPermissionRequest & RegionInput,
   DeleteAccountCustomPermissionResponse,
   DeleteAccountCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -15638,6 +15734,8 @@ export const deleteAccountCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountCustomPermission",
+  telemetry: TELEMETRY,
+  span: "DeleteAccountCustomPermission",
 }));
 
 export type DeleteAccountSubscriptionError =
@@ -15669,7 +15767,7 @@ export type DeleteAccountSubscriptionError =
  * Use the `DeleteAccountSubscription` operation to delete an Quick Sight account. This operation will result in an error message if you have configured your account termination protection settings to `True`. To change this setting and delete your account, call the `UpdateAccountSettings` API and set the value of the `TerminationProtectionEnabled` parameter to `False`, then make another call to the `DeleteAccountSubscription` API.
  */
 export const deleteAccountSubscription: API.OperationMethod<
-  DeleteAccountSubscriptionRequest,
+  DeleteAccountSubscriptionRequest & RegionInput,
   DeleteAccountSubscriptionResponse,
   DeleteAccountSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -15688,6 +15786,8 @@ export const deleteAccountSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteAccountSubscription",
 }));
 
 export type DeleteActionConnectorError =
@@ -15701,7 +15801,7 @@ export type DeleteActionConnectorError =
  * Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it.
  */
 export const deleteActionConnector: API.OperationMethod<
-  DeleteActionConnectorRequest,
+  DeleteActionConnectorRequest & RegionInput,
   DeleteActionConnectorResponse,
   DeleteActionConnectorError,
   Credentials | HttpClient.HttpClient
@@ -15718,6 +15818,8 @@ export const deleteActionConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActionConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteActionConnector",
 }));
 
 export type DeleteAgentError =
@@ -15732,7 +15834,7 @@ export type DeleteAgentError =
  * Deletes an agent.
  */
 export const deleteAgent: API.OperationMethod<
-  DeleteAgentRequest,
+  DeleteAgentRequest & RegionInput,
   DeleteAgentResponse,
   DeleteAgentError,
   Credentials | HttpClient.HttpClient
@@ -15750,6 +15852,8 @@ export const deleteAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgent",
+  telemetry: TELEMETRY,
+  span: "DeleteAgent",
 }));
 
 export type DeleteAnalysisError =
@@ -15777,7 +15881,7 @@ export type DeleteAnalysisError =
  * dashboards that you publish from it.
  */
 export const deleteAnalysis: API.OperationMethod<
-  DeleteAnalysisRequest,
+  DeleteAnalysisRequest & RegionInput,
   DeleteAnalysisResponse,
   DeleteAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -15795,6 +15899,8 @@ export const deleteAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalysis",
+  telemetry: TELEMETRY,
+  span: "DeleteAnalysis",
 }));
 
 export type DeleteAppError =
@@ -15808,7 +15914,7 @@ export type DeleteAppError =
  * Deletes an app.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResponse,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -15825,6 +15931,8 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteApprovalPolicyError =
@@ -15838,7 +15946,7 @@ export type DeleteApprovalPolicyError =
  * Deletes an approval policy in Quick Sight.
  */
 export const deleteApprovalPolicy: API.OperationMethod<
-  DeleteApprovalPolicyRequest,
+  DeleteApprovalPolicyRequest & RegionInput,
   DeleteApprovalPolicyResponse,
   DeleteApprovalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -15855,6 +15963,8 @@ export const deleteApprovalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApprovalPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteApprovalPolicy",
 }));
 
 export type DeleteBrandError =
@@ -15879,7 +15989,7 @@ export type DeleteBrandError =
  * Deletes an Quick Sight brand.
  */
 export const deleteBrand: API.OperationMethod<
-  DeleteBrandRequest,
+  DeleteBrandRequest & RegionInput,
   DeleteBrandResponse,
   DeleteBrandError,
   Credentials | HttpClient.HttpClient
@@ -15897,6 +16007,8 @@ export const deleteBrand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrand",
+  telemetry: TELEMETRY,
+  span: "DeleteBrand",
 }));
 
 export type DeleteBrandAssignmentError =
@@ -15911,7 +16023,7 @@ export type DeleteBrandAssignmentError =
  * Deletes a brand assignment.
  */
 export const deleteBrandAssignment: API.OperationMethod<
-  DeleteBrandAssignmentRequest,
+  DeleteBrandAssignmentRequest & RegionInput,
   DeleteBrandAssignmentResponse,
   DeleteBrandAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -15929,6 +16041,8 @@ export const deleteBrandAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrandAssignment",
+  telemetry: TELEMETRY,
+  span: "DeleteBrandAssignment",
 }));
 
 export type DeleteCustomPermissionsError =
@@ -15946,7 +16060,7 @@ export type DeleteCustomPermissionsError =
  * Deletes a custom permissions profile.
  */
 export const deleteCustomPermissions: API.OperationMethod<
-  DeleteCustomPermissionsRequest,
+  DeleteCustomPermissionsRequest & RegionInput,
   DeleteCustomPermissionsResponse,
   DeleteCustomPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -15967,6 +16081,8 @@ export const deleteCustomPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomPermissions",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomPermissions",
 }));
 
 export type DeleteDashboardError =
@@ -15981,7 +16097,7 @@ export type DeleteDashboardError =
  * Deletes a dashboard.
  */
 export const deleteDashboard: API.OperationMethod<
-  DeleteDashboardRequest,
+  DeleteDashboardRequest & RegionInput,
   DeleteDashboardResponse,
   DeleteDashboardError,
   Credentials | HttpClient.HttpClient
@@ -15999,6 +16115,8 @@ export const deleteDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboard",
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteDataSetError =
@@ -16012,7 +16130,7 @@ export type DeleteDataSetError =
  * Deletes a dataset.
  */
 export const deleteDataSet: API.OperationMethod<
-  DeleteDataSetRequest,
+  DeleteDataSetRequest & RegionInput,
   DeleteDataSetResponse,
   DeleteDataSetError,
   Credentials | HttpClient.HttpClient
@@ -16029,6 +16147,8 @@ export const deleteDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSet",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSet",
 }));
 
 export type DeleteDataSetRefreshPropertiesError =
@@ -16044,7 +16164,7 @@ export type DeleteDataSetRefreshPropertiesError =
  * Deletes the dataset refresh properties of the dataset.
  */
 export const deleteDataSetRefreshProperties: API.OperationMethod<
-  DeleteDataSetRefreshPropertiesRequest,
+  DeleteDataSetRefreshPropertiesRequest & RegionInput,
   DeleteDataSetRefreshPropertiesResponse,
   DeleteDataSetRefreshPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -16063,6 +16183,8 @@ export const deleteDataSetRefreshProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSetRefreshProperties",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSetRefreshProperties",
 }));
 
 export type DeleteDataSourceError =
@@ -16077,7 +16199,7 @@ export type DeleteDataSourceError =
  * reference the deleted data source.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -16094,6 +16216,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteDefaultQBusinessApplicationError =
@@ -16107,7 +16231,7 @@ export type DeleteDefaultQBusinessApplicationError =
  * Deletes a linked Amazon Q Business application from an Quick Sight account
  */
 export const deleteDefaultQBusinessApplication: API.OperationMethod<
-  DeleteDefaultQBusinessApplicationRequest,
+  DeleteDefaultQBusinessApplicationRequest & RegionInput,
   DeleteDefaultQBusinessApplicationResponse,
   DeleteDefaultQBusinessApplicationError,
   Credentials | HttpClient.HttpClient
@@ -16124,6 +16248,8 @@ export const deleteDefaultQBusinessApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDefaultQBusinessApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteDefaultQBusinessApplication",
 }));
 
 export type DeleteDlpSettingError =
@@ -16137,7 +16263,7 @@ export type DeleteDlpSettingError =
  * Deletes a DLP setting configuration from an Amazon Web Services account.
  */
 export const deleteDlpSetting: API.OperationMethod<
-  DeleteDlpSettingRequest,
+  DeleteDlpSettingRequest & RegionInput,
   DeleteDlpSettingResponse,
   DeleteDlpSettingError,
   Credentials | HttpClient.HttpClient
@@ -16154,6 +16280,8 @@ export const deleteDlpSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDlpSetting",
+  telemetry: TELEMETRY,
+  span: "DeleteDlpSetting",
 }));
 
 export type DeleteFlowError =
@@ -16168,7 +16296,7 @@ export type DeleteFlowError =
  * Permanently deletes a flow from the specified Amazon Web Services account. This operation cannot be undone.
  */
 export const deleteFlow: API.OperationMethod<
-  DeleteFlowRequest,
+  DeleteFlowRequest & RegionInput,
   DeleteFlowResponse,
   DeleteFlowError,
   Credentials | HttpClient.HttpClient
@@ -16186,6 +16314,8 @@ export const deleteFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteFlow",
 }));
 
 export type DeleteFolderError =
@@ -16202,7 +16332,7 @@ export type DeleteFolderError =
  * Deletes an empty folder.
  */
 export const deleteFolder: API.OperationMethod<
-  DeleteFolderRequest,
+  DeleteFolderRequest & RegionInput,
   DeleteFolderResponse,
   DeleteFolderError,
   Credentials | HttpClient.HttpClient
@@ -16222,6 +16352,8 @@ export const deleteFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolder",
+  telemetry: TELEMETRY,
+  span: "DeleteFolder",
 }));
 
 export type DeleteFolderMembershipError =
@@ -16236,7 +16368,7 @@ export type DeleteFolderMembershipError =
  * Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
  */
 export const deleteFolderMembership: API.OperationMethod<
-  DeleteFolderMembershipRequest,
+  DeleteFolderMembershipRequest & RegionInput,
   DeleteFolderMembershipResponse,
   DeleteFolderMembershipError,
   Credentials | HttpClient.HttpClient
@@ -16254,6 +16386,8 @@ export const deleteFolderMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolderMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteFolderMembership",
 }));
 
 export type DeleteGroupError =
@@ -16269,7 +16403,7 @@ export type DeleteGroupError =
  * Removes a user group from Amazon Quick Sight.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -16288,6 +16422,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteGroupMembershipError =
@@ -16303,7 +16439,7 @@ export type DeleteGroupMembershipError =
  * Removes a user from a group so that the user is no longer a member of the group.
  */
 export const deleteGroupMembership: API.OperationMethod<
-  DeleteGroupMembershipRequest,
+  DeleteGroupMembershipRequest & RegionInput,
   DeleteGroupMembershipResponse,
   DeleteGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -16322,6 +16458,8 @@ export const deleteGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteGroupMembership",
 }));
 
 export type DeleteIAMPolicyAssignmentError =
@@ -16337,7 +16475,7 @@ export type DeleteIAMPolicyAssignmentError =
  * Deletes an existing IAM policy assignment.
  */
 export const deleteIAMPolicyAssignment: API.OperationMethod<
-  DeleteIAMPolicyAssignmentRequest,
+  DeleteIAMPolicyAssignmentRequest & RegionInput,
   DeleteIAMPolicyAssignmentResponse,
   DeleteIAMPolicyAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -16356,6 +16494,8 @@ export const deleteIAMPolicyAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIAMPolicyAssignment",
+  telemetry: TELEMETRY,
+  span: "DeleteIAMPolicyAssignment",
 }));
 
 export type DeleteIdentityPropagationConfigError =
@@ -16371,7 +16511,7 @@ export type DeleteIdentityPropagationConfigError =
  * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
  */
 export const deleteIdentityPropagationConfig: API.OperationMethod<
-  DeleteIdentityPropagationConfigRequest,
+  DeleteIdentityPropagationConfigRequest & RegionInput,
   DeleteIdentityPropagationConfigResponse,
   DeleteIdentityPropagationConfigError,
   Credentials | HttpClient.HttpClient
@@ -16388,6 +16528,8 @@ export const deleteIdentityPropagationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityPropagationConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityPropagationConfig",
 }));
 
 export type DeleteKnowledgeBaseError =
@@ -16405,7 +16547,7 @@ export type DeleteKnowledgeBaseError =
  * Deletes a knowledge base.
  */
 export const deleteKnowledgeBase: API.OperationMethod<
-  DeleteKnowledgeBaseRequest,
+  DeleteKnowledgeBaseRequest & RegionInput,
   DeleteKnowledgeBaseResponse,
   DeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -16426,6 +16568,8 @@ export const deleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "DeleteKnowledgeBase",
 }));
 
 export type DeleteLimitsProfileError =
@@ -16440,7 +16584,7 @@ export type DeleteLimitsProfileError =
  * Deletes a limits profile.
  */
 export const deleteLimitsProfile: API.OperationMethod<
-  DeleteLimitsProfileRequest,
+  DeleteLimitsProfileRequest & RegionInput,
   DeleteLimitsProfileResponse,
   DeleteLimitsProfileError,
   Credentials | HttpClient.HttpClient
@@ -16458,6 +16602,8 @@ export const deleteLimitsProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLimitsProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteLimitsProfile",
 }));
 
 export type DeleteNamespaceError =
@@ -16475,7 +16621,7 @@ export type DeleteNamespaceError =
  * deleted. To delete these assets, you use the API operations for the relevant asset.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -16494,6 +16640,8 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteOAuthClientApplicationError =
@@ -16508,7 +16656,7 @@ export type DeleteOAuthClientApplicationError =
  * Deletes an OAuthClientApplication.
  */
 export const deleteOAuthClientApplication: API.OperationMethod<
-  DeleteOAuthClientApplicationRequest,
+  DeleteOAuthClientApplicationRequest & RegionInput,
   DeleteOAuthClientApplicationResponse,
   DeleteOAuthClientApplicationError,
   Credentials | HttpClient.HttpClient
@@ -16526,6 +16674,8 @@ export const deleteOAuthClientApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOAuthClientApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteOAuthClientApplication",
 }));
 
 export type DeleteRefreshScheduleError =
@@ -16540,7 +16690,7 @@ export type DeleteRefreshScheduleError =
  * Deletes a refresh schedule from a dataset.
  */
 export const deleteRefreshSchedule: API.OperationMethod<
-  DeleteRefreshScheduleRequest,
+  DeleteRefreshScheduleRequest & RegionInput,
   DeleteRefreshScheduleResponse,
   DeleteRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -16558,6 +16708,8 @@ export const deleteRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRefreshSchedule",
+  telemetry: TELEMETRY,
+  span: "DeleteRefreshSchedule",
 }));
 
 export type DeleteRoleCustomPermissionError =
@@ -16573,7 +16725,7 @@ export type DeleteRoleCustomPermissionError =
  * Removes custom permissions from the role.
  */
 export const deleteRoleCustomPermission: API.OperationMethod<
-  DeleteRoleCustomPermissionRequest,
+  DeleteRoleCustomPermissionRequest & RegionInput,
   DeleteRoleCustomPermissionResponse,
   DeleteRoleCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -16592,6 +16744,8 @@ export const deleteRoleCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoleCustomPermission",
+  telemetry: TELEMETRY,
+  span: "DeleteRoleCustomPermission",
 }));
 
 export type DeleteRoleMembershipError =
@@ -16607,7 +16761,7 @@ export type DeleteRoleMembershipError =
  * Removes a group from a role.
  */
 export const deleteRoleMembership: API.OperationMethod<
-  DeleteRoleMembershipRequest,
+  DeleteRoleMembershipRequest & RegionInput,
   DeleteRoleMembershipResponse,
   DeleteRoleMembershipError,
   Credentials | HttpClient.HttpClient
@@ -16626,6 +16780,8 @@ export const deleteRoleMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoleMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteRoleMembership",
 }));
 
 export type DeleteSpaceError =
@@ -16639,7 +16795,7 @@ export type DeleteSpaceError =
  * Deletes an Amazon QuickSight space.
  */
 export const deleteSpace: API.OperationMethod<
-  DeleteSpaceRequest,
+  DeleteSpaceRequest & RegionInput,
   DeleteSpaceResponse,
   DeleteSpaceError,
   Credentials | HttpClient.HttpClient
@@ -16656,6 +16812,8 @@ export const deleteSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
+  telemetry: TELEMETRY,
+  span: "DeleteSpace",
 }));
 
 export type DeleteTemplateError =
@@ -16671,7 +16829,7 @@ export type DeleteTemplateError =
  * Deletes a template.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -16690,6 +16848,8 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type DeleteTemplateAliasError =
@@ -16704,7 +16864,7 @@ export type DeleteTemplateAliasError =
  * alias, you delete the version of the template that the alias points to.
  */
 export const deleteTemplateAlias: API.OperationMethod<
-  DeleteTemplateAliasRequest,
+  DeleteTemplateAliasRequest & RegionInput,
   DeleteTemplateAliasResponse,
   DeleteTemplateAliasError,
   Credentials | HttpClient.HttpClient
@@ -16721,6 +16881,8 @@ export const deleteTemplateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplateAlias",
 }));
 
 export type DeleteThemeError =
@@ -16736,7 +16898,7 @@ export type DeleteThemeError =
  * Deletes a theme.
  */
 export const deleteTheme: API.OperationMethod<
-  DeleteThemeRequest,
+  DeleteThemeRequest & RegionInput,
   DeleteThemeResponse,
   DeleteThemeError,
   Credentials | HttpClient.HttpClient
@@ -16755,6 +16917,8 @@ export const deleteTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTheme",
+  telemetry: TELEMETRY,
+  span: "DeleteTheme",
 }));
 
 export type DeleteThemeAliasError =
@@ -16771,7 +16935,7 @@ export type DeleteThemeAliasError =
  * that the alias points to.
  */
 export const deleteThemeAlias: API.OperationMethod<
-  DeleteThemeAliasRequest,
+  DeleteThemeAliasRequest & RegionInput,
   DeleteThemeAliasResponse,
   DeleteThemeAliasError,
   Credentials | HttpClient.HttpClient
@@ -16789,6 +16953,8 @@ export const deleteThemeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThemeAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteThemeAlias",
 }));
 
 export type DeleteTopicError =
@@ -16803,7 +16969,7 @@ export type DeleteTopicError =
  * Deletes a topic.
  */
 export const deleteTopic: API.OperationMethod<
-  DeleteTopicRequest,
+  DeleteTopicRequest & RegionInput,
   DeleteTopicResponse,
   DeleteTopicError,
   Credentials | HttpClient.HttpClient
@@ -16821,6 +16987,8 @@ export const deleteTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopic",
+  telemetry: TELEMETRY,
+  span: "DeleteTopic",
 }));
 
 export type DeleteTopicRefreshScheduleError =
@@ -16837,7 +17005,7 @@ export type DeleteTopicRefreshScheduleError =
  * Deletes a topic refresh schedule.
  */
 export const deleteTopicRefreshSchedule: API.OperationMethod<
-  DeleteTopicRefreshScheduleRequest,
+  DeleteTopicRefreshScheduleRequest & RegionInput,
   DeleteTopicRefreshScheduleResponse,
   DeleteTopicRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -16857,6 +17025,8 @@ export const deleteTopicRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopicRefreshSchedule",
+  telemetry: TELEMETRY,
+  span: "DeleteTopicRefreshSchedule",
 }));
 
 export type DeleteTopicV2Error =
@@ -16871,7 +17041,7 @@ export type DeleteTopicV2Error =
  * Deletes a Q topic.
  */
 export const deleteTopicV2: API.OperationMethod<
-  DeleteTopicV2Request,
+  DeleteTopicV2Request & RegionInput,
   DeleteTopicV2Response,
   DeleteTopicV2Error,
   Credentials | HttpClient.HttpClient
@@ -16889,6 +17059,8 @@ export const deleteTopicV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopicV2",
+  telemetry: TELEMETRY,
+  span: "DeleteTopicV2",
 }));
 
 export type DeleteUserError =
@@ -16906,7 +17078,7 @@ export type DeleteUserError =
  * isn't deleted as a result of this call.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -16925,6 +17097,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserByPrincipalIdError =
@@ -16940,7 +17114,7 @@ export type DeleteUserByPrincipalIdError =
  * Deletes a user identified by its principal ID.
  */
 export const deleteUserByPrincipalId: API.OperationMethod<
-  DeleteUserByPrincipalIdRequest,
+  DeleteUserByPrincipalIdRequest & RegionInput,
   DeleteUserByPrincipalIdResponse,
   DeleteUserByPrincipalIdError,
   Credentials | HttpClient.HttpClient
@@ -16959,6 +17133,8 @@ export const deleteUserByPrincipalId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserByPrincipalId",
+  telemetry: TELEMETRY,
+  span: "DeleteUserByPrincipalId",
 }));
 
 export type DeleteUserCustomPermissionError =
@@ -16975,7 +17151,7 @@ export type DeleteUserCustomPermissionError =
  * Deletes a custom permissions profile from a user.
  */
 export const deleteUserCustomPermission: API.OperationMethod<
-  DeleteUserCustomPermissionRequest,
+  DeleteUserCustomPermissionRequest & RegionInput,
   DeleteUserCustomPermissionResponse,
   DeleteUserCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -16995,6 +17171,8 @@ export const deleteUserCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserCustomPermission",
+  telemetry: TELEMETRY,
+  span: "DeleteUserCustomPermission",
 }));
 
 export type DeleteVPCConnectionError =
@@ -17010,7 +17188,7 @@ export type DeleteVPCConnectionError =
  * Deletes a VPC connection.
  */
 export const deleteVPCConnection: API.OperationMethod<
-  DeleteVPCConnectionRequest,
+  DeleteVPCConnectionRequest & RegionInput,
   DeleteVPCConnectionResponse,
   DeleteVPCConnectionError,
   Credentials | HttpClient.HttpClient
@@ -17029,6 +17207,8 @@ export const deleteVPCConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVPCConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteVPCConnection",
 }));
 
 export type DescribeAccountCustomizationError =
@@ -17082,7 +17262,7 @@ export type DescribeAccountCustomizationError =
  * Amazon Web Services account.
  */
 export const describeAccountCustomization: API.OperationMethod<
-  DescribeAccountCustomizationRequest,
+  DescribeAccountCustomizationRequest & RegionInput,
   DescribeAccountCustomizationResponse,
   DescribeAccountCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -17100,6 +17280,8 @@ export const describeAccountCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountCustomization",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountCustomization",
 }));
 
 export type DescribeAccountCustomPermissionError =
@@ -17113,7 +17295,7 @@ export type DescribeAccountCustomPermissionError =
  * Describes the custom permissions profile that is applied to an account.
  */
 export const describeAccountCustomPermission: API.OperationMethod<
-  DescribeAccountCustomPermissionRequest,
+  DescribeAccountCustomPermissionRequest & RegionInput,
   DescribeAccountCustomPermissionResponse,
   DescribeAccountCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -17130,6 +17312,8 @@ export const describeAccountCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountCustomPermission",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountCustomPermission",
 }));
 
 export type DescribeAccountSettingsError =
@@ -17145,7 +17329,7 @@ export type DescribeAccountSettingsError =
  * created in this Amazon Web Services account.
  */
 export const describeAccountSettings: API.OperationMethod<
-  DescribeAccountSettingsRequest,
+  DescribeAccountSettingsRequest & RegionInput,
   DescribeAccountSettingsResponse,
   DescribeAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -17163,6 +17347,8 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountSettings",
 }));
 
 export type DescribeAccountSubscriptionError =
@@ -17177,7 +17363,7 @@ export type DescribeAccountSubscriptionError =
  * Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an `AccountInfo` object that includes an account's name, subscription status, authentication type, edition, and notification email address.
  */
 export const describeAccountSubscription: API.OperationMethod<
-  DescribeAccountSubscriptionRequest,
+  DescribeAccountSubscriptionRequest & RegionInput,
   DescribeAccountSubscriptionResponse,
   DescribeAccountSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -17195,6 +17381,8 @@ export const describeAccountSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSubscription",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountSubscription",
 }));
 
 export type DescribeActionConnectorError =
@@ -17208,7 +17396,7 @@ export type DescribeActionConnectorError =
  * Retrieves detailed information about an action connector, including its configuration, authentication settings, enabled actions, and current status.
  */
 export const describeActionConnector: API.OperationMethod<
-  DescribeActionConnectorRequest,
+  DescribeActionConnectorRequest & RegionInput,
   DescribeActionConnectorResponse,
   DescribeActionConnectorError,
   Credentials | HttpClient.HttpClient
@@ -17225,6 +17413,8 @@ export const describeActionConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActionConnector",
+  telemetry: TELEMETRY,
+  span: "DescribeActionConnector",
 }));
 
 export type DescribeActionConnectorPermissionsError =
@@ -17238,7 +17428,7 @@ export type DescribeActionConnectorPermissionsError =
  * Retrieves the permissions configuration for an action connector, showing which users, groups, and namespaces have access and what operations they can perform.
  */
 export const describeActionConnectorPermissions: API.OperationMethod<
-  DescribeActionConnectorPermissionsRequest,
+  DescribeActionConnectorPermissionsRequest & RegionInput,
   DescribeActionConnectorPermissionsResponse,
   DescribeActionConnectorPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17255,6 +17445,8 @@ export const describeActionConnectorPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActionConnectorPermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeActionConnectorPermissions",
 }));
 
 export type DescribeAgentError =
@@ -17269,7 +17461,7 @@ export type DescribeAgentError =
  * Describes an agent.
  */
 export const describeAgent: API.OperationMethod<
-  DescribeAgentRequest,
+  DescribeAgentRequest & RegionInput,
   DescribeAgentResponse,
   DescribeAgentError,
   Credentials | HttpClient.HttpClient
@@ -17287,6 +17479,8 @@ export const describeAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgent",
+  telemetry: TELEMETRY,
+  span: "DescribeAgent",
 }));
 
 export type DescribeAgentPermissionsError =
@@ -17301,7 +17495,7 @@ export type DescribeAgentPermissionsError =
  * Describes the resource permissions for an agent.
  */
 export const describeAgentPermissions: API.OperationMethod<
-  DescribeAgentPermissionsRequest,
+  DescribeAgentPermissionsRequest & RegionInput,
   DescribeAgentPermissionsResponse,
   DescribeAgentPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17319,6 +17513,8 @@ export const describeAgentPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgentPermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeAgentPermissions",
 }));
 
 export type DescribeAnalysisError =
@@ -17333,7 +17529,7 @@ export type DescribeAnalysisError =
  * Provides a summary of the metadata for an analysis.
  */
 export const describeAnalysis: API.OperationMethod<
-  DescribeAnalysisRequest,
+  DescribeAnalysisRequest & RegionInput,
   DescribeAnalysisResponse,
   DescribeAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -17351,6 +17547,8 @@ export const describeAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnalysis",
+  telemetry: TELEMETRY,
+  span: "DescribeAnalysis",
 }));
 
 export type DescribeAnalysisDefinitionError =
@@ -17373,7 +17571,7 @@ export type DescribeAnalysisDefinitionError =
  * instead.
  */
 export const describeAnalysisDefinition: API.OperationMethod<
-  DescribeAnalysisDefinitionRequest,
+  DescribeAnalysisDefinitionRequest & RegionInput,
   DescribeAnalysisDefinitionResponse,
   DescribeAnalysisDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -17393,6 +17591,8 @@ export const describeAnalysisDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnalysisDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeAnalysisDefinition",
 }));
 
 export type DescribeAnalysisPermissionsError =
@@ -17406,7 +17606,7 @@ export type DescribeAnalysisPermissionsError =
  * Provides the read and write permissions for an analysis.
  */
 export const describeAnalysisPermissions: API.OperationMethod<
-  DescribeAnalysisPermissionsRequest,
+  DescribeAnalysisPermissionsRequest & RegionInput,
   DescribeAnalysisPermissionsResponse,
   DescribeAnalysisPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17423,6 +17623,8 @@ export const describeAnalysisPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnalysisPermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeAnalysisPermissions",
 }));
 
 export type DescribeAppError =
@@ -17436,7 +17638,7 @@ export type DescribeAppError =
  * Describes an app.
  */
 export const describeApp: API.OperationMethod<
-  DescribeAppRequest,
+  DescribeAppRequest & RegionInput,
   DescribeAppResponse,
   DescribeAppError,
   Credentials | HttpClient.HttpClient
@@ -17453,6 +17655,8 @@ export const describeApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApp",
+  telemetry: TELEMETRY,
+  span: "DescribeApp",
 }));
 
 export type DescribeAppPermissionsError =
@@ -17466,7 +17670,7 @@ export type DescribeAppPermissionsError =
  * Describes the resource permissions for an app.
  */
 export const describeAppPermissions: API.OperationMethod<
-  DescribeAppPermissionsRequest,
+  DescribeAppPermissionsRequest & RegionInput,
   DescribeAppPermissionsResponse,
   DescribeAppPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17483,6 +17687,8 @@ export const describeAppPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppPermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeAppPermissions",
 }));
 
 export type DescribeApprovalPolicyError =
@@ -17496,7 +17702,7 @@ export type DescribeApprovalPolicyError =
  * Describes an approval policy in Quick Sight.
  */
 export const describeApprovalPolicy: API.OperationMethod<
-  DescribeApprovalPolicyRequest,
+  DescribeApprovalPolicyRequest & RegionInput,
   DescribeApprovalPolicyResponse,
   DescribeApprovalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -17513,6 +17719,8 @@ export const describeApprovalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApprovalPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeApprovalPolicy",
 }));
 
 export type DescribeAssetBundleExportJobError =
@@ -17531,7 +17739,7 @@ export type DescribeAssetBundleExportJobError =
  * Job descriptions are available for 14 days after the job starts.
  */
 export const describeAssetBundleExportJob: API.OperationMethod<
-  DescribeAssetBundleExportJobRequest,
+  DescribeAssetBundleExportJobRequest & RegionInput,
   DescribeAssetBundleExportJobResponse,
   DescribeAssetBundleExportJobError,
   Credentials | HttpClient.HttpClient
@@ -17542,6 +17750,8 @@ export const describeAssetBundleExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssetBundleExportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetBundleExportJob",
 }));
 
 export type DescribeAssetBundleImportJobError =
@@ -17556,7 +17766,7 @@ export type DescribeAssetBundleImportJobError =
  * descriptions are available for 14 days after job starts.
  */
 export const describeAssetBundleImportJob: API.OperationMethod<
-  DescribeAssetBundleImportJobRequest,
+  DescribeAssetBundleImportJobRequest & RegionInput,
   DescribeAssetBundleImportJobResponse,
   DescribeAssetBundleImportJobError,
   Credentials | HttpClient.HttpClient
@@ -17567,6 +17777,8 @@ export const describeAssetBundleImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssetBundleImportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetBundleImportJob",
 }));
 
 export type DescribeAutomationJobError =
@@ -17580,7 +17792,7 @@ export type DescribeAutomationJobError =
  * Retrieves the status and details of a specified automation job, including its status and outputs.
  */
 export const describeAutomationJob: API.OperationMethod<
-  DescribeAutomationJobRequest,
+  DescribeAutomationJobRequest & RegionInput,
   DescribeAutomationJobResponse,
   DescribeAutomationJobError,
   Credentials | HttpClient.HttpClient
@@ -17597,6 +17809,8 @@ export const describeAutomationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutomationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeAutomationJob",
 }));
 
 export type DescribeBrandError =
@@ -17611,7 +17825,7 @@ export type DescribeBrandError =
  * Describes a brand.
  */
 export const describeBrand: API.OperationMethod<
-  DescribeBrandRequest,
+  DescribeBrandRequest & RegionInput,
   DescribeBrandResponse,
   DescribeBrandError,
   Credentials | HttpClient.HttpClient
@@ -17629,6 +17843,8 @@ export const describeBrand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrand",
+  telemetry: TELEMETRY,
+  span: "DescribeBrand",
 }));
 
 export type DescribeBrandAssignmentError =
@@ -17643,7 +17859,7 @@ export type DescribeBrandAssignmentError =
  * Describes a brand assignment.
  */
 export const describeBrandAssignment: API.OperationMethod<
-  DescribeBrandAssignmentRequest,
+  DescribeBrandAssignmentRequest & RegionInput,
   DescribeBrandAssignmentResponse,
   DescribeBrandAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -17661,6 +17877,8 @@ export const describeBrandAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrandAssignment",
+  telemetry: TELEMETRY,
+  span: "DescribeBrandAssignment",
 }));
 
 export type DescribeBrandPublishedVersionError =
@@ -17675,7 +17893,7 @@ export type DescribeBrandPublishedVersionError =
  * Describes the published version of the brand.
  */
 export const describeBrandPublishedVersion: API.OperationMethod<
-  DescribeBrandPublishedVersionRequest,
+  DescribeBrandPublishedVersionRequest & RegionInput,
   DescribeBrandPublishedVersionResponse,
   DescribeBrandPublishedVersionError,
   Credentials | HttpClient.HttpClient
@@ -17693,6 +17911,8 @@ export const describeBrandPublishedVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrandPublishedVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeBrandPublishedVersion",
 }));
 
 export type DescribeCustomPermissionsError =
@@ -17708,7 +17928,7 @@ export type DescribeCustomPermissionsError =
  * Describes a custom permissions profile.
  */
 export const describeCustomPermissions: API.OperationMethod<
-  DescribeCustomPermissionsRequest,
+  DescribeCustomPermissionsRequest & RegionInput,
   DescribeCustomPermissionsResponse,
   DescribeCustomPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17727,6 +17947,8 @@ export const describeCustomPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomPermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomPermissions",
 }));
 
 export type DescribeDashboardError =
@@ -17741,7 +17963,7 @@ export type DescribeDashboardError =
  * Provides a summary for a dashboard.
  */
 export const describeDashboard: API.OperationMethod<
-  DescribeDashboardRequest,
+  DescribeDashboardRequest & RegionInput,
   DescribeDashboardResponse,
   DescribeDashboardError,
   Credentials | HttpClient.HttpClient
@@ -17759,6 +17981,8 @@ export const describeDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboard",
+  telemetry: TELEMETRY,
+  span: "DescribeDashboard",
 }));
 
 export type DescribeDashboardDefinitionError =
@@ -17781,7 +18005,7 @@ export type DescribeDashboardDefinitionError =
  * instead.
  */
 export const describeDashboardDefinition: API.OperationMethod<
-  DescribeDashboardDefinitionRequest,
+  DescribeDashboardDefinitionRequest & RegionInput,
   DescribeDashboardDefinitionResponse,
   DescribeDashboardDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -17801,6 +18025,8 @@ export const describeDashboardDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeDashboardDefinition",
 }));
 
 export type DescribeDashboardPermissionsError =
@@ -17814,7 +18040,7 @@ export type DescribeDashboardPermissionsError =
  * Describes read and write permissions for a dashboard.
  */
 export const describeDashboardPermissions: API.OperationMethod<
-  DescribeDashboardPermissionsRequest,
+  DescribeDashboardPermissionsRequest & RegionInput,
   DescribeDashboardPermissionsResponse,
   DescribeDashboardPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17831,6 +18057,8 @@ export const describeDashboardPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardPermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeDashboardPermissions",
 }));
 
 export type DescribeDashboardSnapshotJobError =
@@ -17860,7 +18088,7 @@ export type DescribeDashboardSnapshotJobError =
  * - Impersonated Quick Sight user doesn't have access to the specified dashboard in the job.
  */
 export const describeDashboardSnapshotJob: API.OperationMethod<
-  DescribeDashboardSnapshotJobRequest,
+  DescribeDashboardSnapshotJobRequest & RegionInput,
   DescribeDashboardSnapshotJobResponse,
   DescribeDashboardSnapshotJobError,
   Credentials | HttpClient.HttpClient
@@ -17877,6 +18105,8 @@ export const describeDashboardSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDashboardSnapshotJob",
 }));
 
 export type DescribeDashboardSnapshotJobResultError =
@@ -17926,7 +18156,7 @@ export type DescribeDashboardSnapshotJobResultError =
  * - `DATASET_DELETED` - The dataset has been deleted. Verify the dataset exists before re-running the job.
  */
 export const describeDashboardSnapshotJobResult: API.OperationMethod<
-  DescribeDashboardSnapshotJobResultRequest,
+  DescribeDashboardSnapshotJobResultRequest & RegionInput,
   DescribeDashboardSnapshotJobResultResponse,
   DescribeDashboardSnapshotJobResultError,
   Credentials | HttpClient.HttpClient
@@ -17945,6 +18175,8 @@ export const describeDashboardSnapshotJobResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardSnapshotJobResult",
+  telemetry: TELEMETRY,
+  span: "DescribeDashboardSnapshotJobResult",
 }));
 
 export type DescribeDashboardsQAConfigurationError =
@@ -17959,7 +18191,7 @@ export type DescribeDashboardsQAConfigurationError =
  * Describes an existing dashboard QA configuration.
  */
 export const describeDashboardsQAConfiguration: API.OperationMethod<
-  DescribeDashboardsQAConfigurationRequest,
+  DescribeDashboardsQAConfigurationRequest & RegionInput,
   DescribeDashboardsQAConfigurationResponse,
   DescribeDashboardsQAConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -17977,6 +18209,8 @@ export const describeDashboardsQAConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardsQAConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeDashboardsQAConfiguration",
 }));
 
 export type DescribeDataSetError =
@@ -17990,7 +18224,7 @@ export type DescribeDataSetError =
  * Describes a dataset.
  */
 export const describeDataSet: API.OperationMethod<
-  DescribeDataSetRequest,
+  DescribeDataSetRequest & RegionInput,
   DescribeDataSetResponse,
   DescribeDataSetError,
   Credentials | HttpClient.HttpClient
@@ -18007,6 +18241,8 @@ export const describeDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSet",
+  telemetry: TELEMETRY,
+  span: "DescribeDataSet",
 }));
 
 export type DescribeDataSetPermissionsError =
@@ -18023,7 +18259,7 @@ export type DescribeDataSetPermissionsError =
  * `arn:aws:quicksight:region:aws-account-id:dataset/data-set-id`.
  */
 export const describeDataSetPermissions: API.OperationMethod<
-  DescribeDataSetPermissionsRequest,
+  DescribeDataSetPermissionsRequest & RegionInput,
   DescribeDataSetPermissionsResponse,
   DescribeDataSetPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -18040,6 +18276,8 @@ export const describeDataSetPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSetPermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeDataSetPermissions",
 }));
 
 export type DescribeDataSetRefreshPropertiesError =
@@ -18055,7 +18293,7 @@ export type DescribeDataSetRefreshPropertiesError =
  * Describes the refresh properties of a dataset.
  */
 export const describeDataSetRefreshProperties: API.OperationMethod<
-  DescribeDataSetRefreshPropertiesRequest,
+  DescribeDataSetRefreshPropertiesRequest & RegionInput,
   DescribeDataSetRefreshPropertiesResponse,
   DescribeDataSetRefreshPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -18074,6 +18312,8 @@ export const describeDataSetRefreshProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSetRefreshProperties",
+  telemetry: TELEMETRY,
+  span: "DescribeDataSetRefreshProperties",
 }));
 
 export type DescribeDataSourceError =
@@ -18087,7 +18327,7 @@ export type DescribeDataSourceError =
  * Describes a data source.
  */
 export const describeDataSource: API.OperationMethod<
-  DescribeDataSourceRequest,
+  DescribeDataSourceRequest & RegionInput,
   DescribeDataSourceResponse,
   DescribeDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -18104,6 +18344,8 @@ export const describeDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSource",
+  telemetry: TELEMETRY,
+  span: "DescribeDataSource",
 }));
 
 export type DescribeDataSourcePermissionsError =
@@ -18117,7 +18359,7 @@ export type DescribeDataSourcePermissionsError =
  * Describes the resource permissions for a data source.
  */
 export const describeDataSourcePermissions: API.OperationMethod<
-  DescribeDataSourcePermissionsRequest,
+  DescribeDataSourcePermissionsRequest & RegionInput,
   DescribeDataSourcePermissionsResponse,
   DescribeDataSourcePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -18134,6 +18376,8 @@ export const describeDataSourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSourcePermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeDataSourcePermissions",
 }));
 
 export type DescribeDefaultQBusinessApplicationError =
@@ -18147,7 +18391,7 @@ export type DescribeDefaultQBusinessApplicationError =
  * Describes a Amazon Q Business application that is linked to an Quick Sight account.
  */
 export const describeDefaultQBusinessApplication: API.OperationMethod<
-  DescribeDefaultQBusinessApplicationRequest,
+  DescribeDefaultQBusinessApplicationRequest & RegionInput,
   DescribeDefaultQBusinessApplicationResponse,
   DescribeDefaultQBusinessApplicationError,
   Credentials | HttpClient.HttpClient
@@ -18164,6 +18408,8 @@ export const describeDefaultQBusinessApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDefaultQBusinessApplication",
+  telemetry: TELEMETRY,
+  span: "DescribeDefaultQBusinessApplication",
 }));
 
 export type DescribeDlpSettingError =
@@ -18177,7 +18423,7 @@ export type DescribeDlpSettingError =
  * Describes the full configuration of a DLP setting in an Amazon Web Services account.
  */
 export const describeDlpSetting: API.OperationMethod<
-  DescribeDlpSettingRequest,
+  DescribeDlpSettingRequest & RegionInput,
   DescribeDlpSettingResponse,
   DescribeDlpSettingError,
   Credentials | HttpClient.HttpClient
@@ -18194,6 +18440,8 @@ export const describeDlpSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDlpSetting",
+  telemetry: TELEMETRY,
+  span: "DescribeDlpSetting",
 }));
 
 export type DescribeFlowError =
@@ -18207,7 +18455,7 @@ export type DescribeFlowError =
  * Returns the full details of a flow for the latest version of the requested publish state.
  */
 export const describeFlow: API.OperationMethod<
-  DescribeFlowRequest,
+  DescribeFlowRequest & RegionInput,
   DescribeFlowResponse,
   DescribeFlowError,
   Credentials | HttpClient.HttpClient
@@ -18224,6 +18472,8 @@ export const describeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlow",
+  telemetry: TELEMETRY,
+  span: "DescribeFlow",
 }));
 
 export type DescribeFolderError =
@@ -18238,7 +18488,7 @@ export type DescribeFolderError =
  * Describes a folder.
  */
 export const describeFolder: API.OperationMethod<
-  DescribeFolderRequest,
+  DescribeFolderRequest & RegionInput,
   DescribeFolderResponse,
   DescribeFolderError,
   Credentials | HttpClient.HttpClient
@@ -18256,6 +18506,8 @@ export const describeFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFolder",
+  telemetry: TELEMETRY,
+  span: "DescribeFolder",
 }));
 
 export type DescribeFolderPermissionsError =
@@ -18271,7 +18523,7 @@ export type DescribeFolderPermissionsError =
  * Describes permissions for a folder.
  */
 export const describeFolderPermissions: API.PaginatedOperationMethod<
-  DescribeFolderPermissionsRequest,
+  DescribeFolderPermissionsRequest & RegionInput,
   DescribeFolderPermissionsResponse,
   DescribeFolderPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -18297,6 +18549,8 @@ export const describeFolderPermissions: API.PaginatedOperationMethod<
     items: "Permissions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFolderPermissions",
 })) as any;
 
 export type DescribeFolderResolvedPermissionsError =
@@ -18312,7 +18566,7 @@ export type DescribeFolderResolvedPermissionsError =
  * Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
  */
 export const describeFolderResolvedPermissions: API.PaginatedOperationMethod<
-  DescribeFolderResolvedPermissionsRequest,
+  DescribeFolderResolvedPermissionsRequest & RegionInput,
   DescribeFolderResolvedPermissionsResponse,
   DescribeFolderResolvedPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -18338,6 +18592,8 @@ export const describeFolderResolvedPermissions: API.PaginatedOperationMethod<
     items: "Permissions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFolderResolvedPermissions",
 })) as any;
 
 export type DescribeGroupError =
@@ -18353,7 +18609,7 @@ export type DescribeGroupError =
  * Returns an Amazon Quick Sight group's description and Amazon Resource Name (ARN).
  */
 export const describeGroup: API.OperationMethod<
-  DescribeGroupRequest,
+  DescribeGroupRequest & RegionInput,
   DescribeGroupResponse,
   DescribeGroupError,
   Credentials | HttpClient.HttpClient
@@ -18372,6 +18628,8 @@ export const describeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeGroup",
 }));
 
 export type DescribeGroupMembershipError =
@@ -18389,7 +18647,7 @@ export type DescribeGroupMembershipError =
  * group, an associated `GroupMember` object is returned.
  */
 export const describeGroupMembership: API.OperationMethod<
-  DescribeGroupMembershipRequest,
+  DescribeGroupMembershipRequest & RegionInput,
   DescribeGroupMembershipResponse,
   DescribeGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -18408,6 +18666,8 @@ export const describeGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroupMembership",
+  telemetry: TELEMETRY,
+  span: "DescribeGroupMembership",
 }));
 
 export type DescribeIAMPolicyAssignmentError =
@@ -18423,7 +18683,7 @@ export type DescribeIAMPolicyAssignmentError =
  * assignment name.
  */
 export const describeIAMPolicyAssignment: API.OperationMethod<
-  DescribeIAMPolicyAssignmentRequest,
+  DescribeIAMPolicyAssignmentRequest & RegionInput,
   DescribeIAMPolicyAssignmentResponse,
   DescribeIAMPolicyAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -18441,6 +18701,8 @@ export const describeIAMPolicyAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIAMPolicyAssignment",
+  telemetry: TELEMETRY,
+  span: "DescribeIAMPolicyAssignment",
 }));
 
 export type DescribeIngestionError =
@@ -18455,7 +18717,7 @@ export type DescribeIngestionError =
  * Describes a SPICE ingestion.
  */
 export const describeIngestion: API.OperationMethod<
-  DescribeIngestionRequest,
+  DescribeIngestionRequest & RegionInput,
   DescribeIngestionResponse,
   DescribeIngestionError,
   Credentials | HttpClient.HttpClient
@@ -18473,6 +18735,8 @@ export const describeIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIngestion",
+  telemetry: TELEMETRY,
+  span: "DescribeIngestion",
 }));
 
 export type DescribeIpRestrictionError =
@@ -18486,7 +18750,7 @@ export type DescribeIpRestrictionError =
  * Provides a summary and status of IP rules.
  */
 export const describeIpRestriction: API.OperationMethod<
-  DescribeIpRestrictionRequest,
+  DescribeIpRestrictionRequest & RegionInput,
   DescribeIpRestrictionResponse,
   DescribeIpRestrictionError,
   Credentials | HttpClient.HttpClient
@@ -18503,6 +18767,8 @@ export const describeIpRestriction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIpRestriction",
+  telemetry: TELEMETRY,
+  span: "DescribeIpRestriction",
 }));
 
 export type DescribeKeyRegistrationError =
@@ -18515,7 +18781,7 @@ export type DescribeKeyRegistrationError =
  * Describes all customer managed key registrations in a Quick Sight account.
  */
 export const describeKeyRegistration: API.OperationMethod<
-  DescribeKeyRegistrationRequest,
+  DescribeKeyRegistrationRequest & RegionInput,
   DescribeKeyRegistrationResponse,
   DescribeKeyRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -18531,6 +18797,8 @@ export const describeKeyRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyRegistration",
+  telemetry: TELEMETRY,
+  span: "DescribeKeyRegistration",
 }));
 
 export type DescribeKnowledgeBaseError =
@@ -18547,7 +18815,7 @@ export type DescribeKnowledgeBaseError =
  * Describes a knowledge base.
  */
 export const describeKnowledgeBase: API.OperationMethod<
-  DescribeKnowledgeBaseRequest,
+  DescribeKnowledgeBaseRequest & RegionInput,
   DescribeKnowledgeBaseResponse,
   DescribeKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -18567,6 +18835,8 @@ export const describeKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "DescribeKnowledgeBase",
 }));
 
 export type DescribeKnowledgeBasePermissionsError =
@@ -18583,7 +18853,7 @@ export type DescribeKnowledgeBasePermissionsError =
  * Describes the resource permissions for a knowledge base.
  */
 export const describeKnowledgeBasePermissions: API.OperationMethod<
-  DescribeKnowledgeBasePermissionsRequest,
+  DescribeKnowledgeBasePermissionsRequest & RegionInput,
   DescribeKnowledgeBasePermissionsResponse,
   DescribeKnowledgeBasePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -18603,6 +18873,8 @@ export const describeKnowledgeBasePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKnowledgeBasePermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeKnowledgeBasePermissions",
 }));
 
 export type DescribeLimitsProfileError =
@@ -18616,7 +18888,7 @@ export type DescribeLimitsProfileError =
  * Describes the properties of an existing limits profile.
  */
 export const describeLimitsProfile: API.OperationMethod<
-  DescribeLimitsProfileRequest,
+  DescribeLimitsProfileRequest & RegionInput,
   DescribeLimitsProfileResponse,
   DescribeLimitsProfileError,
   Credentials | HttpClient.HttpClient
@@ -18633,6 +18905,8 @@ export const describeLimitsProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLimitsProfile",
+  telemetry: TELEMETRY,
+  span: "DescribeLimitsProfile",
 }));
 
 export type DescribeNamespaceError =
@@ -18647,7 +18921,7 @@ export type DescribeNamespaceError =
  * Describes the current namespace.
  */
 export const describeNamespace: API.OperationMethod<
-  DescribeNamespaceRequest,
+  DescribeNamespaceRequest & RegionInput,
   DescribeNamespaceResponse,
   DescribeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -18665,6 +18939,8 @@ export const describeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNamespace",
+  telemetry: TELEMETRY,
+  span: "DescribeNamespace",
 }));
 
 export type DescribeOAuthClientApplicationError =
@@ -18678,7 +18954,7 @@ export type DescribeOAuthClientApplicationError =
  * Describes an OAuthClientApplication.
  */
 export const describeOAuthClientApplication: API.OperationMethod<
-  DescribeOAuthClientApplicationRequest,
+  DescribeOAuthClientApplicationRequest & RegionInput,
   DescribeOAuthClientApplicationResponse,
   DescribeOAuthClientApplicationError,
   Credentials | HttpClient.HttpClient
@@ -18695,6 +18971,8 @@ export const describeOAuthClientApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOAuthClientApplication",
+  telemetry: TELEMETRY,
+  span: "DescribeOAuthClientApplication",
 }));
 
 export type DescribeQPersonalizationConfigurationError =
@@ -18709,7 +18987,7 @@ export type DescribeQPersonalizationConfigurationError =
  * Describes a personalization configuration.
  */
 export const describeQPersonalizationConfiguration: API.OperationMethod<
-  DescribeQPersonalizationConfigurationRequest,
+  DescribeQPersonalizationConfigurationRequest & RegionInput,
   DescribeQPersonalizationConfigurationResponse,
   DescribeQPersonalizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -18727,6 +19005,8 @@ export const describeQPersonalizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQPersonalizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeQPersonalizationConfiguration",
 }));
 
 export type DescribeQuickSightQSearchConfigurationError =
@@ -18741,7 +19021,7 @@ export type DescribeQuickSightQSearchConfigurationError =
  * Describes the state of a Quick Sight Q Search configuration.
  */
 export const describeQuickSightQSearchConfiguration: API.OperationMethod<
-  DescribeQuickSightQSearchConfigurationRequest,
+  DescribeQuickSightQSearchConfigurationRequest & RegionInput,
   DescribeQuickSightQSearchConfigurationResponse,
   DescribeQuickSightQSearchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -18759,6 +19039,8 @@ export const describeQuickSightQSearchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuickSightQSearchConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeQuickSightQSearchConfiguration",
 }));
 
 export type DescribeRefreshScheduleError =
@@ -18773,7 +19055,7 @@ export type DescribeRefreshScheduleError =
  * Provides a summary of a refresh schedule.
  */
 export const describeRefreshSchedule: API.OperationMethod<
-  DescribeRefreshScheduleRequest,
+  DescribeRefreshScheduleRequest & RegionInput,
   DescribeRefreshScheduleResponse,
   DescribeRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -18791,6 +19073,8 @@ export const describeRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRefreshSchedule",
+  telemetry: TELEMETRY,
+  span: "DescribeRefreshSchedule",
 }));
 
 export type DescribeRoleCustomPermissionError =
@@ -18806,7 +19090,7 @@ export type DescribeRoleCustomPermissionError =
  * Describes all custom permissions that are mapped to a role.
  */
 export const describeRoleCustomPermission: API.OperationMethod<
-  DescribeRoleCustomPermissionRequest,
+  DescribeRoleCustomPermissionRequest & RegionInput,
   DescribeRoleCustomPermissionResponse,
   DescribeRoleCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -18825,6 +19109,8 @@ export const describeRoleCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoleCustomPermission",
+  telemetry: TELEMETRY,
+  span: "DescribeRoleCustomPermission",
 }));
 
 export type DescribeSelfUpgradeConfigurationError =
@@ -18841,7 +19127,7 @@ export type DescribeSelfUpgradeConfigurationError =
  * Describes the self-upgrade configuration for a Quick account.
  */
 export const describeSelfUpgradeConfiguration: API.OperationMethod<
-  DescribeSelfUpgradeConfigurationRequest,
+  DescribeSelfUpgradeConfigurationRequest & RegionInput,
   DescribeSelfUpgradeConfigurationResponse,
   DescribeSelfUpgradeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -18861,6 +19147,8 @@ export const describeSelfUpgradeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSelfUpgradeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeSelfUpgradeConfiguration",
 }));
 
 export type DescribeSpaceError =
@@ -18874,7 +19162,7 @@ export type DescribeSpaceError =
  * Describes an Amazon QuickSight space.
  */
 export const describeSpace: API.OperationMethod<
-  DescribeSpaceRequest,
+  DescribeSpaceRequest & RegionInput,
   DescribeSpaceResponse,
   DescribeSpaceError,
   Credentials | HttpClient.HttpClient
@@ -18891,6 +19179,8 @@ export const describeSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpace",
+  telemetry: TELEMETRY,
+  span: "DescribeSpace",
 }));
 
 export type DescribeSpacePermissionsError =
@@ -18904,7 +19194,7 @@ export type DescribeSpacePermissionsError =
  * Describes the permissions for an Amazon QuickSight space.
  */
 export const describeSpacePermissions: API.OperationMethod<
-  DescribeSpacePermissionsRequest,
+  DescribeSpacePermissionsRequest & RegionInput,
   DescribeSpacePermissionsResponse,
   DescribeSpacePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -18921,6 +19211,8 @@ export const describeSpacePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpacePermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeSpacePermissions",
 }));
 
 export type DescribeTemplateError =
@@ -18937,7 +19229,7 @@ export type DescribeTemplateError =
  * Describes a template's metadata.
  */
 export const describeTemplate: API.OperationMethod<
-  DescribeTemplateRequest,
+  DescribeTemplateRequest & RegionInput,
   DescribeTemplateResponse,
   DescribeTemplateError,
   Credentials | HttpClient.HttpClient
@@ -18957,6 +19249,8 @@ export const describeTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTemplate",
+  telemetry: TELEMETRY,
+  span: "DescribeTemplate",
 }));
 
 export type DescribeTemplateAliasError =
@@ -18969,7 +19263,7 @@ export type DescribeTemplateAliasError =
  * Describes the template alias for a template.
  */
 export const describeTemplateAlias: API.OperationMethod<
-  DescribeTemplateAliasRequest,
+  DescribeTemplateAliasRequest & RegionInput,
   DescribeTemplateAliasResponse,
   DescribeTemplateAliasError,
   Credentials | HttpClient.HttpClient
@@ -18985,6 +19279,8 @@ export const describeTemplateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTemplateAlias",
+  telemetry: TELEMETRY,
+  span: "DescribeTemplateAlias",
 }));
 
 export type DescribeTemplateDefinitionError =
@@ -19007,7 +19303,7 @@ export type DescribeTemplateDefinitionError =
  * instead.
  */
 export const describeTemplateDefinition: API.OperationMethod<
-  DescribeTemplateDefinitionRequest,
+  DescribeTemplateDefinitionRequest & RegionInput,
   DescribeTemplateDefinitionResponse,
   DescribeTemplateDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -19027,6 +19323,8 @@ export const describeTemplateDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTemplateDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeTemplateDefinition",
 }));
 
 export type DescribeTemplatePermissionsError =
@@ -19041,7 +19339,7 @@ export type DescribeTemplatePermissionsError =
  * Describes read and write permissions on a template.
  */
 export const describeTemplatePermissions: API.OperationMethod<
-  DescribeTemplatePermissionsRequest,
+  DescribeTemplatePermissionsRequest & RegionInput,
   DescribeTemplatePermissionsResponse,
   DescribeTemplatePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -19059,6 +19357,8 @@ export const describeTemplatePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTemplatePermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeTemplatePermissions",
 }));
 
 export type DescribeThemeError =
@@ -19074,7 +19374,7 @@ export type DescribeThemeError =
  * Describes a theme.
  */
 export const describeTheme: API.OperationMethod<
-  DescribeThemeRequest,
+  DescribeThemeRequest & RegionInput,
   DescribeThemeResponse,
   DescribeThemeError,
   Credentials | HttpClient.HttpClient
@@ -19093,6 +19393,8 @@ export const describeTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTheme",
+  telemetry: TELEMETRY,
+  span: "DescribeTheme",
 }));
 
 export type DescribeThemeAliasError =
@@ -19107,7 +19409,7 @@ export type DescribeThemeAliasError =
  * Describes the alias for a theme.
  */
 export const describeThemeAlias: API.OperationMethod<
-  DescribeThemeAliasRequest,
+  DescribeThemeAliasRequest & RegionInput,
   DescribeThemeAliasResponse,
   DescribeThemeAliasError,
   Credentials | HttpClient.HttpClient
@@ -19125,6 +19427,8 @@ export const describeThemeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThemeAlias",
+  telemetry: TELEMETRY,
+  span: "DescribeThemeAlias",
 }));
 
 export type DescribeThemePermissionsError =
@@ -19139,7 +19443,7 @@ export type DescribeThemePermissionsError =
  * Describes the read and write permissions for a theme.
  */
 export const describeThemePermissions: API.OperationMethod<
-  DescribeThemePermissionsRequest,
+  DescribeThemePermissionsRequest & RegionInput,
   DescribeThemePermissionsResponse,
   DescribeThemePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -19157,6 +19461,8 @@ export const describeThemePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThemePermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeThemePermissions",
 }));
 
 export type DescribeTopicError =
@@ -19170,7 +19476,7 @@ export type DescribeTopicError =
  * Describes a topic.
  */
 export const describeTopic: API.OperationMethod<
-  DescribeTopicRequest,
+  DescribeTopicRequest & RegionInput,
   DescribeTopicResponse,
   DescribeTopicError,
   Credentials | HttpClient.HttpClient
@@ -19187,6 +19493,8 @@ export const describeTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopic",
+  telemetry: TELEMETRY,
+  span: "DescribeTopic",
 }));
 
 export type DescribeTopicPermissionsError =
@@ -19200,7 +19508,7 @@ export type DescribeTopicPermissionsError =
  * Describes the permissions of a topic.
  */
 export const describeTopicPermissions: API.OperationMethod<
-  DescribeTopicPermissionsRequest,
+  DescribeTopicPermissionsRequest & RegionInput,
   DescribeTopicPermissionsResponse,
   DescribeTopicPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -19217,6 +19525,8 @@ export const describeTopicPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicPermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeTopicPermissions",
 }));
 
 export type DescribeTopicPermissionsV2Error =
@@ -19230,7 +19540,7 @@ export type DescribeTopicPermissionsV2Error =
  * Describes the permissions of a topic.
  */
 export const describeTopicPermissionsV2: API.OperationMethod<
-  DescribeTopicPermissionsV2Request,
+  DescribeTopicPermissionsV2Request & RegionInput,
   DescribeTopicPermissionsV2Response,
   DescribeTopicPermissionsV2Error,
   Credentials | HttpClient.HttpClient
@@ -19247,6 +19557,8 @@ export const describeTopicPermissionsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicPermissionsV2",
+  telemetry: TELEMETRY,
+  span: "DescribeTopicPermissionsV2",
 }));
 
 export type DescribeTopicRefreshError =
@@ -19260,7 +19572,7 @@ export type DescribeTopicRefreshError =
  * Describes the status of a topic refresh.
  */
 export const describeTopicRefresh: API.OperationMethod<
-  DescribeTopicRefreshRequest,
+  DescribeTopicRefreshRequest & RegionInput,
   DescribeTopicRefreshResponse,
   DescribeTopicRefreshError,
   Credentials | HttpClient.HttpClient
@@ -19277,6 +19589,8 @@ export const describeTopicRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicRefresh",
+  telemetry: TELEMETRY,
+  span: "DescribeTopicRefresh",
 }));
 
 export type DescribeTopicRefreshScheduleError =
@@ -19293,7 +19607,7 @@ export type DescribeTopicRefreshScheduleError =
  * Deletes a topic refresh schedule.
  */
 export const describeTopicRefreshSchedule: API.OperationMethod<
-  DescribeTopicRefreshScheduleRequest,
+  DescribeTopicRefreshScheduleRequest & RegionInput,
   DescribeTopicRefreshScheduleResponse,
   DescribeTopicRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -19313,6 +19627,8 @@ export const describeTopicRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicRefreshSchedule",
+  telemetry: TELEMETRY,
+  span: "DescribeTopicRefreshSchedule",
 }));
 
 export type DescribeTopicV2Error =
@@ -19326,7 +19642,7 @@ export type DescribeTopicV2Error =
  * Describes a Q topic.
  */
 export const describeTopicV2: API.OperationMethod<
-  DescribeTopicV2Request,
+  DescribeTopicV2Request & RegionInput,
   DescribeTopicV2Response,
   DescribeTopicV2Error,
   Credentials | HttpClient.HttpClient
@@ -19343,6 +19659,8 @@ export const describeTopicV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicV2",
+  telemetry: TELEMETRY,
+  span: "DescribeTopicV2",
 }));
 
 export type DescribeUserError =
@@ -19358,7 +19676,7 @@ export type DescribeUserError =
  * Returns information about a user, given the user name.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -19377,6 +19695,8 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  telemetry: TELEMETRY,
+  span: "DescribeUser",
 }));
 
 export type DescribeVPCConnectionError =
@@ -19391,7 +19711,7 @@ export type DescribeVPCConnectionError =
  * Describes a VPC connection.
  */
 export const describeVPCConnection: API.OperationMethod<
-  DescribeVPCConnectionRequest,
+  DescribeVPCConnectionRequest & RegionInput,
   DescribeVPCConnectionResponse,
   DescribeVPCConnectionError,
   Credentials | HttpClient.HttpClient
@@ -19409,6 +19729,8 @@ export const describeVPCConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVPCConnection",
+  telemetry: TELEMETRY,
+  span: "DescribeVPCConnection",
 }));
 
 export type GenerateEmbedUrlForAnonymousUserError =
@@ -19448,7 +19770,7 @@ export type GenerateEmbedUrlForAnonymousUserError =
  * Developer Portal.
  */
 export const generateEmbedUrlForAnonymousUser: API.OperationMethod<
-  GenerateEmbedUrlForAnonymousUserRequest,
+  GenerateEmbedUrlForAnonymousUserRequest & RegionInput,
   GenerateEmbedUrlForAnonymousUserResponse,
   GenerateEmbedUrlForAnonymousUserError,
   Credentials | HttpClient.HttpClient
@@ -19468,6 +19790,8 @@ export const generateEmbedUrlForAnonymousUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateEmbedUrlForAnonymousUser",
+  telemetry: TELEMETRY,
+  span: "GenerateEmbedUrlForAnonymousUser",
 }));
 
 export type GenerateEmbedUrlForRegisteredUserError =
@@ -19509,7 +19833,7 @@ export type GenerateEmbedUrlForRegisteredUserError =
  * Developer Portal.
  */
 export const generateEmbedUrlForRegisteredUser: API.OperationMethod<
-  GenerateEmbedUrlForRegisteredUserRequest,
+  GenerateEmbedUrlForRegisteredUserRequest & RegionInput,
   GenerateEmbedUrlForRegisteredUserResponse,
   GenerateEmbedUrlForRegisteredUserError,
   Credentials | HttpClient.HttpClient
@@ -19530,6 +19854,8 @@ export const generateEmbedUrlForRegisteredUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateEmbedUrlForRegisteredUser",
+  telemetry: TELEMETRY,
+  span: "GenerateEmbedUrlForRegisteredUser",
 }));
 
 export type GenerateEmbedUrlForRegisteredUserWithIdentityError =
@@ -19558,7 +19884,7 @@ export type GenerateEmbedUrlForRegisteredUserWithIdentityError =
  * you have configured the relevant Amazon Quick Sight resource and permissions.
  */
 export const generateEmbedUrlForRegisteredUserWithIdentity: API.OperationMethod<
-  GenerateEmbedUrlForRegisteredUserWithIdentityRequest,
+  GenerateEmbedUrlForRegisteredUserWithIdentityRequest & RegionInput,
   GenerateEmbedUrlForRegisteredUserWithIdentityResponse,
   GenerateEmbedUrlForRegisteredUserWithIdentityError,
   Credentials | HttpClient.HttpClient
@@ -19587,6 +19913,8 @@ export const generateEmbedUrlForRegisteredUserWithIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateEmbedUrlForRegisteredUserWithIdentity",
+  telemetry: TELEMETRY,
+  span: "GenerateEmbedUrlForRegisteredUserWithIdentity",
 }));
 
 export type GetDashboardEmbedUrlError =
@@ -19633,7 +19961,7 @@ export type GetDashboardEmbedUrlError =
  * Developer Portal.
  */
 export const getDashboardEmbedUrl: API.OperationMethod<
-  GetDashboardEmbedUrlRequest,
+  GetDashboardEmbedUrlRequest & RegionInput,
   GetDashboardEmbedUrlResponse,
   GetDashboardEmbedUrlError,
   Credentials | HttpClient.HttpClient
@@ -19657,6 +19985,8 @@ export const getDashboardEmbedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboardEmbedUrl",
+  telemetry: TELEMETRY,
+  span: "GetDashboardEmbedUrl",
 }));
 
 export type GetFlowMetadataError =
@@ -19669,7 +19999,7 @@ export type GetFlowMetadataError =
  * Retrieves the metadata of a flow, not including its definition specifying the steps.
  */
 export const getFlowMetadata: API.OperationMethod<
-  GetFlowMetadataInput,
+  GetFlowMetadataInput & RegionInput,
   GetFlowMetadataOutput,
   GetFlowMetadataError,
   Credentials | HttpClient.HttpClient
@@ -19685,6 +20015,8 @@ export const getFlowMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowMetadata",
+  telemetry: TELEMETRY,
+  span: "GetFlowMetadata",
 }));
 
 export type GetFlowPermissionsError =
@@ -19697,7 +20029,7 @@ export type GetFlowPermissionsError =
  * Get permissions for a flow.
  */
 export const getFlowPermissions: API.OperationMethod<
-  GetFlowPermissionsInput,
+  GetFlowPermissionsInput & RegionInput,
   GetFlowPermissionsOutput,
   GetFlowPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -19713,6 +20045,8 @@ export const getFlowPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowPermissions",
+  telemetry: TELEMETRY,
+  span: "GetFlowPermissions",
 }));
 
 export type GetIdentityContextError =
@@ -19765,7 +20099,7 @@ export type GetIdentityContextError =
  * The assumed role must allow the `sts:SetContext` action in addition to `sts:AssumeRole` in its trust relationship policy. The trust policy should include both actions for the principal that will be assuming the role.
  */
 export const getIdentityContext: API.OperationMethod<
-  GetIdentityContextRequest,
+  GetIdentityContextRequest & RegionInput,
   GetIdentityContextResponse,
   GetIdentityContextError,
   Credentials | HttpClient.HttpClient
@@ -19783,6 +20117,8 @@ export const getIdentityContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityContext",
+  telemetry: TELEMETRY,
+  span: "GetIdentityContext",
 }));
 
 export type GetSessionEmbedUrlError =
@@ -19817,7 +20153,7 @@ export type GetSessionEmbedUrlError =
  * - Customizing Access to the Amazon Quick Console
  */
 export const getSessionEmbedUrl: API.OperationMethod<
-  GetSessionEmbedUrlRequest,
+  GetSessionEmbedUrlRequest & RegionInput,
   GetSessionEmbedUrlResponse,
   GetSessionEmbedUrlError,
   Credentials | HttpClient.HttpClient
@@ -19838,6 +20174,8 @@ export const getSessionEmbedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEmbedUrl",
+  telemetry: TELEMETRY,
+  span: "GetSessionEmbedUrl",
 }));
 
 export type ListActionConnectorsError =
@@ -19851,7 +20189,7 @@ export type ListActionConnectorsError =
  * Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status.
  */
 export const listActionConnectors: API.PaginatedOperationMethod<
-  ListActionConnectorsRequest,
+  ListActionConnectorsRequest & RegionInput,
   ListActionConnectorsResponse,
   ListActionConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -19875,6 +20213,8 @@ export const listActionConnectors: API.PaginatedOperationMethod<
     items: "ActionConnectorSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActionConnectors",
 })) as any;
 
 export type ListAgentsError =
@@ -19890,7 +20230,7 @@ export type ListAgentsError =
  * Lists all agents in an Amazon QuickSight account.
  */
 export const listAgents: API.OperationMethod<
-  ListAgentsRequest,
+  ListAgentsRequest & RegionInput,
   ListAgentsResponse,
   ListAgentsError,
   Credentials | HttpClient.HttpClient
@@ -19909,6 +20249,8 @@ export const listAgents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAgents",
+  telemetry: TELEMETRY,
+  span: "ListAgents",
 }));
 
 export type ListAnalysesError =
@@ -19921,7 +20263,7 @@ export type ListAnalysesError =
  * Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account.
  */
 export const listAnalyses: API.PaginatedOperationMethod<
-  ListAnalysesRequest,
+  ListAnalysesRequest & RegionInput,
   ListAnalysesResponse,
   ListAnalysesError,
   Credentials | HttpClient.HttpClient,
@@ -19944,6 +20286,8 @@ export const listAnalyses: API.PaginatedOperationMethod<
     items: "AnalysisSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalyses",
 })) as any;
 
 export type ListApprovalPoliciesError =
@@ -19959,7 +20303,7 @@ export type ListApprovalPoliciesError =
  * set of results.
  */
 export const listApprovalPolicies: API.PaginatedOperationMethod<
-  ListApprovalPoliciesRequest,
+  ListApprovalPoliciesRequest & RegionInput,
   ListApprovalPoliciesResponse,
   ListApprovalPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -19983,6 +20327,8 @@ export const listApprovalPolicies: API.PaginatedOperationMethod<
     items: "Policies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApprovalPolicies",
 })) as any;
 
 export type ListAppsError =
@@ -19995,7 +20341,7 @@ export type ListAppsError =
  * Lists the apps in an Amazon Web Services account. Results are paginated; use the `NextToken` parameter to retrieve additional results.
  */
 export const listApps: API.PaginatedOperationMethod<
-  ListAppsRequest,
+  ListAppsRequest & RegionInput,
   ListAppsResponse,
   ListAppsError,
   Credentials | HttpClient.HttpClient,
@@ -20018,6 +20364,8 @@ export const listApps: API.PaginatedOperationMethod<
     items: "AppSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 })) as any;
 
 export type ListAssetBundleExportJobsError =
@@ -20034,7 +20382,7 @@ export type ListAssetBundleExportJobsError =
  * most recent job that uses the repeated job ID.
  */
 export const listAssetBundleExportJobs: API.PaginatedOperationMethod<
-  ListAssetBundleExportJobsRequest,
+  ListAssetBundleExportJobsRequest & RegionInput,
   ListAssetBundleExportJobsResponse,
   ListAssetBundleExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -20058,6 +20406,8 @@ export const listAssetBundleExportJobs: API.PaginatedOperationMethod<
     items: "AssetBundleExportJobSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetBundleExportJobs",
 })) as any;
 
 export type ListAssetBundleImportJobsError =
@@ -20074,7 +20424,7 @@ export type ListAssetBundleImportJobsError =
  * most recent job that uses the repeated job ID.
  */
 export const listAssetBundleImportJobs: API.PaginatedOperationMethod<
-  ListAssetBundleImportJobsRequest,
+  ListAssetBundleImportJobsRequest & RegionInput,
   ListAssetBundleImportJobsResponse,
   ListAssetBundleImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -20098,6 +20448,8 @@ export const listAssetBundleImportJobs: API.PaginatedOperationMethod<
     items: "AssetBundleImportJobSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetBundleImportJobs",
 })) as any;
 
 export type ListBrandsError =
@@ -20110,7 +20462,7 @@ export type ListBrandsError =
  * Lists all brands in an Quick Sight account.
  */
 export const listBrands: API.PaginatedOperationMethod<
-  ListBrandsRequest,
+  ListBrandsRequest & RegionInput,
   ListBrandsResponse,
   ListBrandsError,
   Credentials | HttpClient.HttpClient,
@@ -20133,6 +20485,8 @@ export const listBrands: API.PaginatedOperationMethod<
     items: "Brands",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBrands",
 })) as any;
 
 export type ListCustomPermissionsError =
@@ -20148,7 +20502,7 @@ export type ListCustomPermissionsError =
  * Returns a list of all the custom permissions profiles.
  */
 export const listCustomPermissions: API.PaginatedOperationMethod<
-  ListCustomPermissionsRequest,
+  ListCustomPermissionsRequest & RegionInput,
   ListCustomPermissionsResponse,
   ListCustomPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -20174,6 +20528,8 @@ export const listCustomPermissions: API.PaginatedOperationMethod<
     items: "CustomPermissionsList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomPermissions",
 })) as any;
 
 export type ListDashboardsError =
@@ -20186,7 +20542,7 @@ export type ListDashboardsError =
  * Lists dashboards in an Amazon Web Services account.
  */
 export const listDashboards: API.PaginatedOperationMethod<
-  ListDashboardsRequest,
+  ListDashboardsRequest & RegionInput,
   ListDashboardsResponse,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -20209,6 +20565,8 @@ export const listDashboards: API.PaginatedOperationMethod<
     items: "DashboardSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 })) as any;
 
 export type ListDashboardVersionsError =
@@ -20223,7 +20581,7 @@ export type ListDashboardVersionsError =
  * Lists all the versions of the dashboards in the Amazon Quick Sight subscription.
  */
 export const listDashboardVersions: API.PaginatedOperationMethod<
-  ListDashboardVersionsRequest,
+  ListDashboardVersionsRequest & RegionInput,
   ListDashboardVersionsResponse,
   ListDashboardVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -20248,6 +20606,8 @@ export const listDashboardVersions: API.PaginatedOperationMethod<
     items: "DashboardVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDashboardVersions",
 })) as any;
 
 export type ListDataSetsError =
@@ -20265,7 +20625,7 @@ export type ListDataSetsError =
  * `arn:aws:quicksight:region:aws-account-id:dataset/*`.
  */
 export const listDataSets: API.PaginatedOperationMethod<
-  ListDataSetsRequest,
+  ListDataSetsRequest & RegionInput,
   ListDataSetsResponse,
   ListDataSetsError,
   Credentials | HttpClient.HttpClient,
@@ -20289,6 +20649,8 @@ export const listDataSets: API.PaginatedOperationMethod<
     items: "DataSetSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSets",
 })) as any;
 
 export type ListDataSourcesError =
@@ -20302,7 +20664,7 @@ export type ListDataSourcesError =
  * Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -20326,6 +20688,8 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "DataSources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSources",
 })) as any;
 
 export type ListDlpSettingsError =
@@ -20338,7 +20702,7 @@ export type ListDlpSettingsError =
  * Lists all DLP settings in an Amazon Web Services account.
  */
 export const listDlpSettings: API.PaginatedOperationMethod<
-  ListDlpSettingsRequest,
+  ListDlpSettingsRequest & RegionInput,
   ListDlpSettingsResponse,
   ListDlpSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -20361,6 +20725,8 @@ export const listDlpSettings: API.PaginatedOperationMethod<
     items: "DlpSettingSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDlpSettings",
 })) as any;
 
 export type ListFlowsError =
@@ -20373,7 +20739,7 @@ export type ListFlowsError =
  * Lists flows in an Amazon Web Services account.
  */
 export const listFlows: API.PaginatedOperationMethod<
-  ListFlowsInput,
+  ListFlowsInput & RegionInput,
   ListFlowsOutput,
   ListFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -20396,6 +20762,8 @@ export const listFlows: API.PaginatedOperationMethod<
     items: "FlowSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlows",
 })) as any;
 
 export type ListFolderMembersError =
@@ -20411,7 +20779,7 @@ export type ListFolderMembersError =
  * List all assets (`DASHBOARD`, `ANALYSIS`, and `DATASET`) in a folder.
  */
 export const listFolderMembers: API.PaginatedOperationMethod<
-  ListFolderMembersRequest,
+  ListFolderMembersRequest & RegionInput,
   ListFolderMembersResponse,
   ListFolderMembersError,
   Credentials | HttpClient.HttpClient,
@@ -20437,6 +20805,8 @@ export const listFolderMembers: API.PaginatedOperationMethod<
     items: "FolderMemberList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFolderMembers",
 })) as any;
 
 export type ListFoldersError =
@@ -20452,7 +20822,7 @@ export type ListFoldersError =
  * Lists all folders in an account.
  */
 export const listFolders: API.PaginatedOperationMethod<
-  ListFoldersRequest,
+  ListFoldersRequest & RegionInput,
   ListFoldersResponse,
   ListFoldersError,
   Credentials | HttpClient.HttpClient,
@@ -20478,6 +20848,8 @@ export const listFolders: API.PaginatedOperationMethod<
     items: "FolderSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFolders",
 })) as any;
 
 export type ListFoldersForResourceError =
@@ -20493,7 +20865,7 @@ export type ListFoldersForResourceError =
  * List all folders that a resource is a member of.
  */
 export const listFoldersForResource: API.PaginatedOperationMethod<
-  ListFoldersForResourceRequest,
+  ListFoldersForResourceRequest & RegionInput,
   ListFoldersForResourceResponse,
   ListFoldersForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -20519,6 +20891,8 @@ export const listFoldersForResource: API.PaginatedOperationMethod<
     items: "Folders",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFoldersForResource",
 })) as any;
 
 export type ListGroupMembershipsError =
@@ -20535,7 +20909,7 @@ export type ListGroupMembershipsError =
  * Lists member users in a group.
  */
 export const listGroupMemberships: API.PaginatedOperationMethod<
-  ListGroupMembershipsRequest,
+  ListGroupMembershipsRequest & RegionInput,
   ListGroupMembershipsResponse,
   ListGroupMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -20562,6 +20936,8 @@ export const listGroupMemberships: API.PaginatedOperationMethod<
     items: "GroupMemberList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupMemberships",
 })) as any;
 
 export type ListGroupsError =
@@ -20578,7 +20954,7 @@ export type ListGroupsError =
  * Lists all user groups in Amazon Quick Sight.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -20605,6 +20981,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "GroupList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListIAMPolicyAssignmentsError =
@@ -20621,7 +20999,7 @@ export type ListIAMPolicyAssignmentsError =
  * account.
  */
 export const listIAMPolicyAssignments: API.PaginatedOperationMethod<
-  ListIAMPolicyAssignmentsRequest,
+  ListIAMPolicyAssignmentsRequest & RegionInput,
   ListIAMPolicyAssignmentsResponse,
   ListIAMPolicyAssignmentsError,
   Credentials | HttpClient.HttpClient,
@@ -20646,6 +21024,8 @@ export const listIAMPolicyAssignments: API.PaginatedOperationMethod<
     items: "IAMPolicyAssignments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIAMPolicyAssignments",
 })) as any;
 
 export type ListIAMPolicyAssignmentsForUserError =
@@ -20667,7 +21047,7 @@ export type ListIAMPolicyAssignmentsForUserError =
  * or groups that the user belongs to.
  */
 export const listIAMPolicyAssignmentsForUser: API.PaginatedOperationMethod<
-  ListIAMPolicyAssignmentsForUserRequest,
+  ListIAMPolicyAssignmentsForUserRequest & RegionInput,
   ListIAMPolicyAssignmentsForUserResponse,
   ListIAMPolicyAssignmentsForUserError,
   Credentials | HttpClient.HttpClient,
@@ -20693,6 +21073,8 @@ export const listIAMPolicyAssignmentsForUser: API.PaginatedOperationMethod<
     items: "ActiveAssignments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIAMPolicyAssignmentsForUser",
 })) as any;
 
 export type ListIdentityPropagationConfigsError =
@@ -20708,7 +21090,7 @@ export type ListIdentityPropagationConfigsError =
  * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
  */
 export const listIdentityPropagationConfigs: API.OperationMethod<
-  ListIdentityPropagationConfigsRequest,
+  ListIdentityPropagationConfigsRequest & RegionInput,
   ListIdentityPropagationConfigsResponse,
   ListIdentityPropagationConfigsError,
   Credentials | HttpClient.HttpClient
@@ -20725,6 +21107,8 @@ export const listIdentityPropagationConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityPropagationConfigs",
+  telemetry: TELEMETRY,
+  span: "ListIdentityPropagationConfigs",
 }));
 
 export type ListIngestionsError =
@@ -20740,7 +21124,7 @@ export type ListIngestionsError =
  * Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
  */
 export const listIngestions: API.PaginatedOperationMethod<
-  ListIngestionsRequest,
+  ListIngestionsRequest & RegionInput,
   ListIngestionsResponse,
   ListIngestionsError,
   Credentials | HttpClient.HttpClient,
@@ -20766,6 +21150,8 @@ export const listIngestions: API.PaginatedOperationMethod<
     items: "Ingestions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestions",
 })) as any;
 
 export type ListKnowledgeBasesError =
@@ -20780,7 +21166,7 @@ export type ListKnowledgeBasesError =
  * Lists all knowledge bases in an Amazon QuickSight account.
  */
 export const listKnowledgeBases: API.PaginatedOperationMethod<
-  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesRequest & RegionInput,
   ListKnowledgeBasesResponse,
   ListKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -20805,6 +21191,8 @@ export const listKnowledgeBases: API.PaginatedOperationMethod<
     items: "KnowledgeBaseSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKnowledgeBases",
 })) as any;
 
 export type ListLimitsProfilesError =
@@ -20817,7 +21205,7 @@ export type ListLimitsProfilesError =
  * Lists all limits profiles in an Amazon Quick Sight account. Results are paginated. Use the `maxResults` parameter to limit the number of results returned in a single call, and use the `nextToken` parameter to retrieve the next page of results.
  */
 export const listLimitsProfiles: API.PaginatedOperationMethod<
-  ListLimitsProfilesRequest,
+  ListLimitsProfilesRequest & RegionInput,
   ListLimitsProfilesResponse,
   ListLimitsProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -20840,6 +21228,8 @@ export const listLimitsProfiles: API.PaginatedOperationMethod<
     items: "profiles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLimitsProfiles",
 })) as any;
 
 export type ListNamespacesError =
@@ -20856,7 +21246,7 @@ export type ListNamespacesError =
  * Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
  */
 export const listNamespaces: API.PaginatedOperationMethod<
-  ListNamespacesRequest,
+  ListNamespacesRequest & RegionInput,
   ListNamespacesResponse,
   ListNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -20883,6 +21273,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     items: "Namespaces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 })) as any;
 
 export type ListOAuthClientApplicationsError =
@@ -20897,7 +21289,7 @@ export type ListOAuthClientApplicationsError =
  * Lists all OAuthClientApplications in the current Amazon Web Services Region that belong to this Amazon Web Services account.
  */
 export const listOAuthClientApplications: API.PaginatedOperationMethod<
-  ListOAuthClientApplicationsRequest,
+  ListOAuthClientApplicationsRequest & RegionInput,
   ListOAuthClientApplicationsResponse,
   ListOAuthClientApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -20922,6 +21314,8 @@ export const listOAuthClientApplications: API.PaginatedOperationMethod<
     items: "OAuthClientApplications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOAuthClientApplications",
 })) as any;
 
 export type ListRefreshSchedulesError =
@@ -20936,7 +21330,7 @@ export type ListRefreshSchedulesError =
  * Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
  */
 export const listRefreshSchedules: API.OperationMethod<
-  ListRefreshSchedulesRequest,
+  ListRefreshSchedulesRequest & RegionInput,
   ListRefreshSchedulesResponse,
   ListRefreshSchedulesError,
   Credentials | HttpClient.HttpClient
@@ -20954,6 +21348,8 @@ export const listRefreshSchedules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRefreshSchedules",
+  telemetry: TELEMETRY,
+  span: "ListRefreshSchedules",
 }));
 
 export type ListRoleMembershipsError =
@@ -20971,7 +21367,7 @@ export type ListRoleMembershipsError =
  * Lists all groups that are associated with a role.
  */
 export const listRoleMemberships: API.PaginatedOperationMethod<
-  ListRoleMembershipsRequest,
+  ListRoleMembershipsRequest & RegionInput,
   ListRoleMembershipsResponse,
   ListRoleMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -20999,6 +21395,8 @@ export const listRoleMemberships: API.PaginatedOperationMethod<
     items: "MembersList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoleMemberships",
 })) as any;
 
 export type ListSelfUpgradesError =
@@ -21016,7 +21414,7 @@ export type ListSelfUpgradesError =
  * Lists all self-upgrade requests for a Quick account.
  */
 export const listSelfUpgrades: API.OperationMethod<
-  ListSelfUpgradesRequest,
+  ListSelfUpgradesRequest & RegionInput,
   ListSelfUpgradesResponse,
   ListSelfUpgradesError,
   Credentials | HttpClient.HttpClient
@@ -21037,6 +21435,8 @@ export const listSelfUpgrades: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSelfUpgrades",
+  telemetry: TELEMETRY,
+  span: "ListSelfUpgrades",
 }));
 
 export type ListSpaceResourcesError =
@@ -21050,7 +21450,7 @@ export type ListSpaceResourcesError =
  * Lists the resources in an Amazon QuickSight space.
  */
 export const listSpaceResources: API.OperationMethod<
-  ListSpaceResourcesRequest,
+  ListSpaceResourcesRequest & RegionInput,
   ListSpaceResourcesResponse,
   ListSpaceResourcesError,
   Credentials | HttpClient.HttpClient
@@ -21067,6 +21467,8 @@ export const listSpaceResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSpaceResources",
+  telemetry: TELEMETRY,
+  span: "ListSpaceResources",
 }));
 
 export type ListSpacesError =
@@ -21080,7 +21482,7 @@ export type ListSpacesError =
  * Lists all Amazon QuickSight spaces in an Amazon Web Services account.
  */
 export const listSpaces: API.OperationMethod<
-  ListSpacesRequest,
+  ListSpacesRequest & RegionInput,
   ListSpacesResponse,
   ListSpacesError,
   Credentials | HttpClient.HttpClient
@@ -21097,6 +21499,8 @@ export const listSpaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSpaces",
+  telemetry: TELEMETRY,
+  span: "ListSpaces",
 }));
 
 export type ListTagsForResourceError =
@@ -21110,7 +21514,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -21127,6 +21531,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplateAliasesError =
@@ -21140,7 +21546,7 @@ export type ListTemplateAliasesError =
  * Lists all the aliases of a template.
  */
 export const listTemplateAliases: API.PaginatedOperationMethod<
-  ListTemplateAliasesRequest,
+  ListTemplateAliasesRequest & RegionInput,
   ListTemplateAliasesResponse,
   ListTemplateAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -21164,6 +21570,8 @@ export const listTemplateAliases: API.PaginatedOperationMethod<
     items: "TemplateAliasList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateAliases",
 })) as any;
 
 export type ListTemplatesError =
@@ -21178,7 +21586,7 @@ export type ListTemplatesError =
  * Lists all the templates in the current Amazon Quick Sight account.
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -21203,6 +21611,8 @@ export const listTemplates: API.PaginatedOperationMethod<
     items: "TemplateSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 })) as any;
 
 export type ListTemplateVersionsError =
@@ -21217,7 +21627,7 @@ export type ListTemplateVersionsError =
  * Lists all the versions of the templates in the current Amazon Quick Sight account.
  */
 export const listTemplateVersions: API.PaginatedOperationMethod<
-  ListTemplateVersionsRequest,
+  ListTemplateVersionsRequest & RegionInput,
   ListTemplateVersionsResponse,
   ListTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -21242,6 +21652,8 @@ export const listTemplateVersions: API.PaginatedOperationMethod<
     items: "TemplateVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateVersions",
 })) as any;
 
 export type ListThemeAliasesError =
@@ -21257,7 +21669,7 @@ export type ListThemeAliasesError =
  * Lists all the aliases of a theme.
  */
 export const listThemeAliases: API.OperationMethod<
-  ListThemeAliasesRequest,
+  ListThemeAliasesRequest & RegionInput,
   ListThemeAliasesResponse,
   ListThemeAliasesError,
   Credentials | HttpClient.HttpClient
@@ -21276,6 +21688,8 @@ export const listThemeAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListThemeAliases",
+  telemetry: TELEMETRY,
+  span: "ListThemeAliases",
 }));
 
 export type ListThemesError =
@@ -21291,7 +21705,7 @@ export type ListThemesError =
  * Lists all the themes in the current Amazon Web Services account.
  */
 export const listThemes: API.PaginatedOperationMethod<
-  ListThemesRequest,
+  ListThemesRequest & RegionInput,
   ListThemesResponse,
   ListThemesError,
   Credentials | HttpClient.HttpClient,
@@ -21317,6 +21731,8 @@ export const listThemes: API.PaginatedOperationMethod<
     items: "ThemeSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThemes",
 })) as any;
 
 export type ListThemeVersionsError =
@@ -21332,7 +21748,7 @@ export type ListThemeVersionsError =
  * Lists all the versions of the themes in the current Amazon Web Services account.
  */
 export const listThemeVersions: API.PaginatedOperationMethod<
-  ListThemeVersionsRequest,
+  ListThemeVersionsRequest & RegionInput,
   ListThemeVersionsResponse,
   ListThemeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -21358,6 +21774,8 @@ export const listThemeVersions: API.PaginatedOperationMethod<
     items: "ThemeVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThemeVersions",
 })) as any;
 
 export type ListTopicRefreshSchedulesError =
@@ -21374,7 +21792,7 @@ export type ListTopicRefreshSchedulesError =
  * Lists all of the refresh schedules for a topic.
  */
 export const listTopicRefreshSchedules: API.OperationMethod<
-  ListTopicRefreshSchedulesRequest,
+  ListTopicRefreshSchedulesRequest & RegionInput,
   ListTopicRefreshSchedulesResponse,
   ListTopicRefreshSchedulesError,
   Credentials | HttpClient.HttpClient
@@ -21394,6 +21812,8 @@ export const listTopicRefreshSchedules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTopicRefreshSchedules",
+  telemetry: TELEMETRY,
+  span: "ListTopicRefreshSchedules",
 }));
 
 export type ListTopicReviewedAnswersError =
@@ -21407,7 +21827,7 @@ export type ListTopicReviewedAnswersError =
  * Lists all reviewed answers for a Q Topic.
  */
 export const listTopicReviewedAnswers: API.OperationMethod<
-  ListTopicReviewedAnswersRequest,
+  ListTopicReviewedAnswersRequest & RegionInput,
   ListTopicReviewedAnswersResponse,
   ListTopicReviewedAnswersError,
   Credentials | HttpClient.HttpClient
@@ -21424,6 +21844,8 @@ export const listTopicReviewedAnswers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTopicReviewedAnswers",
+  telemetry: TELEMETRY,
+  span: "ListTopicReviewedAnswers",
 }));
 
 export type ListTopicsError =
@@ -21437,7 +21859,7 @@ export type ListTopicsError =
  * Lists all of the topics within an account.
  */
 export const listTopics: API.PaginatedOperationMethod<
-  ListTopicsRequest,
+  ListTopicsRequest & RegionInput,
   ListTopicsResponse,
   ListTopicsError,
   Credentials | HttpClient.HttpClient,
@@ -21460,6 +21882,8 @@ export const listTopics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTopics",
 })) as any;
 
 export type ListTopicsV2Error =
@@ -21473,7 +21897,7 @@ export type ListTopicsV2Error =
  * Lists all of the Q topics in the specified Amazon Web Services account in an Amazon Web Services Region.
  */
 export const listTopicsV2: API.PaginatedOperationMethod<
-  ListTopicsV2Request,
+  ListTopicsV2Request & RegionInput,
   ListTopicsV2Response,
   ListTopicsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -21497,6 +21921,8 @@ export const listTopicsV2: API.PaginatedOperationMethod<
     items: "TopicSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTopicsV2",
 })) as any;
 
 export type ListUserGroupsError =
@@ -21512,7 +21938,7 @@ export type ListUserGroupsError =
  * Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
  */
 export const listUserGroups: API.PaginatedOperationMethod<
-  ListUserGroupsRequest,
+  ListUserGroupsRequest & RegionInput,
   ListUserGroupsResponse,
   ListUserGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -21538,6 +21964,8 @@ export const listUserGroups: API.PaginatedOperationMethod<
     items: "GroupList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserGroups",
 })) as any;
 
 export type ListUsersError =
@@ -21554,7 +21982,7 @@ export type ListUsersError =
  * Returns a list of all of the Amazon Quick Sight users belonging to this account.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -21581,6 +22009,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "UserList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type ListUsersIndexCapacityError =
@@ -21595,7 +22025,7 @@ export type ListUsersIndexCapacityError =
  * Lists per-user index capacity consumption for an account.
  */
 export const listUsersIndexCapacity: API.OperationMethod<
-  ListUsersIndexCapacityRequest,
+  ListUsersIndexCapacityRequest & RegionInput,
   ListUsersIndexCapacityResponse,
   ListUsersIndexCapacityError,
   Credentials | HttpClient.HttpClient
@@ -21613,6 +22043,8 @@ export const listUsersIndexCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsersIndexCapacity",
+  telemetry: TELEMETRY,
+  span: "ListUsersIndexCapacity",
 }));
 
 export type ListVPCConnectionsError =
@@ -21628,7 +22060,7 @@ export type ListVPCConnectionsError =
  * Amazon Web Services account.
  */
 export const listVPCConnections: API.PaginatedOperationMethod<
-  ListVPCConnectionsRequest,
+  ListVPCConnectionsRequest & RegionInput,
   ListVPCConnectionsResponse,
   ListVPCConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -21652,6 +22084,8 @@ export const listVPCConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVPCConnections",
 })) as any;
 
 export type PredictQAResultsError =
@@ -21668,7 +22102,7 @@ export type PredictQAResultsError =
  * We recommend enabling the `QSearchStatus` API to unlock the full potential of `PredictQnA`. When `QSearchStatus` is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, `PredictQnA` uses generative Q&A to provide an answer. To update the `QSearchStatus`, see UpdateQuickSightQSearchConfiguration.
  */
 export const predictQAResults: API.OperationMethod<
-  PredictQAResultsRequest,
+  PredictQAResultsRequest & RegionInput,
   PredictQAResultsResponse,
   PredictQAResultsError,
   Credentials | HttpClient.HttpClient
@@ -21684,6 +22118,8 @@ export const predictQAResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PredictQAResults",
+  telemetry: TELEMETRY,
+  span: "PredictQAResults",
 }));
 
 export type PutDataSetRefreshPropertiesError =
@@ -21700,7 +22136,7 @@ export type PutDataSetRefreshPropertiesError =
  * Creates or updates the dataset refresh properties for the dataset.
  */
 export const putDataSetRefreshProperties: API.OperationMethod<
-  PutDataSetRefreshPropertiesRequest,
+  PutDataSetRefreshPropertiesRequest & RegionInput,
   PutDataSetRefreshPropertiesResponse,
   PutDataSetRefreshPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -21720,6 +22156,8 @@ export const putDataSetRefreshProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataSetRefreshProperties",
+  telemetry: TELEMETRY,
+  span: "PutDataSetRefreshProperties",
 }));
 
 export type RegisterUserError =
@@ -21737,7 +22175,7 @@ export type RegisterUserError =
  * Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Quick Sight console. For more information on registering a new user in the Quick Sight console, see Inviting users to access Quick Sight.
  */
 export const registerUser: API.OperationMethod<
-  RegisterUserRequest,
+  RegisterUserRequest & RegionInput,
   RegisterUserResponse,
   RegisterUserError,
   Credentials | HttpClient.HttpClient
@@ -21758,6 +22196,8 @@ export const registerUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterUser",
+  telemetry: TELEMETRY,
+  span: "RegisterUser",
 }));
 
 export type RestoreAnalysisError =
@@ -21774,7 +22214,7 @@ export type RestoreAnalysisError =
  * Restores an analysis.
  */
 export const restoreAnalysis: API.OperationMethod<
-  RestoreAnalysisRequest,
+  RestoreAnalysisRequest & RegionInput,
   RestoreAnalysisResponse,
   RestoreAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -21794,6 +22234,8 @@ export const restoreAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreAnalysis",
+  telemetry: TELEMETRY,
+  span: "RestoreAnalysis",
 }));
 
 export type SearchActionConnectorsError =
@@ -21806,7 +22248,7 @@ export type SearchActionConnectorsError =
  * Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions.
  */
 export const searchActionConnectors: API.PaginatedOperationMethod<
-  SearchActionConnectorsRequest,
+  SearchActionConnectorsRequest & RegionInput,
   SearchActionConnectorsResponse,
   SearchActionConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -21829,6 +22271,8 @@ export const searchActionConnectors: API.PaginatedOperationMethod<
     items: "ActionConnectorSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchActionConnectors",
 })) as any;
 
 export type SearchAgentsError =
@@ -21843,7 +22287,7 @@ export type SearchAgentsError =
  * Searches for agents based on specified filters.
  */
 export const searchAgents: API.OperationMethod<
-  SearchAgentsRequest,
+  SearchAgentsRequest & RegionInput,
   SearchAgentsResponse,
   SearchAgentsError,
   Credentials | HttpClient.HttpClient
@@ -21861,6 +22305,8 @@ export const searchAgents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchAgents",
+  telemetry: TELEMETRY,
+  span: "SearchAgents",
 }));
 
 export type SearchAnalysesError =
@@ -21877,7 +22323,7 @@ export type SearchAnalysesError =
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const searchAnalyses: API.PaginatedOperationMethod<
-  SearchAnalysesRequest,
+  SearchAnalysesRequest & RegionInput,
   SearchAnalysesResponse,
   SearchAnalysesError,
   Credentials | HttpClient.HttpClient,
@@ -21902,6 +22348,8 @@ export const searchAnalyses: API.PaginatedOperationMethod<
     items: "AnalysisSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchAnalyses",
 })) as any;
 
 export type SearchAppsError =
@@ -21914,7 +22362,7 @@ export type SearchAppsError =
  * Searches for apps in an Amazon Web Services account using the specified filters. This operation is eventually consistent; the results might not reflect very recent updates. Results are paginated; use the `NextToken` parameter to retrieve additional results.
  */
 export const searchApps: API.PaginatedOperationMethod<
-  SearchAppsRequest,
+  SearchAppsRequest & RegionInput,
   SearchAppsResponse,
   SearchAppsError,
   Credentials | HttpClient.HttpClient,
@@ -21937,6 +22385,8 @@ export const searchApps: API.PaginatedOperationMethod<
     items: "AppSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchApps",
 })) as any;
 
 export type SearchDashboardsError =
@@ -21954,7 +22404,7 @@ export type SearchDashboardsError =
  * reflect very recent updates and changes.
  */
 export const searchDashboards: API.PaginatedOperationMethod<
-  SearchDashboardsRequest,
+  SearchDashboardsRequest & RegionInput,
   SearchDashboardsResponse,
   SearchDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -21979,6 +22429,8 @@ export const searchDashboards: API.PaginatedOperationMethod<
     items: "DashboardSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchDashboards",
 })) as any;
 
 export type SearchDataSetsError =
@@ -21994,7 +22446,7 @@ export type SearchDataSetsError =
  * account.
  */
 export const searchDataSets: API.PaginatedOperationMethod<
-  SearchDataSetsRequest,
+  SearchDataSetsRequest & RegionInput,
   SearchDataSetsResponse,
   SearchDataSetsError,
   Credentials | HttpClient.HttpClient,
@@ -22019,6 +22471,8 @@ export const searchDataSets: API.PaginatedOperationMethod<
     items: "DataSetSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchDataSets",
 })) as any;
 
 export type SearchDataSourcesError =
@@ -22034,7 +22488,7 @@ export type SearchDataSourcesError =
  * belong to an account.
  */
 export const searchDataSources: API.PaginatedOperationMethod<
-  SearchDataSourcesRequest,
+  SearchDataSourcesRequest & RegionInput,
   SearchDataSourcesResponse,
   SearchDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -22059,6 +22513,8 @@ export const searchDataSources: API.PaginatedOperationMethod<
     items: "DataSourceSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchDataSources",
 })) as any;
 
 export type SearchFlowsError =
@@ -22071,7 +22527,7 @@ export type SearchFlowsError =
  * Search for the flows in an Amazon Web Services account.
  */
 export const searchFlows: API.PaginatedOperationMethod<
-  SearchFlowsInput,
+  SearchFlowsInput & RegionInput,
   SearchFlowsOutput,
   SearchFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -22094,6 +22550,8 @@ export const searchFlows: API.PaginatedOperationMethod<
     items: "FlowSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFlows",
 })) as any;
 
 export type SearchFoldersError =
@@ -22110,7 +22568,7 @@ export type SearchFoldersError =
  * Searches the subfolders in a folder.
  */
 export const searchFolders: API.PaginatedOperationMethod<
-  SearchFoldersRequest,
+  SearchFoldersRequest & RegionInput,
   SearchFoldersResponse,
   SearchFoldersError,
   Credentials | HttpClient.HttpClient,
@@ -22137,6 +22595,8 @@ export const searchFolders: API.PaginatedOperationMethod<
     items: "FolderSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFolders",
 })) as any;
 
 export type SearchGroupsError =
@@ -22153,7 +22613,7 @@ export type SearchGroupsError =
  * Use the `SearchGroups` operation to search groups in a specified Quick Sight namespace using the supplied filters.
  */
 export const searchGroups: API.PaginatedOperationMethod<
-  SearchGroupsRequest,
+  SearchGroupsRequest & RegionInput,
   SearchGroupsResponse,
   SearchGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -22180,6 +22640,8 @@ export const searchGroups: API.PaginatedOperationMethod<
     items: "GroupList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchGroups",
 })) as any;
 
 export type SearchKnowledgeBasesError =
@@ -22195,7 +22657,7 @@ export type SearchKnowledgeBasesError =
  * Searches for a subset of knowledge bases based on specified filters.
  */
 export const searchKnowledgeBases: API.PaginatedOperationMethod<
-  SearchKnowledgeBasesRequest,
+  SearchKnowledgeBasesRequest & RegionInput,
   SearchKnowledgeBasesResponse,
   SearchKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -22221,6 +22683,8 @@ export const searchKnowledgeBases: API.PaginatedOperationMethod<
     items: "KnowledgeBaseSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchKnowledgeBases",
 })) as any;
 
 export type SearchSpacesError =
@@ -22234,7 +22698,7 @@ export type SearchSpacesError =
  * Searches for Amazon QuickSight spaces that match the specified filters.
  */
 export const searchSpaces: API.OperationMethod<
-  SearchSpacesRequest,
+  SearchSpacesRequest & RegionInput,
   SearchSpacesResponse,
   SearchSpacesError,
   Credentials | HttpClient.HttpClient
@@ -22251,6 +22715,8 @@ export const searchSpaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchSpaces",
+  telemetry: TELEMETRY,
+  span: "SearchSpaces",
 }));
 
 export type SearchTopicsError =
@@ -22266,7 +22732,7 @@ export type SearchTopicsError =
  * Searches for any Q topic that exists in an Quick account.
  */
 export const searchTopics: API.PaginatedOperationMethod<
-  SearchTopicsRequest,
+  SearchTopicsRequest & RegionInput,
   SearchTopicsResponse,
   SearchTopicsError,
   Credentials | HttpClient.HttpClient,
@@ -22292,6 +22758,8 @@ export const searchTopics: API.PaginatedOperationMethod<
     items: "TopicSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchTopics",
 })) as any;
 
 export type SearchTopicsV2Error =
@@ -22306,7 +22774,7 @@ export type SearchTopicsV2Error =
  * Searches for any Q topic that exists in an Amazon Web Services account.
  */
 export const searchTopicsV2: API.PaginatedOperationMethod<
-  SearchTopicsV2Request,
+  SearchTopicsV2Request & RegionInput,
   SearchTopicsV2Response,
   SearchTopicsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -22331,6 +22799,8 @@ export const searchTopicsV2: API.PaginatedOperationMethod<
     items: "TopicSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchTopicsV2",
 })) as any;
 
 export type StartAssetBundleExportJobError =
@@ -22357,7 +22827,7 @@ export type StartAssetBundleExportJobError =
  * access each resource before the resources can be exported.
  */
 export const startAssetBundleExportJob: API.OperationMethod<
-  StartAssetBundleExportJobRequest,
+  StartAssetBundleExportJobRequest & RegionInput,
   StartAssetBundleExportJobResponse,
   StartAssetBundleExportJobError,
   Credentials | HttpClient.HttpClient
@@ -22376,6 +22846,8 @@ export const startAssetBundleExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssetBundleExportJob",
+  telemetry: TELEMETRY,
+  span: "StartAssetBundleExportJob",
 }));
 
 export type StartAssetBundleImportJobError =
@@ -22402,7 +22874,7 @@ export type StartAssetBundleImportJobError =
  * imported.
  */
 export const startAssetBundleImportJob: API.OperationMethod<
-  StartAssetBundleImportJobRequest,
+  StartAssetBundleImportJobRequest & RegionInput,
   StartAssetBundleImportJobResponse,
   StartAssetBundleImportJobError,
   Credentials | HttpClient.HttpClient
@@ -22421,6 +22893,8 @@ export const startAssetBundleImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssetBundleImportJob",
+  telemetry: TELEMETRY,
+  span: "StartAssetBundleImportJob",
 }));
 
 export type StartAutomationJobError =
@@ -22435,7 +22909,7 @@ export type StartAutomationJobError =
  * Starts a new job for a specified automation. The job runs the automation with the provided input payload.
  */
 export const startAutomationJob: API.OperationMethod<
-  StartAutomationJobRequest,
+  StartAutomationJobRequest & RegionInput,
   StartAutomationJobResponse,
   StartAutomationJobError,
   Credentials | HttpClient.HttpClient
@@ -22453,6 +22927,8 @@ export const startAutomationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationJob",
+  telemetry: TELEMETRY,
+  span: "StartAutomationJob",
 }));
 
 export type StartDashboardSnapshotJobError =
@@ -22556,7 +23032,7 @@ export type StartDashboardSnapshotJobError =
  * - The impersonated Quick Sight user is restricted from exporting data in the selected formats. For more information about export restrictions, see Customizing access to Amazon Quick Sight capabilities.
  */
 export const startDashboardSnapshotJob: API.OperationMethod<
-  StartDashboardSnapshotJobRequest,
+  StartDashboardSnapshotJobRequest & RegionInput,
   StartDashboardSnapshotJobResponse,
   StartDashboardSnapshotJobError,
   Credentials | HttpClient.HttpClient
@@ -22577,6 +23053,8 @@ export const startDashboardSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDashboardSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "StartDashboardSnapshotJob",
 }));
 
 export type StartDashboardSnapshotJobScheduleError =
@@ -22596,7 +23074,7 @@ export type StartDashboardSnapshotJobScheduleError =
  * For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the *Amazon Quick Sight User Guide*.
  */
 export const startDashboardSnapshotJobSchedule: API.OperationMethod<
-  StartDashboardSnapshotJobScheduleRequest,
+  StartDashboardSnapshotJobScheduleRequest & RegionInput,
   StartDashboardSnapshotJobScheduleResponse,
   StartDashboardSnapshotJobScheduleError,
   Credentials | HttpClient.HttpClient
@@ -22615,6 +23093,8 @@ export const startDashboardSnapshotJobSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDashboardSnapshotJobSchedule",
+  telemetry: TELEMETRY,
+  span: "StartDashboardSnapshotJobSchedule",
 }));
 
 export type TagResourceError =
@@ -22649,7 +23129,7 @@ export type TagResourceError =
  * - Amazon Quick Sight doesn't currently support the tag editor for Resource Groups.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -22667,6 +23147,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -22680,7 +23162,7 @@ export type UntagResourceError =
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -22697,6 +23179,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountCustomizationError =
@@ -22717,7 +23201,7 @@ export type UpdateAccountCustomizationError =
  * the `DescribeAccountCustomization` API operation.
  */
 export const updateAccountCustomization: API.OperationMethod<
-  UpdateAccountCustomizationRequest,
+  UpdateAccountCustomizationRequest & RegionInput,
   UpdateAccountCustomizationResponse,
   UpdateAccountCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -22736,6 +23220,8 @@ export const updateAccountCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountCustomization",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountCustomization",
 }));
 
 export type UpdateAccountCustomPermissionError =
@@ -22749,7 +23235,7 @@ export type UpdateAccountCustomPermissionError =
  * Applies a custom permissions profile to an account.
  */
 export const updateAccountCustomPermission: API.OperationMethod<
-  UpdateAccountCustomPermissionRequest,
+  UpdateAccountCustomPermissionRequest & RegionInput,
   UpdateAccountCustomPermissionResponse,
   UpdateAccountCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -22766,6 +23252,8 @@ export const updateAccountCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountCustomPermission",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountCustomPermission",
 }));
 
 export type UpdateAccountSettingsError =
@@ -22780,7 +23268,7 @@ export type UpdateAccountSettingsError =
  * Updates the Amazon Quick Sight settings in your Amazon Web Services account.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -22798,6 +23286,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateActionConnectorError =
@@ -22814,7 +23304,7 @@ export type UpdateActionConnectorError =
  * https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html.
  */
 export const updateActionConnector: API.OperationMethod<
-  UpdateActionConnectorRequest,
+  UpdateActionConnectorRequest & RegionInput,
   UpdateActionConnectorResponse,
   UpdateActionConnectorError,
   Credentials | HttpClient.HttpClient
@@ -22832,6 +23322,8 @@ export const updateActionConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateActionConnector",
 }));
 
 export type UpdateActionConnectorPermissionsError =
@@ -22848,7 +23340,7 @@ export type UpdateActionConnectorPermissionsError =
  * Updates the permissions for an action connector by granting or revoking access for specific users and groups. You can control who can view, use, or manage the action connector.
  */
 export const updateActionConnectorPermissions: API.OperationMethod<
-  UpdateActionConnectorPermissionsRequest,
+  UpdateActionConnectorPermissionsRequest & RegionInput,
   UpdateActionConnectorPermissionsResponse,
   UpdateActionConnectorPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -22868,6 +23360,8 @@ export const updateActionConnectorPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionConnectorPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateActionConnectorPermissions",
 }));
 
 export type UpdateAgentError =
@@ -22884,7 +23378,7 @@ export type UpdateAgentError =
  * Updates an existing agent.
  */
 export const updateAgent: API.OperationMethod<
-  UpdateAgentRequest,
+  UpdateAgentRequest & RegionInput,
   UpdateAgentResponse,
   UpdateAgentError,
   Credentials | HttpClient.HttpClient
@@ -22904,6 +23398,8 @@ export const updateAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgent",
+  telemetry: TELEMETRY,
+  span: "UpdateAgent",
 }));
 
 export type UpdateAgentPermissionsError =
@@ -22921,7 +23417,7 @@ export type UpdateAgentPermissionsError =
  * Updates the resource permissions for an agent.
  */
 export const updateAgentPermissions: API.OperationMethod<
-  UpdateAgentPermissionsRequest,
+  UpdateAgentPermissionsRequest & RegionInput,
   UpdateAgentPermissionsResponse,
   UpdateAgentPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -22942,6 +23438,8 @@ export const updateAgentPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentPermissions",
 }));
 
 export type UpdateAnalysisError =
@@ -22957,7 +23455,7 @@ export type UpdateAnalysisError =
  * Updates an analysis in Amazon Quick Sight
  */
 export const updateAnalysis: API.OperationMethod<
-  UpdateAnalysisRequest,
+  UpdateAnalysisRequest & RegionInput,
   UpdateAnalysisResponse,
   UpdateAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -22976,6 +23474,8 @@ export const updateAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalysis",
+  telemetry: TELEMETRY,
+  span: "UpdateAnalysis",
 }));
 
 export type UpdateAnalysisPermissionsError =
@@ -22991,7 +23491,7 @@ export type UpdateAnalysisPermissionsError =
  * Updates the read and write permissions for an analysis.
  */
 export const updateAnalysisPermissions: API.OperationMethod<
-  UpdateAnalysisPermissionsRequest,
+  UpdateAnalysisPermissionsRequest & RegionInput,
   UpdateAnalysisPermissionsResponse,
   UpdateAnalysisPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23010,6 +23510,8 @@ export const updateAnalysisPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalysisPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateAnalysisPermissions",
 }));
 
 export type UpdateApplicationWithTokenExchangeGrantError =
@@ -23025,7 +23527,7 @@ export type UpdateApplicationWithTokenExchangeGrantError =
  * Updates an Quick application with a token exchange grant. This operation only supports Quick applications that are registered with IAM Identity Center.
  */
 export const updateApplicationWithTokenExchangeGrant: API.OperationMethod<
-  UpdateApplicationWithTokenExchangeGrantRequest,
+  UpdateApplicationWithTokenExchangeGrantRequest & RegionInput,
   UpdateApplicationWithTokenExchangeGrantResponse,
   UpdateApplicationWithTokenExchangeGrantError,
   Credentials | HttpClient.HttpClient
@@ -23044,6 +23546,8 @@ export const updateApplicationWithTokenExchangeGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationWithTokenExchangeGrant",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationWithTokenExchangeGrant",
 }));
 
 export type UpdateAppPermissionsError =
@@ -23058,7 +23562,7 @@ export type UpdateAppPermissionsError =
  * Updates the resource permissions for an app. You can grant or revoke permissions and, optionally, change the app's visibility.
  */
 export const updateAppPermissions: API.OperationMethod<
-  UpdateAppPermissionsRequest,
+  UpdateAppPermissionsRequest & RegionInput,
   UpdateAppPermissionsResponse,
   UpdateAppPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23076,6 +23580,8 @@ export const updateAppPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateAppPermissions",
 }));
 
 export type UpdateApprovalPolicyError =
@@ -23090,7 +23596,7 @@ export type UpdateApprovalPolicyError =
  * Updates an approval policy in Quick Sight.
  */
 export const updateApprovalPolicy: API.OperationMethod<
-  UpdateApprovalPolicyRequest,
+  UpdateApprovalPolicyRequest & RegionInput,
   UpdateApprovalPolicyResponse,
   UpdateApprovalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -23108,6 +23614,8 @@ export const updateApprovalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalPolicy",
 }));
 
 export type UpdateBrandError =
@@ -23122,7 +23630,7 @@ export type UpdateBrandError =
  * Updates a brand.
  */
 export const updateBrand: API.OperationMethod<
-  UpdateBrandRequest,
+  UpdateBrandRequest & RegionInput,
   UpdateBrandResponse,
   UpdateBrandError,
   Credentials | HttpClient.HttpClient
@@ -23140,6 +23648,8 @@ export const updateBrand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrand",
+  telemetry: TELEMETRY,
+  span: "UpdateBrand",
 }));
 
 export type UpdateBrandAssignmentError =
@@ -23154,7 +23664,7 @@ export type UpdateBrandAssignmentError =
  * Updates a brand assignment.
  */
 export const updateBrandAssignment: API.OperationMethod<
-  UpdateBrandAssignmentRequest,
+  UpdateBrandAssignmentRequest & RegionInput,
   UpdateBrandAssignmentResponse,
   UpdateBrandAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -23172,6 +23682,8 @@ export const updateBrandAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandAssignment",
+  telemetry: TELEMETRY,
+  span: "UpdateBrandAssignment",
 }));
 
 export type UpdateBrandPublishedVersionError =
@@ -23186,7 +23698,7 @@ export type UpdateBrandPublishedVersionError =
  * Updates the published version of a brand.
  */
 export const updateBrandPublishedVersion: API.OperationMethod<
-  UpdateBrandPublishedVersionRequest,
+  UpdateBrandPublishedVersionRequest & RegionInput,
   UpdateBrandPublishedVersionResponse,
   UpdateBrandPublishedVersionError,
   Credentials | HttpClient.HttpClient
@@ -23204,6 +23716,8 @@ export const updateBrandPublishedVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandPublishedVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateBrandPublishedVersion",
 }));
 
 export type UpdateCustomPermissionsError =
@@ -23220,7 +23734,7 @@ export type UpdateCustomPermissionsError =
  * Updates a custom permissions profile.
  */
 export const updateCustomPermissions: API.OperationMethod<
-  UpdateCustomPermissionsRequest,
+  UpdateCustomPermissionsRequest & RegionInput,
   UpdateCustomPermissionsResponse,
   UpdateCustomPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23240,6 +23754,8 @@ export const updateCustomPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomPermissions",
 }));
 
 export type UpdateDashboardError =
@@ -23261,7 +23777,7 @@ export type UpdateDashboardError =
  * API operation.
  */
 export const updateDashboard: API.OperationMethod<
-  UpdateDashboardRequest,
+  UpdateDashboardRequest & RegionInput,
   UpdateDashboardResponse,
   UpdateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -23280,6 +23796,8 @@ export const updateDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboard",
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 export type UpdateDashboardLinksError =
@@ -23295,7 +23813,7 @@ export type UpdateDashboardLinksError =
  * Updates the linked analyses on a dashboard.
  */
 export const updateDashboardLinks: API.OperationMethod<
-  UpdateDashboardLinksRequest,
+  UpdateDashboardLinksRequest & RegionInput,
   UpdateDashboardLinksResponse,
   UpdateDashboardLinksError,
   Credentials | HttpClient.HttpClient
@@ -23314,6 +23832,8 @@ export const updateDashboardLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboardLinks",
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardLinks",
 }));
 
 export type UpdateDashboardPermissionsError =
@@ -23329,7 +23849,7 @@ export type UpdateDashboardPermissionsError =
  * Updates read and write permissions on a dashboard.
  */
 export const updateDashboardPermissions: API.OperationMethod<
-  UpdateDashboardPermissionsRequest,
+  UpdateDashboardPermissionsRequest & RegionInput,
   UpdateDashboardPermissionsResponse,
   UpdateDashboardPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23348,6 +23868,8 @@ export const updateDashboardPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboardPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardPermissions",
 }));
 
 export type UpdateDashboardPublishedVersionError =
@@ -23362,7 +23884,7 @@ export type UpdateDashboardPublishedVersionError =
  * Updates the published version of a dashboard.
  */
 export const updateDashboardPublishedVersion: API.OperationMethod<
-  UpdateDashboardPublishedVersionRequest,
+  UpdateDashboardPublishedVersionRequest & RegionInput,
   UpdateDashboardPublishedVersionResponse,
   UpdateDashboardPublishedVersionError,
   Credentials | HttpClient.HttpClient
@@ -23380,6 +23902,8 @@ export const updateDashboardPublishedVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboardPublishedVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardPublishedVersion",
 }));
 
 export type UpdateDashboardsQAConfigurationError =
@@ -23394,7 +23918,7 @@ export type UpdateDashboardsQAConfigurationError =
  * Updates a Dashboard QA configuration.
  */
 export const updateDashboardsQAConfiguration: API.OperationMethod<
-  UpdateDashboardsQAConfigurationRequest,
+  UpdateDashboardsQAConfigurationRequest & RegionInput,
   UpdateDashboardsQAConfigurationResponse,
   UpdateDashboardsQAConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -23412,6 +23936,8 @@ export const updateDashboardsQAConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboardsQAConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardsQAConfiguration",
 }));
 
 export type UpdateDataSetError =
@@ -23429,7 +23955,7 @@ export type UpdateDataSetError =
  * Updates a dataset. Partial updates are not supported by this operation.
  */
 export const updateDataSet: API.OperationMethod<
-  UpdateDataSetRequest,
+  UpdateDataSetRequest & RegionInput,
   UpdateDataSetResponse,
   UpdateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -23450,6 +23976,8 @@ export const updateDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSet",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSet",
 }));
 
 export type UpdateDataSetPermissionsError =
@@ -23467,7 +23995,7 @@ export type UpdateDataSetPermissionsError =
  * `arn:aws:quicksight:region:aws-account-id:dataset/data-set-id`.
  */
 export const updateDataSetPermissions: API.OperationMethod<
-  UpdateDataSetPermissionsRequest,
+  UpdateDataSetPermissionsRequest & RegionInput,
   UpdateDataSetPermissionsResponse,
   UpdateDataSetPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23485,6 +24013,8 @@ export const updateDataSetPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSetPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSetPermissions",
 }));
 
 export type UpdateDataSourceError =
@@ -23500,7 +24030,7 @@ export type UpdateDataSourceError =
  * Updates a data source.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -23519,6 +24049,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateDataSourcePermissionsError =
@@ -23533,7 +24065,7 @@ export type UpdateDataSourcePermissionsError =
  * Updates the permissions to a data source.
  */
 export const updateDataSourcePermissions: API.OperationMethod<
-  UpdateDataSourcePermissionsRequest,
+  UpdateDataSourcePermissionsRequest & RegionInput,
   UpdateDataSourcePermissionsResponse,
   UpdateDataSourcePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23551,6 +24083,8 @@ export const updateDataSourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSourcePermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSourcePermissions",
 }));
 
 export type UpdateDefaultQBusinessApplicationError =
@@ -23565,7 +24099,7 @@ export type UpdateDefaultQBusinessApplicationError =
  * Updates a Amazon Q Business application that is linked to a Quick Sight account.
  */
 export const updateDefaultQBusinessApplication: API.OperationMethod<
-  UpdateDefaultQBusinessApplicationRequest,
+  UpdateDefaultQBusinessApplicationRequest & RegionInput,
   UpdateDefaultQBusinessApplicationResponse,
   UpdateDefaultQBusinessApplicationError,
   Credentials | HttpClient.HttpClient
@@ -23583,6 +24117,8 @@ export const updateDefaultQBusinessApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDefaultQBusinessApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateDefaultQBusinessApplication",
 }));
 
 export type UpdateDlpSettingError =
@@ -23597,7 +24133,7 @@ export type UpdateDlpSettingError =
  * Updates an existing DLP setting configuration in an Amazon Web Services account. Fields that are omitted from the request retain their current values.
  */
 export const updateDlpSetting: API.OperationMethod<
-  UpdateDlpSettingRequest,
+  UpdateDlpSettingRequest & RegionInput,
   UpdateDlpSettingResponse,
   UpdateDlpSettingError,
   Credentials | HttpClient.HttpClient
@@ -23615,6 +24151,8 @@ export const updateDlpSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDlpSetting",
+  telemetry: TELEMETRY,
+  span: "UpdateDlpSetting",
 }));
 
 export type UpdateFlowError =
@@ -23630,7 +24168,7 @@ export type UpdateFlowError =
  * Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When `FlowDefinition` is provided, all existing steps are replaced with the new definition.
  */
 export const updateFlow: API.OperationMethod<
-  UpdateFlowRequest,
+  UpdateFlowRequest & RegionInput,
   UpdateFlowResponse,
   UpdateFlowError,
   Credentials | HttpClient.HttpClient
@@ -23649,6 +24187,8 @@ export const updateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateFlow",
 }));
 
 export type UpdateFlowPermissionsError =
@@ -23661,7 +24201,7 @@ export type UpdateFlowPermissionsError =
  * Updates permissions against principals on a flow.
  */
 export const updateFlowPermissions: API.OperationMethod<
-  UpdateFlowPermissionsInput,
+  UpdateFlowPermissionsInput & RegionInput,
   UpdateFlowPermissionsOutput,
   UpdateFlowPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23677,6 +24217,8 @@ export const updateFlowPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowPermissions",
 }));
 
 export type UpdateFolderError =
@@ -23693,7 +24235,7 @@ export type UpdateFolderError =
  * Updates the name of a folder.
  */
 export const updateFolder: API.OperationMethod<
-  UpdateFolderRequest,
+  UpdateFolderRequest & RegionInput,
   UpdateFolderResponse,
   UpdateFolderError,
   Credentials | HttpClient.HttpClient
@@ -23713,6 +24255,8 @@ export const updateFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFolder",
+  telemetry: TELEMETRY,
+  span: "UpdateFolder",
 }));
 
 export type UpdateFolderPermissionsError =
@@ -23728,7 +24272,7 @@ export type UpdateFolderPermissionsError =
  * Updates permissions of a folder.
  */
 export const updateFolderPermissions: API.OperationMethod<
-  UpdateFolderPermissionsRequest,
+  UpdateFolderPermissionsRequest & RegionInput,
   UpdateFolderPermissionsResponse,
   UpdateFolderPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23747,6 +24291,8 @@ export const updateFolderPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFolderPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateFolderPermissions",
 }));
 
 export type UpdateGroupError =
@@ -23762,7 +24308,7 @@ export type UpdateGroupError =
  * Changes a group description.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -23781,6 +24327,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateIAMPolicyAssignmentError =
@@ -23798,7 +24346,7 @@ export type UpdateIAMPolicyAssignmentError =
  * all of the users included in `Identities`.
  */
 export const updateIAMPolicyAssignment: API.OperationMethod<
-  UpdateIAMPolicyAssignmentRequest,
+  UpdateIAMPolicyAssignmentRequest & RegionInput,
   UpdateIAMPolicyAssignmentResponse,
   UpdateIAMPolicyAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -23817,6 +24365,8 @@ export const updateIAMPolicyAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIAMPolicyAssignment",
+  telemetry: TELEMETRY,
+  span: "UpdateIAMPolicyAssignment",
 }));
 
 export type UpdateIdentityPropagationConfigError =
@@ -23832,7 +24382,7 @@ export type UpdateIdentityPropagationConfigError =
  * This operation is only supported for Quick Sight accounts using IAM Identity Center
  */
 export const updateIdentityPropagationConfig: API.OperationMethod<
-  UpdateIdentityPropagationConfigRequest,
+  UpdateIdentityPropagationConfigRequest & RegionInput,
   UpdateIdentityPropagationConfigResponse,
   UpdateIdentityPropagationConfigError,
   Credentials | HttpClient.HttpClient
@@ -23849,6 +24399,8 @@ export const updateIdentityPropagationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityPropagationConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityPropagationConfig",
 }));
 
 export type UpdateIpRestrictionError =
@@ -23863,7 +24415,7 @@ export type UpdateIpRestrictionError =
  * Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the `IpRestrictionRule`, `VpcIdRestrictionRule`, or `VpcEndpointIdRestrictionRule`. To use this operation, you must provide the entire map of rules. You can use the `DescribeIpRestriction` operation to get the current rule map.
  */
 export const updateIpRestriction: API.OperationMethod<
-  UpdateIpRestrictionRequest,
+  UpdateIpRestrictionRequest & RegionInput,
   UpdateIpRestrictionResponse,
   UpdateIpRestrictionError,
   Credentials | HttpClient.HttpClient
@@ -23881,6 +24433,8 @@ export const updateIpRestriction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIpRestriction",
+  telemetry: TELEMETRY,
+  span: "UpdateIpRestriction",
 }));
 
 export type UpdateKeyRegistrationError =
@@ -23893,7 +24447,7 @@ export type UpdateKeyRegistrationError =
  * Updates a customer managed key in a Quick Sight account.
  */
 export const updateKeyRegistration: API.OperationMethod<
-  UpdateKeyRegistrationRequest,
+  UpdateKeyRegistrationRequest & RegionInput,
   UpdateKeyRegistrationResponse,
   UpdateKeyRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -23909,6 +24463,8 @@ export const updateKeyRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyRegistration",
+  telemetry: TELEMETRY,
+  span: "UpdateKeyRegistration",
 }));
 
 export type UpdateKnowledgeBaseError =
@@ -23926,7 +24482,7 @@ export type UpdateKnowledgeBaseError =
  * Updates the properties of an existing knowledge base.
  */
 export const updateKnowledgeBase: API.OperationMethod<
-  UpdateKnowledgeBaseRequest,
+  UpdateKnowledgeBaseRequest & RegionInput,
   UpdateKnowledgeBaseResponse,
   UpdateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -23947,6 +24503,8 @@ export const updateKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "UpdateKnowledgeBase",
 }));
 
 export type UpdateKnowledgeBasePermissionsError =
@@ -23964,7 +24522,7 @@ export type UpdateKnowledgeBasePermissionsError =
  * Updates the resource permissions for a knowledge base.
  */
 export const updateKnowledgeBasePermissions: API.OperationMethod<
-  UpdateKnowledgeBasePermissionsRequest,
+  UpdateKnowledgeBasePermissionsRequest & RegionInput,
   UpdateKnowledgeBasePermissionsResponse,
   UpdateKnowledgeBasePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23985,6 +24543,8 @@ export const updateKnowledgeBasePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBasePermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateKnowledgeBasePermissions",
 }));
 
 export type UpdateLimitsProfileError =
@@ -23999,7 +24559,7 @@ export type UpdateLimitsProfileError =
  * Updates the properties of an existing limits profile.
  */
 export const updateLimitsProfile: API.OperationMethod<
-  UpdateLimitsProfileRequest,
+  UpdateLimitsProfileRequest & RegionInput,
   UpdateLimitsProfileResponse,
   UpdateLimitsProfileError,
   Credentials | HttpClient.HttpClient
@@ -24017,6 +24577,8 @@ export const updateLimitsProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLimitsProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateLimitsProfile",
 }));
 
 export type UpdateOAuthClientApplicationError =
@@ -24032,7 +24594,7 @@ export type UpdateOAuthClientApplicationError =
  * Updates an OAuthClientApplication.
  */
 export const updateOAuthClientApplication: API.OperationMethod<
-  UpdateOAuthClientApplicationRequest,
+  UpdateOAuthClientApplicationRequest & RegionInput,
   UpdateOAuthClientApplicationResponse,
   UpdateOAuthClientApplicationError,
   Credentials | HttpClient.HttpClient
@@ -24051,6 +24613,8 @@ export const updateOAuthClientApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOAuthClientApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateOAuthClientApplication",
 }));
 
 export type UpdatePublicSharingSettingsError =
@@ -24086,7 +24650,7 @@ export type UpdatePublicSharingSettingsError =
  * User Guide.
  */
 export const updatePublicSharingSettings: API.OperationMethod<
-  UpdatePublicSharingSettingsRequest,
+  UpdatePublicSharingSettingsRequest & RegionInput,
   UpdatePublicSharingSettingsResponse,
   UpdatePublicSharingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -24104,6 +24668,8 @@ export const updatePublicSharingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublicSharingSettings",
+  telemetry: TELEMETRY,
+  span: "UpdatePublicSharingSettings",
 }));
 
 export type UpdateQPersonalizationConfigurationError =
@@ -24119,7 +24685,7 @@ export type UpdateQPersonalizationConfigurationError =
  * Updates a personalization configuration.
  */
 export const updateQPersonalizationConfiguration: API.OperationMethod<
-  UpdateQPersonalizationConfigurationRequest,
+  UpdateQPersonalizationConfigurationRequest & RegionInput,
   UpdateQPersonalizationConfigurationResponse,
   UpdateQPersonalizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -24138,6 +24704,8 @@ export const updateQPersonalizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQPersonalizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateQPersonalizationConfiguration",
 }));
 
 export type UpdateQuickSightQSearchConfigurationError =
@@ -24152,7 +24720,7 @@ export type UpdateQuickSightQSearchConfigurationError =
  * Updates the state of a Quick Sight Q Search configuration.
  */
 export const updateQuickSightQSearchConfiguration: API.OperationMethod<
-  UpdateQuickSightQSearchConfigurationRequest,
+  UpdateQuickSightQSearchConfigurationRequest & RegionInput,
   UpdateQuickSightQSearchConfigurationResponse,
   UpdateQuickSightQSearchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -24170,6 +24738,8 @@ export const updateQuickSightQSearchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickSightQSearchConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateQuickSightQSearchConfiguration",
 }));
 
 export type UpdateRefreshScheduleError =
@@ -24185,7 +24755,7 @@ export type UpdateRefreshScheduleError =
  * Updates a refresh schedule for a dataset.
  */
 export const updateRefreshSchedule: API.OperationMethod<
-  UpdateRefreshScheduleRequest,
+  UpdateRefreshScheduleRequest & RegionInput,
   UpdateRefreshScheduleResponse,
   UpdateRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -24204,6 +24774,8 @@ export const updateRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRefreshSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateRefreshSchedule",
 }));
 
 export type UpdateRoleCustomPermissionError =
@@ -24219,7 +24791,7 @@ export type UpdateRoleCustomPermissionError =
  * Updates the custom permissions that are associated with a role.
  */
 export const updateRoleCustomPermission: API.OperationMethod<
-  UpdateRoleCustomPermissionRequest,
+  UpdateRoleCustomPermissionRequest & RegionInput,
   UpdateRoleCustomPermissionResponse,
   UpdateRoleCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -24238,6 +24810,8 @@ export const updateRoleCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoleCustomPermission",
+  telemetry: TELEMETRY,
+  span: "UpdateRoleCustomPermission",
 }));
 
 export type UpdateSelfUpgradeError =
@@ -24255,7 +24829,7 @@ export type UpdateSelfUpgradeError =
  * Updates a self-upgrade request for a Quick user by approving, denying, or verifying the request.
  */
 export const updateSelfUpgrade: API.OperationMethod<
-  UpdateSelfUpgradeRequest,
+  UpdateSelfUpgradeRequest & RegionInput,
   UpdateSelfUpgradeResponse,
   UpdateSelfUpgradeError,
   Credentials | HttpClient.HttpClient
@@ -24276,6 +24850,8 @@ export const updateSelfUpgrade: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSelfUpgrade",
+  telemetry: TELEMETRY,
+  span: "UpdateSelfUpgrade",
 }));
 
 export type UpdateSelfUpgradeConfigurationError =
@@ -24292,7 +24868,7 @@ export type UpdateSelfUpgradeConfigurationError =
  * Updates the self-upgrade configuration for a Quick account.
  */
 export const updateSelfUpgradeConfiguration: API.OperationMethod<
-  UpdateSelfUpgradeConfigurationRequest,
+  UpdateSelfUpgradeConfigurationRequest & RegionInput,
   UpdateSelfUpgradeConfigurationResponse,
   UpdateSelfUpgradeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -24312,6 +24888,8 @@ export const updateSelfUpgradeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSelfUpgradeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSelfUpgradeConfiguration",
 }));
 
 export type UpdateSpaceError =
@@ -24326,7 +24904,7 @@ export type UpdateSpaceError =
  * Updates the metadata of an Amazon QuickSight space.
  */
 export const updateSpace: API.OperationMethod<
-  UpdateSpaceRequest,
+  UpdateSpaceRequest & RegionInput,
   UpdateSpaceResponse,
   UpdateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -24344,6 +24922,8 @@ export const updateSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
+  telemetry: TELEMETRY,
+  span: "UpdateSpace",
 }));
 
 export type UpdateSpacePermissionsError =
@@ -24360,7 +24940,7 @@ export type UpdateSpacePermissionsError =
  * Updates the permissions for an Amazon QuickSight space.
  */
 export const updateSpacePermissions: API.OperationMethod<
-  UpdateSpacePermissionsRequest,
+  UpdateSpacePermissionsRequest & RegionInput,
   UpdateSpacePermissionsResponse,
   UpdateSpacePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24380,6 +24960,8 @@ export const updateSpacePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpacePermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateSpacePermissions",
 }));
 
 export type UpdateSpaceResourcesError =
@@ -24396,7 +24978,7 @@ export type UpdateSpaceResourcesError =
  * Adds or removes resources from an Amazon QuickSight space.
  */
 export const updateSpaceResources: API.OperationMethod<
-  UpdateSpaceResourcesRequest,
+  UpdateSpaceResourcesRequest & RegionInput,
   UpdateSpaceResourcesResponse,
   UpdateSpaceResourcesError,
   Credentials | HttpClient.HttpClient
@@ -24416,6 +24998,8 @@ export const updateSpaceResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpaceResources",
+  telemetry: TELEMETRY,
+  span: "UpdateSpaceResources",
 }));
 
 export type UpdateSPICECapacityConfigurationError =
@@ -24429,7 +25013,7 @@ export type UpdateSPICECapacityConfigurationError =
  * Updates the SPICE capacity configuration for a Quick Sight account.
  */
 export const updateSPICECapacityConfiguration: API.OperationMethod<
-  UpdateSPICECapacityConfigurationRequest,
+  UpdateSPICECapacityConfigurationRequest & RegionInput,
   UpdateSPICECapacityConfigurationResponse,
   UpdateSPICECapacityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -24446,6 +25030,8 @@ export const updateSPICECapacityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSPICECapacityConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSPICECapacityConfiguration",
 }));
 
 export type UpdateTemplateError =
@@ -24462,7 +25048,7 @@ export type UpdateTemplateError =
  * Updates a template from an existing Amazon Quick Sight analysis or another template.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -24482,6 +25068,8 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 export type UpdateTemplateAliasError =
@@ -24495,7 +25083,7 @@ export type UpdateTemplateAliasError =
  * Updates the template alias of a template.
  */
 export const updateTemplateAlias: API.OperationMethod<
-  UpdateTemplateAliasRequest,
+  UpdateTemplateAliasRequest & RegionInput,
   UpdateTemplateAliasResponse,
   UpdateTemplateAliasError,
   Credentials | HttpClient.HttpClient
@@ -24512,6 +25100,8 @@ export const updateTemplateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplateAlias",
 }));
 
 export type UpdateTemplatePermissionsError =
@@ -24527,7 +25117,7 @@ export type UpdateTemplatePermissionsError =
  * Updates the resource permissions for a template.
  */
 export const updateTemplatePermissions: API.OperationMethod<
-  UpdateTemplatePermissionsRequest,
+  UpdateTemplatePermissionsRequest & RegionInput,
   UpdateTemplatePermissionsResponse,
   UpdateTemplatePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24546,6 +25136,8 @@ export const updateTemplatePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplatePermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplatePermissions",
 }));
 
 export type UpdateThemeError =
@@ -24562,7 +25154,7 @@ export type UpdateThemeError =
  * Updates a theme.
  */
 export const updateTheme: API.OperationMethod<
-  UpdateThemeRequest,
+  UpdateThemeRequest & RegionInput,
   UpdateThemeResponse,
   UpdateThemeError,
   Credentials | HttpClient.HttpClient
@@ -24582,6 +25174,8 @@ export const updateTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTheme",
+  telemetry: TELEMETRY,
+  span: "UpdateTheme",
 }));
 
 export type UpdateThemeAliasError =
@@ -24597,7 +25191,7 @@ export type UpdateThemeAliasError =
  * Updates an alias of a theme.
  */
 export const updateThemeAlias: API.OperationMethod<
-  UpdateThemeAliasRequest,
+  UpdateThemeAliasRequest & RegionInput,
   UpdateThemeAliasResponse,
   UpdateThemeAliasError,
   Credentials | HttpClient.HttpClient
@@ -24616,6 +25210,8 @@ export const updateThemeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThemeAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateThemeAlias",
 }));
 
 export type UpdateThemePermissionsError =
@@ -24671,7 +25267,7 @@ export type UpdateThemePermissionsError =
  * - To specify no permissions, omit the permissions list.
  */
 export const updateThemePermissions: API.OperationMethod<
-  UpdateThemePermissionsRequest,
+  UpdateThemePermissionsRequest & RegionInput,
   UpdateThemePermissionsResponse,
   UpdateThemePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24690,6 +25286,8 @@ export const updateThemePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThemePermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateThemePermissions",
 }));
 
 export type UpdateTopicError =
@@ -24706,7 +25304,7 @@ export type UpdateTopicError =
  * Updates a topic.
  */
 export const updateTopic: API.OperationMethod<
-  UpdateTopicRequest,
+  UpdateTopicRequest & RegionInput,
   UpdateTopicResponse,
   UpdateTopicError,
   Credentials | HttpClient.HttpClient
@@ -24726,6 +25324,8 @@ export const updateTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopic",
+  telemetry: TELEMETRY,
+  span: "UpdateTopic",
 }));
 
 export type UpdateTopicPermissionsError =
@@ -24742,7 +25342,7 @@ export type UpdateTopicPermissionsError =
  * Updates the permissions of a topic.
  */
 export const updateTopicPermissions: API.OperationMethod<
-  UpdateTopicPermissionsRequest,
+  UpdateTopicPermissionsRequest & RegionInput,
   UpdateTopicPermissionsResponse,
   UpdateTopicPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24762,6 +25362,8 @@ export const updateTopicPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopicPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateTopicPermissions",
 }));
 
 export type UpdateTopicPermissionsV2Error =
@@ -24778,7 +25380,7 @@ export type UpdateTopicPermissionsV2Error =
  * Updates the permissions of a topic.
  */
 export const updateTopicPermissionsV2: API.OperationMethod<
-  UpdateTopicPermissionsV2Request,
+  UpdateTopicPermissionsV2Request & RegionInput,
   UpdateTopicPermissionsV2Response,
   UpdateTopicPermissionsV2Error,
   Credentials | HttpClient.HttpClient
@@ -24798,6 +25400,8 @@ export const updateTopicPermissionsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopicPermissionsV2",
+  telemetry: TELEMETRY,
+  span: "UpdateTopicPermissionsV2",
 }));
 
 export type UpdateTopicRefreshScheduleError =
@@ -24814,7 +25418,7 @@ export type UpdateTopicRefreshScheduleError =
  * Updates a topic refresh schedule.
  */
 export const updateTopicRefreshSchedule: API.OperationMethod<
-  UpdateTopicRefreshScheduleRequest,
+  UpdateTopicRefreshScheduleRequest & RegionInput,
   UpdateTopicRefreshScheduleResponse,
   UpdateTopicRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -24834,6 +25438,8 @@ export const updateTopicRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopicRefreshSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateTopicRefreshSchedule",
 }));
 
 export type UpdateTopicV2Error =
@@ -24850,7 +25456,7 @@ export type UpdateTopicV2Error =
  * Updates the definition of a Q topic.
  */
 export const updateTopicV2: API.OperationMethod<
-  UpdateTopicV2Request,
+  UpdateTopicV2Request & RegionInput,
   UpdateTopicV2Response,
   UpdateTopicV2Error,
   Credentials | HttpClient.HttpClient
@@ -24870,6 +25476,8 @@ export const updateTopicV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopicV2",
+  telemetry: TELEMETRY,
+  span: "UpdateTopicV2",
 }));
 
 export type UpdateUserError =
@@ -24885,7 +25493,7 @@ export type UpdateUserError =
  * Updates an Amazon Quick Sight user.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -24904,6 +25512,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserCustomPermissionError =
@@ -24920,7 +25530,7 @@ export type UpdateUserCustomPermissionError =
  * Updates a custom permissions profile for a user.
  */
 export const updateUserCustomPermission: API.OperationMethod<
-  UpdateUserCustomPermissionRequest,
+  UpdateUserCustomPermissionRequest & RegionInput,
   UpdateUserCustomPermissionResponse,
   UpdateUserCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -24940,6 +25550,8 @@ export const updateUserCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserCustomPermission",
+  telemetry: TELEMETRY,
+  span: "UpdateUserCustomPermission",
 }));
 
 export type UpdateVPCConnectionError =
@@ -24956,7 +25568,7 @@ export type UpdateVPCConnectionError =
  * Updates a VPC connection.
  */
 export const updateVPCConnection: API.OperationMethod<
-  UpdateVPCConnectionRequest,
+  UpdateVPCConnectionRequest & RegionInput,
   UpdateVPCConnectionResponse,
   UpdateVPCConnectionError,
   Credentials | HttpClient.HttpClient
@@ -24976,6 +25588,8 @@ export const updateVPCConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVPCConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateVPCConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

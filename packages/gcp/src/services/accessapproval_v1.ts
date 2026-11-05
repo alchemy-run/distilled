@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "accessapproval" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Accessapproval",
+  service: "accessapproval",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -469,6 +488,8 @@ export const approveFoldersApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveFoldersApprovalRequests",
 }));
 
 export type ApproveOrganizationsApprovalRequestsError =
@@ -489,6 +510,8 @@ export const approveOrganizationsApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveOrganizationsApprovalRequests",
 }));
 
 export type ApproveProjectsApprovalRequestsError =
@@ -509,6 +532,8 @@ export const approveProjectsApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveProjectsApprovalRequests",
 }));
 
 export type DeleteAccessApprovalSettingsFoldersError =
@@ -529,6 +554,8 @@ export const deleteAccessApprovalSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessApprovalSettingsFolders",
 }));
 
 export type DeleteAccessApprovalSettingsOrganizationsError =
@@ -549,6 +576,8 @@ export const deleteAccessApprovalSettingsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessApprovalSettingsOrganizations",
 }));
 
 export type DeleteAccessApprovalSettingsProjectsError =
@@ -569,6 +598,8 @@ export const deleteAccessApprovalSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessApprovalSettingsProjects",
 }));
 
 export type DismissFoldersApprovalRequestsError =
@@ -589,6 +620,8 @@ export const dismissFoldersApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissFoldersApprovalRequests",
 }));
 
 export type DismissOrganizationsApprovalRequestsError =
@@ -609,6 +642,8 @@ export const dismissOrganizationsApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissOrganizationsApprovalRequests",
 }));
 
 export type DismissProjectsApprovalRequestsError =
@@ -629,6 +664,8 @@ export const dismissProjectsApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissProjectsApprovalRequests",
 }));
 
 export type GetAccessApprovalSettingsFoldersError = NotFound | Forbidden | GcpOpError;
@@ -644,6 +681,8 @@ export const getAccessApprovalSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApprovalSettingsFolders",
 }));
 
 export type GetAccessApprovalSettingsOrganizationsError = NotFound | Forbidden | GcpOpError;
@@ -659,6 +698,8 @@ export const getAccessApprovalSettingsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApprovalSettingsOrganizations",
 }));
 
 export type GetAccessApprovalSettingsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -674,6 +715,8 @@ export const getAccessApprovalSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApprovalSettingsProjects",
 }));
 
 export type GetFoldersApprovalRequestsError = NotFound | Forbidden | GcpOpError;
@@ -689,6 +732,8 @@ export const getFoldersApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFoldersApprovalRequests",
 }));
 
 export type GetOrganizationsApprovalRequestsError = NotFound | Forbidden | GcpOpError;
@@ -704,6 +749,8 @@ export const getOrganizationsApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApprovalRequests",
 }));
 
 export type GetProjectsApprovalRequestsError = NotFound | Forbidden | GcpOpError;
@@ -719,6 +766,8 @@ export const getProjectsApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsApprovalRequests",
 }));
 
 export type GetServiceAccountFoldersError = NotFound | Forbidden | GcpOpError;
@@ -734,6 +783,8 @@ export const getServiceAccountFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccountFolders",
 }));
 
 export type GetServiceAccountOrganizationsError = NotFound | Forbidden | GcpOpError;
@@ -749,6 +800,8 @@ export const getServiceAccountOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccountOrganizations",
 }));
 
 export type GetServiceAccountProjectsError = NotFound | Forbidden | GcpOpError;
@@ -764,6 +817,8 @@ export const getServiceAccountProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccountProjects",
 }));
 
 export type InvalidateFoldersApprovalRequestsError =
@@ -784,6 +839,8 @@ export const invalidateFoldersApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateFoldersApprovalRequests",
 }));
 
 export type InvalidateOrganizationsApprovalRequestsError =
@@ -804,6 +861,8 @@ export const invalidateOrganizationsApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateOrganizationsApprovalRequests",
 }));
 
 export type InvalidateProjectsApprovalRequestsError =
@@ -824,6 +883,8 @@ export const invalidateProjectsApprovalRequests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateProjectsApprovalRequests",
 }));
 
 export type ListFoldersApprovalRequestsError = NotFound | Forbidden | GcpOpError;
@@ -840,6 +901,8 @@ export const listFoldersApprovalRequests: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFoldersApprovalRequests",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -857,6 +920,8 @@ export const listOrganizationsApprovalRequests: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApprovalRequests",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -874,6 +939,8 @@ export const listProjectsApprovalRequests: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsApprovalRequests",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -895,6 +962,8 @@ export const updateAccessApprovalSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessApprovalSettingsFolders",
 }));
 
 export type UpdateAccessApprovalSettingsOrganizationsError =
@@ -915,6 +984,8 @@ export const updateAccessApprovalSettingsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessApprovalSettingsOrganizations",
 }));
 
 export type UpdateAccessApprovalSettingsProjectsError =
@@ -935,6 +1006,8 @@ export const updateAccessApprovalSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessApprovalSettingsProjects",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

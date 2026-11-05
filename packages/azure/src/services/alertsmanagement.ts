@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AlertsManagement" },
+  prefix: "Alertsmanagement",
+  service: "Alertsmanagement",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type AlertProcessingRulesCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
@@ -1145,6 +1166,8 @@ export const AlertProcessingRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AlertProcessingRulesCreateOrUpdate",
 }));
 
 export type AlertsChangeStateError = AzureOpError;
@@ -1160,6 +1183,13 @@ export const AlertsChangeState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AlertsChangeState",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}/changestate",
+    },
+  },
 }));
 
 export type AlertsMetaData2Error = AzureOpError;
@@ -1175,6 +1205,8 @@ export const AlertsMetaData2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AlertsMetaData2",
 }));
 
 export type DeleteAlertProcessingRuleError = AzureOpError;
@@ -1190,6 +1222,8 @@ export const DeleteAlertProcessingRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlertProcessingRule",
 }));
 
 export type DeletePrometheusRuleGroupError = AzureOpError;
@@ -1205,6 +1239,8 @@ export const DeletePrometheusRuleGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrometheusRuleGroup",
 }));
 
 export type DeleteSmartDetectorAlertRuleError = AzureOpError;
@@ -1220,6 +1256,11 @@ export const DeleteSmartDetectorAlertRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteSmartDetectorAlertRule",
+    attributes: { "azure.resource_provider.namespace": "microsoft.alertsManagement" },
+  },
 }));
 
 export type GetAlertAllError = AzureOpError;
@@ -1235,6 +1276,11 @@ export const GetAlertAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAlertAll",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.AlertsManagement/alerts" },
+  },
 }));
 
 export type GetAlertByIdError = AzureOpError;
@@ -1250,6 +1296,13 @@ export const GetAlertById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAlertById",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}",
+    },
+  },
 }));
 
 export type GetAlertHistoryError = AzureOpError;
@@ -1265,6 +1318,13 @@ export const GetAlertHistory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAlertHistory",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}/history",
+    },
+  },
 }));
 
 export type GetAlertProcessingRuleByNameError = AzureOpError;
@@ -1280,6 +1340,8 @@ export const GetAlertProcessingRuleByName: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlertProcessingRuleByName",
 }));
 
 export type GetAlertSummaryError = AzureOpError;
@@ -1295,6 +1357,11 @@ export const GetAlertSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAlertSummary",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.AlertsManagement/alertsSummary" },
+  },
 }));
 
 export type GetPrometheusRuleGroupError = AzureOpError;
@@ -1310,6 +1377,8 @@ export const GetPrometheusRuleGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrometheusRuleGroup",
 }));
 
 export type GetSmartDetectorAlertRuleError = AzureOpError;
@@ -1325,6 +1394,11 @@ export const GetSmartDetectorAlertRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSmartDetectorAlertRule",
+    attributes: { "azure.resource_provider.namespace": "microsoft.alertsManagement" },
+  },
 }));
 
 export type ListAlertProcessingRuleByResourceGroupError = AzureOpError;
@@ -1340,6 +1414,8 @@ export const ListAlertProcessingRuleByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertProcessingRuleByResourceGroup",
 }));
 
 export type ListAlertProcessingRuleBySubscriptionError = AzureOpError;
@@ -1355,6 +1431,8 @@ export const ListAlertProcessingRuleBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertProcessingRuleBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1370,6 +1448,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrometheusRuleGroupByResourceGroupError = AzureOpError;
@@ -1385,6 +1465,8 @@ export const ListPrometheusRuleGroupByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrometheusRuleGroupByResourceGroup",
 }));
 
 export type ListPrometheusRuleGroupBySubscriptionError = AzureOpError;
@@ -1400,6 +1482,8 @@ export const ListPrometheusRuleGroupBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrometheusRuleGroupBySubscription",
 }));
 
 export type ListSmartDetectorAlertRuleByResourceGroupError = AzureOpError;
@@ -1415,6 +1499,11 @@ export const ListSmartDetectorAlertRuleByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSmartDetectorAlertRuleByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "microsoft.alertsManagement" },
+  },
 }));
 
 export type ListSmartDetectorAlertRulesError = AzureOpError;
@@ -1430,6 +1519,11 @@ export const ListSmartDetectorAlertRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSmartDetectorAlertRules",
+    attributes: { "azure.resource_provider.namespace": "microsoft.alertsManagement" },
+  },
 }));
 
 export type PatchSmartDetectorAlertRuleError = AzureOpError;
@@ -1445,6 +1539,11 @@ export const PatchSmartDetectorAlertRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PatchSmartDetectorAlertRule",
+    attributes: { "azure.resource_provider.namespace": "microsoft.alertsManagement" },
+  },
 }));
 
 export type PrometheusRuleGroupsCreateOrUpdateError = AzureOpError;
@@ -1460,6 +1559,8 @@ export const PrometheusRuleGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusRuleGroupsCreateOrUpdate",
 }));
 
 export type SmartDetectorAlertRulesCreateOrUpdateError = AzureOpError;
@@ -1475,6 +1576,11 @@ export const SmartDetectorAlertRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SmartDetectorAlertRulesCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "microsoft.alertsManagement" },
+  },
 }));
 
 export type UpdateAlertProcessingRuleError = AzureOpError;
@@ -1490,6 +1596,8 @@ export const UpdateAlertProcessingRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAlertProcessingRule",
 }));
 
 export type UpdatePrometheusRuleGroupError = AzureOpError;
@@ -1505,6 +1613,8 @@ export const UpdatePrometheusRuleGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrometheusRuleGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://devicefarm.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DeviceFarm",
+  service: "DeviceFarm",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ArgumentException
   extends /*@__PURE__*/ S.TaggedError<ArgumentException>()("ArgumentException", {
@@ -1502,7 +1519,7 @@ export type CreateDevicePoolError =
  * Creates a device pool.
  */
 export const createDevicePool: API.OperationMethod<
-  CreateDevicePoolRequest,
+  CreateDevicePoolRequest & RegionInput,
   CreateDevicePoolResult,
   CreateDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -1513,6 +1530,8 @@ export const createDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevicePool",
+  telemetry: TELEMETRY,
+  span: "CreateDevicePool",
 }));
 
 export type CreateInstanceProfileError =
@@ -1526,7 +1545,7 @@ export type CreateInstanceProfileError =
  * instances.
  */
 export const createInstanceProfile: API.OperationMethod<
-  CreateInstanceProfileRequest,
+  CreateInstanceProfileRequest & RegionInput,
   CreateInstanceProfileResult,
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -1537,6 +1556,8 @@ export const createInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "CreateInstanceProfile",
 }));
 
 export type CreateNetworkProfileError =
@@ -1549,7 +1570,7 @@ export type CreateNetworkProfileError =
  * Creates a network profile.
  */
 export const createNetworkProfile: API.OperationMethod<
-  CreateNetworkProfileRequest,
+  CreateNetworkProfileRequest & RegionInput,
   CreateNetworkProfileResult,
   CreateNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -1560,6 +1581,8 @@ export const createNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "CreateNetworkProfile",
 }));
 
 export type CreateProjectError =
@@ -1573,7 +1596,7 @@ export type CreateProjectError =
  * Creates a project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResult,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1590,6 +1613,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateRemoteAccessSessionError =
@@ -1602,7 +1627,7 @@ export type CreateRemoteAccessSessionError =
  * Specifies and starts a remote access session.
  */
 export const createRemoteAccessSession: API.OperationMethod<
-  CreateRemoteAccessSessionRequest,
+  CreateRemoteAccessSessionRequest & RegionInput,
   CreateRemoteAccessSessionResult,
   CreateRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -1613,6 +1638,8 @@ export const createRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "CreateRemoteAccessSession",
 }));
 
 export type CreateTestGridProjectError =
@@ -1625,7 +1652,7 @@ export type CreateTestGridProjectError =
  * instances.
  */
 export const createTestGridProject: API.OperationMethod<
-  CreateTestGridProjectRequest,
+  CreateTestGridProjectRequest & RegionInput,
   CreateTestGridProjectResult,
   CreateTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -1636,6 +1663,8 @@ export const createTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestGridProject",
+  telemetry: TELEMETRY,
+  span: "CreateTestGridProject",
 }));
 
 export type CreateTestGridUrlError =
@@ -1648,7 +1677,7 @@ export type CreateTestGridUrlError =
  * constructor.
  */
 export const createTestGridUrl: API.OperationMethod<
-  CreateTestGridUrlRequest,
+  CreateTestGridUrlRequest & RegionInput,
   CreateTestGridUrlResult,
   CreateTestGridUrlError,
   Credentials | HttpClient.HttpClient
@@ -1659,6 +1688,8 @@ export const createTestGridUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestGridUrl",
+  telemetry: TELEMETRY,
+  span: "CreateTestGridUrl",
 }));
 
 export type CreateUploadError =
@@ -1671,7 +1702,7 @@ export type CreateUploadError =
  * Uploads an app or test scripts.
  */
 export const createUpload: API.OperationMethod<
-  CreateUploadRequest,
+  CreateUploadRequest & RegionInput,
   CreateUploadResult,
   CreateUploadError,
   Credentials | HttpClient.HttpClient
@@ -1682,6 +1713,8 @@ export const createUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUpload",
+  telemetry: TELEMETRY,
+  span: "CreateUpload",
 }));
 
 export type CreateVPCEConfigurationError =
@@ -1694,7 +1727,7 @@ export type CreateVPCEConfigurationError =
  * (VPC) endpoint.
  */
 export const createVPCEConfiguration: API.OperationMethod<
-  CreateVPCEConfigurationRequest,
+  CreateVPCEConfigurationRequest & RegionInput,
   CreateVPCEConfigurationResult,
   CreateVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1705,6 +1738,8 @@ export const createVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateVPCEConfiguration",
 }));
 
 export type DeleteDevicePoolError =
@@ -1718,7 +1753,7 @@ export type DeleteDevicePoolError =
  * owned by the system.
  */
 export const deleteDevicePool: API.OperationMethod<
-  DeleteDevicePoolRequest,
+  DeleteDevicePoolRequest & RegionInput,
   DeleteDevicePoolResult,
   DeleteDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -1729,6 +1764,8 @@ export const deleteDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevicePool",
+  telemetry: TELEMETRY,
+  span: "DeleteDevicePool",
 }));
 
 export type DeleteInstanceProfileError =
@@ -1741,7 +1778,7 @@ export type DeleteInstanceProfileError =
  * Deletes a profile that can be applied to one or more private device instances.
  */
 export const deleteInstanceProfile: API.OperationMethod<
-  DeleteInstanceProfileRequest,
+  DeleteInstanceProfileRequest & RegionInput,
   DeleteInstanceProfileResult,
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -1752,6 +1789,8 @@ export const deleteInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceProfile",
 }));
 
 export type DeleteNetworkProfileError =
@@ -1764,7 +1803,7 @@ export type DeleteNetworkProfileError =
  * Deletes a network profile.
  */
 export const deleteNetworkProfile: API.OperationMethod<
-  DeleteNetworkProfileRequest,
+  DeleteNetworkProfileRequest & RegionInput,
   DeleteNetworkProfileResult,
   DeleteNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -1775,6 +1814,8 @@ export const deleteNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkProfile",
 }));
 
 export type DeleteProjectError =
@@ -1789,7 +1830,7 @@ export type DeleteProjectError =
  * You cannot undo this operation.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResult,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -1800,6 +1841,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteRemoteAccessSessionError =
@@ -1814,7 +1857,7 @@ export type DeleteRemoteAccessSessionError =
  * You cannot undo this operation.
  */
 export const deleteRemoteAccessSession: API.OperationMethod<
-  DeleteRemoteAccessSessionRequest,
+  DeleteRemoteAccessSessionRequest & RegionInput,
   DeleteRemoteAccessSessionResult,
   DeleteRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -1825,6 +1868,8 @@ export const deleteRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "DeleteRemoteAccessSession",
 }));
 
 export type DeleteRunError =
@@ -1839,7 +1884,7 @@ export type DeleteRunError =
  * You cannot undo this operation.
  */
 export const deleteRun: API.OperationMethod<
-  DeleteRunRequest,
+  DeleteRunRequest & RegionInput,
   DeleteRunResult,
   DeleteRunError,
   Credentials | HttpClient.HttpClient
@@ -1850,6 +1895,8 @@ export const deleteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRun",
+  telemetry: TELEMETRY,
+  span: "DeleteRun",
 }));
 
 export type DeleteTestGridProjectError =
@@ -1864,7 +1911,7 @@ export type DeleteTestGridProjectError =
  * You cannot undo this operation.
  */
 export const deleteTestGridProject: API.OperationMethod<
-  DeleteTestGridProjectRequest,
+  DeleteTestGridProjectRequest & RegionInput,
   DeleteTestGridProjectResult,
   DeleteTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -1875,6 +1922,8 @@ export const deleteTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestGridProject",
+  telemetry: TELEMETRY,
+  span: "DeleteTestGridProject",
 }));
 
 export type DeleteUploadError =
@@ -1887,7 +1936,7 @@ export type DeleteUploadError =
  * Deletes an upload given the upload ARN.
  */
 export const deleteUpload: API.OperationMethod<
-  DeleteUploadRequest,
+  DeleteUploadRequest & RegionInput,
   DeleteUploadResult,
   DeleteUploadError,
   Credentials | HttpClient.HttpClient
@@ -1898,6 +1947,8 @@ export const deleteUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUpload",
+  telemetry: TELEMETRY,
+  span: "DeleteUpload",
 }));
 
 export type DeleteVPCEConfigurationError =
@@ -1910,7 +1961,7 @@ export type DeleteVPCEConfigurationError =
  * Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
  */
 export const deleteVPCEConfiguration: API.OperationMethod<
-  DeleteVPCEConfigurationRequest,
+  DeleteVPCEConfigurationRequest & RegionInput,
   DeleteVPCEConfigurationResult,
   DeleteVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1926,6 +1977,8 @@ export const deleteVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteVPCEConfiguration",
 }));
 
 export type GetAccountSettingsError =
@@ -1939,7 +1992,7 @@ export type GetAccountSettingsError =
  * account.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResult,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1950,6 +2003,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetDeviceError =
@@ -1962,7 +2017,7 @@ export type GetDeviceError =
  * Gets information about a unique device type.
  */
 export const getDevice: API.OperationMethod<
-  GetDeviceRequest,
+  GetDeviceRequest & RegionInput,
   GetDeviceResult,
   GetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1973,6 +2028,8 @@ export const getDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetDeviceInstanceError =
@@ -1985,7 +2042,7 @@ export type GetDeviceInstanceError =
  * Returns information about a device instance that belongs to a private device fleet.
  */
 export const getDeviceInstance: API.OperationMethod<
-  GetDeviceInstanceRequest,
+  GetDeviceInstanceRequest & RegionInput,
   GetDeviceInstanceResult,
   GetDeviceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1996,6 +2053,8 @@ export const getDeviceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceInstance",
+  telemetry: TELEMETRY,
+  span: "GetDeviceInstance",
 }));
 
 export type GetDevicePoolError =
@@ -2008,7 +2067,7 @@ export type GetDevicePoolError =
  * Gets information about a device pool.
  */
 export const getDevicePool: API.OperationMethod<
-  GetDevicePoolRequest,
+  GetDevicePoolRequest & RegionInput,
   GetDevicePoolResult,
   GetDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -2019,6 +2078,8 @@ export const getDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevicePool",
+  telemetry: TELEMETRY,
+  span: "GetDevicePool",
 }));
 
 export type GetDevicePoolCompatibilityError =
@@ -2031,7 +2092,7 @@ export type GetDevicePoolCompatibilityError =
  * Gets information about compatibility with a device pool.
  */
 export const getDevicePoolCompatibility: API.OperationMethod<
-  GetDevicePoolCompatibilityRequest,
+  GetDevicePoolCompatibilityRequest & RegionInput,
   GetDevicePoolCompatibilityResult,
   GetDevicePoolCompatibilityError,
   Credentials | HttpClient.HttpClient
@@ -2042,6 +2103,8 @@ export const getDevicePoolCompatibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevicePoolCompatibility",
+  telemetry: TELEMETRY,
+  span: "GetDevicePoolCompatibility",
 }));
 
 export type GetInstanceProfileError =
@@ -2054,7 +2117,7 @@ export type GetInstanceProfileError =
  * Returns information about the specified instance profile.
  */
 export const getInstanceProfile: API.OperationMethod<
-  GetInstanceProfileRequest,
+  GetInstanceProfileRequest & RegionInput,
   GetInstanceProfileResult,
   GetInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -2065,6 +2128,8 @@ export const getInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "GetInstanceProfile",
 }));
 
 export type GetJobError =
@@ -2077,7 +2142,7 @@ export type GetJobError =
  * Gets information about a job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResult,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -2088,6 +2153,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetNetworkProfileError =
@@ -2100,7 +2167,7 @@ export type GetNetworkProfileError =
  * Returns information about a network profile.
  */
 export const getNetworkProfile: API.OperationMethod<
-  GetNetworkProfileRequest,
+  GetNetworkProfileRequest & RegionInput,
   GetNetworkProfileResult,
   GetNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -2111,6 +2178,8 @@ export const getNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "GetNetworkProfile",
 }));
 
 export type GetOfferingStatusError =
@@ -2127,7 +2196,7 @@ export type GetOfferingStatusError =
  * operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const getOfferingStatus: API.PaginatedOperationMethod<
-  GetOfferingStatusRequest,
+  GetOfferingStatusRequest & RegionInput,
   GetOfferingStatusResult,
   GetOfferingStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2146,6 +2215,8 @@ export const getOfferingStatus: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetOfferingStatus",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetOfferingStatus",
 })) as any;
 
 export type GetProjectError =
@@ -2158,7 +2229,7 @@ export type GetProjectError =
  * Gets information about a project.
  */
 export const getProject: API.OperationMethod<
-  GetProjectRequest,
+  GetProjectRequest & RegionInput,
   GetProjectResult,
   GetProjectError,
   Credentials | HttpClient.HttpClient
@@ -2169,6 +2240,8 @@ export const getProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetRemoteAccessSessionError =
@@ -2181,7 +2254,7 @@ export type GetRemoteAccessSessionError =
  * Returns a link to a currently running remote access session.
  */
 export const getRemoteAccessSession: API.OperationMethod<
-  GetRemoteAccessSessionRequest,
+  GetRemoteAccessSessionRequest & RegionInput,
   GetRemoteAccessSessionResult,
   GetRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -2192,6 +2265,8 @@ export const getRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "GetRemoteAccessSession",
 }));
 
 export type GetRunError =
@@ -2204,7 +2279,7 @@ export type GetRunError =
  * Gets information about a run.
  */
 export const getRun: API.OperationMethod<
-  GetRunRequest,
+  GetRunRequest & RegionInput,
   GetRunResult,
   GetRunError,
   Credentials | HttpClient.HttpClient
@@ -2215,6 +2290,8 @@ export const getRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRun",
+  telemetry: TELEMETRY,
+  span: "GetRun",
 }));
 
 export type GetSuiteError =
@@ -2227,7 +2304,7 @@ export type GetSuiteError =
  * Gets information about a suite.
  */
 export const getSuite: API.OperationMethod<
-  GetSuiteRequest,
+  GetSuiteRequest & RegionInput,
   GetSuiteResult,
   GetSuiteError,
   Credentials | HttpClient.HttpClient
@@ -2238,6 +2315,8 @@ export const getSuite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuite",
+  telemetry: TELEMETRY,
+  span: "GetSuite",
 }));
 
 export type GetTestError =
@@ -2250,7 +2329,7 @@ export type GetTestError =
  * Gets information about a test.
  */
 export const getTest: API.OperationMethod<
-  GetTestRequest,
+  GetTestRequest & RegionInput,
   GetTestResult,
   GetTestError,
   Credentials | HttpClient.HttpClient
@@ -2261,6 +2340,8 @@ export const getTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTest",
+  telemetry: TELEMETRY,
+  span: "GetTest",
 }));
 
 export type GetTestGridProjectError =
@@ -2272,7 +2353,7 @@ export type GetTestGridProjectError =
  * Retrieves information about a Selenium testing project.
  */
 export const getTestGridProject: API.OperationMethod<
-  GetTestGridProjectRequest,
+  GetTestGridProjectRequest & RegionInput,
   GetTestGridProjectResult,
   GetTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -2283,6 +2364,8 @@ export const getTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestGridProject",
+  telemetry: TELEMETRY,
+  span: "GetTestGridProject",
 }));
 
 export type GetTestGridSessionError =
@@ -2299,7 +2382,7 @@ export type GetTestGridSessionError =
  * - The project ARN and a session ID.
  */
 export const getTestGridSession: API.OperationMethod<
-  GetTestGridSessionRequest,
+  GetTestGridSessionRequest & RegionInput,
   GetTestGridSessionResult,
   GetTestGridSessionError,
   Credentials | HttpClient.HttpClient
@@ -2310,6 +2393,8 @@ export const getTestGridSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestGridSession",
+  telemetry: TELEMETRY,
+  span: "GetTestGridSession",
 }));
 
 export type GetUploadError =
@@ -2322,7 +2407,7 @@ export type GetUploadError =
  * Gets information about an upload.
  */
 export const getUpload: API.OperationMethod<
-  GetUploadRequest,
+  GetUploadRequest & RegionInput,
   GetUploadResult,
   GetUploadError,
   Credentials | HttpClient.HttpClient
@@ -2333,6 +2418,8 @@ export const getUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpload",
+  telemetry: TELEMETRY,
+  span: "GetUpload",
 }));
 
 export type GetVPCEConfigurationError =
@@ -2345,7 +2432,7 @@ export type GetVPCEConfigurationError =
  * Cloud (VPC) endpoint.
  */
 export const getVPCEConfiguration: API.OperationMethod<
-  GetVPCEConfigurationRequest,
+  GetVPCEConfigurationRequest & RegionInput,
   GetVPCEConfigurationResult,
   GetVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2356,6 +2443,8 @@ export const getVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetVPCEConfiguration",
 }));
 
 export type InstallToRemoteAccessSessionError =
@@ -2370,7 +2459,7 @@ export type InstallToRemoteAccessSessionError =
  * .ipa format.
  */
 export const installToRemoteAccessSession: API.OperationMethod<
-  InstallToRemoteAccessSessionRequest,
+  InstallToRemoteAccessSessionRequest & RegionInput,
   InstallToRemoteAccessSessionResult,
   InstallToRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -2381,6 +2470,8 @@ export const installToRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InstallToRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "InstallToRemoteAccessSession",
 }));
 
 export type ListArtifactsError =
@@ -2393,7 +2484,7 @@ export type ListArtifactsError =
  * Gets information about artifacts.
  */
 export const listArtifacts: API.PaginatedOperationMethod<
-  ListArtifactsRequest,
+  ListArtifactsRequest & RegionInput,
   ListArtifactsResult,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -2406,6 +2497,8 @@ export const listArtifacts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListArtifacts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "artifacts" } as const,
+  telemetry: TELEMETRY,
+  span: "ListArtifacts",
 })) as any;
 
 export type ListDeviceInstancesError =
@@ -2419,7 +2512,7 @@ export type ListDeviceInstancesError =
  * accounts.
  */
 export const listDeviceInstances: API.OperationMethod<
-  ListDeviceInstancesRequest,
+  ListDeviceInstancesRequest & RegionInput,
   ListDeviceInstancesResult,
   ListDeviceInstancesError,
   Credentials | HttpClient.HttpClient
@@ -2430,6 +2523,8 @@ export const listDeviceInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceInstances",
+  telemetry: TELEMETRY,
+  span: "ListDeviceInstances",
 }));
 
 export type ListDevicePoolsError =
@@ -2442,7 +2537,7 @@ export type ListDevicePoolsError =
  * Gets information about device pools.
  */
 export const listDevicePools: API.PaginatedOperationMethod<
-  ListDevicePoolsRequest,
+  ListDevicePoolsRequest & RegionInput,
   ListDevicePoolsResult,
   ListDevicePoolsError,
   Credentials | HttpClient.HttpClient,
@@ -2455,6 +2550,8 @@ export const listDevicePools: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDevicePools",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "devicePools" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevicePools",
 })) as any;
 
 export type ListDevicesError =
@@ -2467,7 +2564,7 @@ export type ListDevicesError =
  * Gets information about unique device types.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesRequest,
+  ListDevicesRequest & RegionInput,
   ListDevicesResult,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -2480,6 +2577,8 @@ export const listDevices: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDevices",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "devices" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 })) as any;
 
 export type ListInstanceProfilesError =
@@ -2492,7 +2591,7 @@ export type ListInstanceProfilesError =
  * Returns information about all the instance profiles in an AWS account.
  */
 export const listInstanceProfiles: API.OperationMethod<
-  ListInstanceProfilesRequest,
+  ListInstanceProfilesRequest & RegionInput,
   ListInstanceProfilesResult,
   ListInstanceProfilesError,
   Credentials | HttpClient.HttpClient
@@ -2503,6 +2602,8 @@ export const listInstanceProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstanceProfiles",
+  telemetry: TELEMETRY,
+  span: "ListInstanceProfiles",
 }));
 
 export type ListJobsError =
@@ -2515,7 +2616,7 @@ export type ListJobsError =
  * Gets information about jobs for a given test run.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2528,6 +2629,8 @@ export const listJobs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListJobs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "jobs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListNetworkProfilesError =
@@ -2540,7 +2643,7 @@ export type ListNetworkProfilesError =
  * Returns the list of available network profiles.
  */
 export const listNetworkProfiles: API.OperationMethod<
-  ListNetworkProfilesRequest,
+  ListNetworkProfilesRequest & RegionInput,
   ListNetworkProfilesResult,
   ListNetworkProfilesError,
   Credentials | HttpClient.HttpClient
@@ -2551,6 +2654,8 @@ export const listNetworkProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNetworkProfiles",
+  telemetry: TELEMETRY,
+  span: "ListNetworkProfiles",
 }));
 
 export type ListOfferingPromotionsError =
@@ -2566,7 +2671,7 @@ export type ListOfferingPromotionsError =
  * the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
  */
 export const listOfferingPromotions: API.OperationMethod<
-  ListOfferingPromotionsRequest,
+  ListOfferingPromotionsRequest & RegionInput,
   ListOfferingPromotionsResult,
   ListOfferingPromotionsError,
   Credentials | HttpClient.HttpClient
@@ -2583,6 +2688,8 @@ export const listOfferingPromotions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOfferingPromotions",
+  telemetry: TELEMETRY,
+  span: "ListOfferingPromotions",
 }));
 
 export type ListOfferingsError =
@@ -2599,7 +2706,7 @@ export type ListOfferingsError =
  * able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const listOfferings: API.PaginatedOperationMethod<
-  ListOfferingsRequest,
+  ListOfferingsRequest & RegionInput,
   ListOfferingsResult,
   ListOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -2618,6 +2725,8 @@ export const listOfferings: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListOfferings",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "offerings" } as const,
+  telemetry: TELEMETRY,
+  span: "ListOfferings",
 })) as any;
 
 export type ListOfferingTransactionsError =
@@ -2634,7 +2743,7 @@ export type ListOfferingTransactionsError =
  * you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const listOfferingTransactions: API.PaginatedOperationMethod<
-  ListOfferingTransactionsRequest,
+  ListOfferingTransactionsRequest & RegionInput,
   ListOfferingTransactionsResult,
   ListOfferingTransactionsError,
   Credentials | HttpClient.HttpClient,
@@ -2657,6 +2766,8 @@ export const listOfferingTransactions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "offeringTransactions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOfferingTransactions",
 })) as any;
 
 export type ListProjectsError =
@@ -2669,7 +2780,7 @@ export type ListProjectsError =
  * Gets information about projects.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsRequest,
+  ListProjectsRequest & RegionInput,
   ListProjectsResult,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2682,6 +2793,8 @@ export const listProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListProjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "projects" } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListRemoteAccessSessionsError =
@@ -2694,7 +2807,7 @@ export type ListRemoteAccessSessionsError =
  * Returns a list of all currently running remote access sessions.
  */
 export const listRemoteAccessSessions: API.OperationMethod<
-  ListRemoteAccessSessionsRequest,
+  ListRemoteAccessSessionsRequest & RegionInput,
   ListRemoteAccessSessionsResult,
   ListRemoteAccessSessionsError,
   Credentials | HttpClient.HttpClient
@@ -2705,6 +2818,8 @@ export const listRemoteAccessSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRemoteAccessSessions",
+  telemetry: TELEMETRY,
+  span: "ListRemoteAccessSessions",
 }));
 
 export type ListRunsError =
@@ -2717,7 +2832,7 @@ export type ListRunsError =
  * Gets information about runs, given an AWS Device Farm project ARN.
  */
 export const listRuns: API.PaginatedOperationMethod<
-  ListRunsRequest,
+  ListRunsRequest & RegionInput,
   ListRunsResult,
   ListRunsError,
   Credentials | HttpClient.HttpClient,
@@ -2730,6 +2845,8 @@ export const listRuns: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListRuns",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "runs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuns",
 })) as any;
 
 export type ListSamplesError =
@@ -2744,7 +2861,7 @@ export type ListSamplesError =
  * Device Farm does not support performance data samples during test executions.
  */
 export const listSamples: API.PaginatedOperationMethod<
-  ListSamplesRequest,
+  ListSamplesRequest & RegionInput,
   ListSamplesResult,
   ListSamplesError,
   Credentials | HttpClient.HttpClient,
@@ -2757,6 +2874,8 @@ export const listSamples: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSamples",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "samples" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSamples",
 })) as any;
 
 export type ListSuitesError =
@@ -2769,7 +2888,7 @@ export type ListSuitesError =
  * Gets information about test suites for a given job.
  */
 export const listSuites: API.PaginatedOperationMethod<
-  ListSuitesRequest,
+  ListSuitesRequest & RegionInput,
   ListSuitesResult,
   ListSuitesError,
   Credentials | HttpClient.HttpClient,
@@ -2782,6 +2901,8 @@ export const listSuites: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSuites",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "suites" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSuites",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2793,7 +2914,7 @@ export type ListTagsForResourceError =
  * List the tags for an AWS Device Farm resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2804,6 +2925,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTestGridProjectsError = ArgumentException | InternalServiceException | CommonErrors;
@@ -2811,7 +2934,7 @@ export type ListTestGridProjectsError = ArgumentException | InternalServiceExcep
  * Gets a list of all Selenium testing projects in your account.
  */
 export const listTestGridProjects: API.PaginatedOperationMethod<
-  ListTestGridProjectsRequest,
+  ListTestGridProjectsRequest & RegionInput,
   ListTestGridProjectsResult,
   ListTestGridProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2824,6 +2947,8 @@ export const listTestGridProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridProjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridProjects",
 })) as any;
 
 export type ListTestGridSessionActionsError =
@@ -2835,7 +2960,7 @@ export type ListTestGridSessionActionsError =
  * Returns a list of the actions taken in a TestGridSession.
  */
 export const listTestGridSessionActions: API.PaginatedOperationMethod<
-  ListTestGridSessionActionsRequest,
+  ListTestGridSessionActionsRequest & RegionInput,
   ListTestGridSessionActionsResult,
   ListTestGridSessionActionsError,
   Credentials | HttpClient.HttpClient,
@@ -2848,6 +2973,8 @@ export const listTestGridSessionActions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridSessionActions",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridSessionActions",
 })) as any;
 
 export type ListTestGridSessionArtifactsError =
@@ -2859,7 +2986,7 @@ export type ListTestGridSessionArtifactsError =
  * Retrieves a list of artifacts created during the session.
  */
 export const listTestGridSessionArtifacts: API.PaginatedOperationMethod<
-  ListTestGridSessionArtifactsRequest,
+  ListTestGridSessionArtifactsRequest & RegionInput,
   ListTestGridSessionArtifactsResult,
   ListTestGridSessionArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -2872,6 +2999,8 @@ export const listTestGridSessionArtifacts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridSessionArtifacts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridSessionArtifacts",
 })) as any;
 
 export type ListTestGridSessionsError =
@@ -2883,7 +3012,7 @@ export type ListTestGridSessionsError =
  * Retrieves a list of sessions for a TestGridProject.
  */
 export const listTestGridSessions: API.PaginatedOperationMethod<
-  ListTestGridSessionsRequest,
+  ListTestGridSessionsRequest & RegionInput,
   ListTestGridSessionsResult,
   ListTestGridSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -2896,6 +3025,8 @@ export const listTestGridSessions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridSessions",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridSessions",
 })) as any;
 
 export type ListTestsError =
@@ -2908,7 +3039,7 @@ export type ListTestsError =
  * Gets information about tests in a given test suite.
  */
 export const listTests: API.PaginatedOperationMethod<
-  ListTestsRequest,
+  ListTestsRequest & RegionInput,
   ListTestsResult,
   ListTestsError,
   Credentials | HttpClient.HttpClient,
@@ -2921,6 +3052,8 @@ export const listTests: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTests",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "tests" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTests",
 })) as any;
 
 export type ListUniqueProblemsError =
@@ -2938,7 +3071,7 @@ export type ListUniqueProblemsError =
  * individual entries for that exception.
  */
 export const listUniqueProblems: API.PaginatedOperationMethod<
-  ListUniqueProblemsRequest,
+  ListUniqueProblemsRequest & RegionInput,
   ListUniqueProblemsResult,
   ListUniqueProblemsError,
   Credentials | HttpClient.HttpClient,
@@ -2955,6 +3088,8 @@ export const listUniqueProblems: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "uniqueProblems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUniqueProblems",
 })) as any;
 
 export type ListUploadsError =
@@ -2967,7 +3102,7 @@ export type ListUploadsError =
  * Gets information about uploads, given an AWS Device Farm project ARN.
  */
 export const listUploads: API.PaginatedOperationMethod<
-  ListUploadsRequest,
+  ListUploadsRequest & RegionInput,
   ListUploadsResult,
   ListUploadsError,
   Credentials | HttpClient.HttpClient,
@@ -2980,6 +3115,8 @@ export const listUploads: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListUploads",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "uploads" } as const,
+  telemetry: TELEMETRY,
+  span: "ListUploads",
 })) as any;
 
 export type ListVPCEConfigurationsError =
@@ -2991,7 +3128,7 @@ export type ListVPCEConfigurationsError =
  * configurations in the AWS account.
  */
 export const listVPCEConfigurations: API.OperationMethod<
-  ListVPCEConfigurationsRequest,
+  ListVPCEConfigurationsRequest & RegionInput,
   ListVPCEConfigurationsResult,
   ListVPCEConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -3002,6 +3139,8 @@ export const listVPCEConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVPCEConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListVPCEConfigurations",
 }));
 
 export type PurchaseOfferingError =
@@ -3018,7 +3157,7 @@ export type PurchaseOfferingError =
  * contact aws-devicefarm-support@amazon.com.
  */
 export const purchaseOffering: API.OperationMethod<
-  PurchaseOfferingRequest,
+  PurchaseOfferingRequest & RegionInput,
   PurchaseOfferingResult,
   PurchaseOfferingError,
   Credentials | HttpClient.HttpClient
@@ -3035,6 +3174,8 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseOffering",
 }));
 
 export type RenewOfferingError =
@@ -3050,7 +3191,7 @@ export type RenewOfferingError =
  * user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const renewOffering: API.OperationMethod<
-  RenewOfferingRequest,
+  RenewOfferingRequest & RegionInput,
   RenewOfferingResult,
   RenewOfferingError,
   Credentials | HttpClient.HttpClient
@@ -3067,6 +3208,8 @@ export const renewOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenewOffering",
+  telemetry: TELEMETRY,
+  span: "RenewOffering",
 }));
 
 export type ScheduleRunError =
@@ -3080,7 +3223,7 @@ export type ScheduleRunError =
  * Schedules a run.
  */
 export const scheduleRun: API.OperationMethod<
-  ScheduleRunRequest,
+  ScheduleRunRequest & RegionInput,
   ScheduleRunResult,
   ScheduleRunError,
   Credentials | HttpClient.HttpClient
@@ -3097,6 +3240,8 @@ export const scheduleRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScheduleRun",
+  telemetry: TELEMETRY,
+  span: "ScheduleRun",
 }));
 
 export type StopJobError =
@@ -3112,7 +3257,7 @@ export type StopJobError =
  * and any tests that were in progress or already completed.
  */
 export const stopJob: API.OperationMethod<
-  StopJobRequest,
+  StopJobRequest & RegionInput,
   StopJobResult,
   StopJobError,
   Credentials | HttpClient.HttpClient
@@ -3123,6 +3268,8 @@ export const stopJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
+  telemetry: TELEMETRY,
+  span: "StopJob",
 }));
 
 export type StopRemoteAccessSessionError =
@@ -3135,7 +3282,7 @@ export type StopRemoteAccessSessionError =
  * Ends a specified remote access session.
  */
 export const stopRemoteAccessSession: API.OperationMethod<
-  StopRemoteAccessSessionRequest,
+  StopRemoteAccessSessionRequest & RegionInput,
   StopRemoteAccessSessionResult,
   StopRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -3146,6 +3293,8 @@ export const stopRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "StopRemoteAccessSession",
 }));
 
 export type StopRunError =
@@ -3161,7 +3310,7 @@ export type StopRunError =
  * setup, teardown, and any tests that were in progress or already completed.
  */
 export const stopRun: API.OperationMethod<
-  StopRunRequest,
+  StopRunRequest & RegionInput,
   StopRunResult,
   StopRunError,
   Credentials | HttpClient.HttpClient
@@ -3172,6 +3321,8 @@ export const stopRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRun",
+  telemetry: TELEMETRY,
+  span: "StopRun",
 }));
 
 export type TagResourceError =
@@ -3187,7 +3338,7 @@ export type TagResourceError =
  * the tags associated with that resource are also deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3204,6 +3355,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3215,7 +3368,7 @@ export type UntagResourceError =
  * Deletes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3226,6 +3379,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeviceInstanceError =
@@ -3238,7 +3393,7 @@ export type UpdateDeviceInstanceError =
  * Updates information about a private device instance.
  */
 export const updateDeviceInstance: API.OperationMethod<
-  UpdateDeviceInstanceRequest,
+  UpdateDeviceInstanceRequest & RegionInput,
   UpdateDeviceInstanceResult,
   UpdateDeviceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3249,6 +3404,8 @@ export const updateDeviceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceInstance",
 }));
 
 export type UpdateDevicePoolError =
@@ -3263,7 +3420,7 @@ export type UpdateDevicePoolError =
  * whole (or not at all).
  */
 export const updateDevicePool: API.OperationMethod<
-  UpdateDevicePoolRequest,
+  UpdateDevicePoolRequest & RegionInput,
   UpdateDevicePoolResult,
   UpdateDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -3274,6 +3431,8 @@ export const updateDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevicePool",
+  telemetry: TELEMETRY,
+  span: "UpdateDevicePool",
 }));
 
 export type UpdateInstanceProfileError =
@@ -3286,7 +3445,7 @@ export type UpdateInstanceProfileError =
  * Updates information about an existing private device instance profile.
  */
 export const updateInstanceProfile: API.OperationMethod<
-  UpdateInstanceProfileRequest,
+  UpdateInstanceProfileRequest & RegionInput,
   UpdateInstanceProfileResult,
   UpdateInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3297,6 +3456,8 @@ export const updateInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceProfile",
 }));
 
 export type UpdateNetworkProfileError =
@@ -3309,7 +3470,7 @@ export type UpdateNetworkProfileError =
  * Updates the network profile.
  */
 export const updateNetworkProfile: API.OperationMethod<
-  UpdateNetworkProfileRequest,
+  UpdateNetworkProfileRequest & RegionInput,
   UpdateNetworkProfileResult,
   UpdateNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -3320,6 +3481,8 @@ export const updateNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkProfile",
 }));
 
 export type UpdateProjectError =
@@ -3333,7 +3496,7 @@ export type UpdateProjectError =
  * name.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectRequest,
+  UpdateProjectRequest & RegionInput,
   UpdateProjectResult,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -3344,6 +3507,8 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateTestGridProjectError =
@@ -3356,7 +3521,7 @@ export type UpdateTestGridProjectError =
  * Change details of a project.
  */
 export const updateTestGridProject: API.OperationMethod<
-  UpdateTestGridProjectRequest,
+  UpdateTestGridProjectRequest & RegionInput,
   UpdateTestGridProjectResult,
   UpdateTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -3367,6 +3532,8 @@ export const updateTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTestGridProject",
+  telemetry: TELEMETRY,
+  span: "UpdateTestGridProject",
 }));
 
 export type UpdateUploadError =
@@ -3379,7 +3546,7 @@ export type UpdateUploadError =
  * Updates an uploaded test spec.
  */
 export const updateUpload: API.OperationMethod<
-  UpdateUploadRequest,
+  UpdateUploadRequest & RegionInput,
   UpdateUploadResult,
   UpdateUploadError,
   Credentials | HttpClient.HttpClient
@@ -3390,6 +3557,8 @@ export const updateUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUpload",
+  telemetry: TELEMETRY,
+  span: "UpdateUpload",
 }));
 
 export type UpdateVPCEConfigurationError =
@@ -3402,7 +3571,7 @@ export type UpdateVPCEConfigurationError =
  * Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
  */
 export const updateVPCEConfiguration: API.OperationMethod<
-  UpdateVPCEConfigurationRequest,
+  UpdateVPCEConfigurationRequest & RegionInput,
   UpdateVPCEConfigurationResult,
   UpdateVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3418,6 +3587,8 @@ export const updateVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateVPCEConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

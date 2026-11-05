@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -69,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PartnerCentralBenefits",
+  service: "PartnerCentralBenefits",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -664,7 +680,7 @@ export type AmendBenefitApplicationError =
  * Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control.
  */
 export const amendBenefitApplication: API.OperationMethod<
-  AmendBenefitApplicationInput,
+  AmendBenefitApplicationInput & RegionInput,
   AmendBenefitApplicationOutput,
   AmendBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -682,6 +698,8 @@ export const amendBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AmendBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "AmendBenefitApplication",
 }));
 
 export type AssociateBenefitApplicationResourceError =
@@ -696,7 +714,7 @@ export type AssociateBenefitApplicationResourceError =
  * Links an AWS resource to an existing benefit application for tracking and management purposes.
  */
 export const associateBenefitApplicationResource: API.OperationMethod<
-  AssociateBenefitApplicationResourceInput,
+  AssociateBenefitApplicationResourceInput & RegionInput,
   AssociateBenefitApplicationResourceOutput,
   AssociateBenefitApplicationResourceError,
   Credentials | HttpClient.HttpClient
@@ -714,6 +732,8 @@ export const associateBenefitApplicationResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBenefitApplicationResource",
+  telemetry: TELEMETRY,
+  span: "AssociateBenefitApplicationResource",
 }));
 
 export type CancelBenefitApplicationError =
@@ -728,7 +748,7 @@ export type CancelBenefitApplicationError =
  * Cancels a benefit application that is currently in progress, preventing further processing.
  */
 export const cancelBenefitApplication: API.OperationMethod<
-  CancelBenefitApplicationInput,
+  CancelBenefitApplicationInput & RegionInput,
   CancelBenefitApplicationOutput,
   CancelBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -746,6 +766,8 @@ export const cancelBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "CancelBenefitApplication",
 }));
 
 export type CreateBenefitApplicationError =
@@ -760,7 +782,7 @@ export type CreateBenefitApplicationError =
  * Creates a new benefit application for a partner to request access to AWS benefits and programs.
  */
 export const createBenefitApplication: API.OperationMethod<
-  CreateBenefitApplicationInput,
+  CreateBenefitApplicationInput & RegionInput,
   CreateBenefitApplicationOutput,
   CreateBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -778,6 +800,8 @@ export const createBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "CreateBenefitApplication",
 }));
 
 export type DisassociateBenefitApplicationResourceError =
@@ -792,7 +816,7 @@ export type DisassociateBenefitApplicationResourceError =
  * Removes the association between an AWS resource and a benefit application.
  */
 export const disassociateBenefitApplicationResource: API.OperationMethod<
-  DisassociateBenefitApplicationResourceInput,
+  DisassociateBenefitApplicationResourceInput & RegionInput,
   DisassociateBenefitApplicationResourceOutput,
   DisassociateBenefitApplicationResourceError,
   Credentials | HttpClient.HttpClient
@@ -810,6 +834,8 @@ export const disassociateBenefitApplicationResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBenefitApplicationResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateBenefitApplicationResource",
 }));
 
 export type GetBenefitError =
@@ -823,7 +849,7 @@ export type GetBenefitError =
  * Retrieves detailed information about a specific benefit available in the partner catalog.
  */
 export const getBenefit: API.OperationMethod<
-  GetBenefitInput,
+  GetBenefitInput & RegionInput,
   GetBenefitOutput,
   GetBenefitError,
   Credentials | HttpClient.HttpClient
@@ -840,6 +866,8 @@ export const getBenefit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBenefit",
+  telemetry: TELEMETRY,
+  span: "GetBenefit",
 }));
 
 export type GetBenefitAllocationError =
@@ -853,7 +881,7 @@ export type GetBenefitAllocationError =
  * Retrieves detailed information about a specific benefit allocation that has been granted to a partner.
  */
 export const getBenefitAllocation: API.OperationMethod<
-  GetBenefitAllocationInput,
+  GetBenefitAllocationInput & RegionInput,
   GetBenefitAllocationOutput,
   GetBenefitAllocationError,
   Credentials | HttpClient.HttpClient
@@ -870,6 +898,8 @@ export const getBenefitAllocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBenefitAllocation",
+  telemetry: TELEMETRY,
+  span: "GetBenefitAllocation",
 }));
 
 export type GetBenefitApplicationError =
@@ -884,7 +914,7 @@ export type GetBenefitApplicationError =
  * Retrieves detailed information about a specific benefit application.
  */
 export const getBenefitApplication: API.OperationMethod<
-  GetBenefitApplicationInput,
+  GetBenefitApplicationInput & RegionInput,
   GetBenefitApplicationOutput,
   GetBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -902,6 +932,8 @@ export const getBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "GetBenefitApplication",
 }));
 
 export type ListBenefitAllocationsError =
@@ -915,7 +947,7 @@ export type ListBenefitAllocationsError =
  * Retrieves a paginated list of benefit allocations based on specified filter criteria.
  */
 export const listBenefitAllocations: API.PaginatedOperationMethod<
-  ListBenefitAllocationsInput,
+  ListBenefitAllocationsInput & RegionInput,
   ListBenefitAllocationsOutput,
   ListBenefitAllocationsError,
   Credentials | HttpClient.HttpClient,
@@ -939,6 +971,8 @@ export const listBenefitAllocations: API.PaginatedOperationMethod<
     items: "BenefitAllocationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBenefitAllocations",
 })) as any;
 
 export type ListBenefitApplicationsError =
@@ -952,7 +986,7 @@ export type ListBenefitApplicationsError =
  * Retrieves a paginated list of benefit applications based on specified filter criteria.
  */
 export const listBenefitApplications: API.PaginatedOperationMethod<
-  ListBenefitApplicationsInput,
+  ListBenefitApplicationsInput & RegionInput,
   ListBenefitApplicationsOutput,
   ListBenefitApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -976,6 +1010,8 @@ export const listBenefitApplications: API.PaginatedOperationMethod<
     items: "BenefitApplicationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBenefitApplications",
 })) as any;
 
 export type ListBenefitsError =
@@ -989,7 +1025,7 @@ export type ListBenefitsError =
  * Retrieves a paginated list of available benefits based on specified filter criteria.
  */
 export const listBenefits: API.PaginatedOperationMethod<
-  ListBenefitsInput,
+  ListBenefitsInput & RegionInput,
   ListBenefitsOutput,
   ListBenefitsError,
   Credentials | HttpClient.HttpClient,
@@ -1013,6 +1049,8 @@ export const listBenefits: API.PaginatedOperationMethod<
     items: "BenefitSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBenefits",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1026,7 +1064,7 @@ export type ListTagsForResourceError =
  * Retrieves all tags associated with a specific resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1043,6 +1081,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RecallBenefitApplicationError =
@@ -1057,7 +1097,7 @@ export type RecallBenefitApplicationError =
  * Recalls a submitted benefit application, returning it to draft status for further modifications.
  */
 export const recallBenefitApplication: API.OperationMethod<
-  RecallBenefitApplicationInput,
+  RecallBenefitApplicationInput & RegionInput,
   RecallBenefitApplicationOutput,
   RecallBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1075,6 +1115,8 @@ export const recallBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecallBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "RecallBenefitApplication",
 }));
 
 export type SubmitBenefitApplicationError =
@@ -1089,7 +1131,7 @@ export type SubmitBenefitApplicationError =
  * Submits a benefit application for review and processing by AWS.
  */
 export const submitBenefitApplication: API.OperationMethod<
-  SubmitBenefitApplicationInput,
+  SubmitBenefitApplicationInput & RegionInput,
   SubmitBenefitApplicationOutput,
   SubmitBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1107,6 +1149,8 @@ export const submitBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "SubmitBenefitApplication",
 }));
 
 export type TagResourceError =
@@ -1122,7 +1166,7 @@ export type TagResourceError =
  * Adds or updates tags for a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1141,6 +1185,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1156,7 +1202,7 @@ export type UntagResourceError =
  * Removes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1175,6 +1221,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBenefitApplicationError =
@@ -1189,7 +1237,7 @@ export type UpdateBenefitApplicationError =
  * Updates an existing benefit application with new information while maintaining revision control.
  */
 export const updateBenefitApplication: API.OperationMethod<
-  UpdateBenefitApplicationInput,
+  UpdateBenefitApplicationInput & RegionInput,
   UpdateBenefitApplicationOutput,
   UpdateBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1207,6 +1255,8 @@ export const updateBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateBenefitApplication",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

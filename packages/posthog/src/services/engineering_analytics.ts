@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "EngineeringAnalytics",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2131,6 +2144,8 @@ export const engineeringAnalyticsAttentionPullRequests: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsAttentionPullRequests",
 }));
 
 export type EngineeringAnalyticsAuthorFrictionError = BadRequest | PosthogOpError;
@@ -2146,6 +2161,8 @@ export const engineeringAnalyticsAuthorFriction: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsAuthorFriction",
 }));
 
 export type EngineeringAnalyticsAuthorFrictionDetailError = BadRequest | PosthogOpError;
@@ -2161,6 +2178,8 @@ export const engineeringAnalyticsAuthorFrictionDetail: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsAuthorFrictionDetail",
 }));
 
 export type EngineeringAnalyticsAuthorWorkflowCostsError = BadRequest | PosthogOpError;
@@ -2176,6 +2195,8 @@ export const engineeringAnalyticsAuthorWorkflowCosts: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsAuthorWorkflowCosts",
 }));
 
 export type EngineeringAnalyticsBrokenTestsError = BadRequest | PosthogOpError;
@@ -2191,6 +2212,8 @@ export const engineeringAnalyticsBrokenTests: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsBrokenTests",
 }));
 
 export type EngineeringAnalyticsCiCardsError = BadRequest | PosthogOpError;
@@ -2206,6 +2229,8 @@ export const engineeringAnalyticsCiCards: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsCiCards",
 }));
 
 export type EngineeringAnalyticsCiFailureLogsError = BadRequest | PosthogOpError;
@@ -2221,6 +2246,8 @@ export const engineeringAnalyticsCiFailureLogs: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsCiFailureLogs",
 }));
 
 export type EngineeringAnalyticsCurrentBranchHealthError = BadRequest | PosthogOpError;
@@ -2236,6 +2263,8 @@ export const engineeringAnalyticsCurrentBranchHealth: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsCurrentBranchHealth",
 }));
 
 export type EngineeringAnalyticsDeliveryComparisonError = BadRequest | PosthogOpError;
@@ -2251,6 +2280,8 @@ export const engineeringAnalyticsDeliveryComparison: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsDeliveryComparison",
 }));
 
 export type EngineeringAnalyticsDeliverySummaryError = BadRequest | PosthogOpError;
@@ -2266,6 +2297,8 @@ export const engineeringAnalyticsDeliverySummary: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsDeliverySummary",
 }));
 
 export type EngineeringAnalyticsDoraError = BadRequest | PosthogOpError;
@@ -2281,6 +2314,8 @@ export const engineeringAnalyticsDora: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsDora",
 }));
 
 export type EngineeringAnalyticsFlakyTestsError = BadRequest | PosthogOpError;
@@ -2296,6 +2331,8 @@ export const engineeringAnalyticsFlakyTests: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsFlakyTests",
 }));
 
 export type EngineeringAnalyticsJobAggregatesError = BadRequest | PosthogOpError;
@@ -2311,6 +2348,8 @@ export const engineeringAnalyticsJobAggregates: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsJobAggregates",
 }));
 
 export type EngineeringAnalyticsMasterFailuresError = BadRequest | PosthogOpError;
@@ -2326,6 +2365,8 @@ export const engineeringAnalyticsMasterFailures: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsMasterFailures",
 }));
 
 export type EngineeringAnalyticsPrCostError = BadRequest | PosthogOpError;
@@ -2341,6 +2382,8 @@ export const engineeringAnalyticsPrCost: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsPrCost",
 }));
 
 export type EngineeringAnalyticsPrLifecycleError = BadRequest | NotFound | PosthogOpError;
@@ -2356,6 +2399,8 @@ export const engineeringAnalyticsPrLifecycle: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsPrLifecycle",
 }));
 
 export type EngineeringAnalyticsPrRunsError = BadRequest | PosthogOpError;
@@ -2371,6 +2416,8 @@ export const engineeringAnalyticsPrRuns: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsPrRuns",
 }));
 
 export type EngineeringAnalyticsPullRequestFrictionError = BadRequest | PosthogOpError;
@@ -2386,6 +2433,8 @@ export const engineeringAnalyticsPullRequestFriction: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsPullRequestFriction",
 }));
 
 export type EngineeringAnalyticsPullRequestsError = BadRequest | PosthogOpError;
@@ -2401,6 +2450,8 @@ export const engineeringAnalyticsPullRequests: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsPullRequests",
 }));
 
 export type EngineeringAnalyticsPullRequestTimelinesError = BadRequest | PosthogOpError;
@@ -2416,6 +2467,8 @@ export const engineeringAnalyticsPullRequestTimelines: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsPullRequestTimelines",
 }));
 
 export type EngineeringAnalyticsQuarantineError = BadRequest | PosthogOpError;
@@ -2431,6 +2484,8 @@ export const engineeringAnalyticsQuarantine: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsQuarantine",
 }));
 
 export type EngineeringAnalyticsQuarantineRequest2Error = BadRequest | PosthogOpError;
@@ -2446,6 +2501,8 @@ export const engineeringAnalyticsQuarantineRequest2: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsQuarantineRequest2",
 }));
 
 export type EngineeringAnalyticsRepoOverviewError = BadRequest | PosthogOpError;
@@ -2461,6 +2518,8 @@ export const engineeringAnalyticsRepoOverview: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsRepoOverview",
 }));
 
 export type EngineeringAnalyticsResolveBranchError = BadRequest | PosthogOpError;
@@ -2476,6 +2535,8 @@ export const engineeringAnalyticsResolveBranch: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsResolveBranch",
 }));
 
 export type EngineeringAnalyticsSourcesError = PosthogOpError;
@@ -2491,6 +2552,8 @@ export const engineeringAnalyticsSources: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsSources",
 }));
 
 export type EngineeringAnalyticsTeamCiActivityError = BadRequest | PosthogOpError;
@@ -2506,6 +2569,8 @@ export const engineeringAnalyticsTeamCiActivity: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsTeamCiActivity",
 }));
 
 export type EngineeringAnalyticsTeamCiHealthError = BadRequest | PosthogOpError;
@@ -2521,6 +2586,8 @@ export const engineeringAnalyticsTeamCiHealth: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsTeamCiHealth",
 }));
 
 export type EngineeringAnalyticsTrunkQuarantineError = BadRequest | PosthogOpError;
@@ -2536,6 +2603,8 @@ export const engineeringAnalyticsTrunkQuarantine: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsTrunkQuarantine",
 }));
 
 export type EngineeringAnalyticsWorkflowHealthError = BadRequest | PosthogOpError;
@@ -2551,6 +2620,8 @@ export const engineeringAnalyticsWorkflowHealth: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsWorkflowHealth",
 }));
 
 export type EngineeringAnalyticsWorkflowJobsError = BadRequest | PosthogOpError;
@@ -2566,6 +2637,8 @@ export const engineeringAnalyticsWorkflowJobs: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsWorkflowJobs",
 }));
 
 export type EngineeringAnalyticsWorkflowRunnerCostsError = BadRequest | PosthogOpError;
@@ -2581,6 +2654,8 @@ export const engineeringAnalyticsWorkflowRunnerCosts: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsWorkflowRunnerCosts",
 }));
 
 export type EngineeringAnalyticsWorkflowRunsError = BadRequest | PosthogOpError;
@@ -2596,6 +2671,8 @@ export const engineeringAnalyticsWorkflowRuns: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsWorkflowRuns",
 }));
 
 export type GetEngineeringAnalyticsCiSignalsConfigError = PosthogOpError;
@@ -2611,6 +2688,8 @@ export const getEngineeringAnalyticsCiSignalsConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEngineeringAnalyticsCiSignalsConfig",
 }));
 
 export type MergeEngineeringAnalyticsTeamTrendError = BadRequest | PosthogOpError;
@@ -2626,6 +2705,8 @@ export const mergeEngineeringAnalyticsTeamTrend: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeEngineeringAnalyticsTeamTrend",
 }));
 
 export type RunEngineeringAnalyticsFailureLogsError = BadRequest | PosthogOpError;
@@ -2641,6 +2722,8 @@ export const runEngineeringAnalyticsFailureLogs: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunEngineeringAnalyticsFailureLogs",
 }));
 
 export type RunEngineeringAnalyticsRepoActivityError = BadRequest | PosthogOpError;
@@ -2656,6 +2739,8 @@ export const runEngineeringAnalyticsRepoActivity: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunEngineeringAnalyticsRepoActivity",
 }));
 
 export type RunEngineeringAnalyticsWorkflowError = BadRequest | NotFound | PosthogOpError;
@@ -2671,6 +2756,8 @@ export const runEngineeringAnalyticsWorkflow: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunEngineeringAnalyticsWorkflow",
 }));
 
 export type RunEngineeringAnalyticsWorkflowActivityError = BadRequest | PosthogOpError;
@@ -2686,6 +2773,8 @@ export const runEngineeringAnalyticsWorkflowActivity: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunEngineeringAnalyticsWorkflowActivity",
 }));
 
 export type UpdateEngineeringAnalyticsCiSignalsConfigError = PosthogOpError;
@@ -2701,6 +2790,8 @@ export const updateEngineeringAnalyticsCiSignalsConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEngineeringAnalyticsCiSignalsConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

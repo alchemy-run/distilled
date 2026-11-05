@@ -1,5 +1,14 @@
 {
   "operations": {
+    "deleteDatabase": {
+      "syntheticErrors": [
+        {
+          "name": "InsufficientLakeFormationPermissions",
+          "from": "AccessDeniedException",
+          "message": { "includes": "Insufficient Lake Formation permission" }
+        }
+      ]
+    },
     "createCrawler": {
       "syntheticErrors": [
         {

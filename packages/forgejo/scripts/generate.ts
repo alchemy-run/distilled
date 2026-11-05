@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Forgejo
  * Effect SDK.
@@ -9,7 +9,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/<tag>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Forgejo's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is Forgejo's provider spec:
  * the `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses, error status matchers, sensitive strings), a passthrough union
  * style, and the protocol/retry/error names.
@@ -27,12 +27,12 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * page strategies can drive that. `page`/`limit` stay plain input fields;
  * callers advance them until an empty page comes back.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
@@ -119,6 +119,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Forgejo Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // The RFC-6902 chain in patches/<service>/<op>.json applies to the
   // Swagger document in scripts/convert.ts — never to the Smithy models.

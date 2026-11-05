@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Networking",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -317,6 +331,8 @@ export const createNetwork: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetwork",
 }));
 
 export type CreatePrivateLinkEndpointError =
@@ -337,6 +353,8 @@ export const createPrivateLinkEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateLinkEndpoint",
 }));
 
 export type DeleteNetworkError =
@@ -358,6 +376,8 @@ export const deleteNetwork: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetwork",
 }));
 
 export type DeletePrivateLinkEndpointError =
@@ -378,6 +398,8 @@ export const deletePrivateLinkEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkEndpoint",
 }));
 
 export type ListNetworksError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -393,6 +415,8 @@ export const listNetworks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworks",
 }));
 
 export type ListPrivateLinkEndpointsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -408,6 +432,8 @@ export const listPrivateLinkEndpoints: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkEndpoints",
 }));
 
 export type ReadNetworkError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -423,6 +449,8 @@ export const readNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNetwork",
 }));
 
 export type ReadPrivateLinkEndpointError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -438,6 +466,8 @@ export const readPrivateLinkEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadPrivateLinkEndpoint",
 }));
 
 export type UpdateNetworkError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -453,6 +483,8 @@ export const updateNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetwork",
 }));
 
 export type UpdatePrivateLinkEndpointError =
@@ -473,6 +505,8 @@ export const updatePrivateLinkEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkEndpoint",
 }));
 
 export type UpdateStaticIpsError =
@@ -494,6 +528,8 @@ export const updateStaticIps: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStaticIps",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

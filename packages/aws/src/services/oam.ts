@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -68,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://oam.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "OAM",
+  service: "OAM",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -362,7 +378,7 @@ export type CreateLinkError =
  * Each source account can be linked to as many as five monitoring accounts.
  */
 export const createLink: API.OperationMethod<
-  CreateLinkInput,
+  CreateLinkInput & RegionInput,
   CreateLinkOutput,
   CreateLinkError,
   Credentials | HttpClient.HttpClient
@@ -380,6 +396,8 @@ export const createLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLink",
+  telemetry: TELEMETRY,
+  span: "CreateLink",
 }));
 
 export type CreateSinkError =
@@ -398,7 +416,7 @@ export type CreateSinkError =
  * Each account can contain one sink per Region. If you delete a sink, you can then create a new one in that Region.
  */
 export const createSink: API.OperationMethod<
-  CreateSinkInput,
+  CreateSinkInput & RegionInput,
   CreateSinkOutput,
   CreateSinkError,
   Credentials | HttpClient.HttpClient
@@ -416,6 +434,8 @@ export const createSink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSink",
+  telemetry: TELEMETRY,
+  span: "CreateSink",
 }));
 
 export type DeleteLinkError =
@@ -429,7 +449,7 @@ export type DeleteLinkError =
  * Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
  */
 export const deleteLink: API.OperationMethod<
-  DeleteLinkInput,
+  DeleteLinkInput & RegionInput,
   DeleteLinkOutput,
   DeleteLinkError,
   Credentials | HttpClient.HttpClient
@@ -446,6 +466,8 @@ export const deleteLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLink",
+  telemetry: TELEMETRY,
+  span: "DeleteLink",
 }));
 
 export type DeleteSinkError =
@@ -460,7 +482,7 @@ export type DeleteSinkError =
  * Deletes a sink. You must delete all links to a sink before you can delete that sink.
  */
 export const deleteSink: API.OperationMethod<
-  DeleteSinkInput,
+  DeleteSinkInput & RegionInput,
   DeleteSinkOutput,
   DeleteSinkError,
   Credentials | HttpClient.HttpClient
@@ -478,6 +500,8 @@ export const deleteSink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSink",
+  telemetry: TELEMETRY,
+  span: "DeleteSink",
 }));
 
 export type GetLinkError =
@@ -493,7 +517,7 @@ export type GetLinkError =
  * To use this operation, provide the link ARN. To retrieve a list of link ARNs, use ListLinks.
  */
 export const getLink: API.OperationMethod<
-  GetLinkInput,
+  GetLinkInput & RegionInput,
   GetLinkOutput,
   GetLinkError,
   Credentials | HttpClient.HttpClient
@@ -510,6 +534,8 @@ export const getLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLink",
+  telemetry: TELEMETRY,
+  span: "GetLink",
 }));
 
 export type GetSinkError =
@@ -525,7 +551,7 @@ export type GetSinkError =
  * To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
  */
 export const getSink: API.OperationMethod<
-  GetSinkInput,
+  GetSinkInput & RegionInput,
   GetSinkOutput,
   GetSinkError,
   Credentials | HttpClient.HttpClient
@@ -542,6 +568,8 @@ export const getSink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSink",
+  telemetry: TELEMETRY,
+  span: "GetSink",
 }));
 
 export type GetSinkPolicyError =
@@ -555,7 +583,7 @@ export type GetSinkPolicyError =
  * Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
  */
 export const getSinkPolicy: API.OperationMethod<
-  GetSinkPolicyInput,
+  GetSinkPolicyInput & RegionInput,
   GetSinkPolicyOutput,
   GetSinkPolicyError,
   Credentials | HttpClient.HttpClient
@@ -572,6 +600,8 @@ export const getSinkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSinkPolicy",
+  telemetry: TELEMETRY,
+  span: "GetSinkPolicy",
 }));
 
 export type ListAttachedLinksError =
@@ -589,7 +619,7 @@ export type ListAttachedLinksError =
  * To find a list of links for one source account, use ListLinks.
  */
 export const listAttachedLinks: API.PaginatedOperationMethod<
-  ListAttachedLinksInput,
+  ListAttachedLinksInput & RegionInput,
   ListAttachedLinksOutput,
   ListAttachedLinksError,
   Credentials | HttpClient.HttpClient,
@@ -613,6 +643,8 @@ export const listAttachedLinks: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachedLinks",
 })) as any;
 
 export type ListLinksError =
@@ -627,7 +659,7 @@ export type ListLinksError =
  * To find a list of links for one monitoring account sink, use ListAttachedLinks from within the monitoring account.
  */
 export const listLinks: API.PaginatedOperationMethod<
-  ListLinksInput,
+  ListLinksInput & RegionInput,
   ListLinksOutput,
   ListLinksError,
   Credentials | HttpClient.HttpClient,
@@ -650,6 +682,8 @@ export const listLinks: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLinks",
 })) as any;
 
 export type ListSinksError =
@@ -662,7 +696,7 @@ export type ListSinksError =
  * Use this operation in a monitoring account to return the list of sinks created in that account.
  */
 export const listSinks: API.PaginatedOperationMethod<
-  ListSinksInput,
+  ListSinksInput & RegionInput,
   ListSinksOutput,
   ListSinksError,
   Credentials | HttpClient.HttpClient,
@@ -685,6 +719,8 @@ export const listSinks: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSinks",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -696,7 +732,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a resource. Both sinks and links support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -707,6 +743,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutSinkPolicyError =
@@ -736,7 +774,7 @@ export type PutSinkPolicyError =
  * See the examples in this section to see how to specify permitted source accounts and data types.
  */
 export const putSinkPolicy: API.OperationMethod<
-  PutSinkPolicyInput,
+  PutSinkPolicyInput & RegionInput,
   PutSinkPolicyOutput,
   PutSinkPolicyError,
   Credentials | HttpClient.HttpClient
@@ -753,6 +791,8 @@ export const putSinkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSinkPolicy",
+  telemetry: TELEMETRY,
+  span: "PutSinkPolicy",
 }));
 
 export type TagResourceError =
@@ -775,7 +815,7 @@ export type TagResourceError =
  * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:ResourceTag` permission does not allow you to tag and untag links and sinks.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -791,6 +831,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -804,7 +846,7 @@ export type UntagResourceError =
  * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:TagResource` permission does not allow you to tag and untag links and sinks.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -815,6 +857,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLinkError =
@@ -832,7 +876,7 @@ export type UpdateLinkError =
  * To update the list of tags associated with the sink, use TagResource.
  */
 export const updateLink: API.OperationMethod<
-  UpdateLinkInput,
+  UpdateLinkInput & RegionInput,
   UpdateLinkOutput,
   UpdateLinkError,
   Credentials | HttpClient.HttpClient
@@ -849,6 +893,8 @@ export const updateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLink",
+  telemetry: TELEMETRY,
+  span: "UpdateLink",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

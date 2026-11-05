@@ -30,7 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "SquarespaceCredentials",
   ) {}
 
@@ -66,5 +66,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiBaseUrl: process.env.SQUARESPACE_API_BASE_URL ?? DEFAULT_API_BASE_URL,
       userAgent: process.env.SQUARESPACE_USER_AGENT ?? DEFAULT_USER_AGENT,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

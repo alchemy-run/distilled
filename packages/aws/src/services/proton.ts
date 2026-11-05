@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://proton.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Proton",
+  service: "Proton",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1496,7 +1513,7 @@ export type AcceptEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const acceptEnvironmentAccountConnection: API.OperationMethod<
-  AcceptEnvironmentAccountConnectionInput,
+  AcceptEnvironmentAccountConnectionInput & RegionInput,
   AcceptEnvironmentAccountConnectionOutput,
   AcceptEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1514,6 +1531,8 @@ export const acceptEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "AcceptEnvironmentAccountConnection",
 }));
 
 export type CancelComponentDeploymentError =
@@ -1532,7 +1551,7 @@ export type CancelComponentDeploymentError =
  * *Proton User Guide*.
  */
 export const cancelComponentDeployment: API.OperationMethod<
-  CancelComponentDeploymentInput,
+  CancelComponentDeploymentInput & RegionInput,
   CancelComponentDeploymentOutput,
   CancelComponentDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1550,6 +1569,8 @@ export const cancelComponentDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelComponentDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelComponentDeployment",
 }));
 
 export type CancelEnvironmentDeploymentError =
@@ -1575,7 +1596,7 @@ export type CancelEnvironmentDeploymentError =
  * `SUCCEEDED` and the cancellation attempt has no effect.
  */
 export const cancelEnvironmentDeployment: API.OperationMethod<
-  CancelEnvironmentDeploymentInput,
+  CancelEnvironmentDeploymentInput & RegionInput,
   CancelEnvironmentDeploymentOutput,
   CancelEnvironmentDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1593,6 +1614,8 @@ export const cancelEnvironmentDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelEnvironmentDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelEnvironmentDeployment",
 }));
 
 export type CancelServiceInstanceDeploymentError =
@@ -1621,7 +1644,7 @@ export type CancelServiceInstanceDeploymentError =
  * the cancellation attempt has no effect.
  */
 export const cancelServiceInstanceDeployment: API.OperationMethod<
-  CancelServiceInstanceDeploymentInput,
+  CancelServiceInstanceDeploymentInput & RegionInput,
   CancelServiceInstanceDeploymentOutput,
   CancelServiceInstanceDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1639,6 +1662,8 @@ export const cancelServiceInstanceDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelServiceInstanceDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelServiceInstanceDeployment",
 }));
 
 export type CancelServicePipelineDeploymentError =
@@ -1667,7 +1692,7 @@ export type CancelServicePipelineDeploymentError =
  * the cancellation attempt has no effect.
  */
 export const cancelServicePipelineDeployment: API.OperationMethod<
-  CancelServicePipelineDeploymentInput,
+  CancelServicePipelineDeploymentInput & RegionInput,
   CancelServicePipelineDeploymentOutput,
   CancelServicePipelineDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1685,6 +1710,8 @@ export const cancelServicePipelineDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelServicePipelineDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelServicePipelineDeployment",
 }));
 
 export type CreateComponentError =
@@ -1704,7 +1731,7 @@ export type CreateComponentError =
  * *Proton User Guide*.
  */
 export const createComponent: API.OperationMethod<
-  CreateComponentInput,
+  CreateComponentInput & RegionInput,
   CreateComponentOutput,
   CreateComponentError,
   Credentials | HttpClient.HttpClient
@@ -1723,6 +1750,8 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateEnvironmentError =
@@ -1749,7 +1778,7 @@ export type CreateEnvironmentError =
  * Guide.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentInput,
+  CreateEnvironmentInput & RegionInput,
   CreateEnvironmentOutput,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1768,6 +1797,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateEnvironmentAccountConnectionError =
@@ -1787,7 +1818,7 @@ export type CreateEnvironmentAccountConnectionError =
  * guide.
  */
 export const createEnvironmentAccountConnection: API.OperationMethod<
-  CreateEnvironmentAccountConnectionInput,
+  CreateEnvironmentAccountConnectionInput & RegionInput,
   CreateEnvironmentAccountConnectionOutput,
   CreateEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1805,6 +1836,8 @@ export const createEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentAccountConnection",
 }));
 
 export type CreateEnvironmentTemplateError =
@@ -1830,7 +1863,7 @@ export type CreateEnvironmentTemplateError =
  * and publish an environment template in the *Proton User Guide*.
  */
 export const createEnvironmentTemplate: API.OperationMethod<
-  CreateEnvironmentTemplateInput,
+  CreateEnvironmentTemplateInput & RegionInput,
   CreateEnvironmentTemplateOutput,
   CreateEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1848,6 +1881,8 @@ export const createEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentTemplate",
 }));
 
 export type CreateEnvironmentTemplateVersionError =
@@ -1865,7 +1900,7 @@ export type CreateEnvironmentTemplateVersionError =
  * version.
  */
 export const createEnvironmentTemplateVersion: API.OperationMethod<
-  CreateEnvironmentTemplateVersionInput,
+  CreateEnvironmentTemplateVersionInput & RegionInput,
   CreateEnvironmentTemplateVersionOutput,
   CreateEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -1884,6 +1919,8 @@ export const createEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentTemplateVersion",
 }));
 
 export type CreateRepositoryError =
@@ -1904,7 +1941,7 @@ export type CreateRepositoryError =
  * User Guide.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryInput,
+  CreateRepositoryInput & RegionInput,
   CreateRepositoryOutput,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1922,6 +1959,8 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type CreateServiceError =
@@ -1940,7 +1979,7 @@ export type CreateServiceError =
  * in the *Proton User Guide*.
  */
 export const createService: API.OperationMethod<
-  CreateServiceInput,
+  CreateServiceInput & RegionInput,
   CreateServiceOutput,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -1959,6 +1998,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateServiceInstanceError =
@@ -1973,7 +2014,7 @@ export type CreateServiceInstanceError =
  * Create a service instance.
  */
 export const createServiceInstance: API.OperationMethod<
-  CreateServiceInstanceInput,
+  CreateServiceInstanceInput & RegionInput,
   CreateServiceInstanceOutput,
   CreateServiceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1991,6 +2032,8 @@ export const createServiceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceInstance",
+  telemetry: TELEMETRY,
+  span: "CreateServiceInstance",
 }));
 
 export type CreateServiceSyncConfigError =
@@ -2005,7 +2048,7 @@ export type CreateServiceSyncConfigError =
  * Create the Proton Ops configuration file.
  */
 export const createServiceSyncConfig: API.OperationMethod<
-  CreateServiceSyncConfigInput,
+  CreateServiceSyncConfigInput & RegionInput,
   CreateServiceSyncConfigOutput,
   CreateServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2023,6 +2066,8 @@ export const createServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceSyncConfig",
+  telemetry: TELEMETRY,
+  span: "CreateServiceSyncConfig",
 }));
 
 export type CreateServiceTemplateError =
@@ -2042,7 +2087,7 @@ export type CreateServiceTemplateError =
  * information, see Proton templates in the *Proton User Guide*.
  */
 export const createServiceTemplate: API.OperationMethod<
-  CreateServiceTemplateInput,
+  CreateServiceTemplateInput & RegionInput,
   CreateServiceTemplateOutput,
   CreateServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2060,6 +2105,8 @@ export const createServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateServiceTemplate",
 }));
 
 export type CreateServiceTemplateVersionError =
@@ -2077,7 +2124,7 @@ export type CreateServiceTemplateVersionError =
  * a service template is a version that's backward compatible within its major version.
  */
 export const createServiceTemplateVersion: API.OperationMethod<
-  CreateServiceTemplateVersionInput,
+  CreateServiceTemplateVersionInput & RegionInput,
   CreateServiceTemplateVersionOutput,
   CreateServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2096,6 +2143,8 @@ export const createServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "CreateServiceTemplateVersion",
 }));
 
 export type CreateTemplateSyncConfigError =
@@ -2115,7 +2164,7 @@ export type CreateTemplateSyncConfigError =
  * User Guide.
  */
 export const createTemplateSyncConfig: API.OperationMethod<
-  CreateTemplateSyncConfigInput,
+  CreateTemplateSyncConfigInput & RegionInput,
   CreateTemplateSyncConfigOutput,
   CreateTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2133,6 +2182,8 @@ export const createTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateSyncConfig",
+  telemetry: TELEMETRY,
+  span: "CreateTemplateSyncConfig",
 }));
 
 export type DeleteComponentError =
@@ -2151,7 +2202,7 @@ export type DeleteComponentError =
  * *Proton User Guide*.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentInput,
+  DeleteComponentInput & RegionInput,
   DeleteComponentOutput,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -2169,6 +2220,8 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteDeploymentError =
@@ -2182,7 +2235,7 @@ export type DeleteDeploymentError =
  * Delete the deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentInput,
+  DeleteDeploymentInput & RegionInput,
   DeleteDeploymentOutput,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2199,6 +2252,8 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DeleteEnvironmentError =
@@ -2213,7 +2268,7 @@ export type DeleteEnvironmentError =
  * Delete an environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentInput,
+  DeleteEnvironmentInput & RegionInput,
   DeleteEnvironmentOutput,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2231,6 +2286,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteEnvironmentAccountConnectionError =
@@ -2252,7 +2309,7 @@ export type DeleteEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const deleteEnvironmentAccountConnection: API.OperationMethod<
-  DeleteEnvironmentAccountConnectionInput,
+  DeleteEnvironmentAccountConnectionInput & RegionInput,
   DeleteEnvironmentAccountConnectionOutput,
   DeleteEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2270,6 +2327,8 @@ export const deleteEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentAccountConnection",
 }));
 
 export type DeleteEnvironmentTemplateError =
@@ -2284,7 +2343,7 @@ export type DeleteEnvironmentTemplateError =
  * If no other major or minor versions of an environment template exist, delete the environment template.
  */
 export const deleteEnvironmentTemplate: API.OperationMethod<
-  DeleteEnvironmentTemplateInput,
+  DeleteEnvironmentTemplateInput & RegionInput,
   DeleteEnvironmentTemplateOutput,
   DeleteEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2302,6 +2361,8 @@ export const deleteEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentTemplate",
 }));
 
 export type DeleteEnvironmentTemplateVersionError =
@@ -2322,7 +2383,7 @@ export type DeleteEnvironmentTemplateVersionError =
  * environment template is a version that's backward compatible.
  */
 export const deleteEnvironmentTemplateVersion: API.OperationMethod<
-  DeleteEnvironmentTemplateVersionInput,
+  DeleteEnvironmentTemplateVersionInput & RegionInput,
   DeleteEnvironmentTemplateVersionOutput,
   DeleteEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2340,6 +2401,8 @@ export const deleteEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentTemplateVersion",
 }));
 
 export type DeleteRepositoryError =
@@ -2354,7 +2417,7 @@ export type DeleteRepositoryError =
  * De-register and unlink your repository.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryInput,
+  DeleteRepositoryInput & RegionInput,
   DeleteRepositoryOutput,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2372,6 +2435,8 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DeleteServiceError =
@@ -2393,7 +2458,7 @@ export type DeleteServiceError =
  * *Proton User Guide*.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceInput,
+  DeleteServiceInput & RegionInput,
   DeleteServiceOutput,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -2411,6 +2476,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteServiceSyncConfigError =
@@ -2425,7 +2492,7 @@ export type DeleteServiceSyncConfigError =
  * Delete the Proton Ops file.
  */
 export const deleteServiceSyncConfig: API.OperationMethod<
-  DeleteServiceSyncConfigInput,
+  DeleteServiceSyncConfigInput & RegionInput,
   DeleteServiceSyncConfigOutput,
   DeleteServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2443,6 +2510,8 @@ export const deleteServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceSyncConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceSyncConfig",
 }));
 
 export type DeleteServiceTemplateError =
@@ -2458,7 +2527,7 @@ export type DeleteServiceTemplateError =
  * template.
  */
 export const deleteServiceTemplate: API.OperationMethod<
-  DeleteServiceTemplateInput,
+  DeleteServiceTemplateInput & RegionInput,
   DeleteServiceTemplateOutput,
   DeleteServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2476,6 +2545,8 @@ export const deleteServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceTemplate",
 }));
 
 export type DeleteServiceTemplateVersionError =
@@ -2499,7 +2570,7 @@ export type DeleteServiceTemplateVersionError =
  * version that's backwards compatible.
  */
 export const deleteServiceTemplateVersion: API.OperationMethod<
-  DeleteServiceTemplateVersionInput,
+  DeleteServiceTemplateVersionInput & RegionInput,
   DeleteServiceTemplateVersionOutput,
   DeleteServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2517,6 +2588,8 @@ export const deleteServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceTemplateVersion",
 }));
 
 export type DeleteTemplateSyncConfigError =
@@ -2531,7 +2604,7 @@ export type DeleteTemplateSyncConfigError =
  * Delete a template sync configuration.
  */
 export const deleteTemplateSyncConfig: API.OperationMethod<
-  DeleteTemplateSyncConfigInput,
+  DeleteTemplateSyncConfigInput & RegionInput,
   DeleteTemplateSyncConfigOutput,
   DeleteTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2549,6 +2622,8 @@ export const deleteTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateSyncConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplateSyncConfig",
 }));
 
 export type GetAccountSettingsError =
@@ -2562,7 +2637,7 @@ export type GetAccountSettingsError =
  * Get detail data for Proton account-wide settings.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsInput,
+  GetAccountSettingsInput & RegionInput,
   GetAccountSettingsOutput,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2579,6 +2654,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetComponentError =
@@ -2596,7 +2673,7 @@ export type GetComponentError =
  * *Proton User Guide*.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentInput,
+  GetComponentInput & RegionInput,
   GetComponentOutput,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -2613,6 +2690,8 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetDeploymentError =
@@ -2626,7 +2705,7 @@ export type GetDeploymentError =
  * Get detailed data for a deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentInput,
+  GetDeploymentInput & RegionInput,
   GetDeploymentOutput,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2643,6 +2722,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetEnvironmentError =
@@ -2656,7 +2737,7 @@ export type GetEnvironmentError =
  * Get detailed data for an environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentInput,
+  GetEnvironmentInput & RegionInput,
   GetEnvironmentOutput,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2673,6 +2754,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetEnvironmentAccountConnectionError =
@@ -2689,7 +2772,7 @@ export type GetEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const getEnvironmentAccountConnection: API.OperationMethod<
-  GetEnvironmentAccountConnectionInput,
+  GetEnvironmentAccountConnectionInput & RegionInput,
   GetEnvironmentAccountConnectionOutput,
   GetEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2706,6 +2789,8 @@ export const getEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentAccountConnection",
 }));
 
 export type GetEnvironmentTemplateError =
@@ -2719,7 +2804,7 @@ export type GetEnvironmentTemplateError =
  * Get detailed data for an environment template.
  */
 export const getEnvironmentTemplate: API.OperationMethod<
-  GetEnvironmentTemplateInput,
+  GetEnvironmentTemplateInput & RegionInput,
   GetEnvironmentTemplateOutput,
   GetEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2736,6 +2821,8 @@ export const getEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentTemplate",
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentTemplate",
 }));
 
 export type GetEnvironmentTemplateVersionError =
@@ -2749,7 +2836,7 @@ export type GetEnvironmentTemplateVersionError =
  * Get detailed data for a major or minor version of an environment template.
  */
 export const getEnvironmentTemplateVersion: API.OperationMethod<
-  GetEnvironmentTemplateVersionInput,
+  GetEnvironmentTemplateVersionInput & RegionInput,
   GetEnvironmentTemplateVersionOutput,
   GetEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2766,6 +2853,8 @@ export const getEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentTemplateVersion",
 }));
 
 export type GetRepositoryError =
@@ -2779,7 +2868,7 @@ export type GetRepositoryError =
  * Get detail data for a linked repository.
  */
 export const getRepository: API.OperationMethod<
-  GetRepositoryInput,
+  GetRepositoryInput & RegionInput,
   GetRepositoryOutput,
   GetRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2796,6 +2885,8 @@ export const getRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepository",
+  telemetry: TELEMETRY,
+  span: "GetRepository",
 }));
 
 export type GetRepositorySyncStatusError =
@@ -2816,7 +2907,7 @@ export type GetRepositorySyncStatusError =
  * Guide.
  */
 export const getRepositorySyncStatus: API.OperationMethod<
-  GetRepositorySyncStatusInput,
+  GetRepositorySyncStatusInput & RegionInput,
   GetRepositorySyncStatusOutput,
   GetRepositorySyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -2833,6 +2924,8 @@ export const getRepositorySyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositorySyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetRepositorySyncStatus",
 }));
 
 export type GetResourcesSummaryError =
@@ -2858,7 +2951,7 @@ export type GetResourcesSummaryError =
  * *Proton User Guide*.
  */
 export const getResourcesSummary: API.OperationMethod<
-  GetResourcesSummaryInput,
+  GetResourcesSummaryInput & RegionInput,
   GetResourcesSummaryOutput,
   GetResourcesSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2874,6 +2967,8 @@ export const getResourcesSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcesSummary",
+  telemetry: TELEMETRY,
+  span: "GetResourcesSummary",
 }));
 
 export type GetServiceError =
@@ -2887,7 +2982,7 @@ export type GetServiceError =
  * Get detailed data for a service.
  */
 export const getService: API.OperationMethod<
-  GetServiceInput,
+  GetServiceInput & RegionInput,
   GetServiceOutput,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -2904,6 +2999,8 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceInstanceError =
@@ -2918,7 +3015,7 @@ export type GetServiceInstanceError =
  * service template and it runs in a specific environment.
  */
 export const getServiceInstance: API.OperationMethod<
-  GetServiceInstanceInput,
+  GetServiceInstanceInput & RegionInput,
   GetServiceInstanceOutput,
   GetServiceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2935,6 +3032,8 @@ export const getServiceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceInstance",
+  telemetry: TELEMETRY,
+  span: "GetServiceInstance",
 }));
 
 export type GetServiceInstanceSyncStatusError =
@@ -2948,7 +3047,7 @@ export type GetServiceInstanceSyncStatusError =
  * Get the status of the synced service instance.
  */
 export const getServiceInstanceSyncStatus: API.OperationMethod<
-  GetServiceInstanceSyncStatusInput,
+  GetServiceInstanceSyncStatusInput & RegionInput,
   GetServiceInstanceSyncStatusOutput,
   GetServiceInstanceSyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -2965,6 +3064,8 @@ export const getServiceInstanceSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceInstanceSyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetServiceInstanceSyncStatus",
 }));
 
 export type GetServiceSyncBlockerSummaryError =
@@ -2978,7 +3079,7 @@ export type GetServiceSyncBlockerSummaryError =
  * Get detailed data for the service sync blocker summary.
  */
 export const getServiceSyncBlockerSummary: API.OperationMethod<
-  GetServiceSyncBlockerSummaryInput,
+  GetServiceSyncBlockerSummaryInput & RegionInput,
   GetServiceSyncBlockerSummaryOutput,
   GetServiceSyncBlockerSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2995,6 +3096,8 @@ export const getServiceSyncBlockerSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSyncBlockerSummary",
+  telemetry: TELEMETRY,
+  span: "GetServiceSyncBlockerSummary",
 }));
 
 export type GetServiceSyncConfigError =
@@ -3008,7 +3111,7 @@ export type GetServiceSyncConfigError =
  * Get detailed information for the service sync configuration.
  */
 export const getServiceSyncConfig: API.OperationMethod<
-  GetServiceSyncConfigInput,
+  GetServiceSyncConfigInput & RegionInput,
   GetServiceSyncConfigOutput,
   GetServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -3025,6 +3128,8 @@ export const getServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSyncConfig",
+  telemetry: TELEMETRY,
+  span: "GetServiceSyncConfig",
 }));
 
 export type GetServiceTemplateError =
@@ -3038,7 +3143,7 @@ export type GetServiceTemplateError =
  * Get detailed data for a service template.
  */
 export const getServiceTemplate: API.OperationMethod<
-  GetServiceTemplateInput,
+  GetServiceTemplateInput & RegionInput,
   GetServiceTemplateOutput,
   GetServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3055,6 +3160,8 @@ export const getServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceTemplate",
+  telemetry: TELEMETRY,
+  span: "GetServiceTemplate",
 }));
 
 export type GetServiceTemplateVersionError =
@@ -3068,7 +3175,7 @@ export type GetServiceTemplateVersionError =
  * Get detailed data for a major or minor version of a service template.
  */
 export const getServiceTemplateVersion: API.OperationMethod<
-  GetServiceTemplateVersionInput,
+  GetServiceTemplateVersionInput & RegionInput,
   GetServiceTemplateVersionOutput,
   GetServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -3085,6 +3192,8 @@ export const getServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "GetServiceTemplateVersion",
 }));
 
 export type GetTemplateSyncConfigError =
@@ -3098,7 +3207,7 @@ export type GetTemplateSyncConfigError =
  * Get detail data for a template sync configuration.
  */
 export const getTemplateSyncConfig: API.OperationMethod<
-  GetTemplateSyncConfigInput,
+  GetTemplateSyncConfigInput & RegionInput,
   GetTemplateSyncConfigOutput,
   GetTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -3115,6 +3224,8 @@ export const getTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateSyncConfig",
+  telemetry: TELEMETRY,
+  span: "GetTemplateSyncConfig",
 }));
 
 export type GetTemplateSyncStatusError =
@@ -3128,7 +3239,7 @@ export type GetTemplateSyncStatusError =
  * Get the status of a template sync.
  */
 export const getTemplateSyncStatus: API.OperationMethod<
-  GetTemplateSyncStatusInput,
+  GetTemplateSyncStatusInput & RegionInput,
   GetTemplateSyncStatusOutput,
   GetTemplateSyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -3145,6 +3256,8 @@ export const getTemplateSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateSyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetTemplateSyncStatus",
 }));
 
 export type ListComponentOutputsError =
@@ -3162,7 +3275,7 @@ export type ListComponentOutputsError =
  * *Proton User Guide*.
  */
 export const listComponentOutputs: API.PaginatedOperationMethod<
-  ListComponentOutputsInput,
+  ListComponentOutputsInput & RegionInput,
   ListComponentOutputsOutput,
   ListComponentOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3181,6 +3294,8 @@ export const listComponentOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListComponentOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponentOutputs",
 })) as any;
 
 export type ListComponentProvisionedResourcesError =
@@ -3198,7 +3313,7 @@ export type ListComponentProvisionedResourcesError =
  * *Proton User Guide*.
  */
 export const listComponentProvisionedResources: API.PaginatedOperationMethod<
-  ListComponentProvisionedResourcesInput,
+  ListComponentProvisionedResourcesInput & RegionInput,
   ListComponentProvisionedResourcesOutput,
   ListComponentProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3221,6 +3336,8 @@ export const listComponentProvisionedResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponentProvisionedResources",
 })) as any;
 
 export type ListComponentsError =
@@ -3237,7 +3354,7 @@ export type ListComponentsError =
  * *Proton User Guide*.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsInput,
+  ListComponentsInput & RegionInput,
   ListComponentsOutput,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -3260,6 +3377,8 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "components",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListDeploymentsError =
@@ -3273,7 +3392,7 @@ export type ListDeploymentsError =
  * List deployments. You can filter the result list by environment, service, or a single service instance.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsInput,
+  ListDeploymentsInput & RegionInput,
   ListDeploymentsOutput,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -3297,6 +3416,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListEnvironmentAccountConnectionsError =
@@ -3312,7 +3433,7 @@ export type ListEnvironmentAccountConnectionsError =
  * connections in the *Proton User guide*.
  */
 export const listEnvironmentAccountConnections: API.PaginatedOperationMethod<
-  ListEnvironmentAccountConnectionsInput,
+  ListEnvironmentAccountConnectionsInput & RegionInput,
   ListEnvironmentAccountConnectionsOutput,
   ListEnvironmentAccountConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3335,6 +3456,8 @@ export const listEnvironmentAccountConnections: API.PaginatedOperationMethod<
     items: "environmentAccountConnections",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentAccountConnections",
 })) as any;
 
 export type ListEnvironmentOutputsError =
@@ -3348,7 +3471,7 @@ export type ListEnvironmentOutputsError =
  * List the infrastructure as code outputs for your environment.
  */
 export const listEnvironmentOutputs: API.PaginatedOperationMethod<
-  ListEnvironmentOutputsInput,
+  ListEnvironmentOutputsInput & RegionInput,
   ListEnvironmentOutputsOutput,
   ListEnvironmentOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3367,6 +3490,8 @@ export const listEnvironmentOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEnvironmentOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentOutputs",
 })) as any;
 
 export type ListEnvironmentProvisionedResourcesError =
@@ -3380,7 +3505,7 @@ export type ListEnvironmentProvisionedResourcesError =
  * List the provisioned resources for your environment.
  */
 export const listEnvironmentProvisionedResources: API.PaginatedOperationMethod<
-  ListEnvironmentProvisionedResourcesInput,
+  ListEnvironmentProvisionedResourcesInput & RegionInput,
   ListEnvironmentProvisionedResourcesOutput,
   ListEnvironmentProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3403,6 +3528,8 @@ export const listEnvironmentProvisionedResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentProvisionedResources",
 })) as any;
 
 export type ListEnvironmentsError =
@@ -3416,7 +3543,7 @@ export type ListEnvironmentsError =
  * List environments with detail data summaries.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsInput,
+  ListEnvironmentsInput & RegionInput,
   ListEnvironmentsOutput,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3440,6 +3567,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListEnvironmentTemplatesError =
@@ -3452,7 +3581,7 @@ export type ListEnvironmentTemplatesError =
  * List environment templates.
  */
 export const listEnvironmentTemplates: API.PaginatedOperationMethod<
-  ListEnvironmentTemplatesInput,
+  ListEnvironmentTemplatesInput & RegionInput,
   ListEnvironmentTemplatesOutput,
   ListEnvironmentTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3475,6 +3604,8 @@ export const listEnvironmentTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentTemplates",
 })) as any;
 
 export type ListEnvironmentTemplateVersionsError =
@@ -3488,7 +3619,7 @@ export type ListEnvironmentTemplateVersionsError =
  * List major or minor versions of an environment template with detail data.
  */
 export const listEnvironmentTemplateVersions: API.PaginatedOperationMethod<
-  ListEnvironmentTemplateVersionsInput,
+  ListEnvironmentTemplateVersionsInput & RegionInput,
   ListEnvironmentTemplateVersionsOutput,
   ListEnvironmentTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3512,6 +3643,8 @@ export const listEnvironmentTemplateVersions: API.PaginatedOperationMethod<
     items: "templateVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentTemplateVersions",
 })) as any;
 
 export type ListRepositoriesError =
@@ -3525,7 +3658,7 @@ export type ListRepositoriesError =
  * List linked repositories with detail data.
  */
 export const listRepositories: API.PaginatedOperationMethod<
-  ListRepositoriesInput,
+  ListRepositoriesInput & RegionInput,
   ListRepositoriesOutput,
   ListRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -3549,6 +3682,8 @@ export const listRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositories",
 })) as any;
 
 export type ListRepositorySyncDefinitionsError =
@@ -3561,7 +3696,7 @@ export type ListRepositorySyncDefinitionsError =
  * List repository sync definitions with detail data.
  */
 export const listRepositorySyncDefinitions: API.PaginatedOperationMethod<
-  ListRepositorySyncDefinitionsInput,
+  ListRepositorySyncDefinitionsInput & RegionInput,
   ListRepositorySyncDefinitionsOutput,
   ListRepositorySyncDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -3583,6 +3718,8 @@ export const listRepositorySyncDefinitions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "syncDefinitions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositorySyncDefinitions",
 })) as any;
 
 export type ListServiceInstanceOutputsError =
@@ -3596,7 +3733,7 @@ export type ListServiceInstanceOutputsError =
  * Get a list service of instance Infrastructure as Code (IaC) outputs.
  */
 export const listServiceInstanceOutputs: API.PaginatedOperationMethod<
-  ListServiceInstanceOutputsInput,
+  ListServiceInstanceOutputsInput & RegionInput,
   ListServiceInstanceOutputsOutput,
   ListServiceInstanceOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3615,6 +3752,8 @@ export const listServiceInstanceOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListServiceInstanceOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceInstanceOutputs",
 })) as any;
 
 export type ListServiceInstanceProvisionedResourcesError =
@@ -3628,7 +3767,7 @@ export type ListServiceInstanceProvisionedResourcesError =
  * List provisioned resources for a service instance with details.
  */
 export const listServiceInstanceProvisionedResources: API.PaginatedOperationMethod<
-  ListServiceInstanceProvisionedResourcesInput,
+  ListServiceInstanceProvisionedResourcesInput & RegionInput,
   ListServiceInstanceProvisionedResourcesOutput,
   ListServiceInstanceProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3651,6 +3790,8 @@ export const listServiceInstanceProvisionedResources: API.PaginatedOperationMeth
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceInstanceProvisionedResources",
 })) as any;
 
 export type ListServiceInstancesError =
@@ -3665,7 +3806,7 @@ export type ListServiceInstancesError =
  * services in the Amazon Web Services account.
  */
 export const listServiceInstances: API.PaginatedOperationMethod<
-  ListServiceInstancesInput,
+  ListServiceInstancesInput & RegionInput,
   ListServiceInstancesOutput,
   ListServiceInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -3689,6 +3830,8 @@ export const listServiceInstances: API.PaginatedOperationMethod<
     items: "serviceInstances",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceInstances",
 })) as any;
 
 export type ListServicePipelineOutputsError =
@@ -3702,7 +3845,7 @@ export type ListServicePipelineOutputsError =
  * Get a list of service pipeline Infrastructure as Code (IaC) outputs.
  */
 export const listServicePipelineOutputs: API.PaginatedOperationMethod<
-  ListServicePipelineOutputsInput,
+  ListServicePipelineOutputsInput & RegionInput,
   ListServicePipelineOutputsOutput,
   ListServicePipelineOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3721,6 +3864,8 @@ export const listServicePipelineOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListServicePipelineOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListServicePipelineOutputs",
 })) as any;
 
 export type ListServicePipelineProvisionedResourcesError =
@@ -3734,7 +3879,7 @@ export type ListServicePipelineProvisionedResourcesError =
  * List provisioned resources for a service and pipeline with details.
  */
 export const listServicePipelineProvisionedResources: API.PaginatedOperationMethod<
-  ListServicePipelineProvisionedResourcesInput,
+  ListServicePipelineProvisionedResourcesInput & RegionInput,
   ListServicePipelineProvisionedResourcesOutput,
   ListServicePipelineProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3757,6 +3902,8 @@ export const listServicePipelineProvisionedResources: API.PaginatedOperationMeth
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServicePipelineProvisionedResources",
 })) as any;
 
 export type ListServicesError =
@@ -3769,7 +3916,7 @@ export type ListServicesError =
  * List services with summaries of detail data.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesInput,
+  ListServicesInput & RegionInput,
   ListServicesOutput,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -3792,6 +3939,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "services",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListServiceTemplatesError =
@@ -3804,7 +3953,7 @@ export type ListServiceTemplatesError =
  * List service templates with detail data.
  */
 export const listServiceTemplates: API.PaginatedOperationMethod<
-  ListServiceTemplatesInput,
+  ListServiceTemplatesInput & RegionInput,
   ListServiceTemplatesOutput,
   ListServiceTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3827,6 +3976,8 @@ export const listServiceTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceTemplates",
 })) as any;
 
 export type ListServiceTemplateVersionsError =
@@ -3840,7 +3991,7 @@ export type ListServiceTemplateVersionsError =
  * List major or minor versions of a service template with detail data.
  */
 export const listServiceTemplateVersions: API.PaginatedOperationMethod<
-  ListServiceTemplateVersionsInput,
+  ListServiceTemplateVersionsInput & RegionInput,
   ListServiceTemplateVersionsOutput,
   ListServiceTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3864,6 +4015,8 @@ export const listServiceTemplateVersions: API.PaginatedOperationMethod<
     items: "templateVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceTemplateVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3878,7 +4031,7 @@ export type ListTagsForResourceError =
  * resources and tagging in the *Proton User Guide*.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3902,6 +4055,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type NotifyResourceDeploymentStatusChangeError =
@@ -3919,7 +4074,7 @@ export type NotifyResourceDeploymentStatusChangeError =
  * For more information, see Self-managed provisioning in the *Proton User Guide*.
  */
 export const notifyResourceDeploymentStatusChange: API.OperationMethod<
-  NotifyResourceDeploymentStatusChangeInput,
+  NotifyResourceDeploymentStatusChangeInput & RegionInput,
   NotifyResourceDeploymentStatusChangeOutput,
   NotifyResourceDeploymentStatusChangeError,
   Credentials | HttpClient.HttpClient
@@ -3938,6 +4093,8 @@ export const notifyResourceDeploymentStatusChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyResourceDeploymentStatusChange",
+  telemetry: TELEMETRY,
+  span: "NotifyResourceDeploymentStatusChange",
 }));
 
 export type RejectEnvironmentAccountConnectionError =
@@ -3960,7 +4117,7 @@ export type RejectEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const rejectEnvironmentAccountConnection: API.OperationMethod<
-  RejectEnvironmentAccountConnectionInput,
+  RejectEnvironmentAccountConnectionInput & RegionInput,
   RejectEnvironmentAccountConnectionOutput,
   RejectEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3978,6 +4135,8 @@ export const rejectEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "RejectEnvironmentAccountConnection",
 }));
 
 export type TagResourceError =
@@ -3995,7 +4154,7 @@ export type TagResourceError =
  * the *Proton User Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4013,6 +4172,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4030,7 +4191,7 @@ export type UntagResourceError =
  * the *Proton User Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4048,6 +4209,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountSettingsError =
@@ -4061,7 +4224,7 @@ export type UpdateAccountSettingsError =
  * Update Proton settings that are used for multiple services in the Amazon Web Services account.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsInput,
+  UpdateAccountSettingsInput & RegionInput,
   UpdateAccountSettingsOutput,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4078,6 +4241,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateComponentError =
@@ -4102,7 +4267,7 @@ export type UpdateComponentError =
  * *Proton User Guide*.
  */
 export const updateComponent: API.OperationMethod<
-  UpdateComponentInput,
+  UpdateComponentInput & RegionInput,
   UpdateComponentOutput,
   UpdateComponentError,
   Credentials | HttpClient.HttpClient
@@ -4121,6 +4286,8 @@ export const updateComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateComponent",
 }));
 
 export type UpdateEnvironmentError =
@@ -4177,7 +4344,7 @@ export type UpdateEnvironmentError =
  * by default. You can also specify a different major version that's higher than the major version in use and a minor version.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentInput,
+  UpdateEnvironmentInput & RegionInput,
   UpdateEnvironmentOutput,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -4195,6 +4362,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateEnvironmentAccountConnectionError =
@@ -4212,7 +4381,7 @@ export type UpdateEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const updateEnvironmentAccountConnection: API.OperationMethod<
-  UpdateEnvironmentAccountConnectionInput,
+  UpdateEnvironmentAccountConnectionInput & RegionInput,
   UpdateEnvironmentAccountConnectionOutput,
   UpdateEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -4230,6 +4399,8 @@ export const updateEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentAccountConnection",
 }));
 
 export type UpdateEnvironmentTemplateError =
@@ -4244,7 +4415,7 @@ export type UpdateEnvironmentTemplateError =
  * Update an environment template.
  */
 export const updateEnvironmentTemplate: API.OperationMethod<
-  UpdateEnvironmentTemplateInput,
+  UpdateEnvironmentTemplateInput & RegionInput,
   UpdateEnvironmentTemplateOutput,
   UpdateEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4262,6 +4433,8 @@ export const updateEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentTemplate",
 }));
 
 export type UpdateEnvironmentTemplateVersionError =
@@ -4276,7 +4449,7 @@ export type UpdateEnvironmentTemplateVersionError =
  * Update a major or minor version of an environment template.
  */
 export const updateEnvironmentTemplateVersion: API.OperationMethod<
-  UpdateEnvironmentTemplateVersionInput,
+  UpdateEnvironmentTemplateVersionInput & RegionInput,
   UpdateEnvironmentTemplateVersionOutput,
   UpdateEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -4294,6 +4467,8 @@ export const updateEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentTemplateVersion",
 }));
 
 export type UpdateServiceError =
@@ -4323,7 +4498,7 @@ export type UpdateServiceError =
  * *Proton User Guide*.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceInput,
+  UpdateServiceInput & RegionInput,
   UpdateServiceOutput,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -4342,6 +4517,8 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateServiceInstanceError =
@@ -4366,7 +4543,7 @@ export type UpdateServiceInstanceError =
  * *Proton User Guide*.
  */
 export const updateServiceInstance: API.OperationMethod<
-  UpdateServiceInstanceInput,
+  UpdateServiceInstanceInput & RegionInput,
   UpdateServiceInstanceOutput,
   UpdateServiceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -4384,6 +4561,8 @@ export const updateServiceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceInstance",
 }));
 
 export type UpdateServicePipelineError =
@@ -4425,7 +4604,7 @@ export type UpdateServicePipelineError =
  * minor version.
  */
 export const updateServicePipeline: API.OperationMethod<
-  UpdateServicePipelineInput,
+  UpdateServicePipelineInput & RegionInput,
   UpdateServicePipelineOutput,
   UpdateServicePipelineError,
   Credentials | HttpClient.HttpClient
@@ -4443,6 +4622,8 @@ export const updateServicePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServicePipeline",
+  telemetry: TELEMETRY,
+  span: "UpdateServicePipeline",
 }));
 
 export type UpdateServiceSyncBlockerError =
@@ -4457,7 +4638,7 @@ export type UpdateServiceSyncBlockerError =
  * Update the service sync blocker by resolving it.
  */
 export const updateServiceSyncBlocker: API.OperationMethod<
-  UpdateServiceSyncBlockerInput,
+  UpdateServiceSyncBlockerInput & RegionInput,
   UpdateServiceSyncBlockerOutput,
   UpdateServiceSyncBlockerError,
   Credentials | HttpClient.HttpClient
@@ -4475,6 +4656,8 @@ export const updateServiceSyncBlocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSyncBlocker",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSyncBlocker",
 }));
 
 export type UpdateServiceSyncConfigError =
@@ -4489,7 +4672,7 @@ export type UpdateServiceSyncConfigError =
  * Update the Proton Ops config file.
  */
 export const updateServiceSyncConfig: API.OperationMethod<
-  UpdateServiceSyncConfigInput,
+  UpdateServiceSyncConfigInput & RegionInput,
   UpdateServiceSyncConfigOutput,
   UpdateServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -4507,6 +4690,8 @@ export const updateServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSyncConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSyncConfig",
 }));
 
 export type UpdateServiceTemplateError =
@@ -4521,7 +4706,7 @@ export type UpdateServiceTemplateError =
  * Update a service template.
  */
 export const updateServiceTemplate: API.OperationMethod<
-  UpdateServiceTemplateInput,
+  UpdateServiceTemplateInput & RegionInput,
   UpdateServiceTemplateOutput,
   UpdateServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4539,6 +4724,8 @@ export const updateServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceTemplate",
 }));
 
 export type UpdateServiceTemplateVersionError =
@@ -4553,7 +4740,7 @@ export type UpdateServiceTemplateVersionError =
  * Update a major or minor version of a service template.
  */
 export const updateServiceTemplateVersion: API.OperationMethod<
-  UpdateServiceTemplateVersionInput,
+  UpdateServiceTemplateVersionInput & RegionInput,
   UpdateServiceTemplateVersionOutput,
   UpdateServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -4571,6 +4758,8 @@ export const updateServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceTemplateVersion",
 }));
 
 export type UpdateTemplateSyncConfigError =
@@ -4587,7 +4776,7 @@ export type UpdateTemplateSyncConfigError =
  * more information, see CreateRepository.
  */
 export const updateTemplateSyncConfig: API.OperationMethod<
-  UpdateTemplateSyncConfigInput,
+  UpdateTemplateSyncConfigInput & RegionInput,
   UpdateTemplateSyncConfigOutput,
   UpdateTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -4605,6 +4794,8 @@ export const updateTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateSyncConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplateSyncConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Autoresearch",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1211,6 +1224,8 @@ export const autoresearchArchiveCreate: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoresearchArchiveCreate",
 }));
 
 export type AutoresearchDestroyError = BadRequest | NotFound | PosthogOpError;
@@ -1226,6 +1241,8 @@ export const autoresearchDestroy: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoresearchDestroy",
 }));
 
 export type AutoresearchResumeCreateError = BadRequest | NotFound | PosthogOpError;
@@ -1241,6 +1258,8 @@ export const autoresearchResumeCreate: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoresearchResumeCreate",
 }));
 
 export type AutoresearchTrainingRunsArtifactsDeleteCreateError = BadRequest | PosthogOpError;
@@ -1260,6 +1279,8 @@ export const autoresearchTrainingRunsArtifactsDeleteCreate: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoresearchTrainingRunsArtifactsDeleteCreate",
 }));
 
 export type AutoresearchTrainingRunsArtifactsGetCreateError = NotFound | PosthogOpError;
@@ -1275,6 +1296,8 @@ export const autoresearchTrainingRunsArtifactsGetCreate: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoresearchTrainingRunsArtifactsGetCreate",
 }));
 
 export type AutoresearchTrainingRunsArtifactsUploadCreateError = BadRequest | PosthogOpError;
@@ -1294,6 +1317,8 @@ export const autoresearchTrainingRunsArtifactsUploadCreate: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoresearchTrainingRunsArtifactsUploadCreate",
 }));
 
 export type AutoresearchValidateCreateError = PosthogOpError;
@@ -1309,6 +1334,8 @@ export const autoresearchValidateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoresearchValidateCreate",
 }));
 
 export type AutoresearchValidateOnlineCreateError = BadRequest | NotFound | PosthogOpError;
@@ -1324,6 +1351,8 @@ export const autoresearchValidateOnlineCreate: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoresearchValidateOnlineCreate",
 }));
 
 export type CreateAutoresearchError = PosthogOpError;
@@ -1339,6 +1368,8 @@ export const createAutoresearch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearch",
 }));
 
 export type CreateAutoresearchPauseError = BadRequest | NotFound | PosthogOpError;
@@ -1354,6 +1385,8 @@ export const createAutoresearchPause: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchPause",
 }));
 
 export type CreateAutoresearchResolveTemplateError = BadRequest | PosthogOpError;
@@ -1369,6 +1402,8 @@ export const createAutoresearchResolveTemplate: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchResolveTemplate",
 }));
 
 export type CreateAutoresearchScoreError = BadRequest | NotFound | PosthogOpError;
@@ -1384,6 +1419,8 @@ export const createAutoresearchScore: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchScore",
 }));
 
 export type CreateAutoresearchSuggestionError = PosthogOpError;
@@ -1399,6 +1436,8 @@ export const createAutoresearchSuggestion: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchSuggestion",
 }));
 
 export type CreateAutoresearchSuggestionsRespondError = BadRequest | PosthogOpError;
@@ -1414,6 +1453,8 @@ export const createAutoresearchSuggestionsRespond: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchSuggestionsRespond",
 }));
 
 export type CreateAutoresearchTrainError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1429,6 +1470,8 @@ export const createAutoresearchTrain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchTrain",
 }));
 
 export type CreateAutoresearchTrainingRunError = BadRequest | PosthogOpError;
@@ -1444,6 +1487,8 @@ export const createAutoresearchTrainingRun: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchTrainingRun",
 }));
 
 export type CreateAutoresearchTrainingRunsCompleteError = BadRequest | PosthogOpError;
@@ -1459,6 +1504,8 @@ export const createAutoresearchTrainingRunsComplete: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchTrainingRunsComplete",
 }));
 
 export type CreateAutoresearchTrainingRunsIterationError = BadRequest | PosthogOpError;
@@ -1474,6 +1521,8 @@ export const createAutoresearchTrainingRunsIteration: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchTrainingRunsIteration",
 }));
 
 export type CreateAutoresearchTrainingRunsMaterializeFeatureError = BadRequest | PosthogOpError;
@@ -1493,6 +1542,8 @@ export const createAutoresearchTrainingRunsMaterializeFeature: API.OperationMeth
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoresearchTrainingRunsMaterializeFeature",
 }));
 
 export type GetAutoresearchError = PosthogOpError;
@@ -1508,6 +1559,8 @@ export const getAutoresearch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearch",
 }));
 
 export type GetAutoresearchModelError = PosthogOpError;
@@ -1523,6 +1576,8 @@ export const getAutoresearchModel: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearchModel",
 }));
 
 export type GetAutoresearchOnlinePerformanceError = NotFound | PosthogOpError;
@@ -1538,6 +1593,8 @@ export const getAutoresearchOnlinePerformance: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearchOnlinePerformance",
 }));
 
 export type GetAutoresearchRunError = PosthogOpError;
@@ -1553,6 +1610,8 @@ export const getAutoresearchRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearchRun",
 }));
 
 export type GetAutoresearchSuggestionError = PosthogOpError;
@@ -1568,6 +1627,8 @@ export const getAutoresearchSuggestion: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearchSuggestion",
 }));
 
 export type GetAutoresearchTrainingRunError = PosthogOpError;
@@ -1583,6 +1644,8 @@ export const getAutoresearchTrainingRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearchTrainingRun",
 }));
 
 export type GetAutoresearchTrainingRunsArtifactError = PosthogOpError;
@@ -1598,6 +1661,8 @@ export const getAutoresearchTrainingRunsArtifact: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearchTrainingRunsArtifact",
 }));
 
 export type GetAutoresearchTrainingRunsHistoryError = PosthogOpError;
@@ -1613,6 +1678,8 @@ export const getAutoresearchTrainingRunsHistory: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearchTrainingRunsHistory",
 }));
 
 export type ListAutoresearchError = PosthogOpError;
@@ -1628,6 +1695,8 @@ export const listAutoresearch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoresearch",
 }));
 
 export type ListAutoresearchModelsError = PosthogOpError;
@@ -1643,6 +1712,8 @@ export const listAutoresearchModels: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoresearchModels",
 }));
 
 export type ListAutoresearchRunsError = PosthogOpError;
@@ -1658,6 +1729,8 @@ export const listAutoresearchRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoresearchRuns",
 }));
 
 export type ListAutoresearchSuggestionsError = PosthogOpError;
@@ -1673,6 +1746,8 @@ export const listAutoresearchSuggestions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoresearchSuggestions",
 }));
 
 export type ListAutoresearchTemplatesError = PosthogOpError;
@@ -1688,6 +1763,8 @@ export const listAutoresearchTemplates: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoresearchTemplates",
 }));
 
 export type ListAutoresearchTrainingRunsError = PosthogOpError;
@@ -1703,6 +1780,8 @@ export const listAutoresearchTrainingRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoresearchTrainingRuns",
 }));
 
 export type UpdateAutoresearchError = PosthogOpError;
@@ -1718,6 +1797,8 @@ export const updateAutoresearch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoresearch",
 }));
 
 export type UpdateAutoresearchPartialError = PosthogOpError;
@@ -1733,6 +1814,8 @@ export const updateAutoresearchPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoresearchPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

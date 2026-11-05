@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "PlatformFeatures",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface ApprovalPoliciesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -239,6 +252,8 @@ export const approvalPoliciesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApprovalPoliciesDestroy",
 }));
 
 export type ChangeRequestsApproveCreateError = PosthogOpError;
@@ -254,6 +269,8 @@ export const changeRequestsApproveCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeRequestsApproveCreate",
 }));
 
 export type ChangeRequestsCancelCreateError = PosthogOpError;
@@ -269,6 +286,8 @@ export const changeRequestsCancelCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeRequestsCancelCreate",
 }));
 
 export type ChangeRequestsRejectCreateError = PosthogOpError;
@@ -284,6 +303,8 @@ export const changeRequestsRejectCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeRequestsRejectCreate",
 }));
 
 export type CreateApprovalPolicyError = PosthogOpError;
@@ -298,6 +319,8 @@ export const createApprovalPolicy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApprovalPolicy",
 }));
 
 export type GetApprovalPolicyError = PosthogOpError;
@@ -312,6 +335,8 @@ export const getApprovalPolicy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApprovalPolicy",
 }));
 
 export type GetChangeRequestError = PosthogOpError;
@@ -326,6 +351,8 @@ export const getChangeRequest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeRequest",
 }));
 
 export type ListApprovalPoliciesError = PosthogOpError;
@@ -340,6 +367,8 @@ export const listApprovalPolicies: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApprovalPolicies",
 }));
 
 export type ListChangeRequestsError = PosthogOpError;
@@ -354,6 +383,8 @@ export const listChangeRequests: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeRequests",
 }));
 
 export type UpdateApprovalPoliciesPartialError = PosthogOpError;
@@ -368,6 +399,8 @@ export const updateApprovalPoliciesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalPoliciesPartial",
 }));
 
 export type UpdateApprovalPolicyError = PosthogOpError;
@@ -382,6 +415,8 @@ export const updateApprovalPolicy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalPolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

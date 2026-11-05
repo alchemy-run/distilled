@@ -1,0 +1,54 @@
+{
+  "description": "Hand-authored: type Durable Object code_update_strategy on Workers-for-Platforms upload metadata. The dispatch-namespace PUT shares the Worker multipart metadata contract (see workers/putScriptCodeUpdateStrategy.manual.json, keep in sync); Wrangler 4.156.0 sends code_update_strategy in upload metadata for dispatch-namespace deploys. max_delay is seconds, 0-86400, millisecond precision, and only valid with mode deferred.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#CodeUpdateStrategyMode",
+      "value": {
+        "type": "enum",
+        "members": {
+          "IMMEDIATE": {
+            "target": "smithy.api#Unit",
+            "traits": { "smithy.api#enumValue": "immediate" }
+          },
+          "DEFERRED": {
+            "target": "smithy.api#Unit",
+            "traits": { "smithy.api#enumValue": "deferred" }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#CodeUpdateStrategy",
+      "value": {
+        "type": "structure",
+        "members": {
+          "mode": {
+            "target": "com.cloudflare.workers_for_platforms#CodeUpdateStrategyMode",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "`immediate` applies Durable Object code updates right away; `deferred` lets active Durable Objects hibernate before updating their code."
+            }
+          },
+          "max_delay": {
+            "target": "smithy.api#Double",
+            "traits": {
+              "smithy.api#documentation": "Maximum number of seconds (0-86400, millisecond precision) to wait before forcing the update. Only valid with mode `deferred`. When omitted, the default maximum delay (300) applies."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadata/members/code_update_strategy",
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#CodeUpdateStrategy",
+        "traits": {
+          "smithy.api#documentation": "Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies."
+        }
+      }
+    }
+  ]
+}

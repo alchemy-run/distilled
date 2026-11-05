@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://wisdom.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "QConnect",
+  service: "QConnect",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3170,7 +3186,7 @@ export type ActivateMessageTemplateError =
  * Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the `$ACTIVE_VERSION` qualifier later to reference the version that is in active status.
  */
 export const activateMessageTemplate: API.OperationMethod<
-  ActivateMessageTemplateRequest,
+  ActivateMessageTemplateRequest & RegionInput,
   ActivateMessageTemplateResponse,
   ActivateMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3187,6 +3203,8 @@ export const activateMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "ActivateMessageTemplate",
 }));
 
 export type CreateAIAgentError =
@@ -3202,7 +3220,7 @@ export type CreateAIAgentError =
  * Creates an Amazon Q in Connect AI Agent.
  */
 export const createAIAgent: API.OperationMethod<
-  CreateAIAgentRequest,
+  CreateAIAgentRequest & RegionInput,
   CreateAIAgentResponse,
   CreateAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -3221,6 +3239,8 @@ export const createAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIAgent",
+  telemetry: TELEMETRY,
+  span: "CreateAIAgent",
 }));
 
 export type CreateAIAgentVersionError =
@@ -3236,7 +3256,7 @@ export type CreateAIAgentVersionError =
  * Creates and Amazon Q in Connect AI Agent version.
  */
 export const createAIAgentVersion: API.OperationMethod<
-  CreateAIAgentVersionRequest,
+  CreateAIAgentVersionRequest & RegionInput,
   CreateAIAgentVersionResponse,
   CreateAIAgentVersionError,
   Credentials | HttpClient.HttpClient
@@ -3255,6 +3275,8 @@ export const createAIAgentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIAgentVersion",
+  telemetry: TELEMETRY,
+  span: "CreateAIAgentVersion",
 }));
 
 export type CreateAIGuardrailError =
@@ -3270,7 +3292,7 @@ export type CreateAIGuardrailError =
  * Creates an Amazon Q in Connect AI Guardrail.
  */
 export const createAIGuardrail: API.OperationMethod<
-  CreateAIGuardrailRequest,
+  CreateAIGuardrailRequest & RegionInput,
   CreateAIGuardrailResponse,
   CreateAIGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -3289,6 +3311,8 @@ export const createAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIGuardrail",
+  telemetry: TELEMETRY,
+  span: "CreateAIGuardrail",
 }));
 
 export type CreateAIGuardrailVersionError =
@@ -3304,7 +3328,7 @@ export type CreateAIGuardrailVersionError =
  * Creates an Amazon Q in Connect AI Guardrail version.
  */
 export const createAIGuardrailVersion: API.OperationMethod<
-  CreateAIGuardrailVersionRequest,
+  CreateAIGuardrailVersionRequest & RegionInput,
   CreateAIGuardrailVersionResponse,
   CreateAIGuardrailVersionError,
   Credentials | HttpClient.HttpClient
@@ -3323,6 +3347,8 @@ export const createAIGuardrailVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIGuardrailVersion",
+  telemetry: TELEMETRY,
+  span: "CreateAIGuardrailVersion",
 }));
 
 export type CreateAIPromptError =
@@ -3338,7 +3364,7 @@ export type CreateAIPromptError =
  * Creates an Amazon Q in Connect AI Prompt.
  */
 export const createAIPrompt: API.OperationMethod<
-  CreateAIPromptRequest,
+  CreateAIPromptRequest & RegionInput,
   CreateAIPromptResponse,
   CreateAIPromptError,
   Credentials | HttpClient.HttpClient
@@ -3357,6 +3383,8 @@ export const createAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIPrompt",
+  telemetry: TELEMETRY,
+  span: "CreateAIPrompt",
 }));
 
 export type CreateAIPromptVersionError =
@@ -3372,7 +3400,7 @@ export type CreateAIPromptVersionError =
  * Creates an Amazon Q in Connect AI Prompt version.
  */
 export const createAIPromptVersion: API.OperationMethod<
-  CreateAIPromptVersionRequest,
+  CreateAIPromptVersionRequest & RegionInput,
   CreateAIPromptVersionResponse,
   CreateAIPromptVersionError,
   Credentials | HttpClient.HttpClient
@@ -3391,6 +3419,8 @@ export const createAIPromptVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIPromptVersion",
+  telemetry: TELEMETRY,
+  span: "CreateAIPromptVersion",
 }));
 
 export type CreateAssistantError =
@@ -3404,7 +3434,7 @@ export type CreateAssistantError =
  * Creates an Amazon Q in Connect assistant.
  */
 export const createAssistant: API.OperationMethod<
-  CreateAssistantRequest,
+  CreateAssistantRequest & RegionInput,
   CreateAssistantResponse,
   CreateAssistantError,
   Credentials | HttpClient.HttpClient
@@ -3421,6 +3451,8 @@ export const createAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistant",
+  telemetry: TELEMETRY,
+  span: "CreateAssistant",
 }));
 
 export type CreateAssistantAssociationError =
@@ -3434,7 +3466,7 @@ export type CreateAssistantAssociationError =
  * Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
  */
 export const createAssistantAssociation: API.OperationMethod<
-  CreateAssistantAssociationRequest,
+  CreateAssistantAssociationRequest & RegionInput,
   CreateAssistantAssociationResponse,
   CreateAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3451,6 +3483,8 @@ export const createAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistantAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateAssistantAssociation",
 }));
 
 export type CreateContentError =
@@ -3465,7 +3499,7 @@ export type CreateContentError =
  * Creates Amazon Q in Connect content. Before to calling this API, use StartContentUpload to upload an asset.
  */
 export const createContent: API.OperationMethod<
-  CreateContentRequest,
+  CreateContentRequest & RegionInput,
   CreateContentResponse,
   CreateContentError,
   Credentials | HttpClient.HttpClient
@@ -3483,6 +3517,8 @@ export const createContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContent",
+  telemetry: TELEMETRY,
+  span: "CreateContent",
 }));
 
 export type CreateContentAssociationError =
@@ -3508,7 +3544,7 @@ export type CreateContentAssociationError =
  * For more information, see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const createContentAssociation: API.OperationMethod<
-  CreateContentAssociationRequest,
+  CreateContentAssociationRequest & RegionInput,
   CreateContentAssociationResponse,
   CreateContentAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3527,6 +3563,8 @@ export const createContentAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContentAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateContentAssociation",
 }));
 
 export type CreateKnowledgeBaseError =
@@ -3552,7 +3590,7 @@ export type CreateKnowledgeBaseError =
  * - Call CreateKnowledgeBase.
  */
 export const createKnowledgeBase: API.OperationMethod<
-  CreateKnowledgeBaseRequest,
+  CreateKnowledgeBaseRequest & RegionInput,
   CreateKnowledgeBaseResponse,
   CreateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -3569,6 +3607,8 @@ export const createKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "CreateKnowledgeBase",
 }));
 
 export type CreateMessageTemplateError =
@@ -3583,7 +3623,7 @@ export type CreateMessageTemplateError =
  * Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the `$LATEST` qualifier to reference the created message template.
  */
 export const createMessageTemplate: API.OperationMethod<
-  CreateMessageTemplateRequest,
+  CreateMessageTemplateRequest & RegionInput,
   CreateMessageTemplateResponse,
   CreateMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3601,6 +3641,8 @@ export const createMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateMessageTemplate",
 }));
 
 export type CreateMessageTemplateAttachmentError =
@@ -3616,7 +3658,7 @@ export type CreateMessageTemplateAttachmentError =
  * Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the `$LATEST` qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
  */
 export const createMessageTemplateAttachment: API.OperationMethod<
-  CreateMessageTemplateAttachmentRequest,
+  CreateMessageTemplateAttachmentRequest & RegionInput,
   CreateMessageTemplateAttachmentResponse,
   CreateMessageTemplateAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3635,6 +3677,8 @@ export const createMessageTemplateAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMessageTemplateAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateMessageTemplateAttachment",
 }));
 
 export type CreateMessageTemplateVersionError =
@@ -3649,7 +3693,7 @@ export type CreateMessageTemplateVersionError =
  * Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in `<message-template-id>:<versionNumber>` as the message template identifier. An error is displayed if the supplied `messageTemplateContentSha256` is different from the `messageTemplateContentSha256` of the message template with `$LATEST` qualifier. If multiple `CreateMessageTemplateVersion` requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
  */
 export const createMessageTemplateVersion: API.OperationMethod<
-  CreateMessageTemplateVersionRequest,
+  CreateMessageTemplateVersionRequest & RegionInput,
   CreateMessageTemplateVersionResponse,
   CreateMessageTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -3667,6 +3711,8 @@ export const createMessageTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMessageTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "CreateMessageTemplateVersion",
 }));
 
 export type CreateQuickResponseError =
@@ -3681,7 +3727,7 @@ export type CreateQuickResponseError =
  * Creates an Amazon Q in Connect quick response.
  */
 export const createQuickResponse: API.OperationMethod<
-  CreateQuickResponseRequest,
+  CreateQuickResponseRequest & RegionInput,
   CreateQuickResponseResponse,
   CreateQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -3699,6 +3745,8 @@ export const createQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuickResponse",
+  telemetry: TELEMETRY,
+  span: "CreateQuickResponse",
 }));
 
 export type CreateSessionError =
@@ -3713,7 +3761,7 @@ export type CreateSessionError =
  * Creates a session. A session is a contextual container used for generating recommendations. Connect Customer creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionResponse,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -3731,6 +3779,8 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type DeactivateMessageTemplateError =
@@ -3744,7 +3794,7 @@ export type DeactivateMessageTemplateError =
  * Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the `$ACTIVE_VERSION` qualifier to reference the version in active status.
  */
 export const deactivateMessageTemplate: API.OperationMethod<
-  DeactivateMessageTemplateRequest,
+  DeactivateMessageTemplateRequest & RegionInput,
   DeactivateMessageTemplateResponse,
   DeactivateMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3761,6 +3811,8 @@ export const deactivateMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "DeactivateMessageTemplate",
 }));
 
 export type DeleteAIAgentError =
@@ -3774,7 +3826,7 @@ export type DeleteAIAgentError =
  * Deletes an Amazon Q in Connect AI Agent.
  */
 export const deleteAIAgent: API.OperationMethod<
-  DeleteAIAgentRequest,
+  DeleteAIAgentRequest & RegionInput,
   DeleteAIAgentResponse,
   DeleteAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -3791,6 +3843,8 @@ export const deleteAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIAgent",
+  telemetry: TELEMETRY,
+  span: "DeleteAIAgent",
 }));
 
 export type DeleteAIAgentVersionError =
@@ -3805,7 +3859,7 @@ export type DeleteAIAgentVersionError =
  * Deletes an Amazon Q in Connect AI Agent Version.
  */
 export const deleteAIAgentVersion: API.OperationMethod<
-  DeleteAIAgentVersionRequest,
+  DeleteAIAgentVersionRequest & RegionInput,
   DeleteAIAgentVersionResponse,
   DeleteAIAgentVersionError,
   Credentials | HttpClient.HttpClient
@@ -3823,6 +3877,8 @@ export const deleteAIAgentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIAgentVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteAIAgentVersion",
 }));
 
 export type DeleteAIGuardrailError =
@@ -3837,7 +3893,7 @@ export type DeleteAIGuardrailError =
  * Deletes an Amazon Q in Connect AI Guardrail.
  */
 export const deleteAIGuardrail: API.OperationMethod<
-  DeleteAIGuardrailRequest,
+  DeleteAIGuardrailRequest & RegionInput,
   DeleteAIGuardrailResponse,
   DeleteAIGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -3855,6 +3911,8 @@ export const deleteAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIGuardrail",
+  telemetry: TELEMETRY,
+  span: "DeleteAIGuardrail",
 }));
 
 export type DeleteAIGuardrailVersionError =
@@ -3869,7 +3927,7 @@ export type DeleteAIGuardrailVersionError =
  * Delete and Amazon Q in Connect AI Guardrail version.
  */
 export const deleteAIGuardrailVersion: API.OperationMethod<
-  DeleteAIGuardrailVersionRequest,
+  DeleteAIGuardrailVersionRequest & RegionInput,
   DeleteAIGuardrailVersionResponse,
   DeleteAIGuardrailVersionError,
   Credentials | HttpClient.HttpClient
@@ -3887,6 +3945,8 @@ export const deleteAIGuardrailVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIGuardrailVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteAIGuardrailVersion",
 }));
 
 export type DeleteAIPromptError =
@@ -3900,7 +3960,7 @@ export type DeleteAIPromptError =
  * Deletes an Amazon Q in Connect AI Prompt.
  */
 export const deleteAIPrompt: API.OperationMethod<
-  DeleteAIPromptRequest,
+  DeleteAIPromptRequest & RegionInput,
   DeleteAIPromptResponse,
   DeleteAIPromptError,
   Credentials | HttpClient.HttpClient
@@ -3917,6 +3977,8 @@ export const deleteAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIPrompt",
+  telemetry: TELEMETRY,
+  span: "DeleteAIPrompt",
 }));
 
 export type DeleteAIPromptVersionError =
@@ -3931,7 +3993,7 @@ export type DeleteAIPromptVersionError =
  * Delete and Amazon Q in Connect AI Prompt version.
  */
 export const deleteAIPromptVersion: API.OperationMethod<
-  DeleteAIPromptVersionRequest,
+  DeleteAIPromptVersionRequest & RegionInput,
   DeleteAIPromptVersionResponse,
   DeleteAIPromptVersionError,
   Credentials | HttpClient.HttpClient
@@ -3949,6 +4011,8 @@ export const deleteAIPromptVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIPromptVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteAIPromptVersion",
 }));
 
 export type DeleteAssistantError =
@@ -3961,7 +4025,7 @@ export type DeleteAssistantError =
  * Deletes an assistant.
  */
 export const deleteAssistant: API.OperationMethod<
-  DeleteAssistantRequest,
+  DeleteAssistantRequest & RegionInput,
   DeleteAssistantResponse,
   DeleteAssistantError,
   Credentials | HttpClient.HttpClient
@@ -3977,6 +4041,8 @@ export const deleteAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistant",
+  telemetry: TELEMETRY,
+  span: "DeleteAssistant",
 }));
 
 export type DeleteAssistantAssociationError =
@@ -3989,7 +4055,7 @@ export type DeleteAssistantAssociationError =
  * Deletes an assistant association.
  */
 export const deleteAssistantAssociation: API.OperationMethod<
-  DeleteAssistantAssociationRequest,
+  DeleteAssistantAssociationRequest & RegionInput,
   DeleteAssistantAssociationResponse,
   DeleteAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4005,6 +4071,8 @@ export const deleteAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistantAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteAssistantAssociation",
 }));
 
 export type DeleteContentError =
@@ -4018,7 +4086,7 @@ export type DeleteContentError =
  * Deletes the content.
  */
 export const deleteContent: API.OperationMethod<
-  DeleteContentRequest,
+  DeleteContentRequest & RegionInput,
   DeleteContentResponse,
   DeleteContentError,
   Credentials | HttpClient.HttpClient
@@ -4035,6 +4103,8 @@ export const deleteContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContent",
+  telemetry: TELEMETRY,
+  span: "DeleteContent",
 }));
 
 export type DeleteContentAssociationError =
@@ -4049,7 +4119,7 @@ export type DeleteContentAssociationError =
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const deleteContentAssociation: API.OperationMethod<
-  DeleteContentAssociationRequest,
+  DeleteContentAssociationRequest & RegionInput,
   DeleteContentAssociationResponse,
   DeleteContentAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4065,6 +4135,8 @@ export const deleteContentAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContentAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteContentAssociation",
 }));
 
 export type DeleteImportJobError =
@@ -4078,7 +4150,7 @@ export type DeleteImportJobError =
  * Deletes the quick response import job.
  */
 export const deleteImportJob: API.OperationMethod<
-  DeleteImportJobRequest,
+  DeleteImportJobRequest & RegionInput,
   DeleteImportJobResponse,
   DeleteImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4095,6 +4167,8 @@ export const deleteImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportJob",
+  telemetry: TELEMETRY,
+  span: "DeleteImportJob",
 }));
 
 export type DeleteKnowledgeBaseError =
@@ -4110,7 +4184,7 @@ export type DeleteKnowledgeBaseError =
  * When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the *Amazon AppIntegrations API Reference*.
  */
 export const deleteKnowledgeBase: API.OperationMethod<
-  DeleteKnowledgeBaseRequest,
+  DeleteKnowledgeBaseRequest & RegionInput,
   DeleteKnowledgeBaseResponse,
   DeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -4127,6 +4201,8 @@ export const deleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "DeleteKnowledgeBase",
 }));
 
 export type DeleteMessageTemplateError =
@@ -4140,7 +4216,7 @@ export type DeleteMessageTemplateError =
  * Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as `<message-template-id>:<versionNumber>` to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
  */
 export const deleteMessageTemplate: API.OperationMethod<
-  DeleteMessageTemplateRequest,
+  DeleteMessageTemplateRequest & RegionInput,
   DeleteMessageTemplateResponse,
   DeleteMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4157,6 +4233,8 @@ export const deleteMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteMessageTemplate",
 }));
 
 export type DeleteMessageTemplateAttachmentError =
@@ -4170,7 +4248,7 @@ export type DeleteMessageTemplateAttachmentError =
  * Deletes the attachment file from the Amazon Q in Connect message template that is referenced by `$LATEST` qualifier. Attachments on available message template versions will remain unchanged.
  */
 export const deleteMessageTemplateAttachment: API.OperationMethod<
-  DeleteMessageTemplateAttachmentRequest,
+  DeleteMessageTemplateAttachmentRequest & RegionInput,
   DeleteMessageTemplateAttachmentResponse,
   DeleteMessageTemplateAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4187,6 +4265,8 @@ export const deleteMessageTemplateAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageTemplateAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteMessageTemplateAttachment",
 }));
 
 export type DeleteQuickResponseError =
@@ -4199,7 +4279,7 @@ export type DeleteQuickResponseError =
  * Deletes a quick response.
  */
 export const deleteQuickResponse: API.OperationMethod<
-  DeleteQuickResponseRequest,
+  DeleteQuickResponseRequest & RegionInput,
   DeleteQuickResponseResponse,
   DeleteQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -4215,6 +4295,8 @@ export const deleteQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuickResponse",
+  telemetry: TELEMETRY,
+  span: "DeleteQuickResponse",
 }));
 
 export type GetAIAgentError =
@@ -4228,7 +4310,7 @@ export type GetAIAgentError =
  * Gets an Amazon Q in Connect AI Agent.
  */
 export const getAIAgent: API.OperationMethod<
-  GetAIAgentRequest,
+  GetAIAgentRequest & RegionInput,
   GetAIAgentResponse,
   GetAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -4245,6 +4327,8 @@ export const getAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAIAgent",
+  telemetry: TELEMETRY,
+  span: "GetAIAgent",
 }));
 
 export type GetAIGuardrailError =
@@ -4258,7 +4342,7 @@ export type GetAIGuardrailError =
  * Gets the Amazon Q in Connect AI Guardrail.
  */
 export const getAIGuardrail: API.OperationMethod<
-  GetAIGuardrailRequest,
+  GetAIGuardrailRequest & RegionInput,
   GetAIGuardrailResponse,
   GetAIGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -4275,6 +4359,8 @@ export const getAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAIGuardrail",
+  telemetry: TELEMETRY,
+  span: "GetAIGuardrail",
 }));
 
 export type GetAIPromptError =
@@ -4288,7 +4374,7 @@ export type GetAIPromptError =
  * Gets and Amazon Q in Connect AI Prompt.
  */
 export const getAIPrompt: API.OperationMethod<
-  GetAIPromptRequest,
+  GetAIPromptRequest & RegionInput,
   GetAIPromptResponse,
   GetAIPromptError,
   Credentials | HttpClient.HttpClient
@@ -4305,6 +4391,8 @@ export const getAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAIPrompt",
+  telemetry: TELEMETRY,
+  span: "GetAIPrompt",
 }));
 
 export type GetAssistantError =
@@ -4317,7 +4405,7 @@ export type GetAssistantError =
  * Retrieves information about an assistant.
  */
 export const getAssistant: API.OperationMethod<
-  GetAssistantRequest,
+  GetAssistantRequest & RegionInput,
   GetAssistantResponse,
   GetAssistantError,
   Credentials | HttpClient.HttpClient
@@ -4333,6 +4421,8 @@ export const getAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistant",
+  telemetry: TELEMETRY,
+  span: "GetAssistant",
 }));
 
 export type GetAssistantAssociationError =
@@ -4345,7 +4435,7 @@ export type GetAssistantAssociationError =
  * Retrieves information about an assistant association.
  */
 export const getAssistantAssociation: API.OperationMethod<
-  GetAssistantAssociationRequest,
+  GetAssistantAssociationRequest & RegionInput,
   GetAssistantAssociationResponse,
   GetAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4361,6 +4451,8 @@ export const getAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistantAssociation",
+  telemetry: TELEMETRY,
+  span: "GetAssistantAssociation",
 }));
 
 export type GetContentError =
@@ -4373,7 +4465,7 @@ export type GetContentError =
  * Retrieves content, including a pre-signed URL to download the content.
  */
 export const getContent: API.OperationMethod<
-  GetContentRequest,
+  GetContentRequest & RegionInput,
   GetContentResponse,
   GetContentError,
   Credentials | HttpClient.HttpClient
@@ -4389,6 +4481,8 @@ export const getContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContent",
+  telemetry: TELEMETRY,
+  span: "GetContent",
 }));
 
 export type GetContentAssociationError =
@@ -4403,7 +4497,7 @@ export type GetContentAssociationError =
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const getContentAssociation: API.OperationMethod<
-  GetContentAssociationRequest,
+  GetContentAssociationRequest & RegionInput,
   GetContentAssociationResponse,
   GetContentAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4419,6 +4513,8 @@ export const getContentAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentAssociation",
+  telemetry: TELEMETRY,
+  span: "GetContentAssociation",
 }));
 
 export type GetContentSummaryError =
@@ -4431,7 +4527,7 @@ export type GetContentSummaryError =
  * Retrieves summary information about the content.
  */
 export const getContentSummary: API.OperationMethod<
-  GetContentSummaryRequest,
+  GetContentSummaryRequest & RegionInput,
   GetContentSummaryResponse,
   GetContentSummaryError,
   Credentials | HttpClient.HttpClient
@@ -4447,6 +4543,8 @@ export const getContentSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentSummary",
+  telemetry: TELEMETRY,
+  span: "GetContentSummary",
 }));
 
 export type GetImportJobError =
@@ -4458,7 +4556,7 @@ export type GetImportJobError =
  * Retrieves the started import job.
  */
 export const getImportJob: API.OperationMethod<
-  GetImportJobRequest,
+  GetImportJobRequest & RegionInput,
   GetImportJobResponse,
   GetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4469,6 +4567,8 @@ export const getImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
+  telemetry: TELEMETRY,
+  span: "GetImportJob",
 }));
 
 export type GetKnowledgeBaseError =
@@ -4481,7 +4581,7 @@ export type GetKnowledgeBaseError =
  * Retrieves information about the knowledge base.
  */
 export const getKnowledgeBase: API.OperationMethod<
-  GetKnowledgeBaseRequest,
+  GetKnowledgeBaseRequest & RegionInput,
   GetKnowledgeBaseResponse,
   GetKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -4497,6 +4597,8 @@ export const getKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "GetKnowledgeBase",
 }));
 
 export type GetMessageTemplateError =
@@ -4510,7 +4612,7 @@ export type GetMessageTemplateError =
  * Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, `<message-template-id>:<qualifier>`, which is either an actual version number or an Amazon Q Connect managed qualifier `$ACTIVE_VERSION` | `$LATEST`. If it is not supplied, then `$LATEST` is assumed implicitly.
  */
 export const getMessageTemplate: API.OperationMethod<
-  GetMessageTemplateRequest,
+  GetMessageTemplateRequest & RegionInput,
   GetMessageTemplateResponse,
   GetMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4527,6 +4629,8 @@ export const getMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "GetMessageTemplate",
 }));
 
 export type GetNextMessageError =
@@ -4539,7 +4643,7 @@ export type GetNextMessageError =
  * Retrieves next message on an Amazon Q in Connect session.
  */
 export const getNextMessage: API.OperationMethod<
-  GetNextMessageRequest,
+  GetNextMessageRequest & RegionInput,
   GetNextMessageResponse,
   GetNextMessageError,
   Credentials | HttpClient.HttpClient
@@ -4555,6 +4659,8 @@ export const getNextMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNextMessage",
+  telemetry: TELEMETRY,
+  span: "GetNextMessage",
 }));
 
 export type GetQuickResponseError =
@@ -4567,7 +4673,7 @@ export type GetQuickResponseError =
  * Retrieves the quick response.
  */
 export const getQuickResponse: API.OperationMethod<
-  GetQuickResponseRequest,
+  GetQuickResponseRequest & RegionInput,
   GetQuickResponseResponse,
   GetQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -4583,6 +4689,8 @@ export const getQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuickResponse",
+  telemetry: TELEMETRY,
+  span: "GetQuickResponse",
 }));
 
 export type GetRecommendationsError =
@@ -4596,7 +4704,7 @@ export type GetRecommendationsError =
  * Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the `waitTimeSeconds` parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
  */
 export const getRecommendations: API.OperationMethod<
-  GetRecommendationsRequest,
+  GetRecommendationsRequest & RegionInput,
   GetRecommendationsResponse,
   GetRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -4607,6 +4715,8 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetRecommendations",
 }));
 
 export type GetSessionError =
@@ -4619,7 +4729,7 @@ export type GetSessionError =
  * Retrieves information for a specified session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -4635,6 +4745,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type ListAIAgentsError =
@@ -4648,7 +4760,7 @@ export type ListAIAgentsError =
  * Lists AI Agents.
  */
 export const listAIAgents: API.PaginatedOperationMethod<
-  ListAIAgentsRequest,
+  ListAIAgentsRequest & RegionInput,
   ListAIAgentsResponse,
   ListAIAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -4672,6 +4784,8 @@ export const listAIAgents: API.PaginatedOperationMethod<
     items: "aiAgentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIAgents",
 })) as any;
 
 export type ListAIAgentVersionsError =
@@ -4685,7 +4799,7 @@ export type ListAIAgentVersionsError =
  * List AI Agent versions.
  */
 export const listAIAgentVersions: API.PaginatedOperationMethod<
-  ListAIAgentVersionsRequest,
+  ListAIAgentVersionsRequest & RegionInput,
   ListAIAgentVersionsResponse,
   ListAIAgentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4709,6 +4823,8 @@ export const listAIAgentVersions: API.PaginatedOperationMethod<
     items: "aiAgentVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIAgentVersions",
 })) as any;
 
 export type ListAIGuardrailsError =
@@ -4722,7 +4838,7 @@ export type ListAIGuardrailsError =
  * Lists the AI Guardrails available on the Amazon Q in Connect assistant.
  */
 export const listAIGuardrails: API.PaginatedOperationMethod<
-  ListAIGuardrailsRequest,
+  ListAIGuardrailsRequest & RegionInput,
   ListAIGuardrailsResponse,
   ListAIGuardrailsError,
   Credentials | HttpClient.HttpClient,
@@ -4746,6 +4862,8 @@ export const listAIGuardrails: API.PaginatedOperationMethod<
     items: "aiGuardrailSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIGuardrails",
 })) as any;
 
 export type ListAIGuardrailVersionsError =
@@ -4759,7 +4877,7 @@ export type ListAIGuardrailVersionsError =
  * Lists AI Guardrail versions.
  */
 export const listAIGuardrailVersions: API.PaginatedOperationMethod<
-  ListAIGuardrailVersionsRequest,
+  ListAIGuardrailVersionsRequest & RegionInput,
   ListAIGuardrailVersionsResponse,
   ListAIGuardrailVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4783,6 +4901,8 @@ export const listAIGuardrailVersions: API.PaginatedOperationMethod<
     items: "aiGuardrailVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIGuardrailVersions",
 })) as any;
 
 export type ListAIPromptsError =
@@ -4796,7 +4916,7 @@ export type ListAIPromptsError =
  * Lists the AI Prompts available on the Amazon Q in Connect assistant.
  */
 export const listAIPrompts: API.PaginatedOperationMethod<
-  ListAIPromptsRequest,
+  ListAIPromptsRequest & RegionInput,
   ListAIPromptsResponse,
   ListAIPromptsError,
   Credentials | HttpClient.HttpClient,
@@ -4820,6 +4940,8 @@ export const listAIPrompts: API.PaginatedOperationMethod<
     items: "aiPromptSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIPrompts",
 })) as any;
 
 export type ListAIPromptVersionsError =
@@ -4833,7 +4955,7 @@ export type ListAIPromptVersionsError =
  * Lists AI Prompt versions.
  */
 export const listAIPromptVersions: API.PaginatedOperationMethod<
-  ListAIPromptVersionsRequest,
+  ListAIPromptVersionsRequest & RegionInput,
   ListAIPromptVersionsResponse,
   ListAIPromptVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4857,6 +4979,8 @@ export const listAIPromptVersions: API.PaginatedOperationMethod<
     items: "aiPromptVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIPromptVersions",
 })) as any;
 
 export type ListAssistantAssociationsError =
@@ -4868,7 +4992,7 @@ export type ListAssistantAssociationsError =
  * Lists information about assistant associations.
  */
 export const listAssistantAssociations: API.PaginatedOperationMethod<
-  ListAssistantAssociationsRequest,
+  ListAssistantAssociationsRequest & RegionInput,
   ListAssistantAssociationsResponse,
   ListAssistantAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4886,6 +5010,8 @@ export const listAssistantAssociations: API.PaginatedOperationMethod<
     items: "assistantAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssistantAssociations",
 })) as any;
 
 export type ListAssistantsError =
@@ -4897,7 +5023,7 @@ export type ListAssistantsError =
  * Lists information about assistants.
  */
 export const listAssistants: API.PaginatedOperationMethod<
-  ListAssistantsRequest,
+  ListAssistantsRequest & RegionInput,
   ListAssistantsResponse,
   ListAssistantsError,
   Credentials | HttpClient.HttpClient,
@@ -4915,6 +5041,8 @@ export const listAssistants: API.PaginatedOperationMethod<
     items: "assistantSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssistants",
 })) as any;
 
 export type ListContentAssociationsError =
@@ -4929,7 +5057,7 @@ export type ListContentAssociationsError =
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const listContentAssociations: API.PaginatedOperationMethod<
-  ListContentAssociationsRequest,
+  ListContentAssociationsRequest & RegionInput,
   ListContentAssociationsResponse,
   ListContentAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4952,6 +5080,8 @@ export const listContentAssociations: API.PaginatedOperationMethod<
     items: "contentAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContentAssociations",
 })) as any;
 
 export type ListContentsError =
@@ -4963,7 +5093,7 @@ export type ListContentsError =
  * Lists the content.
  */
 export const listContents: API.PaginatedOperationMethod<
-  ListContentsRequest,
+  ListContentsRequest & RegionInput,
   ListContentsResponse,
   ListContentsError,
   Credentials | HttpClient.HttpClient,
@@ -4981,6 +5111,8 @@ export const listContents: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContents",
 })) as any;
 
 export type ListImportJobsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -4988,7 +5120,7 @@ export type ListImportJobsError = AccessDeniedException | ValidationException | 
  * Lists information about import jobs.
  */
 export const listImportJobs: API.PaginatedOperationMethod<
-  ListImportJobsRequest,
+  ListImportJobsRequest & RegionInput,
   ListImportJobsResponse,
   ListImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5006,6 +5138,8 @@ export const listImportJobs: API.PaginatedOperationMethod<
     items: "importJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportJobs",
 })) as any;
 
 export type ListKnowledgeBasesError = AccessDeniedException | ValidationException | CommonErrors;
@@ -5013,7 +5147,7 @@ export type ListKnowledgeBasesError = AccessDeniedException | ValidationExceptio
  * Lists the knowledge bases.
  */
 export const listKnowledgeBases: API.PaginatedOperationMethod<
-  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesRequest & RegionInput,
   ListKnowledgeBasesResponse,
   ListKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -5031,6 +5165,8 @@ export const listKnowledgeBases: API.PaginatedOperationMethod<
     items: "knowledgeBaseSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKnowledgeBases",
 })) as any;
 
 export type ListMessagesError =
@@ -5042,7 +5178,7 @@ export type ListMessagesError =
  * Lists messages on an Amazon Q in Connect session.
  */
 export const listMessages: API.PaginatedOperationMethod<
-  ListMessagesRequest,
+  ListMessagesRequest & RegionInput,
   ListMessagesResponse,
   ListMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -5060,6 +5196,8 @@ export const listMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMessages",
 })) as any;
 
 export type ListMessageTemplatesError =
@@ -5072,7 +5210,7 @@ export type ListMessageTemplatesError =
  * Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
  */
 export const listMessageTemplates: API.PaginatedOperationMethod<
-  ListMessageTemplatesRequest,
+  ListMessageTemplatesRequest & RegionInput,
   ListMessageTemplatesResponse,
   ListMessageTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5095,6 +5233,8 @@ export const listMessageTemplates: API.PaginatedOperationMethod<
     items: "messageTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMessageTemplates",
 })) as any;
 
 export type ListMessageTemplateVersionsError =
@@ -5107,7 +5247,7 @@ export type ListMessageTemplateVersionsError =
  * Lists all the available versions for the specified Amazon Q in Connect message template.
  */
 export const listMessageTemplateVersions: API.PaginatedOperationMethod<
-  ListMessageTemplateVersionsRequest,
+  ListMessageTemplateVersionsRequest & RegionInput,
   ListMessageTemplateVersionsResponse,
   ListMessageTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5130,6 +5270,8 @@ export const listMessageTemplateVersions: API.PaginatedOperationMethod<
     items: "messageTemplateVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMessageTemplateVersions",
 })) as any;
 
 export type ListModelsError =
@@ -5144,7 +5286,7 @@ export type ListModelsError =
  * Lists the models available to an Amazon Q in Connect assistant in the assistant's Amazon Web Services Region. The available models are determined by the region of the specified assistant.
  */
 export const listModels: API.PaginatedOperationMethod<
-  ListModelsRequest,
+  ListModelsRequest & RegionInput,
   ListModelsResponse,
   ListModelsError,
   Credentials | HttpClient.HttpClient,
@@ -5169,6 +5311,8 @@ export const listModels: API.PaginatedOperationMethod<
     items: "modelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModels",
 })) as any;
 
 export type ListQuickResponsesError =
@@ -5180,7 +5324,7 @@ export type ListQuickResponsesError =
  * Lists information about quick response.
  */
 export const listQuickResponses: API.PaginatedOperationMethod<
-  ListQuickResponsesRequest,
+  ListQuickResponsesRequest & RegionInput,
   ListQuickResponsesResponse,
   ListQuickResponsesError,
   Credentials | HttpClient.HttpClient,
@@ -5198,6 +5342,8 @@ export const listQuickResponses: API.PaginatedOperationMethod<
     items: "quickResponseSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQuickResponses",
 })) as any;
 
 export type ListSpansError =
@@ -5209,7 +5355,7 @@ export type ListSpansError =
  * Retrieves AI agent execution traces for a session, providing granular visibility into agent orchestration flows, LLM interactions, and tool invocations.
  */
 export const listSpans: API.PaginatedOperationMethod<
-  ListSpansRequest,
+  ListSpansRequest & RegionInput,
   ListSpansResponse,
   ListSpansError,
   Credentials | HttpClient.HttpClient,
@@ -5227,6 +5373,8 @@ export const listSpans: API.PaginatedOperationMethod<
     items: "spans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpans",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -5234,7 +5382,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5245,6 +5393,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type NotifyRecommendationsReceivedError =
@@ -5256,7 +5406,7 @@ export type NotifyRecommendationsReceivedError =
  * Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with GetRecommendations and a `waitTimeSeconds` input for long-polling behavior and avoiding duplicate recommendations.
  */
 export const notifyRecommendationsReceived: API.OperationMethod<
-  NotifyRecommendationsReceivedRequest,
+  NotifyRecommendationsReceivedRequest & RegionInput,
   NotifyRecommendationsReceivedResponse,
   NotifyRecommendationsReceivedError,
   Credentials | HttpClient.HttpClient
@@ -5267,6 +5417,8 @@ export const notifyRecommendationsReceived: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyRecommendationsReceived",
+  telemetry: TELEMETRY,
+  span: "NotifyRecommendationsReceived",
 }));
 
 export type PutFeedbackError =
@@ -5278,7 +5430,7 @@ export type PutFeedbackError =
  * Provides feedback against the specified assistant for the specified target. This API only supports generative targets.
  */
 export const putFeedback: API.OperationMethod<
-  PutFeedbackRequest,
+  PutFeedbackRequest & RegionInput,
   PutFeedbackResponse,
   PutFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -5289,6 +5441,8 @@ export const putFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedback",
+  telemetry: TELEMETRY,
+  span: "PutFeedback",
 }));
 
 export type QueryAssistantError =
@@ -5303,7 +5457,7 @@ export type QueryAssistantError =
  * Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
  */
 export const queryAssistant: API.PaginatedOperationMethod<
-  QueryAssistantRequest,
+  QueryAssistantRequest & RegionInput,
   QueryAssistantResponse,
   QueryAssistantError,
   Credentials | HttpClient.HttpClient,
@@ -5326,6 +5480,8 @@ export const queryAssistant: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "QueryAssistant",
 })) as any;
 
 export type RemoveAssistantAIAgentError =
@@ -5338,7 +5494,7 @@ export type RemoveAssistantAIAgentError =
  * Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
 export const removeAssistantAIAgent: API.OperationMethod<
-  RemoveAssistantAIAgentRequest,
+  RemoveAssistantAIAgentRequest & RegionInput,
   RemoveAssistantAIAgentResponse,
   RemoveAssistantAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -5354,6 +5510,8 @@ export const removeAssistantAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAssistantAIAgent",
+  telemetry: TELEMETRY,
+  span: "RemoveAssistantAIAgent",
 }));
 
 export type RemoveKnowledgeBaseTemplateUriError =
@@ -5365,7 +5523,7 @@ export type RemoveKnowledgeBaseTemplateUriError =
  * Removes a URI template from a knowledge base.
  */
 export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
-  RemoveKnowledgeBaseTemplateUriRequest,
+  RemoveKnowledgeBaseTemplateUriRequest & RegionInput,
   RemoveKnowledgeBaseTemplateUriResponse,
   RemoveKnowledgeBaseTemplateUriError,
   Credentials | HttpClient.HttpClient
@@ -5376,6 +5534,8 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveKnowledgeBaseTemplateUri",
+  telemetry: TELEMETRY,
+  span: "RemoveKnowledgeBaseTemplateUri",
 }));
 
 export type RenderMessageTemplateError =
@@ -5388,7 +5548,7 @@ export type RenderMessageTemplateError =
  * Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
  */
 export const renderMessageTemplate: API.OperationMethod<
-  RenderMessageTemplateRequest,
+  RenderMessageTemplateRequest & RegionInput,
   RenderMessageTemplateResponse,
   RenderMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5404,6 +5564,8 @@ export const renderMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenderMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "RenderMessageTemplate",
 }));
 
 export type RetrieveError =
@@ -5420,7 +5582,7 @@ export type RetrieveError =
  * Retrieves content from knowledge sources based on a query.
  */
 export const retrieve: API.OperationMethod<
-  RetrieveRequest,
+  RetrieveRequest & RegionInput,
   RetrieveResponse,
   RetrieveError,
   Credentials | HttpClient.HttpClient
@@ -5440,6 +5602,8 @@ export const retrieve: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Retrieve",
+  telemetry: TELEMETRY,
+  span: "Retrieve",
 }));
 
 export type SearchContentError =
@@ -5452,7 +5616,7 @@ export type SearchContentError =
  * Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
  */
 export const searchContent: API.PaginatedOperationMethod<
-  SearchContentRequest,
+  SearchContentRequest & RegionInput,
   SearchContentResponse,
   SearchContentError,
   Credentials | HttpClient.HttpClient,
@@ -5475,6 +5639,8 @@ export const searchContent: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchContent",
 })) as any;
 
 export type SearchMessageTemplatesError =
@@ -5488,7 +5654,7 @@ export type SearchMessageTemplatesError =
  * Searches for Amazon Q in Connect message templates in the specified knowledge base.
  */
 export const searchMessageTemplates: API.PaginatedOperationMethod<
-  SearchMessageTemplatesRequest,
+  SearchMessageTemplatesRequest & RegionInput,
   SearchMessageTemplatesResponse,
   SearchMessageTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5512,6 +5678,8 @@ export const searchMessageTemplates: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchMessageTemplates",
 })) as any;
 
 export type SearchQuickResponsesError =
@@ -5525,7 +5693,7 @@ export type SearchQuickResponsesError =
  * Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
  */
 export const searchQuickResponses: API.PaginatedOperationMethod<
-  SearchQuickResponsesRequest,
+  SearchQuickResponsesRequest & RegionInput,
   SearchQuickResponsesResponse,
   SearchQuickResponsesError,
   Credentials | HttpClient.HttpClient,
@@ -5549,6 +5717,8 @@ export const searchQuickResponses: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchQuickResponses",
 })) as any;
 
 export type SearchSessionsError =
@@ -5561,7 +5731,7 @@ export type SearchSessionsError =
  * Searches for sessions.
  */
 export const searchSessions: API.PaginatedOperationMethod<
-  SearchSessionsRequest,
+  SearchSessionsRequest & RegionInput,
   SearchSessionsResponse,
   SearchSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -5584,6 +5754,8 @@ export const searchSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSessions",
 })) as any;
 
 export type SendMessageError =
@@ -5600,7 +5772,7 @@ export type SendMessageError =
  * Submits a message to the Amazon Q in Connect session.
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResponse,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -5620,6 +5792,8 @@ export const sendMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessage",
+  telemetry: TELEMETRY,
+  span: "SendMessage",
 }));
 
 export type StartContentUploadError =
@@ -5632,7 +5806,7 @@ export type StartContentUploadError =
  * Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
  */
 export const startContentUpload: API.OperationMethod<
-  StartContentUploadRequest,
+  StartContentUploadRequest & RegionInput,
   StartContentUploadResponse,
   StartContentUploadError,
   Credentials | HttpClient.HttpClient
@@ -5648,6 +5822,8 @@ export const startContentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentUpload",
+  telemetry: TELEMETRY,
+  span: "StartContentUpload",
 }));
 
 export type StartImportJobError =
@@ -5664,7 +5840,7 @@ export type StartImportJobError =
  * - For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
  */
 export const startImportJob: API.OperationMethod<
-  StartImportJobRequest,
+  StartImportJobRequest & RegionInput,
   StartImportJobResponse,
   StartImportJobError,
   Credentials | HttpClient.HttpClient
@@ -5682,6 +5858,8 @@ export const startImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportJob",
+  telemetry: TELEMETRY,
+  span: "StartImportJob",
 }));
 
 export type TagResourceError = ResourceNotFoundException | TooManyTagsException | CommonErrors;
@@ -5689,7 +5867,7 @@ export type TagResourceError = ResourceNotFoundException | TooManyTagsException 
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5700,6 +5878,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -5707,7 +5887,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5718,6 +5898,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAIAgentError =
@@ -5732,7 +5914,7 @@ export type UpdateAIAgentError =
  * Updates an AI Agent.
  */
 export const updateAIAgent: API.OperationMethod<
-  UpdateAIAgentRequest,
+  UpdateAIAgentRequest & RegionInput,
   UpdateAIAgentResponse,
   UpdateAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -5750,6 +5932,8 @@ export const updateAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAIAgent",
+  telemetry: TELEMETRY,
+  span: "UpdateAIAgent",
 }));
 
 export type UpdateAIGuardrailError =
@@ -5764,7 +5948,7 @@ export type UpdateAIGuardrailError =
  * Updates an AI Guardrail.
  */
 export const updateAIGuardrail: API.OperationMethod<
-  UpdateAIGuardrailRequest,
+  UpdateAIGuardrailRequest & RegionInput,
   UpdateAIGuardrailResponse,
   UpdateAIGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -5782,6 +5966,8 @@ export const updateAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAIGuardrail",
+  telemetry: TELEMETRY,
+  span: "UpdateAIGuardrail",
 }));
 
 export type UpdateAIPromptError =
@@ -5796,7 +5982,7 @@ export type UpdateAIPromptError =
  * Updates an AI Prompt.
  */
 export const updateAIPrompt: API.OperationMethod<
-  UpdateAIPromptRequest,
+  UpdateAIPromptRequest & RegionInput,
   UpdateAIPromptResponse,
   UpdateAIPromptError,
   Credentials | HttpClient.HttpClient
@@ -5814,6 +6000,8 @@ export const updateAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAIPrompt",
+  telemetry: TELEMETRY,
+  span: "UpdateAIPrompt",
 }));
 
 export type UpdateAssistantAIAgentError =
@@ -5826,7 +6014,7 @@ export type UpdateAssistantAIAgentError =
  * Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
 export const updateAssistantAIAgent: API.OperationMethod<
-  UpdateAssistantAIAgentRequest,
+  UpdateAssistantAIAgentRequest & RegionInput,
   UpdateAssistantAIAgentResponse,
   UpdateAssistantAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -5842,6 +6030,8 @@ export const updateAssistantAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssistantAIAgent",
+  telemetry: TELEMETRY,
+  span: "UpdateAssistantAIAgent",
 }));
 
 export type UpdateContentError =
@@ -5855,7 +6045,7 @@ export type UpdateContentError =
  * Updates information about the content.
  */
 export const updateContent: API.OperationMethod<
-  UpdateContentRequest,
+  UpdateContentRequest & RegionInput,
   UpdateContentResponse,
   UpdateContentError,
   Credentials | HttpClient.HttpClient
@@ -5872,6 +6062,8 @@ export const updateContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContent",
+  telemetry: TELEMETRY,
+  span: "UpdateContent",
 }));
 
 export type UpdateKnowledgeBaseTemplateUriError =
@@ -5883,7 +6075,7 @@ export type UpdateKnowledgeBaseTemplateUriError =
  * Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in `${variable}` format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an `Id` value, and you can set the template URI to `https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*\/view`.
  */
 export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
-  UpdateKnowledgeBaseTemplateUriRequest,
+  UpdateKnowledgeBaseTemplateUriRequest & RegionInput,
   UpdateKnowledgeBaseTemplateUriResponse,
   UpdateKnowledgeBaseTemplateUriError,
   Credentials | HttpClient.HttpClient
@@ -5894,6 +6086,8 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBaseTemplateUri",
+  telemetry: TELEMETRY,
+  span: "UpdateKnowledgeBaseTemplateUri",
 }));
 
 export type UpdateMessageTemplateError =
@@ -5907,7 +6101,7 @@ export type UpdateMessageTemplateError =
  * Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the `$LATEST` qualifier. Any modification will only apply to the message template that is referenced by the `$LATEST` qualifier. The fields for all available versions will remain unchanged.
  */
 export const updateMessageTemplate: API.OperationMethod<
-  UpdateMessageTemplateRequest,
+  UpdateMessageTemplateRequest & RegionInput,
   UpdateMessageTemplateResponse,
   UpdateMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5924,6 +6118,8 @@ export const updateMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateMessageTemplate",
 }));
 
 export type UpdateMessageTemplateMetadataError =
@@ -5937,7 +6133,7 @@ export type UpdateMessageTemplateMetadataError =
  * Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template's name, description and grouping configuration will applied to the message template pointed by the `$LATEST` qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
  */
 export const updateMessageTemplateMetadata: API.OperationMethod<
-  UpdateMessageTemplateMetadataRequest,
+  UpdateMessageTemplateMetadataRequest & RegionInput,
   UpdateMessageTemplateMetadataResponse,
   UpdateMessageTemplateMetadataError,
   Credentials | HttpClient.HttpClient
@@ -5954,6 +6150,8 @@ export const updateMessageTemplateMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMessageTemplateMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateMessageTemplateMetadata",
 }));
 
 export type UpdateQuickResponseError =
@@ -5968,7 +6166,7 @@ export type UpdateQuickResponseError =
  * Updates an existing Amazon Q in Connect quick response.
  */
 export const updateQuickResponse: API.OperationMethod<
-  UpdateQuickResponseRequest,
+  UpdateQuickResponseRequest & RegionInput,
   UpdateQuickResponseResponse,
   UpdateQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -5986,6 +6184,8 @@ export const updateQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickResponse",
+  telemetry: TELEMETRY,
+  span: "UpdateQuickResponse",
 }));
 
 export type UpdateSessionError =
@@ -5998,7 +6198,7 @@ export type UpdateSessionError =
  * Updates a session. A session is a contextual container used for generating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
 export const updateSession: API.OperationMethod<
-  UpdateSessionRequest,
+  UpdateSessionRequest & RegionInput,
   UpdateSessionResponse,
   UpdateSessionError,
   Credentials | HttpClient.HttpClient
@@ -6014,6 +6214,8 @@ export const updateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSession",
+  telemetry: TELEMETRY,
+  span: "UpdateSession",
 }));
 
 export type UpdateSessionDataError =
@@ -6026,7 +6228,7 @@ export type UpdateSessionDataError =
  * Updates the data stored on an Amazon Q in Connect Session.
  */
 export const updateSessionData: API.OperationMethod<
-  UpdateSessionDataRequest,
+  UpdateSessionDataRequest & RegionInput,
   UpdateSessionDataResponse,
   UpdateSessionDataError,
   Credentials | HttpClient.HttpClient
@@ -6042,6 +6244,8 @@ export const updateSessionData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSessionData",
+  telemetry: TELEMETRY,
+  span: "UpdateSessionData",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

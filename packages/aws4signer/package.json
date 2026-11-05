@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/aws4signer",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0-rc.18",
   "description": "Effect-native AWS Signature Version 4: sign and presign requests, or sign every request an HttpClient sends. For AWS and every S3-compatible or SigV4-signed API.",
   "license": "Apache-2.0",
   "repository": {

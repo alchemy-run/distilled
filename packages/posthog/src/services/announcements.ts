@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Announcements",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `bot` - SupportHog * `user` - The person who created it */
 export type AnnouncementSendAsEnum = "bot" | "user";
 /** Slack channel IDs to send to. Each must be a channel the SupportHog bot is a member of; names are resolved server-side. */
@@ -144,6 +157,8 @@ export const createAnnouncement: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnnouncement",
 }));
 
 export type GetAnnouncementError = PosthogOpError;
@@ -158,6 +173,8 @@ export const getAnnouncement: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnouncement",
 }));
 
 export type ListAnnouncementsError = PosthogOpError;
@@ -172,6 +189,8 @@ export const listAnnouncements: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnnouncements",
 }));
 
 export type ListAnnouncementsChannelsError = PosthogOpError;
@@ -187,6 +206,8 @@ export const listAnnouncementsChannels: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnnouncementsChannels",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

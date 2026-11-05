@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://application-cost-profiler.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ApplicationCostProfiler",
+  service: "ApplicationCostProfiler",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -206,7 +222,7 @@ export type DeleteReportDefinitionError =
  * generated.
  */
 export const deleteReportDefinition: API.OperationMethod<
-  DeleteReportDefinitionRequest,
+  DeleteReportDefinitionRequest & RegionInput,
   DeleteReportDefinitionResult,
   DeleteReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -222,6 +238,8 @@ export const deleteReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteReportDefinition",
 }));
 
 export type GetReportDefinitionError =
@@ -234,7 +252,7 @@ export type GetReportDefinitionError =
  * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
  */
 export const getReportDefinition: API.OperationMethod<
-  GetReportDefinitionRequest,
+  GetReportDefinitionRequest & RegionInput,
   GetReportDefinitionResult,
   GetReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -250,6 +268,8 @@ export const getReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReportDefinition",
+  telemetry: TELEMETRY,
+  span: "GetReportDefinition",
 }));
 
 export type ImportApplicationUsageError =
@@ -266,7 +286,7 @@ export type ImportApplicationUsageError =
  * asynchronously.
  */
 export const importApplicationUsage: API.OperationMethod<
-  ImportApplicationUsageRequest,
+  ImportApplicationUsageRequest & RegionInput,
   ImportApplicationUsageResult,
   ImportApplicationUsageError,
   Credentials | HttpClient.HttpClient
@@ -282,6 +302,8 @@ export const importApplicationUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApplicationUsage",
+  telemetry: TELEMETRY,
+  span: "ImportApplicationUsage",
 }));
 
 export type ListReportDefinitionsError =
@@ -296,7 +318,7 @@ export type ListReportDefinitionsError =
  * The maximum number of reports is one.
  */
 export const listReportDefinitions: API.PaginatedOperationMethod<
-  ListReportDefinitionsRequest,
+  ListReportDefinitionsRequest & RegionInput,
   ListReportDefinitionsResult,
   ListReportDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -319,6 +341,8 @@ export const listReportDefinitions: API.PaginatedOperationMethod<
     items: "reportDefinitions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportDefinitions",
 })) as any;
 
 export type PutReportDefinitionError =
@@ -332,7 +356,7 @@ export type PutReportDefinitionError =
  * Creates the report definition for a report in Application Cost Profiler.
  */
 export const putReportDefinition: API.OperationMethod<
-  PutReportDefinitionRequest,
+  PutReportDefinitionRequest & RegionInput,
   PutReportDefinitionResult,
   PutReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -349,6 +373,8 @@ export const putReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutReportDefinition",
+  telemetry: TELEMETRY,
+  span: "PutReportDefinition",
 }));
 
 export type UpdateReportDefinitionError =
@@ -361,7 +387,7 @@ export type UpdateReportDefinitionError =
  * Updates existing report in AWS Application Cost Profiler.
  */
 export const updateReportDefinition: API.OperationMethod<
-  UpdateReportDefinitionRequest,
+  UpdateReportDefinitionRequest & RegionInput,
   UpdateReportDefinitionResult,
   UpdateReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -377,6 +403,8 @@ export const updateReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReportDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateReportDefinition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -93,6 +93,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   validationCode: "validation_code",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "User",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1301,6 +1315,8 @@ export const createToken: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type DeleteOrganizationError = CloudflareOpError;
@@ -1316,6 +1332,8 @@ export const deleteOrganization: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type DeleteSubscriptionError = CloudflareOpError;
@@ -1331,6 +1349,8 @@ export const deleteSubscription: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscription",
 }));
 
 export type DeleteTokenError = InvalidRoute | MethodNotAllowed | TokenNotFound | CloudflareOpError;
@@ -1346,6 +1366,8 @@ export const deleteToken: API.OperationMethod<
   errors: [InvalidRoute, MethodNotAllowed, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type GetBillingProfileError = CloudflareOpError;
@@ -1361,6 +1383,8 @@ export const getBillingProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingProfile",
 }));
 
 export type GetInviteError = CloudflareOpError;
@@ -1376,6 +1400,8 @@ export const getInvite: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvite",
 }));
 
 export type GetOrganizationError = CloudflareOpError;
@@ -1391,6 +1417,8 @@ export const getOrganization: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetSpectrumAnalyticsZonesReportError = CloudflareOpError;
@@ -1406,6 +1434,8 @@ export const getSpectrumAnalyticsZonesReport: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpectrumAnalyticsZonesReport",
 }));
 
 export type GetSubscriptionError = CloudflareOpError;
@@ -1423,6 +1453,8 @@ export const getSubscription: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetSubscription",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1441,6 +1473,8 @@ export const getToken: API.OperationMethod<
   errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetToken",
 }));
 
 export type GetUserError = CloudflareOpError;
@@ -1456,6 +1490,8 @@ export const getUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type ListAuditLogsError = CloudflareOpError;
@@ -1473,6 +1509,8 @@ export const listAuditLogs: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAuditLogs",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1499,6 +1537,8 @@ export const listBillingHistories: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBillingHistories",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1525,6 +1565,8 @@ export const listInvites: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInvites",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1545,6 +1587,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1571,6 +1615,8 @@ export const listTenants: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTenants",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1591,6 +1637,8 @@ export const listTokenPermissionGroups: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTokenPermissionGroups",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1611,6 +1659,8 @@ export const listTokens: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTokens",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1635,6 +1685,8 @@ export const patchInvite: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInvite",
 }));
 
 export type PatchUserError = CloudflareOpError;
@@ -1650,6 +1702,8 @@ export const patchUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUser",
 }));
 
 export type PutSubscriptionError = CloudflareOpError;
@@ -1665,6 +1719,8 @@ export const putSubscription: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSubscription",
 }));
 
 export type PutTokenValueError = InvalidRoute | TokenNotFound | CloudflareOpError;
@@ -1680,6 +1736,8 @@ export const putTokenValue: API.OperationMethod<
   errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTokenValue",
 }));
 
 export type UpdateTokenError =
@@ -1707,6 +1765,8 @@ export const updateToken: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateToken",
 }));
 
 export type VerifyTokenError = Forbidden | CloudflareOpError;
@@ -1722,6 +1782,8 @@ export const verifyToken: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -100,6 +102,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://greengrass.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Greengrass",
+  service: "Greengrass",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1317,7 +1333,7 @@ export type AssociateRoleToGroupError =
  * Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
  */
 export const associateRoleToGroup: API.OperationMethod<
-  AssociateRoleToGroupRequest,
+  AssociateRoleToGroupRequest & RegionInput,
   AssociateRoleToGroupResponse,
   AssociateRoleToGroupError,
   Credentials | HttpClient.HttpClient
@@ -1328,6 +1344,8 @@ export const associateRoleToGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRoleToGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateRoleToGroup",
 }));
 
 export type AssociateServiceRoleToAccountError =
@@ -1338,7 +1356,7 @@ export type AssociateServiceRoleToAccountError =
  * Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
  */
 export const associateServiceRoleToAccount: API.OperationMethod<
-  AssociateServiceRoleToAccountRequest,
+  AssociateServiceRoleToAccountRequest & RegionInput,
   AssociateServiceRoleToAccountResponse,
   AssociateServiceRoleToAccountError,
   Credentials | HttpClient.HttpClient
@@ -1349,6 +1367,8 @@ export const associateServiceRoleToAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceRoleToAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateServiceRoleToAccount",
 }));
 
 export type CreateConnectorDefinitionError = BadRequestException | CommonErrors;
@@ -1356,7 +1376,7 @@ export type CreateConnectorDefinitionError = BadRequestException | CommonErrors;
  * Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
  */
 export const createConnectorDefinition: API.OperationMethod<
-  CreateConnectorDefinitionRequest,
+  CreateConnectorDefinitionRequest & RegionInput,
   CreateConnectorDefinitionResponse,
   CreateConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1367,6 +1387,8 @@ export const createConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateConnectorDefinition",
 }));
 
 export type CreateConnectorDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1374,7 +1396,7 @@ export type CreateConnectorDefinitionVersionError = BadRequestException | Common
  * Creates a version of a connector definition which has already been defined.
  */
 export const createConnectorDefinitionVersion: API.OperationMethod<
-  CreateConnectorDefinitionVersionRequest,
+  CreateConnectorDefinitionVersionRequest & RegionInput,
   CreateConnectorDefinitionVersionResponse,
   CreateConnectorDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1385,6 +1407,8 @@ export const createConnectorDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateConnectorDefinitionVersion",
 }));
 
 export type CreateCoreDefinitionError = BadRequestException | CommonErrors;
@@ -1392,7 +1416,7 @@ export type CreateCoreDefinitionError = BadRequestException | CommonErrors;
  * Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
  */
 export const createCoreDefinition: API.OperationMethod<
-  CreateCoreDefinitionRequest,
+  CreateCoreDefinitionRequest & RegionInput,
   CreateCoreDefinitionResponse,
   CreateCoreDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1403,6 +1427,8 @@ export const createCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateCoreDefinition",
 }));
 
 export type CreateCoreDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1410,7 +1436,7 @@ export type CreateCoreDefinitionVersionError = BadRequestException | CommonError
  * Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
  */
 export const createCoreDefinitionVersion: API.OperationMethod<
-  CreateCoreDefinitionVersionRequest,
+  CreateCoreDefinitionVersionRequest & RegionInput,
   CreateCoreDefinitionVersionResponse,
   CreateCoreDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1421,6 +1447,8 @@ export const createCoreDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateCoreDefinitionVersion",
 }));
 
 export type CreateDeploymentError = BadRequestException | CommonErrors;
@@ -1428,7 +1456,7 @@ export type CreateDeploymentError = BadRequestException | CommonErrors;
  * Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResponse,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1439,6 +1467,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateDeviceDefinitionError = BadRequestException | CommonErrors;
@@ -1446,7 +1476,7 @@ export type CreateDeviceDefinitionError = BadRequestException | CommonErrors;
  * Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
  */
 export const createDeviceDefinition: API.OperationMethod<
-  CreateDeviceDefinitionRequest,
+  CreateDeviceDefinitionRequest & RegionInput,
   CreateDeviceDefinitionResponse,
   CreateDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1457,6 +1487,8 @@ export const createDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateDeviceDefinition",
 }));
 
 export type CreateDeviceDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1464,7 +1496,7 @@ export type CreateDeviceDefinitionVersionError = BadRequestException | CommonErr
  * Creates a version of a device definition that has already been defined.
  */
 export const createDeviceDefinitionVersion: API.OperationMethod<
-  CreateDeviceDefinitionVersionRequest,
+  CreateDeviceDefinitionVersionRequest & RegionInput,
   CreateDeviceDefinitionVersionResponse,
   CreateDeviceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1475,6 +1507,8 @@ export const createDeviceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateDeviceDefinitionVersion",
 }));
 
 export type CreateFunctionDefinitionError = BadRequestException | CommonErrors;
@@ -1482,7 +1516,7 @@ export type CreateFunctionDefinitionError = BadRequestException | CommonErrors;
  * Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
  */
 export const createFunctionDefinition: API.OperationMethod<
-  CreateFunctionDefinitionRequest,
+  CreateFunctionDefinitionRequest & RegionInput,
   CreateFunctionDefinitionResponse,
   CreateFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1493,6 +1527,8 @@ export const createFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateFunctionDefinition",
 }));
 
 export type CreateFunctionDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1500,7 +1536,7 @@ export type CreateFunctionDefinitionVersionError = BadRequestException | CommonE
  * Creates a version of a Lambda function definition that has already been defined.
  */
 export const createFunctionDefinitionVersion: API.OperationMethod<
-  CreateFunctionDefinitionVersionRequest,
+  CreateFunctionDefinitionVersionRequest & RegionInput,
   CreateFunctionDefinitionVersionResponse,
   CreateFunctionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1511,6 +1547,8 @@ export const createFunctionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateFunctionDefinitionVersion",
 }));
 
 export type CreateGroupError = BadRequestException | CommonErrors;
@@ -1518,7 +1556,7 @@ export type CreateGroupError = BadRequestException | CommonErrors;
  * Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1529,6 +1567,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateGroupCertificateAuthorityError =
@@ -1539,7 +1579,7 @@ export type CreateGroupCertificateAuthorityError =
  * Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
  */
 export const createGroupCertificateAuthority: API.OperationMethod<
-  CreateGroupCertificateAuthorityRequest,
+  CreateGroupCertificateAuthorityRequest & RegionInput,
   CreateGroupCertificateAuthorityResponse,
   CreateGroupCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -1550,6 +1590,8 @@ export const createGroupCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "CreateGroupCertificateAuthority",
 }));
 
 export type CreateGroupVersionError = BadRequestException | CommonErrors;
@@ -1557,7 +1599,7 @@ export type CreateGroupVersionError = BadRequestException | CommonErrors;
  * Creates a version of a group which has already been defined.
  */
 export const createGroupVersion: API.OperationMethod<
-  CreateGroupVersionRequest,
+  CreateGroupVersionRequest & RegionInput,
   CreateGroupVersionResponse,
   CreateGroupVersionError,
   Credentials | HttpClient.HttpClient
@@ -1568,6 +1610,8 @@ export const createGroupVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupVersion",
+  telemetry: TELEMETRY,
+  span: "CreateGroupVersion",
 }));
 
 export type CreateLoggerDefinitionError = BadRequestException | CommonErrors;
@@ -1575,7 +1619,7 @@ export type CreateLoggerDefinitionError = BadRequestException | CommonErrors;
  * Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
  */
 export const createLoggerDefinition: API.OperationMethod<
-  CreateLoggerDefinitionRequest,
+  CreateLoggerDefinitionRequest & RegionInput,
   CreateLoggerDefinitionResponse,
   CreateLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1586,6 +1630,8 @@ export const createLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggerDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateLoggerDefinition",
 }));
 
 export type CreateLoggerDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1593,7 +1639,7 @@ export type CreateLoggerDefinitionVersionError = BadRequestException | CommonErr
  * Creates a version of a logger definition that has already been defined.
  */
 export const createLoggerDefinitionVersion: API.OperationMethod<
-  CreateLoggerDefinitionVersionRequest,
+  CreateLoggerDefinitionVersionRequest & RegionInput,
   CreateLoggerDefinitionVersionResponse,
   CreateLoggerDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1604,6 +1650,8 @@ export const createLoggerDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggerDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateLoggerDefinitionVersion",
 }));
 
 export type CreateResourceDefinitionError = BadRequestException | CommonErrors;
@@ -1611,7 +1659,7 @@ export type CreateResourceDefinitionError = BadRequestException | CommonErrors;
  * Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
  */
 export const createResourceDefinition: API.OperationMethod<
-  CreateResourceDefinitionRequest,
+  CreateResourceDefinitionRequest & RegionInput,
   CreateResourceDefinitionResponse,
   CreateResourceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1622,6 +1670,8 @@ export const createResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateResourceDefinition",
 }));
 
 export type CreateResourceDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1629,7 +1679,7 @@ export type CreateResourceDefinitionVersionError = BadRequestException | CommonE
  * Creates a version of a resource definition that has already been defined.
  */
 export const createResourceDefinitionVersion: API.OperationMethod<
-  CreateResourceDefinitionVersionRequest,
+  CreateResourceDefinitionVersionRequest & RegionInput,
   CreateResourceDefinitionVersionResponse,
   CreateResourceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1640,6 +1690,8 @@ export const createResourceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateResourceDefinitionVersion",
 }));
 
 export type CreateSoftwareUpdateJobError =
@@ -1650,7 +1702,7 @@ export type CreateSoftwareUpdateJobError =
  * Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
  */
 export const createSoftwareUpdateJob: API.OperationMethod<
-  CreateSoftwareUpdateJobRequest,
+  CreateSoftwareUpdateJobRequest & RegionInput,
   CreateSoftwareUpdateJobResponse,
   CreateSoftwareUpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -1661,6 +1713,8 @@ export const createSoftwareUpdateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSoftwareUpdateJob",
+  telemetry: TELEMETRY,
+  span: "CreateSoftwareUpdateJob",
 }));
 
 export type CreateSubscriptionDefinitionError = BadRequestException | CommonErrors;
@@ -1668,7 +1722,7 @@ export type CreateSubscriptionDefinitionError = BadRequestException | CommonErro
  * Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
  */
 export const createSubscriptionDefinition: API.OperationMethod<
-  CreateSubscriptionDefinitionRequest,
+  CreateSubscriptionDefinitionRequest & RegionInput,
   CreateSubscriptionDefinitionResponse,
   CreateSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1679,6 +1733,8 @@ export const createSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionDefinition",
 }));
 
 export type CreateSubscriptionDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1686,7 +1742,7 @@ export type CreateSubscriptionDefinitionVersionError = BadRequestException | Com
  * Creates a version of a subscription definition which has already been defined.
  */
 export const createSubscriptionDefinitionVersion: API.OperationMethod<
-  CreateSubscriptionDefinitionVersionRequest,
+  CreateSubscriptionDefinitionVersionRequest & RegionInput,
   CreateSubscriptionDefinitionVersionResponse,
   CreateSubscriptionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1697,6 +1753,8 @@ export const createSubscriptionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionDefinitionVersion",
 }));
 
 export type DeleteConnectorDefinitionError = BadRequestException | CommonErrors;
@@ -1704,7 +1762,7 @@ export type DeleteConnectorDefinitionError = BadRequestException | CommonErrors;
  * Deletes a connector definition.
  */
 export const deleteConnectorDefinition: API.OperationMethod<
-  DeleteConnectorDefinitionRequest,
+  DeleteConnectorDefinitionRequest & RegionInput,
   DeleteConnectorDefinitionResponse,
   DeleteConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1715,6 +1773,8 @@ export const deleteConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectorDefinition",
 }));
 
 export type DeleteCoreDefinitionError = BadRequestException | CommonErrors;
@@ -1722,7 +1782,7 @@ export type DeleteCoreDefinitionError = BadRequestException | CommonErrors;
  * Deletes a core definition.
  */
 export const deleteCoreDefinition: API.OperationMethod<
-  DeleteCoreDefinitionRequest,
+  DeleteCoreDefinitionRequest & RegionInput,
   DeleteCoreDefinitionResponse,
   DeleteCoreDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1733,6 +1793,8 @@ export const deleteCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreDefinition",
 }));
 
 export type DeleteDeviceDefinitionError = BadRequestException | CommonErrors;
@@ -1740,7 +1802,7 @@ export type DeleteDeviceDefinitionError = BadRequestException | CommonErrors;
  * Deletes a device definition.
  */
 export const deleteDeviceDefinition: API.OperationMethod<
-  DeleteDeviceDefinitionRequest,
+  DeleteDeviceDefinitionRequest & RegionInput,
   DeleteDeviceDefinitionResponse,
   DeleteDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1751,6 +1813,8 @@ export const deleteDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeviceDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceDefinition",
 }));
 
 export type DeleteFunctionDefinitionError = BadRequestException | CommonErrors;
@@ -1758,7 +1822,7 @@ export type DeleteFunctionDefinitionError = BadRequestException | CommonErrors;
  * Deletes a Lambda function definition.
  */
 export const deleteFunctionDefinition: API.OperationMethod<
-  DeleteFunctionDefinitionRequest,
+  DeleteFunctionDefinitionRequest & RegionInput,
   DeleteFunctionDefinitionResponse,
   DeleteFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1769,6 +1833,8 @@ export const deleteFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteFunctionDefinition",
 }));
 
 export type DeleteGroupError = BadRequestException | CommonErrors;
@@ -1776,7 +1842,7 @@ export type DeleteGroupError = BadRequestException | CommonErrors;
  * Deletes a group.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -1787,6 +1853,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteLoggerDefinitionError = BadRequestException | CommonErrors;
@@ -1794,7 +1862,7 @@ export type DeleteLoggerDefinitionError = BadRequestException | CommonErrors;
  * Deletes a logger definition.
  */
 export const deleteLoggerDefinition: API.OperationMethod<
-  DeleteLoggerDefinitionRequest,
+  DeleteLoggerDefinitionRequest & RegionInput,
   DeleteLoggerDefinitionResponse,
   DeleteLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1805,6 +1873,8 @@ export const deleteLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggerDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteLoggerDefinition",
 }));
 
 export type DeleteResourceDefinitionError = BadRequestException | CommonErrors;
@@ -1812,7 +1882,7 @@ export type DeleteResourceDefinitionError = BadRequestException | CommonErrors;
  * Deletes a resource definition.
  */
 export const deleteResourceDefinition: API.OperationMethod<
-  DeleteResourceDefinitionRequest,
+  DeleteResourceDefinitionRequest & RegionInput,
   DeleteResourceDefinitionResponse,
   DeleteResourceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1823,6 +1893,8 @@ export const deleteResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceDefinition",
 }));
 
 export type DeleteSubscriptionDefinitionError = BadRequestException | CommonErrors;
@@ -1830,7 +1902,7 @@ export type DeleteSubscriptionDefinitionError = BadRequestException | CommonErro
  * Deletes a subscription definition.
  */
 export const deleteSubscriptionDefinition: API.OperationMethod<
-  DeleteSubscriptionDefinitionRequest,
+  DeleteSubscriptionDefinitionRequest & RegionInput,
   DeleteSubscriptionDefinitionResponse,
   DeleteSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1841,6 +1913,8 @@ export const deleteSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriptionDefinition",
 }));
 
 export type DisassociateRoleFromGroupError =
@@ -1851,7 +1925,7 @@ export type DisassociateRoleFromGroupError =
  * Disassociates the role from a group.
  */
 export const disassociateRoleFromGroup: API.OperationMethod<
-  DisassociateRoleFromGroupRequest,
+  DisassociateRoleFromGroupRequest & RegionInput,
   DisassociateRoleFromGroupResponse,
   DisassociateRoleFromGroupError,
   Credentials | HttpClient.HttpClient
@@ -1862,6 +1936,8 @@ export const disassociateRoleFromGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRoleFromGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateRoleFromGroup",
 }));
 
 export type DisassociateServiceRoleFromAccountError = InternalServerErrorException | CommonErrors;
@@ -1869,7 +1945,7 @@ export type DisassociateServiceRoleFromAccountError = InternalServerErrorExcepti
  * Disassociates the service role from your account. Without a service role, deployments will not work.
  */
 export const disassociateServiceRoleFromAccount: API.OperationMethod<
-  DisassociateServiceRoleFromAccountRequest,
+  DisassociateServiceRoleFromAccountRequest & RegionInput,
   DisassociateServiceRoleFromAccountResponse,
   DisassociateServiceRoleFromAccountError,
   Credentials | HttpClient.HttpClient
@@ -1880,6 +1956,8 @@ export const disassociateServiceRoleFromAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceRoleFromAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateServiceRoleFromAccount",
 }));
 
 export type GetAssociatedRoleError =
@@ -1890,7 +1968,7 @@ export type GetAssociatedRoleError =
  * Retrieves the role associated with a particular group.
  */
 export const getAssociatedRole: API.OperationMethod<
-  GetAssociatedRoleRequest,
+  GetAssociatedRoleRequest & RegionInput,
   GetAssociatedRoleResponse,
   GetAssociatedRoleError,
   Credentials | HttpClient.HttpClient
@@ -1901,6 +1979,8 @@ export const getAssociatedRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedRole",
+  telemetry: TELEMETRY,
+  span: "GetAssociatedRole",
 }));
 
 export type GetBulkDeploymentStatusError = BadRequestException | CommonErrors;
@@ -1908,7 +1988,7 @@ export type GetBulkDeploymentStatusError = BadRequestException | CommonErrors;
  * Returns the status of a bulk deployment.
  */
 export const getBulkDeploymentStatus: API.OperationMethod<
-  GetBulkDeploymentStatusRequest,
+  GetBulkDeploymentStatusRequest & RegionInput,
   GetBulkDeploymentStatusResponse,
   GetBulkDeploymentStatusError,
   Credentials | HttpClient.HttpClient
@@ -1919,6 +1999,8 @@ export const getBulkDeploymentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBulkDeploymentStatus",
+  telemetry: TELEMETRY,
+  span: "GetBulkDeploymentStatus",
 }));
 
 export type GetConnectivityInfoError =
@@ -1929,7 +2011,7 @@ export type GetConnectivityInfoError =
  * Retrieves the connectivity information for a core.
  */
 export const getConnectivityInfo: API.OperationMethod<
-  GetConnectivityInfoRequest,
+  GetConnectivityInfoRequest & RegionInput,
   GetConnectivityInfoResponse,
   GetConnectivityInfoError,
   Credentials | HttpClient.HttpClient
@@ -1940,6 +2022,8 @@ export const getConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectivityInfo",
+  telemetry: TELEMETRY,
+  span: "GetConnectivityInfo",
 }));
 
 export type GetConnectorDefinitionError = BadRequestException | CommonErrors;
@@ -1947,7 +2031,7 @@ export type GetConnectorDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a connector definition.
  */
 export const getConnectorDefinition: API.OperationMethod<
-  GetConnectorDefinitionRequest,
+  GetConnectorDefinitionRequest & RegionInput,
   GetConnectorDefinitionResponse,
   GetConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1958,6 +2042,8 @@ export const getConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDefinition",
+  telemetry: TELEMETRY,
+  span: "GetConnectorDefinition",
 }));
 
 export type GetConnectorDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1965,7 +2051,7 @@ export type GetConnectorDefinitionVersionError = BadRequestException | CommonErr
  * Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
  */
 export const getConnectorDefinitionVersion: API.OperationMethod<
-  GetConnectorDefinitionVersionRequest,
+  GetConnectorDefinitionVersionRequest & RegionInput,
   GetConnectorDefinitionVersionResponse,
   GetConnectorDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1976,6 +2062,8 @@ export const getConnectorDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetConnectorDefinitionVersion",
 }));
 
 export type GetCoreDefinitionError = BadRequestException | CommonErrors;
@@ -1983,7 +2071,7 @@ export type GetCoreDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a core definition version.
  */
 export const getCoreDefinition: API.OperationMethod<
-  GetCoreDefinitionRequest,
+  GetCoreDefinitionRequest & RegionInput,
   GetCoreDefinitionResponse,
   GetCoreDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1994,6 +2082,8 @@ export const getCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDefinition",
+  telemetry: TELEMETRY,
+  span: "GetCoreDefinition",
 }));
 
 export type GetCoreDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2001,7 +2091,7 @@ export type GetCoreDefinitionVersionError = BadRequestException | CommonErrors;
  * Retrieves information about a core definition version.
  */
 export const getCoreDefinitionVersion: API.OperationMethod<
-  GetCoreDefinitionVersionRequest,
+  GetCoreDefinitionVersionRequest & RegionInput,
   GetCoreDefinitionVersionResponse,
   GetCoreDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2012,6 +2102,8 @@ export const getCoreDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetCoreDefinitionVersion",
 }));
 
 export type GetDeploymentStatusError = BadRequestException | CommonErrors;
@@ -2019,7 +2111,7 @@ export type GetDeploymentStatusError = BadRequestException | CommonErrors;
  * Returns the status of a deployment.
  */
 export const getDeploymentStatus: API.OperationMethod<
-  GetDeploymentStatusRequest,
+  GetDeploymentStatusRequest & RegionInput,
   GetDeploymentStatusResponse,
   GetDeploymentStatusError,
   Credentials | HttpClient.HttpClient
@@ -2030,6 +2122,8 @@ export const getDeploymentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentStatus",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentStatus",
 }));
 
 export type GetDeviceDefinitionError = BadRequestException | CommonErrors;
@@ -2037,7 +2131,7 @@ export type GetDeviceDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a device definition.
  */
 export const getDeviceDefinition: API.OperationMethod<
-  GetDeviceDefinitionRequest,
+  GetDeviceDefinitionRequest & RegionInput,
   GetDeviceDefinitionResponse,
   GetDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2048,6 +2142,8 @@ export const getDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDefinition",
+  telemetry: TELEMETRY,
+  span: "GetDeviceDefinition",
 }));
 
 export type GetDeviceDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2055,7 +2151,7 @@ export type GetDeviceDefinitionVersionError = BadRequestException | CommonErrors
  * Retrieves information about a device definition version.
  */
 export const getDeviceDefinitionVersion: API.OperationMethod<
-  GetDeviceDefinitionVersionRequest,
+  GetDeviceDefinitionVersionRequest & RegionInput,
   GetDeviceDefinitionVersionResponse,
   GetDeviceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2066,6 +2162,8 @@ export const getDeviceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetDeviceDefinitionVersion",
 }));
 
 export type GetFunctionDefinitionError = BadRequestException | CommonErrors;
@@ -2073,7 +2171,7 @@ export type GetFunctionDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a Lambda function definition, including its creation time and latest version.
  */
 export const getFunctionDefinition: API.OperationMethod<
-  GetFunctionDefinitionRequest,
+  GetFunctionDefinitionRequest & RegionInput,
   GetFunctionDefinitionResponse,
   GetFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2084,6 +2182,8 @@ export const getFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionDefinition",
+  telemetry: TELEMETRY,
+  span: "GetFunctionDefinition",
 }));
 
 export type GetFunctionDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2091,7 +2191,7 @@ export type GetFunctionDefinitionVersionError = BadRequestException | CommonErro
  * Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
  */
 export const getFunctionDefinitionVersion: API.OperationMethod<
-  GetFunctionDefinitionVersionRequest,
+  GetFunctionDefinitionVersionRequest & RegionInput,
   GetFunctionDefinitionVersionResponse,
   GetFunctionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2102,6 +2202,8 @@ export const getFunctionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetFunctionDefinitionVersion",
 }));
 
 export type GetGroupError = BadRequestException | CommonErrors;
@@ -2109,7 +2211,7 @@ export type GetGroupError = BadRequestException | CommonErrors;
  * Retrieves information about a group.
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2120,6 +2222,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetGroupCertificateAuthorityError =
@@ -2130,7 +2234,7 @@ export type GetGroupCertificateAuthorityError =
  * Retreives the CA associated with a group. Returns the public key of the CA.
  */
 export const getGroupCertificateAuthority: API.OperationMethod<
-  GetGroupCertificateAuthorityRequest,
+  GetGroupCertificateAuthorityRequest & RegionInput,
   GetGroupCertificateAuthorityResponse,
   GetGroupCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -2141,6 +2245,8 @@ export const getGroupCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "GetGroupCertificateAuthority",
 }));
 
 export type GetGroupCertificateConfigurationError =
@@ -2151,7 +2257,7 @@ export type GetGroupCertificateConfigurationError =
  * Retrieves the current configuration for the CA used by the group.
  */
 export const getGroupCertificateConfiguration: API.OperationMethod<
-  GetGroupCertificateConfigurationRequest,
+  GetGroupCertificateConfigurationRequest & RegionInput,
   GetGroupCertificateConfigurationResponse,
   GetGroupCertificateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2162,6 +2268,8 @@ export const getGroupCertificateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupCertificateConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetGroupCertificateConfiguration",
 }));
 
 export type GetGroupVersionError = BadRequestException | CommonErrors;
@@ -2169,7 +2277,7 @@ export type GetGroupVersionError = BadRequestException | CommonErrors;
  * Retrieves information about a group version.
  */
 export const getGroupVersion: API.OperationMethod<
-  GetGroupVersionRequest,
+  GetGroupVersionRequest & RegionInput,
   GetGroupVersionResponse,
   GetGroupVersionError,
   Credentials | HttpClient.HttpClient
@@ -2180,6 +2288,8 @@ export const getGroupVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupVersion",
+  telemetry: TELEMETRY,
+  span: "GetGroupVersion",
 }));
 
 export type GetLoggerDefinitionError = BadRequestException | CommonErrors;
@@ -2187,7 +2297,7 @@ export type GetLoggerDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a logger definition.
  */
 export const getLoggerDefinition: API.OperationMethod<
-  GetLoggerDefinitionRequest,
+  GetLoggerDefinitionRequest & RegionInput,
   GetLoggerDefinitionResponse,
   GetLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2198,6 +2308,8 @@ export const getLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggerDefinition",
+  telemetry: TELEMETRY,
+  span: "GetLoggerDefinition",
 }));
 
 export type GetLoggerDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2205,7 +2317,7 @@ export type GetLoggerDefinitionVersionError = BadRequestException | CommonErrors
  * Retrieves information about a logger definition version.
  */
 export const getLoggerDefinitionVersion: API.OperationMethod<
-  GetLoggerDefinitionVersionRequest,
+  GetLoggerDefinitionVersionRequest & RegionInput,
   GetLoggerDefinitionVersionResponse,
   GetLoggerDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2216,6 +2328,8 @@ export const getLoggerDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggerDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetLoggerDefinitionVersion",
 }));
 
 export type GetResourceDefinitionError = BadRequestException | CommonErrors;
@@ -2223,7 +2337,7 @@ export type GetResourceDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a resource definition, including its creation time and latest version.
  */
 export const getResourceDefinition: API.OperationMethod<
-  GetResourceDefinitionRequest,
+  GetResourceDefinitionRequest & RegionInput,
   GetResourceDefinitionResponse,
   GetResourceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2234,6 +2348,8 @@ export const getResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDefinition",
+  telemetry: TELEMETRY,
+  span: "GetResourceDefinition",
 }));
 
 export type GetResourceDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2241,7 +2357,7 @@ export type GetResourceDefinitionVersionError = BadRequestException | CommonErro
  * Retrieves information about a resource definition version, including which resources are included in the version.
  */
 export const getResourceDefinitionVersion: API.OperationMethod<
-  GetResourceDefinitionVersionRequest,
+  GetResourceDefinitionVersionRequest & RegionInput,
   GetResourceDefinitionVersionResponse,
   GetResourceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2252,6 +2368,8 @@ export const getResourceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetResourceDefinitionVersion",
 }));
 
 export type GetServiceRoleForAccountError = InternalServerErrorException | CommonErrors;
@@ -2259,7 +2377,7 @@ export type GetServiceRoleForAccountError = InternalServerErrorException | Commo
  * Retrieves the service role that is attached to your account.
  */
 export const getServiceRoleForAccount: API.OperationMethod<
-  GetServiceRoleForAccountRequest,
+  GetServiceRoleForAccountRequest & RegionInput,
   GetServiceRoleForAccountResponse,
   GetServiceRoleForAccountError,
   Credentials | HttpClient.HttpClient
@@ -2270,6 +2388,8 @@ export const getServiceRoleForAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceRoleForAccount",
+  telemetry: TELEMETRY,
+  span: "GetServiceRoleForAccount",
 }));
 
 export type GetSubscriptionDefinitionError = BadRequestException | CommonErrors;
@@ -2277,7 +2397,7 @@ export type GetSubscriptionDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a subscription definition.
  */
 export const getSubscriptionDefinition: API.OperationMethod<
-  GetSubscriptionDefinitionRequest,
+  GetSubscriptionDefinitionRequest & RegionInput,
   GetSubscriptionDefinitionResponse,
   GetSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2288,6 +2408,8 @@ export const getSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionDefinition",
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionDefinition",
 }));
 
 export type GetSubscriptionDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2295,7 +2417,7 @@ export type GetSubscriptionDefinitionVersionError = BadRequestException | Common
  * Retrieves information about a subscription definition version.
  */
 export const getSubscriptionDefinitionVersion: API.OperationMethod<
-  GetSubscriptionDefinitionVersionRequest,
+  GetSubscriptionDefinitionVersionRequest & RegionInput,
   GetSubscriptionDefinitionVersionResponse,
   GetSubscriptionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2306,6 +2428,8 @@ export const getSubscriptionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionDefinitionVersion",
 }));
 
 export type GetThingRuntimeConfigurationError =
@@ -2316,7 +2440,7 @@ export type GetThingRuntimeConfigurationError =
  * Get the runtime configuration of a thing.
  */
 export const getThingRuntimeConfiguration: API.OperationMethod<
-  GetThingRuntimeConfigurationRequest,
+  GetThingRuntimeConfigurationRequest & RegionInput,
   GetThingRuntimeConfigurationResponse,
   GetThingRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2327,6 +2451,8 @@ export const getThingRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThingRuntimeConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetThingRuntimeConfiguration",
 }));
 
 export type ListBulkDeploymentDetailedReportsError = BadRequestException | CommonErrors;
@@ -2334,7 +2460,7 @@ export type ListBulkDeploymentDetailedReportsError = BadRequestException | Commo
  * Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
  */
 export const listBulkDeploymentDetailedReports: API.OperationMethod<
-  ListBulkDeploymentDetailedReportsRequest,
+  ListBulkDeploymentDetailedReportsRequest & RegionInput,
   ListBulkDeploymentDetailedReportsResponse,
   ListBulkDeploymentDetailedReportsError,
   Credentials | HttpClient.HttpClient
@@ -2345,6 +2471,8 @@ export const listBulkDeploymentDetailedReports: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBulkDeploymentDetailedReports",
+  telemetry: TELEMETRY,
+  span: "ListBulkDeploymentDetailedReports",
 }));
 
 export type ListBulkDeploymentsError = BadRequestException | CommonErrors;
@@ -2352,7 +2480,7 @@ export type ListBulkDeploymentsError = BadRequestException | CommonErrors;
  * Returns a list of bulk deployments.
  */
 export const listBulkDeployments: API.OperationMethod<
-  ListBulkDeploymentsRequest,
+  ListBulkDeploymentsRequest & RegionInput,
   ListBulkDeploymentsResponse,
   ListBulkDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -2363,6 +2491,8 @@ export const listBulkDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBulkDeployments",
+  telemetry: TELEMETRY,
+  span: "ListBulkDeployments",
 }));
 
 export type ListConnectorDefinitionsError = CommonErrors;
@@ -2370,7 +2500,7 @@ export type ListConnectorDefinitionsError = CommonErrors;
  * Retrieves a list of connector definitions.
  */
 export const listConnectorDefinitions: API.OperationMethod<
-  ListConnectorDefinitionsRequest,
+  ListConnectorDefinitionsRequest & RegionInput,
   ListConnectorDefinitionsResponse,
   ListConnectorDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2381,6 +2511,8 @@ export const listConnectorDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListConnectorDefinitions",
 }));
 
 export type ListConnectorDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2388,7 +2520,7 @@ export type ListConnectorDefinitionVersionsError = BadRequestException | CommonE
  * Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
  */
 export const listConnectorDefinitionVersions: API.OperationMethod<
-  ListConnectorDefinitionVersionsRequest,
+  ListConnectorDefinitionVersionsRequest & RegionInput,
   ListConnectorDefinitionVersionsResponse,
   ListConnectorDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2399,6 +2531,8 @@ export const listConnectorDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListConnectorDefinitionVersions",
 }));
 
 export type ListCoreDefinitionsError = CommonErrors;
@@ -2406,7 +2540,7 @@ export type ListCoreDefinitionsError = CommonErrors;
  * Retrieves a list of core definitions.
  */
 export const listCoreDefinitions: API.OperationMethod<
-  ListCoreDefinitionsRequest,
+  ListCoreDefinitionsRequest & RegionInput,
   ListCoreDefinitionsResponse,
   ListCoreDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2417,6 +2551,8 @@ export const listCoreDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCoreDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListCoreDefinitions",
 }));
 
 export type ListCoreDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2424,7 +2560,7 @@ export type ListCoreDefinitionVersionsError = BadRequestException | CommonErrors
  * Lists the versions of a core definition.
  */
 export const listCoreDefinitionVersions: API.OperationMethod<
-  ListCoreDefinitionVersionsRequest,
+  ListCoreDefinitionVersionsRequest & RegionInput,
   ListCoreDefinitionVersionsResponse,
   ListCoreDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2435,6 +2571,8 @@ export const listCoreDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCoreDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListCoreDefinitionVersions",
 }));
 
 export type ListDeploymentsError = BadRequestException | CommonErrors;
@@ -2442,7 +2580,7 @@ export type ListDeploymentsError = BadRequestException | CommonErrors;
  * Returns a history of deployments for the group.
  */
 export const listDeployments: API.OperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   ListDeploymentsResponse,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -2453,6 +2591,8 @@ export const listDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeployments",
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 }));
 
 export type ListDeviceDefinitionsError = CommonErrors;
@@ -2460,7 +2600,7 @@ export type ListDeviceDefinitionsError = CommonErrors;
  * Retrieves a list of device definitions.
  */
 export const listDeviceDefinitions: API.OperationMethod<
-  ListDeviceDefinitionsRequest,
+  ListDeviceDefinitionsRequest & RegionInput,
   ListDeviceDefinitionsResponse,
   ListDeviceDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2471,6 +2611,8 @@ export const listDeviceDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListDeviceDefinitions",
 }));
 
 export type ListDeviceDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2478,7 +2620,7 @@ export type ListDeviceDefinitionVersionsError = BadRequestException | CommonErro
  * Lists the versions of a device definition.
  */
 export const listDeviceDefinitionVersions: API.OperationMethod<
-  ListDeviceDefinitionVersionsRequest,
+  ListDeviceDefinitionVersionsRequest & RegionInput,
   ListDeviceDefinitionVersionsResponse,
   ListDeviceDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2489,6 +2631,8 @@ export const listDeviceDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListDeviceDefinitionVersions",
 }));
 
 export type ListFunctionDefinitionsError = CommonErrors;
@@ -2496,7 +2640,7 @@ export type ListFunctionDefinitionsError = CommonErrors;
  * Retrieves a list of Lambda function definitions.
  */
 export const listFunctionDefinitions: API.OperationMethod<
-  ListFunctionDefinitionsRequest,
+  ListFunctionDefinitionsRequest & RegionInput,
   ListFunctionDefinitionsResponse,
   ListFunctionDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2507,6 +2651,8 @@ export const listFunctionDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListFunctionDefinitions",
 }));
 
 export type ListFunctionDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2514,7 +2660,7 @@ export type ListFunctionDefinitionVersionsError = BadRequestException | CommonEr
  * Lists the versions of a Lambda function definition.
  */
 export const listFunctionDefinitionVersions: API.OperationMethod<
-  ListFunctionDefinitionVersionsRequest,
+  ListFunctionDefinitionVersionsRequest & RegionInput,
   ListFunctionDefinitionVersionsResponse,
   ListFunctionDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2525,6 +2671,8 @@ export const listFunctionDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListFunctionDefinitionVersions",
 }));
 
 export type ListGroupCertificateAuthoritiesError =
@@ -2535,7 +2683,7 @@ export type ListGroupCertificateAuthoritiesError =
  * Retrieves the current CAs for a group.
  */
 export const listGroupCertificateAuthorities: API.OperationMethod<
-  ListGroupCertificateAuthoritiesRequest,
+  ListGroupCertificateAuthoritiesRequest & RegionInput,
   ListGroupCertificateAuthoritiesResponse,
   ListGroupCertificateAuthoritiesError,
   Credentials | HttpClient.HttpClient
@@ -2546,6 +2694,8 @@ export const listGroupCertificateAuthorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupCertificateAuthorities",
+  telemetry: TELEMETRY,
+  span: "ListGroupCertificateAuthorities",
 }));
 
 export type ListGroupsError = CommonErrors;
@@ -2553,7 +2703,7 @@ export type ListGroupsError = CommonErrors;
  * Retrieves a list of groups.
  */
 export const listGroups: API.OperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient
@@ -2564,6 +2714,8 @@ export const listGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroups",
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListGroupVersionsError = BadRequestException | CommonErrors;
@@ -2571,7 +2723,7 @@ export type ListGroupVersionsError = BadRequestException | CommonErrors;
  * Lists the versions of a group.
  */
 export const listGroupVersions: API.OperationMethod<
-  ListGroupVersionsRequest,
+  ListGroupVersionsRequest & RegionInput,
   ListGroupVersionsResponse,
   ListGroupVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2582,6 +2734,8 @@ export const listGroupVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupVersions",
+  telemetry: TELEMETRY,
+  span: "ListGroupVersions",
 }));
 
 export type ListLoggerDefinitionsError = CommonErrors;
@@ -2589,7 +2743,7 @@ export type ListLoggerDefinitionsError = CommonErrors;
  * Retrieves a list of logger definitions.
  */
 export const listLoggerDefinitions: API.OperationMethod<
-  ListLoggerDefinitionsRequest,
+  ListLoggerDefinitionsRequest & RegionInput,
   ListLoggerDefinitionsResponse,
   ListLoggerDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2600,6 +2754,8 @@ export const listLoggerDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggerDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListLoggerDefinitions",
 }));
 
 export type ListLoggerDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2607,7 +2763,7 @@ export type ListLoggerDefinitionVersionsError = BadRequestException | CommonErro
  * Lists the versions of a logger definition.
  */
 export const listLoggerDefinitionVersions: API.OperationMethod<
-  ListLoggerDefinitionVersionsRequest,
+  ListLoggerDefinitionVersionsRequest & RegionInput,
   ListLoggerDefinitionVersionsResponse,
   ListLoggerDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2618,6 +2774,8 @@ export const listLoggerDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggerDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListLoggerDefinitionVersions",
 }));
 
 export type ListResourceDefinitionsError = CommonErrors;
@@ -2625,7 +2783,7 @@ export type ListResourceDefinitionsError = CommonErrors;
  * Retrieves a list of resource definitions.
  */
 export const listResourceDefinitions: API.OperationMethod<
-  ListResourceDefinitionsRequest,
+  ListResourceDefinitionsRequest & RegionInput,
   ListResourceDefinitionsResponse,
   ListResourceDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2636,6 +2794,8 @@ export const listResourceDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListResourceDefinitions",
 }));
 
 export type ListResourceDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2643,7 +2803,7 @@ export type ListResourceDefinitionVersionsError = BadRequestException | CommonEr
  * Lists the versions of a resource definition.
  */
 export const listResourceDefinitionVersions: API.OperationMethod<
-  ListResourceDefinitionVersionsRequest,
+  ListResourceDefinitionVersionsRequest & RegionInput,
   ListResourceDefinitionVersionsResponse,
   ListResourceDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2654,6 +2814,8 @@ export const listResourceDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListResourceDefinitionVersions",
 }));
 
 export type ListSubscriptionDefinitionsError = CommonErrors;
@@ -2661,7 +2823,7 @@ export type ListSubscriptionDefinitionsError = CommonErrors;
  * Retrieves a list of subscription definitions.
  */
 export const listSubscriptionDefinitions: API.OperationMethod<
-  ListSubscriptionDefinitionsRequest,
+  ListSubscriptionDefinitionsRequest & RegionInput,
   ListSubscriptionDefinitionsResponse,
   ListSubscriptionDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2672,6 +2834,8 @@ export const listSubscriptionDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionDefinitions",
 }));
 
 export type ListSubscriptionDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2679,7 +2843,7 @@ export type ListSubscriptionDefinitionVersionsError = BadRequestException | Comm
  * Lists the versions of a subscription definition.
  */
 export const listSubscriptionDefinitionVersions: API.OperationMethod<
-  ListSubscriptionDefinitionVersionsRequest,
+  ListSubscriptionDefinitionVersionsRequest & RegionInput,
   ListSubscriptionDefinitionVersionsResponse,
   ListSubscriptionDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2690,6 +2854,8 @@ export const listSubscriptionDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionDefinitionVersions",
 }));
 
 export type ListTagsForResourceError = BadRequestException | CommonErrors;
@@ -2697,7 +2863,7 @@ export type ListTagsForResourceError = BadRequestException | CommonErrors;
  * Retrieves a list of resource tags for a resource arn.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2708,6 +2874,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResetDeploymentsError = BadRequestException | CommonErrors;
@@ -2715,7 +2883,7 @@ export type ResetDeploymentsError = BadRequestException | CommonErrors;
  * Resets a group's deployments.
  */
 export const resetDeployments: API.OperationMethod<
-  ResetDeploymentsRequest,
+  ResetDeploymentsRequest & RegionInput,
   ResetDeploymentsResponse,
   ResetDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -2726,6 +2894,8 @@ export const resetDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDeployments",
+  telemetry: TELEMETRY,
+  span: "ResetDeployments",
 }));
 
 export type StartBulkDeploymentError = BadRequestException | CommonErrors;
@@ -2733,7 +2903,7 @@ export type StartBulkDeploymentError = BadRequestException | CommonErrors;
  * Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
  */
 export const startBulkDeployment: API.OperationMethod<
-  StartBulkDeploymentRequest,
+  StartBulkDeploymentRequest & RegionInput,
   StartBulkDeploymentResponse,
   StartBulkDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2744,6 +2914,8 @@ export const startBulkDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBulkDeployment",
+  telemetry: TELEMETRY,
+  span: "StartBulkDeployment",
 }));
 
 export type StopBulkDeploymentError = BadRequestException | CommonErrors;
@@ -2751,7 +2923,7 @@ export type StopBulkDeploymentError = BadRequestException | CommonErrors;
  * Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
  */
 export const stopBulkDeployment: API.OperationMethod<
-  StopBulkDeploymentRequest,
+  StopBulkDeploymentRequest & RegionInput,
   StopBulkDeploymentResponse,
   StopBulkDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2762,6 +2934,8 @@ export const stopBulkDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBulkDeployment",
+  telemetry: TELEMETRY,
+  span: "StopBulkDeployment",
 }));
 
 export type TagResourceError = BadRequestException | CommonErrors;
@@ -2769,7 +2943,7 @@ export type TagResourceError = BadRequestException | CommonErrors;
  * Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2780,6 +2954,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = BadRequestException | CommonErrors;
@@ -2787,7 +2963,7 @@ export type UntagResourceError = BadRequestException | CommonErrors;
  * Remove resource tags from a Greengrass Resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2798,6 +2974,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectivityInfoError =
@@ -2808,7 +2986,7 @@ export type UpdateConnectivityInfoError =
  * Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
  */
 export const updateConnectivityInfo: API.OperationMethod<
-  UpdateConnectivityInfoRequest,
+  UpdateConnectivityInfoRequest & RegionInput,
   UpdateConnectivityInfoResponse,
   UpdateConnectivityInfoError,
   Credentials | HttpClient.HttpClient
@@ -2819,6 +2997,8 @@ export const updateConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectivityInfo",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectivityInfo",
 }));
 
 export type UpdateConnectorDefinitionError = BadRequestException | CommonErrors;
@@ -2826,7 +3006,7 @@ export type UpdateConnectorDefinitionError = BadRequestException | CommonErrors;
  * Updates a connector definition.
  */
 export const updateConnectorDefinition: API.OperationMethod<
-  UpdateConnectorDefinitionRequest,
+  UpdateConnectorDefinitionRequest & RegionInput,
   UpdateConnectorDefinitionResponse,
   UpdateConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2837,6 +3017,8 @@ export const updateConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectorDefinition",
 }));
 
 export type UpdateCoreDefinitionError = BadRequestException | CommonErrors;
@@ -2844,7 +3026,7 @@ export type UpdateCoreDefinitionError = BadRequestException | CommonErrors;
  * Updates a core definition.
  */
 export const updateCoreDefinition: API.OperationMethod<
-  UpdateCoreDefinitionRequest,
+  UpdateCoreDefinitionRequest & RegionInput,
   UpdateCoreDefinitionResponse,
   UpdateCoreDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2855,6 +3037,8 @@ export const updateCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCoreDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateCoreDefinition",
 }));
 
 export type UpdateDeviceDefinitionError = BadRequestException | CommonErrors;
@@ -2862,7 +3046,7 @@ export type UpdateDeviceDefinitionError = BadRequestException | CommonErrors;
  * Updates a device definition.
  */
 export const updateDeviceDefinition: API.OperationMethod<
-  UpdateDeviceDefinitionRequest,
+  UpdateDeviceDefinitionRequest & RegionInput,
   UpdateDeviceDefinitionResponse,
   UpdateDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2873,6 +3057,8 @@ export const updateDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceDefinition",
 }));
 
 export type UpdateFunctionDefinitionError = BadRequestException | CommonErrors;
@@ -2880,7 +3066,7 @@ export type UpdateFunctionDefinitionError = BadRequestException | CommonErrors;
  * Updates a Lambda function definition.
  */
 export const updateFunctionDefinition: API.OperationMethod<
-  UpdateFunctionDefinitionRequest,
+  UpdateFunctionDefinitionRequest & RegionInput,
   UpdateFunctionDefinitionResponse,
   UpdateFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2891,6 +3077,8 @@ export const updateFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateFunctionDefinition",
 }));
 
 export type UpdateGroupError = BadRequestException | CommonErrors;
@@ -2898,7 +3086,7 @@ export type UpdateGroupError = BadRequestException | CommonErrors;
  * Updates a group.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -2909,6 +3097,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateGroupCertificateConfigurationError =
@@ -2919,7 +3109,7 @@ export type UpdateGroupCertificateConfigurationError =
  * Updates the Certificate expiry time for a group.
  */
 export const updateGroupCertificateConfiguration: API.OperationMethod<
-  UpdateGroupCertificateConfigurationRequest,
+  UpdateGroupCertificateConfigurationRequest & RegionInput,
   UpdateGroupCertificateConfigurationResponse,
   UpdateGroupCertificateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2930,6 +3120,8 @@ export const updateGroupCertificateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupCertificateConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateGroupCertificateConfiguration",
 }));
 
 export type UpdateLoggerDefinitionError = BadRequestException | CommonErrors;
@@ -2937,7 +3129,7 @@ export type UpdateLoggerDefinitionError = BadRequestException | CommonErrors;
  * Updates a logger definition.
  */
 export const updateLoggerDefinition: API.OperationMethod<
-  UpdateLoggerDefinitionRequest,
+  UpdateLoggerDefinitionRequest & RegionInput,
   UpdateLoggerDefinitionResponse,
   UpdateLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2948,6 +3140,8 @@ export const updateLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggerDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateLoggerDefinition",
 }));
 
 export type UpdateResourceDefinitionError = BadRequestException | CommonErrors;
@@ -2955,7 +3149,7 @@ export type UpdateResourceDefinitionError = BadRequestException | CommonErrors;
  * Updates a resource definition.
  */
 export const updateResourceDefinition: API.OperationMethod<
-  UpdateResourceDefinitionRequest,
+  UpdateResourceDefinitionRequest & RegionInput,
   UpdateResourceDefinitionResponse,
   UpdateResourceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2966,6 +3160,8 @@ export const updateResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceDefinition",
 }));
 
 export type UpdateSubscriptionDefinitionError = BadRequestException | CommonErrors;
@@ -2973,7 +3169,7 @@ export type UpdateSubscriptionDefinitionError = BadRequestException | CommonErro
  * Updates a subscription definition.
  */
 export const updateSubscriptionDefinition: API.OperationMethod<
-  UpdateSubscriptionDefinitionRequest,
+  UpdateSubscriptionDefinitionRequest & RegionInput,
   UpdateSubscriptionDefinitionResponse,
   UpdateSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2984,6 +3180,8 @@ export const updateSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionDefinition",
 }));
 
 export type UpdateThingRuntimeConfigurationError =
@@ -2994,7 +3192,7 @@ export type UpdateThingRuntimeConfigurationError =
  * Updates the runtime configuration of a thing.
  */
 export const updateThingRuntimeConfiguration: API.OperationMethod<
-  UpdateThingRuntimeConfigurationRequest,
+  UpdateThingRuntimeConfigurationRequest & RegionInput,
   UpdateThingRuntimeConfigurationResponse,
   UpdateThingRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3005,6 +3203,8 @@ export const updateThingRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingRuntimeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateThingRuntimeConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

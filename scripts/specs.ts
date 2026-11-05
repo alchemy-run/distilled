@@ -30,7 +30,7 @@
  *   DISTILLED_SPECS_LOCAL=1 pnpm generate <pkg>
  *
  * which re-roots every spec read into `.local` (see
- * `@distilled.cloud/core/codegen/spec-path`). Nothing in the package's source
+ * `@distilled.cloud/dev/codegen/spec-path`). Nothing in the package's source
  * points at `.local`, so there is no local-only reference to forget to revert
  * — and `specs:check` fails the build if one is ever written by hand.
  */
@@ -357,7 +357,7 @@ const check = () => {
     }
     // The resolver and this script are where the string is defined; every
     // other mention is a package reading specs from a gitignored directory.
-    if (file === "packages/core/src/codegen/spec-path.ts" || file === "scripts/specs.ts") {
+    if (file === "packages/dev/src/codegen/spec-path.ts" || file === "scripts/specs.ts") {
       continue;
     }
     errors.push(

@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DocumentDB" },
+  prefix: "CosmosDb",
+  service: "CosmosDb",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The status of the resource at the time the operation was called. */
 export type ManagedCassandraProvisioningState =
   | "Creating"
@@ -9422,6 +9443,8 @@ export const CassandraClustersCreateUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CassandraClustersCreateUpdate",
 }));
 
 export type CassandraClustersDeallocateError = AzureOpError;
@@ -9437,6 +9460,8 @@ export const CassandraClustersDeallocate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CassandraClustersDeallocate",
 }));
 
 export type CassandraClustersStatusError = AzureOpError;
@@ -9452,6 +9477,8 @@ export const CassandraClustersStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CassandraClustersStatus",
 }));
 
 export type CassandraDataCentersCreateUpdateError = AzureOpError;
@@ -9467,6 +9494,8 @@ export const CassandraDataCentersCreateUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CassandraDataCentersCreateUpdate",
 }));
 
 export type CassandraResourcesCreateUpdateCassandraKeyspaceError = AzureOpError;
@@ -9490,6 +9519,8 @@ export const CassandraResourcesCreateUpdateCassandraKeyspace: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CassandraResourcesCreateUpdateCassandraKeyspace",
 }));
 
 export type CassandraResourcesCreateUpdateCassandraRoleAssignmentError = AzureOpError;
@@ -9513,6 +9544,8 @@ export const CassandraResourcesCreateUpdateCassandraRoleAssignment: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CassandraResourcesCreateUpdateCassandraRoleAssignment",
 }));
 
 export type CassandraResourcesCreateUpdateCassandraRoleDefinitionError = AzureOpError;
@@ -9536,6 +9569,8 @@ export const CassandraResourcesCreateUpdateCassandraRoleDefinition: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CassandraResourcesCreateUpdateCassandraRoleDefinition",
 }));
 
 export type CassandraResourcesCreateUpdateCassandraTableError = AzureOpError;
@@ -9559,6 +9594,8 @@ export const CassandraResourcesCreateUpdateCassandraTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CassandraResourcesCreateUpdateCassandraTable",
 }));
 
 export type CreateFleetError = AzureOpError;
@@ -9574,6 +9611,8 @@ export const CreateFleet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateFleetspaceError = AzureOpError;
@@ -9589,6 +9628,8 @@ export const CreateFleetspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFleetspace",
 }));
 
 export type CreateFleetspaceAccountError = AzureOpError;
@@ -9604,6 +9645,8 @@ export const CreateFleetspaceAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFleetspaceAccount",
 }));
 
 export type CreateServiceError = AzureOpError;
@@ -9619,6 +9662,8 @@ export const CreateService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type DatabaseAccountsCreateOrUpdateError = AzureOpError;
@@ -9634,6 +9679,8 @@ export const DatabaseAccountsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseAccountsCreateOrUpdate",
 }));
 
 export type DatabaseAccountsFailoverPriorityChangeError = AzureOpError;
@@ -9649,6 +9696,8 @@ export const DatabaseAccountsFailoverPriorityChange: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseAccountsFailoverPriorityChange",
 }));
 
 export type DatabaseAccountsGetReadOnlyKeysError = AzureOpError;
@@ -9664,6 +9713,8 @@ export const DatabaseAccountsGetReadOnlyKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseAccountsGetReadOnlyKeys",
 }));
 
 export type DatabaseAccountsListReadOnlyKeysError = AzureOpError;
@@ -9679,6 +9730,8 @@ export const DatabaseAccountsListReadOnlyKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseAccountsListReadOnlyKeys",
 }));
 
 export type DatabaseAccountsOfflineRegionError = AzureOpError;
@@ -9694,6 +9747,8 @@ export const DatabaseAccountsOfflineRegion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseAccountsOfflineRegion",
 }));
 
 export type DatabaseAccountsOnlineRegionError = AzureOpError;
@@ -9709,6 +9764,8 @@ export const DatabaseAccountsOnlineRegion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseAccountsOnlineRegion",
 }));
 
 export type DeleteCassandraClusterError = AzureOpError;
@@ -9724,6 +9781,8 @@ export const DeleteCassandraCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCassandraCluster",
 }));
 
 export type DeleteCassandraDataCenterError = AzureOpError;
@@ -9739,6 +9798,8 @@ export const DeleteCassandraDataCenter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCassandraDataCenter",
 }));
 
 export type DeleteCassandraResourceCassandraKeyspaceError = AzureOpError;
@@ -9754,6 +9815,8 @@ export const DeleteCassandraResourceCassandraKeyspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCassandraResourceCassandraKeyspace",
 }));
 
 export type DeleteCassandraResourceCassandraRoleAssignmentError = AzureOpError;
@@ -9777,6 +9840,8 @@ export const DeleteCassandraResourceCassandraRoleAssignment: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCassandraResourceCassandraRoleAssignment",
 }));
 
 export type DeleteCassandraResourceCassandraRoleDefinitionError = AzureOpError;
@@ -9800,6 +9865,8 @@ export const DeleteCassandraResourceCassandraRoleDefinition: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCassandraResourceCassandraRoleDefinition",
 }));
 
 export type DeleteCassandraResourceCassandraTableError = AzureOpError;
@@ -9815,6 +9882,8 @@ export const DeleteCassandraResourceCassandraTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCassandraResourceCassandraTable",
 }));
 
 export type DeleteDatabaseAccountError = AzureOpError;
@@ -9830,6 +9899,8 @@ export const DeleteDatabaseAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseAccount",
 }));
 
 export type DeleteFleetError = AzureOpError;
@@ -9845,6 +9916,8 @@ export const DeleteFleet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteFleetspaceError = AzureOpError;
@@ -9860,6 +9933,8 @@ export const DeleteFleetspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFleetspace",
 }));
 
 export type DeleteFleetspaceAccountError = AzureOpError;
@@ -9875,6 +9950,8 @@ export const DeleteFleetspaceAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFleetspaceAccount",
 }));
 
 export type DeleteGremlinResourceGremlinDatabaseError = AzureOpError;
@@ -9890,6 +9967,8 @@ export const DeleteGremlinResourceGremlinDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGremlinResourceGremlinDatabase",
 }));
 
 export type DeleteGremlinResourceGremlinGraphError = AzureOpError;
@@ -9905,6 +9984,8 @@ export const DeleteGremlinResourceGremlinGraph: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGremlinResourceGremlinGraph",
 }));
 
 export type DeleteGremlinResourceGremlinRoleAssignmentError = AzureOpError;
@@ -9924,6 +10005,8 @@ export const DeleteGremlinResourceGremlinRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGremlinResourceGremlinRoleAssignment",
 }));
 
 export type DeleteGremlinResourceGremlinRoleDefinitionError = AzureOpError;
@@ -9943,6 +10026,8 @@ export const DeleteGremlinResourceGremlinRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGremlinResourceGremlinRoleDefinition",
 }));
 
 export type DeleteMongoDBResourceMongoDBCollectionError = AzureOpError;
@@ -9958,6 +10043,8 @@ export const DeleteMongoDBResourceMongoDBCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMongoDBResourceMongoDBCollection",
 }));
 
 export type DeleteMongoDBResourceMongoDBDatabaseError = AzureOpError;
@@ -9973,6 +10060,8 @@ export const DeleteMongoDBResourceMongoDBDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMongoDBResourceMongoDBDatabase",
 }));
 
 export type DeleteMongoDBResourceMongoRoleDefinitionError = AzureOpError;
@@ -9988,6 +10077,8 @@ export const DeleteMongoDBResourceMongoRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMongoDBResourceMongoRoleDefinition",
 }));
 
 export type DeleteMongoDBResourceMongoUserDefinitionError = AzureOpError;
@@ -10003,6 +10094,8 @@ export const DeleteMongoDBResourceMongoUserDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMongoDBResourceMongoUserDefinition",
 }));
 
 export type DeleteMongoMIResourceMongoMIRoleAssignmentError = AzureOpError;
@@ -10022,6 +10115,8 @@ export const DeleteMongoMIResourceMongoMIRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMongoMIResourceMongoMIRoleAssignment",
 }));
 
 export type DeleteMongoMIResourceMongoMIRoleDefinitionError = AzureOpError;
@@ -10041,6 +10136,8 @@ export const DeleteMongoMIResourceMongoMIRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMongoMIResourceMongoMIRoleDefinition",
 }));
 
 export type DeleteNotebookWorkspaceError = AzureOpError;
@@ -10056,6 +10153,8 @@ export const DeleteNotebookWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotebookWorkspace",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -10071,6 +10170,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteServiceError = AzureOpError;
@@ -10086,6 +10187,8 @@ export const DeleteService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteSqlResourceSqlContainerError = AzureOpError;
@@ -10101,6 +10204,8 @@ export const DeleteSqlResourceSqlContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlResourceSqlContainer",
 }));
 
 export type DeleteSqlResourceSqlDatabaseError = AzureOpError;
@@ -10116,6 +10221,8 @@ export const DeleteSqlResourceSqlDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlResourceSqlDatabase",
 }));
 
 export type DeleteSqlResourceSqlRoleAssignmentError = AzureOpError;
@@ -10131,6 +10238,8 @@ export const DeleteSqlResourceSqlRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlResourceSqlRoleAssignment",
 }));
 
 export type DeleteSqlResourceSqlRoleDefinitionError = AzureOpError;
@@ -10146,6 +10255,8 @@ export const DeleteSqlResourceSqlRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlResourceSqlRoleDefinition",
 }));
 
 export type DeleteSqlResourceSqlStoredProcedureError = AzureOpError;
@@ -10161,6 +10272,8 @@ export const DeleteSqlResourceSqlStoredProcedure: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlResourceSqlStoredProcedure",
 }));
 
 export type DeleteSqlResourceSqlUserDefinedFunctionError = AzureOpError;
@@ -10176,6 +10289,8 @@ export const DeleteSqlResourceSqlUserDefinedFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlResourceSqlUserDefinedFunction",
 }));
 
 export type DeleteTableResourceTableError = AzureOpError;
@@ -10191,6 +10306,8 @@ export const DeleteTableResourceTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTableResourceTable",
 }));
 
 export type DeleteTableResourceTableRoleAssignmentError = AzureOpError;
@@ -10206,6 +10323,8 @@ export const DeleteTableResourceTableRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTableResourceTableRoleAssignment",
 }));
 
 export type DeleteTableResourceTableRoleDefinitionError = AzureOpError;
@@ -10221,6 +10340,8 @@ export const DeleteTableResourceTableRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTableResourceTableRoleDefinition",
 }));
 
 export type GetCassandraClusterError = AzureOpError;
@@ -10236,6 +10357,8 @@ export const GetCassandraCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCassandraCluster",
 }));
 
 export type GetCassandraDataCenterError = AzureOpError;
@@ -10251,6 +10374,8 @@ export const GetCassandraDataCenter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCassandraDataCenter",
 }));
 
 export type GetCassandraResourceCassandraKeyspaceError = AzureOpError;
@@ -10266,6 +10391,8 @@ export const GetCassandraResourceCassandraKeyspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCassandraResourceCassandraKeyspace",
 }));
 
 export type GetCassandraResourceCassandraKeyspaceThroughputError = AzureOpError;
@@ -10289,6 +10416,8 @@ export const GetCassandraResourceCassandraKeyspaceThroughput: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCassandraResourceCassandraKeyspaceThroughput",
 }));
 
 export type GetCassandraResourceCassandraRoleAssignmentError = AzureOpError;
@@ -10312,6 +10441,8 @@ export const GetCassandraResourceCassandraRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCassandraResourceCassandraRoleAssignment",
 }));
 
 export type GetCassandraResourceCassandraRoleDefinitionError = AzureOpError;
@@ -10335,6 +10466,8 @@ export const GetCassandraResourceCassandraRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCassandraResourceCassandraRoleDefinition",
 }));
 
 export type GetCassandraResourceCassandraTableError = AzureOpError;
@@ -10350,6 +10483,8 @@ export const GetCassandraResourceCassandraTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCassandraResourceCassandraTable",
 }));
 
 export type GetCassandraResourceCassandraTableThroughputError = AzureOpError;
@@ -10373,6 +10508,8 @@ export const GetCassandraResourceCassandraTableThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCassandraResourceCassandraTableThroughput",
 }));
 
 export type GetDatabaseAccountError = AzureOpError;
@@ -10388,6 +10525,8 @@ export const GetDatabaseAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseAccount",
 }));
 
 export type GetFleetError = AzureOpError;
@@ -10403,6 +10542,8 @@ export const GetFleet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFleet",
 }));
 
 export type GetFleetspaceError = AzureOpError;
@@ -10418,6 +10559,8 @@ export const GetFleetspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFleetspace",
 }));
 
 export type GetFleetspaceAccountError = AzureOpError;
@@ -10433,6 +10576,8 @@ export const GetFleetspaceAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFleetspaceAccount",
 }));
 
 export type GetGremlinResourceContinuousBackupInformationError = AzureOpError;
@@ -10452,6 +10597,8 @@ export const GetGremlinResourceContinuousBackupInformation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGremlinResourceContinuousBackupInformation",
 }));
 
 export type GetGremlinResourceGremlinDatabaseError = AzureOpError;
@@ -10467,6 +10614,8 @@ export const GetGremlinResourceGremlinDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGremlinResourceGremlinDatabase",
 }));
 
 export type GetGremlinResourceGremlinDatabaseThroughputError = AzureOpError;
@@ -10490,6 +10639,8 @@ export const GetGremlinResourceGremlinDatabaseThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGremlinResourceGremlinDatabaseThroughput",
 }));
 
 export type GetGremlinResourceGremlinGraphError = AzureOpError;
@@ -10505,6 +10656,8 @@ export const GetGremlinResourceGremlinGraph: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGremlinResourceGremlinGraph",
 }));
 
 export type GetGremlinResourceGremlinGraphThroughputError = AzureOpError;
@@ -10520,6 +10673,8 @@ export const GetGremlinResourceGremlinGraphThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGremlinResourceGremlinGraphThroughput",
 }));
 
 export type GetGremlinResourceGremlinRoleAssignmentError = AzureOpError;
@@ -10535,6 +10690,8 @@ export const GetGremlinResourceGremlinRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGremlinResourceGremlinRoleAssignment",
 }));
 
 export type GetGremlinResourceGremlinRoleDefinitionError = AzureOpError;
@@ -10550,6 +10707,8 @@ export const GetGremlinResourceGremlinRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGremlinResourceGremlinRoleDefinition",
 }));
 
 export type GetLocationError = AzureOpError;
@@ -10565,6 +10724,8 @@ export const GetLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocation",
 }));
 
 export type GetMongoDBResourceContinuousBackupInformationError = AzureOpError;
@@ -10584,6 +10745,8 @@ export const GetMongoDBResourceContinuousBackupInformation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBResourceContinuousBackupInformation",
 }));
 
 export type GetMongoDBResourceMongoDBCollectionError = AzureOpError;
@@ -10599,6 +10762,8 @@ export const GetMongoDBResourceMongoDBCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBResourceMongoDBCollection",
 }));
 
 export type GetMongoDBResourceMongoDBCollectionThroughputError = AzureOpError;
@@ -10622,6 +10787,8 @@ export const GetMongoDBResourceMongoDBCollectionThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBResourceMongoDBCollectionThroughput",
 }));
 
 export type GetMongoDBResourceMongoDBDatabaseError = AzureOpError;
@@ -10637,6 +10804,8 @@ export const GetMongoDBResourceMongoDBDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBResourceMongoDBDatabase",
 }));
 
 export type GetMongoDBResourceMongoDBDatabaseThroughputError = AzureOpError;
@@ -10660,6 +10829,8 @@ export const GetMongoDBResourceMongoDBDatabaseThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBResourceMongoDBDatabaseThroughput",
 }));
 
 export type GetMongoDBResourceMongoRoleDefinitionError = AzureOpError;
@@ -10675,6 +10846,8 @@ export const GetMongoDBResourceMongoRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBResourceMongoRoleDefinition",
 }));
 
 export type GetMongoDBResourceMongoUserDefinitionError = AzureOpError;
@@ -10690,6 +10863,8 @@ export const GetMongoDBResourceMongoUserDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBResourceMongoUserDefinition",
 }));
 
 export type GetMongoMIResourceMongoMIRoleAssignmentError = AzureOpError;
@@ -10705,6 +10880,8 @@ export const GetMongoMIResourceMongoMIRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoMIResourceMongoMIRoleAssignment",
 }));
 
 export type GetMongoMIResourceMongoMIRoleDefinitionError = AzureOpError;
@@ -10720,6 +10897,8 @@ export const GetMongoMIResourceMongoMIRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoMIResourceMongoMIRoleDefinition",
 }));
 
 export type GetNotebookWorkspaceError = AzureOpError;
@@ -10735,6 +10914,8 @@ export const GetNotebookWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebookWorkspace",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -10750,6 +10931,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -10765,6 +10948,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetRestorableDatabaseAccountByLocationError = AzureOpError;
@@ -10780,6 +10965,8 @@ export const GetRestorableDatabaseAccountByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRestorableDatabaseAccountByLocation",
 }));
 
 export type GetServiceError = AzureOpError;
@@ -10795,6 +10982,8 @@ export const GetService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetSqlResourceClientEncryptionKeyError = AzureOpError;
@@ -10810,6 +10999,8 @@ export const GetSqlResourceClientEncryptionKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceClientEncryptionKey",
 }));
 
 export type GetSqlResourceContinuousBackupInformationError = AzureOpError;
@@ -10825,6 +11016,8 @@ export const GetSqlResourceContinuousBackupInformation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceContinuousBackupInformation",
 }));
 
 export type GetSqlResourceSqlContainerError = AzureOpError;
@@ -10840,6 +11033,8 @@ export const GetSqlResourceSqlContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceSqlContainer",
 }));
 
 export type GetSqlResourceSqlContainerThroughputError = AzureOpError;
@@ -10855,6 +11050,8 @@ export const GetSqlResourceSqlContainerThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceSqlContainerThroughput",
 }));
 
 export type GetSqlResourceSqlDatabaseError = AzureOpError;
@@ -10870,6 +11067,8 @@ export const GetSqlResourceSqlDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceSqlDatabase",
 }));
 
 export type GetSqlResourceSqlDatabaseThroughputError = AzureOpError;
@@ -10885,6 +11084,8 @@ export const GetSqlResourceSqlDatabaseThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceSqlDatabaseThroughput",
 }));
 
 export type GetSqlResourceSqlRoleAssignmentError = AzureOpError;
@@ -10900,6 +11101,8 @@ export const GetSqlResourceSqlRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceSqlRoleAssignment",
 }));
 
 export type GetSqlResourceSqlRoleDefinitionError = AzureOpError;
@@ -10915,6 +11118,8 @@ export const GetSqlResourceSqlRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceSqlRoleDefinition",
 }));
 
 export type GetSqlResourceSqlStoredProcedureError = AzureOpError;
@@ -10930,6 +11135,8 @@ export const GetSqlResourceSqlStoredProcedure: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceSqlStoredProcedure",
 }));
 
 export type GetSqlResourceSqlUserDefinedFunctionError = AzureOpError;
@@ -10945,6 +11152,8 @@ export const GetSqlResourceSqlUserDefinedFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlResourceSqlUserDefinedFunction",
 }));
 
 export type GetTableResourceContinuousBackupInformationError = AzureOpError;
@@ -10964,6 +11173,8 @@ export const GetTableResourceContinuousBackupInformation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableResourceContinuousBackupInformation",
 }));
 
 export type GetTableResourceTableError = AzureOpError;
@@ -10979,6 +11190,8 @@ export const GetTableResourceTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableResourceTable",
 }));
 
 export type GetTableResourceTableRoleAssignmentError = AzureOpError;
@@ -10994,6 +11207,8 @@ export const GetTableResourceTableRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableResourceTableRoleAssignment",
 }));
 
 export type GetTableResourceTableRoleDefinitionError = AzureOpError;
@@ -11009,6 +11224,8 @@ export const GetTableResourceTableRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableResourceTableRoleDefinition",
 }));
 
 export type GetTableResourceTableThroughputError = AzureOpError;
@@ -11024,6 +11241,8 @@ export const GetTableResourceTableThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableResourceTableThroughput",
 }));
 
 export type GremlinResourcesCreateUpdateGremlinDatabaseError = AzureOpError;
@@ -11047,6 +11266,8 @@ export const GremlinResourcesCreateUpdateGremlinDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GremlinResourcesCreateUpdateGremlinDatabase",
 }));
 
 export type GremlinResourcesCreateUpdateGremlinGraphError = AzureOpError;
@@ -11062,6 +11283,8 @@ export const GremlinResourcesCreateUpdateGremlinGraph: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GremlinResourcesCreateUpdateGremlinGraph",
 }));
 
 export type GremlinResourcesCreateUpdateGremlinRoleAssignmentError = AzureOpError;
@@ -11085,6 +11308,8 @@ export const GremlinResourcesCreateUpdateGremlinRoleAssignment: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GremlinResourcesCreateUpdateGremlinRoleAssignment",
 }));
 
 export type GremlinResourcesCreateUpdateGremlinRoleDefinitionError = AzureOpError;
@@ -11108,6 +11333,8 @@ export const GremlinResourcesCreateUpdateGremlinRoleDefinition: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GremlinResourcesCreateUpdateGremlinRoleDefinition",
 }));
 
 export type InvokeCassandraClusterCommandError = AzureOpError;
@@ -11123,6 +11350,8 @@ export const InvokeCassandraClusterCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeCassandraClusterCommand",
 }));
 
 export type ListCassandraClusterByResourceGroupError = AzureOpError;
@@ -11138,6 +11367,8 @@ export const ListCassandraClusterByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCassandraClusterByResourceGroup",
 }));
 
 export type ListCassandraClusterBySubscriptionError = AzureOpError;
@@ -11153,6 +11384,8 @@ export const ListCassandraClusterBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCassandraClusterBySubscription",
 }));
 
 export type ListCassandraDataCentersError = AzureOpError;
@@ -11168,6 +11401,8 @@ export const ListCassandraDataCenters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCassandraDataCenters",
 }));
 
 export type ListCassandraResourceCassandraKeyspacesError = AzureOpError;
@@ -11183,6 +11418,8 @@ export const ListCassandraResourceCassandraKeyspaces: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCassandraResourceCassandraKeyspaces",
 }));
 
 export type ListCassandraResourceCassandraRoleAssignmentsError = AzureOpError;
@@ -11202,6 +11439,8 @@ export const ListCassandraResourceCassandraRoleAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCassandraResourceCassandraRoleAssignments",
 }));
 
 export type ListCassandraResourceCassandraRoleDefinitionsError = AzureOpError;
@@ -11221,6 +11460,8 @@ export const ListCassandraResourceCassandraRoleDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCassandraResourceCassandraRoleDefinitions",
 }));
 
 export type ListCassandraResourceCassandraTablesError = AzureOpError;
@@ -11236,6 +11477,8 @@ export const ListCassandraResourceCassandraTables: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCassandraResourceCassandraTables",
 }));
 
 export type ListCollectionMetricDefinitionsError = AzureOpError;
@@ -11251,6 +11494,8 @@ export const ListCollectionMetricDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollectionMetricDefinitions",
 }));
 
 export type ListCollectionMetricsError = AzureOpError;
@@ -11266,6 +11511,8 @@ export const ListCollectionMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollectionMetrics",
 }));
 
 export type ListCollectionPartitionMetricsError = AzureOpError;
@@ -11281,6 +11528,8 @@ export const ListCollectionPartitionMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollectionPartitionMetrics",
 }));
 
 export type ListCollectionPartitionRegionMetricsError = AzureOpError;
@@ -11296,6 +11545,8 @@ export const ListCollectionPartitionRegionMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollectionPartitionRegionMetrics",
 }));
 
 export type ListCollectionPartitionUsagesError = AzureOpError;
@@ -11311,6 +11562,8 @@ export const ListCollectionPartitionUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollectionPartitionUsages",
 }));
 
 export type ListCollectionRegionMetricsError = AzureOpError;
@@ -11326,6 +11579,8 @@ export const ListCollectionRegionMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollectionRegionMetrics",
 }));
 
 export type ListCollectionUsagesError = AzureOpError;
@@ -11341,6 +11596,8 @@ export const ListCollectionUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollectionUsages",
 }));
 
 export type ListDatabaseAccountByResourceGroupError = AzureOpError;
@@ -11356,6 +11613,8 @@ export const ListDatabaseAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseAccountByResourceGroup",
 }));
 
 export type ListDatabaseAccountConnectionStringsError = AzureOpError;
@@ -11371,6 +11630,8 @@ export const ListDatabaseAccountConnectionStrings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseAccountConnectionStrings",
 }));
 
 export type ListDatabaseAccountKeysError = AzureOpError;
@@ -11386,6 +11647,8 @@ export const ListDatabaseAccountKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseAccountKeys",
 }));
 
 export type ListDatabaseAccountMetricDefinitionsError = AzureOpError;
@@ -11401,6 +11664,8 @@ export const ListDatabaseAccountMetricDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseAccountMetricDefinitions",
 }));
 
 export type ListDatabaseAccountMetricsError = AzureOpError;
@@ -11416,6 +11681,8 @@ export const ListDatabaseAccountMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseAccountMetrics",
 }));
 
 export type ListDatabaseAccountRegionMetricsError = AzureOpError;
@@ -11431,6 +11698,8 @@ export const ListDatabaseAccountRegionMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseAccountRegionMetrics",
 }));
 
 export type ListDatabaseAccountsError = AzureOpError;
@@ -11446,6 +11715,8 @@ export const ListDatabaseAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseAccounts",
 }));
 
 export type ListDatabaseAccountUsagesError = AzureOpError;
@@ -11461,6 +11732,8 @@ export const ListDatabaseAccountUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseAccountUsages",
 }));
 
 export type ListDatabaseMetricDefinitionsError = AzureOpError;
@@ -11476,6 +11749,8 @@ export const ListDatabaseMetricDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseMetricDefinitions",
 }));
 
 export type ListDatabaseMetricsError = AzureOpError;
@@ -11491,6 +11766,8 @@ export const ListDatabaseMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseMetrics",
 }));
 
 export type ListDatabaseUsagesError = AzureOpError;
@@ -11506,6 +11783,8 @@ export const ListDatabaseUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseUsages",
 }));
 
 export type ListFleetError = AzureOpError;
@@ -11521,6 +11800,8 @@ export const ListFleet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleet",
 }));
 
 export type ListFleetByResourceGroupError = AzureOpError;
@@ -11536,6 +11817,8 @@ export const ListFleetByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetByResourceGroup",
 }));
 
 export type ListFleetspaceError = AzureOpError;
@@ -11551,6 +11834,8 @@ export const ListFleetspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetspace",
 }));
 
 export type ListFleetspaceAccountError = AzureOpError;
@@ -11566,6 +11851,8 @@ export const ListFleetspaceAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetspaceAccount",
 }));
 
 export type ListGremlinResourceGremlinDatabasesError = AzureOpError;
@@ -11581,6 +11868,8 @@ export const ListGremlinResourceGremlinDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGremlinResourceGremlinDatabases",
 }));
 
 export type ListGremlinResourceGremlinGraphsError = AzureOpError;
@@ -11596,6 +11885,8 @@ export const ListGremlinResourceGremlinGraphs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGremlinResourceGremlinGraphs",
 }));
 
 export type ListGremlinResourceGremlinRoleAssignmentsError = AzureOpError;
@@ -11611,6 +11902,8 @@ export const ListGremlinResourceGremlinRoleAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGremlinResourceGremlinRoleAssignments",
 }));
 
 export type ListGremlinResourceGremlinRoleDefinitionsError = AzureOpError;
@@ -11626,6 +11919,8 @@ export const ListGremlinResourceGremlinRoleDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGremlinResourceGremlinRoleDefinitions",
 }));
 
 export type ListLocationsError = AzureOpError;
@@ -11641,6 +11936,8 @@ export const ListLocations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocations",
 }));
 
 export type ListMongoDBResourceMongoDBCollectionsError = AzureOpError;
@@ -11656,6 +11953,8 @@ export const ListMongoDBResourceMongoDBCollections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoDBResourceMongoDBCollections",
 }));
 
 export type ListMongoDBResourceMongoDBDatabasesError = AzureOpError;
@@ -11671,6 +11970,8 @@ export const ListMongoDBResourceMongoDBDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoDBResourceMongoDBDatabases",
 }));
 
 export type ListMongoDBResourceMongoRoleDefinitionsError = AzureOpError;
@@ -11686,6 +11987,8 @@ export const ListMongoDBResourceMongoRoleDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoDBResourceMongoRoleDefinitions",
 }));
 
 export type ListMongoDBResourceMongoUserDefinitionsError = AzureOpError;
@@ -11701,6 +12004,8 @@ export const ListMongoDBResourceMongoUserDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoDBResourceMongoUserDefinitions",
 }));
 
 export type ListMongoMIResourceMongoMIRoleAssignmentsError = AzureOpError;
@@ -11716,6 +12021,8 @@ export const ListMongoMIResourceMongoMIRoleAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoMIResourceMongoMIRoleAssignments",
 }));
 
 export type ListMongoMIResourceMongoMIRoleDefinitionsError = AzureOpError;
@@ -11731,6 +12038,8 @@ export const ListMongoMIResourceMongoMIRoleDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoMIResourceMongoMIRoleDefinitions",
 }));
 
 export type ListNotebookWorkspaceByDatabaseAccountError = AzureOpError;
@@ -11746,6 +12055,8 @@ export const ListNotebookWorkspaceByDatabaseAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotebookWorkspaceByDatabaseAccount",
 }));
 
 export type ListNotebookWorkspaceConnectionInfoError = AzureOpError;
@@ -11761,6 +12072,8 @@ export const ListNotebookWorkspaceConnectionInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotebookWorkspaceConnectionInfo",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -11776,6 +12089,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPartitionKeyRangeIdMetricsError = AzureOpError;
@@ -11791,6 +12106,8 @@ export const ListPartitionKeyRangeIdMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartitionKeyRangeIdMetrics",
 }));
 
 export type ListPartitionKeyRangeIdRegionMetricsError = AzureOpError;
@@ -11806,6 +12123,8 @@ export const ListPartitionKeyRangeIdRegionMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartitionKeyRangeIdRegionMetrics",
 }));
 
 export type ListPercentileMetricsError = AzureOpError;
@@ -11821,6 +12140,8 @@ export const ListPercentileMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPercentileMetrics",
 }));
 
 export type ListPercentileSourceTargetMetricsError = AzureOpError;
@@ -11836,6 +12157,8 @@ export const ListPercentileSourceTargetMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPercentileSourceTargetMetrics",
 }));
 
 export type ListPercentileTargetMetricsError = AzureOpError;
@@ -11851,6 +12174,8 @@ export const ListPercentileTargetMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPercentileTargetMetrics",
 }));
 
 export type ListPrivateEndpointConnectionByDatabaseAccountError = AzureOpError;
@@ -11870,6 +12195,8 @@ export const ListPrivateEndpointConnectionByDatabaseAccount: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByDatabaseAccount",
 }));
 
 export type ListPrivateLinkResourceByDatabaseAccountError = AzureOpError;
@@ -11885,6 +12212,8 @@ export const ListPrivateLinkResourceByDatabaseAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByDatabaseAccount",
 }));
 
 export type ListRestorableDatabaseAccountByLocationError = AzureOpError;
@@ -11900,6 +12229,8 @@ export const ListRestorableDatabaseAccountByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableDatabaseAccountByLocation",
 }));
 
 export type ListRestorableDatabaseAccountsError = AzureOpError;
@@ -11915,6 +12246,8 @@ export const ListRestorableDatabaseAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableDatabaseAccounts",
 }));
 
 export type ListRestorableGremlinDatabasesError = AzureOpError;
@@ -11930,6 +12263,8 @@ export const ListRestorableGremlinDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableGremlinDatabases",
 }));
 
 export type ListRestorableGremlinGraphsError = AzureOpError;
@@ -11945,6 +12280,8 @@ export const ListRestorableGremlinGraphs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableGremlinGraphs",
 }));
 
 export type ListRestorableGremlinResourcesError = AzureOpError;
@@ -11960,6 +12297,8 @@ export const ListRestorableGremlinResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableGremlinResources",
 }));
 
 export type ListRestorableMongodbCollectionsError = AzureOpError;
@@ -11975,6 +12314,8 @@ export const ListRestorableMongodbCollections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableMongodbCollections",
 }));
 
 export type ListRestorableMongodbDatabasesError = AzureOpError;
@@ -11990,6 +12331,8 @@ export const ListRestorableMongodbDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableMongodbDatabases",
 }));
 
 export type ListRestorableMongodbResourcesError = AzureOpError;
@@ -12005,6 +12348,8 @@ export const ListRestorableMongodbResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableMongodbResources",
 }));
 
 export type ListRestorableSqlContainersError = AzureOpError;
@@ -12020,6 +12365,8 @@ export const ListRestorableSqlContainers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableSqlContainers",
 }));
 
 export type ListRestorableSqlDatabasesError = AzureOpError;
@@ -12035,6 +12382,8 @@ export const ListRestorableSqlDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableSqlDatabases",
 }));
 
 export type ListRestorableSqlResourcesError = AzureOpError;
@@ -12050,6 +12399,8 @@ export const ListRestorableSqlResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableSqlResources",
 }));
 
 export type ListRestorableTableResourcesError = AzureOpError;
@@ -12065,6 +12416,8 @@ export const ListRestorableTableResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableTableResources",
 }));
 
 export type ListRestorableTablesError = AzureOpError;
@@ -12080,6 +12433,8 @@ export const ListRestorableTables: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableTables",
 }));
 
 export type ListServiceError = AzureOpError;
@@ -12095,6 +12450,8 @@ export const ListService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListService",
 }));
 
 export type ListSqlResourceClientEncryptionKeysError = AzureOpError;
@@ -12110,6 +12467,8 @@ export const ListSqlResourceClientEncryptionKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlResourceClientEncryptionKeys",
 }));
 
 export type ListSqlResourceSqlContainersError = AzureOpError;
@@ -12125,6 +12484,8 @@ export const ListSqlResourceSqlContainers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlResourceSqlContainers",
 }));
 
 export type ListSqlResourceSqlDatabasesError = AzureOpError;
@@ -12140,6 +12501,8 @@ export const ListSqlResourceSqlDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlResourceSqlDatabases",
 }));
 
 export type ListSqlResourceSqlRoleAssignmentsError = AzureOpError;
@@ -12155,6 +12518,8 @@ export const ListSqlResourceSqlRoleAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlResourceSqlRoleAssignments",
 }));
 
 export type ListSqlResourceSqlRoleDefinitionsError = AzureOpError;
@@ -12170,6 +12535,8 @@ export const ListSqlResourceSqlRoleDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlResourceSqlRoleDefinitions",
 }));
 
 export type ListSqlResourceSqlStoredProceduresError = AzureOpError;
@@ -12185,6 +12552,8 @@ export const ListSqlResourceSqlStoredProcedures: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlResourceSqlStoredProcedures",
 }));
 
 export type ListSqlResourceSqlTriggersError = AzureOpError;
@@ -12200,6 +12569,8 @@ export const ListSqlResourceSqlTriggers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlResourceSqlTriggers",
 }));
 
 export type ListSqlResourceSqlUserDefinedFunctionsError = AzureOpError;
@@ -12215,6 +12586,8 @@ export const ListSqlResourceSqlUserDefinedFunctions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlResourceSqlUserDefinedFunctions",
 }));
 
 export type ListTableResourceTableRoleAssignmentsError = AzureOpError;
@@ -12230,6 +12603,8 @@ export const ListTableResourceTableRoleAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTableResourceTableRoleAssignments",
 }));
 
 export type ListTableResourceTableRoleDefinitionsError = AzureOpError;
@@ -12245,6 +12620,8 @@ export const ListTableResourceTableRoleDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTableResourceTableRoleDefinitions",
 }));
 
 export type ListTableResourceTablesError = AzureOpError;
@@ -12260,6 +12637,8 @@ export const ListTableResourceTables: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTableResourceTables",
 }));
 
 export type MigrateCassandraResourceCassandraKeyspaceToAutoscaleError = AzureOpError;
@@ -12283,6 +12662,8 @@ export const MigrateCassandraResourceCassandraKeyspaceToAutoscale: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateCassandraResourceCassandraKeyspaceToAutoscale",
 }));
 
 export type MigrateCassandraResourceCassandraKeyspaceToManualThroughputError = AzureOpError;
@@ -12306,6 +12687,8 @@ export const MigrateCassandraResourceCassandraKeyspaceToManualThroughput: API.Op
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateCassandraResourceCassandraKeyspaceToManualThroughput",
 }));
 
 export type MigrateCassandraResourceCassandraTableToAutoscaleError = AzureOpError;
@@ -12329,6 +12712,8 @@ export const MigrateCassandraResourceCassandraTableToAutoscale: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateCassandraResourceCassandraTableToAutoscale",
 }));
 
 export type MigrateCassandraResourceCassandraTableToManualThroughputError = AzureOpError;
@@ -12352,6 +12737,8 @@ export const MigrateCassandraResourceCassandraTableToManualThroughput: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateCassandraResourceCassandraTableToManualThroughput",
 }));
 
 export type MigrateGremlinResourceGremlinDatabaseToAutoscaleError = AzureOpError;
@@ -12375,6 +12762,8 @@ export const MigrateGremlinResourceGremlinDatabaseToAutoscale: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateGremlinResourceGremlinDatabaseToAutoscale",
 }));
 
 export type MigrateGremlinResourceGremlinDatabaseToManualThroughputError = AzureOpError;
@@ -12398,6 +12787,8 @@ export const MigrateGremlinResourceGremlinDatabaseToManualThroughput: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateGremlinResourceGremlinDatabaseToManualThroughput",
 }));
 
 export type MigrateGremlinResourceGremlinGraphToAutoscaleError = AzureOpError;
@@ -12421,6 +12812,8 @@ export const MigrateGremlinResourceGremlinGraphToAutoscale: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateGremlinResourceGremlinGraphToAutoscale",
 }));
 
 export type MigrateGremlinResourceGremlinGraphToManualThroughputError = AzureOpError;
@@ -12444,6 +12837,8 @@ export const MigrateGremlinResourceGremlinGraphToManualThroughput: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateGremlinResourceGremlinGraphToManualThroughput",
 }));
 
 export type MigrateMongoDBResourceMongoDBCollectionToAutoscaleError = AzureOpError;
@@ -12467,6 +12862,8 @@ export const MigrateMongoDBResourceMongoDBCollectionToAutoscale: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateMongoDBResourceMongoDBCollectionToAutoscale",
 }));
 
 export type MigrateMongoDBResourceMongoDBCollectionToManualThroughputError = AzureOpError;
@@ -12490,6 +12887,8 @@ export const MigrateMongoDBResourceMongoDBCollectionToManualThroughput: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateMongoDBResourceMongoDBCollectionToManualThroughput",
 }));
 
 export type MigrateMongoDBResourceMongoDBDatabaseToAutoscaleError = AzureOpError;
@@ -12513,6 +12912,8 @@ export const MigrateMongoDBResourceMongoDBDatabaseToAutoscale: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateMongoDBResourceMongoDBDatabaseToAutoscale",
 }));
 
 export type MigrateMongoDBResourceMongoDBDatabaseToManualThroughputError = AzureOpError;
@@ -12536,6 +12937,8 @@ export const MigrateMongoDBResourceMongoDBDatabaseToManualThroughput: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateMongoDBResourceMongoDBDatabaseToManualThroughput",
 }));
 
 export type MigrateSqlResourceSqlContainerToAutoscaleError = AzureOpError;
@@ -12555,6 +12958,8 @@ export const MigrateSqlResourceSqlContainerToAutoscale: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateSqlResourceSqlContainerToAutoscale",
 }));
 
 export type MigrateSqlResourceSqlContainerToManualThroughputError = AzureOpError;
@@ -12578,6 +12983,8 @@ export const MigrateSqlResourceSqlContainerToManualThroughput: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateSqlResourceSqlContainerToManualThroughput",
 }));
 
 export type MigrateSqlResourceSqlDatabaseToAutoscaleError = AzureOpError;
@@ -12593,6 +13000,8 @@ export const MigrateSqlResourceSqlDatabaseToAutoscale: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateSqlResourceSqlDatabaseToAutoscale",
 }));
 
 export type MigrateSqlResourceSqlDatabaseToManualThroughputError = AzureOpError;
@@ -12616,6 +13025,8 @@ export const MigrateSqlResourceSqlDatabaseToManualThroughput: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateSqlResourceSqlDatabaseToManualThroughput",
 }));
 
 export type MigrateTableResourceTableToAutoscaleError = AzureOpError;
@@ -12631,6 +13042,8 @@ export const MigrateTableResourceTableToAutoscale: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateTableResourceTableToAutoscale",
 }));
 
 export type MigrateTableResourceTableToManualThroughputError = AzureOpError;
@@ -12654,6 +13067,8 @@ export const MigrateTableResourceTableToManualThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateTableResourceTableToManualThroughput",
 }));
 
 export type MongoDBResourcesCreateUpdateMongoDBCollectionError = AzureOpError;
@@ -12677,6 +13092,8 @@ export const MongoDBResourcesCreateUpdateMongoDBCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MongoDBResourcesCreateUpdateMongoDBCollection",
 }));
 
 export type MongoDBResourcesCreateUpdateMongoDBDatabaseError = AzureOpError;
@@ -12700,6 +13117,8 @@ export const MongoDBResourcesCreateUpdateMongoDBDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MongoDBResourcesCreateUpdateMongoDBDatabase",
 }));
 
 export type MongoDBResourcesCreateUpdateMongoRoleDefinitionError = AzureOpError;
@@ -12723,6 +13142,8 @@ export const MongoDBResourcesCreateUpdateMongoRoleDefinition: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MongoDBResourcesCreateUpdateMongoRoleDefinition",
 }));
 
 export type MongoDBResourcesCreateUpdateMongoUserDefinitionError = AzureOpError;
@@ -12746,6 +13167,8 @@ export const MongoDBResourcesCreateUpdateMongoUserDefinition: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MongoDBResourcesCreateUpdateMongoUserDefinition",
 }));
 
 export type MongoMIResourcesCreateUpdateMongoMIRoleAssignmentError = AzureOpError;
@@ -12769,6 +13192,8 @@ export const MongoMIResourcesCreateUpdateMongoMIRoleAssignment: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MongoMIResourcesCreateUpdateMongoMIRoleAssignment",
 }));
 
 export type MongoMIResourcesCreateUpdateMongoMIRoleDefinitionError = AzureOpError;
@@ -12792,6 +13217,8 @@ export const MongoMIResourcesCreateUpdateMongoMIRoleDefinition: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MongoMIResourcesCreateUpdateMongoMIRoleDefinition",
 }));
 
 export type NotebookWorkspacesCreateOrUpdateError = AzureOpError;
@@ -12807,6 +13234,8 @@ export const NotebookWorkspacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebookWorkspacesCreateOrUpdate",
 }));
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -12822,6 +13251,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type RegenerateDatabaseAccountKeyError = AzureOpError;
@@ -12837,6 +13268,8 @@ export const RegenerateDatabaseAccountKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateDatabaseAccountKey",
 }));
 
 export type RegenerateNotebookWorkspaceAuthTokenError = AzureOpError;
@@ -12852,6 +13285,8 @@ export const RegenerateNotebookWorkspaceAuthToken: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateNotebookWorkspaceAuthToken",
 }));
 
 export type SqlResourcesCreateUpdateClientEncryptionKeyError = AzureOpError;
@@ -12875,6 +13310,8 @@ export const SqlResourcesCreateUpdateClientEncryptionKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesCreateUpdateClientEncryptionKey",
 }));
 
 export type SqlResourcesCreateUpdateSqlContainerError = AzureOpError;
@@ -12890,6 +13327,8 @@ export const SqlResourcesCreateUpdateSqlContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesCreateUpdateSqlContainer",
 }));
 
 export type SqlResourcesCreateUpdateSqlDatabaseError = AzureOpError;
@@ -12905,6 +13344,8 @@ export const SqlResourcesCreateUpdateSqlDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesCreateUpdateSqlDatabase",
 }));
 
 export type SqlResourcesCreateUpdateSqlRoleAssignmentError = AzureOpError;
@@ -12924,6 +13365,8 @@ export const SqlResourcesCreateUpdateSqlRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesCreateUpdateSqlRoleAssignment",
 }));
 
 export type SqlResourcesCreateUpdateSqlRoleDefinitionError = AzureOpError;
@@ -12943,6 +13386,8 @@ export const SqlResourcesCreateUpdateSqlRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesCreateUpdateSqlRoleDefinition",
 }));
 
 export type SqlResourcesCreateUpdateSqlStoredProcedureError = AzureOpError;
@@ -12962,6 +13407,8 @@ export const SqlResourcesCreateUpdateSqlStoredProcedure: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesCreateUpdateSqlStoredProcedure",
 }));
 
 export type SqlResourcesCreateUpdateSqlTriggerError = AzureOpError;
@@ -12977,6 +13424,8 @@ export const SqlResourcesCreateUpdateSqlTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesCreateUpdateSqlTrigger",
 }));
 
 export type SqlResourcesCreateUpdateSqlUserDefinedFunctionError = AzureOpError;
@@ -13000,6 +13449,8 @@ export const SqlResourcesCreateUpdateSqlUserDefinedFunction: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesCreateUpdateSqlUserDefinedFunction",
 }));
 
 export type SqlResourcesDeleteSqlTriggerError = AzureOpError;
@@ -13015,6 +13466,8 @@ export const SqlResourcesDeleteSqlTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesDeleteSqlTrigger",
 }));
 
 export type SqlResourcesGetSqlTriggerError = AzureOpError;
@@ -13030,6 +13483,8 @@ export const SqlResourcesGetSqlTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlResourcesGetSqlTrigger",
 }));
 
 export type StartCassandraClusterError = AzureOpError;
@@ -13045,6 +13500,8 @@ export const StartCassandraCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartCassandraCluster",
 }));
 
 export type StartNotebookWorkspaceError = AzureOpError;
@@ -13060,6 +13517,8 @@ export const StartNotebookWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartNotebookWorkspace",
 }));
 
 export type TableResourcesCreateUpdateTableError = AzureOpError;
@@ -13075,6 +13534,8 @@ export const TableResourcesCreateUpdateTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TableResourcesCreateUpdateTable",
 }));
 
 export type TableResourcesCreateUpdateTableRoleAssignmentError = AzureOpError;
@@ -13098,6 +13559,8 @@ export const TableResourcesCreateUpdateTableRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TableResourcesCreateUpdateTableRoleAssignment",
 }));
 
 export type TableResourcesCreateUpdateTableRoleDefinitionError = AzureOpError;
@@ -13121,6 +13584,8 @@ export const TableResourcesCreateUpdateTableRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TableResourcesCreateUpdateTableRoleDefinition",
 }));
 
 export type UpdateCassandraClusterError = AzureOpError;
@@ -13136,6 +13601,8 @@ export const UpdateCassandraCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCassandraCluster",
 }));
 
 export type UpdateCassandraDataCenterError = AzureOpError;
@@ -13151,6 +13618,8 @@ export const UpdateCassandraDataCenter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCassandraDataCenter",
 }));
 
 export type UpdateCassandraResourceCassandraKeyspaceThroughputError = AzureOpError;
@@ -13174,6 +13643,8 @@ export const UpdateCassandraResourceCassandraKeyspaceThroughput: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCassandraResourceCassandraKeyspaceThroughput",
 }));
 
 export type UpdateCassandraResourceCassandraTableThroughputError = AzureOpError;
@@ -13197,6 +13668,8 @@ export const UpdateCassandraResourceCassandraTableThroughput: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCassandraResourceCassandraTableThroughput",
 }));
 
 export type UpdateDatabaseAccountError = AzureOpError;
@@ -13212,6 +13685,8 @@ export const UpdateDatabaseAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseAccount",
 }));
 
 export type UpdateFleetError = AzureOpError;
@@ -13227,6 +13702,8 @@ export const UpdateFleet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFleet",
 }));
 
 export type UpdateFleetspaceError = AzureOpError;
@@ -13242,6 +13719,8 @@ export const UpdateFleetspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFleetspace",
 }));
 
 export type UpdateGremlinResourceGremlinDatabaseThroughputError = AzureOpError;
@@ -13265,6 +13744,8 @@ export const UpdateGremlinResourceGremlinDatabaseThroughput: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGremlinResourceGremlinDatabaseThroughput",
 }));
 
 export type UpdateGremlinResourceGremlinGraphThroughputError = AzureOpError;
@@ -13288,6 +13769,8 @@ export const UpdateGremlinResourceGremlinGraphThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGremlinResourceGremlinGraphThroughput",
 }));
 
 export type UpdateMongoDBResourceMongoDBCollectionThroughputError = AzureOpError;
@@ -13311,6 +13794,8 @@ export const UpdateMongoDBResourceMongoDBCollectionThroughput: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMongoDBResourceMongoDBCollectionThroughput",
 }));
 
 export type UpdateMongoDBResourceMongoDBDatabaseThroughputError = AzureOpError;
@@ -13334,6 +13819,8 @@ export const UpdateMongoDBResourceMongoDBDatabaseThroughput: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMongoDBResourceMongoDBDatabaseThroughput",
 }));
 
 export type UpdateSqlResourceSqlContainerThroughputError = AzureOpError;
@@ -13349,6 +13836,8 @@ export const UpdateSqlResourceSqlContainerThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlResourceSqlContainerThroughput",
 }));
 
 export type UpdateSqlResourceSqlDatabaseThroughputError = AzureOpError;
@@ -13364,6 +13853,8 @@ export const UpdateSqlResourceSqlDatabaseThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlResourceSqlDatabaseThroughput",
 }));
 
 export type UpdateTableResourceTableThroughputError = AzureOpError;
@@ -13379,6 +13870,8 @@ export const UpdateTableResourceTableThroughput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTableResourceTableThroughput",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

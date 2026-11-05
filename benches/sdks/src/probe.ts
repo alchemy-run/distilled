@@ -108,6 +108,44 @@ const stats = (samplesNs: number[]): LatencyStats => {
   };
 };
 
+/**
+ * Time two async thunks in alternating blocks (ABBA order), so both see the
+ * same machine state. Timed apart, a slow patch on a shared CI runner can
+ * land on one series only and make their difference meaningless, even
+ * negative, as the roundtrip once timed after the call series did. Blocks
+ * keep each path hot; a block lasts a few milliseconds at most.
+ */
+const PAIR_BLOCK = 32;
+const pairedSeries = async (
+  a: () => Promise<unknown>,
+  b: () => Promise<unknown>,
+  budgetMs: number,
+): Promise<{ a: LatencyStats; b: LatencyStats }> => {
+  for (let i = 0; i < 200; i++) {
+    await a();
+    await b();
+  }
+  const samples = { a: [] as number[], b: [] as number[] };
+  const block = async (fn: () => Promise<unknown>, into: number[]) => {
+    for (let i = 0; i < PAIR_BLOCK; i++) {
+      const t = process.hrtime.bigint();
+      await fn();
+      into.push(Number(process.hrtime.bigint() - t));
+    }
+  };
+  const deadline = now() + budgetMs;
+  for (let i = 0; samples.a.length < 20_000 && (samples.a.length < 200 || now() < deadline); i++) {
+    if (i % 2 === 0) {
+      await block(a, samples.a);
+      await block(b, samples.b);
+    } else {
+      await block(b, samples.b);
+      await block(a, samples.a);
+    }
+  }
+  return { a: stats(samples.a), b: stats(samples.b) };
+};
+
 /** Time an async thunk repeatedly: warm-up, then sample until budget or 20k samples. */
 const series = async (fn: () => Promise<unknown>, budgetMs: number): Promise<LatencyStats> => {
   for (let i = 0; i < 200; i++) await fn();
@@ -433,17 +471,21 @@ const main = async (req: ProbeRequest) => {
   for (let i = 0; i < LEAK_CALLS; i++) await callOnce();
   const afterLeak = snap();
 
-  // Mock roundtrip in the same process, for "added latency".
+  // Added latency: the call and a bare mock roundtrip, interleaved in the same
+  // process (see pairedSeries).
   const request = HttpClientRequest.get("https://bench.example.com/v1/thing");
   const roundtrip = Effect.gen(function* () {
     const client = yield* HttpClient.HttpClient;
     const response = yield* client.execute(request);
     return yield* response.text;
   }).pipe(Effect.provideContext(ctx as any));
-  const baselineLatency = await series(
+  const paired = await pairedSeries(
+    callOnce,
     () => Effect.runPromise(roundtrip as any),
     Math.min(budgetMs, 600),
   );
+  const pairedLatency = paired.a;
+  const baselineLatency = paired.b;
 
   let strict: { ok: boolean; error?: string; latency?: LatencyStats } = { ok: false };
   if (req.strictCore) {
@@ -470,8 +512,9 @@ const main = async (req: ProbeRequest) => {
     secondCallMs,
     firstCallHeap: diff(m2, m3),
     latency,
+    pairedLatency,
     baselineLatency,
-    addedP50Us: latency.p50Us - baselineLatency.p50Us,
+    addedP50Us: pairedLatency.p50Us - baselineLatency.p50Us,
     gcPer1k: (gcCount / calls) * 1000,
     gcMsPer1k: (gcMs / calls) * 1000,
     warmHeapGrowth: after.heapUsed - before.heapUsed,

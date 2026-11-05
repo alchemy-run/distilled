@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "RegistrarSandbox",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type CheckRequestDomainsList = Array<string>;
 export interface CheckRequest {
   /** Identifier. */
@@ -433,6 +447,8 @@ export const check: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Check",
 }));
 
 export type CreateRegistrationError = CloudflareOpError;
@@ -448,6 +464,8 @@ export const createRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegistration",
 }));
 
 export type EditRegistrationError = CloudflareOpError;
@@ -463,6 +481,8 @@ export const editRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditRegistration",
 }));
 
 export type GetExtensionError = CloudflareOpError;
@@ -478,6 +498,8 @@ export const getExtension: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExtension",
 }));
 
 export type GetRegistrationError = CloudflareOpError;
@@ -493,6 +515,8 @@ export const getRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistration",
 }));
 
 export type GetRegistrationStatusError = CloudflareOpError;
@@ -508,6 +532,8 @@ export const getRegistrationStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistrationStatus",
 }));
 
 export type ListExtensionsError = CloudflareOpError;
@@ -523,6 +549,8 @@ export const listExtensions: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensions",
 }));
 
 export type ListRegistrationsError = CloudflareOpError;
@@ -538,6 +566,8 @@ export const listRegistrations: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistrations",
 }));
 
 export type SearchError = CloudflareOpError;
@@ -553,6 +583,8 @@ export const search: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Search",
 }));
 
 export type UpdateStatusGetError = CloudflareOpError;
@@ -568,6 +600,8 @@ export const updateStatusGet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStatusGet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

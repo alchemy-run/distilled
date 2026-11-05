@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.EdgeOrder" },
+  prefix: "Edgeorder",
+  service: "Edgeorder",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CancelOrderItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1626,6 +1647,8 @@ export const CancelOrderItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOrderItem",
 }));
 
 export type CreateAddressError = AzureOpError;
@@ -1641,6 +1664,8 @@ export const CreateAddress: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAddress",
 }));
 
 export type CreateOrderItemError = AzureOpError;
@@ -1656,6 +1681,8 @@ export const CreateOrderItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrderItem",
 }));
 
 export type DeleteAddressError = AzureOpError;
@@ -1671,6 +1698,8 @@ export const DeleteAddress: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAddress",
 }));
 
 export type DeleteOrderItemError = AzureOpError;
@@ -1686,6 +1715,8 @@ export const DeleteOrderItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrderItem",
 }));
 
 export type GetAddressError = AzureOpError;
@@ -1701,6 +1732,8 @@ export const GetAddress: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddress",
 }));
 
 export type GetOrderError = AzureOpError;
@@ -1716,6 +1749,8 @@ export const GetOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrder",
 }));
 
 export type GetOrderItemError = AzureOpError;
@@ -1731,6 +1766,8 @@ export const GetOrderItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrderItem",
 }));
 
 export type ListAddressByResourceGroupError = AzureOpError;
@@ -1746,6 +1783,8 @@ export const ListAddressByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAddressByResourceGroup",
 }));
 
 export type ListAddressBySubscriptionError = AzureOpError;
@@ -1761,6 +1800,8 @@ export const ListAddressBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAddressBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1776,6 +1817,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListOrderByResourceGroupError = AzureOpError;
@@ -1791,6 +1834,8 @@ export const ListOrderByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrderByResourceGroup",
 }));
 
 export type ListOrderBySubscriptionError = AzureOpError;
@@ -1806,6 +1851,8 @@ export const ListOrderBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrderBySubscription",
 }));
 
 export type ListOrderItemByResourceGroupError = AzureOpError;
@@ -1821,6 +1868,8 @@ export const ListOrderItemByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrderItemByResourceGroup",
 }));
 
 export type ListOrderItemBySubscriptionError = AzureOpError;
@@ -1836,6 +1885,8 @@ export const ListOrderItemBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrderItemBySubscription",
 }));
 
 export type ListProductsAndConfigurationConfigurationsError = AzureOpError;
@@ -1851,6 +1902,8 @@ export const ListProductsAndConfigurationConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductsAndConfigurationConfigurations",
 }));
 
 export type ListProductsAndConfigurationProductFamiliesError = AzureOpError;
@@ -1866,6 +1919,8 @@ export const ListProductsAndConfigurationProductFamilies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductsAndConfigurationProductFamilies",
 }));
 
 export type ListProductsAndConfigurationProductFamiliesMetadataError = AzureOpError;
@@ -1885,6 +1940,8 @@ export const ListProductsAndConfigurationProductFamiliesMetadata: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductsAndConfigurationProductFamiliesMetadata",
 }));
 
 export type OrderItemsReturnError = AzureOpError;
@@ -1900,6 +1957,8 @@ export const OrderItemsReturn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrderItemsReturn",
 }));
 
 export type UpdateAddressError = AzureOpError;
@@ -1915,6 +1974,8 @@ export const UpdateAddress: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAddress",
 }));
 
 export type UpdateOrderItemError = AzureOpError;
@@ -1930,6 +1991,8 @@ export const UpdateOrderItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrderItem",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { PorkbunOpError, PorkbunOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "porkbun-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Porkbun",
+  service: "Porkbun",
+  labels: "porkbun",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2429,6 +2442,8 @@ export const accountVerifyPhoneConfirm: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountVerifyPhoneConfirm",
 }));
 
 export type AccountVerifyPhoneSendError = PorkbunOpError;
@@ -2444,6 +2459,8 @@ export const accountVerifyPhoneSend: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountVerifyPhoneSend",
 }));
 
 export type ApikeyRequestError = BadRequest | PorkbunOpError;
@@ -2459,6 +2476,8 @@ export const apikeyRequest: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApikeyRequest",
 }));
 
 export type BulkDomainCheckDomainError = BadRequest | PorkbunOpError;
@@ -2474,6 +2493,8 @@ export const bulkDomainCheckDomain: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDomainCheckDomain",
 }));
 
 export type CloseoutBuyError = BadRequest | Forbidden | NotFound | Conflict | PorkbunOpError;
@@ -2489,6 +2510,8 @@ export const closeoutBuy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloseoutBuy",
 }));
 
 export type CloudflareCreateRecordError = PorkbunOpError;
@@ -2504,6 +2527,8 @@ export const cloudflareCreateRecord: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareCreateRecord",
 }));
 
 export type CloudflareDeleteRecordError = PorkbunOpError;
@@ -2519,6 +2544,8 @@ export const cloudflareDeleteRecord: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareDeleteRecord",
 }));
 
 export type CloudflareEditRecordError = PorkbunOpError;
@@ -2534,6 +2561,8 @@ export const cloudflareEditRecord: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareEditRecord",
 }));
 
 export type CloudflareGetConnectionError = PorkbunOpError;
@@ -2549,6 +2578,8 @@ export const cloudflareGetConnection: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareGetConnection",
 }));
 
 export type CloudflareGetQueueError = PorkbunOpError;
@@ -2564,6 +2595,8 @@ export const cloudflareGetQueue: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareGetQueue",
 }));
 
 export type CloudflareGetRecordsError = PorkbunOpError;
@@ -2579,6 +2612,8 @@ export const cloudflareGetRecords: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareGetRecords",
 }));
 
 export type CloudflareGetZoneError = PorkbunOpError;
@@ -2594,6 +2629,8 @@ export const cloudflareGetZone: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareGetZone",
 }));
 
 export type CloudflareGetZoneSettingsError = PorkbunOpError;
@@ -2609,6 +2646,8 @@ export const cloudflareGetZoneSettings: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareGetZoneSettings",
 }));
 
 export type CloudflareInventoryError = PorkbunOpError;
@@ -2624,6 +2663,8 @@ export const cloudflareInventory: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareInventory",
 }));
 
 export type CloudflareRollbackError = PorkbunOpError;
@@ -2639,6 +2680,8 @@ export const cloudflareRollback: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareRollback",
 }));
 
 export type CloudflareSetProxyError = PorkbunOpError;
@@ -2654,6 +2697,8 @@ export const cloudflareSetProxy: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareSetProxy",
 }));
 
 export type CloudflareSetZoneSettingsError = PorkbunOpError;
@@ -2669,6 +2714,8 @@ export const cloudflareSetZoneSettings: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudflareSetZoneSettings",
 }));
 
 export type ConnectCloudflareError = PorkbunOpError;
@@ -2684,6 +2731,8 @@ export const connectCloudflare: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCloudflare",
 }));
 
 export type CreateAccountInviteError = BadRequest | PorkbunOpError;
@@ -2699,6 +2748,8 @@ export const createAccountInvite: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountInvite",
 }));
 
 export type CreateDnsError = BadRequest | PorkbunOpError;
@@ -2714,6 +2765,8 @@ export const createDns: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDns",
 }));
 
 export type CreateDomainError = BadRequest | PorkbunOpError;
@@ -2729,6 +2782,8 @@ export const createDomain: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateHostingError = BadRequest | PorkbunOpError;
@@ -2744,6 +2799,8 @@ export const createHosting: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHosting",
 }));
 
 export type CreateWebhookError = BadRequest | PorkbunOpError;
@@ -2759,6 +2816,8 @@ export const createWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteDnsError = BadRequest | PorkbunOpError;
@@ -2774,6 +2833,8 @@ export const deleteDns: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDns",
 }));
 
 export type DeleteHostingError = BadRequest | PorkbunOpError;
@@ -2789,6 +2850,8 @@ export const deleteHosting: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHosting",
 }));
 
 export type DeleteWebhookError = NotFound | PorkbunOpError;
@@ -2804,6 +2867,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DeployHostingError = BadRequest | PorkbunOpError;
@@ -2819,6 +2884,8 @@ export const deployHosting: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHosting",
 }));
 
 export type DisconnectCloudflareError = PorkbunOpError;
@@ -2834,6 +2901,8 @@ export const disconnectCloudflare: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectCloudflare",
 }));
 
 export type DnsCreateDnssecRecordError = BadRequest | PorkbunOpError;
@@ -2849,6 +2918,8 @@ export const dnsCreateDnssecRecord: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsCreateDnssecRecord",
 }));
 
 export type DnsDeleteByNameTypeError = BadRequest | PorkbunOpError;
@@ -2864,6 +2935,8 @@ export const dnsDeleteByNameType: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsDeleteByNameType",
 }));
 
 export type DnsDeleteDnssecRecordError = BadRequest | PorkbunOpError;
@@ -2879,6 +2952,8 @@ export const dnsDeleteDnssecRecord: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsDeleteDnssecRecord",
 }));
 
 export type DnsDiffError = NotFound | PorkbunOpError;
@@ -2894,6 +2969,8 @@ export const dnsDiff: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsDiff",
 }));
 
 export type DnsEditByNameTypeError = BadRequest | PorkbunOpError;
@@ -2909,6 +2986,8 @@ export const dnsEditByNameType: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsEditByNameType",
 }));
 
 export type DnsGetDnssecRecordsError = BadRequest | PorkbunOpError;
@@ -2924,6 +3003,8 @@ export const dnsGetDnssecRecords: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsGetDnssecRecords",
 }));
 
 export type DnsHistoryError = PorkbunOpError;
@@ -2939,6 +3020,8 @@ export const dnsHistory: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsHistory",
 }));
 
 export type DnsPreflightError = PorkbunOpError;
@@ -2954,6 +3037,8 @@ export const dnsPreflight: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsPreflight",
 }));
 
 export type DnsRetrieveByIdError = BadRequest | PorkbunOpError;
@@ -2969,6 +3054,8 @@ export const dnsRetrieveById: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsRetrieveById",
 }));
 
 export type DnsRetrieveByNameTypeError = BadRequest | PorkbunOpError;
@@ -2984,6 +3071,8 @@ export const dnsRetrieveByNameType: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsRetrieveByNameType",
 }));
 
 export type DnsScanError = BadRequest | PorkbunOpError;
@@ -2999,6 +3088,8 @@ export const dnsScan: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsScan",
 }));
 
 export type DomainAddUrlForwardError = BadRequest | PorkbunOpError;
@@ -3014,6 +3105,8 @@ export const domainAddUrlForward: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainAddUrlForward",
 }));
 
 export type DomainCancelTransferError = BadRequest | PorkbunOpError;
@@ -3029,6 +3122,8 @@ export const domainCancelTransfer: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainCancelTransfer",
 }));
 
 export type DomainCheckDomainError = BadRequest | PorkbunOpError;
@@ -3044,6 +3139,8 @@ export const domainCheckDomain: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainCheckDomain",
 }));
 
 export type DomainCreateGlueError = BadRequest | PorkbunOpError;
@@ -3059,6 +3156,8 @@ export const domainCreateGlue: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainCreateGlue",
 }));
 
 export type DomainDeleteGlueError = BadRequest | PorkbunOpError;
@@ -3074,6 +3173,8 @@ export const domainDeleteGlue: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainDeleteGlue",
 }));
 
 export type DomainDeleteUrlForwardError = BadRequest | PorkbunOpError;
@@ -3089,6 +3190,8 @@ export const domainDeleteUrlForward: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainDeleteUrlForward",
 }));
 
 export type DomainGetContactsError = BadRequest | PorkbunOpError;
@@ -3104,6 +3207,8 @@ export const domainGetContacts: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainGetContacts",
 }));
 
 export type DomainGetGlueError = BadRequest | PorkbunOpError;
@@ -3119,6 +3224,8 @@ export const domainGetGlue: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainGetGlue",
 }));
 
 export type DomainGetNsError = BadRequest | PorkbunOpError;
@@ -3134,6 +3241,8 @@ export const domainGetNs: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainGetNs",
 }));
 
 export type DomainGetRegistrationRequirementsError = BadRequest | PorkbunOpError;
@@ -3149,6 +3258,8 @@ export const domainGetRegistrationRequirements: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainGetRegistrationRequirements",
 }));
 
 export type DomainGetTransferSetupError = BadRequest | PorkbunOpError;
@@ -3164,6 +3275,8 @@ export const domainGetTransferSetup: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainGetTransferSetup",
 }));
 
 export type DomainGetUrlForwardingError = BadRequest | PorkbunOpError;
@@ -3179,6 +3292,8 @@ export const domainGetUrlForwarding: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainGetUrlForwarding",
 }));
 
 export type DomainStartTransferError = BadRequest | PorkbunOpError;
@@ -3194,6 +3309,8 @@ export const domainStartTransfer: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainStartTransfer",
 }));
 
 export type DomainUpdateAutoRenewError = BadRequest | PorkbunOpError;
@@ -3209,6 +3326,8 @@ export const domainUpdateAutoRenew: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainUpdateAutoRenew",
 }));
 
 export type DomainUpdateContactsError = BadRequest | PorkbunOpError;
@@ -3224,6 +3343,8 @@ export const domainUpdateContacts: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainUpdateContacts",
 }));
 
 export type DomainUpdateGlueError = BadRequest | PorkbunOpError;
@@ -3239,6 +3360,8 @@ export const domainUpdateGlue: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainUpdateGlue",
 }));
 
 export type DomainUpdateNsError = BadRequest | PorkbunOpError;
@@ -3254,6 +3377,8 @@ export const domainUpdateNs: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainUpdateNs",
 }));
 
 export type DomainUpdateTransferAuthCodeError = BadRequest | PorkbunOpError;
@@ -3269,6 +3394,8 @@ export const domainUpdateTransferAuthCode: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainUpdateTransferAuthCode",
 }));
 
 export type EditDnsError = BadRequest | PorkbunOpError;
@@ -3284,6 +3411,8 @@ export const editDns: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditDns",
 }));
 
 export type EmailSetPasswordError = BadRequest | PorkbunOpError;
@@ -3299,6 +3428,8 @@ export const emailSetPassword: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailSetPassword",
 }));
 
 export type GetAccountInviteStatusError = BadRequest | PorkbunOpError;
@@ -3314,6 +3445,8 @@ export const getAccountInviteStatus: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountInviteStatus",
 }));
 
 export type GetApikeyError = BadRequest | Forbidden | PorkbunOpError;
@@ -3329,6 +3462,8 @@ export const getApikey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApikey",
 }));
 
 export type GetApiSettingsError = PorkbunOpError;
@@ -3344,6 +3479,8 @@ export const getApiSettings: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiSettings",
 }));
 
 export type GetAutoTopupError = PorkbunOpError;
@@ -3359,6 +3496,8 @@ export const getAutoTopup: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoTopup",
 }));
 
 export type GetBalanceError = PorkbunOpError;
@@ -3374,6 +3513,8 @@ export const getBalance: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalance",
 }));
 
 export type GetCloseoutError = NotFound | PorkbunOpError;
@@ -3389,6 +3530,8 @@ export const getCloseout: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloseout",
 }));
 
 export type GetCloudflareError = PorkbunOpError;
@@ -3404,6 +3547,8 @@ export const getCloudflare: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflare",
 }));
 
 export type GetDnsError = BadRequest | PorkbunOpError;
@@ -3419,6 +3564,8 @@ export const getDns: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDns",
 }));
 
 export type GetDnsRecordByIdError = BadRequest | PorkbunOpError;
@@ -3434,6 +3581,8 @@ export const getDnsRecordById: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsRecordById",
 }));
 
 export type GetDnsRecordsError = BadRequest | PorkbunOpError;
@@ -3449,6 +3598,8 @@ export const getDnsRecords: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsRecords",
 }));
 
 export type GetDnsRecordsByNameTypeError = BadRequest | PorkbunOpError;
@@ -3464,6 +3615,8 @@ export const getDnsRecordsByNameType: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsRecordsByNameType",
 }));
 
 export type GetDnssecRecordsError = BadRequest | PorkbunOpError;
@@ -3479,6 +3632,8 @@ export const getDnssecRecords: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnssecRecords",
 }));
 
 export type GetDomainError = NotFound | PorkbunOpError;
@@ -3494,6 +3649,8 @@ export const getDomain: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainGlueError = BadRequest | PorkbunOpError;
@@ -3509,6 +3666,8 @@ export const getDomainGlue: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainGlue",
 }));
 
 export type GetDomainNsError = BadRequest | PorkbunOpError;
@@ -3524,6 +3683,8 @@ export const getDomainNs: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainNs",
 }));
 
 export type GetDomainsError = BadRequest | PorkbunOpError;
@@ -3539,6 +3700,8 @@ export const getDomains: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomains",
 }));
 
 export type GetDomainUrlForwardingError = BadRequest | PorkbunOpError;
@@ -3554,6 +3717,8 @@ export const getDomainUrlForwarding: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainUrlForwarding",
 }));
 
 export type GetHostingError = BadRequest | PorkbunOpError;
@@ -3569,6 +3734,8 @@ export const getHosting: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHosting",
 }));
 
 export type GetInvoiceError = NotFound | PorkbunOpError;
@@ -3584,6 +3751,8 @@ export const getInvoice: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoice",
 }));
 
 export type GetInvoicePdfError = NotFound | PorkbunOpError;
@@ -3599,6 +3768,8 @@ export const getInvoicePdf: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoicePdf",
 }));
 
 export type GetIpError = PorkbunOpError;
@@ -3610,6 +3781,8 @@ export const getIp: API.OperationMethod<GetIpRequest, IpResponse, GetIpError, Po
     errors: [UnknownPorkbunError],
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetIp",
   }));
 
 export type GetPingError = BadRequest | PorkbunOpError;
@@ -3625,6 +3798,8 @@ export const getPing: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPing",
 }));
 
 export type GetPricingError = BadRequest | PorkbunOpError;
@@ -3640,6 +3815,8 @@ export const getPricing: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPricing",
 }));
 
 export type GetPricingGetError = BadRequest | PorkbunOpError;
@@ -3655,6 +3832,8 @@ export const getPricingGet: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPricingGet",
 }));
 
 export type GetSslError = BadRequest | PorkbunOpError;
@@ -3670,6 +3849,8 @@ export const getSsl: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSsl",
 }));
 
 export type GetSslRetrieveError = BadRequest | PorkbunOpError;
@@ -3685,6 +3866,8 @@ export const getSslRetrieve: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSslRetrieve",
 }));
 
 export type GetTransferGetError = PorkbunOpError;
@@ -3700,6 +3883,8 @@ export const getTransferGet: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferGet",
 }));
 
 export type GetWebhookError = NotFound | PorkbunOpError;
@@ -3715,6 +3900,8 @@ export const getWebhook: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type HostingCreateWpCredentialsError = BadRequest | PorkbunOpError;
@@ -3730,6 +3917,8 @@ export const hostingCreateWpCredentials: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingCreateWpCredentials",
 }));
 
 export type HostingDeleteFileError = BadRequest | PorkbunOpError;
@@ -3745,6 +3934,8 @@ export const hostingDeleteFile: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingDeleteFile",
 }));
 
 export type HostingDeleteWpCredentialsError = BadRequest | PorkbunOpError;
@@ -3760,6 +3951,8 @@ export const hostingDeleteWpCredentials: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingDeleteWpCredentials",
 }));
 
 export type HostingFilesError = BadRequest | PorkbunOpError;
@@ -3775,6 +3968,8 @@ export const hostingFiles: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingFiles",
 }));
 
 export type HostingGetWpCredentialsError = BadRequest | PorkbunOpError;
@@ -3790,6 +3985,8 @@ export const hostingGetWpCredentials: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingGetWpCredentials",
 }));
 
 export type HostingMakeDirError = BadRequest | PorkbunOpError;
@@ -3805,6 +4002,8 @@ export const hostingMakeDir: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingMakeDir",
 }));
 
 export type HostingPlansError = BadRequest | PorkbunOpError;
@@ -3820,6 +4019,8 @@ export const hostingPlans: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingPlans",
 }));
 
 export type ImportDnsError = BadRequest | PorkbunOpError;
@@ -3835,6 +4036,8 @@ export const importDns: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDns",
 }));
 
 export type ListDomainsError = BadRequest | PorkbunOpError;
@@ -3850,6 +4053,8 @@ export const listDomains: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 }));
 
 export type ListInvoicesError = PorkbunOpError;
@@ -3865,6 +4070,8 @@ export const listInvoices: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoices",
 }));
 
 export type ListMarketplaceListingsError = BadRequest | PorkbunOpError;
@@ -3880,6 +4087,8 @@ export const listMarketplaceListings: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketplaceListings",
 }));
 
 export type ListMarketplaceListingsGetError = PorkbunOpError;
@@ -3895,6 +4104,8 @@ export const listMarketplaceListingsGet: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketplaceListingsGet",
 }));
 
 export type ListTransfersGetError = PorkbunOpError;
@@ -3910,6 +4121,8 @@ export const listTransfersGet: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransfersGet",
 }));
 
 export type ListWebhookError = BadRequest | PorkbunOpError;
@@ -3925,6 +4138,8 @@ export const listWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhook",
 }));
 
 export type MockDirectoryError = PorkbunOpError;
@@ -3940,6 +4155,8 @@ export const mockDirectory: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MockDirectory",
 }));
 
 export type MockEndpointError = PorkbunOpError;
@@ -3955,6 +4172,8 @@ export const mockEndpoint: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MockEndpoint",
 }));
 
 export type PingError = BadRequest | PorkbunOpError;
@@ -3966,6 +4185,8 @@ export const ping: API.OperationMethod<PingRequest, PingResponse, PingError, Por
     errors: [BadRequest, UnknownPorkbunError],
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Ping",
   }));
 
 export type PostIpError = PorkbunOpError;
@@ -3977,6 +4198,8 @@ export const postIp: API.OperationMethod<PostIpRequest, IpResponse, PostIpError,
     errors: [UnknownPorkbunError],
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PostIp",
   }));
 
 export type PreviewCloudflareError = PorkbunOpError;
@@ -3992,6 +4215,8 @@ export const previewCloudflare: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewCloudflare",
 }));
 
 export type RenewDomainError = BadRequest | PorkbunOpError;
@@ -4007,6 +4232,8 @@ export const renewDomain: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewDomain",
 }));
 
 export type ResendWebhookError = BadRequest | NotFound | PorkbunOpError;
@@ -4022,6 +4249,8 @@ export const resendWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendWebhook",
 }));
 
 export type ResetSandboxError = PorkbunOpError;
@@ -4037,6 +4266,8 @@ export const resetSandbox: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetSandbox",
 }));
 
 export type RestoreDnsError = NotFound | PorkbunOpError;
@@ -4052,6 +4283,8 @@ export const restoreDns: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDns",
 }));
 
 export type RetryCloudflareError = PorkbunOpError;
@@ -4067,6 +4300,8 @@ export const retryCloudflare: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryCloudflare",
 }));
 
 export type SandboxTopupError = PorkbunOpError;
@@ -4082,6 +4317,8 @@ export const sandboxTopup: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTopup",
 }));
 
 export type SandboxTriggerWebhookError = PorkbunOpError;
@@ -4097,6 +4334,8 @@ export const sandboxTriggerWebhook: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTriggerWebhook",
 }));
 
 export type SearchCloseoutError = BadRequest | PorkbunOpError;
@@ -4112,6 +4351,8 @@ export const searchCloseout: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCloseout",
 }));
 
 export type SetAutoTopupError = BadRequest | PorkbunOpError;
@@ -4127,6 +4368,8 @@ export const setAutoTopup: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAutoTopup",
 }));
 
 export type TestWebhookError = BadRequest | NotFound | PorkbunOpError;
@@ -4142,6 +4385,8 @@ export const testWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestWebhook",
 }));
 
 export type TopupAccountCreditError = BadRequest | PorkbunOpError;
@@ -4157,6 +4402,8 @@ export const topupAccountCredit: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TopupAccountCredit",
 }));
 
 export type TopupCryptoError = PorkbunOpError;
@@ -4172,6 +4419,8 @@ export const topupCrypto: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TopupCrypto",
 }));
 
 export type TopupCryptoStatusError = NotFound | PorkbunOpError;
@@ -4187,6 +4436,8 @@ export const topupCryptoStatus: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TopupCryptoStatus",
 }));
 
 export type TopupMppError = PorkbunOpError;
@@ -4202,6 +4453,8 @@ export const topupMpp: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TopupMpp",
 }));
 
 export type TransferDomainError = PorkbunOpError;
@@ -4217,6 +4470,8 @@ export const transferDomain: API.OperationMethod<
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferDomain",
 }));
 
 export type TransferDomainPrepareError = BadRequest | PorkbunOpError;
@@ -4232,6 +4487,8 @@ export const transferDomainPrepare: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferDomainPrepare",
 }));
 
 export type UpdateWebhookError = BadRequest | NotFound | PorkbunOpError;
@@ -4247,6 +4504,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type WebhookDeliveriesError = BadRequest | NotFound | PorkbunOpError;
@@ -4262,6 +4521,8 @@ export const webhookDeliveries: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhookDeliveries",
 }));
 
 export type WebhookDelivery2Error = NotFound | PorkbunOpError;
@@ -4277,6 +4538,8 @@ export const webhookDelivery2: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhookDelivery2",
 }));
 
 export type WebhookEventTypesError = BadRequest | PorkbunOpError;
@@ -4292,6 +4555,8 @@ export const webhookEventTypes: API.OperationMethod<
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhookEventTypes",
 }));
 
 export type WebhookRotateSecretError = NotFound | PorkbunOpError;
@@ -4307,6 +4572,8 @@ export const webhookRotateSecret: API.OperationMethod<
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhookRotateSecret",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

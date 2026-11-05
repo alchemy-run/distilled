@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudbilling" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudbilling",
+  service: "cloudbilling",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -903,6 +922,8 @@ export const cancelTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTasks",
 }));
 
 export type CreateBillingAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -918,6 +939,8 @@ export const createBillingAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingAccounts",
 }));
 
 export type CreateBillingAccountsSubAccountsError =
@@ -938,6 +961,8 @@ export const createBillingAccountsSubAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingAccountsSubAccounts",
 }));
 
 export type CreateOrganizationsBillingAccountsError =
@@ -958,6 +983,8 @@ export const createOrganizationsBillingAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsBillingAccounts",
 }));
 
 export type CreateTasksPushNotificationConfigsError =
@@ -978,6 +1005,8 @@ export const createTasksPushNotificationConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksPushNotificationConfigs",
 }));
 
 export type DeleteTasksPushNotificationConfigsError =
@@ -998,6 +1027,8 @@ export const deleteTasksPushNotificationConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTasksPushNotificationConfigs",
 }));
 
 export type GetBillingAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1013,6 +1044,8 @@ export const getBillingAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingAccounts",
 }));
 
 export type GetBillingInfoProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1028,6 +1061,8 @@ export const getBillingInfoProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingInfoProjects",
 }));
 
 export type GetCardV1Error = NotFound | Forbidden | GcpOpError;
@@ -1043,6 +1078,8 @@ export const getCardV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardV1",
 }));
 
 export type GetIamPolicyBillingAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1058,6 +1095,8 @@ export const getIamPolicyBillingAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyBillingAccounts",
 }));
 
 export type GetTasksError = NotFound | Forbidden | GcpOpError;
@@ -1069,6 +1108,8 @@ export const getTasks: API.OperationMethod<GetTasksRequest, Task, GetTasksError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTasks",
   }));
 
 export type GetTasksPushNotificationConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1084,6 +1125,8 @@ export const getTasksPushNotificationConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksPushNotificationConfigs",
 }));
 
 export type ListBillingAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1100,6 +1143,8 @@ export const listBillingAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1117,6 +1162,8 @@ export const listBillingAccountsProjects: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingAccountsProjects",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1134,6 +1181,8 @@ export const listBillingAccountsSubAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingAccountsSubAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1151,6 +1200,8 @@ export const listOrganizationsBillingAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsBillingAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1168,6 +1219,8 @@ export const listServices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1185,6 +1238,8 @@ export const listServicesSkus: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicesSkus",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1202,6 +1257,8 @@ export const listTasksPushNotificationConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasksPushNotificationConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1218,6 +1275,8 @@ export const moveBillingAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveBillingAccounts",
 }));
 
 export type MoveOrganizationsBillingAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1233,6 +1292,8 @@ export const moveOrganizationsBillingAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveOrganizationsBillingAccounts",
 }));
 
 export type PatchBillingAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1248,6 +1309,8 @@ export const patchBillingAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBillingAccounts",
 }));
 
 export type SendMessageError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1263,6 +1326,8 @@ export const sendMessage: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendMessage",
 }));
 
 export type SetIamPolicyBillingAccountsError =
@@ -1283,6 +1348,8 @@ export const setIamPolicyBillingAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyBillingAccounts",
 }));
 
 export type StreamMessageError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1298,6 +1365,8 @@ export const streamMessage: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamMessage",
 }));
 
 export type SubscribeTasksError = NotFound | Forbidden | GcpOpError;
@@ -1313,6 +1382,8 @@ export const subscribeTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeTasks",
 }));
 
 export type TestIamPermissionsBillingAccountsError =
@@ -1333,6 +1404,8 @@ export const testIamPermissionsBillingAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsBillingAccounts",
 }));
 
 export type UpdateBillingInfoProjectsError =
@@ -1353,6 +1426,8 @@ export const updateBillingInfoProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingInfoProjects",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

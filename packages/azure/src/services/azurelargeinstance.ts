@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AzureLargeInstance" },
+  prefix: "Azurelargeinstance",
+  service: "Azurelargeinstance",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface AzureLargeInstanceShutdownRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -600,6 +621,8 @@ export const AzureLargeInstanceShutdown: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AzureLargeInstanceShutdown",
 }));
 
 export type GetAzureLargeInstanceError = AzureOpError;
@@ -615,6 +638,8 @@ export const GetAzureLargeInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureLargeInstance",
 }));
 
 export type GetAzureLargeStorageInstanceError = AzureOpError;
@@ -630,6 +655,8 @@ export const GetAzureLargeStorageInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureLargeStorageInstance",
 }));
 
 export type ListAzureLargeInstanceByResourceGroupError = AzureOpError;
@@ -645,6 +672,8 @@ export const ListAzureLargeInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureLargeInstanceByResourceGroup",
 }));
 
 export type ListAzureLargeInstanceBySubscriptionError = AzureOpError;
@@ -660,6 +689,8 @@ export const ListAzureLargeInstanceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureLargeInstanceBySubscription",
 }));
 
 export type ListAzureLargeStorageInstanceByResourceGroupError = AzureOpError;
@@ -675,6 +706,8 @@ export const ListAzureLargeStorageInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureLargeStorageInstanceByResourceGroup",
 }));
 
 export type ListAzureLargeStorageInstanceBySubscriptionError = AzureOpError;
@@ -690,6 +723,8 @@ export const ListAzureLargeStorageInstanceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureLargeStorageInstanceBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -705,6 +740,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type RestartAzureLargeInstanceError = AzureOpError;
@@ -720,6 +757,8 @@ export const RestartAzureLargeInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartAzureLargeInstance",
 }));
 
 export type StartAzureLargeInstanceError = AzureOpError;
@@ -735,6 +774,8 @@ export const StartAzureLargeInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartAzureLargeInstance",
 }));
 
 export type UpdateAzureLargeInstanceError = AzureOpError;
@@ -750,6 +791,8 @@ export const UpdateAzureLargeInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureLargeInstance",
 }));
 
 export type UpdateAzureLargeStorageInstanceError = AzureOpError;
@@ -765,6 +808,8 @@ export const UpdateAzureLargeStorageInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureLargeStorageInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

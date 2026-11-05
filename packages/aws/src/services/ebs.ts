@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ebs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EBS",
+  service: "EBS",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -334,7 +350,7 @@ export type CompleteSnapshotError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const completeSnapshot: API.OperationMethod<
-  CompleteSnapshotRequest,
+  CompleteSnapshotRequest & RegionInput,
   CompleteSnapshotResponse,
   CompleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -353,6 +369,8 @@ export const completeSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "CompleteSnapshot",
 }));
 
 export type GetSnapshotBlockError =
@@ -372,7 +390,7 @@ export type GetSnapshotBlockError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const getSnapshotBlock: API.OperationMethod<
-  GetSnapshotBlockRequest,
+  GetSnapshotBlockRequest & RegionInput,
   GetSnapshotBlockResponse,
   GetSnapshotBlockError,
   Credentials | HttpClient.HttpClient
@@ -390,6 +408,8 @@ export const getSnapshotBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshotBlock",
+  telemetry: TELEMETRY,
+  span: "GetSnapshotBlock",
 }));
 
 export type ListChangedBlocksError =
@@ -410,7 +430,7 @@ export type ListChangedBlocksError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const listChangedBlocks: API.PaginatedOperationMethod<
-  ListChangedBlocksRequest,
+  ListChangedBlocksRequest & RegionInput,
   ListChangedBlocksResponse,
   ListChangedBlocksError,
   Credentials | HttpClient.HttpClient,
@@ -434,6 +454,8 @@ export const listChangedBlocks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChangedBlocks",
 })) as any;
 
 export type ListSnapshotBlocksError =
@@ -453,7 +475,7 @@ export type ListSnapshotBlocksError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const listSnapshotBlocks: API.PaginatedOperationMethod<
-  ListSnapshotBlocksRequest,
+  ListSnapshotBlocksRequest & RegionInput,
   ListSnapshotBlocksResponse,
   ListSnapshotBlocksError,
   Credentials | HttpClient.HttpClient,
@@ -477,6 +499,8 @@ export const listSnapshotBlocks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotBlocks",
 })) as any;
 
 export type PutSnapshotBlockError =
@@ -501,7 +525,7 @@ export type PutSnapshotBlockError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const putSnapshotBlock: API.OperationMethod<
-  PutSnapshotBlockRequest,
+  PutSnapshotBlockRequest & RegionInput,
   PutSnapshotBlockResponse,
   PutSnapshotBlockError,
   Credentials | HttpClient.HttpClient
@@ -520,6 +544,8 @@ export const putSnapshotBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSnapshotBlock",
+  telemetry: TELEMETRY,
+  span: "PutSnapshotBlock",
 }));
 
 export type StartSnapshotError =
@@ -545,7 +571,7 @@ export type StartSnapshotError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const startSnapshot: API.OperationMethod<
-  StartSnapshotRequest,
+  StartSnapshotRequest & RegionInput,
   StartSnapshotResponse,
   StartSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -565,6 +591,8 @@ export const startSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSnapshot",
+  telemetry: TELEMETRY,
+  span: "StartSnapshot",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

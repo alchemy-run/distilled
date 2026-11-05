@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "ZoneActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) algorithm used to generate the TSIG key. */
 export type ChangeZonePrimaryNameserversRequestPrimaryNameserversItemTsigAlgorithm =
   | "hmac-md5"
@@ -393,6 +406,8 @@ export const changeZonePrimaryNameservers: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeZonePrimaryNameservers",
 }));
 
 export type ChangeZoneProtectionError = HetznerOpError;
@@ -408,6 +423,8 @@ export const changeZoneProtection: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeZoneProtection",
 }));
 
 export type ChangeZoneTtlError = HetznerOpError;
@@ -423,6 +440,8 @@ export const changeZoneTtl: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeZoneTtl",
 }));
 
 export type GetZonesActionError = HetznerOpError;
@@ -438,6 +457,8 @@ export const getZonesAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZonesAction",
 }));
 
 export type ImportZoneZonefileError = HetznerOpError;
@@ -453,6 +474,8 @@ export const importZoneZonefile: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportZoneZonefile",
 }));
 
 export type ListZoneActionsError = HetznerOpError;
@@ -470,6 +493,8 @@ export const listZoneActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListZoneActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -496,6 +521,8 @@ export const listZonesActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListZonesActions",
     pagination: {
       mode: "page",
       inputToken: "page",

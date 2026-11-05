@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -115,6 +117,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://metering.marketplace.{R}.{D}","properties":{},"headers":{}}',
   ["eusc-de-east-1"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MarketplaceMetering",
+  service: "MarketplaceMetering",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CustomerNotEntitledException
   extends /*@__PURE__*/ S.TaggedError<CustomerNotEntitledException>()(
@@ -335,7 +352,7 @@ export type BatchMeterUsageError =
  * Guide.
  */
 export const batchMeterUsage: API.OperationMethod<
-  BatchMeterUsageRequest,
+  BatchMeterUsageRequest & RegionInput,
   BatchMeterUsageResult,
   BatchMeterUsageError,
   Credentials | HttpClient.HttpClient
@@ -357,6 +374,8 @@ export const batchMeterUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchMeterUsage",
+  telemetry: TELEMETRY,
+  span: "BatchMeterUsage",
 }));
 
 export type MeterUsageError =
@@ -414,7 +433,7 @@ export type MeterUsageError =
  * For Amazon Web Services Regions that support `MeterUsage`, see MeterUsage Region support for Amazon EC2 and MeterUsage Region support for Amazon ECS and Amazon EKS.
  */
 export const meterUsage: API.OperationMethod<
-  MeterUsageRequest,
+  MeterUsageRequest & RegionInput,
   MeterUsageResult,
   MeterUsageError,
   Credentials | HttpClient.HttpClient
@@ -437,6 +456,8 @@ export const meterUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MeterUsage",
+  telemetry: TELEMETRY,
+  span: "MeterUsage",
 }));
 
 export type RegisterUsageError =
@@ -491,7 +512,7 @@ export type RegisterUsageError =
  * For Amazon Web Services Regions that support `RegisterUsage`, see RegisterUsage Region support.
  */
 export const registerUsage: API.OperationMethod<
-  RegisterUsageRequest,
+  RegisterUsageRequest & RegionInput,
   RegisterUsageResult,
   RegisterUsageError,
   Credentials | HttpClient.HttpClient
@@ -511,6 +532,8 @@ export const registerUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterUsage",
+  telemetry: TELEMETRY,
+  span: "RegisterUsage",
 }));
 
 export type ResolveCustomerError =
@@ -541,7 +564,7 @@ export type ResolveCustomerError =
  * For Amazon Web Services Regions that support `ResolveCustomer`, see ResolveCustomer Region support.
  */
 export const resolveCustomer: API.OperationMethod<
-  ResolveCustomerRequest,
+  ResolveCustomerRequest & RegionInput,
   ResolveCustomerResult,
   ResolveCustomerError,
   Credentials | HttpClient.HttpClient
@@ -558,6 +581,8 @@ export const resolveCustomer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveCustomer",
+  telemetry: TELEMETRY,
+  span: "ResolveCustomer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

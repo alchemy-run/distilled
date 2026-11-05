@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ReviewHog",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -444,6 +457,8 @@ export const getReviewHogReview: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviewHogReview",
 }));
 
 export type GetReviewHogReviewsPerspectiveStatError = PosthogOpError;
@@ -459,6 +474,8 @@ export const getReviewHogReviewsPerspectiveStat: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviewHogReviewsPerspectiveStat",
 }));
 
 export type ListReviewHogBlindSpotsError = PosthogOpError;
@@ -474,6 +491,8 @@ export const listReviewHogBlindSpots: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewHogBlindSpots",
 }));
 
 export type ListReviewHogPerspectivesError = PosthogOpError;
@@ -489,6 +508,8 @@ export const listReviewHogPerspectives: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewHogPerspectives",
 }));
 
 export type ListReviewHogResolutionError = PosthogOpError;
@@ -504,6 +525,8 @@ export const listReviewHogResolution: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewHogResolution",
 }));
 
 export type ListReviewHogReviewsError = PosthogOpError;
@@ -519,6 +542,8 @@ export const listReviewHogReviews: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewHogReviews",
 }));
 
 export type ListReviewHogValidatorsError = PosthogOpError;
@@ -534,6 +559,8 @@ export const listReviewHogValidators: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewHogValidators",
 }));
 
 export type ReviewHogReviewsTriggerCreateError = BadRequest | Forbidden | Conflict | PosthogOpError;
@@ -549,6 +576,8 @@ export const reviewHogReviewsTriggerCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewHogReviewsTriggerCreate",
 }));
 
 export type UpdateReviewHogBlindSpotsPartialError = BadRequest | NotFound | PosthogOpError;
@@ -564,6 +593,8 @@ export const updateReviewHogBlindSpotsPartial: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReviewHogBlindSpotsPartial",
 }));
 
 export type UpdateReviewHogPerspectivesPartialError = BadRequest | NotFound | PosthogOpError;
@@ -579,6 +610,8 @@ export const updateReviewHogPerspectivesPartial: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReviewHogPerspectivesPartial",
 }));
 
 export type UpdateReviewHogResolutionPartialError = BadRequest | NotFound | PosthogOpError;
@@ -594,6 +627,8 @@ export const updateReviewHogResolutionPartial: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReviewHogResolutionPartial",
 }));
 
 export type UpdateReviewHogValidatorsPartialError = BadRequest | NotFound | PosthogOpError;
@@ -609,6 +644,8 @@ export const updateReviewHogValidatorsPartial: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReviewHogValidatorsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

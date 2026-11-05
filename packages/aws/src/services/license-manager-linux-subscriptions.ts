@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -76,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://license-manager-linux-subscriptions.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LicenseManagerLinuxSubscriptions",
+  service: "LicenseManagerLinuxSubscriptions",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()("InternalServerException", {
@@ -251,7 +267,7 @@ export type DeregisterSubscriptionProviderError =
  * registered to your account.
  */
 export const deregisterSubscriptionProvider: API.OperationMethod<
-  DeregisterSubscriptionProviderRequest,
+  DeregisterSubscriptionProviderRequest & RegionInput,
   DeregisterSubscriptionProviderResponse,
   DeregisterSubscriptionProviderError,
   Credentials | HttpClient.HttpClient
@@ -267,6 +283,8 @@ export const deregisterSubscriptionProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterSubscriptionProvider",
+  telemetry: TELEMETRY,
+  span: "DeregisterSubscriptionProvider",
 }));
 
 export type GetRegisteredSubscriptionProviderError =
@@ -279,7 +297,7 @@ export type GetRegisteredSubscriptionProviderError =
  * Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
  */
 export const getRegisteredSubscriptionProvider: API.OperationMethod<
-  GetRegisteredSubscriptionProviderRequest,
+  GetRegisteredSubscriptionProviderRequest & RegionInput,
   GetRegisteredSubscriptionProviderResponse,
   GetRegisteredSubscriptionProviderError,
   Credentials | HttpClient.HttpClient
@@ -295,6 +313,8 @@ export const getRegisteredSubscriptionProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegisteredSubscriptionProvider",
+  telemetry: TELEMETRY,
+  span: "GetRegisteredSubscriptionProvider",
 }));
 
 export type GetServiceSettingsError =
@@ -306,7 +326,7 @@ export type GetServiceSettingsError =
  * Lists the Linux subscriptions service settings for your account.
  */
 export const getServiceSettings: API.OperationMethod<
-  GetServiceSettingsRequest,
+  GetServiceSettingsRequest & RegionInput,
   GetServiceSettingsResponse,
   GetServiceSettingsError,
   Credentials | HttpClient.HttpClient
@@ -317,6 +337,8 @@ export const getServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
+  telemetry: TELEMETRY,
+  span: "GetServiceSettings",
 }));
 
 export type ListLinuxSubscriptionInstancesError =
@@ -329,7 +351,7 @@ export type ListLinuxSubscriptionInstancesError =
  * subscriptions.
  */
 export const listLinuxSubscriptionInstances: API.PaginatedOperationMethod<
-  ListLinuxSubscriptionInstancesRequest,
+  ListLinuxSubscriptionInstancesRequest & RegionInput,
   ListLinuxSubscriptionInstancesResponse,
   ListLinuxSubscriptionInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -347,6 +369,8 @@ export const listLinuxSubscriptionInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLinuxSubscriptionInstances",
 })) as any;
 
 export type ListLinuxSubscriptionsError =
@@ -360,7 +384,7 @@ export type ListLinuxSubscriptionsError =
  * Organizations.
  */
 export const listLinuxSubscriptions: API.PaginatedOperationMethod<
-  ListLinuxSubscriptionsRequest,
+  ListLinuxSubscriptionsRequest & RegionInput,
   ListLinuxSubscriptionsResponse,
   ListLinuxSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -378,6 +402,8 @@ export const listLinuxSubscriptions: API.PaginatedOperationMethod<
     items: "Subscriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLinuxSubscriptions",
 })) as any;
 
 export type ListRegisteredSubscriptionProvidersError =
@@ -389,7 +415,7 @@ export type ListRegisteredSubscriptionProvidersError =
  * List Bring Your Own License (BYOL) subscription registration resources for your account.
  */
 export const listRegisteredSubscriptionProviders: API.PaginatedOperationMethod<
-  ListRegisteredSubscriptionProvidersRequest,
+  ListRegisteredSubscriptionProvidersRequest & RegionInput,
   ListRegisteredSubscriptionProvidersResponse,
   ListRegisteredSubscriptionProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -407,6 +433,8 @@ export const listRegisteredSubscriptionProviders: API.PaginatedOperationMethod<
     items: "RegisteredSubscriptionProviders",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegisteredSubscriptionProviders",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -419,7 +447,7 @@ export type ListTagsForResourceError =
  * specified Amazon Web Services resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -430,6 +458,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterSubscriptionProviderError =
@@ -441,7 +471,7 @@ export type RegisterSubscriptionProviderError =
  * Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
  */
 export const registerSubscriptionProvider: API.OperationMethod<
-  RegisterSubscriptionProviderRequest,
+  RegisterSubscriptionProviderRequest & RegionInput,
   RegisterSubscriptionProviderResponse,
   RegisterSubscriptionProviderError,
   Credentials | HttpClient.HttpClient
@@ -452,6 +482,8 @@ export const registerSubscriptionProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterSubscriptionProvider",
+  telemetry: TELEMETRY,
+  span: "RegisterSubscriptionProvider",
 }));
 
 export type TagResourceError =
@@ -463,7 +495,7 @@ export type TagResourceError =
  * Add metadata tags to the specified Amazon Web Services resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -474,6 +506,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -481,7 +515,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * Remove one or more metadata tag from the specified Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -492,6 +526,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateServiceSettingsError =
@@ -503,7 +539,7 @@ export type UpdateServiceSettingsError =
  * Updates the service settings for Linux subscriptions.
  */
 export const updateServiceSettings: API.OperationMethod<
-  UpdateServiceSettingsRequest,
+  UpdateServiceSettingsRequest & RegionInput,
   UpdateServiceSettingsResponse,
   UpdateServiceSettingsError,
   Credentials | HttpClient.HttpClient
@@ -514,6 +550,8 @@ export const updateServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

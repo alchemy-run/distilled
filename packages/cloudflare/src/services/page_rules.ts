@@ -25,6 +25,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   statusCode: "status_code",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "PageRules",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -3295,6 +3309,8 @@ export const createPageRule: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePageRule",
 }));
 
 export type DeletePageRuleError = PageRuleNotFound | Forbidden | CloudflareOpError;
@@ -3310,6 +3326,8 @@ export const deletePageRule: API.OperationMethod<
   errors: [PageRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePageRule",
 }));
 
 export type GetPageRuleError = PageRuleNotFound | Forbidden | CloudflareOpError;
@@ -3325,6 +3343,8 @@ export const getPageRule: API.OperationMethod<
   errors: [PageRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPageRule",
 }));
 
 export type ListPageRulesError = Forbidden | InvalidZoneIdentifier | CloudflareOpError;
@@ -3340,6 +3360,8 @@ export const listPageRules: API.OperationMethod<
   errors: [Forbidden, InvalidZoneIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPageRules",
 }));
 
 export type PatchPageRuleError = PageRuleNotFound | Forbidden | CloudflareOpError;
@@ -3355,6 +3377,8 @@ export const patchPageRule: API.OperationMethod<
   errors: [PageRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPageRule",
 }));
 
 export type UpdatePageRuleError = PageRuleNotFound | Forbidden | CloudflareOpError;
@@ -3370,6 +3394,8 @@ export const updatePageRule: API.OperationMethod<
   errors: [PageRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePageRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -15,6 +15,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Jobs",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -2492,6 +2505,8 @@ export const cancelJob: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelJob",
 }));
 
 export type CheckJobAccessError = HuggingFaceOpError;
@@ -2507,6 +2522,8 @@ export const checkJobAccess: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckJobAccess",
 }));
 
 export type CheckNamespaceAccessError = HuggingFaceOpError;
@@ -2522,6 +2539,8 @@ export const checkNamespaceAccess: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNamespaceAccess",
 }));
 
 export type CountJobsError = HuggingFaceOpError;
@@ -2537,6 +2556,8 @@ export const countJobs: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountJobs",
 }));
 
 export type CreateScheduledJobError = HuggingFaceOpError;
@@ -2552,6 +2573,8 @@ export const createScheduledJob: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScheduledJob",
 }));
 
 export type DeleteScheduledJobError = HuggingFaceOpError;
@@ -2567,6 +2590,8 @@ export const deleteScheduledJob: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledJob",
 }));
 
 export type DuplicateJobError = HuggingFaceOpError;
@@ -2582,6 +2607,8 @@ export const duplicateJob: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateJob",
 }));
 
 export type GetJobError = HuggingFaceOpError;
@@ -2597,6 +2624,8 @@ export const getJob: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetJobHardwareError = HuggingFaceOpError;
@@ -2612,6 +2641,8 @@ export const getJobHardware: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobHardware",
 }));
 
 export type GetScheduledJobError = HuggingFaceOpError;
@@ -2627,6 +2658,8 @@ export const getScheduledJob: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScheduledJob",
 }));
 
 export type ListJobsError = HuggingFaceOpError;
@@ -2642,6 +2675,8 @@ export const listJobs: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 }));
 
 export type ListScheduledJobsError = HuggingFaceOpError;
@@ -2657,6 +2692,8 @@ export const listScheduledJobs: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduledJobs",
 }));
 
 export type ResumeScheduledJobError = HuggingFaceOpError;
@@ -2672,6 +2709,8 @@ export const resumeScheduledJob: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeScheduledJob",
 }));
 
 export type RunJobError = Conflict | HuggingFaceOpError;
@@ -2687,6 +2726,8 @@ export const runJob: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunJob",
 }));
 
 export type StartJobError = HuggingFaceOpError;
@@ -2702,6 +2743,8 @@ export const startJob: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartJob",
 }));
 
 export type StreamJobEventsError = HuggingFaceOpError;
@@ -2717,6 +2760,8 @@ export const streamJobEvents: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamJobEvents",
 }));
 
 export type StreamJobLogsError = HuggingFaceOpError;
@@ -2732,6 +2777,8 @@ export const streamJobLogs: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamJobLogs",
 }));
 
 export type StreamJobMetricsError = HuggingFaceOpError;
@@ -2747,6 +2794,8 @@ export const streamJobMetrics: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamJobMetrics",
 }));
 
 export type SuspendScheduledJobError = HuggingFaceOpError;
@@ -2762,6 +2811,8 @@ export const suspendScheduledJob: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendScheduledJob",
 }));
 
 export type UpdateJobExposedPortsError = HuggingFaceOpError;
@@ -2777,6 +2828,8 @@ export const updateJobExposedPorts: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJobExposedPorts",
 }));
 
 export type UpdateJobLabelsError = HuggingFaceOpError;
@@ -2792,6 +2845,8 @@ export const updateJobLabels: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJobLabels",
 }));
 
 export type UpdateJobScheduleError = HuggingFaceOpError;
@@ -2807,6 +2862,8 @@ export const updateJobSchedule: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJobSchedule",
 }));
 
 export type UpdateScheduledJobLabelsError = HuggingFaceOpError;
@@ -2822,6 +2879,8 @@ export const updateScheduledJobLabels: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledJobLabels",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

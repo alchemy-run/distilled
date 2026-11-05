@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -73,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://apprunner.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppRunner",
+  service: "AppRunner",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServiceErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
@@ -798,7 +815,7 @@ export type AssociateCustomDomainError =
  * domain validity in a certificate stored in AWS Certificate Manager (ACM).
  */
 export const associateCustomDomain: API.OperationMethod<
-  AssociateCustomDomainRequest,
+  AssociateCustomDomainRequest & RegionInput,
   AssociateCustomDomainResponse,
   AssociateCustomDomainError,
   Credentials | HttpClient.HttpClient
@@ -809,6 +826,8 @@ export const associateCustomDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCustomDomain",
+  telemetry: TELEMETRY,
+  span: "AssociateCustomDomain",
 }));
 
 export type CreateAutoScalingConfigurationError =
@@ -831,7 +850,7 @@ export type CreateAutoScalingConfigurationError =
  * Configure a lower `MaxSize` to control your cost. The tradeoff is lower responsiveness during peak demand.
  */
 export const createAutoScalingConfiguration: API.OperationMethod<
-  CreateAutoScalingConfigurationRequest,
+  CreateAutoScalingConfigurationRequest & RegionInput,
   CreateAutoScalingConfigurationResponse,
   CreateAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -842,6 +861,8 @@ export const createAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoScalingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateAutoScalingConfiguration",
 }));
 
 export type CreateConnectionError =
@@ -858,7 +879,7 @@ export type CreateConnectionError =
  * connection.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   CreateConnectionResponse,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -869,6 +890,8 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateObservabilityConfigurationError =
@@ -890,7 +913,7 @@ export type CreateObservabilityConfigurationError =
  * parameter, App Runner doesn't enable the feature.
  */
 export const createObservabilityConfiguration: API.OperationMethod<
-  CreateObservabilityConfigurationRequest,
+  CreateObservabilityConfigurationRequest & RegionInput,
   CreateObservabilityConfigurationResponse,
   CreateObservabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -901,6 +924,8 @@ export const createObservabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateObservabilityConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateObservabilityConfiguration",
 }));
 
 export type CreateServiceError =
@@ -914,7 +939,7 @@ export type CreateServiceError =
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations call to track the operation's progress.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -925,6 +950,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateVpcConnectorError =
@@ -937,7 +964,7 @@ export type CreateVpcConnectorError =
  * (Amazon VPC).
  */
 export const createVpcConnector: API.OperationMethod<
-  CreateVpcConnectorRequest,
+  CreateVpcConnectorRequest & RegionInput,
   CreateVpcConnectorResponse,
   CreateVpcConnectorError,
   Credentials | HttpClient.HttpClient
@@ -948,6 +975,8 @@ export const createVpcConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcConnector",
+  telemetry: TELEMETRY,
+  span: "CreateVpcConnector",
 }));
 
 export type CreateVpcIngressConnectionError =
@@ -960,7 +989,7 @@ export type CreateVpcIngressConnectionError =
  * Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
  */
 export const createVpcIngressConnection: API.OperationMethod<
-  CreateVpcIngressConnectionRequest,
+  CreateVpcIngressConnectionRequest & RegionInput,
   CreateVpcIngressConnectionResponse,
   CreateVpcIngressConnectionError,
   Credentials | HttpClient.HttpClient
@@ -976,6 +1005,8 @@ export const createVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcIngressConnection",
+  telemetry: TELEMETRY,
+  span: "CreateVpcIngressConnection",
 }));
 
 export type DeleteAutoScalingConfigurationError =
@@ -989,7 +1020,7 @@ export type DeleteAutoScalingConfigurationError =
  * more App Runner services.
  */
 export const deleteAutoScalingConfiguration: API.OperationMethod<
-  DeleteAutoScalingConfigurationRequest,
+  DeleteAutoScalingConfigurationRequest & RegionInput,
   DeleteAutoScalingConfigurationResponse,
   DeleteAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1000,6 +1031,8 @@ export const deleteAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutoScalingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteAutoScalingConfiguration",
 }));
 
 export type DeleteConnectionError =
@@ -1012,7 +1045,7 @@ export type DeleteConnectionError =
  * `DeleteConnection` action fails.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1023,6 +1056,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteObservabilityConfigurationError =
@@ -1035,7 +1070,7 @@ export type DeleteObservabilityConfigurationError =
  * configuration that's used by one or more App Runner services.
  */
 export const deleteObservabilityConfiguration: API.OperationMethod<
-  DeleteObservabilityConfigurationRequest,
+  DeleteObservabilityConfigurationRequest & RegionInput,
   DeleteObservabilityConfigurationResponse,
   DeleteObservabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1046,6 +1081,8 @@ export const deleteObservabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObservabilityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteObservabilityConfiguration",
 }));
 
 export type DeleteServiceError =
@@ -1063,7 +1100,7 @@ export type DeleteServiceError =
  * Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -1079,6 +1116,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteVpcConnectorError =
@@ -1091,7 +1130,7 @@ export type DeleteVpcConnectorError =
  * connector that's used by one or more App Runner services.
  */
 export const deleteVpcConnector: API.OperationMethod<
-  DeleteVpcConnectorRequest,
+  DeleteVpcConnectorRequest & RegionInput,
   DeleteVpcConnectorResponse,
   DeleteVpcConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1102,6 +1141,8 @@ export const deleteVpcConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcConnector",
 }));
 
 export type DeleteVpcIngressConnectionError =
@@ -1122,7 +1163,7 @@ export type DeleteVpcIngressConnectionError =
  * - `FAILED_DELETION`
  */
 export const deleteVpcIngressConnection: API.OperationMethod<
-  DeleteVpcIngressConnectionRequest,
+  DeleteVpcIngressConnectionRequest & RegionInput,
   DeleteVpcIngressConnectionResponse,
   DeleteVpcIngressConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1138,6 +1179,8 @@ export const deleteVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcIngressConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcIngressConnection",
 }));
 
 export type DescribeAutoScalingConfigurationError =
@@ -1149,7 +1192,7 @@ export type DescribeAutoScalingConfigurationError =
  * Return a full description of an App Runner automatic scaling configuration resource.
  */
 export const describeAutoScalingConfiguration: API.OperationMethod<
-  DescribeAutoScalingConfigurationRequest,
+  DescribeAutoScalingConfigurationRequest & RegionInput,
   DescribeAutoScalingConfigurationResponse,
   DescribeAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1160,6 +1203,8 @@ export const describeAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoScalingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeAutoScalingConfiguration",
 }));
 
 export type DescribeCustomDomainsError =
@@ -1171,7 +1216,7 @@ export type DescribeCustomDomainsError =
  * Return a description of custom domain names that are associated with an App Runner service.
  */
 export const describeCustomDomains: API.PaginatedOperationMethod<
-  DescribeCustomDomainsRequest,
+  DescribeCustomDomainsRequest & RegionInput,
   DescribeCustomDomainsResponse,
   DescribeCustomDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -1188,6 +1233,8 @@ export const describeCustomDomains: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCustomDomains",
 })) as any;
 
 export type DescribeObservabilityConfigurationError =
@@ -1199,7 +1246,7 @@ export type DescribeObservabilityConfigurationError =
  * Return a full description of an App Runner observability configuration resource.
  */
 export const describeObservabilityConfiguration: API.OperationMethod<
-  DescribeObservabilityConfigurationRequest,
+  DescribeObservabilityConfigurationRequest & RegionInput,
   DescribeObservabilityConfigurationResponse,
   DescribeObservabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1210,6 +1257,8 @@ export const describeObservabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObservabilityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeObservabilityConfiguration",
 }));
 
 export type DescribeServiceError =
@@ -1221,7 +1270,7 @@ export type DescribeServiceError =
  * Return a full description of an App Runner service.
  */
 export const describeService: API.OperationMethod<
-  DescribeServiceRequest,
+  DescribeServiceRequest & RegionInput,
   DescribeServiceResponse,
   DescribeServiceError,
   Credentials | HttpClient.HttpClient
@@ -1232,6 +1281,8 @@ export const describeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeService",
+  telemetry: TELEMETRY,
+  span: "DescribeService",
 }));
 
 export type DescribeVpcConnectorError =
@@ -1243,7 +1294,7 @@ export type DescribeVpcConnectorError =
  * Return a description of an App Runner VPC connector resource.
  */
 export const describeVpcConnector: API.OperationMethod<
-  DescribeVpcConnectorRequest,
+  DescribeVpcConnectorRequest & RegionInput,
   DescribeVpcConnectorResponse,
   DescribeVpcConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1254,6 +1305,8 @@ export const describeVpcConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcConnector",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcConnector",
 }));
 
 export type DescribeVpcIngressConnectionError =
@@ -1265,7 +1318,7 @@ export type DescribeVpcIngressConnectionError =
  * Return a full description of an App Runner VPC Ingress Connection resource.
  */
 export const describeVpcIngressConnection: API.OperationMethod<
-  DescribeVpcIngressConnectionRequest,
+  DescribeVpcIngressConnectionRequest & RegionInput,
   DescribeVpcIngressConnectionResponse,
   DescribeVpcIngressConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1276,6 +1329,8 @@ export const describeVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcIngressConnection",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcIngressConnection",
 }));
 
 export type DisassociateCustomDomainError =
@@ -1292,7 +1347,7 @@ export type DisassociateCustomDomainError =
  * 30 days after a domain is disassociated from your service.
  */
 export const disassociateCustomDomain: API.OperationMethod<
-  DisassociateCustomDomainRequest,
+  DisassociateCustomDomainRequest & RegionInput,
   DisassociateCustomDomainResponse,
   DisassociateCustomDomainError,
   Credentials | HttpClient.HttpClient
@@ -1308,6 +1363,8 @@ export const disassociateCustomDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCustomDomain",
+  telemetry: TELEMETRY,
+  span: "DisassociateCustomDomain",
 }));
 
 export type ListAutoScalingConfigurationsError =
@@ -1323,7 +1380,7 @@ export type ListAutoScalingConfigurationsError =
  * the ARNs returned by `ListAutoScalingConfigurations`.
  */
 export const listAutoScalingConfigurations: API.PaginatedOperationMethod<
-  ListAutoScalingConfigurationsRequest,
+  ListAutoScalingConfigurationsRequest & RegionInput,
   ListAutoScalingConfigurationsResponse,
   ListAutoScalingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1340,6 +1397,8 @@ export const listAutoScalingConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutoScalingConfigurations",
 })) as any;
 
 export type ListConnectionsError =
@@ -1350,7 +1409,7 @@ export type ListConnectionsError =
  * Returns a list of App Runner connections that are associated with your Amazon Web Services account.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsRequest,
+  ListConnectionsRequest & RegionInput,
   ListConnectionsResponse,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1367,6 +1426,8 @@ export const listConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 })) as any;
 
 export type ListObservabilityConfigurationsError =
@@ -1382,7 +1443,7 @@ export type ListObservabilityConfigurationsError =
  * of the ARNs returned by `ListObservabilityConfigurations`.
  */
 export const listObservabilityConfigurations: API.PaginatedOperationMethod<
-  ListObservabilityConfigurationsRequest,
+  ListObservabilityConfigurationsRequest & RegionInput,
   ListObservabilityConfigurationsResponse,
   ListObservabilityConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1399,6 +1460,8 @@ export const listObservabilityConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObservabilityConfigurations",
 })) as any;
 
 export type ListOperationsError =
@@ -1413,7 +1476,7 @@ export type ListOperationsError =
  * last started operation.
  */
 export const listOperations: API.PaginatedOperationMethod<
-  ListOperationsRequest,
+  ListOperationsRequest & RegionInput,
   ListOperationsResponse,
   ListOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1430,6 +1493,8 @@ export const listOperations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 })) as any;
 
 export type ListServicesError =
@@ -1440,7 +1505,7 @@ export type ListServicesError =
  * Returns a list of running App Runner services in your Amazon Web Services account.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1457,6 +1522,8 @@ export const listServices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListServicesForAutoScalingConfigurationError =
@@ -1468,7 +1535,7 @@ export type ListServicesForAutoScalingConfigurationError =
  * Returns a list of the associated App Runner services using an auto scaling configuration.
  */
 export const listServicesForAutoScalingConfiguration: API.PaginatedOperationMethod<
-  ListServicesForAutoScalingConfigurationRequest,
+  ListServicesForAutoScalingConfigurationRequest & RegionInput,
   ListServicesForAutoScalingConfigurationResponse,
   ListServicesForAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -1485,6 +1552,8 @@ export const listServicesForAutoScalingConfiguration: API.PaginatedOperationMeth
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServicesForAutoScalingConfiguration",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1497,7 +1566,7 @@ export type ListTagsForResourceError =
  * List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1513,6 +1582,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVpcConnectorsError =
@@ -1523,7 +1594,7 @@ export type ListVpcConnectorsError =
  * Returns a list of App Runner VPC connectors in your Amazon Web Services account.
  */
 export const listVpcConnectors: API.PaginatedOperationMethod<
-  ListVpcConnectorsRequest,
+  ListVpcConnectorsRequest & RegionInput,
   ListVpcConnectorsResponse,
   ListVpcConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1540,6 +1611,8 @@ export const listVpcConnectors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcConnectors",
 })) as any;
 
 export type ListVpcIngressConnectionsError =
@@ -1550,7 +1623,7 @@ export type ListVpcIngressConnectionsError =
  * Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
  */
 export const listVpcIngressConnections: API.PaginatedOperationMethod<
-  ListVpcIngressConnectionsRequest,
+  ListVpcIngressConnectionsRequest & RegionInput,
   ListVpcIngressConnectionsResponse,
   ListVpcIngressConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1567,6 +1640,8 @@ export const listVpcIngressConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcIngressConnections",
 })) as any;
 
 export type PauseServiceError =
@@ -1583,7 +1658,7 @@ export type PauseServiceError =
  * call to track the operation's progress.
  */
 export const pauseService: API.OperationMethod<
-  PauseServiceRequest,
+  PauseServiceRequest & RegionInput,
   PauseServiceResponse,
   PauseServiceError,
   Credentials | HttpClient.HttpClient
@@ -1599,6 +1674,8 @@ export const pauseService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseService",
+  telemetry: TELEMETRY,
+  span: "PauseService",
 }));
 
 export type ResumeServiceError =
@@ -1614,7 +1691,7 @@ export type ResumeServiceError =
  * call to track the operation's progress.
  */
 export const resumeService: API.OperationMethod<
-  ResumeServiceRequest,
+  ResumeServiceRequest & RegionInput,
   ResumeServiceResponse,
   ResumeServiceError,
   Credentials | HttpClient.HttpClient
@@ -1630,6 +1707,8 @@ export const resumeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeService",
+  telemetry: TELEMETRY,
+  span: "ResumeService",
 }));
 
 export type StartDeploymentError =
@@ -1648,7 +1727,7 @@ export type StartDeploymentError =
  * call to track the operation's progress.
  */
 export const startDeployment: API.OperationMethod<
-  StartDeploymentRequest,
+  StartDeploymentRequest & RegionInput,
   StartDeploymentResponse,
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1659,6 +1738,8 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  telemetry: TELEMETRY,
+  span: "StartDeployment",
 }));
 
 export type TagResourceError =
@@ -1671,7 +1752,7 @@ export type TagResourceError =
  * Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1687,6 +1768,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1699,7 +1782,7 @@ export type UntagResourceError =
  * Remove tags from an App Runner resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1715,6 +1798,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDefaultAutoScalingConfigurationError =
@@ -1727,7 +1812,7 @@ export type UpdateDefaultAutoScalingConfigurationError =
  * automatically.
  */
 export const updateDefaultAutoScalingConfiguration: API.OperationMethod<
-  UpdateDefaultAutoScalingConfigurationRequest,
+  UpdateDefaultAutoScalingConfigurationRequest & RegionInput,
   UpdateDefaultAutoScalingConfigurationResponse,
   UpdateDefaultAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1738,6 +1823,8 @@ export const updateDefaultAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDefaultAutoScalingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateDefaultAutoScalingConfiguration",
 }));
 
 export type UpdateServiceError =
@@ -1757,7 +1844,7 @@ export type UpdateServiceError =
  * call to track the operation's progress.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
+  UpdateServiceRequest & RegionInput,
   UpdateServiceResponse,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -1773,6 +1860,8 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateVpcIngressConnectionError =
@@ -1791,7 +1880,7 @@ export type UpdateVpcIngressConnectionError =
  * - FAILED_UPDATE
  */
 export const updateVpcIngressConnection: API.OperationMethod<
-  UpdateVpcIngressConnectionRequest,
+  UpdateVpcIngressConnectionRequest & RegionInput,
   UpdateVpcIngressConnectionResponse,
   UpdateVpcIngressConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1807,6 +1896,8 @@ export const updateVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcIngressConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcIngressConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

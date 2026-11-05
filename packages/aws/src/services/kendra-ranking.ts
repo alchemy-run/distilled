@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -81,6 +83,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KendraRanking",
+  service: "KendraRanking",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -281,7 +297,7 @@ export type CreateRescoreExecutionPlanError =
  * ranking a search service's results.
  */
 export const createRescoreExecutionPlan: API.OperationMethod<
-  CreateRescoreExecutionPlanRequest,
+  CreateRescoreExecutionPlanRequest & RegionInput,
   CreateRescoreExecutionPlanResponse,
   CreateRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -299,6 +315,8 @@ export const createRescoreExecutionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRescoreExecutionPlan",
+  telemetry: TELEMETRY,
+  span: "CreateRescoreExecutionPlan",
 }));
 
 export type DeleteRescoreExecutionPlanError =
@@ -315,7 +333,7 @@ export type DeleteRescoreExecutionPlanError =
  * used for provisioning the `Rescore` API.
  */
 export const deleteRescoreExecutionPlan: API.OperationMethod<
-  DeleteRescoreExecutionPlanRequest,
+  DeleteRescoreExecutionPlanRequest & RegionInput,
   DeleteRescoreExecutionPlanResponse,
   DeleteRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -333,6 +351,8 @@ export const deleteRescoreExecutionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRescoreExecutionPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteRescoreExecutionPlan",
 }));
 
 export type DescribeRescoreExecutionPlanError =
@@ -348,7 +368,7 @@ export type DescribeRescoreExecutionPlanError =
  * resource used for provisioning the `Rescore` API.
  */
 export const describeRescoreExecutionPlan: API.OperationMethod<
-  DescribeRescoreExecutionPlanRequest,
+  DescribeRescoreExecutionPlanRequest & RegionInput,
   DescribeRescoreExecutionPlanResponse,
   DescribeRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -365,6 +385,8 @@ export const describeRescoreExecutionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRescoreExecutionPlan",
+  telemetry: TELEMETRY,
+  span: "DescribeRescoreExecutionPlan",
 }));
 
 export type ListRescoreExecutionPlansError =
@@ -379,7 +401,7 @@ export type ListRescoreExecutionPlansError =
  * provisioning the `Rescore` API.
  */
 export const listRescoreExecutionPlans: API.PaginatedOperationMethod<
-  ListRescoreExecutionPlansRequest,
+  ListRescoreExecutionPlansRequest & RegionInput,
   ListRescoreExecutionPlansResponse,
   ListRescoreExecutionPlansError,
   Credentials | HttpClient.HttpClient,
@@ -401,6 +423,8 @@ export const listRescoreExecutionPlans: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRescoreExecutionPlans",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -416,7 +440,7 @@ export type ListTagsForResourceError =
  * can have tags associated with it.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -433,6 +457,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: { op: "ListTagsForResource", template: false },
 }));
 
 export type RescoreError =
@@ -450,7 +476,7 @@ export type RescoreError =
  * improve the search service's results.
  */
 export const rescore: API.OperationMethod<
-  RescoreRequest,
+  RescoreRequest & RegionInput,
   RescoreResult,
   RescoreError,
   Credentials | HttpClient.HttpClient
@@ -468,6 +494,8 @@ export const rescore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Rescore",
+  telemetry: TELEMETRY,
+  span: "Rescore",
 }));
 
 export type TagResourceError =
@@ -485,7 +513,7 @@ export type TagResourceError =
  * the existing value is replaced with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -502,6 +530,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: { op: "TagResource", template: false },
 }));
 
 export type UntagResourceError =
@@ -518,7 +548,7 @@ export type UntagResourceError =
  * `Rescore` operation.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -535,6 +565,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: { op: "UntagResource", template: false },
 }));
 
 export type UpdateRescoreExecutionPlanError =
@@ -555,7 +587,7 @@ export type UpdateRescoreExecutionPlanError =
  * results.
  */
 export const updateRescoreExecutionPlan: API.OperationMethod<
-  UpdateRescoreExecutionPlanRequest,
+  UpdateRescoreExecutionPlanRequest & RegionInput,
   UpdateRescoreExecutionPlanResponse,
   UpdateRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -574,6 +606,8 @@ export const updateRescoreExecutionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRescoreExecutionPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateRescoreExecutionPlan",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

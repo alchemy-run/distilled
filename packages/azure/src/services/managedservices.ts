@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ManagedServices" },
+  prefix: "Managedservices",
+  service: "Managedservices",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteRegistrationAssignmentRequest {
   /** The scope of the resource. */
   scope: string;
@@ -500,6 +520,14 @@ export const DeleteRegistrationAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteRegistrationAssignment",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
+    },
+  },
 }));
 
 export type DeleteRegistrationDefinitionError = AzureOpError;
@@ -515,6 +543,14 @@ export const DeleteRegistrationDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteRegistrationDefinition",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
+    },
+  },
 }));
 
 export type GetMarketplaceRegistrationDefinitionError = AzureOpError;
@@ -530,6 +566,14 @@ export const GetMarketplaceRegistrationDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetMarketplaceRegistrationDefinition",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions/{marketplaceIdentifier}",
+    },
+  },
 }));
 
 export type GetMarketplaceRegistrationDefinitionsWithoutScopeError = AzureOpError;
@@ -549,6 +593,8 @@ export const GetMarketplaceRegistrationDefinitionsWithoutScope: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketplaceRegistrationDefinitionsWithoutScope",
 }));
 
 export type GetRegistrationAssignmentError = AzureOpError;
@@ -564,6 +610,14 @@ export const GetRegistrationAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRegistrationAssignment",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
+    },
+  },
 }));
 
 export type GetRegistrationDefinitionError = AzureOpError;
@@ -579,6 +633,14 @@ export const GetRegistrationDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRegistrationDefinition",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
+    },
+  },
 }));
 
 export type ListMarketplaceRegistrationDefinitionsError = AzureOpError;
@@ -594,6 +656,14 @@ export const ListMarketplaceRegistrationDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListMarketplaceRegistrationDefinitions",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
+    },
+  },
 }));
 
 export type ListMarketplaceRegistrationDefinitionsWithoutScopeError = AzureOpError;
@@ -613,6 +683,8 @@ export const ListMarketplaceRegistrationDefinitionsWithoutScope: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketplaceRegistrationDefinitionsWithoutScope",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -628,6 +700,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListOperationsWithScopeError = AzureOpError;
@@ -643,6 +717,11 @@ export const ListOperationsWithScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListOperationsWithScope",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.ManagedServices/operations" },
+  },
 }));
 
 export type ListRegistrationAssignmentsError = AzureOpError;
@@ -658,6 +737,13 @@ export const ListRegistrationAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListRegistrationAssignments",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments",
+    },
+  },
 }));
 
 export type ListRegistrationDefinitionsError = AzureOpError;
@@ -673,6 +759,13 @@ export const ListRegistrationDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListRegistrationDefinitions",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions",
+    },
+  },
 }));
 
 export type RegistrationAssignmentsCreateOrUpdateError = AzureOpError;
@@ -688,6 +781,14 @@ export const RegistrationAssignmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RegistrationAssignmentsCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
+    },
+  },
 }));
 
 export type RegistrationDefinitionsCreateOrUpdateError = AzureOpError;
@@ -703,6 +804,14 @@ export const RegistrationDefinitionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RegistrationDefinitionsCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

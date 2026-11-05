@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "PaymentsPaymentV2",
+  labels: "paypal",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2269,6 +2283,8 @@ export const authorizationsReauthorize: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizationsReauthorize",
 }));
 
 export type CaptureAuthorizationError =
@@ -2290,6 +2306,8 @@ export const captureAuthorization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CaptureAuthorization",
 }));
 
 export type FindEligibleMethodsError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;
@@ -2305,6 +2323,8 @@ export const findEligibleMethods: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindEligibleMethods",
 }));
 
 export type GetAuthorizationError = Forbidden | NotFound | PaypalOpError;
@@ -2320,6 +2340,8 @@ export const getAuthorization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorization",
 }));
 
 export type GetCaptureError = Forbidden | NotFound | PaypalOpError;
@@ -2335,6 +2357,8 @@ export const getCapture: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCapture",
 }));
 
 export type GetRefundError = Forbidden | NotFound | PaypalOpError;
@@ -2350,6 +2374,8 @@ export const getRefund: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRefund",
 }));
 
 export type RefundCaptureError =
@@ -2371,6 +2397,8 @@ export const refundCapture: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefundCapture",
 }));
 
 export type VoidAuthorizationError =
@@ -2391,6 +2419,8 @@ export const voidAuthorization: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VoidAuthorization",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

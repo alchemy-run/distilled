@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "PromoCodes",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -703,6 +716,8 @@ export const activatePromoCode: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivatePromoCode",
 }));
 
 export type CreatePromoCodeError = Conflict | WhopOpError;
@@ -718,6 +733,8 @@ export const createPromoCode: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePromoCode",
 }));
 
 export type DeactivatePromoCodeError = Conflict | WhopOpError;
@@ -733,6 +750,8 @@ export const deactivatePromoCode: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivatePromoCode",
 }));
 
 export type DeletePromoCodeError = WhopOpError;
@@ -748,6 +767,8 @@ export const deletePromoCode: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePromoCode",
 }));
 
 export type GetPromoCodeError = NotFound | WhopOpError;
@@ -763,6 +784,8 @@ export const getPromoCode: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPromoCode",
 }));
 
 export type ListPromoCodesError = BadRequest | NotFound | WhopOpError;
@@ -780,6 +803,8 @@ export const listPromoCodes: API.PaginatedOperationMethod<
     errors: [BadRequest, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPromoCodes",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -810,6 +835,8 @@ export const updatePromoCode: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePromoCode",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

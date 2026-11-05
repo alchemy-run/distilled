@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://apigateway.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "APIGateway",
+  service: "APIGateway",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1454,7 +1470,7 @@ export type CreateApiKeyError =
  * Create an ApiKey resource.
  */
 export const createApiKey: API.OperationMethod<
-  CreateApiKeyRequest,
+  CreateApiKeyRequest & RegionInput,
   ApiKey,
   CreateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1472,6 +1488,8 @@ export const createApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKey",
+  telemetry: TELEMETRY,
+  span: "CreateApiKey",
 }));
 
 export type CreateAuthorizerError =
@@ -1486,7 +1504,7 @@ export type CreateAuthorizerError =
  * Adds a new Authorizer resource to an existing RestApi resource.
  */
 export const createAuthorizer: API.OperationMethod<
-  CreateAuthorizerRequest,
+  CreateAuthorizerRequest & RegionInput,
   Authorizer,
   CreateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -1504,6 +1522,8 @@ export const createAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuthorizer",
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizer",
 }));
 
 export type CreateBasePathMappingError =
@@ -1518,7 +1538,7 @@ export type CreateBasePathMappingError =
  * Creates a new BasePathMapping resource.
  */
 export const createBasePathMapping: API.OperationMethod<
-  CreateBasePathMappingRequest,
+  CreateBasePathMappingRequest & RegionInput,
   BasePathMapping,
   CreateBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -1536,6 +1556,8 @@ export const createBasePathMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBasePathMapping",
+  telemetry: TELEMETRY,
+  span: "CreateBasePathMapping",
 }));
 
 export type CreateDeploymentError =
@@ -1551,7 +1573,7 @@ export type CreateDeploymentError =
  * Creates a Deployment resource, which makes a specified RestApi callable over the internet.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   Deployment,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1570,6 +1592,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateDocumentationPartError =
@@ -1584,7 +1608,7 @@ export type CreateDocumentationPartError =
  * Creates a documentation part.
  */
 export const createDocumentationPart: API.OperationMethod<
-  CreateDocumentationPartRequest,
+  CreateDocumentationPartRequest & RegionInput,
   DocumentationPart,
   CreateDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -1602,6 +1626,8 @@ export const createDocumentationPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocumentationPart",
+  telemetry: TELEMETRY,
+  span: "CreateDocumentationPart",
 }));
 
 export type CreateDocumentationVersionError =
@@ -1616,7 +1642,7 @@ export type CreateDocumentationVersionError =
  * Creates a documentation version
  */
 export const createDocumentationVersion: API.OperationMethod<
-  CreateDocumentationVersionRequest,
+  CreateDocumentationVersionRequest & RegionInput,
   DocumentationVersion,
   CreateDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1634,6 +1660,8 @@ export const createDocumentationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocumentationVersion",
+  telemetry: TELEMETRY,
+  span: "CreateDocumentationVersion",
 }));
 
 export type CreateDomainNameError =
@@ -1647,7 +1675,7 @@ export type CreateDomainNameError =
  * Creates a new domain name.
  */
 export const createDomainName: API.OperationMethod<
-  CreateDomainNameRequest,
+  CreateDomainNameRequest & RegionInput,
   DomainName,
   CreateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -1664,6 +1692,8 @@ export const createDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainName",
+  telemetry: TELEMETRY,
+  span: "CreateDomainName",
 }));
 
 export type CreateDomainNameAccessAssociationError =
@@ -1678,7 +1708,7 @@ export type CreateDomainNameAccessAssociationError =
  * domain name.
  */
 export const createDomainNameAccessAssociation: API.OperationMethod<
-  CreateDomainNameAccessAssociationRequest,
+  CreateDomainNameAccessAssociationRequest & RegionInput,
   DomainNameAccessAssociation,
   CreateDomainNameAccessAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1695,6 +1725,8 @@ export const createDomainNameAccessAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainNameAccessAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateDomainNameAccessAssociation",
 }));
 
 export type CreateModelError =
@@ -1709,7 +1741,7 @@ export type CreateModelError =
  * Adds a new Model resource to an existing RestApi resource.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   Model,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -1727,6 +1759,8 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
+  telemetry: TELEMETRY,
+  span: "CreateModel",
 }));
 
 export type CreateRequestValidatorError =
@@ -1741,7 +1775,7 @@ export type CreateRequestValidatorError =
  * Creates a RequestValidator of a given RestApi.
  */
 export const createRequestValidator: API.OperationMethod<
-  CreateRequestValidatorRequest,
+  CreateRequestValidatorRequest & RegionInput,
   RequestValidator,
   CreateRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -1759,6 +1793,8 @@ export const createRequestValidator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRequestValidator",
+  telemetry: TELEMETRY,
+  span: "CreateRequestValidator",
 }));
 
 export type CreateResourceError =
@@ -1773,7 +1809,7 @@ export type CreateResourceError =
  * Creates a Resource resource.
  */
 export const createResource: API.OperationMethod<
-  CreateResourceRequest,
+  CreateResourceRequest & RegionInput,
   Resource,
   CreateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1791,6 +1827,8 @@ export const createResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResource",
+  telemetry: TELEMETRY,
+  span: "CreateResource",
 }));
 
 export type CreateRestApiError =
@@ -1804,7 +1842,7 @@ export type CreateRestApiError =
  * Creates a new RestApi resource.
  */
 export const createRestApi: API.OperationMethod<
-  CreateRestApiRequest,
+  CreateRestApiRequest & RegionInput,
   RestApi,
   CreateRestApiError,
   Credentials | HttpClient.HttpClient
@@ -1821,6 +1859,8 @@ export const createRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestApi",
+  telemetry: TELEMETRY,
+  span: "CreateRestApi",
 }));
 
 export type CreateStageError =
@@ -1835,7 +1875,7 @@ export type CreateStageError =
  * Creates a new Stage resource that references a pre-existing Deployment for the API.
  */
 export const createStage: API.OperationMethod<
-  CreateStageRequest,
+  CreateStageRequest & RegionInput,
   Stage,
   CreateStageError,
   Credentials | HttpClient.HttpClient
@@ -1853,6 +1893,8 @@ export const createStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStage",
+  telemetry: TELEMETRY,
+  span: "CreateStage",
 }));
 
 export type CreateUsagePlanError =
@@ -1867,7 +1909,7 @@ export type CreateUsagePlanError =
  * Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
  */
 export const createUsagePlan: API.OperationMethod<
-  CreateUsagePlanRequest,
+  CreateUsagePlanRequest & RegionInput,
   UsagePlan,
   CreateUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -1885,6 +1927,8 @@ export const createUsagePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsagePlan",
+  telemetry: TELEMETRY,
+  span: "CreateUsagePlan",
 }));
 
 export type CreateUsagePlanKeyError =
@@ -1899,7 +1943,7 @@ export type CreateUsagePlanKeyError =
  * Creates a usage plan key for adding an existing API key to a usage plan.
  */
 export const createUsagePlanKey: API.OperationMethod<
-  CreateUsagePlanKeyRequest,
+  CreateUsagePlanKeyRequest & RegionInput,
   UsagePlanKey,
   CreateUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
@@ -1917,6 +1961,8 @@ export const createUsagePlanKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsagePlanKey",
+  telemetry: TELEMETRY,
+  span: "CreateUsagePlanKey",
 }));
 
 export type CreateVpcLinkError =
@@ -1930,7 +1976,7 @@ export type CreateVpcLinkError =
  * Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
  */
 export const createVpcLink: API.OperationMethod<
-  CreateVpcLinkRequest,
+  CreateVpcLinkRequest & RegionInput,
   VpcLink,
   CreateVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -1947,6 +1993,8 @@ export const createVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcLink",
+  telemetry: TELEMETRY,
+  span: "CreateVpcLink",
 }));
 
 export type DeleteApiKeyError =
@@ -1960,7 +2008,7 @@ export type DeleteApiKeyError =
  * Deletes the ApiKey resource.
  */
 export const deleteApiKey: API.OperationMethod<
-  DeleteApiKeyRequest,
+  DeleteApiKeyRequest & RegionInput,
   DeleteApiKeyResponse,
   DeleteApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1977,6 +2025,8 @@ export const deleteApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKey",
+  telemetry: TELEMETRY,
+  span: "DeleteApiKey",
 }));
 
 export type DeleteAuthorizerError =
@@ -1990,7 +2040,7 @@ export type DeleteAuthorizerError =
  * Deletes an existing Authorizer resource.
  */
 export const deleteAuthorizer: API.OperationMethod<
-  DeleteAuthorizerRequest,
+  DeleteAuthorizerRequest & RegionInput,
   DeleteAuthorizerResponse,
   DeleteAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2007,6 +2057,8 @@ export const deleteAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthorizer",
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizer",
 }));
 
 export type DeleteBasePathMappingError =
@@ -2020,7 +2072,7 @@ export type DeleteBasePathMappingError =
  * Deletes the BasePathMapping resource.
  */
 export const deleteBasePathMapping: API.OperationMethod<
-  DeleteBasePathMappingRequest,
+  DeleteBasePathMappingRequest & RegionInput,
   DeleteBasePathMappingResponse,
   DeleteBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -2037,6 +2089,8 @@ export const deleteBasePathMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBasePathMapping",
+  telemetry: TELEMETRY,
+  span: "DeleteBasePathMapping",
 }));
 
 export type DeleteClientCertificateError =
@@ -2050,7 +2104,7 @@ export type DeleteClientCertificateError =
  * Deletes the ClientCertificate resource.
  */
 export const deleteClientCertificate: API.OperationMethod<
-  DeleteClientCertificateRequest,
+  DeleteClientCertificateRequest & RegionInput,
   DeleteClientCertificateResponse,
   DeleteClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2067,6 +2121,8 @@ export const deleteClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClientCertificate",
+  telemetry: TELEMETRY,
+  span: "DeleteClientCertificate",
 }));
 
 export type DeleteDeploymentError =
@@ -2081,7 +2137,7 @@ export type DeleteDeploymentError =
  * Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
+  DeleteDeploymentRequest & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2099,6 +2155,8 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DeleteDocumentationPartError =
@@ -2112,7 +2170,7 @@ export type DeleteDocumentationPartError =
  * Deletes a documentation part
  */
 export const deleteDocumentationPart: API.OperationMethod<
-  DeleteDocumentationPartRequest,
+  DeleteDocumentationPartRequest & RegionInput,
   DeleteDocumentationPartResponse,
   DeleteDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -2129,6 +2187,8 @@ export const deleteDocumentationPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentationPart",
+  telemetry: TELEMETRY,
+  span: "DeleteDocumentationPart",
 }));
 
 export type DeleteDocumentationVersionError =
@@ -2142,7 +2202,7 @@ export type DeleteDocumentationVersionError =
  * Deletes a documentation version.
  */
 export const deleteDocumentationVersion: API.OperationMethod<
-  DeleteDocumentationVersionRequest,
+  DeleteDocumentationVersionRequest & RegionInput,
   DeleteDocumentationVersionResponse,
   DeleteDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -2159,6 +2219,8 @@ export const deleteDocumentationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentationVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteDocumentationVersion",
 }));
 
 export type DeleteDomainNameError =
@@ -2172,7 +2234,7 @@ export type DeleteDomainNameError =
  * Deletes the DomainName resource.
  */
 export const deleteDomainName: API.OperationMethod<
-  DeleteDomainNameRequest,
+  DeleteDomainNameRequest & RegionInput,
   DeleteDomainNameResponse,
   DeleteDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2189,6 +2251,8 @@ export const deleteDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainName",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainName",
 }));
 
 export type DeleteDomainNameAccessAssociationError =
@@ -2204,7 +2268,7 @@ export type DeleteDomainNameAccessAssociationError =
  * Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
  */
 export const deleteDomainNameAccessAssociation: API.OperationMethod<
-  DeleteDomainNameAccessAssociationRequest,
+  DeleteDomainNameAccessAssociationRequest & RegionInput,
   DeleteDomainNameAccessAssociationResponse,
   DeleteDomainNameAccessAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2221,6 +2285,8 @@ export const deleteDomainNameAccessAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainNameAccessAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainNameAccessAssociation",
 }));
 
 export type DeleteGatewayResponseError =
@@ -2234,7 +2300,7 @@ export type DeleteGatewayResponseError =
  * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
  */
 export const deleteGatewayResponse: API.OperationMethod<
-  DeleteGatewayResponseRequest,
+  DeleteGatewayResponseRequest & RegionInput,
   DeleteGatewayResponseResponse,
   DeleteGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -2251,6 +2317,8 @@ export const deleteGatewayResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayResponse",
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayResponse",
 }));
 
 export type DeleteIntegrationError =
@@ -2264,7 +2332,7 @@ export type DeleteIntegrationError =
  * Represents a delete integration.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2281,6 +2349,8 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteIntegrationResponseError =
@@ -2294,7 +2364,7 @@ export type DeleteIntegrationResponseError =
  * Represents a delete integration response.
  */
 export const deleteIntegrationResponse: API.OperationMethod<
-  DeleteIntegrationResponseRequest,
+  DeleteIntegrationResponseRequest & RegionInput,
   DeleteIntegrationResponseResponse,
   DeleteIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -2311,6 +2381,8 @@ export const deleteIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegrationResponse",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationResponse",
 }));
 
 export type DeleteMethodError =
@@ -2323,7 +2395,7 @@ export type DeleteMethodError =
  * Deletes an existing Method resource.
  */
 export const deleteMethod: API.OperationMethod<
-  DeleteMethodRequest,
+  DeleteMethodRequest & RegionInput,
   DeleteMethodResponse,
   DeleteMethodError,
   Credentials | HttpClient.HttpClient
@@ -2334,6 +2406,8 @@ export const deleteMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMethod",
+  telemetry: TELEMETRY,
+  span: "DeleteMethod",
 }));
 
 export type DeleteMethodResponseError =
@@ -2347,7 +2421,7 @@ export type DeleteMethodResponseError =
  * Deletes an existing MethodResponse resource.
  */
 export const deleteMethodResponse: API.OperationMethod<
-  DeleteMethodResponseRequest,
+  DeleteMethodResponseRequest & RegionInput,
   DeleteMethodResponseResponse,
   DeleteMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -2364,6 +2438,8 @@ export const deleteMethodResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMethodResponse",
+  telemetry: TELEMETRY,
+  span: "DeleteMethodResponse",
 }));
 
 export type DeleteModelError =
@@ -2377,7 +2453,7 @@ export type DeleteModelError =
  * Deletes a model.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResponse,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -2394,6 +2470,8 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
+  telemetry: TELEMETRY,
+  span: "DeleteModel",
 }));
 
 export type DeleteRequestValidatorError =
@@ -2407,7 +2485,7 @@ export type DeleteRequestValidatorError =
  * Deletes a RequestValidator of a given RestApi.
  */
 export const deleteRequestValidator: API.OperationMethod<
-  DeleteRequestValidatorRequest,
+  DeleteRequestValidatorRequest & RegionInput,
   DeleteRequestValidatorResponse,
   DeleteRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -2424,6 +2502,8 @@ export const deleteRequestValidator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRequestValidator",
+  telemetry: TELEMETRY,
+  span: "DeleteRequestValidator",
 }));
 
 export type DeleteResourceError =
@@ -2437,7 +2517,7 @@ export type DeleteResourceError =
  * Deletes a Resource resource.
  */
 export const deleteResource: API.OperationMethod<
-  DeleteResourceRequest,
+  DeleteResourceRequest & RegionInput,
   DeleteResourceResponse,
   DeleteResourceError,
   Credentials | HttpClient.HttpClient
@@ -2454,6 +2534,8 @@ export const deleteResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResource",
+  telemetry: TELEMETRY,
+  span: "DeleteResource",
 }));
 
 export type DeleteRestApiError =
@@ -2467,7 +2549,7 @@ export type DeleteRestApiError =
  * Deletes the specified API.
  */
 export const deleteRestApi: API.OperationMethod<
-  DeleteRestApiRequest,
+  DeleteRestApiRequest & RegionInput,
   DeleteRestApiResponse,
   DeleteRestApiError,
   Credentials | HttpClient.HttpClient
@@ -2484,6 +2566,8 @@ export const deleteRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestApi",
+  telemetry: TELEMETRY,
+  span: "DeleteRestApi",
 }));
 
 export type DeleteStageError =
@@ -2498,7 +2582,7 @@ export type DeleteStageError =
  * Deletes a Stage resource.
  */
 export const deleteStage: API.OperationMethod<
-  DeleteStageRequest,
+  DeleteStageRequest & RegionInput,
   DeleteStageResponse,
   DeleteStageError,
   Credentials | HttpClient.HttpClient
@@ -2516,6 +2600,8 @@ export const deleteStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStage",
+  telemetry: TELEMETRY,
+  span: "DeleteStage",
 }));
 
 export type DeleteUsagePlanError =
@@ -2529,7 +2615,7 @@ export type DeleteUsagePlanError =
  * Deletes a usage plan of a given plan Id.
  */
 export const deleteUsagePlan: API.OperationMethod<
-  DeleteUsagePlanRequest,
+  DeleteUsagePlanRequest & RegionInput,
   DeleteUsagePlanResponse,
   DeleteUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -2546,6 +2632,8 @@ export const deleteUsagePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsagePlan",
+  telemetry: TELEMETRY,
+  span: "DeleteUsagePlan",
 }));
 
 export type DeleteUsagePlanKeyError =
@@ -2559,7 +2647,7 @@ export type DeleteUsagePlanKeyError =
  * Deletes a usage plan key and remove the underlying API key from the associated usage plan.
  */
 export const deleteUsagePlanKey: API.OperationMethod<
-  DeleteUsagePlanKeyRequest,
+  DeleteUsagePlanKeyRequest & RegionInput,
   DeleteUsagePlanKeyResponse,
   DeleteUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
@@ -2576,6 +2664,8 @@ export const deleteUsagePlanKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsagePlanKey",
+  telemetry: TELEMETRY,
+  span: "DeleteUsagePlanKey",
 }));
 
 export type DeleteVpcLinkError =
@@ -2589,7 +2679,7 @@ export type DeleteVpcLinkError =
  * Deletes an existing VpcLink of a specified identifier.
  */
 export const deleteVpcLink: API.OperationMethod<
-  DeleteVpcLinkRequest,
+  DeleteVpcLinkRequest & RegionInput,
   DeleteVpcLinkResponse,
   DeleteVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -2606,6 +2696,8 @@ export const deleteVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcLink",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcLink",
 }));
 
 export type FlushStageAuthorizersCacheError =
@@ -2620,7 +2712,7 @@ export type FlushStageAuthorizersCacheError =
  * Flushes all authorizer cache entries on a stage.
  */
 export const flushStageAuthorizersCache: API.OperationMethod<
-  FlushStageAuthorizersCacheRequest,
+  FlushStageAuthorizersCacheRequest & RegionInput,
   FlushStageAuthorizersCacheResponse,
   FlushStageAuthorizersCacheError,
   Credentials | HttpClient.HttpClient
@@ -2638,6 +2730,8 @@ export const flushStageAuthorizersCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushStageAuthorizersCache",
+  telemetry: TELEMETRY,
+  span: "FlushStageAuthorizersCache",
 }));
 
 export type FlushStageCacheError =
@@ -2652,7 +2746,7 @@ export type FlushStageCacheError =
  * Flushes a stage's cache.
  */
 export const flushStageCache: API.OperationMethod<
-  FlushStageCacheRequest,
+  FlushStageCacheRequest & RegionInput,
   FlushStageCacheResponse,
   FlushStageCacheError,
   Credentials | HttpClient.HttpClient
@@ -2670,6 +2764,8 @@ export const flushStageCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushStageCache",
+  telemetry: TELEMETRY,
+  span: "FlushStageCache",
 }));
 
 export type GenerateClientCertificateError =
@@ -2683,7 +2779,7 @@ export type GenerateClientCertificateError =
  * Generates a ClientCertificate resource.
  */
 export const generateClientCertificate: API.OperationMethod<
-  GenerateClientCertificateRequest,
+  GenerateClientCertificateRequest & RegionInput,
   ClientCertificate,
   GenerateClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2700,6 +2796,8 @@ export const generateClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateClientCertificate",
+  telemetry: TELEMETRY,
+  span: "GenerateClientCertificate",
 }));
 
 export type GetAccountError =
@@ -2712,7 +2810,7 @@ export type GetAccountError =
  * Gets information about the current Account resource.
  */
 export const getAccount: API.OperationMethod<
-  GetAccountRequest,
+  GetAccountRequest & RegionInput,
   Account,
   GetAccountError,
   Credentials | HttpClient.HttpClient
@@ -2723,6 +2821,8 @@ export const getAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccount",
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetApiKeyError =
@@ -2735,7 +2835,7 @@ export type GetApiKeyError =
  * Gets information about the current ApiKey resource.
  */
 export const getApiKey: API.OperationMethod<
-  GetApiKeyRequest,
+  GetApiKeyRequest & RegionInput,
   ApiKey,
   GetApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -2746,6 +2846,8 @@ export const getApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiKey",
+  telemetry: TELEMETRY,
+  span: "GetApiKey",
 }));
 
 export type GetApiKeysError =
@@ -2758,7 +2860,7 @@ export type GetApiKeysError =
  * Gets information about the current ApiKeys resource.
  */
 export const getApiKeys: API.PaginatedOperationMethod<
-  GetApiKeysRequest,
+  GetApiKeysRequest & RegionInput,
   ApiKeys,
   GetApiKeysError,
   Credentials | HttpClient.HttpClient,
@@ -2776,6 +2878,8 @@ export const getApiKeys: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetApiKeys",
 })) as any;
 
 export type GetAuthorizerError =
@@ -2788,7 +2892,7 @@ export type GetAuthorizerError =
  * Describe an existing Authorizer resource.
  */
 export const getAuthorizer: API.OperationMethod<
-  GetAuthorizerRequest,
+  GetAuthorizerRequest & RegionInput,
   Authorizer,
   GetAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2799,6 +2903,8 @@ export const getAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizer",
+  telemetry: TELEMETRY,
+  span: "GetAuthorizer",
 }));
 
 export type GetAuthorizersError =
@@ -2811,7 +2917,7 @@ export type GetAuthorizersError =
  * Describe an existing Authorizers resource.
  */
 export const getAuthorizers: API.OperationMethod<
-  GetAuthorizersRequest,
+  GetAuthorizersRequest & RegionInput,
   Authorizers,
   GetAuthorizersError,
   Credentials | HttpClient.HttpClient
@@ -2822,6 +2928,8 @@ export const getAuthorizers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizers",
+  telemetry: TELEMETRY,
+  span: "GetAuthorizers",
 }));
 
 export type GetBasePathMappingError =
@@ -2834,7 +2942,7 @@ export type GetBasePathMappingError =
  * Describe a BasePathMapping resource.
  */
 export const getBasePathMapping: API.OperationMethod<
-  GetBasePathMappingRequest,
+  GetBasePathMappingRequest & RegionInput,
   BasePathMapping,
   GetBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -2845,6 +2953,8 @@ export const getBasePathMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBasePathMapping",
+  telemetry: TELEMETRY,
+  span: "GetBasePathMapping",
 }));
 
 export type GetBasePathMappingsError =
@@ -2857,7 +2967,7 @@ export type GetBasePathMappingsError =
  * Represents a collection of BasePathMapping resources.
  */
 export const getBasePathMappings: API.PaginatedOperationMethod<
-  GetBasePathMappingsRequest,
+  GetBasePathMappingsRequest & RegionInput,
   BasePathMappings,
   GetBasePathMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -2875,6 +2985,8 @@ export const getBasePathMappings: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBasePathMappings",
 })) as any;
 
 export type GetClientCertificateError =
@@ -2887,7 +2999,7 @@ export type GetClientCertificateError =
  * Gets information about the current ClientCertificate resource.
  */
 export const getClientCertificate: API.OperationMethod<
-  GetClientCertificateRequest,
+  GetClientCertificateRequest & RegionInput,
   ClientCertificate,
   GetClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2898,6 +3010,8 @@ export const getClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClientCertificate",
+  telemetry: TELEMETRY,
+  span: "GetClientCertificate",
 }));
 
 export type GetClientCertificatesError =
@@ -2910,7 +3024,7 @@ export type GetClientCertificatesError =
  * Gets a collection of ClientCertificate resources.
  */
 export const getClientCertificates: API.PaginatedOperationMethod<
-  GetClientCertificatesRequest,
+  GetClientCertificatesRequest & RegionInput,
   ClientCertificates,
   GetClientCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -2928,6 +3042,8 @@ export const getClientCertificates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetClientCertificates",
 })) as any;
 
 export type GetDeploymentError =
@@ -2941,7 +3057,7 @@ export type GetDeploymentError =
  * Gets information about a Deployment resource.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   Deployment,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2958,6 +3074,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentsError =
@@ -2971,7 +3089,7 @@ export type GetDeploymentsError =
  * Gets information about a Deployments collection.
  */
 export const getDeployments: API.PaginatedOperationMethod<
-  GetDeploymentsRequest,
+  GetDeploymentsRequest & RegionInput,
   Deployments,
   GetDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -2995,6 +3113,8 @@ export const getDeployments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDeployments",
 })) as any;
 
 export type GetDocumentationPartError =
@@ -3007,7 +3127,7 @@ export type GetDocumentationPartError =
  * Gets a documentation part.
  */
 export const getDocumentationPart: API.OperationMethod<
-  GetDocumentationPartRequest,
+  GetDocumentationPartRequest & RegionInput,
   DocumentationPart,
   GetDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -3018,6 +3138,8 @@ export const getDocumentationPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationPart",
+  telemetry: TELEMETRY,
+  span: "GetDocumentationPart",
 }));
 
 export type GetDocumentationPartsError =
@@ -3030,7 +3152,7 @@ export type GetDocumentationPartsError =
  * Gets documentation parts.
  */
 export const getDocumentationParts: API.OperationMethod<
-  GetDocumentationPartsRequest,
+  GetDocumentationPartsRequest & RegionInput,
   DocumentationParts,
   GetDocumentationPartsError,
   Credentials | HttpClient.HttpClient
@@ -3041,6 +3163,8 @@ export const getDocumentationParts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationParts",
+  telemetry: TELEMETRY,
+  span: "GetDocumentationParts",
 }));
 
 export type GetDocumentationVersionError =
@@ -3052,7 +3176,7 @@ export type GetDocumentationVersionError =
  * Gets a documentation version.
  */
 export const getDocumentationVersion: API.OperationMethod<
-  GetDocumentationVersionRequest,
+  GetDocumentationVersionRequest & RegionInput,
   DocumentationVersion,
   GetDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -3063,6 +3187,8 @@ export const getDocumentationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationVersion",
+  telemetry: TELEMETRY,
+  span: "GetDocumentationVersion",
 }));
 
 export type GetDocumentationVersionsError =
@@ -3075,7 +3201,7 @@ export type GetDocumentationVersionsError =
  * Gets documentation versions.
  */
 export const getDocumentationVersions: API.OperationMethod<
-  GetDocumentationVersionsRequest,
+  GetDocumentationVersionsRequest & RegionInput,
   DocumentationVersions,
   GetDocumentationVersionsError,
   Credentials | HttpClient.HttpClient
@@ -3086,6 +3212,8 @@ export const getDocumentationVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationVersions",
+  telemetry: TELEMETRY,
+  span: "GetDocumentationVersions",
 }));
 
 export type GetDomainNameError =
@@ -3098,7 +3226,7 @@ export type GetDomainNameError =
  * Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
  */
 export const getDomainName: API.OperationMethod<
-  GetDomainNameRequest,
+  GetDomainNameRequest & RegionInput,
   DomainName,
   GetDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -3109,6 +3237,8 @@ export const getDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainName",
+  telemetry: TELEMETRY,
+  span: "GetDomainName",
 }));
 
 export type GetDomainNameAccessAssociationsError =
@@ -3121,7 +3251,7 @@ export type GetDomainNameAccessAssociationsError =
  * Represents a collection on DomainNameAccessAssociations resources.
  */
 export const getDomainNameAccessAssociations: API.OperationMethod<
-  GetDomainNameAccessAssociationsRequest,
+  GetDomainNameAccessAssociationsRequest & RegionInput,
   DomainNameAccessAssociations,
   GetDomainNameAccessAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3132,6 +3262,8 @@ export const getDomainNameAccessAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainNameAccessAssociations",
+  telemetry: TELEMETRY,
+  span: "GetDomainNameAccessAssociations",
 }));
 
 export type GetDomainNamesError =
@@ -3144,7 +3276,7 @@ export type GetDomainNamesError =
  * Represents a collection of DomainName resources.
  */
 export const getDomainNames: API.PaginatedOperationMethod<
-  GetDomainNamesRequest,
+  GetDomainNamesRequest & RegionInput,
   DomainNames,
   GetDomainNamesError,
   Credentials | HttpClient.HttpClient,
@@ -3162,6 +3294,8 @@ export const getDomainNames: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDomainNames",
 })) as any;
 
 export type GetExportError =
@@ -3176,7 +3310,7 @@ export type GetExportError =
  * Exports a deployed version of a RestApi in a specified format.
  */
 export const getExport: API.OperationMethod<
-  GetExportRequest,
+  GetExportRequest & RegionInput,
   ExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
@@ -3194,6 +3328,8 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
+  telemetry: TELEMETRY,
+  span: "GetExport",
 }));
 
 export type GetGatewayResponseError =
@@ -3206,7 +3342,7 @@ export type GetGatewayResponseError =
  * Gets a GatewayResponse of a specified response type on the given RestApi.
  */
 export const getGatewayResponse: API.OperationMethod<
-  GetGatewayResponseRequest,
+  GetGatewayResponseRequest & RegionInput,
   GatewayResponse,
   GetGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -3217,6 +3353,8 @@ export const getGatewayResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayResponse",
+  telemetry: TELEMETRY,
+  span: "GetGatewayResponse",
 }));
 
 export type GetGatewayResponsesError =
@@ -3229,7 +3367,7 @@ export type GetGatewayResponsesError =
  * Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
  */
 export const getGatewayResponses: API.OperationMethod<
-  GetGatewayResponsesRequest,
+  GetGatewayResponsesRequest & RegionInput,
   GatewayResponses,
   GetGatewayResponsesError,
   Credentials | HttpClient.HttpClient
@@ -3240,6 +3378,8 @@ export const getGatewayResponses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayResponses",
+  telemetry: TELEMETRY,
+  span: "GetGatewayResponses",
 }));
 
 export type GetIntegrationError =
@@ -3252,7 +3392,7 @@ export type GetIntegrationError =
  * Get the integration settings.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationRequest,
+  GetIntegrationRequest & RegionInput,
   Integration,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3263,6 +3403,8 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetIntegrationResponseError =
@@ -3275,7 +3417,7 @@ export type GetIntegrationResponseError =
  * Represents a get integration response.
  */
 export const getIntegrationResponse: API.OperationMethod<
-  GetIntegrationResponseRequest,
+  GetIntegrationResponseRequest & RegionInput,
   IntegrationResponse,
   GetIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -3286,6 +3428,8 @@ export const getIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegrationResponse",
+  telemetry: TELEMETRY,
+  span: "GetIntegrationResponse",
 }));
 
 export type GetMethodError =
@@ -3297,7 +3441,7 @@ export type GetMethodError =
  * Describe an existing Method resource.
  */
 export const getMethod: API.OperationMethod<
-  GetMethodRequest,
+  GetMethodRequest & RegionInput,
   Method,
   GetMethodError,
   Credentials | HttpClient.HttpClient
@@ -3308,6 +3452,8 @@ export const getMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMethod",
+  telemetry: TELEMETRY,
+  span: "GetMethod",
 }));
 
 export type GetMethodResponseError =
@@ -3319,7 +3465,7 @@ export type GetMethodResponseError =
  * Describes a MethodResponse resource.
  */
 export const getMethodResponse: API.OperationMethod<
-  GetMethodResponseRequest,
+  GetMethodResponseRequest & RegionInput,
   MethodResponse,
   GetMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -3330,6 +3476,8 @@ export const getMethodResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMethodResponse",
+  telemetry: TELEMETRY,
+  span: "GetMethodResponse",
 }));
 
 export type GetModelError =
@@ -3342,7 +3490,7 @@ export type GetModelError =
  * Describes an existing model defined for a RestApi resource.
  */
 export const getModel: API.OperationMethod<
-  GetModelRequest,
+  GetModelRequest & RegionInput,
   Model,
   GetModelError,
   Credentials | HttpClient.HttpClient
@@ -3353,6 +3501,8 @@ export const getModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModel",
+  telemetry: TELEMETRY,
+  span: "GetModel",
 }));
 
 export type GetModelsError =
@@ -3365,7 +3515,7 @@ export type GetModelsError =
  * Describes existing Models defined for a RestApi resource.
  */
 export const getModels: API.PaginatedOperationMethod<
-  GetModelsRequest,
+  GetModelsRequest & RegionInput,
   Models,
   GetModelsError,
   Credentials | HttpClient.HttpClient,
@@ -3383,6 +3533,8 @@ export const getModels: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetModels",
 })) as any;
 
 export type GetModelTemplateError =
@@ -3395,7 +3547,7 @@ export type GetModelTemplateError =
  * Generates a sample mapping template that can be used to transform a payload into the structure of a model.
  */
 export const getModelTemplate: API.OperationMethod<
-  GetModelTemplateRequest,
+  GetModelTemplateRequest & RegionInput,
   Template,
   GetModelTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3406,6 +3558,8 @@ export const getModelTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelTemplate",
+  telemetry: TELEMETRY,
+  span: "GetModelTemplate",
 }));
 
 export type GetRequestValidatorError =
@@ -3418,7 +3572,7 @@ export type GetRequestValidatorError =
  * Gets a RequestValidator of a given RestApi.
  */
 export const getRequestValidator: API.OperationMethod<
-  GetRequestValidatorRequest,
+  GetRequestValidatorRequest & RegionInput,
   RequestValidator,
   GetRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -3429,6 +3583,8 @@ export const getRequestValidator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestValidator",
+  telemetry: TELEMETRY,
+  span: "GetRequestValidator",
 }));
 
 export type GetRequestValidatorsError =
@@ -3441,7 +3597,7 @@ export type GetRequestValidatorsError =
  * Gets the RequestValidators collection of a given RestApi.
  */
 export const getRequestValidators: API.OperationMethod<
-  GetRequestValidatorsRequest,
+  GetRequestValidatorsRequest & RegionInput,
   RequestValidators,
   GetRequestValidatorsError,
   Credentials | HttpClient.HttpClient
@@ -3452,6 +3608,8 @@ export const getRequestValidators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestValidators",
+  telemetry: TELEMETRY,
+  span: "GetRequestValidators",
 }));
 
 export type GetResourceError =
@@ -3463,7 +3621,7 @@ export type GetResourceError =
  * Lists information about a resource.
  */
 export const getResource: API.OperationMethod<
-  GetResourceRequest,
+  GetResourceRequest & RegionInput,
   Resource,
   GetResourceError,
   Credentials | HttpClient.HttpClient
@@ -3474,6 +3632,8 @@ export const getResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResource",
+  telemetry: TELEMETRY,
+  span: "GetResource",
 }));
 
 export type GetResourcesError =
@@ -3486,7 +3646,7 @@ export type GetResourcesError =
  * Lists information about a collection of Resource resources.
  */
 export const getResources: API.PaginatedOperationMethod<
-  GetResourcesRequest,
+  GetResourcesRequest & RegionInput,
   Resources,
   GetResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3504,6 +3664,8 @@ export const getResources: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResources",
 })) as any;
 
 export type GetRestApiError =
@@ -3516,7 +3678,7 @@ export type GetRestApiError =
  * Lists the RestApi resource in the collection.
  */
 export const getRestApi: API.OperationMethod<
-  GetRestApiRequest,
+  GetRestApiRequest & RegionInput,
   RestApi,
   GetRestApiError,
   Credentials | HttpClient.HttpClient
@@ -3527,6 +3689,8 @@ export const getRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestApi",
+  telemetry: TELEMETRY,
+  span: "GetRestApi",
 }));
 
 export type GetRestApisError =
@@ -3539,7 +3703,7 @@ export type GetRestApisError =
  * Lists the RestApis resources for your collection.
  */
 export const getRestApis: API.PaginatedOperationMethod<
-  GetRestApisRequest,
+  GetRestApisRequest & RegionInput,
   RestApis,
   GetRestApisError,
   Credentials | HttpClient.HttpClient,
@@ -3557,6 +3721,8 @@ export const getRestApis: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetRestApis",
 })) as any;
 
 export type GetSdkError =
@@ -3571,7 +3737,7 @@ export type GetSdkError =
  * Generates a client SDK for a RestApi and Stage.
  */
 export const getSdk: API.OperationMethod<
-  GetSdkRequest,
+  GetSdkRequest & RegionInput,
   SdkResponse,
   GetSdkError,
   Credentials | HttpClient.HttpClient
@@ -3589,6 +3755,8 @@ export const getSdk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSdk",
+  telemetry: TELEMETRY,
+  span: "GetSdk",
 }));
 
 export type GetSdkTypeError =
@@ -3601,7 +3769,7 @@ export type GetSdkTypeError =
  * Gets an SDK type.
  */
 export const getSdkType: API.OperationMethod<
-  GetSdkTypeRequest,
+  GetSdkTypeRequest & RegionInput,
   SdkType,
   GetSdkTypeError,
   Credentials | HttpClient.HttpClient
@@ -3612,6 +3780,8 @@ export const getSdkType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSdkType",
+  telemetry: TELEMETRY,
+  span: "GetSdkType",
 }));
 
 export type GetSdkTypesError =
@@ -3624,7 +3794,7 @@ export type GetSdkTypesError =
  * Gets SDK types
  */
 export const getSdkTypes: API.OperationMethod<
-  GetSdkTypesRequest,
+  GetSdkTypesRequest & RegionInput,
   SdkTypes,
   GetSdkTypesError,
   Credentials | HttpClient.HttpClient
@@ -3635,6 +3805,8 @@ export const getSdkTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSdkTypes",
+  telemetry: TELEMETRY,
+  span: "GetSdkTypes",
 }));
 
 export type GetStageError =
@@ -3649,7 +3821,7 @@ export type GetStageError =
  * Gets information about a Stage resource.
  */
 export const getStage: API.OperationMethod<
-  GetStageRequest,
+  GetStageRequest & RegionInput,
   Stage,
   GetStageError,
   Credentials | HttpClient.HttpClient
@@ -3667,6 +3839,8 @@ export const getStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStage",
+  telemetry: TELEMETRY,
+  span: "GetStage",
 }));
 
 export type GetStagesError =
@@ -3681,7 +3855,7 @@ export type GetStagesError =
  * Gets information about one or more Stage resources.
  */
 export const getStages: API.OperationMethod<
-  GetStagesRequest,
+  GetStagesRequest & RegionInput,
   Stages,
   GetStagesError,
   Credentials | HttpClient.HttpClient
@@ -3699,6 +3873,8 @@ export const getStages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStages",
+  telemetry: TELEMETRY,
+  span: "GetStages",
 }));
 
 export type GetTagsError =
@@ -3711,7 +3887,7 @@ export type GetTagsError =
  * Gets the Tags collection for a given resource.
  */
 export const getTags: API.OperationMethod<
-  GetTagsRequest,
+  GetTagsRequest & RegionInput,
   Tags,
   GetTagsError,
   Credentials | HttpClient.HttpClient
@@ -3722,6 +3898,8 @@ export const getTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
+  telemetry: TELEMETRY,
+  span: "GetTags",
 }));
 
 export type GetUsageError =
@@ -3734,7 +3912,7 @@ export type GetUsageError =
  * Gets the usage data of a usage plan in a specified time interval.
  */
 export const getUsage: API.PaginatedOperationMethod<
-  GetUsageRequest,
+  GetUsageRequest & RegionInput,
   Usage,
   GetUsageError,
   Credentials | HttpClient.HttpClient,
@@ -3752,6 +3930,8 @@ export const getUsage: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUsage",
 })) as any;
 
 export type GetUsagePlanError =
@@ -3764,7 +3944,7 @@ export type GetUsagePlanError =
  * Gets a usage plan of a given plan identifier.
  */
 export const getUsagePlan: API.OperationMethod<
-  GetUsagePlanRequest,
+  GetUsagePlanRequest & RegionInput,
   UsagePlan,
   GetUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -3775,6 +3955,8 @@ export const getUsagePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsagePlan",
+  telemetry: TELEMETRY,
+  span: "GetUsagePlan",
 }));
 
 export type GetUsagePlanKeyError =
@@ -3787,7 +3969,7 @@ export type GetUsagePlanKeyError =
  * Gets a usage plan key of a given key identifier.
  */
 export const getUsagePlanKey: API.OperationMethod<
-  GetUsagePlanKeyRequest,
+  GetUsagePlanKeyRequest & RegionInput,
   UsagePlanKey,
   GetUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
@@ -3798,6 +3980,8 @@ export const getUsagePlanKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsagePlanKey",
+  telemetry: TELEMETRY,
+  span: "GetUsagePlanKey",
 }));
 
 export type GetUsagePlanKeysError =
@@ -3810,7 +3994,7 @@ export type GetUsagePlanKeysError =
  * Gets all the usage plan keys representing the API keys added to a specified usage plan.
  */
 export const getUsagePlanKeys: API.PaginatedOperationMethod<
-  GetUsagePlanKeysRequest,
+  GetUsagePlanKeysRequest & RegionInput,
   UsagePlanKeys,
   GetUsagePlanKeysError,
   Credentials | HttpClient.HttpClient,
@@ -3828,6 +4012,8 @@ export const getUsagePlanKeys: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUsagePlanKeys",
 })) as any;
 
 export type GetUsagePlansError =
@@ -3840,7 +4026,7 @@ export type GetUsagePlansError =
  * Gets all the usage plans of the caller's account.
  */
 export const getUsagePlans: API.PaginatedOperationMethod<
-  GetUsagePlansRequest,
+  GetUsagePlansRequest & RegionInput,
   UsagePlans,
   GetUsagePlansError,
   Credentials | HttpClient.HttpClient,
@@ -3858,6 +4044,8 @@ export const getUsagePlans: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUsagePlans",
 })) as any;
 
 export type GetVpcLinkError =
@@ -3870,7 +4058,7 @@ export type GetVpcLinkError =
  * Gets a specified VPC link under the caller's account in a region.
  */
 export const getVpcLink: API.OperationMethod<
-  GetVpcLinkRequest,
+  GetVpcLinkRequest & RegionInput,
   VpcLink,
   GetVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -3881,6 +4069,8 @@ export const getVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcLink",
+  telemetry: TELEMETRY,
+  span: "GetVpcLink",
 }));
 
 export type GetVpcLinksError =
@@ -3893,7 +4083,7 @@ export type GetVpcLinksError =
  * Gets the VpcLinks collection under the caller's account in a selected region.
  */
 export const getVpcLinks: API.PaginatedOperationMethod<
-  GetVpcLinksRequest,
+  GetVpcLinksRequest & RegionInput,
   VpcLinks,
   GetVpcLinksError,
   Credentials | HttpClient.HttpClient,
@@ -3911,6 +4101,8 @@ export const getVpcLinks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetVpcLinks",
 })) as any;
 
 export type ImportApiKeysError =
@@ -3925,7 +4117,7 @@ export type ImportApiKeysError =
  * Import API keys from an external source, such as a CSV-formatted file.
  */
 export const importApiKeys: API.OperationMethod<
-  ImportApiKeysRequest,
+  ImportApiKeysRequest & RegionInput,
   ApiKeyIds,
   ImportApiKeysError,
   Credentials | HttpClient.HttpClient
@@ -3943,6 +4135,8 @@ export const importApiKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApiKeys",
+  telemetry: TELEMETRY,
+  span: "ImportApiKeys",
 }));
 
 export type ImportDocumentationPartsError =
@@ -3957,7 +4151,7 @@ export type ImportDocumentationPartsError =
  * Imports documentation parts
  */
 export const importDocumentationParts: API.OperationMethod<
-  ImportDocumentationPartsRequest,
+  ImportDocumentationPartsRequest & RegionInput,
   DocumentationPartIds,
   ImportDocumentationPartsError,
   Credentials | HttpClient.HttpClient
@@ -3975,6 +4169,8 @@ export const importDocumentationParts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDocumentationParts",
+  telemetry: TELEMETRY,
+  span: "ImportDocumentationParts",
 }));
 
 export type ImportRestApiError =
@@ -3989,7 +4185,7 @@ export type ImportRestApiError =
  * A feature of the API Gateway control service for creating a new API from an external API definition file.
  */
 export const importRestApi: API.OperationMethod<
-  ImportRestApiRequest,
+  ImportRestApiRequest & RegionInput,
   RestApi,
   ImportRestApiError,
   Credentials | HttpClient.HttpClient
@@ -4007,6 +4203,8 @@ export const importRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportRestApi",
+  telemetry: TELEMETRY,
+  span: "ImportRestApi",
 }));
 
 export type PutGatewayResponseError =
@@ -4021,7 +4219,7 @@ export type PutGatewayResponseError =
  * Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
  */
 export const putGatewayResponse: API.OperationMethod<
-  PutGatewayResponseRequest,
+  PutGatewayResponseRequest & RegionInput,
   GatewayResponse,
   PutGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -4039,6 +4237,8 @@ export const putGatewayResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGatewayResponse",
+  telemetry: TELEMETRY,
+  span: "PutGatewayResponse",
 }));
 
 export type PutIntegrationError =
@@ -4053,7 +4253,7 @@ export type PutIntegrationError =
  * Sets up a method's integration.
  */
 export const putIntegration: API.OperationMethod<
-  PutIntegrationRequest,
+  PutIntegrationRequest & RegionInput,
   Integration,
   PutIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4071,6 +4271,8 @@ export const putIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegration",
+  telemetry: TELEMETRY,
+  span: "PutIntegration",
 }));
 
 export type PutIntegrationResponseError =
@@ -4085,7 +4287,7 @@ export type PutIntegrationResponseError =
  * Represents a put integration.
  */
 export const putIntegrationResponse: API.OperationMethod<
-  PutIntegrationResponseRequest,
+  PutIntegrationResponseRequest & RegionInput,
   IntegrationResponse,
   PutIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -4103,6 +4305,8 @@ export const putIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegrationResponse",
+  telemetry: TELEMETRY,
+  span: "PutIntegrationResponse",
 }));
 
 export type PutMethodError =
@@ -4117,7 +4321,7 @@ export type PutMethodError =
  * Add a method to an existing Resource resource.
  */
 export const putMethod: API.OperationMethod<
-  PutMethodRequest,
+  PutMethodRequest & RegionInput,
   Method,
   PutMethodError,
   Credentials | HttpClient.HttpClient
@@ -4135,6 +4339,8 @@ export const putMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMethod",
+  telemetry: TELEMETRY,
+  span: "PutMethod",
 }));
 
 export type PutMethodResponseError =
@@ -4149,7 +4355,7 @@ export type PutMethodResponseError =
  * Adds a MethodResponse to an existing Method resource.
  */
 export const putMethodResponse: API.OperationMethod<
-  PutMethodResponseRequest,
+  PutMethodResponseRequest & RegionInput,
   MethodResponse,
   PutMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -4167,6 +4373,8 @@ export const putMethodResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMethodResponse",
+  telemetry: TELEMETRY,
+  span: "PutMethodResponse",
 }));
 
 export type PutRestApiError =
@@ -4182,7 +4390,7 @@ export type PutRestApiError =
  * The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
  */
 export const putRestApi: API.OperationMethod<
-  PutRestApiRequest,
+  PutRestApiRequest & RegionInput,
   RestApi,
   PutRestApiError,
   Credentials | HttpClient.HttpClient
@@ -4200,6 +4408,8 @@ export const putRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRestApi",
+  telemetry: TELEMETRY,
+  span: "PutRestApi",
 }));
 
 export type RejectDomainNameAccessAssociationError =
@@ -4215,7 +4425,7 @@ export type RejectDomainNameAccessAssociationError =
  * To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
  */
 export const rejectDomainNameAccessAssociation: API.OperationMethod<
-  RejectDomainNameAccessAssociationRequest,
+  RejectDomainNameAccessAssociationRequest & RegionInput,
   RejectDomainNameAccessAssociationResponse,
   RejectDomainNameAccessAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4232,6 +4442,8 @@ export const rejectDomainNameAccessAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDomainNameAccessAssociation",
+  telemetry: TELEMETRY,
+  span: "RejectDomainNameAccessAssociation",
 }));
 
 export type TagResourceError =
@@ -4246,7 +4458,7 @@ export type TagResourceError =
  * Adds or updates a tag on a given resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4264,6 +4476,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestInvokeAuthorizerError =
@@ -4276,7 +4490,7 @@ export type TestInvokeAuthorizerError =
  * Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
  */
 export const testInvokeAuthorizer: API.OperationMethod<
-  TestInvokeAuthorizerRequest,
+  TestInvokeAuthorizerRequest & RegionInput,
   TestInvokeAuthorizerResponse,
   TestInvokeAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -4287,6 +4501,8 @@ export const testInvokeAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestInvokeAuthorizer",
+  telemetry: TELEMETRY,
+  span: "TestInvokeAuthorizer",
 }));
 
 export type TestInvokeMethodError =
@@ -4299,7 +4515,7 @@ export type TestInvokeMethodError =
  * Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
  */
 export const testInvokeMethod: API.OperationMethod<
-  TestInvokeMethodRequest,
+  TestInvokeMethodRequest & RegionInput,
   TestInvokeMethodResponse,
   TestInvokeMethodError,
   Credentials | HttpClient.HttpClient
@@ -4310,6 +4526,8 @@ export const testInvokeMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestInvokeMethod",
+  telemetry: TELEMETRY,
+  span: "TestInvokeMethod",
 }));
 
 export type UntagResourceError =
@@ -4324,7 +4542,7 @@ export type UntagResourceError =
  * Removes a tag from a given resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4342,6 +4560,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountError =
@@ -4356,7 +4576,7 @@ export type UpdateAccountError =
  * Changes information about the current Account resource.
  */
 export const updateAccount: API.OperationMethod<
-  UpdateAccountRequest,
+  UpdateAccountRequest & RegionInput,
   Account,
   UpdateAccountError,
   Credentials | HttpClient.HttpClient
@@ -4374,6 +4594,8 @@ export const updateAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccount",
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateApiKeyError =
@@ -4388,7 +4610,7 @@ export type UpdateApiKeyError =
  * Changes information about an ApiKey resource.
  */
 export const updateApiKey: API.OperationMethod<
-  UpdateApiKeyRequest,
+  UpdateApiKeyRequest & RegionInput,
   ApiKey,
   UpdateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -4406,6 +4628,8 @@ export const updateApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKey",
+  telemetry: TELEMETRY,
+  span: "UpdateApiKey",
 }));
 
 export type UpdateAuthorizerError =
@@ -4420,7 +4644,7 @@ export type UpdateAuthorizerError =
  * Updates an existing Authorizer resource.
  */
 export const updateAuthorizer: API.OperationMethod<
-  UpdateAuthorizerRequest,
+  UpdateAuthorizerRequest & RegionInput,
   Authorizer,
   UpdateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -4438,6 +4662,8 @@ export const updateAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthorizer",
+  telemetry: TELEMETRY,
+  span: "UpdateAuthorizer",
 }));
 
 export type UpdateBasePathMappingError =
@@ -4452,7 +4678,7 @@ export type UpdateBasePathMappingError =
  * Changes information about the BasePathMapping resource.
  */
 export const updateBasePathMapping: API.OperationMethod<
-  UpdateBasePathMappingRequest,
+  UpdateBasePathMappingRequest & RegionInput,
   BasePathMapping,
   UpdateBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -4470,6 +4696,8 @@ export const updateBasePathMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBasePathMapping",
+  telemetry: TELEMETRY,
+  span: "UpdateBasePathMapping",
 }));
 
 export type UpdateClientCertificateError =
@@ -4484,7 +4712,7 @@ export type UpdateClientCertificateError =
  * Changes information about an ClientCertificate resource.
  */
 export const updateClientCertificate: API.OperationMethod<
-  UpdateClientCertificateRequest,
+  UpdateClientCertificateRequest & RegionInput,
   ClientCertificate,
   UpdateClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4502,6 +4730,8 @@ export const updateClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClientCertificate",
+  telemetry: TELEMETRY,
+  span: "UpdateClientCertificate",
 }));
 
 export type UpdateDeploymentError =
@@ -4517,7 +4747,7 @@ export type UpdateDeploymentError =
  * Changes information about a Deployment resource.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentRequest,
+  UpdateDeploymentRequest & RegionInput,
   Deployment,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4536,6 +4766,8 @@ export const updateDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
+  telemetry: TELEMETRY,
+  span: "UpdateDeployment",
 }));
 
 export type UpdateDocumentationPartError =
@@ -4550,7 +4782,7 @@ export type UpdateDocumentationPartError =
  * Updates a documentation part.
  */
 export const updateDocumentationPart: API.OperationMethod<
-  UpdateDocumentationPartRequest,
+  UpdateDocumentationPartRequest & RegionInput,
   DocumentationPart,
   UpdateDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -4568,6 +4800,8 @@ export const updateDocumentationPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentationPart",
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentationPart",
 }));
 
 export type UpdateDocumentationVersionError =
@@ -4582,7 +4816,7 @@ export type UpdateDocumentationVersionError =
  * Updates a documentation version.
  */
 export const updateDocumentationVersion: API.OperationMethod<
-  UpdateDocumentationVersionRequest,
+  UpdateDocumentationVersionRequest & RegionInput,
   DocumentationVersion,
   UpdateDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -4600,6 +4834,8 @@ export const updateDocumentationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentationVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentationVersion",
 }));
 
 export type UpdateDomainNameError =
@@ -4614,7 +4850,7 @@ export type UpdateDomainNameError =
  * Changes information about the DomainName resource.
  */
 export const updateDomainName: API.OperationMethod<
-  UpdateDomainNameRequest,
+  UpdateDomainNameRequest & RegionInput,
   DomainName,
   UpdateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -4632,6 +4868,8 @@ export const updateDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainName",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainName",
 }));
 
 export type UpdateGatewayResponseError =
@@ -4646,7 +4884,7 @@ export type UpdateGatewayResponseError =
  * Updates a GatewayResponse of a specified response type on the given RestApi.
  */
 export const updateGatewayResponse: API.OperationMethod<
-  UpdateGatewayResponseRequest,
+  UpdateGatewayResponseRequest & RegionInput,
   GatewayResponse,
   UpdateGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -4664,6 +4902,8 @@ export const updateGatewayResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayResponse",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayResponse",
 }));
 
 export type UpdateIntegrationError =
@@ -4678,7 +4918,7 @@ export type UpdateIntegrationError =
  * Represents an update integration.
  */
 export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationRequest,
+  UpdateIntegrationRequest & RegionInput,
   Integration,
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4696,6 +4936,8 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegration",
 }));
 
 export type UpdateIntegrationResponseError =
@@ -4710,7 +4952,7 @@ export type UpdateIntegrationResponseError =
  * Represents an update integration response.
  */
 export const updateIntegrationResponse: API.OperationMethod<
-  UpdateIntegrationResponseRequest,
+  UpdateIntegrationResponseRequest & RegionInput,
   IntegrationResponse,
   UpdateIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -4728,6 +4970,8 @@ export const updateIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegrationResponse",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationResponse",
 }));
 
 export type UpdateMethodError =
@@ -4741,7 +4985,7 @@ export type UpdateMethodError =
  * Updates an existing Method resource.
  */
 export const updateMethod: API.OperationMethod<
-  UpdateMethodRequest,
+  UpdateMethodRequest & RegionInput,
   Method,
   UpdateMethodError,
   Credentials | HttpClient.HttpClient
@@ -4758,6 +5002,8 @@ export const updateMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMethod",
+  telemetry: TELEMETRY,
+  span: "UpdateMethod",
 }));
 
 export type UpdateMethodResponseError =
@@ -4772,7 +5018,7 @@ export type UpdateMethodResponseError =
  * Updates an existing MethodResponse resource.
  */
 export const updateMethodResponse: API.OperationMethod<
-  UpdateMethodResponseRequest,
+  UpdateMethodResponseRequest & RegionInput,
   MethodResponse,
   UpdateMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -4790,6 +5036,8 @@ export const updateMethodResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMethodResponse",
+  telemetry: TELEMETRY,
+  span: "UpdateMethodResponse",
 }));
 
 export type UpdateModelError =
@@ -4804,7 +5052,7 @@ export type UpdateModelError =
  * Changes information about a model. The maximum size of the model is 400 KB.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   Model,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -4822,6 +5070,8 @@ export const updateModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
+  telemetry: TELEMETRY,
+  span: "UpdateModel",
 }));
 
 export type UpdateRequestValidatorError =
@@ -4836,7 +5086,7 @@ export type UpdateRequestValidatorError =
  * Updates a RequestValidator of a given RestApi.
  */
 export const updateRequestValidator: API.OperationMethod<
-  UpdateRequestValidatorRequest,
+  UpdateRequestValidatorRequest & RegionInput,
   RequestValidator,
   UpdateRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -4854,6 +5104,8 @@ export const updateRequestValidator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRequestValidator",
+  telemetry: TELEMETRY,
+  span: "UpdateRequestValidator",
 }));
 
 export type UpdateResourceError =
@@ -4867,7 +5119,7 @@ export type UpdateResourceError =
  * Changes information about a Resource resource.
  */
 export const updateResource: API.OperationMethod<
-  UpdateResourceRequest,
+  UpdateResourceRequest & RegionInput,
   Resource,
   UpdateResourceError,
   Credentials | HttpClient.HttpClient
@@ -4884,6 +5136,8 @@ export const updateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
+  telemetry: TELEMETRY,
+  span: "UpdateResource",
 }));
 
 export type UpdateRestApiError =
@@ -4898,7 +5152,7 @@ export type UpdateRestApiError =
  * Changes information about the specified API.
  */
 export const updateRestApi: API.OperationMethod<
-  UpdateRestApiRequest,
+  UpdateRestApiRequest & RegionInput,
   RestApi,
   UpdateRestApiError,
   Credentials | HttpClient.HttpClient
@@ -4916,6 +5170,8 @@ export const updateRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestApi",
+  telemetry: TELEMETRY,
+  span: "UpdateRestApi",
 }));
 
 export type UpdateStageError =
@@ -4930,7 +5186,7 @@ export type UpdateStageError =
  * Changes information about a Stage resource.
  */
 export const updateStage: API.OperationMethod<
-  UpdateStageRequest,
+  UpdateStageRequest & RegionInput,
   Stage,
   UpdateStageError,
   Credentials | HttpClient.HttpClient
@@ -4948,6 +5204,8 @@ export const updateStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStage",
+  telemetry: TELEMETRY,
+  span: "UpdateStage",
 }));
 
 export type UpdateUsageError =
@@ -4962,7 +5220,7 @@ export type UpdateUsageError =
  * Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
  */
 export const updateUsage: API.OperationMethod<
-  UpdateUsageRequest,
+  UpdateUsageRequest & RegionInput,
   Usage,
   UpdateUsageError,
   Credentials | HttpClient.HttpClient
@@ -4980,6 +5238,8 @@ export const updateUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUsage",
+  telemetry: TELEMETRY,
+  span: "UpdateUsage",
 }));
 
 export type UpdateUsagePlanError =
@@ -4994,7 +5254,7 @@ export type UpdateUsagePlanError =
  * Updates a usage plan of a given plan Id.
  */
 export const updateUsagePlan: API.OperationMethod<
-  UpdateUsagePlanRequest,
+  UpdateUsagePlanRequest & RegionInput,
   UsagePlan,
   UpdateUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -5012,6 +5272,8 @@ export const updateUsagePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUsagePlan",
+  telemetry: TELEMETRY,
+  span: "UpdateUsagePlan",
 }));
 
 export type UpdateVpcLinkError =
@@ -5026,7 +5288,7 @@ export type UpdateVpcLinkError =
  * Updates an existing VpcLink of a specified identifier.
  */
 export const updateVpcLink: API.OperationMethod<
-  UpdateVpcLinkRequest,
+  UpdateVpcLinkRequest & RegionInput,
   VpcLink,
   UpdateVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -5044,6 +5306,8 @@ export const updateVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcLink",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcLink",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Peering" },
+  prefix: "Peering",
+  service: "Peering",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckServiceProviderAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1700,6 +1721,8 @@ export const CheckServiceProviderAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServiceProviderAvailability",
 }));
 
 export type ConnectionMonitorTestsCreateOrUpdateError = AzureOpError;
@@ -1715,6 +1738,8 @@ export const ConnectionMonitorTestsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectionMonitorTestsCreateOrUpdate",
 }));
 
 export type DeleteConnectionMonitorTestError = AzureOpError;
@@ -1730,6 +1755,8 @@ export const DeleteConnectionMonitorTest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnectionMonitorTest",
 }));
 
 export type DeletePeerAsnError = AzureOpError;
@@ -1745,6 +1772,8 @@ export const DeletePeerAsn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePeerAsn",
 }));
 
 export type DeletePeeringError = AzureOpError;
@@ -1760,6 +1789,8 @@ export const DeletePeering: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePeering",
 }));
 
 export type DeletePeeringServiceError = AzureOpError;
@@ -1775,6 +1806,8 @@ export const DeletePeeringService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePeeringService",
 }));
 
 export type DeletePrefixError = AzureOpError;
@@ -1790,6 +1823,8 @@ export const DeletePrefix: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrefix",
 }));
 
 export type DeleteRegisteredAsnError = AzureOpError;
@@ -1805,6 +1840,8 @@ export const DeleteRegisteredAsn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegisteredAsn",
 }));
 
 export type DeleteRegisteredPrefixError = AzureOpError;
@@ -1820,6 +1857,8 @@ export const DeleteRegisteredPrefix: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegisteredPrefix",
 }));
 
 export type GetConnectionMonitorTestError = AzureOpError;
@@ -1835,6 +1874,8 @@ export const GetConnectionMonitorTest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionMonitorTest",
 }));
 
 export type GetPeerAsnError = AzureOpError;
@@ -1850,6 +1891,8 @@ export const GetPeerAsn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPeerAsn",
 }));
 
 export type GetPeeringError = AzureOpError;
@@ -1865,6 +1908,8 @@ export const GetPeering: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPeering",
 }));
 
 export type GetPeeringServiceError = AzureOpError;
@@ -1880,6 +1925,8 @@ export const GetPeeringService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPeeringService",
 }));
 
 export type GetPrefixError = AzureOpError;
@@ -1895,6 +1942,8 @@ export const GetPrefix: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrefix",
 }));
 
 export type GetRegisteredAsnError = AzureOpError;
@@ -1910,6 +1959,8 @@ export const GetRegisteredAsn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegisteredAsn",
 }));
 
 export type GetRegisteredPrefixError = AzureOpError;
@@ -1925,6 +1976,8 @@ export const GetRegisteredPrefix: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegisteredPrefix",
 }));
 
 export type InvokeLookingGlassError = AzureOpError;
@@ -1940,6 +1993,8 @@ export const InvokeLookingGlass: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeLookingGlass",
 }));
 
 export type ListCdnPeeringPrefixesError = AzureOpError;
@@ -1955,6 +2010,8 @@ export const ListCdnPeeringPrefixes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCdnPeeringPrefixes",
 }));
 
 export type ListConnectionMonitorTestByPeeringServiceError = AzureOpError;
@@ -1970,6 +2027,8 @@ export const ListConnectionMonitorTestByPeeringService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectionMonitorTestByPeeringService",
 }));
 
 export type ListLegacyPeeringsError = AzureOpError;
@@ -1985,6 +2044,8 @@ export const ListLegacyPeerings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLegacyPeerings",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2000,6 +2061,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPeerAsnBySubscriptionError = AzureOpError;
@@ -2015,6 +2078,8 @@ export const ListPeerAsnBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeerAsnBySubscription",
 }));
 
 export type ListPeeringByResourceGroupError = AzureOpError;
@@ -2030,6 +2095,8 @@ export const ListPeeringByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeeringByResourceGroup",
 }));
 
 export type ListPeeringBySubscriptionError = AzureOpError;
@@ -2045,6 +2112,8 @@ export const ListPeeringBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeeringBySubscription",
 }));
 
 export type ListPeeringLocationsError = AzureOpError;
@@ -2060,6 +2129,8 @@ export const ListPeeringLocations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeeringLocations",
 }));
 
 export type ListPeeringServiceByResourceGroupError = AzureOpError;
@@ -2075,6 +2146,8 @@ export const ListPeeringServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeeringServiceByResourceGroup",
 }));
 
 export type ListPeeringServiceBySubscriptionError = AzureOpError;
@@ -2090,6 +2163,8 @@ export const ListPeeringServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeeringServiceBySubscription",
 }));
 
 export type ListPeeringServiceCountriesError = AzureOpError;
@@ -2105,6 +2180,8 @@ export const ListPeeringServiceCountries: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeeringServiceCountries",
 }));
 
 export type ListPeeringServiceLocationsError = AzureOpError;
@@ -2120,6 +2197,8 @@ export const ListPeeringServiceLocations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeeringServiceLocations",
 }));
 
 export type ListPeeringServiceProvidersError = AzureOpError;
@@ -2135,6 +2214,8 @@ export const ListPeeringServiceProviders: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeeringServiceProviders",
 }));
 
 export type ListPrefixByPeeringServiceError = AzureOpError;
@@ -2150,6 +2231,8 @@ export const ListPrefixByPeeringService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrefixByPeeringService",
 }));
 
 export type ListReceivedRouteByPeeringError = AzureOpError;
@@ -2165,6 +2248,8 @@ export const ListReceivedRouteByPeering: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReceivedRouteByPeering",
 }));
 
 export type ListRegisteredAsnByPeeringError = AzureOpError;
@@ -2180,6 +2265,8 @@ export const ListRegisteredAsnByPeering: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegisteredAsnByPeering",
 }));
 
 export type ListRegisteredPrefixByPeeringError = AzureOpError;
@@ -2195,6 +2282,8 @@ export const ListRegisteredPrefixByPeering: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegisteredPrefixByPeering",
 }));
 
 export type ListRpUnbilledPrefixesError = AzureOpError;
@@ -2210,6 +2299,8 @@ export const ListRpUnbilledPrefixes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRpUnbilledPrefixes",
 }));
 
 export type PeerAsnsCreateOrUpdateError = AzureOpError;
@@ -2225,6 +2316,8 @@ export const PeerAsnsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PeerAsnsCreateOrUpdate",
 }));
 
 export type PeeringsCreateOrUpdateError = AzureOpError;
@@ -2240,6 +2333,8 @@ export const PeeringsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PeeringsCreateOrUpdate",
 }));
 
 export type PeeringServicesCreateOrUpdateError = AzureOpError;
@@ -2255,6 +2350,8 @@ export const PeeringServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PeeringServicesCreateOrUpdate",
 }));
 
 export type PeeringServicesInitializeConnectionMonitorError = AzureOpError;
@@ -2270,6 +2367,8 @@ export const PeeringServicesInitializeConnectionMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PeeringServicesInitializeConnectionMonitor",
 }));
 
 export type PrefixesCreateOrUpdateError = AzureOpError;
@@ -2285,6 +2384,8 @@ export const PrefixesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrefixesCreateOrUpdate",
 }));
 
 export type RegisteredAsnsCreateOrUpdateError = AzureOpError;
@@ -2300,6 +2401,8 @@ export const RegisteredAsnsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisteredAsnsCreateOrUpdate",
 }));
 
 export type RegisteredPrefixesCreateOrUpdateError = AzureOpError;
@@ -2315,6 +2418,8 @@ export const RegisteredPrefixesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisteredPrefixesCreateOrUpdate",
 }));
 
 export type UpdatePeeringError = AzureOpError;
@@ -2330,6 +2435,8 @@ export const UpdatePeering: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePeering",
 }));
 
 export type UpdatePeeringServiceError = AzureOpError;
@@ -2345,6 +2452,8 @@ export const UpdatePeeringService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePeeringService",
 }));
 
 export type ValidateRegisteredPrefixError = AzureOpError;
@@ -2360,6 +2469,8 @@ export const ValidateRegisteredPrefix: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateRegisteredPrefix",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

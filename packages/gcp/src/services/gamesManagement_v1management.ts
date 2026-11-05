@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "gamesmanagement" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GamesManagement",
+  service: "gamesManagement",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -284,6 +303,8 @@ export const hidePlayers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HidePlayers",
 }));
 
 export type ListHiddenApplicationsError = NotFound | Forbidden | GcpOpError;
@@ -300,6 +321,8 @@ export const listHiddenApplications: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHiddenApplications",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -316,6 +339,8 @@ export const resetAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAchievements",
 }));
 
 export type ResetAllAchievementsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -331,6 +356,8 @@ export const resetAllAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAllAchievements",
 }));
 
 export type ResetAllEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -346,6 +373,8 @@ export const resetAllEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAllEvents",
 }));
 
 export type ResetAllForAllPlayersAchievementsError =
@@ -366,6 +395,8 @@ export const resetAllForAllPlayersAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAllForAllPlayersAchievements",
 }));
 
 export type ResetAllForAllPlayersEventsError =
@@ -386,6 +417,8 @@ export const resetAllForAllPlayersEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAllForAllPlayersEvents",
 }));
 
 export type ResetAllForAllPlayersScoresError =
@@ -406,6 +439,8 @@ export const resetAllForAllPlayersScores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAllForAllPlayersScores",
 }));
 
 export type ResetAllScoresError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -421,6 +456,8 @@ export const resetAllScores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAllScores",
 }));
 
 export type ResetEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -436,6 +473,8 @@ export const resetEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetEvents",
 }));
 
 export type ResetForAllPlayersAchievementsError =
@@ -456,6 +495,8 @@ export const resetForAllPlayersAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetForAllPlayersAchievements",
 }));
 
 export type ResetForAllPlayersEventsError =
@@ -476,6 +517,8 @@ export const resetForAllPlayersEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetForAllPlayersEvents",
 }));
 
 export type ResetForAllPlayersScoresError =
@@ -496,6 +539,8 @@ export const resetForAllPlayersScores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetForAllPlayersScores",
 }));
 
 export type ResetMultipleForAllPlayersAchievementsError =
@@ -516,6 +561,8 @@ export const resetMultipleForAllPlayersAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetMultipleForAllPlayersAchievements",
 }));
 
 export type ResetMultipleForAllPlayersEventsError =
@@ -536,6 +583,8 @@ export const resetMultipleForAllPlayersEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetMultipleForAllPlayersEvents",
 }));
 
 export type ResetMultipleForAllPlayersScoresError =
@@ -556,6 +605,8 @@ export const resetMultipleForAllPlayersScores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetMultipleForAllPlayersScores",
 }));
 
 export type ResetScoresError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -571,6 +622,8 @@ export const resetScores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetScores",
 }));
 
 export type UnhidePlayersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -586,6 +639,8 @@ export const unhidePlayers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnhidePlayers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

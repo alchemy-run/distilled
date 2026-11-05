@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Conversations",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -730,6 +743,8 @@ export const conversationsTicketsBulkUpdateStatusCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsTicketsBulkUpdateStatusCreate",
 }));
 
 export type ConversationsTicketsBulkUpdateTagsCreateError =
@@ -749,6 +764,8 @@ export const conversationsTicketsBulkUpdateTagsCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsTicketsBulkUpdateTagsCreate",
 }));
 
 export type ConversationsTicketsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -763,6 +780,8 @@ export const conversationsTicketsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsTicketsDestroy",
 }));
 
 export type ConversationsTicketsNotesDestroyError =
@@ -782,6 +801,8 @@ export const conversationsTicketsNotesDestroy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsTicketsNotesDestroy",
 }));
 
 export type ConversationsViewsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -796,6 +817,8 @@ export const conversationsViewsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsViewsDestroy",
 }));
 
 export type CreateConversationsTicketsAiFeedbackError = PosthogOpError;
@@ -811,6 +834,8 @@ export const createConversationsTicketsAiFeedback: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsTicketsAiFeedback",
 }));
 
 export type CreateConversationsTicketsAiHumanOutcomeError = Conflict | PosthogOpError;
@@ -826,6 +851,8 @@ export const createConversationsTicketsAiHumanOutcome: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsTicketsAiHumanOutcome",
 }));
 
 export type CreateConversationsTicketsComposeError = BadRequest | Conflict | PosthogOpError;
@@ -841,6 +868,8 @@ export const createConversationsTicketsCompose: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsTicketsCompose",
 }));
 
 export type CreateConversationsTicketsNoteError = BadRequest | Conflict | PosthogOpError;
@@ -856,6 +885,8 @@ export const createConversationsTicketsNote: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsTicketsNote",
 }));
 
 export type CreateConversationsTicketsReplyError =
@@ -876,6 +907,8 @@ export const createConversationsTicketsReply: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsTicketsReply",
 }));
 
 export type CreateConversationsViewError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -890,6 +923,8 @@ export const createConversationsView: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsView",
 }));
 
 export type GetConversationsAiReplyPlaybookError = PosthogOpError;
@@ -905,6 +940,8 @@ export const getConversationsAiReplyPlaybook: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversationsAiReplyPlaybook",
 }));
 
 export type GetConversationsTicketError = Forbidden | NotFound | PosthogOpError;
@@ -920,6 +957,8 @@ export const getConversationsTicket: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversationsTicket",
 }));
 
 export type GetConversationsTicketsMessagesFullEmailError = NotFound | PosthogOpError;
@@ -935,6 +974,8 @@ export const getConversationsTicketsMessagesFullEmail: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversationsTicketsMessagesFullEmail",
 }));
 
 export type GetConversationsViewError = Forbidden | NotFound | PosthogOpError;
@@ -949,6 +990,8 @@ export const getConversationsView: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversationsView",
 }));
 
 export type ListConversationsAiContextAccountPropertiesError = PosthogOpError;
@@ -968,6 +1011,8 @@ export const listConversationsAiContextAccountProperties: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConversationsAiContextAccountProperties",
 }));
 
 export type ListConversationsTicketsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -983,6 +1028,8 @@ export const listConversationsTickets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConversationsTickets",
 }));
 
 export type ListConversationsTicketsMessagesError = PosthogOpError;
@@ -998,6 +1045,8 @@ export const listConversationsTicketsMessages: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConversationsTicketsMessages",
 }));
 
 export type ListConversationsViewsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1012,6 +1061,8 @@ export const listConversationsViews: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConversationsViews",
 }));
 
 export type UpdateConversationsTicketError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1027,6 +1078,8 @@ export const updateConversationsTicket: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversationsTicket",
 }));
 
 export type UpdateConversationsTicketsNotesPartialError =
@@ -1046,6 +1099,8 @@ export const updateConversationsTicketsNotesPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversationsTicketsNotesPartial",
 }));
 
 export type UpdateConversationsTicketsPartialError =
@@ -1064,6 +1119,8 @@ export const updateConversationsTicketsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversationsTicketsPartial",
 }));
 
 export type UpdateConversationsViewsPartialError = PosthogOpError;
@@ -1078,6 +1135,8 @@ export const updateConversationsViewsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversationsViewsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

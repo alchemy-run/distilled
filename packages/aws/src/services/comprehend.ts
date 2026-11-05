@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://comprehend.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Comprehend",
+  service: "Comprehend",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class BatchSizeLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<BatchSizeLimitExceededException>()(
@@ -1955,7 +1972,7 @@ export type BatchDetectDominantLanguageError =
  * of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
  */
 export const batchDetectDominantLanguage: API.OperationMethod<
-  BatchDetectDominantLanguageRequest,
+  BatchDetectDominantLanguageRequest & RegionInput,
   BatchDetectDominantLanguageResponse,
   BatchDetectDominantLanguageError,
   Credentials | HttpClient.HttpClient
@@ -1971,6 +1988,8 @@ export const batchDetectDominantLanguage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectDominantLanguage",
+  telemetry: TELEMETRY,
+  span: "BatchDetectDominantLanguage",
 }));
 
 export type BatchDetectEntitiesError =
@@ -1986,7 +2005,7 @@ export type BatchDetectEntitiesError =
  * Entities in the Comprehend Developer Guide.
  */
 export const batchDetectEntities: API.OperationMethod<
-  BatchDetectEntitiesRequest,
+  BatchDetectEntitiesRequest & RegionInput,
   BatchDetectEntitiesResponse,
   BatchDetectEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -2003,6 +2022,8 @@ export const batchDetectEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectEntities",
+  telemetry: TELEMETRY,
+  span: "BatchDetectEntities",
 }));
 
 export type BatchDetectKeyPhrasesError =
@@ -2016,7 +2037,7 @@ export type BatchDetectKeyPhrasesError =
  * Detects the key noun phrases found in a batch of documents.
  */
 export const batchDetectKeyPhrases: API.OperationMethod<
-  BatchDetectKeyPhrasesRequest,
+  BatchDetectKeyPhrasesRequest & RegionInput,
   BatchDetectKeyPhrasesResponse,
   BatchDetectKeyPhrasesError,
   Credentials | HttpClient.HttpClient
@@ -2033,6 +2054,8 @@ export const batchDetectKeyPhrases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectKeyPhrases",
+  telemetry: TELEMETRY,
+  span: "BatchDetectKeyPhrases",
 }));
 
 export type BatchDetectSentimentError =
@@ -2048,7 +2071,7 @@ export type BatchDetectSentimentError =
  * in each one.
  */
 export const batchDetectSentiment: API.OperationMethod<
-  BatchDetectSentimentRequest,
+  BatchDetectSentimentRequest & RegionInput,
   BatchDetectSentimentResponse,
   BatchDetectSentimentError,
   Credentials | HttpClient.HttpClient
@@ -2065,6 +2088,8 @@ export const batchDetectSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectSentiment",
+  telemetry: TELEMETRY,
+  span: "BatchDetectSentiment",
 }));
 
 export type BatchDetectSyntaxError =
@@ -2080,7 +2105,7 @@ export type BatchDetectSyntaxError =
  * Syntax in the Comprehend Developer Guide.
  */
 export const batchDetectSyntax: API.OperationMethod<
-  BatchDetectSyntaxRequest,
+  BatchDetectSyntaxRequest & RegionInput,
   BatchDetectSyntaxResponse,
   BatchDetectSyntaxError,
   Credentials | HttpClient.HttpClient
@@ -2097,6 +2122,8 @@ export const batchDetectSyntax: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectSyntax",
+  telemetry: TELEMETRY,
+  span: "BatchDetectSyntax",
 }));
 
 export type BatchDetectTargetedSentimentError =
@@ -2113,7 +2140,7 @@ export type BatchDetectTargetedSentimentError =
  * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
  */
 export const batchDetectTargetedSentiment: API.OperationMethod<
-  BatchDetectTargetedSentimentRequest,
+  BatchDetectTargetedSentimentRequest & RegionInput,
   BatchDetectTargetedSentimentResponse,
   BatchDetectTargetedSentimentError,
   Credentials | HttpClient.HttpClient
@@ -2130,6 +2157,8 @@ export const batchDetectTargetedSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectTargetedSentiment",
+  telemetry: TELEMETRY,
+  span: "BatchDetectTargetedSentiment",
 }));
 
 export type ClassifyDocumentError =
@@ -2163,7 +2192,7 @@ export type ClassifyDocumentError =
  * Errors in semi-structured documents in the Comprehend Developer Guide.
  */
 export const classifyDocument: API.OperationMethod<
-  ClassifyDocumentRequest,
+  ClassifyDocumentRequest & RegionInput,
   ClassifyDocumentResponse,
   ClassifyDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2180,6 +2209,8 @@ export const classifyDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClassifyDocument",
+  telemetry: TELEMETRY,
+  span: "ClassifyDocument",
 }));
 
 export type ContainsPiiEntitiesError =
@@ -2194,7 +2225,7 @@ export type ContainsPiiEntitiesError =
  * or phone number.
  */
 export const containsPiiEntities: API.OperationMethod<
-  ContainsPiiEntitiesRequest,
+  ContainsPiiEntitiesRequest & RegionInput,
   ContainsPiiEntitiesResponse,
   ContainsPiiEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -2210,6 +2241,8 @@ export const containsPiiEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ContainsPiiEntities",
+  telemetry: TELEMETRY,
+  span: "ContainsPiiEntities",
 }));
 
 export type CreateDatasetError =
@@ -2227,7 +2260,7 @@ export type CreateDatasetError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2246,6 +2279,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDocumentClassifierError =
@@ -2266,7 +2301,7 @@ export type CreateDocumentClassifierError =
  * in the Comprehend Developer Guide.
  */
 export const createDocumentClassifier: API.OperationMethod<
-  CreateDocumentClassifierRequest,
+  CreateDocumentClassifierRequest & RegionInput,
   CreateDocumentClassifierResponse,
   CreateDocumentClassifierError,
   Credentials | HttpClient.HttpClient
@@ -2286,6 +2321,8 @@ export const createDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocumentClassifier",
+  telemetry: TELEMETRY,
+  span: "CreateDocumentClassifier",
 }));
 
 export type CreateEndpointError =
@@ -2304,7 +2341,7 @@ export type CreateEndpointError =
  * For information about endpoints, see Managing endpoints.
  */
 export const createEndpoint: API.OperationMethod<
-  CreateEndpointRequest,
+  CreateEndpointRequest & RegionInput,
   CreateEndpointResponse,
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2324,6 +2361,8 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateEndpoint",
 }));
 
 export type CreateEntityRecognizerError =
@@ -2342,7 +2381,7 @@ export type CreateEntityRecognizerError =
  * `DescribeEntityRecognizer` API.
  */
 export const createEntityRecognizer: API.OperationMethod<
-  CreateEntityRecognizerRequest,
+  CreateEntityRecognizerRequest & RegionInput,
   CreateEntityRecognizerResponse,
   CreateEntityRecognizerError,
   Credentials | HttpClient.HttpClient
@@ -2362,6 +2401,8 @@ export const createEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntityRecognizer",
+  telemetry: TELEMETRY,
+  span: "CreateEntityRecognizer",
 }));
 
 export type CreateFlywheelError =
@@ -2394,7 +2435,7 @@ export type CreateFlywheelError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const createFlywheel: API.OperationMethod<
-  CreateFlywheelRequest,
+  CreateFlywheelRequest & RegionInput,
   CreateFlywheelResponse,
   CreateFlywheelError,
   Credentials | HttpClient.HttpClient
@@ -2416,6 +2457,8 @@ export const createFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlywheel",
+  telemetry: TELEMETRY,
+  span: "CreateFlywheel",
 }));
 
 export type DeleteDocumentClassifierError =
@@ -2438,7 +2481,7 @@ export type DeleteDocumentClassifierError =
  * and is no longer available for use.
  */
 export const deleteDocumentClassifier: API.OperationMethod<
-  DeleteDocumentClassifierRequest,
+  DeleteDocumentClassifierRequest & RegionInput,
   DeleteDocumentClassifierResponse,
   DeleteDocumentClassifierError,
   Credentials | HttpClient.HttpClient
@@ -2456,6 +2499,8 @@ export const deleteDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentClassifier",
+  telemetry: TELEMETRY,
+  span: "DeleteDocumentClassifier",
 }));
 
 export type DeleteEndpointError =
@@ -2471,7 +2516,7 @@ export type DeleteEndpointError =
  * For information about endpoints, see Managing endpoints.
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2488,6 +2533,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeleteEntityRecognizerError =
@@ -2510,7 +2557,7 @@ export type DeleteEntityRecognizerError =
  * and is no longer available for use.
  */
 export const deleteEntityRecognizer: API.OperationMethod<
-  DeleteEntityRecognizerRequest,
+  DeleteEntityRecognizerRequest & RegionInput,
   DeleteEntityRecognizerResponse,
   DeleteEntityRecognizerError,
   Credentials | HttpClient.HttpClient
@@ -2528,6 +2575,8 @@ export const deleteEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntityRecognizer",
+  telemetry: TELEMETRY,
+  span: "DeleteEntityRecognizer",
 }));
 
 export type DeleteFlywheelError =
@@ -2546,7 +2595,7 @@ export type DeleteFlywheelError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const deleteFlywheel: API.OperationMethod<
-  DeleteFlywheelRequest,
+  DeleteFlywheelRequest & RegionInput,
   DeleteFlywheelResponse,
   DeleteFlywheelError,
   Credentials | HttpClient.HttpClient
@@ -2564,6 +2613,8 @@ export const deleteFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlywheel",
+  telemetry: TELEMETRY,
+  span: "DeleteFlywheel",
 }));
 
 export type DeleteResourcePolicyError =
@@ -2575,7 +2626,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource-based policy that is attached to a custom model.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2586,6 +2637,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DescribeDatasetError =
@@ -2600,7 +2653,7 @@ export type DescribeDatasetError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2616,6 +2669,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeDocumentClassificationJobError =
@@ -2629,7 +2684,7 @@ export type DescribeDocumentClassificationJobError =
  * get the status of a classification job.
  */
 export const describeDocumentClassificationJob: API.OperationMethod<
-  DescribeDocumentClassificationJobRequest,
+  DescribeDocumentClassificationJobRequest & RegionInput,
   DescribeDocumentClassificationJobResponse,
   DescribeDocumentClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -2645,6 +2700,8 @@ export const describeDocumentClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentClassificationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDocumentClassificationJob",
 }));
 
 export type DescribeDocumentClassifierError =
@@ -2657,7 +2714,7 @@ export type DescribeDocumentClassifierError =
  * Gets the properties associated with a document classifier.
  */
 export const describeDocumentClassifier: API.OperationMethod<
-  DescribeDocumentClassifierRequest,
+  DescribeDocumentClassifierRequest & RegionInput,
   DescribeDocumentClassifierResponse,
   DescribeDocumentClassifierError,
   Credentials | HttpClient.HttpClient
@@ -2673,6 +2730,8 @@ export const describeDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentClassifier",
+  telemetry: TELEMETRY,
+  span: "DescribeDocumentClassifier",
 }));
 
 export type DescribeDominantLanguageDetectionJobError =
@@ -2686,7 +2745,7 @@ export type DescribeDominantLanguageDetectionJobError =
  * to get the status of a detection job.
  */
 export const describeDominantLanguageDetectionJob: API.OperationMethod<
-  DescribeDominantLanguageDetectionJobRequest,
+  DescribeDominantLanguageDetectionJobRequest & RegionInput,
   DescribeDominantLanguageDetectionJobResponse,
   DescribeDominantLanguageDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2702,6 +2761,8 @@ export const describeDominantLanguageDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDominantLanguageDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDominantLanguageDetectionJob",
 }));
 
 export type DescribeEndpointError =
@@ -2716,7 +2777,7 @@ export type DescribeEndpointError =
  * For information about endpoints, see Managing endpoints.
  */
 export const describeEndpoint: API.OperationMethod<
-  DescribeEndpointRequest,
+  DescribeEndpointRequest & RegionInput,
   DescribeEndpointResponse,
   DescribeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2732,6 +2793,8 @@ export const describeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpoint",
 }));
 
 export type DescribeEntitiesDetectionJobError =
@@ -2745,7 +2808,7 @@ export type DescribeEntitiesDetectionJobError =
  * the status of a detection job.
  */
 export const describeEntitiesDetectionJob: API.OperationMethod<
-  DescribeEntitiesDetectionJobRequest,
+  DescribeEntitiesDetectionJobRequest & RegionInput,
   DescribeEntitiesDetectionJobResponse,
   DescribeEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2761,6 +2824,8 @@ export const describeEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeEntitiesDetectionJob",
 }));
 
 export type DescribeEntityRecognizerError =
@@ -2774,7 +2839,7 @@ export type DescribeEntityRecognizerError =
  * training data, recognizer metadata, metrics, and so on.
  */
 export const describeEntityRecognizer: API.OperationMethod<
-  DescribeEntityRecognizerRequest,
+  DescribeEntityRecognizerRequest & RegionInput,
   DescribeEntityRecognizerResponse,
   DescribeEntityRecognizerError,
   Credentials | HttpClient.HttpClient
@@ -2790,6 +2855,8 @@ export const describeEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityRecognizer",
+  telemetry: TELEMETRY,
+  span: "DescribeEntityRecognizer",
 }));
 
 export type DescribeEventsDetectionJobError =
@@ -2803,7 +2870,7 @@ export type DescribeEventsDetectionJobError =
  * Gets the status and details of an events detection job.
  */
 export const describeEventsDetectionJob: API.OperationMethod<
-  DescribeEventsDetectionJobRequest,
+  DescribeEventsDetectionJobRequest & RegionInput,
   DescribeEventsDetectionJobResponse,
   DescribeEventsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2820,6 +2887,8 @@ export const describeEventsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeEventsDetectionJob",
 }));
 
 export type DescribeFlywheelError =
@@ -2833,7 +2902,7 @@ export type DescribeFlywheelError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const describeFlywheel: API.OperationMethod<
-  DescribeFlywheelRequest,
+  DescribeFlywheelRequest & RegionInput,
   DescribeFlywheelResponse,
   DescribeFlywheelError,
   Credentials | HttpClient.HttpClient
@@ -2849,6 +2918,8 @@ export const describeFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlywheel",
+  telemetry: TELEMETRY,
+  span: "DescribeFlywheel",
 }));
 
 export type DescribeFlywheelIterationError =
@@ -2863,7 +2934,7 @@ export type DescribeFlywheelIterationError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const describeFlywheelIteration: API.OperationMethod<
-  DescribeFlywheelIterationRequest,
+  DescribeFlywheelIterationRequest & RegionInput,
   DescribeFlywheelIterationResponse,
   DescribeFlywheelIterationError,
   Credentials | HttpClient.HttpClient
@@ -2879,6 +2950,8 @@ export const describeFlywheelIteration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlywheelIteration",
+  telemetry: TELEMETRY,
+  span: "DescribeFlywheelIteration",
 }));
 
 export type DescribeKeyPhrasesDetectionJobError =
@@ -2892,7 +2965,7 @@ export type DescribeKeyPhrasesDetectionJobError =
  * the status of a detection job.
  */
 export const describeKeyPhrasesDetectionJob: API.OperationMethod<
-  DescribeKeyPhrasesDetectionJobRequest,
+  DescribeKeyPhrasesDetectionJobRequest & RegionInput,
   DescribeKeyPhrasesDetectionJobResponse,
   DescribeKeyPhrasesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2908,6 +2981,8 @@ export const describeKeyPhrasesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyPhrasesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeKeyPhrasesDetectionJob",
 }));
 
 export type DescribePiiEntitiesDetectionJobError =
@@ -2921,7 +2996,7 @@ export type DescribePiiEntitiesDetectionJobError =
  * this operation to get the job status.
  */
 export const describePiiEntitiesDetectionJob: API.OperationMethod<
-  DescribePiiEntitiesDetectionJobRequest,
+  DescribePiiEntitiesDetectionJobRequest & RegionInput,
   DescribePiiEntitiesDetectionJobResponse,
   DescribePiiEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2937,6 +3012,8 @@ export const describePiiEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePiiEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribePiiEntitiesDetectionJob",
 }));
 
 export type DescribeResourcePolicyError =
@@ -2949,7 +3026,7 @@ export type DescribeResourcePolicyError =
  * the JSON body of the policy.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2960,6 +3037,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeSentimentDetectionJobError =
@@ -2973,7 +3052,7 @@ export type DescribeSentimentDetectionJobError =
  * the status of a detection job.
  */
 export const describeSentimentDetectionJob: API.OperationMethod<
-  DescribeSentimentDetectionJobRequest,
+  DescribeSentimentDetectionJobRequest & RegionInput,
   DescribeSentimentDetectionJobResponse,
   DescribeSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2989,6 +3068,8 @@ export const describeSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeSentimentDetectionJob",
 }));
 
 export type DescribeTargetedSentimentDetectionJobError =
@@ -3002,7 +3083,7 @@ export type DescribeTargetedSentimentDetectionJobError =
  * to get the status of the job.
  */
 export const describeTargetedSentimentDetectionJob: API.OperationMethod<
-  DescribeTargetedSentimentDetectionJobRequest,
+  DescribeTargetedSentimentDetectionJobRequest & RegionInput,
   DescribeTargetedSentimentDetectionJobResponse,
   DescribeTargetedSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -3018,6 +3099,8 @@ export const describeTargetedSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetedSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeTargetedSentimentDetectionJob",
 }));
 
 export type DescribeTopicsDetectionJobError =
@@ -3031,7 +3114,7 @@ export type DescribeTopicsDetectionJobError =
  * the status of a detection job.
  */
 export const describeTopicsDetectionJob: API.OperationMethod<
-  DescribeTopicsDetectionJobRequest,
+  DescribeTopicsDetectionJobRequest & RegionInput,
   DescribeTopicsDetectionJobResponse,
   DescribeTopicsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -3047,6 +3130,8 @@ export const describeTopicsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeTopicsDetectionJob",
 }));
 
 export type DetectDominantLanguageError =
@@ -3059,7 +3144,7 @@ export type DetectDominantLanguageError =
  * Comprehend can detect, see Amazon Comprehend Supported Languages.
  */
 export const detectDominantLanguage: API.OperationMethod<
-  DetectDominantLanguageRequest,
+  DetectDominantLanguageRequest & RegionInput,
   DetectDominantLanguageResponse,
   DetectDominantLanguageError,
   Credentials | HttpClient.HttpClient
@@ -3070,6 +3155,8 @@ export const detectDominantLanguage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectDominantLanguage",
+  telemetry: TELEMETRY,
+  span: "DetectDominantLanguage",
 }));
 
 export type DetectEntitiesError =
@@ -3100,7 +3187,7 @@ export type DetectEntitiesError =
  * Errors in semi-structured documents in the Comprehend Developer Guide.
  */
 export const detectEntities: API.OperationMethod<
-  DetectEntitiesRequest,
+  DetectEntitiesRequest & RegionInput,
   DetectEntitiesResponse,
   DetectEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -3117,6 +3204,8 @@ export const detectEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectEntities",
+  telemetry: TELEMETRY,
+  span: "DetectEntities",
 }));
 
 export type DetectKeyPhrasesError =
@@ -3129,7 +3218,7 @@ export type DetectKeyPhrasesError =
  * Detects the key noun phrases found in the text.
  */
 export const detectKeyPhrases: API.OperationMethod<
-  DetectKeyPhrasesRequest,
+  DetectKeyPhrasesRequest & RegionInput,
   DetectKeyPhrasesResponse,
   DetectKeyPhrasesError,
   Credentials | HttpClient.HttpClient
@@ -3145,6 +3234,8 @@ export const detectKeyPhrases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectKeyPhrases",
+  telemetry: TELEMETRY,
+  span: "DetectKeyPhrases",
 }));
 
 export type DetectPiiEntitiesError =
@@ -3158,7 +3249,7 @@ export type DetectPiiEntitiesError =
  * (PII) and returns information about them.
  */
 export const detectPiiEntities: API.OperationMethod<
-  DetectPiiEntitiesRequest,
+  DetectPiiEntitiesRequest & RegionInput,
   DetectPiiEntitiesResponse,
   DetectPiiEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -3174,6 +3265,8 @@ export const detectPiiEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectPiiEntities",
+  telemetry: TELEMETRY,
+  span: "DetectPiiEntities",
 }));
 
 export type DetectSentimentError =
@@ -3187,7 +3280,7 @@ export type DetectSentimentError =
  * (`POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`).
  */
 export const detectSentiment: API.OperationMethod<
-  DetectSentimentRequest,
+  DetectSentimentRequest & RegionInput,
   DetectSentimentResponse,
   DetectSentimentError,
   Credentials | HttpClient.HttpClient
@@ -3203,6 +3296,8 @@ export const detectSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectSentiment",
+  telemetry: TELEMETRY,
+  span: "DetectSentiment",
 }));
 
 export type DetectSyntaxError =
@@ -3217,7 +3312,7 @@ export type DetectSyntaxError =
  * Syntax in the Comprehend Developer Guide.
  */
 export const detectSyntax: API.OperationMethod<
-  DetectSyntaxRequest,
+  DetectSyntaxRequest & RegionInput,
   DetectSyntaxResponse,
   DetectSyntaxError,
   Credentials | HttpClient.HttpClient
@@ -3233,6 +3328,8 @@ export const detectSyntax: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectSyntax",
+  telemetry: TELEMETRY,
+  span: "DetectSyntax",
 }));
 
 export type DetectTargetedSentimentError =
@@ -3247,7 +3344,7 @@ export type DetectTargetedSentimentError =
  * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
  */
 export const detectTargetedSentiment: API.OperationMethod<
-  DetectTargetedSentimentRequest,
+  DetectTargetedSentimentRequest & RegionInput,
   DetectTargetedSentimentResponse,
   DetectTargetedSentimentError,
   Credentials | HttpClient.HttpClient
@@ -3263,6 +3360,8 @@ export const detectTargetedSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectTargetedSentiment",
+  telemetry: TELEMETRY,
+  span: "DetectTargetedSentiment",
 }));
 
 export type DetectToxicContentError =
@@ -3277,7 +3376,7 @@ export type DetectToxicContentError =
  * For more information about toxicity detection, see Toxicity detection in the *Amazon Comprehend Developer Guide*.
  */
 export const detectToxicContent: API.OperationMethod<
-  DetectToxicContentRequest,
+  DetectToxicContentRequest & RegionInput,
   DetectToxicContentResponse,
   DetectToxicContentError,
   Credentials | HttpClient.HttpClient
@@ -3293,6 +3392,8 @@ export const detectToxicContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectToxicContent",
+  telemetry: TELEMETRY,
+  span: "DetectToxicContent",
 }));
 
 export type ImportModelError =
@@ -3317,7 +3418,7 @@ export type ImportModelError =
  * can't import a model that's in a different Region.
  */
 export const importModel: API.OperationMethod<
-  ImportModelRequest,
+  ImportModelRequest & RegionInput,
   ImportModelResponse,
   ImportModelError,
   Credentials | HttpClient.HttpClient
@@ -3338,6 +3439,8 @@ export const importModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportModel",
+  telemetry: TELEMETRY,
+  span: "ImportModel",
 }));
 
 export type ListDatasetsError =
@@ -3352,7 +3455,7 @@ export type ListDatasetsError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -3375,6 +3478,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListDocumentClassificationJobsError =
@@ -3387,7 +3492,7 @@ export type ListDocumentClassificationJobsError =
  * Gets a list of the documentation classification jobs that you have submitted.
  */
 export const listDocumentClassificationJobs: API.PaginatedOperationMethod<
-  ListDocumentClassificationJobsRequest,
+  ListDocumentClassificationJobsRequest & RegionInput,
   ListDocumentClassificationJobsResponse,
   ListDocumentClassificationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3409,6 +3514,8 @@ export const listDocumentClassificationJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocumentClassificationJobs",
 })) as any;
 
 export type ListDocumentClassifiersError =
@@ -3421,7 +3528,7 @@ export type ListDocumentClassifiersError =
  * Gets a list of the document classifiers that you have created.
  */
 export const listDocumentClassifiers: API.PaginatedOperationMethod<
-  ListDocumentClassifiersRequest,
+  ListDocumentClassifiersRequest & RegionInput,
   ListDocumentClassifiersResponse,
   ListDocumentClassifiersError,
   Credentials | HttpClient.HttpClient,
@@ -3443,6 +3550,8 @@ export const listDocumentClassifiers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocumentClassifiers",
 })) as any;
 
 export type ListDocumentClassifierSummariesError =
@@ -3454,7 +3563,7 @@ export type ListDocumentClassifierSummariesError =
  * Gets a list of summaries of the document classifiers that you have created
  */
 export const listDocumentClassifierSummaries: API.PaginatedOperationMethod<
-  ListDocumentClassifierSummariesRequest,
+  ListDocumentClassifierSummariesRequest & RegionInput,
   ListDocumentClassifierSummariesResponse,
   ListDocumentClassifierSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -3471,6 +3580,8 @@ export const listDocumentClassifierSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocumentClassifierSummaries",
 })) as any;
 
 export type ListDominantLanguageDetectionJobsError =
@@ -3483,7 +3594,7 @@ export type ListDominantLanguageDetectionJobsError =
  * Gets a list of the dominant language detection jobs that you have submitted.
  */
 export const listDominantLanguageDetectionJobs: API.PaginatedOperationMethod<
-  ListDominantLanguageDetectionJobsRequest,
+  ListDominantLanguageDetectionJobsRequest & RegionInput,
   ListDominantLanguageDetectionJobsResponse,
   ListDominantLanguageDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3505,6 +3616,8 @@ export const listDominantLanguageDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDominantLanguageDetectionJobs",
 })) as any;
 
 export type ListEndpointsError =
@@ -3517,7 +3630,7 @@ export type ListEndpointsError =
  * For information about endpoints, see Managing endpoints.
  */
 export const listEndpoints: API.PaginatedOperationMethod<
-  ListEndpointsRequest,
+  ListEndpointsRequest & RegionInput,
   ListEndpointsResponse,
   ListEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -3535,6 +3648,8 @@ export const listEndpoints: API.PaginatedOperationMethod<
     items: "EndpointPropertiesList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpoints",
 })) as any;
 
 export type ListEntitiesDetectionJobsError =
@@ -3547,7 +3662,7 @@ export type ListEntitiesDetectionJobsError =
  * Gets a list of the entity detection jobs that you have submitted.
  */
 export const listEntitiesDetectionJobs: API.PaginatedOperationMethod<
-  ListEntitiesDetectionJobsRequest,
+  ListEntitiesDetectionJobsRequest & RegionInput,
   ListEntitiesDetectionJobsResponse,
   ListEntitiesDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3569,6 +3684,8 @@ export const listEntitiesDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntitiesDetectionJobs",
 })) as any;
 
 export type ListEntityRecognizersError =
@@ -3587,7 +3704,7 @@ export type ListEntityRecognizersError =
  * locally if needed.
  */
 export const listEntityRecognizers: API.PaginatedOperationMethod<
-  ListEntityRecognizersRequest,
+  ListEntityRecognizersRequest & RegionInput,
   ListEntityRecognizersResponse,
   ListEntityRecognizersError,
   Credentials | HttpClient.HttpClient,
@@ -3609,6 +3726,8 @@ export const listEntityRecognizers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntityRecognizers",
 })) as any;
 
 export type ListEntityRecognizerSummariesError =
@@ -3620,7 +3739,7 @@ export type ListEntityRecognizerSummariesError =
  * Gets a list of summaries for the entity recognizers that you have created.
  */
 export const listEntityRecognizerSummaries: API.PaginatedOperationMethod<
-  ListEntityRecognizerSummariesRequest,
+  ListEntityRecognizerSummariesRequest & RegionInput,
   ListEntityRecognizerSummariesResponse,
   ListEntityRecognizerSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -3637,6 +3756,8 @@ export const listEntityRecognizerSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntityRecognizerSummaries",
 })) as any;
 
 export type ListEventsDetectionJobsError =
@@ -3650,7 +3771,7 @@ export type ListEventsDetectionJobsError =
  * Gets a list of the events detection jobs that you have submitted.
  */
 export const listEventsDetectionJobs: API.PaginatedOperationMethod<
-  ListEventsDetectionJobsRequest,
+  ListEventsDetectionJobsRequest & RegionInput,
   ListEventsDetectionJobsResponse,
   ListEventsDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3673,6 +3794,8 @@ export const listEventsDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventsDetectionJobs",
 })) as any;
 
 export type ListFlywheelIterationHistoryError =
@@ -3688,7 +3811,7 @@ export type ListFlywheelIterationHistoryError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const listFlywheelIterationHistory: API.PaginatedOperationMethod<
-  ListFlywheelIterationHistoryRequest,
+  ListFlywheelIterationHistoryRequest & RegionInput,
   ListFlywheelIterationHistoryResponse,
   ListFlywheelIterationHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -3711,6 +3834,8 @@ export const listFlywheelIterationHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlywheelIterationHistory",
 })) as any;
 
 export type ListFlywheelsError =
@@ -3723,7 +3848,7 @@ export type ListFlywheelsError =
  * Gets a list of the flywheels that you have created.
  */
 export const listFlywheels: API.PaginatedOperationMethod<
-  ListFlywheelsRequest,
+  ListFlywheelsRequest & RegionInput,
   ListFlywheelsResponse,
   ListFlywheelsError,
   Credentials | HttpClient.HttpClient,
@@ -3745,6 +3870,8 @@ export const listFlywheels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlywheels",
 })) as any;
 
 export type ListKeyPhrasesDetectionJobsError =
@@ -3757,7 +3884,7 @@ export type ListKeyPhrasesDetectionJobsError =
  * Get a list of key phrase detection jobs that you have submitted.
  */
 export const listKeyPhrasesDetectionJobs: API.PaginatedOperationMethod<
-  ListKeyPhrasesDetectionJobsRequest,
+  ListKeyPhrasesDetectionJobsRequest & RegionInput,
   ListKeyPhrasesDetectionJobsResponse,
   ListKeyPhrasesDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3779,6 +3906,8 @@ export const listKeyPhrasesDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyPhrasesDetectionJobs",
 })) as any;
 
 export type ListPiiEntitiesDetectionJobsError =
@@ -3791,7 +3920,7 @@ export type ListPiiEntitiesDetectionJobsError =
  * Gets a list of the PII entity detection jobs that you have submitted.
  */
 export const listPiiEntitiesDetectionJobs: API.PaginatedOperationMethod<
-  ListPiiEntitiesDetectionJobsRequest,
+  ListPiiEntitiesDetectionJobsRequest & RegionInput,
   ListPiiEntitiesDetectionJobsResponse,
   ListPiiEntitiesDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3814,6 +3943,8 @@ export const listPiiEntitiesDetectionJobs: API.PaginatedOperationMethod<
     items: "PiiEntitiesDetectionJobPropertiesList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPiiEntitiesDetectionJobs",
 })) as any;
 
 export type ListSentimentDetectionJobsError =
@@ -3826,7 +3957,7 @@ export type ListSentimentDetectionJobsError =
  * Gets a list of sentiment detection jobs that you have submitted.
  */
 export const listSentimentDetectionJobs: API.PaginatedOperationMethod<
-  ListSentimentDetectionJobsRequest,
+  ListSentimentDetectionJobsRequest & RegionInput,
   ListSentimentDetectionJobsResponse,
   ListSentimentDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3848,6 +3979,8 @@ export const listSentimentDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSentimentDetectionJobs",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3859,7 +3992,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with a given Amazon Comprehend resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3870,6 +4003,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetedSentimentDetectionJobsError =
@@ -3882,7 +4017,7 @@ export type ListTargetedSentimentDetectionJobsError =
  * Gets a list of targeted sentiment detection jobs that you have submitted.
  */
 export const listTargetedSentimentDetectionJobs: API.PaginatedOperationMethod<
-  ListTargetedSentimentDetectionJobsRequest,
+  ListTargetedSentimentDetectionJobsRequest & RegionInput,
   ListTargetedSentimentDetectionJobsResponse,
   ListTargetedSentimentDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3904,6 +4039,8 @@ export const listTargetedSentimentDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetedSentimentDetectionJobs",
 })) as any;
 
 export type ListTopicsDetectionJobsError =
@@ -3916,7 +4053,7 @@ export type ListTopicsDetectionJobsError =
  * Gets a list of the topic detection jobs that you have submitted.
  */
 export const listTopicsDetectionJobs: API.PaginatedOperationMethod<
-  ListTopicsDetectionJobsRequest,
+  ListTopicsDetectionJobsRequest & RegionInput,
   ListTopicsDetectionJobsResponse,
   ListTopicsDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3938,6 +4075,8 @@ export const listTopicsDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTopicsDetectionJobs",
 })) as any;
 
 export type PutResourcePolicyError =
@@ -3951,7 +4090,7 @@ export type PutResourcePolicyError =
  * Comprehend in their account.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3962,6 +4101,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type StartDocumentClassificationJobError =
@@ -3980,7 +4121,7 @@ export type StartDocumentClassificationJobError =
  * operation to track the progress of the job.
  */
 export const startDocumentClassificationJob: API.OperationMethod<
-  StartDocumentClassificationJobRequest,
+  StartDocumentClassificationJobRequest & RegionInput,
   StartDocumentClassificationJobResponse,
   StartDocumentClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -4000,6 +4141,8 @@ export const startDocumentClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDocumentClassificationJob",
+  telemetry: TELEMETRY,
+  span: "StartDocumentClassificationJob",
 }));
 
 export type StartDominantLanguageDetectionJobError =
@@ -4016,7 +4159,7 @@ export type StartDominantLanguageDetectionJobError =
  * of a job.
  */
 export const startDominantLanguageDetectionJob: API.OperationMethod<
-  StartDominantLanguageDetectionJobRequest,
+  StartDominantLanguageDetectionJobRequest & RegionInput,
   StartDominantLanguageDetectionJobResponse,
   StartDominantLanguageDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4034,6 +4177,8 @@ export const startDominantLanguageDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDominantLanguageDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartDominantLanguageDetectionJob",
 }));
 
 export type StartEntitiesDetectionJobError =
@@ -4055,7 +4200,7 @@ export type StartEntitiesDetectionJobError =
  * entity.
  */
 export const startEntitiesDetectionJob: API.OperationMethod<
-  StartEntitiesDetectionJobRequest,
+  StartEntitiesDetectionJobRequest & RegionInput,
   StartEntitiesDetectionJobResponse,
   StartEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4075,6 +4220,8 @@ export const startEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartEntitiesDetectionJob",
 }));
 
 export type StartEventsDetectionJobError =
@@ -4090,7 +4237,7 @@ export type StartEventsDetectionJobError =
  * Starts an asynchronous event detection job for a collection of documents.
  */
 export const startEventsDetectionJob: API.OperationMethod<
-  StartEventsDetectionJobRequest,
+  StartEventsDetectionJobRequest & RegionInput,
   StartEventsDetectionJobResponse,
   StartEventsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4109,6 +4256,8 @@ export const startEventsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEventsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartEventsDetectionJob",
 }));
 
 export type StartFlywheelIterationError =
@@ -4124,7 +4273,7 @@ export type StartFlywheelIterationError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const startFlywheelIteration: API.OperationMethod<
-  StartFlywheelIterationRequest,
+  StartFlywheelIterationRequest & RegionInput,
   StartFlywheelIterationResponse,
   StartFlywheelIterationError,
   Credentials | HttpClient.HttpClient
@@ -4141,6 +4290,8 @@ export const startFlywheelIteration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlywheelIteration",
+  telemetry: TELEMETRY,
+  span: "StartFlywheelIteration",
 }));
 
 export type StartKeyPhrasesDetectionJobError =
@@ -4157,7 +4308,7 @@ export type StartKeyPhrasesDetectionJobError =
  * job.
  */
 export const startKeyPhrasesDetectionJob: API.OperationMethod<
-  StartKeyPhrasesDetectionJobRequest,
+  StartKeyPhrasesDetectionJobRequest & RegionInput,
   StartKeyPhrasesDetectionJobResponse,
   StartKeyPhrasesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4175,6 +4326,8 @@ export const startKeyPhrasesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartKeyPhrasesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartKeyPhrasesDetectionJob",
 }));
 
 export type StartPiiEntitiesDetectionJobError =
@@ -4189,7 +4342,7 @@ export type StartPiiEntitiesDetectionJobError =
  * Starts an asynchronous PII entity detection job for a collection of documents.
  */
 export const startPiiEntitiesDetectionJob: API.OperationMethod<
-  StartPiiEntitiesDetectionJobRequest,
+  StartPiiEntitiesDetectionJobRequest & RegionInput,
   StartPiiEntitiesDetectionJobResponse,
   StartPiiEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4207,6 +4360,8 @@ export const startPiiEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPiiEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartPiiEntitiesDetectionJob",
 }));
 
 export type StartSentimentDetectionJobError =
@@ -4223,7 +4378,7 @@ export type StartSentimentDetectionJobError =
  * job.
  */
 export const startSentimentDetectionJob: API.OperationMethod<
-  StartSentimentDetectionJobRequest,
+  StartSentimentDetectionJobRequest & RegionInput,
   StartSentimentDetectionJobResponse,
   StartSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4241,6 +4396,8 @@ export const startSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartSentimentDetectionJob",
 }));
 
 export type StartTargetedSentimentDetectionJobError =
@@ -4257,7 +4414,7 @@ export type StartTargetedSentimentDetectionJobError =
  * job.
  */
 export const startTargetedSentimentDetectionJob: API.OperationMethod<
-  StartTargetedSentimentDetectionJobRequest,
+  StartTargetedSentimentDetectionJobRequest & RegionInput,
   StartTargetedSentimentDetectionJobResponse,
   StartTargetedSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4275,6 +4432,8 @@ export const startTargetedSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTargetedSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartTargetedSentimentDetectionJob",
 }));
 
 export type StartTopicsDetectionJobError =
@@ -4290,7 +4449,7 @@ export type StartTopicsDetectionJobError =
  * `DescribeTopicDetectionJob` operation to track the status of a job.
  */
 export const startTopicsDetectionJob: API.OperationMethod<
-  StartTopicsDetectionJobRequest,
+  StartTopicsDetectionJobRequest & RegionInput,
   StartTopicsDetectionJobResponse,
   StartTopicsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4308,6 +4467,8 @@ export const startTopicsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTopicsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartTopicsDetectionJob",
 }));
 
 export type StopDominantLanguageDetectionJobError =
@@ -4331,7 +4492,7 @@ export type StopDominantLanguageDetectionJobError =
  * location.
  */
 export const stopDominantLanguageDetectionJob: API.OperationMethod<
-  StopDominantLanguageDetectionJobRequest,
+  StopDominantLanguageDetectionJobRequest & RegionInput,
   StopDominantLanguageDetectionJobResponse,
   StopDominantLanguageDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4342,6 +4503,8 @@ export const stopDominantLanguageDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDominantLanguageDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopDominantLanguageDetectionJob",
 }));
 
 export type StopEntitiesDetectionJobError =
@@ -4365,7 +4528,7 @@ export type StopEntitiesDetectionJobError =
  * location.
  */
 export const stopEntitiesDetectionJob: API.OperationMethod<
-  StopEntitiesDetectionJobRequest,
+  StopEntitiesDetectionJobRequest & RegionInput,
   StopEntitiesDetectionJobResponse,
   StopEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4376,6 +4539,8 @@ export const stopEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopEntitiesDetectionJob",
 }));
 
 export type StopEventsDetectionJobError =
@@ -4388,7 +4553,7 @@ export type StopEventsDetectionJobError =
  * Stops an events detection job in progress.
  */
 export const stopEventsDetectionJob: API.OperationMethod<
-  StopEventsDetectionJobRequest,
+  StopEventsDetectionJobRequest & RegionInput,
   StopEventsDetectionJobResponse,
   StopEventsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4404,6 +4569,8 @@ export const stopEventsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEventsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopEventsDetectionJob",
 }));
 
 export type StopKeyPhrasesDetectionJobError =
@@ -4427,7 +4594,7 @@ export type StopKeyPhrasesDetectionJobError =
  * location.
  */
 export const stopKeyPhrasesDetectionJob: API.OperationMethod<
-  StopKeyPhrasesDetectionJobRequest,
+  StopKeyPhrasesDetectionJobRequest & RegionInput,
   StopKeyPhrasesDetectionJobResponse,
   StopKeyPhrasesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4438,6 +4605,8 @@ export const stopKeyPhrasesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopKeyPhrasesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopKeyPhrasesDetectionJob",
 }));
 
 export type StopPiiEntitiesDetectionJobError =
@@ -4449,7 +4618,7 @@ export type StopPiiEntitiesDetectionJobError =
  * Stops a PII entities detection job in progress.
  */
 export const stopPiiEntitiesDetectionJob: API.OperationMethod<
-  StopPiiEntitiesDetectionJobRequest,
+  StopPiiEntitiesDetectionJobRequest & RegionInput,
   StopPiiEntitiesDetectionJobResponse,
   StopPiiEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4460,6 +4629,8 @@ export const stopPiiEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPiiEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopPiiEntitiesDetectionJob",
 }));
 
 export type StopSentimentDetectionJobError =
@@ -4483,7 +4654,7 @@ export type StopSentimentDetectionJobError =
  * location.
  */
 export const stopSentimentDetectionJob: API.OperationMethod<
-  StopSentimentDetectionJobRequest,
+  StopSentimentDetectionJobRequest & RegionInput,
   StopSentimentDetectionJobResponse,
   StopSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4494,6 +4665,8 @@ export const stopSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopSentimentDetectionJob",
 }));
 
 export type StopTargetedSentimentDetectionJobError =
@@ -4517,7 +4690,7 @@ export type StopTargetedSentimentDetectionJobError =
  * location.
  */
 export const stopTargetedSentimentDetectionJob: API.OperationMethod<
-  StopTargetedSentimentDetectionJobRequest,
+  StopTargetedSentimentDetectionJobRequest & RegionInput,
   StopTargetedSentimentDetectionJobResponse,
   StopTargetedSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4528,6 +4701,8 @@ export const stopTargetedSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTargetedSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopTargetedSentimentDetectionJob",
 }));
 
 export type StopTrainingDocumentClassifierError =
@@ -4546,7 +4721,7 @@ export type StopTrainingDocumentClassifierError =
  * an empty HTTP body.
  */
 export const stopTrainingDocumentClassifier: API.OperationMethod<
-  StopTrainingDocumentClassifierRequest,
+  StopTrainingDocumentClassifierRequest & RegionInput,
   StopTrainingDocumentClassifierResponse,
   StopTrainingDocumentClassifierError,
   Credentials | HttpClient.HttpClient
@@ -4562,6 +4737,8 @@ export const stopTrainingDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrainingDocumentClassifier",
+  telemetry: TELEMETRY,
+  span: "StopTrainingDocumentClassifier",
 }));
 
 export type StopTrainingEntityRecognizerError =
@@ -4580,7 +4757,7 @@ export type StopTrainingEntityRecognizerError =
  * with an empty HTTP body.
  */
 export const stopTrainingEntityRecognizer: API.OperationMethod<
-  StopTrainingEntityRecognizerRequest,
+  StopTrainingEntityRecognizerRequest & RegionInput,
   StopTrainingEntityRecognizerResponse,
   StopTrainingEntityRecognizerError,
   Credentials | HttpClient.HttpClient
@@ -4596,6 +4773,8 @@ export const stopTrainingEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrainingEntityRecognizer",
+  telemetry: TELEMETRY,
+  span: "StopTrainingEntityRecognizer",
 }));
 
 export type TagResourceError =
@@ -4611,7 +4790,7 @@ export type TagResourceError =
  * "Sales" as the key might be added to a resource to indicate its use by the sales department.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4628,6 +4807,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4641,7 +4822,7 @@ export type UntagResourceError =
  * Removes a specific tag associated with an Amazon Comprehend resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4658,6 +4839,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEndpointError =
@@ -4674,7 +4857,7 @@ export type UpdateEndpointError =
  * For information about endpoints, see Managing endpoints.
  */
 export const updateEndpoint: API.OperationMethod<
-  UpdateEndpointRequest,
+  UpdateEndpointRequest & RegionInput,
   UpdateEndpointResponse,
   UpdateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4693,6 +4876,8 @@ export const updateEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpoint",
 }));
 
 export type UpdateFlywheelError =
@@ -4706,7 +4891,7 @@ export type UpdateFlywheelError =
  * Update the configuration information for an existing flywheel.
  */
 export const updateFlywheel: API.OperationMethod<
-  UpdateFlywheelRequest,
+  UpdateFlywheelRequest & RegionInput,
   UpdateFlywheelResponse,
   UpdateFlywheelError,
   Credentials | HttpClient.HttpClient
@@ -4723,6 +4908,8 @@ export const updateFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlywheel",
+  telemetry: TELEMETRY,
+  span: "UpdateFlywheel",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

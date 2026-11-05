@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://amplifyuibuilder.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AmplifyUIBuilder",
+  service: "AmplifyUIBuilder",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -908,7 +924,7 @@ export type CreateComponentError =
  * Creates a new component for an Amplify app.
  */
 export const createComponent: API.OperationMethod<
-  CreateComponentRequest,
+  CreateComponentRequest & RegionInput,
   CreateComponentResponse,
   CreateComponentError,
   Credentials | HttpClient.HttpClient
@@ -924,6 +940,8 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateFormError =
@@ -936,7 +954,7 @@ export type CreateFormError =
  * Creates a new form for an Amplify app.
  */
 export const createForm: API.OperationMethod<
-  CreateFormRequest,
+  CreateFormRequest & RegionInput,
   CreateFormResponse,
   CreateFormError,
   Credentials | HttpClient.HttpClient
@@ -952,6 +970,8 @@ export const createForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateForm",
+  telemetry: TELEMETRY,
+  span: "CreateForm",
 }));
 
 export type CreateThemeError =
@@ -964,7 +984,7 @@ export type CreateThemeError =
  * Creates a theme to apply to the components in an Amplify app.
  */
 export const createTheme: API.OperationMethod<
-  CreateThemeRequest,
+  CreateThemeRequest & RegionInput,
   CreateThemeResponse,
   CreateThemeError,
   Credentials | HttpClient.HttpClient
@@ -980,6 +1000,8 @@ export const createTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTheme",
+  telemetry: TELEMETRY,
+  span: "CreateTheme",
 }));
 
 export type DeleteComponentError =
@@ -991,7 +1013,7 @@ export type DeleteComponentError =
  * Deletes a component from an Amplify app.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentRequest,
+  DeleteComponentRequest & RegionInput,
   DeleteComponentResponse,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -1002,6 +1024,8 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteFormError =
@@ -1013,7 +1037,7 @@ export type DeleteFormError =
  * Deletes a form from an Amplify app.
  */
 export const deleteForm: API.OperationMethod<
-  DeleteFormRequest,
+  DeleteFormRequest & RegionInput,
   DeleteFormResponse,
   DeleteFormError,
   Credentials | HttpClient.HttpClient
@@ -1024,6 +1048,8 @@ export const deleteForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteForm",
+  telemetry: TELEMETRY,
+  span: "DeleteForm",
 }));
 
 export type DeleteThemeError =
@@ -1035,7 +1061,7 @@ export type DeleteThemeError =
  * Deletes a theme from an Amplify app.
  */
 export const deleteTheme: API.OperationMethod<
-  DeleteThemeRequest,
+  DeleteThemeRequest & RegionInput,
   DeleteThemeResponse,
   DeleteThemeError,
   Credentials | HttpClient.HttpClient
@@ -1046,6 +1072,8 @@ export const deleteTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTheme",
+  telemetry: TELEMETRY,
+  span: "DeleteTheme",
 }));
 
 export type ExchangeCodeForTokenError = InvalidParameterException | CommonErrors;
@@ -1055,7 +1083,7 @@ export type ExchangeCodeForTokenError = InvalidParameterException | CommonErrors
  * Amplify uses this action to exchange an access code for a token.
  */
 export const exchangeCodeForToken: API.OperationMethod<
-  ExchangeCodeForTokenRequest,
+  ExchangeCodeForTokenRequest & RegionInput,
   ExchangeCodeForTokenResponse,
   ExchangeCodeForTokenError,
   Credentials | HttpClient.HttpClient
@@ -1066,6 +1094,8 @@ export const exchangeCodeForToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExchangeCodeForToken",
+  telemetry: TELEMETRY,
+  span: "ExchangeCodeForToken",
 }));
 
 export type ExportComponentsError =
@@ -1076,7 +1106,7 @@ export type ExportComponentsError =
  * Exports component configurations to code that is ready to integrate into an Amplify app.
  */
 export const exportComponents: API.PaginatedOperationMethod<
-  ExportComponentsRequest,
+  ExportComponentsRequest & RegionInput,
   ExportComponentsResponse,
   ExportComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1089,6 +1119,8 @@ export const exportComponents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ExportComponents",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
+  telemetry: TELEMETRY,
+  span: "ExportComponents",
 })) as any;
 
 export type ExportFormsError = InternalServerException | InvalidParameterException | CommonErrors;
@@ -1096,7 +1128,7 @@ export type ExportFormsError = InternalServerException | InvalidParameterExcepti
  * Exports form configurations to code that is ready to integrate into an Amplify app.
  */
 export const exportForms: API.PaginatedOperationMethod<
-  ExportFormsRequest,
+  ExportFormsRequest & RegionInput,
   ExportFormsResponse,
   ExportFormsError,
   Credentials | HttpClient.HttpClient,
@@ -1109,6 +1141,8 @@ export const exportForms: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ExportForms",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
+  telemetry: TELEMETRY,
+  span: "ExportForms",
 })) as any;
 
 export type ExportThemesError = InternalServerException | InvalidParameterException | CommonErrors;
@@ -1116,7 +1150,7 @@ export type ExportThemesError = InternalServerException | InvalidParameterExcept
  * Exports theme configurations to code that is ready to integrate into an Amplify app.
  */
 export const exportThemes: API.PaginatedOperationMethod<
-  ExportThemesRequest,
+  ExportThemesRequest & RegionInput,
   ExportThemesResponse,
   ExportThemesError,
   Credentials | HttpClient.HttpClient,
@@ -1129,6 +1163,8 @@ export const exportThemes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ExportThemes",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
+  telemetry: TELEMETRY,
+  span: "ExportThemes",
 })) as any;
 
 export type GetCodegenJobError =
@@ -1141,7 +1177,7 @@ export type GetCodegenJobError =
  * Returns an existing code generation job.
  */
 export const getCodegenJob: API.OperationMethod<
-  GetCodegenJobRequest,
+  GetCodegenJobRequest & RegionInput,
   GetCodegenJobResponse,
   GetCodegenJobError,
   Credentials | HttpClient.HttpClient
@@ -1157,6 +1193,8 @@ export const getCodegenJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodegenJob",
+  telemetry: TELEMETRY,
+  span: "GetCodegenJob",
 }));
 
 export type GetComponentError =
@@ -1168,7 +1206,7 @@ export type GetComponentError =
  * Returns an existing component for an Amplify app.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentRequest,
+  GetComponentRequest & RegionInput,
   GetComponentResponse,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -1179,6 +1217,8 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetFormError =
@@ -1190,7 +1230,7 @@ export type GetFormError =
  * Returns an existing form for an Amplify app.
  */
 export const getForm: API.OperationMethod<
-  GetFormRequest,
+  GetFormRequest & RegionInput,
   GetFormResponse,
   GetFormError,
   Credentials | HttpClient.HttpClient
@@ -1201,6 +1241,8 @@ export const getForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetForm",
+  telemetry: TELEMETRY,
+  span: "GetForm",
 }));
 
 export type GetMetadataError = InvalidParameterException | UnauthorizedException | CommonErrors;
@@ -1208,7 +1250,7 @@ export type GetMetadataError = InvalidParameterException | UnauthorizedException
  * Returns existing metadata for an Amplify app.
  */
 export const getMetadata: API.OperationMethod<
-  GetMetadataRequest,
+  GetMetadataRequest & RegionInput,
   GetMetadataResponse,
   GetMetadataError,
   Credentials | HttpClient.HttpClient
@@ -1219,6 +1261,8 @@ export const getMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetadata",
+  telemetry: TELEMETRY,
+  span: "GetMetadata",
 }));
 
 export type GetThemeError =
@@ -1230,7 +1274,7 @@ export type GetThemeError =
  * Returns an existing theme for an Amplify app.
  */
 export const getTheme: API.OperationMethod<
-  GetThemeRequest,
+  GetThemeRequest & RegionInput,
   GetThemeResponse,
   GetThemeError,
   Credentials | HttpClient.HttpClient
@@ -1241,6 +1285,8 @@ export const getTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTheme",
+  telemetry: TELEMETRY,
+  span: "GetTheme",
 }));
 
 export type ListCodegenJobsError =
@@ -1252,7 +1298,7 @@ export type ListCodegenJobsError =
  * Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
  */
 export const listCodegenJobs: API.PaginatedOperationMethod<
-  ListCodegenJobsRequest,
+  ListCodegenJobsRequest & RegionInput,
   ListCodegenJobsResponse,
   ListCodegenJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1270,6 +1316,8 @@ export const listCodegenJobs: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodegenJobs",
 })) as any;
 
 export type ListComponentsError =
@@ -1281,7 +1329,7 @@ export type ListComponentsError =
  * environment.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1299,6 +1347,8 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListFormsError = InternalServerException | InvalidParameterException | CommonErrors;
@@ -1306,7 +1356,7 @@ export type ListFormsError = InternalServerException | InvalidParameterException
  * Retrieves a list of forms for a specified Amplify app and backend environment.
  */
 export const listForms: API.PaginatedOperationMethod<
-  ListFormsRequest,
+  ListFormsRequest & RegionInput,
   ListFormsResponse,
   ListFormsError,
   Credentials | HttpClient.HttpClient,
@@ -1324,6 +1374,8 @@ export const listForms: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListForms",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1337,7 +1389,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1354,6 +1406,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListThemesError = InternalServerException | InvalidParameterException | CommonErrors;
@@ -1362,7 +1416,7 @@ export type ListThemesError = InternalServerException | InvalidParameterExceptio
  * environment.
  */
 export const listThemes: API.PaginatedOperationMethod<
-  ListThemesRequest,
+  ListThemesRequest & RegionInput,
   ListThemesResponse,
   ListThemesError,
   Credentials | HttpClient.HttpClient,
@@ -1380,6 +1434,8 @@ export const listThemes: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThemes",
 })) as any;
 
 export type PutMetadataFlagError = InvalidParameterException | UnauthorizedException | CommonErrors;
@@ -1387,7 +1443,7 @@ export type PutMetadataFlagError = InvalidParameterException | UnauthorizedExcep
  * Stores the metadata information about a feature on a form.
  */
 export const putMetadataFlag: API.OperationMethod<
-  PutMetadataFlagRequest,
+  PutMetadataFlagRequest & RegionInput,
   PutMetadataFlagResponse,
   PutMetadataFlagError,
   Credentials | HttpClient.HttpClient
@@ -1398,6 +1454,8 @@ export const putMetadataFlag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetadataFlag",
+  telemetry: TELEMETRY,
+  span: "PutMetadataFlag",
 }));
 
 export type RefreshTokenError = InvalidParameterException | CommonErrors;
@@ -1407,7 +1465,7 @@ export type RefreshTokenError = InvalidParameterException | CommonErrors;
  * Amplify uses this action to refresh a previously issued access token that might have expired.
  */
 export const refreshToken: API.OperationMethod<
-  RefreshTokenRequest,
+  RefreshTokenRequest & RegionInput,
   RefreshTokenResponse,
   RefreshTokenError,
   Credentials | HttpClient.HttpClient
@@ -1418,6 +1476,8 @@ export const refreshToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RefreshToken",
+  telemetry: TELEMETRY,
+  span: "RefreshToken",
 }));
 
 export type StartCodegenJobError =
@@ -1429,7 +1489,7 @@ export type StartCodegenJobError =
  * Starts a code generation job for a specified Amplify app and backend environment.
  */
 export const startCodegenJob: API.OperationMethod<
-  StartCodegenJobRequest,
+  StartCodegenJobRequest & RegionInput,
   StartCodegenJobResponse,
   StartCodegenJobError,
   Credentials | HttpClient.HttpClient
@@ -1440,6 +1500,8 @@ export const startCodegenJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodegenJob",
+  telemetry: TELEMETRY,
+  span: "StartCodegenJob",
 }));
 
 export type TagResourceError =
@@ -1453,7 +1515,7 @@ export type TagResourceError =
  * Tags the resource with a tag key and value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1470,6 +1532,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1483,7 +1547,7 @@ export type UntagResourceError =
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1500,6 +1564,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateComponentError =
@@ -1511,7 +1577,7 @@ export type UpdateComponentError =
  * Updates an existing component.
  */
 export const updateComponent: API.OperationMethod<
-  UpdateComponentRequest,
+  UpdateComponentRequest & RegionInput,
   UpdateComponentResponse,
   UpdateComponentError,
   Credentials | HttpClient.HttpClient
@@ -1522,6 +1588,8 @@ export const updateComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateComponent",
 }));
 
 export type UpdateFormError =
@@ -1533,7 +1601,7 @@ export type UpdateFormError =
  * Updates an existing form.
  */
 export const updateForm: API.OperationMethod<
-  UpdateFormRequest,
+  UpdateFormRequest & RegionInput,
   UpdateFormResponse,
   UpdateFormError,
   Credentials | HttpClient.HttpClient
@@ -1544,6 +1612,8 @@ export const updateForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateForm",
+  telemetry: TELEMETRY,
+  span: "UpdateForm",
 }));
 
 export type UpdateThemeError =
@@ -1555,7 +1625,7 @@ export type UpdateThemeError =
  * Updates an existing theme.
  */
 export const updateTheme: API.OperationMethod<
-  UpdateThemeRequest,
+  UpdateThemeRequest & RegionInput,
   UpdateThemeResponse,
   UpdateThemeError,
   Credentials | HttpClient.HttpClient
@@ -1566,6 +1636,8 @@ export const updateTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTheme",
+  telemetry: TELEMETRY,
+  span: "UpdateTheme",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

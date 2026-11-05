@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -87,6 +89,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://models.lex.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LexModelBuildingService",
+  service: "LexModelBuildingService",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1024,7 +1040,7 @@ export type CreateBotVersionError =
  * `lex:CreateBotVersion` action.
  */
 export const createBotVersion: API.OperationMethod<
-  CreateBotVersionRequest,
+  CreateBotVersionRequest & RegionInput,
   CreateBotVersionResponse,
   CreateBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -1042,6 +1058,8 @@ export const createBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotVersion",
+  telemetry: TELEMETRY,
+  span: "CreateBotVersion",
 }));
 
 export type CreateIntentVersionError =
@@ -1070,7 +1088,7 @@ export type CreateIntentVersionError =
  * `lex:CreateIntentVersion` action.
  */
 export const createIntentVersion: API.OperationMethod<
-  CreateIntentVersionRequest,
+  CreateIntentVersionRequest & RegionInput,
   CreateIntentVersionResponse,
   CreateIntentVersionError,
   Credentials | HttpClient.HttpClient
@@ -1088,6 +1106,8 @@ export const createIntentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntentVersion",
+  telemetry: TELEMETRY,
+  span: "CreateIntentVersion",
 }));
 
 export type CreateSlotTypeVersionError =
@@ -1116,7 +1136,7 @@ export type CreateSlotTypeVersionError =
  * `lex:CreateSlotTypeVersion` action.
  */
 export const createSlotTypeVersion: API.OperationMethod<
-  CreateSlotTypeVersionRequest,
+  CreateSlotTypeVersionRequest & RegionInput,
   CreateSlotTypeVersionResponse,
   CreateSlotTypeVersionError,
   Credentials | HttpClient.HttpClient
@@ -1134,6 +1154,8 @@ export const createSlotTypeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlotTypeVersion",
+  telemetry: TELEMETRY,
+  span: "CreateSlotTypeVersion",
 }));
 
 export type DeleteBotError =
@@ -1166,7 +1188,7 @@ export type DeleteBotError =
  * `lex:DeleteBot` action.
  */
 export const deleteBot: API.OperationMethod<
-  DeleteBotRequest,
+  DeleteBotRequest & RegionInput,
   DeleteBotResponse,
   DeleteBotError,
   Credentials | HttpClient.HttpClient
@@ -1184,6 +1206,8 @@ export const deleteBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBot",
+  telemetry: TELEMETRY,
+  span: "DeleteBot",
 }));
 
 export type DeleteBotAliasError =
@@ -1207,7 +1231,7 @@ export type DeleteBotAliasError =
  * `DeleteBotAlias` operation is successful.
  */
 export const deleteBotAlias: API.OperationMethod<
-  DeleteBotAliasRequest,
+  DeleteBotAliasRequest & RegionInput,
   DeleteBotAliasResponse,
   DeleteBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -1225,6 +1249,8 @@ export const deleteBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteBotAlias",
 }));
 
 export type DeleteBotChannelAssociationError =
@@ -1242,7 +1268,7 @@ export type DeleteBotChannelAssociationError =
  * `lex:DeleteBotChannelAssociation` action.
  */
 export const deleteBotChannelAssociation: API.OperationMethod<
-  DeleteBotChannelAssociationRequest,
+  DeleteBotChannelAssociationRequest & RegionInput,
   DeleteBotChannelAssociationResponse,
   DeleteBotChannelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1259,6 +1285,8 @@ export const deleteBotChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotChannelAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteBotChannelAssociation",
 }));
 
 export type DeleteBotVersionError =
@@ -1277,7 +1305,7 @@ export type DeleteBotVersionError =
  * `lex:DeleteBotVersion` action.
  */
 export const deleteBotVersion: API.OperationMethod<
-  DeleteBotVersionRequest,
+  DeleteBotVersionRequest & RegionInput,
   DeleteBotVersionResponse,
   DeleteBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -1295,6 +1323,8 @@ export const deleteBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteBotVersion",
 }));
 
 export type DeleteIntentError =
@@ -1326,7 +1356,7 @@ export type DeleteIntentError =
  * `lex:DeleteIntent` action.
  */
 export const deleteIntent: API.OperationMethod<
-  DeleteIntentRequest,
+  DeleteIntentRequest & RegionInput,
   DeleteIntentResponse,
   DeleteIntentError,
   Credentials | HttpClient.HttpClient
@@ -1344,6 +1374,8 @@ export const deleteIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntent",
+  telemetry: TELEMETRY,
+  span: "DeleteIntent",
 }));
 
 export type DeleteIntentVersionError =
@@ -1362,7 +1394,7 @@ export type DeleteIntentVersionError =
  * `lex:DeleteIntentVersion` action.
  */
 export const deleteIntentVersion: API.OperationMethod<
-  DeleteIntentVersionRequest,
+  DeleteIntentVersionRequest & RegionInput,
   DeleteIntentVersionResponse,
   DeleteIntentVersionError,
   Credentials | HttpClient.HttpClient
@@ -1380,6 +1412,8 @@ export const deleteIntentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntentVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteIntentVersion",
 }));
 
 export type DeleteSlotTypeError =
@@ -1411,7 +1445,7 @@ export type DeleteSlotTypeError =
  * `lex:DeleteSlotType` action.
  */
 export const deleteSlotType: API.OperationMethod<
-  DeleteSlotTypeRequest,
+  DeleteSlotTypeRequest & RegionInput,
   DeleteSlotTypeResponse,
   DeleteSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -1429,6 +1463,8 @@ export const deleteSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotType",
+  telemetry: TELEMETRY,
+  span: "DeleteSlotType",
 }));
 
 export type DeleteSlotTypeVersionError =
@@ -1447,7 +1483,7 @@ export type DeleteSlotTypeVersionError =
  * `lex:DeleteSlotTypeVersion` action.
  */
 export const deleteSlotTypeVersion: API.OperationMethod<
-  DeleteSlotTypeVersionRequest,
+  DeleteSlotTypeVersionRequest & RegionInput,
   DeleteSlotTypeVersionResponse,
   DeleteSlotTypeVersionError,
   Credentials | HttpClient.HttpClient
@@ -1465,6 +1501,8 @@ export const deleteSlotTypeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotTypeVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteSlotTypeVersion",
 }));
 
 export type DeleteUtterancesError =
@@ -1491,7 +1529,7 @@ export type DeleteUtterancesError =
  * `lex:DeleteUtterances` action.
  */
 export const deleteUtterances: API.OperationMethod<
-  DeleteUtterancesRequest,
+  DeleteUtterancesRequest & RegionInput,
   DeleteUtterancesResponse,
   DeleteUtterancesError,
   Credentials | HttpClient.HttpClient
@@ -1507,6 +1545,8 @@ export const deleteUtterances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUtterances",
+  telemetry: TELEMETRY,
+  span: "DeleteUtterances",
 }));
 
 export type GetBotError =
@@ -1523,7 +1563,7 @@ export type GetBotError =
  * `lex:GetBot` action.
  */
 export const getBot: API.OperationMethod<
-  GetBotRequest,
+  GetBotRequest & RegionInput,
   GetBotResponse,
   GetBotError,
   Credentials | HttpClient.HttpClient
@@ -1539,6 +1579,8 @@ export const getBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBot",
+  telemetry: TELEMETRY,
+  span: "GetBot",
 }));
 
 export type GetBotAliasError =
@@ -1555,7 +1597,7 @@ export type GetBotAliasError =
  * `lex:GetBotAlias` action.
  */
 export const getBotAlias: API.OperationMethod<
-  GetBotAliasRequest,
+  GetBotAliasRequest & RegionInput,
   GetBotAliasResponse,
   GetBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -1571,6 +1613,8 @@ export const getBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotAlias",
+  telemetry: TELEMETRY,
+  span: "GetBotAlias",
 }));
 
 export type GetBotAliasesError =
@@ -1585,7 +1629,7 @@ export type GetBotAliasesError =
  * `lex:GetBotAliases` action.
  */
 export const getBotAliases: API.PaginatedOperationMethod<
-  GetBotAliasesRequest,
+  GetBotAliasesRequest & RegionInput,
   GetBotAliasesResponse,
   GetBotAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -1602,6 +1646,8 @@ export const getBotAliases: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBotAliases",
 })) as any;
 
 export type GetBotChannelAssociationError =
@@ -1618,7 +1664,7 @@ export type GetBotChannelAssociationError =
  * `lex:GetBotChannelAssociation` action.
  */
 export const getBotChannelAssociation: API.OperationMethod<
-  GetBotChannelAssociationRequest,
+  GetBotChannelAssociationRequest & RegionInput,
   GetBotChannelAssociationResponse,
   GetBotChannelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1634,6 +1680,8 @@ export const getBotChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotChannelAssociation",
+  telemetry: TELEMETRY,
+  span: "GetBotChannelAssociation",
 }));
 
 export type GetBotChannelAssociationsError =
@@ -1650,7 +1698,7 @@ export type GetBotChannelAssociationsError =
  * action.
  */
 export const getBotChannelAssociations: API.PaginatedOperationMethod<
-  GetBotChannelAssociationsRequest,
+  GetBotChannelAssociationsRequest & RegionInput,
   GetBotChannelAssociationsResponse,
   GetBotChannelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1667,6 +1715,8 @@ export const getBotChannelAssociations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBotChannelAssociations",
 })) as any;
 
 export type GetBotsError =
@@ -1690,7 +1740,7 @@ export type GetBotsError =
  * action.
  */
 export const getBots: API.PaginatedOperationMethod<
-  GetBotsRequest,
+  GetBotsRequest & RegionInput,
   GetBotsResponse,
   GetBotsError,
   Credentials | HttpClient.HttpClient,
@@ -1712,6 +1762,8 @@ export const getBots: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBots",
 })) as any;
 
 export type GetBotVersionsError =
@@ -1737,7 +1789,7 @@ export type GetBotVersionsError =
  * `lex:GetBotVersions` action.
  */
 export const getBotVersions: API.PaginatedOperationMethod<
-  GetBotVersionsRequest,
+  GetBotVersionsRequest & RegionInput,
   GetBotVersionsResponse,
   GetBotVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1759,6 +1811,8 @@ export const getBotVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBotVersions",
 })) as any;
 
 export type GetBuiltinIntentError =
@@ -1774,7 +1828,7 @@ export type GetBuiltinIntentError =
  * `lex:GetBuiltinIntent` action.
  */
 export const getBuiltinIntent: API.OperationMethod<
-  GetBuiltinIntentRequest,
+  GetBuiltinIntentRequest & RegionInput,
   GetBuiltinIntentResponse,
   GetBuiltinIntentError,
   Credentials | HttpClient.HttpClient
@@ -1790,6 +1844,8 @@ export const getBuiltinIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBuiltinIntent",
+  telemetry: TELEMETRY,
+  span: "GetBuiltinIntent",
 }));
 
 export type GetBuiltinIntentsError =
@@ -1805,7 +1861,7 @@ export type GetBuiltinIntentsError =
  * `lex:GetBuiltinIntents` action.
  */
 export const getBuiltinIntents: API.PaginatedOperationMethod<
-  GetBuiltinIntentsRequest,
+  GetBuiltinIntentsRequest & RegionInput,
   GetBuiltinIntentsResponse,
   GetBuiltinIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -1822,6 +1878,8 @@ export const getBuiltinIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBuiltinIntents",
 })) as any;
 
 export type GetBuiltinSlotTypesError =
@@ -1840,7 +1898,7 @@ export type GetBuiltinSlotTypesError =
  * `lex:GetBuiltInSlotTypes` action.
  */
 export const getBuiltinSlotTypes: API.PaginatedOperationMethod<
-  GetBuiltinSlotTypesRequest,
+  GetBuiltinSlotTypesRequest & RegionInput,
   GetBuiltinSlotTypesResponse,
   GetBuiltinSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1857,6 +1915,8 @@ export const getBuiltinSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBuiltinSlotTypes",
 })) as any;
 
 export type GetExportError =
@@ -1869,7 +1929,7 @@ export type GetExportError =
  * Exports the contents of a Amazon Lex resource in a specified format.
  */
 export const getExport: API.OperationMethod<
-  GetExportRequest,
+  GetExportRequest & RegionInput,
   GetExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
@@ -1885,6 +1945,8 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
+  telemetry: TELEMETRY,
+  span: "GetExport",
 }));
 
 export type GetImportError =
@@ -1898,7 +1960,7 @@ export type GetImportError =
  * `StartImport` operation.
  */
 export const getImport: API.OperationMethod<
-  GetImportRequest,
+  GetImportRequest & RegionInput,
   GetImportResponse,
   GetImportError,
   Credentials | HttpClient.HttpClient
@@ -1914,6 +1976,8 @@ export const getImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImport",
+  telemetry: TELEMETRY,
+  span: "GetImport",
 }));
 
 export type GetIntentError =
@@ -1930,7 +1994,7 @@ export type GetIntentError =
  * `lex:GetIntent` action.
  */
 export const getIntent: API.OperationMethod<
-  GetIntentRequest,
+  GetIntentRequest & RegionInput,
   GetIntentResponse,
   GetIntentError,
   Credentials | HttpClient.HttpClient
@@ -1946,6 +2010,8 @@ export const getIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntent",
+  telemetry: TELEMETRY,
+  span: "GetIntent",
 }));
 
 export type GetIntentsError =
@@ -1969,7 +2035,7 @@ export type GetIntentsError =
  * `lex:GetIntents` action.
  */
 export const getIntents: API.PaginatedOperationMethod<
-  GetIntentsRequest,
+  GetIntentsRequest & RegionInput,
   GetIntentsResponse,
   GetIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -1991,6 +2057,8 @@ export const getIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetIntents",
 })) as any;
 
 export type GetIntentVersionsError =
@@ -2016,7 +2084,7 @@ export type GetIntentVersionsError =
  * `lex:GetIntentVersions` action.
  */
 export const getIntentVersions: API.PaginatedOperationMethod<
-  GetIntentVersionsRequest,
+  GetIntentVersionsRequest & RegionInput,
   GetIntentVersionsResponse,
   GetIntentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2038,6 +2106,8 @@ export const getIntentVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetIntentVersions",
 })) as any;
 
 export type GetMigrationError =
@@ -2052,7 +2122,7 @@ export type GetMigrationError =
  * alerts and warnings related to the migration.
  */
 export const getMigration: API.OperationMethod<
-  GetMigrationRequest,
+  GetMigrationRequest & RegionInput,
   GetMigrationResponse,
   GetMigrationError,
   Credentials | HttpClient.HttpClient
@@ -2068,6 +2138,8 @@ export const getMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMigration",
+  telemetry: TELEMETRY,
+  span: "GetMigration",
 }));
 
 export type GetMigrationsError =
@@ -2079,7 +2151,7 @@ export type GetMigrationsError =
  * Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
  */
 export const getMigrations: API.PaginatedOperationMethod<
-  GetMigrationsRequest,
+  GetMigrationsRequest & RegionInput,
   GetMigrationsResponse,
   GetMigrationsError,
   Credentials | HttpClient.HttpClient,
@@ -2096,6 +2168,8 @@ export const getMigrations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetMigrations",
 })) as any;
 
 export type GetSlotTypeError =
@@ -2113,7 +2187,7 @@ export type GetSlotTypeError =
  * `lex:GetSlotType` action.
  */
 export const getSlotType: API.OperationMethod<
-  GetSlotTypeRequest,
+  GetSlotTypeRequest & RegionInput,
   GetSlotTypeResponse,
   GetSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -2129,6 +2203,8 @@ export const getSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSlotType",
+  telemetry: TELEMETRY,
+  span: "GetSlotType",
 }));
 
 export type GetSlotTypesError =
@@ -2152,7 +2228,7 @@ export type GetSlotTypesError =
  * `lex:GetSlotTypes` action.
  */
 export const getSlotTypes: API.PaginatedOperationMethod<
-  GetSlotTypesRequest,
+  GetSlotTypesRequest & RegionInput,
   GetSlotTypesResponse,
   GetSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2174,6 +2250,8 @@ export const getSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSlotTypes",
 })) as any;
 
 export type GetSlotTypeVersionsError =
@@ -2199,7 +2277,7 @@ export type GetSlotTypeVersionsError =
  * `lex:GetSlotTypeVersions` action.
  */
 export const getSlotTypeVersions: API.PaginatedOperationMethod<
-  GetSlotTypeVersionsRequest,
+  GetSlotTypeVersionsRequest & RegionInput,
   GetSlotTypeVersionsResponse,
   GetSlotTypeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2221,6 +2299,8 @@ export const getSlotTypeVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSlotTypeVersions",
 })) as any;
 
 export type GetUtterancesViewError =
@@ -2260,7 +2340,7 @@ export type GetUtterancesViewError =
  * `lex:GetUtterancesView` action.
  */
 export const getUtterancesView: API.OperationMethod<
-  GetUtterancesViewRequest,
+  GetUtterancesViewRequest & RegionInput,
   GetUtterancesViewResponse,
   GetUtterancesViewError,
   Credentials | HttpClient.HttpClient
@@ -2271,6 +2351,8 @@ export const getUtterancesView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUtterancesView",
+  telemetry: TELEMETRY,
+  span: "GetUtterancesView",
 }));
 
 export type ListTagsForResourceError =
@@ -2284,7 +2366,7 @@ export type ListTagsForResourceError =
  * bot aliases, and bot channels can have tags associated with them.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2300,6 +2382,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutBotError =
@@ -2331,7 +2415,7 @@ export type PutBotError =
  * action. For more information, see security-iam.
  */
 export const putBot: API.OperationMethod<
-  PutBotRequest,
+  PutBotRequest & RegionInput,
   PutBotResponse,
   PutBotError,
   Credentials | HttpClient.HttpClient
@@ -2348,6 +2432,8 @@ export const putBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBot",
+  telemetry: TELEMETRY,
+  span: "PutBot",
 }));
 
 export type PutBotAliasError =
@@ -2367,7 +2453,7 @@ export type PutBotAliasError =
  * `lex:PutBotAlias` action.
  */
 export const putBotAlias: API.OperationMethod<
-  PutBotAliasRequest,
+  PutBotAliasRequest & RegionInput,
   PutBotAliasResponse,
   PutBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -2384,6 +2470,8 @@ export const putBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBotAlias",
+  telemetry: TELEMETRY,
+  span: "PutBotAlias",
 }));
 
 export type PutIntentError =
@@ -2448,7 +2536,7 @@ export type PutIntentError =
  * `lex:PutIntent` action.
  */
 export const putIntent: API.OperationMethod<
-  PutIntentRequest,
+  PutIntentRequest & RegionInput,
   PutIntentResponse,
   PutIntentError,
   Credentials | HttpClient.HttpClient
@@ -2465,6 +2553,8 @@ export const putIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntent",
+  telemetry: TELEMETRY,
+  span: "PutIntent",
 }));
 
 export type PutSlotTypeError =
@@ -2495,7 +2585,7 @@ export type PutSlotTypeError =
  * `lex:PutSlotType` action.
  */
 export const putSlotType: API.OperationMethod<
-  PutSlotTypeRequest,
+  PutSlotTypeRequest & RegionInput,
   PutSlotTypeResponse,
   PutSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -2512,6 +2602,8 @@ export const putSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSlotType",
+  telemetry: TELEMETRY,
+  span: "PutSlotType",
 }));
 
 export type StartImportError =
@@ -2523,7 +2615,7 @@ export type StartImportError =
  * Starts a job to import a resource to Amazon Lex.
  */
 export const startImport: API.OperationMethod<
-  StartImportRequest,
+  StartImportRequest & RegionInput,
   StartImportResponse,
   StartImportError,
   Credentials | HttpClient.HttpClient
@@ -2534,6 +2626,8 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
+  telemetry: TELEMETRY,
+  span: "StartImport",
 }));
 
 export type StartMigrationError =
@@ -2551,7 +2645,7 @@ export type StartMigrationError =
  * developer guide.
  */
 export const startMigration: API.OperationMethod<
-  StartMigrationRequest,
+  StartMigrationRequest & RegionInput,
   StartMigrationResponse,
   StartMigrationError,
   Credentials | HttpClient.HttpClient
@@ -2568,6 +2662,8 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
+  telemetry: TELEMETRY,
+  span: "StartMigration",
 }));
 
 export type TagResourceError =
@@ -2582,7 +2678,7 @@ export type TagResourceError =
  * already exists, the existing value is replaced with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2599,6 +2695,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2612,7 +2710,7 @@ export type UntagResourceError =
  * Removes tags from a bot, bot alias or bot channel.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2629,6 +2727,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

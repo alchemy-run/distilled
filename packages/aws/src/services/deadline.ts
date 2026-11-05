@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://deadline.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "deadline",
+  service: "deadline",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3544,7 +3560,7 @@ export type AssociateMemberToFarmError =
  * Assigns a farm membership level to a member.
  */
 export const associateMemberToFarm: API.OperationMethod<
-  AssociateMemberToFarmRequest,
+  AssociateMemberToFarmRequest & RegionInput,
   AssociateMemberToFarmResponse,
   AssociateMemberToFarmError,
   Credentials | HttpClient.HttpClient
@@ -3563,6 +3579,8 @@ export const associateMemberToFarm: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssociateMemberToFarm",
 }));
 
 export type AssociateMemberToFleetError =
@@ -3577,7 +3595,7 @@ export type AssociateMemberToFleetError =
  * Assigns a fleet membership level to a member.
  */
 export const associateMemberToFleet: API.OperationMethod<
-  AssociateMemberToFleetRequest,
+  AssociateMemberToFleetRequest & RegionInput,
   AssociateMemberToFleetResponse,
   AssociateMemberToFleetError,
   Credentials | HttpClient.HttpClient
@@ -3596,6 +3614,8 @@ export const associateMemberToFleet: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssociateMemberToFleet",
 }));
 
 export type AssociateMemberToJobError =
@@ -3610,7 +3630,7 @@ export type AssociateMemberToJobError =
  * Assigns a job membership level to a member
  */
 export const associateMemberToJob: API.OperationMethod<
-  AssociateMemberToJobRequest,
+  AssociateMemberToJobRequest & RegionInput,
   AssociateMemberToJobResponse,
   AssociateMemberToJobError,
   Credentials | HttpClient.HttpClient
@@ -3629,6 +3649,8 @@ export const associateMemberToJob: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssociateMemberToJob",
 }));
 
 export type AssociateMemberToQueueError =
@@ -3643,7 +3665,7 @@ export type AssociateMemberToQueueError =
  * Assigns a queue membership level to a member
  */
 export const associateMemberToQueue: API.OperationMethod<
-  AssociateMemberToQueueRequest,
+  AssociateMemberToQueueRequest & RegionInput,
   AssociateMemberToQueueResponse,
   AssociateMemberToQueueError,
   Credentials | HttpClient.HttpClient
@@ -3662,6 +3684,8 @@ export const associateMemberToQueue: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssociateMemberToQueue",
 }));
 
 export type AssumeFleetRoleForReadError =
@@ -3675,7 +3699,7 @@ export type AssumeFleetRoleForReadError =
  * Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeFleetRoleForRead: API.OperationMethod<
-  AssumeFleetRoleForReadRequest,
+  AssumeFleetRoleForReadRequest & RegionInput,
   AssumeFleetRoleForReadResponse,
   AssumeFleetRoleForReadError,
   Credentials | HttpClient.HttpClient
@@ -3693,6 +3717,8 @@ export const assumeFleetRoleForRead: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeFleetRoleForRead",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssumeFleetRoleForRead",
 }));
 
 export type AssumeFleetRoleForWorkerError =
@@ -3707,7 +3733,7 @@ export type AssumeFleetRoleForWorkerError =
  * Get credentials from the fleet role for a worker.
  */
 export const assumeFleetRoleForWorker: API.OperationMethod<
-  AssumeFleetRoleForWorkerRequest,
+  AssumeFleetRoleForWorkerRequest & RegionInput,
   AssumeFleetRoleForWorkerResponse,
   AssumeFleetRoleForWorkerError,
   Credentials | HttpClient.HttpClient
@@ -3726,6 +3752,8 @@ export const assumeFleetRoleForWorker: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeFleetRoleForWorker",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "AssumeFleetRoleForWorker",
 }));
 
 export type AssumeQueueRoleForReadError =
@@ -3739,7 +3767,7 @@ export type AssumeQueueRoleForReadError =
  * Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeQueueRoleForRead: API.OperationMethod<
-  AssumeQueueRoleForReadRequest,
+  AssumeQueueRoleForReadRequest & RegionInput,
   AssumeQueueRoleForReadResponse,
   AssumeQueueRoleForReadError,
   Credentials | HttpClient.HttpClient
@@ -3757,6 +3785,8 @@ export const assumeQueueRoleForRead: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForRead",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssumeQueueRoleForRead",
 }));
 
 export type AssumeQueueRoleForUserError =
@@ -3770,7 +3800,7 @@ export type AssumeQueueRoleForUserError =
  * Allows a user to assume a role for a queue.
  */
 export const assumeQueueRoleForUser: API.OperationMethod<
-  AssumeQueueRoleForUserRequest,
+  AssumeQueueRoleForUserRequest & RegionInput,
   AssumeQueueRoleForUserResponse,
   AssumeQueueRoleForUserError,
   Credentials | HttpClient.HttpClient
@@ -3788,6 +3818,8 @@ export const assumeQueueRoleForUser: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForUser",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssumeQueueRoleForUser",
 }));
 
 export type AssumeQueueRoleForWorkerError =
@@ -3802,7 +3834,7 @@ export type AssumeQueueRoleForWorkerError =
  * Allows a worker to assume a queue role.
  */
 export const assumeQueueRoleForWorker: API.OperationMethod<
-  AssumeQueueRoleForWorkerRequest,
+  AssumeQueueRoleForWorkerRequest & RegionInput,
   AssumeQueueRoleForWorkerResponse,
   AssumeQueueRoleForWorkerError,
   Credentials | HttpClient.HttpClient
@@ -3821,6 +3853,8 @@ export const assumeQueueRoleForWorker: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForWorker",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "AssumeQueueRoleForWorker",
 }));
 
 export type BatchGetJobError =
@@ -3835,7 +3869,7 @@ export type BatchGetJobError =
  * The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetJob: API.OperationMethod<
-  BatchGetJobRequest,
+  BatchGetJobRequest & RegionInput,
   BatchGetJobResponse,
   BatchGetJobError,
   Credentials | HttpClient.HttpClient
@@ -3852,6 +3886,8 @@ export const batchGetJob: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetJob",
 }));
 
 export type BatchGetJobEntityError =
@@ -3865,7 +3901,7 @@ export type BatchGetJobEntityError =
  * Get batched job details for a worker.
  */
 export const batchGetJobEntity: API.OperationMethod<
-  BatchGetJobEntityRequest,
+  BatchGetJobEntityRequest & RegionInput,
   BatchGetJobEntityResponse,
   BatchGetJobEntityError,
   Credentials | HttpClient.HttpClient
@@ -3883,6 +3919,8 @@ export const batchGetJobEntity: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetJobEntity",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "BatchGetJobEntity",
 }));
 
 export type BatchGetSessionError =
@@ -3897,7 +3935,7 @@ export type BatchGetSessionError =
  * The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetSession: API.OperationMethod<
-  BatchGetSessionRequest,
+  BatchGetSessionRequest & RegionInput,
   BatchGetSessionResponse,
   BatchGetSessionError,
   Credentials | HttpClient.HttpClient
@@ -3914,6 +3952,8 @@ export const batchGetSession: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetSession",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetSession",
 }));
 
 export type BatchGetSessionActionError =
@@ -3928,7 +3968,7 @@ export type BatchGetSessionActionError =
  * The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetSessionAction: API.OperationMethod<
-  BatchGetSessionActionRequest,
+  BatchGetSessionActionRequest & RegionInput,
   BatchGetSessionActionResponse,
   BatchGetSessionActionError,
   Credentials | HttpClient.HttpClient
@@ -3945,6 +3985,8 @@ export const batchGetSessionAction: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetSessionAction",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetSessionAction",
 }));
 
 export type BatchGetStepError =
@@ -3959,7 +4001,7 @@ export type BatchGetStepError =
  * The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetStep: API.OperationMethod<
-  BatchGetStepRequest,
+  BatchGetStepRequest & RegionInput,
   BatchGetStepResponse,
   BatchGetStepError,
   Credentials | HttpClient.HttpClient
@@ -3976,6 +4018,8 @@ export const batchGetStep: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetStep",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetStep",
 }));
 
 export type BatchGetTaskError =
@@ -3990,7 +4034,7 @@ export type BatchGetTaskError =
  * The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetTask: API.OperationMethod<
-  BatchGetTaskRequest,
+  BatchGetTaskRequest & RegionInput,
   BatchGetTaskResponse,
   BatchGetTaskError,
   Credentials | HttpClient.HttpClient
@@ -4007,6 +4051,8 @@ export const batchGetTask: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetTask",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetTask",
 }));
 
 export type BatchGetWorkerError =
@@ -4021,7 +4067,7 @@ export type BatchGetWorkerError =
  * The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetWorker: API.OperationMethod<
-  BatchGetWorkerRequest,
+  BatchGetWorkerRequest & RegionInput,
   BatchGetWorkerResponse,
   BatchGetWorkerError,
   Credentials | HttpClient.HttpClient
@@ -4038,6 +4084,8 @@ export const batchGetWorker: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetWorker",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetWorker",
 }));
 
 export type BatchUpdateJobError =
@@ -4056,7 +4104,7 @@ export type BatchUpdateJobError =
  * An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered.
  */
 export const batchUpdateJob: API.OperationMethod<
-  BatchUpdateJobRequest,
+  BatchUpdateJobRequest & RegionInput,
   BatchUpdateJobResponse,
   BatchUpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -4073,6 +4121,8 @@ export const batchUpdateJob: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateJob",
 }));
 
 export type BatchUpdateTaskError =
@@ -4087,7 +4137,7 @@ export type BatchUpdateTaskError =
  * The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchUpdateTask: API.OperationMethod<
-  BatchUpdateTaskRequest,
+  BatchUpdateTaskRequest & RegionInput,
   BatchUpdateTaskResponse,
   BatchUpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -4104,6 +4154,8 @@ export const batchUpdateTask: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateTask",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateTask",
 }));
 
 export type CopyJobTemplateError =
@@ -4117,7 +4169,7 @@ export type CopyJobTemplateError =
  * Copies a job template to an Amazon S3 bucket.
  */
 export const copyJobTemplate: API.OperationMethod<
-  CopyJobTemplateRequest,
+  CopyJobTemplateRequest & RegionInput,
   CopyJobTemplateResponse,
   CopyJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4135,6 +4187,8 @@ export const copyJobTemplate: API.OperationMethod<
   retry: Retry,
   operationName: "CopyJobTemplate",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CopyJobTemplate",
 }));
 
 export type CreateBudgetError =
@@ -4150,7 +4204,7 @@ export type CreateBudgetError =
  * Creates a budget to set spending thresholds for your rendering activity.
  */
 export const createBudget: API.OperationMethod<
-  CreateBudgetRequest,
+  CreateBudgetRequest & RegionInput,
   CreateBudgetResponse,
   CreateBudgetError,
   Credentials | HttpClient.HttpClient
@@ -4170,6 +4224,8 @@ export const createBudget: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBudget",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateBudget",
 }));
 
 export type CreateFarmError =
@@ -4184,7 +4240,7 @@ export type CreateFarmError =
  * Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
  */
 export const createFarm: API.OperationMethod<
-  CreateFarmRequest,
+  CreateFarmRequest & RegionInput,
   CreateFarmResponse,
   CreateFarmError,
   Credentials | HttpClient.HttpClient
@@ -4203,6 +4259,8 @@ export const createFarm: API.OperationMethod<
   retry: Retry,
   operationName: "CreateFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateFarm",
 }));
 
 export type CreateFleetError =
@@ -4219,7 +4277,7 @@ export type CreateFleetError =
  * Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetRequest,
+  CreateFleetRequest & RegionInput,
   CreateFleetResponse,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -4240,6 +4298,8 @@ export const createFleet: API.OperationMethod<
   retry: Retry,
   operationName: "CreateFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateJobError =
@@ -4254,7 +4314,7 @@ export type CreateJobError =
  * Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -4273,6 +4333,8 @@ export const createJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateJob",
 }));
 
 export type CreateLicenseEndpointError =
@@ -4287,7 +4349,7 @@ export type CreateLicenseEndpointError =
  * Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud.
  */
 export const createLicenseEndpoint: API.OperationMethod<
-  CreateLicenseEndpointRequest,
+  CreateLicenseEndpointRequest & RegionInput,
   CreateLicenseEndpointResponse,
   CreateLicenseEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4306,6 +4368,8 @@ export const createLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "CreateLicenseEndpoint",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseEndpoint",
 }));
 
 export type CreateLimitError =
@@ -4322,7 +4386,7 @@ export type CreateLimitError =
  * You must add the `amountRequirementName` to a step in a job template to declare the limit requirement.
  */
 export const createLimit: API.OperationMethod<
-  CreateLimitRequest,
+  CreateLimitRequest & RegionInput,
   CreateLimitResponse,
   CreateLimitError,
   Credentials | HttpClient.HttpClient
@@ -4341,6 +4405,8 @@ export const createLimit: API.OperationMethod<
   retry: Retry,
   operationName: "CreateLimit",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateLimit",
 }));
 
 export type CreateMonitorError =
@@ -4355,7 +4421,7 @@ export type CreateMonitorError =
  * Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and fleets. After you submit a job, you can track the progress of the tasks and steps that make up the job, and then download the job's results.
  */
 export const createMonitor: API.OperationMethod<
-  CreateMonitorRequest,
+  CreateMonitorRequest & RegionInput,
   CreateMonitorResponse,
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -4374,6 +4440,8 @@ export const createMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMonitor",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type CreateQueueError =
@@ -4389,7 +4457,7 @@ export type CreateQueueError =
  * Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResponse,
   CreateQueueError,
   Credentials | HttpClient.HttpClient
@@ -4409,6 +4477,8 @@ export const createQueue: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type CreateQueueEnvironmentError =
@@ -4423,7 +4493,7 @@ export type CreateQueueEnvironmentError =
  * Creates an environment for a queue that defines how jobs in the queue run.
  */
 export const createQueueEnvironment: API.OperationMethod<
-  CreateQueueEnvironmentRequest,
+  CreateQueueEnvironmentRequest & RegionInput,
   CreateQueueEnvironmentResponse,
   CreateQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -4442,6 +4512,8 @@ export const createQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueEnvironment",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateQueueEnvironment",
 }));
 
 export type CreateQueueFleetAssociationError =
@@ -4455,7 +4527,7 @@ export type CreateQueueFleetAssociationError =
  * Creates an association between a queue and a fleet.
  */
 export const createQueueFleetAssociation: API.OperationMethod<
-  CreateQueueFleetAssociationRequest,
+  CreateQueueFleetAssociationRequest & RegionInput,
   CreateQueueFleetAssociationResponse,
   CreateQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4473,6 +4545,8 @@ export const createQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateQueueFleetAssociation",
 }));
 
 export type CreateQueueLimitAssociationError =
@@ -4486,7 +4560,7 @@ export type CreateQueueLimitAssociationError =
  * Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same `amountRequirementName` to the same queue.
  */
 export const createQueueLimitAssociation: API.OperationMethod<
-  CreateQueueLimitAssociationRequest,
+  CreateQueueLimitAssociationRequest & RegionInput,
   CreateQueueLimitAssociationResponse,
   CreateQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4504,6 +4578,8 @@ export const createQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateQueueLimitAssociation",
 }));
 
 export type CreateStorageProfileError =
@@ -4519,7 +4595,7 @@ export type CreateStorageProfileError =
  * Creates a storage profile that specifies the operating system, file type, and file location of resources used on a farm.
  */
 export const createStorageProfile: API.OperationMethod<
-  CreateStorageProfileRequest,
+  CreateStorageProfileRequest & RegionInput,
   CreateStorageProfileResponse,
   CreateStorageProfileError,
   Credentials | HttpClient.HttpClient
@@ -4539,6 +4615,8 @@ export const createStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateStorageProfile",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateStorageProfile",
 }));
 
 export type CreateWorkerError =
@@ -4555,7 +4633,7 @@ export type CreateWorkerError =
  * Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to `CreateWorker` before the field updates, you might exceed your fleet's maximum worker count. For example, if your `maxWorkerCount` is 10 and you currently have 9 workers, making two quick `CreateWorker` calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
  */
 export const createWorker: API.OperationMethod<
-  CreateWorkerRequest,
+  CreateWorkerRequest & RegionInput,
   CreateWorkerResponse,
   CreateWorkerError,
   Credentials | HttpClient.HttpClient
@@ -4574,6 +4652,8 @@ export const createWorker: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorker",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "CreateWorker",
 }));
 
 export type DeleteBudgetError =
@@ -4588,7 +4668,7 @@ export type DeleteBudgetError =
  * Deletes a budget.
  */
 export const deleteBudget: API.OperationMethod<
-  DeleteBudgetRequest,
+  DeleteBudgetRequest & RegionInput,
   DeleteBudgetResponse,
   DeleteBudgetError,
   Credentials | HttpClient.HttpClient
@@ -4607,6 +4687,8 @@ export const deleteBudget: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBudget",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteBudget",
 }));
 
 export type DeleteFarmError =
@@ -4621,7 +4703,7 @@ export type DeleteFarmError =
  * Deletes a farm.
  */
 export const deleteFarm: API.OperationMethod<
-  DeleteFarmRequest,
+  DeleteFarmRequest & RegionInput,
   DeleteFarmResponse,
   DeleteFarmError,
   Credentials | HttpClient.HttpClient
@@ -4640,6 +4722,8 @@ export const deleteFarm: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteFarm",
 }));
 
 export type DeleteFleetError =
@@ -4654,7 +4738,7 @@ export type DeleteFleetError =
  * Deletes a fleet.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetRequest,
+  DeleteFleetRequest & RegionInput,
   DeleteFleetResponse,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -4673,6 +4757,8 @@ export const deleteFleet: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteLicenseEndpointError =
@@ -4687,7 +4773,7 @@ export type DeleteLicenseEndpointError =
  * Deletes a license endpoint.
  */
 export const deleteLicenseEndpoint: API.OperationMethod<
-  DeleteLicenseEndpointRequest,
+  DeleteLicenseEndpointRequest & RegionInput,
   DeleteLicenseEndpointResponse,
   DeleteLicenseEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4706,6 +4792,8 @@ export const deleteLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteLicenseEndpoint",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseEndpoint",
 }));
 
 export type DeleteLimitError =
@@ -4718,7 +4806,7 @@ export type DeleteLimitError =
  * Removes a limit from the specified farm. Before you delete a limit you must use the `DeleteQueueLimitAssociation` operation to remove the association with any queues.
  */
 export const deleteLimit: API.OperationMethod<
-  DeleteLimitRequest,
+  DeleteLimitRequest & RegionInput,
   DeleteLimitResponse,
   DeleteLimitError,
   Credentials | HttpClient.HttpClient
@@ -4735,6 +4823,8 @@ export const deleteLimit: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteLimit",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteLimit",
 }));
 
 export type DeleteMeteredProductError =
@@ -4748,7 +4838,7 @@ export type DeleteMeteredProductError =
  * Deletes a metered product.
  */
 export const deleteMeteredProduct: API.OperationMethod<
-  DeleteMeteredProductRequest,
+  DeleteMeteredProductRequest & RegionInput,
   DeleteMeteredProductResponse,
   DeleteMeteredProductError,
   Credentials | HttpClient.HttpClient
@@ -4766,6 +4856,8 @@ export const deleteMeteredProduct: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMeteredProduct",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteMeteredProduct",
 }));
 
 export type DeleteMonitorError =
@@ -4780,7 +4872,7 @@ export type DeleteMonitorError =
  * Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and attach farms to the monitor.
  */
 export const deleteMonitor: API.OperationMethod<
-  DeleteMonitorRequest,
+  DeleteMonitorRequest & RegionInput,
   DeleteMonitorResponse,
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
@@ -4799,6 +4891,8 @@ export const deleteMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMonitor",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeleteQueueError =
@@ -4815,7 +4909,7 @@ export type DeleteQueueError =
  * You can't recover the jobs in a queue if you delete the queue. Deleting the queue also deletes the jobs in that queue.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
@@ -4834,6 +4928,8 @@ export const deleteQueue: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
 }));
 
 export type DeleteQueueEnvironmentError =
@@ -4846,7 +4942,7 @@ export type DeleteQueueEnvironmentError =
  * Deletes a queue environment.
  */
 export const deleteQueueEnvironment: API.OperationMethod<
-  DeleteQueueEnvironmentRequest,
+  DeleteQueueEnvironmentRequest & RegionInput,
   DeleteQueueEnvironmentResponse,
   DeleteQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -4863,6 +4959,8 @@ export const deleteQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueEnvironment",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteQueueEnvironment",
 }));
 
 export type DeleteQueueFleetAssociationError =
@@ -4877,7 +4975,7 @@ export type DeleteQueueFleetAssociationError =
  * Deletes a queue-fleet association.
  */
 export const deleteQueueFleetAssociation: API.OperationMethod<
-  DeleteQueueFleetAssociationRequest,
+  DeleteQueueFleetAssociationRequest & RegionInput,
   DeleteQueueFleetAssociationResponse,
   DeleteQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4896,6 +4994,8 @@ export const deleteQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteQueueFleetAssociation",
 }));
 
 export type DeleteQueueLimitAssociationError =
@@ -4910,7 +5010,7 @@ export type DeleteQueueLimitAssociationError =
  * Removes the association between a queue and a limit. You must use the `UpdateQueueLimitAssociation` operation to set the status to `STOP_LIMIT_USAGE_AND_COMPLETE_TASKS` or `STOP_LIMIT_USAGE_AND_CANCEL_TASKS`. The status does not change immediately. Use the `GetQueueLimitAssociation` operation to see if the status changed to `STOPPED` before deleting the association.
  */
 export const deleteQueueLimitAssociation: API.OperationMethod<
-  DeleteQueueLimitAssociationRequest,
+  DeleteQueueLimitAssociationRequest & RegionInput,
   DeleteQueueLimitAssociationResponse,
   DeleteQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4929,6 +5029,8 @@ export const deleteQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteQueueLimitAssociation",
 }));
 
 export type DeleteStorageProfileError =
@@ -4943,7 +5045,7 @@ export type DeleteStorageProfileError =
  * Deletes a storage profile.
  */
 export const deleteStorageProfile: API.OperationMethod<
-  DeleteStorageProfileRequest,
+  DeleteStorageProfileRequest & RegionInput,
   DeleteStorageProfileResponse,
   DeleteStorageProfileError,
   Credentials | HttpClient.HttpClient
@@ -4962,6 +5064,8 @@ export const deleteStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteStorageProfile",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteStorageProfile",
 }));
 
 export type DeleteVolumeError =
@@ -4976,7 +5080,7 @@ export type DeleteVolumeError =
  * Deletes a persistent volume.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeRequest,
+  DeleteVolumeRequest & RegionInput,
   DeleteVolumeResponse,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
@@ -4995,6 +5099,8 @@ export const deleteVolume: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteVolume",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DeleteWorkerError =
@@ -5009,7 +5115,7 @@ export type DeleteWorkerError =
  * Deletes a worker.
  */
 export const deleteWorker: API.OperationMethod<
-  DeleteWorkerRequest,
+  DeleteWorkerRequest & RegionInput,
   DeleteWorkerResponse,
   DeleteWorkerError,
   Credentials | HttpClient.HttpClient
@@ -5028,6 +5134,8 @@ export const deleteWorker: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorker",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteWorker",
 }));
 
 export type DisassociateMemberFromFarmError =
@@ -5041,7 +5149,7 @@ export type DisassociateMemberFromFarmError =
  * Disassociates a member from a farm.
  */
 export const disassociateMemberFromFarm: API.OperationMethod<
-  DisassociateMemberFromFarmRequest,
+  DisassociateMemberFromFarmRequest & RegionInput,
   DisassociateMemberFromFarmResponse,
   DisassociateMemberFromFarmError,
   Credentials | HttpClient.HttpClient
@@ -5059,6 +5167,8 @@ export const disassociateMemberFromFarm: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DisassociateMemberFromFarm",
 }));
 
 export type DisassociateMemberFromFleetError =
@@ -5073,7 +5183,7 @@ export type DisassociateMemberFromFleetError =
  * Disassociates a member from a fleet.
  */
 export const disassociateMemberFromFleet: API.OperationMethod<
-  DisassociateMemberFromFleetRequest,
+  DisassociateMemberFromFleetRequest & RegionInput,
   DisassociateMemberFromFleetResponse,
   DisassociateMemberFromFleetError,
   Credentials | HttpClient.HttpClient
@@ -5092,6 +5202,8 @@ export const disassociateMemberFromFleet: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DisassociateMemberFromFleet",
 }));
 
 export type DisassociateMemberFromJobError =
@@ -5105,7 +5217,7 @@ export type DisassociateMemberFromJobError =
  * Disassociates a member from a job.
  */
 export const disassociateMemberFromJob: API.OperationMethod<
-  DisassociateMemberFromJobRequest,
+  DisassociateMemberFromJobRequest & RegionInput,
   DisassociateMemberFromJobResponse,
   DisassociateMemberFromJobError,
   Credentials | HttpClient.HttpClient
@@ -5123,6 +5235,8 @@ export const disassociateMemberFromJob: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DisassociateMemberFromJob",
 }));
 
 export type DisassociateMemberFromQueueError =
@@ -5137,7 +5251,7 @@ export type DisassociateMemberFromQueueError =
  * Disassociates a member from a queue.
  */
 export const disassociateMemberFromQueue: API.OperationMethod<
-  DisassociateMemberFromQueueRequest,
+  DisassociateMemberFromQueueRequest & RegionInput,
   DisassociateMemberFromQueueResponse,
   DisassociateMemberFromQueueError,
   Credentials | HttpClient.HttpClient
@@ -5156,6 +5270,8 @@ export const disassociateMemberFromQueue: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DisassociateMemberFromQueue",
 }));
 
 export type GetBudgetError =
@@ -5169,7 +5285,7 @@ export type GetBudgetError =
  * Get a budget.
  */
 export const getBudget: API.OperationMethod<
-  GetBudgetRequest,
+  GetBudgetRequest & RegionInput,
   GetBudgetResponse,
   GetBudgetError,
   Credentials | HttpClient.HttpClient
@@ -5187,6 +5303,8 @@ export const getBudget: API.OperationMethod<
   retry: Retry,
   operationName: "GetBudget",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetBudget",
 }));
 
 export type GetFarmError =
@@ -5200,7 +5318,7 @@ export type GetFarmError =
  * Get a farm.
  */
 export const getFarm: API.OperationMethod<
-  GetFarmRequest,
+  GetFarmRequest & RegionInput,
   GetFarmResponse,
   GetFarmError,
   Credentials | HttpClient.HttpClient
@@ -5218,6 +5336,8 @@ export const getFarm: API.OperationMethod<
   retry: Retry,
   operationName: "GetFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetFarm",
 }));
 
 export type GetFleetError =
@@ -5231,7 +5351,7 @@ export type GetFleetError =
  * Get a fleet.
  */
 export const getFleet: API.OperationMethod<
-  GetFleetRequest,
+  GetFleetRequest & RegionInput,
   GetFleetResponse,
   GetFleetError,
   Credentials | HttpClient.HttpClient
@@ -5249,6 +5369,8 @@ export const getFleet: API.OperationMethod<
   retry: Retry,
   operationName: "GetFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetFleet",
 }));
 
 export type GetJobError =
@@ -5262,7 +5384,7 @@ export type GetJobError =
  * Gets a Deadline Cloud job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -5280,6 +5402,8 @@ export const getJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetLicenseEndpointError =
@@ -5293,7 +5417,7 @@ export type GetLicenseEndpointError =
  * Gets a licence endpoint.
  */
 export const getLicenseEndpoint: API.OperationMethod<
-  GetLicenseEndpointRequest,
+  GetLicenseEndpointRequest & RegionInput,
   GetLicenseEndpointResponse,
   GetLicenseEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5311,6 +5435,8 @@ export const getLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "GetLicenseEndpoint",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetLicenseEndpoint",
 }));
 
 export type GetLimitError =
@@ -5324,7 +5450,7 @@ export type GetLimitError =
  * Gets information about a specific limit.
  */
 export const getLimit: API.OperationMethod<
-  GetLimitRequest,
+  GetLimitRequest & RegionInput,
   GetLimitResponse,
   GetLimitError,
   Credentials | HttpClient.HttpClient
@@ -5342,6 +5468,8 @@ export const getLimit: API.OperationMethod<
   retry: Retry,
   operationName: "GetLimit",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetLimit",
 }));
 
 export type GetMonitorError =
@@ -5355,7 +5483,7 @@ export type GetMonitorError =
  * Gets information about the specified monitor.
  */
 export const getMonitor: API.OperationMethod<
-  GetMonitorRequest,
+  GetMonitorRequest & RegionInput,
   GetMonitorResponse,
   GetMonitorError,
   Credentials | HttpClient.HttpClient
@@ -5373,6 +5501,8 @@ export const getMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "GetMonitor",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetMonitorSettingsError =
@@ -5386,7 +5516,7 @@ export type GetMonitorSettingsError =
  * Gets the settings for a Deadline Cloud monitor.
  */
 export const getMonitorSettings: API.OperationMethod<
-  GetMonitorSettingsRequest,
+  GetMonitorSettingsRequest & RegionInput,
   GetMonitorSettingsResponse,
   GetMonitorSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5404,6 +5534,8 @@ export const getMonitorSettings: API.OperationMethod<
   retry: Retry,
   operationName: "GetMonitorSettings",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetMonitorSettings",
 }));
 
 export type GetQueueError =
@@ -5417,7 +5549,7 @@ export type GetQueueError =
  * Gets a queue.
  */
 export const getQueue: API.OperationMethod<
-  GetQueueRequest,
+  GetQueueRequest & RegionInput,
   GetQueueResponse,
   GetQueueError,
   Credentials | HttpClient.HttpClient
@@ -5435,6 +5567,8 @@ export const getQueue: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetQueue",
 }));
 
 export type GetQueueEnvironmentError =
@@ -5448,7 +5582,7 @@ export type GetQueueEnvironmentError =
  * Gets a queue environment.
  */
 export const getQueueEnvironment: API.OperationMethod<
-  GetQueueEnvironmentRequest,
+  GetQueueEnvironmentRequest & RegionInput,
   GetQueueEnvironmentResponse,
   GetQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -5466,6 +5600,8 @@ export const getQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueEnvironment",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetQueueEnvironment",
 }));
 
 export type GetQueueFleetAssociationError =
@@ -5479,7 +5615,7 @@ export type GetQueueFleetAssociationError =
  * Gets a queue-fleet association.
  */
 export const getQueueFleetAssociation: API.OperationMethod<
-  GetQueueFleetAssociationRequest,
+  GetQueueFleetAssociationRequest & RegionInput,
   GetQueueFleetAssociationResponse,
   GetQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5497,6 +5633,8 @@ export const getQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetQueueFleetAssociation",
 }));
 
 export type GetQueueLimitAssociationError =
@@ -5510,7 +5648,7 @@ export type GetQueueLimitAssociationError =
  * Gets information about a specific association between a queue and a limit.
  */
 export const getQueueLimitAssociation: API.OperationMethod<
-  GetQueueLimitAssociationRequest,
+  GetQueueLimitAssociationRequest & RegionInput,
   GetQueueLimitAssociationResponse,
   GetQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5528,6 +5666,8 @@ export const getQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetQueueLimitAssociation",
 }));
 
 export type GetSessionError =
@@ -5541,7 +5681,7 @@ export type GetSessionError =
  * Gets a session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -5559,6 +5699,8 @@ export const getSession: API.OperationMethod<
   retry: Retry,
   operationName: "GetSession",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionActionError =
@@ -5572,7 +5714,7 @@ export type GetSessionActionError =
  * Gets a session action for the job.
  */
 export const getSessionAction: API.OperationMethod<
-  GetSessionActionRequest,
+  GetSessionActionRequest & RegionInput,
   GetSessionActionResponse,
   GetSessionActionError,
   Credentials | HttpClient.HttpClient
@@ -5590,6 +5732,8 @@ export const getSessionAction: API.OperationMethod<
   retry: Retry,
   operationName: "GetSessionAction",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetSessionAction",
 }));
 
 export type GetSessionsStatisticsAggregationError =
@@ -5603,7 +5747,7 @@ export type GetSessionsStatisticsAggregationError =
  * Gets a set of statistics for queues or farms. Before you can call the `GetSessionStatisticsAggregation` operation, you must first call the `StartSessionsStatisticsAggregation` operation. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const getSessionsStatisticsAggregation: API.PaginatedOperationMethod<
-  GetSessionsStatisticsAggregationRequest,
+  GetSessionsStatisticsAggregationRequest & RegionInput,
   GetSessionsStatisticsAggregationResponse,
   GetSessionsStatisticsAggregationError,
   Credentials | HttpClient.HttpClient,
@@ -5628,6 +5772,8 @@ export const getSessionsStatisticsAggregation: API.PaginatedOperationMethod<
     items: "statistics",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSessionsStatisticsAggregation",
 })) as any;
 
 export type GetStepError =
@@ -5641,7 +5787,7 @@ export type GetStepError =
  * Gets a step.
  */
 export const getStep: API.OperationMethod<
-  GetStepRequest,
+  GetStepRequest & RegionInput,
   GetStepResponse,
   GetStepError,
   Credentials | HttpClient.HttpClient
@@ -5659,6 +5805,8 @@ export const getStep: API.OperationMethod<
   retry: Retry,
   operationName: "GetStep",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetStep",
 }));
 
 export type GetStorageProfileError =
@@ -5672,7 +5820,7 @@ export type GetStorageProfileError =
  * Gets a storage profile.
  */
 export const getStorageProfile: API.OperationMethod<
-  GetStorageProfileRequest,
+  GetStorageProfileRequest & RegionInput,
   GetStorageProfileResponse,
   GetStorageProfileError,
   Credentials | HttpClient.HttpClient
@@ -5690,6 +5838,8 @@ export const getStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageProfile",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetStorageProfile",
 }));
 
 export type GetStorageProfileForQueueError =
@@ -5703,7 +5853,7 @@ export type GetStorageProfileForQueueError =
  * Gets a storage profile for a queue.
  */
 export const getStorageProfileForQueue: API.OperationMethod<
-  GetStorageProfileForQueueRequest,
+  GetStorageProfileForQueueRequest & RegionInput,
   GetStorageProfileForQueueResponse,
   GetStorageProfileForQueueError,
   Credentials | HttpClient.HttpClient
@@ -5721,6 +5871,8 @@ export const getStorageProfileForQueue: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageProfileForQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetStorageProfileForQueue",
 }));
 
 export type GetTaskError =
@@ -5734,7 +5886,7 @@ export type GetTaskError =
  * Gets a task.
  */
 export const getTask: API.OperationMethod<
-  GetTaskRequest,
+  GetTaskRequest & RegionInput,
   GetTaskResponse,
   GetTaskError,
   Credentials | HttpClient.HttpClient
@@ -5752,6 +5904,8 @@ export const getTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetTask",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetTask",
 }));
 
 export type GetVolumeError =
@@ -5765,7 +5919,7 @@ export type GetVolumeError =
  * Gets a persistent volume.
  */
 export const getVolume: API.OperationMethod<
-  GetVolumeRequest,
+  GetVolumeRequest & RegionInput,
   GetVolumeResponse,
   GetVolumeError,
   Credentials | HttpClient.HttpClient
@@ -5783,6 +5937,8 @@ export const getVolume: API.OperationMethod<
   retry: Retry,
   operationName: "GetVolume",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetVolume",
 }));
 
 export type GetWorkerError =
@@ -5796,7 +5952,7 @@ export type GetWorkerError =
  * Gets a worker.
  */
 export const getWorker: API.OperationMethod<
-  GetWorkerRequest,
+  GetWorkerRequest & RegionInput,
   GetWorkerResponse,
   GetWorkerError,
   Credentials | HttpClient.HttpClient
@@ -5814,6 +5970,8 @@ export const getWorker: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorker",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetWorker",
 }));
 
 export type ListAvailableMeteredProductsError =
@@ -5824,7 +5982,7 @@ export type ListAvailableMeteredProductsError =
  * A list of the available metered products.
  */
 export const listAvailableMeteredProducts: API.PaginatedOperationMethod<
-  ListAvailableMeteredProductsRequest,
+  ListAvailableMeteredProductsRequest & RegionInput,
   ListAvailableMeteredProductsResponse,
   ListAvailableMeteredProductsError,
   Credentials | HttpClient.HttpClient,
@@ -5843,6 +6001,8 @@ export const listAvailableMeteredProducts: API.PaginatedOperationMethod<
     items: "meteredProducts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAvailableMeteredProducts",
 })) as any;
 
 export type ListBudgetsError =
@@ -5856,7 +6016,7 @@ export type ListBudgetsError =
  * A list of budgets in a farm.
  */
 export const listBudgets: API.PaginatedOperationMethod<
-  ListBudgetsRequest,
+  ListBudgetsRequest & RegionInput,
   ListBudgetsResponse,
   ListBudgetsError,
   Credentials | HttpClient.HttpClient,
@@ -5881,6 +6041,8 @@ export const listBudgets: API.PaginatedOperationMethod<
     items: "budgets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBudgets",
 })) as any;
 
 export type ListFarmMembersError =
@@ -5894,7 +6056,7 @@ export type ListFarmMembersError =
  * Lists the members of a farm.
  */
 export const listFarmMembers: API.PaginatedOperationMethod<
-  ListFarmMembersRequest,
+  ListFarmMembersRequest & RegionInput,
   ListFarmMembersResponse,
   ListFarmMembersError,
   Credentials | HttpClient.HttpClient,
@@ -5919,6 +6081,8 @@ export const listFarmMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFarmMembers",
 })) as any;
 
 export type ListFarmsError =
@@ -5931,7 +6095,7 @@ export type ListFarmsError =
  * Lists farms.
  */
 export const listFarms: API.PaginatedOperationMethod<
-  ListFarmsRequest,
+  ListFarmsRequest & RegionInput,
   ListFarmsResponse,
   ListFarmsError,
   Credentials | HttpClient.HttpClient,
@@ -5955,6 +6119,8 @@ export const listFarms: API.PaginatedOperationMethod<
     items: "farms",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFarms",
 })) as any;
 
 export type ListFleetMembersError =
@@ -5968,7 +6134,7 @@ export type ListFleetMembersError =
  * Lists fleet members.
  */
 export const listFleetMembers: API.PaginatedOperationMethod<
-  ListFleetMembersRequest,
+  ListFleetMembersRequest & RegionInput,
   ListFleetMembersResponse,
   ListFleetMembersError,
   Credentials | HttpClient.HttpClient,
@@ -5993,6 +6159,8 @@ export const listFleetMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleetMembers",
 })) as any;
 
 export type ListFleetsError =
@@ -6006,7 +6174,7 @@ export type ListFleetsError =
  * Lists fleets.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsRequest,
+  ListFleetsRequest & RegionInput,
   ListFleetsResponse,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -6031,6 +6199,8 @@ export const listFleets: API.PaginatedOperationMethod<
     items: "fleets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleets",
 })) as any;
 
 export type ListJobMembersError =
@@ -6044,7 +6214,7 @@ export type ListJobMembersError =
  * Lists members on a job.
  */
 export const listJobMembers: API.PaginatedOperationMethod<
-  ListJobMembersRequest,
+  ListJobMembersRequest & RegionInput,
   ListJobMembersResponse,
   ListJobMembersError,
   Credentials | HttpClient.HttpClient,
@@ -6069,6 +6239,8 @@ export const listJobMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobMembers",
 })) as any;
 
 export type ListJobParameterDefinitionsError =
@@ -6082,7 +6254,7 @@ export type ListJobParameterDefinitionsError =
  * Lists parameter definitions of a job.
  */
 export const listJobParameterDefinitions: API.PaginatedOperationMethod<
-  ListJobParameterDefinitionsRequest,
+  ListJobParameterDefinitionsRequest & RegionInput,
   ListJobParameterDefinitionsResponse,
   ListJobParameterDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -6107,6 +6279,8 @@ export const listJobParameterDefinitions: API.PaginatedOperationMethod<
     items: "jobParameterDefinitions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobParameterDefinitions",
 })) as any;
 
 export type ListJobsError =
@@ -6120,7 +6294,7 @@ export type ListJobsError =
  * Lists jobs.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6145,6 +6319,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListLicenseEndpointsError =
@@ -6158,7 +6334,7 @@ export type ListLicenseEndpointsError =
  * Lists license endpoints.
  */
 export const listLicenseEndpoints: API.PaginatedOperationMethod<
-  ListLicenseEndpointsRequest,
+  ListLicenseEndpointsRequest & RegionInput,
   ListLicenseEndpointsResponse,
   ListLicenseEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -6183,6 +6359,8 @@ export const listLicenseEndpoints: API.PaginatedOperationMethod<
     items: "licenseEndpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLicenseEndpoints",
 })) as any;
 
 export type ListLimitsError =
@@ -6196,7 +6374,7 @@ export type ListLimitsError =
  * Gets a list of limits defined in the specified farm.
  */
 export const listLimits: API.PaginatedOperationMethod<
-  ListLimitsRequest,
+  ListLimitsRequest & RegionInput,
   ListLimitsResponse,
   ListLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -6221,6 +6399,8 @@ export const listLimits: API.PaginatedOperationMethod<
     items: "limits",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLimits",
 })) as any;
 
 export type ListMeteredProductsError =
@@ -6234,7 +6414,7 @@ export type ListMeteredProductsError =
  * Lists metered products.
  */
 export const listMeteredProducts: API.PaginatedOperationMethod<
-  ListMeteredProductsRequest,
+  ListMeteredProductsRequest & RegionInput,
   ListMeteredProductsResponse,
   ListMeteredProductsError,
   Credentials | HttpClient.HttpClient,
@@ -6259,6 +6439,8 @@ export const listMeteredProducts: API.PaginatedOperationMethod<
     items: "meteredProducts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMeteredProducts",
 })) as any;
 
 export type ListMonitorsError =
@@ -6271,7 +6453,7 @@ export type ListMonitorsError =
  * Gets a list of your monitors in Deadline Cloud.
  */
 export const listMonitors: API.PaginatedOperationMethod<
-  ListMonitorsRequest,
+  ListMonitorsRequest & RegionInput,
   ListMonitorsResponse,
   ListMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -6295,6 +6477,8 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "monitors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 })) as any;
 
 export type ListQueueEnvironmentsError =
@@ -6308,7 +6492,7 @@ export type ListQueueEnvironmentsError =
  * Lists queue environments.
  */
 export const listQueueEnvironments: API.PaginatedOperationMethod<
-  ListQueueEnvironmentsRequest,
+  ListQueueEnvironmentsRequest & RegionInput,
   ListQueueEnvironmentsResponse,
   ListQueueEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -6333,6 +6517,8 @@ export const listQueueEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueueEnvironments",
 })) as any;
 
 export type ListQueueFleetAssociationsError =
@@ -6345,7 +6531,7 @@ export type ListQueueFleetAssociationsError =
  * Lists queue-fleet associations.
  */
 export const listQueueFleetAssociations: API.PaginatedOperationMethod<
-  ListQueueFleetAssociationsRequest,
+  ListQueueFleetAssociationsRequest & RegionInput,
   ListQueueFleetAssociationsResponse,
   ListQueueFleetAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -6369,6 +6555,8 @@ export const listQueueFleetAssociations: API.PaginatedOperationMethod<
     items: "queueFleetAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueueFleetAssociations",
 })) as any;
 
 export type ListQueueLimitAssociationsError =
@@ -6381,7 +6569,7 @@ export type ListQueueLimitAssociationsError =
  * Gets a list of the associations between queues and limits defined in a farm.
  */
 export const listQueueLimitAssociations: API.PaginatedOperationMethod<
-  ListQueueLimitAssociationsRequest,
+  ListQueueLimitAssociationsRequest & RegionInput,
   ListQueueLimitAssociationsResponse,
   ListQueueLimitAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -6405,6 +6593,8 @@ export const listQueueLimitAssociations: API.PaginatedOperationMethod<
     items: "queueLimitAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueueLimitAssociations",
 })) as any;
 
 export type ListQueueMembersError =
@@ -6418,7 +6608,7 @@ export type ListQueueMembersError =
  * Lists the members in a queue.
  */
 export const listQueueMembers: API.PaginatedOperationMethod<
-  ListQueueMembersRequest,
+  ListQueueMembersRequest & RegionInput,
   ListQueueMembersResponse,
   ListQueueMembersError,
   Credentials | HttpClient.HttpClient,
@@ -6443,6 +6633,8 @@ export const listQueueMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueueMembers",
 })) as any;
 
 export type ListQueuesError =
@@ -6456,7 +6648,7 @@ export type ListQueuesError =
  * Lists queues.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResponse,
   ListQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -6481,6 +6673,8 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "queues",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 })) as any;
 
 export type ListSessionActionsError =
@@ -6494,7 +6688,7 @@ export type ListSessionActionsError =
  * Lists session actions.
  */
 export const listSessionActions: API.PaginatedOperationMethod<
-  ListSessionActionsRequest,
+  ListSessionActionsRequest & RegionInput,
   ListSessionActionsResponse,
   ListSessionActionsError,
   Credentials | HttpClient.HttpClient,
@@ -6519,6 +6713,8 @@ export const listSessionActions: API.PaginatedOperationMethod<
     items: "sessionActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessionActions",
 })) as any;
 
 export type ListSessionsError =
@@ -6532,7 +6728,7 @@ export type ListSessionsError =
  * Lists sessions.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -6557,6 +6753,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListSessionsForWorkerError =
@@ -6570,7 +6768,7 @@ export type ListSessionsForWorkerError =
  * Lists sessions for a worker.
  */
 export const listSessionsForWorker: API.PaginatedOperationMethod<
-  ListSessionsForWorkerRequest,
+  ListSessionsForWorkerRequest & RegionInput,
   ListSessionsForWorkerResponse,
   ListSessionsForWorkerError,
   Credentials | HttpClient.HttpClient,
@@ -6595,6 +6793,8 @@ export const listSessionsForWorker: API.PaginatedOperationMethod<
     items: "sessions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessionsForWorker",
 })) as any;
 
 export type ListStepConsumersError =
@@ -6608,7 +6808,7 @@ export type ListStepConsumersError =
  * Lists step consumers.
  */
 export const listStepConsumers: API.PaginatedOperationMethod<
-  ListStepConsumersRequest,
+  ListStepConsumersRequest & RegionInput,
   ListStepConsumersResponse,
   ListStepConsumersError,
   Credentials | HttpClient.HttpClient,
@@ -6633,6 +6833,8 @@ export const listStepConsumers: API.PaginatedOperationMethod<
     items: "consumers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStepConsumers",
 })) as any;
 
 export type ListStepDependenciesError =
@@ -6646,7 +6848,7 @@ export type ListStepDependenciesError =
  * Lists the dependencies for a step.
  */
 export const listStepDependencies: API.PaginatedOperationMethod<
-  ListStepDependenciesRequest,
+  ListStepDependenciesRequest & RegionInput,
   ListStepDependenciesResponse,
   ListStepDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -6671,6 +6873,8 @@ export const listStepDependencies: API.PaginatedOperationMethod<
     items: "dependencies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStepDependencies",
 })) as any;
 
 export type ListStepsError =
@@ -6684,7 +6888,7 @@ export type ListStepsError =
  * Lists steps for a job.
  */
 export const listSteps: API.PaginatedOperationMethod<
-  ListStepsRequest,
+  ListStepsRequest & RegionInput,
   ListStepsResponse,
   ListStepsError,
   Credentials | HttpClient.HttpClient,
@@ -6709,6 +6913,8 @@ export const listSteps: API.PaginatedOperationMethod<
     items: "steps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSteps",
 })) as any;
 
 export type ListStorageProfilesError =
@@ -6722,7 +6928,7 @@ export type ListStorageProfilesError =
  * Lists storage profiles.
  */
 export const listStorageProfiles: API.PaginatedOperationMethod<
-  ListStorageProfilesRequest,
+  ListStorageProfilesRequest & RegionInput,
   ListStorageProfilesResponse,
   ListStorageProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -6747,6 +6953,8 @@ export const listStorageProfiles: API.PaginatedOperationMethod<
     items: "storageProfiles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStorageProfiles",
 })) as any;
 
 export type ListStorageProfilesForQueueError =
@@ -6760,7 +6968,7 @@ export type ListStorageProfilesForQueueError =
  * Lists storage profiles for a queue.
  */
 export const listStorageProfilesForQueue: API.PaginatedOperationMethod<
-  ListStorageProfilesForQueueRequest,
+  ListStorageProfilesForQueueRequest & RegionInput,
   ListStorageProfilesForQueueResponse,
   ListStorageProfilesForQueueError,
   Credentials | HttpClient.HttpClient,
@@ -6785,6 +6993,8 @@ export const listStorageProfilesForQueue: API.PaginatedOperationMethod<
     items: "storageProfiles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStorageProfilesForQueue",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -6798,7 +7008,7 @@ export type ListTagsForResourceError =
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -6816,6 +7026,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTasksError =
@@ -6829,7 +7041,7 @@ export type ListTasksError =
  * Lists tasks for a job.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksRequest,
+  ListTasksRequest & RegionInput,
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -6854,6 +7066,8 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 })) as any;
 
 export type ListVolumesError =
@@ -6867,7 +7081,7 @@ export type ListVolumesError =
  * Lists the persistent volumes in a fleet.
  */
 export const listVolumes: API.PaginatedOperationMethod<
-  ListVolumesRequest,
+  ListVolumesRequest & RegionInput,
   ListVolumesResponse,
   ListVolumesError,
   Credentials | HttpClient.HttpClient,
@@ -6892,6 +7106,8 @@ export const listVolumes: API.PaginatedOperationMethod<
     items: "volumes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVolumes",
 })) as any;
 
 export type ListWorkersError =
@@ -6905,7 +7121,7 @@ export type ListWorkersError =
  * Lists workers.
  */
 export const listWorkers: API.PaginatedOperationMethod<
-  ListWorkersRequest,
+  ListWorkersRequest & RegionInput,
   ListWorkersResponse,
   ListWorkersError,
   Credentials | HttpClient.HttpClient,
@@ -6930,6 +7146,8 @@ export const listWorkers: API.PaginatedOperationMethod<
     items: "workers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkers",
 })) as any;
 
 export type PutMeteredProductError =
@@ -6943,7 +7161,7 @@ export type PutMeteredProductError =
  * Adds a metered product.
  */
 export const putMeteredProduct: API.OperationMethod<
-  PutMeteredProductRequest,
+  PutMeteredProductRequest & RegionInput,
   PutMeteredProductResponse,
   PutMeteredProductError,
   Credentials | HttpClient.HttpClient
@@ -6961,6 +7179,8 @@ export const putMeteredProduct: API.OperationMethod<
   retry: Retry,
   operationName: "PutMeteredProduct",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "PutMeteredProduct",
 }));
 
 export type SearchJobsError =
@@ -6974,7 +7194,7 @@ export type SearchJobsError =
  * Searches for jobs.
  */
 export const searchJobs: API.OperationMethod<
-  SearchJobsRequest,
+  SearchJobsRequest & RegionInput,
   SearchJobsResponse,
   SearchJobsError,
   Credentials | HttpClient.HttpClient
@@ -6992,6 +7212,8 @@ export const searchJobs: API.OperationMethod<
   retry: Retry,
   operationName: "SearchJobs",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "SearchJobs",
 }));
 
 export type SearchStepsError =
@@ -7005,7 +7227,7 @@ export type SearchStepsError =
  * Searches for steps.
  */
 export const searchSteps: API.OperationMethod<
-  SearchStepsRequest,
+  SearchStepsRequest & RegionInput,
   SearchStepsResponse,
   SearchStepsError,
   Credentials | HttpClient.HttpClient
@@ -7023,6 +7245,8 @@ export const searchSteps: API.OperationMethod<
   retry: Retry,
   operationName: "SearchSteps",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "SearchSteps",
 }));
 
 export type SearchTasksError =
@@ -7036,7 +7260,7 @@ export type SearchTasksError =
  * Searches for tasks.
  */
 export const searchTasks: API.OperationMethod<
-  SearchTasksRequest,
+  SearchTasksRequest & RegionInput,
   SearchTasksResponse,
   SearchTasksError,
   Credentials | HttpClient.HttpClient
@@ -7054,6 +7278,8 @@ export const searchTasks: API.OperationMethod<
   retry: Retry,
   operationName: "SearchTasks",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "SearchTasks",
 }));
 
 export type SearchWorkersError =
@@ -7067,7 +7293,7 @@ export type SearchWorkersError =
  * Searches for workers.
  */
 export const searchWorkers: API.OperationMethod<
-  SearchWorkersRequest,
+  SearchWorkersRequest & RegionInput,
   SearchWorkersResponse,
   SearchWorkersError,
   Credentials | HttpClient.HttpClient
@@ -7085,6 +7311,8 @@ export const searchWorkers: API.OperationMethod<
   retry: Retry,
   operationName: "SearchWorkers",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "SearchWorkers",
 }));
 
 export type StartSessionsStatisticsAggregationError =
@@ -7098,7 +7326,7 @@ export type StartSessionsStatisticsAggregationError =
  * Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the `GetSessionsStatisticsAggregation` operation. You can only have one running aggregation for your Deadline Cloud farm. Call the `GetSessionsStatisticsAggregation` operation and check the `status` field to see if an aggregation is running. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const startSessionsStatisticsAggregation: API.OperationMethod<
-  StartSessionsStatisticsAggregationRequest,
+  StartSessionsStatisticsAggregationRequest & RegionInput,
   StartSessionsStatisticsAggregationResponse,
   StartSessionsStatisticsAggregationError,
   Credentials | HttpClient.HttpClient
@@ -7116,6 +7344,8 @@ export const startSessionsStatisticsAggregation: API.OperationMethod<
   retry: Retry,
   operationName: "StartSessionsStatisticsAggregation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "StartSessionsStatisticsAggregation",
 }));
 
 export type TagResourceError =
@@ -7130,7 +7360,7 @@ export type TagResourceError =
  * Tags a resource using the resource's ARN and desired tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7149,6 +7379,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -7163,7 +7395,7 @@ export type UntagResourceError =
  * Removes a tag from a resource using the resource's ARN and tag to remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7182,6 +7414,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBudgetError =
@@ -7197,7 +7431,7 @@ export type UpdateBudgetError =
  * Updates a budget that sets spending thresholds for rendering activity.
  */
 export const updateBudget: API.OperationMethod<
-  UpdateBudgetRequest,
+  UpdateBudgetRequest & RegionInput,
   UpdateBudgetResponse,
   UpdateBudgetError,
   Credentials | HttpClient.HttpClient
@@ -7217,6 +7451,8 @@ export const updateBudget: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateBudget",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateBudget",
 }));
 
 export type UpdateFarmError =
@@ -7231,7 +7467,7 @@ export type UpdateFarmError =
  * Updates a farm.
  */
 export const updateFarm: API.OperationMethod<
-  UpdateFarmRequest,
+  UpdateFarmRequest & RegionInput,
   UpdateFarmResponse,
   UpdateFarmError,
   Credentials | HttpClient.HttpClient
@@ -7250,6 +7486,8 @@ export const updateFarm: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateFarm",
 }));
 
 export type UpdateFleetError =
@@ -7267,7 +7505,7 @@ export type UpdateFleetError =
  * Workers that are running when you call `UpdateFleet` keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set `maxWorkerCount` to 0, use the `ListWorkers` operation to confirm that the fleet has no workers, and then restore `maxWorkerCount`.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetRequest,
+  UpdateFleetRequest & RegionInput,
   UpdateFleetResponse,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
@@ -7287,6 +7525,8 @@ export const updateFleet: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateFleet",
 }));
 
 export type UpdateJobError =
@@ -7305,7 +7545,7 @@ export type UpdateJobError =
  * An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
  */
 export const updateJob: API.OperationMethod<
-  UpdateJobRequest,
+  UpdateJobRequest & RegionInput,
   UpdateJobResponse,
   UpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -7324,6 +7564,8 @@ export const updateJob: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateJob",
 }));
 
 export type UpdateLimitError =
@@ -7337,7 +7579,7 @@ export type UpdateLimitError =
  * Updates the properties of the specified limit.
  */
 export const updateLimit: API.OperationMethod<
-  UpdateLimitRequest,
+  UpdateLimitRequest & RegionInput,
   UpdateLimitResponse,
   UpdateLimitError,
   Credentials | HttpClient.HttpClient
@@ -7355,6 +7597,8 @@ export const updateLimit: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateLimit",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateLimit",
 }));
 
 export type UpdateMonitorError =
@@ -7369,7 +7613,7 @@ export type UpdateMonitorError =
  * Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call `UpdateMonitor`.
  */
 export const updateMonitor: API.OperationMethod<
-  UpdateMonitorRequest,
+  UpdateMonitorRequest & RegionInput,
   UpdateMonitorResponse,
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -7388,6 +7632,8 @@ export const updateMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMonitor",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 export type UpdateMonitorSettingsError =
@@ -7401,7 +7647,7 @@ export type UpdateMonitorSettingsError =
  * Updates the settings for a Deadline Cloud monitor. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
  */
 export const updateMonitorSettings: API.OperationMethod<
-  UpdateMonitorSettingsRequest,
+  UpdateMonitorSettingsRequest & RegionInput,
   UpdateMonitorSettingsResponse,
   UpdateMonitorSettingsError,
   Credentials | HttpClient.HttpClient
@@ -7419,6 +7665,8 @@ export const updateMonitorSettings: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMonitorSettings",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitorSettings",
 }));
 
 export type UpdateQueueError =
@@ -7433,7 +7681,7 @@ export type UpdateQueueError =
  * Updates a queue.
  */
 export const updateQueue: API.OperationMethod<
-  UpdateQueueRequest,
+  UpdateQueueRequest & RegionInput,
   UpdateQueueResponse,
   UpdateQueueError,
   Credentials | HttpClient.HttpClient
@@ -7452,6 +7700,8 @@ export const updateQueue: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateQueue",
 }));
 
 export type UpdateQueueEnvironmentError =
@@ -7465,7 +7715,7 @@ export type UpdateQueueEnvironmentError =
  * Updates the queue environment.
  */
 export const updateQueueEnvironment: API.OperationMethod<
-  UpdateQueueEnvironmentRequest,
+  UpdateQueueEnvironmentRequest & RegionInput,
   UpdateQueueEnvironmentResponse,
   UpdateQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -7483,6 +7733,8 @@ export const updateQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueEnvironment",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueEnvironment",
 }));
 
 export type UpdateQueueFleetAssociationError =
@@ -7496,7 +7748,7 @@ export type UpdateQueueFleetAssociationError =
  * Updates a queue-fleet association.
  */
 export const updateQueueFleetAssociation: API.OperationMethod<
-  UpdateQueueFleetAssociationRequest,
+  UpdateQueueFleetAssociationRequest & RegionInput,
   UpdateQueueFleetAssociationResponse,
   UpdateQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -7514,6 +7766,8 @@ export const updateQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueFleetAssociation",
 }));
 
 export type UpdateQueueLimitAssociationError =
@@ -7527,7 +7781,7 @@ export type UpdateQueueLimitAssociationError =
  * Updates the status of the queue. If you set the status to one of the `STOP_LIMIT_USAGE*` values, there will be a delay before the status transitions to the `STOPPED` state.
  */
 export const updateQueueLimitAssociation: API.OperationMethod<
-  UpdateQueueLimitAssociationRequest,
+  UpdateQueueLimitAssociationRequest & RegionInput,
   UpdateQueueLimitAssociationResponse,
   UpdateQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
@@ -7545,6 +7799,8 @@ export const updateQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueLimitAssociation",
 }));
 
 export type UpdateSessionError =
@@ -7559,7 +7815,7 @@ export type UpdateSessionError =
  * Updates a session.
  */
 export const updateSession: API.OperationMethod<
-  UpdateSessionRequest,
+  UpdateSessionRequest & RegionInput,
   UpdateSessionResponse,
   UpdateSessionError,
   Credentials | HttpClient.HttpClient
@@ -7578,6 +7834,8 @@ export const updateSession: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateSession",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateSession",
 }));
 
 export type UpdateStepError =
@@ -7592,7 +7850,7 @@ export type UpdateStepError =
  * Updates a step.
  */
 export const updateStep: API.OperationMethod<
-  UpdateStepRequest,
+  UpdateStepRequest & RegionInput,
   UpdateStepResponse,
   UpdateStepError,
   Credentials | HttpClient.HttpClient
@@ -7611,6 +7869,8 @@ export const updateStep: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateStep",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateStep",
 }));
 
 export type UpdateStorageProfileError =
@@ -7625,7 +7885,7 @@ export type UpdateStorageProfileError =
  * Updates a storage profile.
  */
 export const updateStorageProfile: API.OperationMethod<
-  UpdateStorageProfileRequest,
+  UpdateStorageProfileRequest & RegionInput,
   UpdateStorageProfileResponse,
   UpdateStorageProfileError,
   Credentials | HttpClient.HttpClient
@@ -7644,6 +7904,8 @@ export const updateStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateStorageProfile",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateStorageProfile",
 }));
 
 export type UpdateTaskError =
@@ -7658,7 +7920,7 @@ export type UpdateTaskError =
  * Updates a task.
  */
 export const updateTask: API.OperationMethod<
-  UpdateTaskRequest,
+  UpdateTaskRequest & RegionInput,
   UpdateTaskResponse,
   UpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -7677,6 +7939,8 @@ export const updateTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTask",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateTask",
 }));
 
 export type UpdateWorkerError =
@@ -7691,7 +7955,7 @@ export type UpdateWorkerError =
  * Updates a worker.
  */
 export const updateWorker: API.OperationMethod<
-  UpdateWorkerRequest,
+  UpdateWorkerRequest & RegionInput,
   UpdateWorkerResponse,
   UpdateWorkerError,
   Credentials | HttpClient.HttpClient
@@ -7710,6 +7974,8 @@ export const updateWorker: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorker",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "UpdateWorker",
 }));
 
 export type UpdateWorkerScheduleError =
@@ -7724,7 +7990,7 @@ export type UpdateWorkerScheduleError =
  * Updates the schedule for a worker.
  */
 export const updateWorkerSchedule: API.OperationMethod<
-  UpdateWorkerScheduleRequest,
+  UpdateWorkerScheduleRequest & RegionInput,
   UpdateWorkerScheduleResponse,
   UpdateWorkerScheduleError,
   Credentials | HttpClient.HttpClient
@@ -7743,6 +8009,8 @@ export const updateWorkerSchedule: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkerSchedule",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkerSchedule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

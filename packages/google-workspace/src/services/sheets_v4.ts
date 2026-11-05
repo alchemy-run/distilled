@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Sheets",
+  service: "sheets",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3714,6 +3727,8 @@ export const appendSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppendSpreadsheetsValues",
 }));
 
 export type BatchClearByDataFilterSpreadsheetsValuesError =
@@ -3734,6 +3749,8 @@ export const batchClearByDataFilterSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchClearByDataFilterSpreadsheetsValues",
 }));
 
 export type BatchClearSpreadsheetsValuesError =
@@ -3754,6 +3771,8 @@ export const batchClearSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchClearSpreadsheetsValues",
 }));
 
 export type BatchGetByDataFilterSpreadsheetsValuesError =
@@ -3774,6 +3793,8 @@ export const batchGetByDataFilterSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetByDataFilterSpreadsheetsValues",
 }));
 
 export type BatchGetSpreadsheetsValuesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3789,6 +3810,8 @@ export const batchGetSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetSpreadsheetsValues",
 }));
 
 export type BatchUpdateByDataFilterSpreadsheetsValuesError =
@@ -3809,6 +3832,8 @@ export const batchUpdateByDataFilterSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateByDataFilterSpreadsheetsValues",
 }));
 
 export type BatchUpdateSpreadsheetsError =
@@ -3829,6 +3854,8 @@ export const batchUpdateSpreadsheets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateSpreadsheets",
 }));
 
 export type BatchUpdateSpreadsheetsValuesError =
@@ -3849,6 +3876,8 @@ export const batchUpdateSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateSpreadsheetsValues",
 }));
 
 export type ClearSpreadsheetsValuesError =
@@ -3869,6 +3898,8 @@ export const clearSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearSpreadsheetsValues",
 }));
 
 export type CopyToSpreadsheetsSheetsError =
@@ -3889,6 +3920,8 @@ export const copyToSpreadsheetsSheets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyToSpreadsheetsSheets",
 }));
 
 export type CreateSpreadsheetsError =
@@ -3909,6 +3942,8 @@ export const createSpreadsheets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpreadsheets",
 }));
 
 export type GetByDataFilterSpreadsheetsError =
@@ -3929,6 +3964,8 @@ export const getByDataFilterSpreadsheets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetByDataFilterSpreadsheets",
 }));
 
 export type GetSpreadsheetsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3944,6 +3981,8 @@ export const getSpreadsheets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpreadsheets",
 }));
 
 export type GetSpreadsheetsDeveloperMetadataError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3959,6 +3998,8 @@ export const getSpreadsheetsDeveloperMetadata: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpreadsheetsDeveloperMetadata",
 }));
 
 export type GetSpreadsheetsValuesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3974,6 +4015,8 @@ export const getSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpreadsheetsValues",
 }));
 
 export type SearchSpreadsheetsDeveloperMetadataError =
@@ -3994,6 +4037,8 @@ export const searchSpreadsheetsDeveloperMetadata: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSpreadsheetsDeveloperMetadata",
 }));
 
 export type UpdateSpreadsheetsValuesError =
@@ -4014,6 +4059,8 @@ export const updateSpreadsheetsValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpreadsheetsValues",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

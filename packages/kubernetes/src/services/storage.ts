@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Storage",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -2500,6 +2513,8 @@ export const createStorageV1CSIDriver: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageV1CSIDriver",
 }));
 
 export type CreateStorageV1CSINodeError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -2515,6 +2530,8 @@ export const createStorageV1CSINode: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageV1CSINode",
 }));
 
 export type CreateStorageV1NamespacedCSIStorageCapacityError =
@@ -2533,6 +2550,8 @@ export const createStorageV1NamespacedCSIStorageCapacity: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageV1NamespacedCSIStorageCapacity",
 }));
 
 export type CreateStorageV1StorageClassError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -2548,6 +2567,8 @@ export const createStorageV1StorageClass: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageV1StorageClass",
 }));
 
 export type CreateStorageV1VolumeAttachmentError =
@@ -2566,6 +2587,8 @@ export const createStorageV1VolumeAttachment: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageV1VolumeAttachment",
 }));
 
 export type CreateStorageV1VolumeAttributesClassError =
@@ -2584,6 +2607,8 @@ export const createStorageV1VolumeAttributesClass: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageV1VolumeAttributesClass",
 }));
 
 export type DeleteStorageV1CollectionCSIDriverError = KubernetesOpError;
@@ -2599,6 +2624,8 @@ export const deleteStorageV1CollectionCSIDriver: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1CollectionCSIDriver",
 }));
 
 export type DeleteStorageV1CollectionCSINodeError = KubernetesOpError;
@@ -2614,6 +2641,8 @@ export const deleteStorageV1CollectionCSINode: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1CollectionCSINode",
 }));
 
 export type DeleteStorageV1CollectionNamespacedCSIStorageCapacityError = KubernetesOpError;
@@ -2633,6 +2662,8 @@ export const deleteStorageV1CollectionNamespacedCSIStorageCapacity: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1CollectionNamespacedCSIStorageCapacity",
 }));
 
 export type DeleteStorageV1CollectionStorageClassError = KubernetesOpError;
@@ -2648,6 +2679,8 @@ export const deleteStorageV1CollectionStorageClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1CollectionStorageClass",
 }));
 
 export type DeleteStorageV1CollectionVolumeAttachmentError = KubernetesOpError;
@@ -2663,6 +2696,8 @@ export const deleteStorageV1CollectionVolumeAttachment: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1CollectionVolumeAttachment",
 }));
 
 export type DeleteStorageV1CollectionVolumeAttributesClassError = KubernetesOpError;
@@ -2682,6 +2717,8 @@ export const deleteStorageV1CollectionVolumeAttributesClass: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1CollectionVolumeAttributesClass",
 }));
 
 export type DeleteStorageV1CSIDriverError = NotFound | Conflict | KubernetesOpError;
@@ -2697,6 +2734,8 @@ export const deleteStorageV1CSIDriver: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1CSIDriver",
 }));
 
 export type DeleteStorageV1CSINodeError = NotFound | Conflict | KubernetesOpError;
@@ -2712,6 +2751,8 @@ export const deleteStorageV1CSINode: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1CSINode",
 }));
 
 export type DeleteStorageV1NamespacedCSIStorageCapacityError =
@@ -2730,6 +2771,8 @@ export const deleteStorageV1NamespacedCSIStorageCapacity: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1NamespacedCSIStorageCapacity",
 }));
 
 export type DeleteStorageV1StorageClassError = NotFound | Conflict | KubernetesOpError;
@@ -2745,6 +2788,8 @@ export const deleteStorageV1StorageClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1StorageClass",
 }));
 
 export type DeleteStorageV1VolumeAttachmentError = NotFound | Conflict | KubernetesOpError;
@@ -2760,6 +2805,8 @@ export const deleteStorageV1VolumeAttachment: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1VolumeAttachment",
 }));
 
 export type DeleteStorageV1VolumeAttributesClassError = NotFound | Conflict | KubernetesOpError;
@@ -2775,6 +2822,8 @@ export const deleteStorageV1VolumeAttributesClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageV1VolumeAttributesClass",
 }));
 
 export type GetStorageAPIGroupError = KubernetesOpError;
@@ -2790,6 +2839,8 @@ export const getStorageAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageAPIGroup",
 }));
 
 export type GetStorageV1APIResourcesError = KubernetesOpError;
@@ -2805,6 +2856,8 @@ export const getStorageV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageV1APIResources",
 }));
 
 export type ListStorageV1CSIDriverError = KubernetesOpError;
@@ -2820,6 +2873,8 @@ export const listStorageV1CSIDriver: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageV1CSIDriver",
 }));
 
 export type ListStorageV1CSINodeError = KubernetesOpError;
@@ -2835,6 +2890,8 @@ export const listStorageV1CSINode: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageV1CSINode",
 }));
 
 export type ListStorageV1CSIStorageCapacityForAllNamespacesError = KubernetesOpError;
@@ -2854,6 +2911,8 @@ export const listStorageV1CSIStorageCapacityForAllNamespaces: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageV1CSIStorageCapacityForAllNamespaces",
 }));
 
 export type ListStorageV1NamespacedCSIStorageCapacityError = KubernetesOpError;
@@ -2869,6 +2928,8 @@ export const listStorageV1NamespacedCSIStorageCapacity: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageV1NamespacedCSIStorageCapacity",
 }));
 
 export type ListStorageV1StorageClassError = KubernetesOpError;
@@ -2884,6 +2945,8 @@ export const listStorageV1StorageClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageV1StorageClass",
 }));
 
 export type ListStorageV1VolumeAttachmentError = KubernetesOpError;
@@ -2899,6 +2962,8 @@ export const listStorageV1VolumeAttachment: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageV1VolumeAttachment",
 }));
 
 export type ListStorageV1VolumeAttributesClassError = KubernetesOpError;
@@ -2914,6 +2979,8 @@ export const listStorageV1VolumeAttributesClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageV1VolumeAttributesClass",
 }));
 
 export type PatchStorageV1CSIDriverError =
@@ -2933,6 +3000,8 @@ export const patchStorageV1CSIDriver: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStorageV1CSIDriver",
 }));
 
 export type PatchStorageV1CSINodeError =
@@ -2952,6 +3021,8 @@ export const patchStorageV1CSINode: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStorageV1CSINode",
 }));
 
 export type PatchStorageV1CSINodeStatusError = KubernetesOpError;
@@ -2967,6 +3038,8 @@ export const patchStorageV1CSINodeStatus: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStorageV1CSINodeStatus",
 }));
 
 export type PatchStorageV1NamespacedCSIStorageCapacityError =
@@ -2986,6 +3059,8 @@ export const patchStorageV1NamespacedCSIStorageCapacity: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStorageV1NamespacedCSIStorageCapacity",
 }));
 
 export type PatchStorageV1StorageClassError =
@@ -3005,6 +3080,8 @@ export const patchStorageV1StorageClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStorageV1StorageClass",
 }));
 
 export type PatchStorageV1VolumeAttachmentError =
@@ -3024,6 +3101,8 @@ export const patchStorageV1VolumeAttachment: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStorageV1VolumeAttachment",
 }));
 
 export type PatchStorageV1VolumeAttachmentStatusError =
@@ -3043,6 +3122,8 @@ export const patchStorageV1VolumeAttachmentStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStorageV1VolumeAttachmentStatus",
 }));
 
 export type PatchStorageV1VolumeAttributesClassError =
@@ -3062,6 +3143,8 @@ export const patchStorageV1VolumeAttributesClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStorageV1VolumeAttributesClass",
 }));
 
 export type ReadStorageV1CSIDriverError = NotFound | KubernetesOpError;
@@ -3077,6 +3160,8 @@ export const readStorageV1CSIDriver: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStorageV1CSIDriver",
 }));
 
 export type ReadStorageV1CSINodeError = NotFound | KubernetesOpError;
@@ -3092,6 +3177,8 @@ export const readStorageV1CSINode: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStorageV1CSINode",
 }));
 
 export type ReadStorageV1CSINodeStatusError = KubernetesOpError;
@@ -3107,6 +3194,8 @@ export const readStorageV1CSINodeStatus: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStorageV1CSINodeStatus",
 }));
 
 export type ReadStorageV1NamespacedCSIStorageCapacityError = NotFound | KubernetesOpError;
@@ -3122,6 +3211,8 @@ export const readStorageV1NamespacedCSIStorageCapacity: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStorageV1NamespacedCSIStorageCapacity",
 }));
 
 export type ReadStorageV1StorageClassError = NotFound | KubernetesOpError;
@@ -3137,6 +3228,8 @@ export const readStorageV1StorageClass: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStorageV1StorageClass",
 }));
 
 export type ReadStorageV1VolumeAttachmentError = NotFound | KubernetesOpError;
@@ -3152,6 +3245,8 @@ export const readStorageV1VolumeAttachment: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStorageV1VolumeAttachment",
 }));
 
 export type ReadStorageV1VolumeAttachmentStatusError = NotFound | KubernetesOpError;
@@ -3167,6 +3262,8 @@ export const readStorageV1VolumeAttachmentStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStorageV1VolumeAttachmentStatus",
 }));
 
 export type ReadStorageV1VolumeAttributesClassError = NotFound | KubernetesOpError;
@@ -3182,6 +3279,8 @@ export const readStorageV1VolumeAttributesClass: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStorageV1VolumeAttributesClass",
 }));
 
 export type ReplaceStorageV1CSIDriverError =
@@ -3201,6 +3300,8 @@ export const replaceStorageV1CSIDriver: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStorageV1CSIDriver",
 }));
 
 export type ReplaceStorageV1CSINodeError =
@@ -3220,6 +3321,8 @@ export const replaceStorageV1CSINode: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStorageV1CSINode",
 }));
 
 export type ReplaceStorageV1CSINodeStatusError = KubernetesOpError;
@@ -3235,6 +3338,8 @@ export const replaceStorageV1CSINodeStatus: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStorageV1CSINodeStatus",
 }));
 
 export type ReplaceStorageV1NamespacedCSIStorageCapacityError =
@@ -3258,6 +3363,8 @@ export const replaceStorageV1NamespacedCSIStorageCapacity: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStorageV1NamespacedCSIStorageCapacity",
 }));
 
 export type ReplaceStorageV1StorageClassError =
@@ -3277,6 +3384,8 @@ export const replaceStorageV1StorageClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStorageV1StorageClass",
 }));
 
 export type ReplaceStorageV1VolumeAttachmentError =
@@ -3296,6 +3405,8 @@ export const replaceStorageV1VolumeAttachment: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStorageV1VolumeAttachment",
 }));
 
 export type ReplaceStorageV1VolumeAttachmentStatusError =
@@ -3315,6 +3426,8 @@ export const replaceStorageV1VolumeAttachmentStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStorageV1VolumeAttachmentStatus",
 }));
 
 export type ReplaceStorageV1VolumeAttributesClassError =
@@ -3334,6 +3447,8 @@ export const replaceStorageV1VolumeAttributesClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStorageV1VolumeAttributesClass",
 }));
 
 export type WatchStorageV1CSIDriverError = KubernetesOpError;
@@ -3349,6 +3464,8 @@ export const watchStorageV1CSIDriver: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1CSIDriver",
 }));
 
 export type WatchStorageV1CSIDriverListError = KubernetesOpError;
@@ -3364,6 +3481,8 @@ export const watchStorageV1CSIDriverList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1CSIDriverList",
 }));
 
 export type WatchStorageV1CSINodeError = KubernetesOpError;
@@ -3379,6 +3498,8 @@ export const watchStorageV1CSINode: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1CSINode",
 }));
 
 export type WatchStorageV1CSINodeListError = KubernetesOpError;
@@ -3394,6 +3515,8 @@ export const watchStorageV1CSINodeList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1CSINodeList",
 }));
 
 export type WatchStorageV1CSIStorageCapacityListForAllNamespacesError = KubernetesOpError;
@@ -3413,6 +3536,8 @@ export const watchStorageV1CSIStorageCapacityListForAllNamespaces: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1CSIStorageCapacityListForAllNamespaces",
 }));
 
 export type WatchStorageV1NamespacedCSIStorageCapacityError = KubernetesOpError;
@@ -3428,6 +3553,8 @@ export const watchStorageV1NamespacedCSIStorageCapacity: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1NamespacedCSIStorageCapacity",
 }));
 
 export type WatchStorageV1NamespacedCSIStorageCapacityListError = KubernetesOpError;
@@ -3447,6 +3574,8 @@ export const watchStorageV1NamespacedCSIStorageCapacityList: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1NamespacedCSIStorageCapacityList",
 }));
 
 export type WatchStorageV1StorageClassError = KubernetesOpError;
@@ -3462,6 +3591,8 @@ export const watchStorageV1StorageClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1StorageClass",
 }));
 
 export type WatchStorageV1StorageClassListError = KubernetesOpError;
@@ -3477,6 +3608,8 @@ export const watchStorageV1StorageClassList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1StorageClassList",
 }));
 
 export type WatchStorageV1VolumeAttachmentError = KubernetesOpError;
@@ -3492,6 +3625,8 @@ export const watchStorageV1VolumeAttachment: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1VolumeAttachment",
 }));
 
 export type WatchStorageV1VolumeAttachmentListError = KubernetesOpError;
@@ -3507,6 +3642,8 @@ export const watchStorageV1VolumeAttachmentList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1VolumeAttachmentList",
 }));
 
 export type WatchStorageV1VolumeAttributesClassError = KubernetesOpError;
@@ -3522,6 +3659,8 @@ export const watchStorageV1VolumeAttributesClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1VolumeAttributesClass",
 }));
 
 export type WatchStorageV1VolumeAttributesClassListError = KubernetesOpError;
@@ -3537,6 +3676,8 @@ export const watchStorageV1VolumeAttributesClassList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStorageV1VolumeAttributesClassList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

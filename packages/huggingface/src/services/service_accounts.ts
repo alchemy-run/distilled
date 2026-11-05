@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "ServiceAccounts",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export interface CreateServiceAccountRequest {
   name: string;
   /** Optional description of what this service account is used for */
@@ -263,6 +276,8 @@ export const createServiceAccount: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccount",
 }));
 
 export type CreateServiceAccountTokenError = HuggingFaceOpError;
@@ -278,6 +293,8 @@ export const createServiceAccountToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccountToken",
 }));
 
 export type DeleteServiceAccountError = HuggingFaceOpError;
@@ -293,6 +310,8 @@ export const deleteServiceAccount: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAccount",
 }));
 
 export type DeleteServiceAccountTokenError = HuggingFaceOpError;
@@ -308,6 +327,8 @@ export const deleteServiceAccountToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAccountToken",
 }));
 
 export type GetServiceAccountError = HuggingFaceOpError;
@@ -323,6 +344,8 @@ export const getServiceAccount: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccount",
 }));
 
 export type ListServiceAccountsError = HuggingFaceOpError;
@@ -338,6 +361,8 @@ export const listServiceAccounts: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceAccounts",
 }));
 
 export type RotateServiceAccountTokenError = HuggingFaceOpError;
@@ -353,6 +378,8 @@ export const rotateServiceAccountToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateServiceAccountToken",
 }));
 
 export type UpdateServiceAccountTokenError = HuggingFaceOpError;
@@ -368,6 +395,8 @@ export const updateServiceAccountToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServiceAccountToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

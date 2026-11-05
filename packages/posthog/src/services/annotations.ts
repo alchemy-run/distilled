@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Annotations",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -213,6 +226,8 @@ export const annotationsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnnotationsDestroy",
 }));
 
 export type CreateAnnotationError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -228,6 +243,8 @@ export const createAnnotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnnotation",
 }));
 
 export type GetAnnotationError = Forbidden | NotFound | PosthogOpError;
@@ -243,6 +260,8 @@ export const getAnnotation: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotation",
 }));
 
 export type ListAnnotationsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -258,6 +277,8 @@ export const listAnnotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnnotations",
 }));
 
 export type UpdateAnnotationError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -273,6 +294,8 @@ export const updateAnnotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAnnotation",
 }));
 
 export type UpdateAnnotationsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -288,6 +311,8 @@ export const updateAnnotationsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAnnotationsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

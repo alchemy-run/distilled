@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "PrimaryIps",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** The project has no remaining Primary IP quota (Hetzner `resource_limit_exceeded`, HTTP 403). Often transient -- Servers hold auto-created Primary IP pairs that free up on delete -- retry. */
 export class PrimaryIpLimitExceeded
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -369,6 +382,8 @@ export const createPrimaryIp: API.OperationMethod<
   errors: [PrimaryIpLimitExceeded, UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrimaryIp",
 }));
 
 export type DeletePrimaryIpError = HetznerOpError;
@@ -384,6 +399,8 @@ export const deletePrimaryIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrimaryIp",
 }));
 
 export type GetPrimaryIpError = HetznerOpError;
@@ -399,6 +416,8 @@ export const getPrimaryIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrimaryIp",
 }));
 
 export type ListPrimaryIpsError = HetznerOpError;
@@ -416,6 +435,8 @@ export const listPrimaryIps: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPrimaryIps",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -440,6 +461,8 @@ export const updatePrimaryIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrimaryIp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

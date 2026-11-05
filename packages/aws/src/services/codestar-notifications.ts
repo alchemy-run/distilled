@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codestar-notifications.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "codestarnotifications",
+  service: "codestarnotifications",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -336,7 +352,7 @@ export type CreateNotificationRuleError =
  * them.
  */
 export const createNotificationRule: API.OperationMethod<
-  CreateNotificationRuleRequest,
+  CreateNotificationRuleRequest & RegionInput,
   CreateNotificationRuleResult,
   CreateNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -354,6 +370,8 @@ export const createNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationRule",
+  telemetry: TELEMETRY,
+  span: "CreateNotificationRule",
 }));
 
 export type DeleteNotificationRuleError =
@@ -365,7 +383,7 @@ export type DeleteNotificationRuleError =
  * Deletes a notification rule for a resource.
  */
 export const deleteNotificationRule: API.OperationMethod<
-  DeleteNotificationRuleRequest,
+  DeleteNotificationRuleRequest & RegionInput,
   DeleteNotificationRuleResult,
   DeleteNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -376,6 +394,8 @@ export const deleteNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationRule",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationRule",
 }));
 
 export type DeleteTargetError = ValidationException | CommonErrors;
@@ -383,7 +403,7 @@ export type DeleteTargetError = ValidationException | CommonErrors;
  * Deletes a specified target for notifications.
  */
 export const deleteTarget: API.OperationMethod<
-  DeleteTargetRequest,
+  DeleteTargetRequest & RegionInput,
   DeleteTargetResult,
   DeleteTargetError,
   Credentials | HttpClient.HttpClient
@@ -394,6 +414,8 @@ export const deleteTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTarget",
+  telemetry: TELEMETRY,
+  span: "DeleteTarget",
 }));
 
 export type DescribeNotificationRuleError =
@@ -404,7 +426,7 @@ export type DescribeNotificationRuleError =
  * Returns information about a specified notification rule.
  */
 export const describeNotificationRule: API.OperationMethod<
-  DescribeNotificationRuleRequest,
+  DescribeNotificationRuleRequest & RegionInput,
   DescribeNotificationRuleResult,
   DescribeNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -415,6 +437,8 @@ export const describeNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotificationRule",
+  telemetry: TELEMETRY,
+  span: "DescribeNotificationRule",
 }));
 
 export type ListEventTypesError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -422,7 +446,7 @@ export type ListEventTypesError = InvalidNextTokenException | ValidationExceptio
  * Returns information about the event types available for configuring notifications.
  */
 export const listEventTypes: API.PaginatedOperationMethod<
-  ListEventTypesRequest,
+  ListEventTypesRequest & RegionInput,
   ListEventTypesResult,
   ListEventTypesError,
   Credentials | HttpClient.HttpClient,
@@ -440,6 +464,8 @@ export const listEventTypes: API.PaginatedOperationMethod<
     items: "EventTypes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventTypes",
 })) as any;
 
 export type ListNotificationRulesError =
@@ -450,7 +476,7 @@ export type ListNotificationRulesError =
  * Returns a list of the notification rules for an Amazon Web Services account.
  */
 export const listNotificationRules: API.PaginatedOperationMethod<
-  ListNotificationRulesRequest,
+  ListNotificationRulesRequest & RegionInput,
   ListNotificationRulesResult,
   ListNotificationRulesError,
   Credentials | HttpClient.HttpClient,
@@ -468,6 +494,8 @@ export const listNotificationRules: API.PaginatedOperationMethod<
     items: "NotificationRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationRules",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -478,7 +506,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags associated with a notification rule.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -489,6 +517,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetsError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -496,7 +526,7 @@ export type ListTargetsError = InvalidNextTokenException | ValidationException |
  * Returns a list of the notification rule targets for an Amazon Web Services account.
  */
 export const listTargets: API.PaginatedOperationMethod<
-  ListTargetsRequest,
+  ListTargetsRequest & RegionInput,
   ListTargetsResult,
   ListTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -514,6 +544,8 @@ export const listTargets: API.PaginatedOperationMethod<
     items: "Targets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargets",
 })) as any;
 
 export type SubscribeError =
@@ -527,7 +559,7 @@ export type SubscribeError =
  * triggered.
  */
 export const subscribe: API.OperationMethod<
-  SubscribeRequest,
+  SubscribeRequest & RegionInput,
   SubscribeResult,
   SubscribeError,
   Credentials | HttpClient.HttpClient
@@ -538,6 +570,8 @@ export const subscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Subscribe",
+  telemetry: TELEMETRY,
+  span: "Subscribe",
 }));
 
 export type TagResourceError =
@@ -550,7 +584,7 @@ export type TagResourceError =
  * Associates a set of provided tags with a notification rule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -566,6 +600,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UnsubscribeError = ValidationException | CommonErrors;
@@ -575,7 +611,7 @@ export type UnsubscribeError = ValidationException | CommonErrors;
  * rule are triggered.
  */
 export const unsubscribe: API.OperationMethod<
-  UnsubscribeRequest,
+  UnsubscribeRequest & RegionInput,
   UnsubscribeResult,
   UnsubscribeError,
   Credentials | HttpClient.HttpClient
@@ -586,6 +622,8 @@ export const unsubscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Unsubscribe",
+  telemetry: TELEMETRY,
+  span: "Unsubscribe",
 }));
 
 export type UntagResourceError =
@@ -599,7 +637,7 @@ export type UntagResourceError =
  * rule.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -615,6 +653,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateNotificationRuleError =
@@ -630,7 +670,7 @@ export type UpdateNotificationRuleError =
  * To add or remove tags for a notification rule, you must use TagResource and UntagResource.
  */
 export const updateNotificationRule: API.OperationMethod<
-  UpdateNotificationRuleRequest,
+  UpdateNotificationRuleRequest & RegionInput,
   UpdateNotificationRuleResult,
   UpdateNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -641,6 +681,8 @@ export const updateNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationRule",
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

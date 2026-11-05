@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://grafana.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "grafana",
+  service: "grafana",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -591,7 +607,7 @@ export type AssociateLicenseError =
  * Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use `ENTERPRISE` for the `licenseType`, and pass in a valid Grafana Labs token for the `grafanaToken`. Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise.
  */
 export const associateLicense: API.OperationMethod<
-  AssociateLicenseRequest,
+  AssociateLicenseRequest & RegionInput,
   AssociateLicenseResponse,
   AssociateLicenseError,
   Credentials | HttpClient.HttpClient
@@ -608,6 +624,8 @@ export const associateLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLicense",
+  telemetry: TELEMETRY,
+  span: "AssociateLicense",
 }));
 
 export type CreateWorkspaceError =
@@ -624,7 +642,7 @@ export type CreateWorkspaceError =
  * Don't use `CreateWorkspace` to modify an existing workspace. Instead, use UpdateWorkspace.
  */
 export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
+  CreateWorkspaceRequest & RegionInput,
   CreateWorkspaceResponse,
   CreateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -642,6 +660,8 @@ export const createWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspace",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type CreateWorkspaceApiKeyError =
@@ -659,7 +679,7 @@ export type CreateWorkspaceApiKeyError =
  * In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
  */
 export const createWorkspaceApiKey: API.OperationMethod<
-  CreateWorkspaceApiKeyRequest,
+  CreateWorkspaceApiKeyRequest & RegionInput,
   CreateWorkspaceApiKeyResponse,
   CreateWorkspaceApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -678,6 +698,8 @@ export const createWorkspaceApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceApiKey",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceApiKey",
 }));
 
 export type CreateWorkspaceServiceAccountError =
@@ -699,7 +721,7 @@ export type CreateWorkspaceServiceAccountError =
  * For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the *Amazon Managed Grafana User Guide*.
  */
 export const createWorkspaceServiceAccount: API.OperationMethod<
-  CreateWorkspaceServiceAccountRequest,
+  CreateWorkspaceServiceAccountRequest & RegionInput,
   CreateWorkspaceServiceAccountResponse,
   CreateWorkspaceServiceAccountError,
   Credentials | HttpClient.HttpClient
@@ -718,6 +740,8 @@ export const createWorkspaceServiceAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceServiceAccount",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceServiceAccount",
 }));
 
 export type CreateWorkspaceServiceAccountTokenError =
@@ -739,7 +763,7 @@ export type CreateWorkspaceServiceAccountTokenError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const createWorkspaceServiceAccountToken: API.OperationMethod<
-  CreateWorkspaceServiceAccountTokenRequest,
+  CreateWorkspaceServiceAccountTokenRequest & RegionInput,
   CreateWorkspaceServiceAccountTokenResponse,
   CreateWorkspaceServiceAccountTokenError,
   Credentials | HttpClient.HttpClient
@@ -758,6 +782,8 @@ export const createWorkspaceServiceAccountToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceServiceAccountToken",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceServiceAccountToken",
 }));
 
 export type DeleteWorkspaceError =
@@ -772,7 +798,7 @@ export type DeleteWorkspaceError =
  * Deletes an Amazon Managed Grafana workspace.
  */
 export const deleteWorkspace: API.OperationMethod<
-  DeleteWorkspaceRequest,
+  DeleteWorkspaceRequest & RegionInput,
   DeleteWorkspaceResponse,
   DeleteWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -790,6 +816,8 @@ export const deleteWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspace",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DeleteWorkspaceApiKeyError =
@@ -806,7 +834,7 @@ export type DeleteWorkspaceApiKeyError =
  * In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
  */
 export const deleteWorkspaceApiKey: API.OperationMethod<
-  DeleteWorkspaceApiKeyRequest,
+  DeleteWorkspaceApiKeyRequest & RegionInput,
   DeleteWorkspaceApiKeyResponse,
   DeleteWorkspaceApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -824,6 +852,8 @@ export const deleteWorkspaceApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceApiKey",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceApiKey",
 }));
 
 export type DeleteWorkspaceServiceAccountError =
@@ -842,7 +872,7 @@ export type DeleteWorkspaceServiceAccountError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const deleteWorkspaceServiceAccount: API.OperationMethod<
-  DeleteWorkspaceServiceAccountRequest,
+  DeleteWorkspaceServiceAccountRequest & RegionInput,
   DeleteWorkspaceServiceAccountResponse,
   DeleteWorkspaceServiceAccountError,
   Credentials | HttpClient.HttpClient
@@ -860,6 +890,8 @@ export const deleteWorkspaceServiceAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceServiceAccount",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceServiceAccount",
 }));
 
 export type DeleteWorkspaceServiceAccountTokenError =
@@ -878,7 +910,7 @@ export type DeleteWorkspaceServiceAccountTokenError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const deleteWorkspaceServiceAccountToken: API.OperationMethod<
-  DeleteWorkspaceServiceAccountTokenRequest,
+  DeleteWorkspaceServiceAccountTokenRequest & RegionInput,
   DeleteWorkspaceServiceAccountTokenResponse,
   DeleteWorkspaceServiceAccountTokenError,
   Credentials | HttpClient.HttpClient
@@ -896,6 +928,8 @@ export const deleteWorkspaceServiceAccountToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceServiceAccountToken",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceServiceAccountToken",
 }));
 
 export type DescribeWorkspaceError =
@@ -909,7 +943,7 @@ export type DescribeWorkspaceError =
  * Displays information about one Amazon Managed Grafana workspace.
  */
 export const describeWorkspace: API.OperationMethod<
-  DescribeWorkspaceRequest,
+  DescribeWorkspaceRequest & RegionInput,
   DescribeWorkspaceResponse,
   DescribeWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -926,6 +960,8 @@ export const describeWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspace",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspace",
 }));
 
 export type DescribeWorkspaceAuthenticationError =
@@ -940,7 +976,7 @@ export type DescribeWorkspaceAuthenticationError =
  * Displays information about the authentication methods used in one Amazon Managed Grafana workspace.
  */
 export const describeWorkspaceAuthentication: API.OperationMethod<
-  DescribeWorkspaceAuthenticationRequest,
+  DescribeWorkspaceAuthenticationRequest & RegionInput,
   DescribeWorkspaceAuthenticationResponse,
   DescribeWorkspaceAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -958,6 +994,8 @@ export const describeWorkspaceAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceAuthentication",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspaceAuthentication",
 }));
 
 export type DescribeWorkspaceConfigurationError =
@@ -970,7 +1008,7 @@ export type DescribeWorkspaceConfigurationError =
  * Gets the current configuration string for the given workspace.
  */
 export const describeWorkspaceConfiguration: API.OperationMethod<
-  DescribeWorkspaceConfigurationRequest,
+  DescribeWorkspaceConfigurationRequest & RegionInput,
   DescribeWorkspaceConfigurationResponse,
   DescribeWorkspaceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -986,6 +1024,8 @@ export const describeWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspaceConfiguration",
 }));
 
 export type DisassociateLicenseError =
@@ -999,7 +1039,7 @@ export type DisassociateLicenseError =
  * Removes the Grafana Enterprise license from a workspace.
  */
 export const disassociateLicense: API.OperationMethod<
-  DisassociateLicenseRequest,
+  DisassociateLicenseRequest & RegionInput,
   DisassociateLicenseResponse,
   DisassociateLicenseError,
   Credentials | HttpClient.HttpClient
@@ -1016,6 +1056,8 @@ export const disassociateLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLicense",
+  telemetry: TELEMETRY,
+  span: "DisassociateLicense",
 }));
 
 export type ListPermissionsError =
@@ -1029,7 +1071,7 @@ export type ListPermissionsError =
  * Lists the users and groups who have the Grafana `Admin` and `Editor` roles in this workspace. If you use this operation without specifying `userId` or `groupId`, the operation returns the roles of all users and groups. If you specify a `userId` or a `groupId`, only the roles for that user or group are returned. If you do this, you can specify only one `userId` or one `groupId`.
  */
 export const listPermissions: API.PaginatedOperationMethod<
-  ListPermissionsRequest,
+  ListPermissionsRequest & RegionInput,
   ListPermissionsResponse,
   ListPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -1053,6 +1095,8 @@ export const listPermissions: API.PaginatedOperationMethod<
     items: "permissions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1066,7 +1110,7 @@ export type ListTagsForResourceError =
  * The `ListTagsForResource` operation returns the tags that are associated with the Amazon Managed Service for Grafana resource specified by the `resourceArn`. Currently, the only resource that can be tagged is a workspace.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1083,6 +1127,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVersionsError =
@@ -1096,7 +1142,7 @@ export type ListVersionsError =
  * Lists available versions of Grafana. These are available when calling `CreateWorkspace`. Optionally, include a workspace to list the versions to which it can be upgraded.
  */
 export const listVersions: API.PaginatedOperationMethod<
-  ListVersionsRequest,
+  ListVersionsRequest & RegionInput,
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1120,6 +1166,8 @@ export const listVersions: API.PaginatedOperationMethod<
     items: "grafanaVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVersions",
 })) as any;
 
 export type ListWorkspacesError =
@@ -1131,7 +1179,7 @@ export type ListWorkspacesError =
  * Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
  */
 export const listWorkspaces: API.PaginatedOperationMethod<
-  ListWorkspacesRequest,
+  ListWorkspacesRequest & RegionInput,
   ListWorkspacesResponse,
   ListWorkspacesError,
   Credentials | HttpClient.HttpClient,
@@ -1149,6 +1197,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "workspaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 })) as any;
 
 export type ListWorkspaceServiceAccountsError =
@@ -1165,7 +1215,7 @@ export type ListWorkspaceServiceAccountsError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const listWorkspaceServiceAccounts: API.PaginatedOperationMethod<
-  ListWorkspaceServiceAccountsRequest,
+  ListWorkspaceServiceAccountsRequest & RegionInput,
   ListWorkspaceServiceAccountsResponse,
   ListWorkspaceServiceAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1190,6 +1240,8 @@ export const listWorkspaceServiceAccounts: API.PaginatedOperationMethod<
     items: "serviceAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceServiceAccounts",
 })) as any;
 
 export type ListWorkspaceServiceAccountTokensError =
@@ -1208,7 +1260,7 @@ export type ListWorkspaceServiceAccountTokensError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const listWorkspaceServiceAccountTokens: API.PaginatedOperationMethod<
-  ListWorkspaceServiceAccountTokensRequest,
+  ListWorkspaceServiceAccountTokensRequest & RegionInput,
   ListWorkspaceServiceAccountTokensResponse,
   ListWorkspaceServiceAccountTokensError,
   Credentials | HttpClient.HttpClient,
@@ -1233,6 +1285,8 @@ export const listWorkspaceServiceAccountTokens: API.PaginatedOperationMethod<
     items: "serviceAccountTokens",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceServiceAccountTokens",
 })) as any;
 
 export type TagResourceError =
@@ -1248,7 +1302,7 @@ export type TagResourceError =
  * If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1265,6 +1319,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1278,7 +1334,7 @@ export type UntagResourceError =
  * The `UntagResource` operation removes the association of the tag with the Amazon Managed Grafana resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1295,6 +1351,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePermissionsError =
@@ -1308,7 +1366,7 @@ export type UpdatePermissionsError =
  * Updates which users in a workspace have the Grafana `Admin` or `Editor` roles.
  */
 export const updatePermissions: API.OperationMethod<
-  UpdatePermissionsRequest,
+  UpdatePermissionsRequest & RegionInput,
   UpdatePermissionsResponse,
   UpdatePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -1325,6 +1383,8 @@ export const updatePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePermissions",
+  telemetry: TELEMETRY,
+  span: "UpdatePermissions",
 }));
 
 export type UpdateWorkspaceError =
@@ -1343,7 +1403,7 @@ export type UpdateWorkspaceError =
  * To modify which users in the workspace have the `Admin` and `Editor` Grafana roles, use UpdatePermissions.
  */
 export const updateWorkspace: API.OperationMethod<
-  UpdateWorkspaceRequest,
+  UpdateWorkspaceRequest & RegionInput,
   UpdateWorkspaceResponse,
   UpdateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1361,6 +1421,8 @@ export const updateWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspace",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 export type UpdateWorkspaceAuthenticationError =
@@ -1377,7 +1439,7 @@ export type UpdateWorkspaceAuthenticationError =
  * Changes to the authentication method for a workspace may take a few minutes to take effect.
  */
 export const updateWorkspaceAuthentication: API.OperationMethod<
-  UpdateWorkspaceAuthenticationRequest,
+  UpdateWorkspaceAuthenticationRequest & RegionInput,
   UpdateWorkspaceAuthenticationResponse,
   UpdateWorkspaceAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -1395,6 +1457,8 @@ export const updateWorkspaceAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceAuthentication",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceAuthentication",
 }));
 
 export type UpdateWorkspaceConfigurationError =
@@ -1409,7 +1473,7 @@ export type UpdateWorkspaceConfigurationError =
  * Updates the configuration string for the given workspace
  */
 export const updateWorkspaceConfiguration: API.OperationMethod<
-  UpdateWorkspaceConfigurationRequest,
+  UpdateWorkspaceConfigurationRequest & RegionInput,
   UpdateWorkspaceConfigurationResponse,
   UpdateWorkspaceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1427,6 +1491,8 @@ export const updateWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

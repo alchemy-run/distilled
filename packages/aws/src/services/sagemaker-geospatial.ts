@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://sagemaker-geospatial.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SageMakerGeospatial",
+  service: "SageMakerGeospatial",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -804,7 +820,7 @@ export type DeleteEarthObservationJobError =
  * Use this operation to delete an Earth Observation job.
  */
 export const deleteEarthObservationJob: API.OperationMethod<
-  DeleteEarthObservationJobInput,
+  DeleteEarthObservationJobInput & RegionInput,
   DeleteEarthObservationJobOutput,
   DeleteEarthObservationJobError,
   Credentials | HttpClient.HttpClient
@@ -822,6 +838,8 @@ export const deleteEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEarthObservationJob",
+  telemetry: TELEMETRY,
+  span: "DeleteEarthObservationJob",
 }));
 
 export type DeleteVectorEnrichmentJobError =
@@ -836,7 +854,7 @@ export type DeleteVectorEnrichmentJobError =
  * Use this operation to delete a Vector Enrichment job.
  */
 export const deleteVectorEnrichmentJob: API.OperationMethod<
-  DeleteVectorEnrichmentJobInput,
+  DeleteVectorEnrichmentJobInput & RegionInput,
   DeleteVectorEnrichmentJobOutput,
   DeleteVectorEnrichmentJobError,
   Credentials | HttpClient.HttpClient
@@ -854,6 +872,8 @@ export const deleteVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorEnrichmentJob",
+  telemetry: TELEMETRY,
+  span: "DeleteVectorEnrichmentJob",
 }));
 
 export type ExportEarthObservationJobError =
@@ -869,7 +889,7 @@ export type ExportEarthObservationJobError =
  * Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
  */
 export const exportEarthObservationJob: API.OperationMethod<
-  ExportEarthObservationJobInput,
+  ExportEarthObservationJobInput & RegionInput,
   ExportEarthObservationJobOutput,
   ExportEarthObservationJobError,
   Credentials | HttpClient.HttpClient
@@ -888,6 +908,8 @@ export const exportEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportEarthObservationJob",
+  telemetry: TELEMETRY,
+  span: "ExportEarthObservationJob",
 }));
 
 export type ExportVectorEnrichmentJobError =
@@ -903,7 +925,7 @@ export type ExportVectorEnrichmentJobError =
  * Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
  */
 export const exportVectorEnrichmentJob: API.OperationMethod<
-  ExportVectorEnrichmentJobInput,
+  ExportVectorEnrichmentJobInput & RegionInput,
   ExportVectorEnrichmentJobOutput,
   ExportVectorEnrichmentJobError,
   Credentials | HttpClient.HttpClient
@@ -922,6 +944,8 @@ export const exportVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportVectorEnrichmentJob",
+  telemetry: TELEMETRY,
+  span: "ExportVectorEnrichmentJob",
 }));
 
 export type GetEarthObservationJobError =
@@ -935,7 +959,7 @@ export type GetEarthObservationJobError =
  * Get the details for a previously initiated Earth Observation job.
  */
 export const getEarthObservationJob: API.OperationMethod<
-  GetEarthObservationJobInput,
+  GetEarthObservationJobInput & RegionInput,
   GetEarthObservationJobOutput,
   GetEarthObservationJobError,
   Credentials | HttpClient.HttpClient
@@ -952,6 +976,8 @@ export const getEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEarthObservationJob",
+  telemetry: TELEMETRY,
+  span: "GetEarthObservationJob",
 }));
 
 export type GetRasterDataCollectionError =
@@ -965,7 +991,7 @@ export type GetRasterDataCollectionError =
  * Use this operation to get details of a specific raster data collection.
  */
 export const getRasterDataCollection: API.OperationMethod<
-  GetRasterDataCollectionInput,
+  GetRasterDataCollectionInput & RegionInput,
   GetRasterDataCollectionOutput,
   GetRasterDataCollectionError,
   Credentials | HttpClient.HttpClient
@@ -982,6 +1008,8 @@ export const getRasterDataCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRasterDataCollection",
+  telemetry: TELEMETRY,
+  span: "GetRasterDataCollection",
 }));
 
 export type GetTileError =
@@ -995,7 +1023,7 @@ export type GetTileError =
  * Gets a web mercator tile for the given Earth Observation job.
  */
 export const getTile: API.OperationMethod<
-  GetTileInput,
+  GetTileInput & RegionInput,
   GetTileOutput,
   GetTileError,
   Credentials | HttpClient.HttpClient
@@ -1012,6 +1040,8 @@ export const getTile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTile",
+  telemetry: TELEMETRY,
+  span: "GetTile",
 }));
 
 export type GetVectorEnrichmentJobError =
@@ -1025,7 +1055,7 @@ export type GetVectorEnrichmentJobError =
  * Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
  */
 export const getVectorEnrichmentJob: API.OperationMethod<
-  GetVectorEnrichmentJobInput,
+  GetVectorEnrichmentJobInput & RegionInput,
   GetVectorEnrichmentJobOutput,
   GetVectorEnrichmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1042,6 +1072,8 @@ export const getVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorEnrichmentJob",
+  telemetry: TELEMETRY,
+  span: "GetVectorEnrichmentJob",
 }));
 
 export type ListEarthObservationJobsError =
@@ -1055,7 +1087,7 @@ export type ListEarthObservationJobsError =
  * Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
  */
 export const listEarthObservationJobs: API.PaginatedOperationMethod<
-  ListEarthObservationJobInput,
+  ListEarthObservationJobInput & RegionInput,
   ListEarthObservationJobOutput,
   ListEarthObservationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1078,6 +1110,8 @@ export const listEarthObservationJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "EarthObservationJobSummaries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEarthObservationJobs",
 })) as any;
 
 export type ListRasterDataCollectionsError =
@@ -1091,7 +1125,7 @@ export type ListRasterDataCollectionsError =
  * Use this operation to get raster data collections.
  */
 export const listRasterDataCollections: API.PaginatedOperationMethod<
-  ListRasterDataCollectionsInput,
+  ListRasterDataCollectionsInput & RegionInput,
   ListRasterDataCollectionsOutput,
   ListRasterDataCollectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1114,6 +1148,8 @@ export const listRasterDataCollections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "RasterDataCollectionSummaries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRasterDataCollections",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1127,7 +1163,7 @@ export type ListTagsForResourceError =
  * Lists the tags attached to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1144,6 +1180,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVectorEnrichmentJobsError =
@@ -1157,7 +1195,7 @@ export type ListVectorEnrichmentJobsError =
  * Retrieves a list of vector enrichment jobs.
  */
 export const listVectorEnrichmentJobs: API.PaginatedOperationMethod<
-  ListVectorEnrichmentJobInput,
+  ListVectorEnrichmentJobInput & RegionInput,
   ListVectorEnrichmentJobOutput,
   ListVectorEnrichmentJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1180,6 +1218,8 @@ export const listVectorEnrichmentJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "VectorEnrichmentJobSummaries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVectorEnrichmentJobs",
 })) as any;
 
 export type SearchRasterDataCollectionError =
@@ -1193,7 +1233,7 @@ export type SearchRasterDataCollectionError =
  * Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
  */
 export const searchRasterDataCollection: API.PaginatedOperationMethod<
-  SearchRasterDataCollectionInput,
+  SearchRasterDataCollectionInput & RegionInput,
   SearchRasterDataCollectionOutput,
   SearchRasterDataCollectionError,
   Credentials | HttpClient.HttpClient,
@@ -1212,6 +1252,8 @@ export const searchRasterDataCollection: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "SearchRasterDataCollection",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "SearchRasterDataCollection",
 })) as any;
 
 export type StartEarthObservationJobError =
@@ -1227,7 +1269,7 @@ export type StartEarthObservationJobError =
  * Use this operation to create an Earth observation job.
  */
 export const startEarthObservationJob: API.OperationMethod<
-  StartEarthObservationJobInput,
+  StartEarthObservationJobInput & RegionInput,
   StartEarthObservationJobOutput,
   StartEarthObservationJobError,
   Credentials | HttpClient.HttpClient
@@ -1246,6 +1288,8 @@ export const startEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEarthObservationJob",
+  telemetry: TELEMETRY,
+  span: "StartEarthObservationJob",
 }));
 
 export type StartVectorEnrichmentJobError =
@@ -1261,7 +1305,7 @@ export type StartVectorEnrichmentJobError =
  * Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
  */
 export const startVectorEnrichmentJob: API.OperationMethod<
-  StartVectorEnrichmentJobInput,
+  StartVectorEnrichmentJobInput & RegionInput,
   StartVectorEnrichmentJobOutput,
   StartVectorEnrichmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1280,6 +1324,8 @@ export const startVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVectorEnrichmentJob",
+  telemetry: TELEMETRY,
+  span: "StartVectorEnrichmentJob",
 }));
 
 export type StopEarthObservationJobError =
@@ -1294,7 +1340,7 @@ export type StopEarthObservationJobError =
  * Use this operation to stop an existing earth observation job.
  */
 export const stopEarthObservationJob: API.OperationMethod<
-  StopEarthObservationJobInput,
+  StopEarthObservationJobInput & RegionInput,
   StopEarthObservationJobOutput,
   StopEarthObservationJobError,
   Credentials | HttpClient.HttpClient
@@ -1312,6 +1358,8 @@ export const stopEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEarthObservationJob",
+  telemetry: TELEMETRY,
+  span: "StopEarthObservationJob",
 }));
 
 export type StopVectorEnrichmentJobError =
@@ -1326,7 +1374,7 @@ export type StopVectorEnrichmentJobError =
  * Stops the Vector Enrichment job for a given job ARN.
  */
 export const stopVectorEnrichmentJob: API.OperationMethod<
-  StopVectorEnrichmentJobInput,
+  StopVectorEnrichmentJobInput & RegionInput,
   StopVectorEnrichmentJobOutput,
   StopVectorEnrichmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1344,6 +1392,8 @@ export const stopVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopVectorEnrichmentJob",
+  telemetry: TELEMETRY,
+  span: "StopVectorEnrichmentJob",
 }));
 
 export type TagResourceError =
@@ -1357,7 +1407,7 @@ export type TagResourceError =
  * The resource you want to tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1374,6 +1424,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1387,7 +1439,7 @@ export type UntagResourceError =
  * The resource you want to untag.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1404,6 +1456,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

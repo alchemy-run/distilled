@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Users",
+  propagate: "w3c",
+} as const;
+
 export interface DeletePhotoRequest {}
 export interface DeletePhotoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -189,6 +202,8 @@ export const deletePhoto: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePhoto",
 }));
 
 export type GetPresenceError = SlackOpError;
@@ -204,6 +219,8 @@ export const getPresence: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPresence",
 }));
 
 export type GetProfileError = SlackOpError;
@@ -219,6 +236,8 @@ export const getProfile: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type ListUsersError = SlackOpError;
@@ -236,6 +255,8 @@ export const listUsers: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUsers",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -260,6 +281,8 @@ export const lookupByEmail: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupByEmail",
 }));
 
 export type LookupDiscoverableContactError = SlackOpError;
@@ -275,6 +298,8 @@ export const lookupDiscoverableContact: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupDiscoverableContact",
 }));
 
 export type SetActiveError = SlackOpError;
@@ -290,6 +315,8 @@ export const setActive: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetActive",
 }));
 
 export type SetPhotoError = SlackOpError;
@@ -305,6 +332,8 @@ export const setPhoto: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPhoto",
 }));
 
 export type SetPresenceError = SlackOpError;
@@ -320,6 +349,8 @@ export const setPresence: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPresence",
 }));
 
 export type SetProfileError = SlackOpError;
@@ -335,6 +366,8 @@ export const setProfile: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetProfile",
 }));
 
 export type UsersConversationsError = SlackOpError;
@@ -352,6 +385,8 @@ export const usersConversations: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UsersConversations",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -376,6 +411,8 @@ export const usersIdentity: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersIdentity",
 }));
 
 export type UsersInfoError = SlackOpError;
@@ -391,6 +428,8 @@ export const usersInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersInfo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

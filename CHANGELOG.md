@@ -1,3 +1,130 @@
+## v1.0.0-rc.18
+
+### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
+
+- A missing credential env var fails the call with ConfigError instead of dying &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/965 [<samp>(2f873)</samp>](https://github.com/alchemy-run/distilled/commit/2f873920a)
+- Region.fromEnv and Endpoint.fromEnv fail typed instead of dying &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/966 [<samp>(d570d)</samp>](https://github.com/alchemy-run/distilled/commit/d570d68a3)
+- **aws**:
+  - Typed failures instead of defects in credentials, presign, streams and event streams &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/958 [<samp>(7bc98)</samp>](https://github.com/alchemy-run/distilled/commit/7bc981702)
+  - Refuse path and host labels that address another resource with a typed InvalidInput &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/1010 [<samp>(a9896)</samp>](https://github.com/alchemy-run/distilled/commit/a9896f87e)
+- **axiom**:
+  - Redact API tokens and notifier credentials in responses &nbsp;-&nbsp; by **mattespapier** in https://github.com/alchemy-run/distilled/issues/944 [<samp>(7832b)</samp>](https://github.com/alchemy-run/distilled/commit/7832b1a21)
+- **core**:
+  - Merge nested allOf property schemas in OpenAPI converter &nbsp;-&nbsp; by **sam** and **Michael K** in https://github.com/alchemy-run/distilled/issues/935 [<samp>(bc62a)</samp>](https://github.com/alchemy-run/distilled/commit/bc62a1fa4)
+  - Config option/withDefault/orElse catch only a missing value &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/961 [<samp>(62a28)</samp>](https://github.com/alchemy-run/distilled/commit/62a28b832)
+  - A ConfigProvider that cannot read its source fails with SourceError &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/962 [<samp>(4a402)</samp>](https://github.com/alchemy-run/distilled/commit/4a4028445)
+  - Refuse a . or .. path label with a typed InvalidInput &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/963 [<samp>(89094)</samp>](https://github.com/alchemy-run/distilled/commit/89094c6a2)
+  - One ConfigError: config readers fail with core ConfigError, ConfigMissing is removed &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/964 [<samp>(cc576)</samp>](https://github.com/alchemy-run/distilled/commit/cc5761c58)
+  - Drop the NOPRIME env var &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/975 [<samp>(86bd5)</samp>](https://github.com/alchemy-run/distilled/commit/86bd53450)
+- **fly-io**:
+  - Redact add-on environment; mark secrets with patches &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/1012 [<samp>(36e71)</samp>](https://github.com/alchemy-run/distilled/commit/36e710da7)
+- **gcp**:
+  - An endpoint override that is not an absolute URL fails with ConfigError &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/971 [<samp>(ead03)</samp>](https://github.com/alchemy-run/distilled/commit/ead038919)
+  - Remove dead storage pause and v1 AgentService ops; type four more errors &nbsp;-&nbsp; by **sam** and **Michael K** in https://github.com/alchemy-run/distilled/issues/997 [<samp>(275f3)</samp>](https://github.com/alchemy-run/distilled/commit/275f3a701)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- Telemetry with spans defined by Smithy traits, for every SDK &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/977 [<samp>(69620)</samp>](https://github.com/alchemy-run/distilled/commit/696203b4b)
+- **aws4signer**:
+  - SigV4A signing for EventBridge global endpoints &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/931 [<samp>(4baa9)</samp>](https://github.com/alchemy-run/distilled/commit/4baa93c7e)
+- **benches**:
+  - Repo size in benchmark comments and the dashboard &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/941 [<samp>(436bd)</samp>](https://github.com/alchemy-run/distilled/commit/436bd4e9b)
+- **cloudflare**:
+  - Accept rollout_active_grace_period on Container application create and update &nbsp;-&nbsp; by **Andoni Enriquez**, **Claude Opus 5.5** and **Michael K** in https://github.com/alchemy-run/distilled/issues/918 [<samp>(6ac77)</samp>](https://github.com/alchemy-run/distilled/commit/6ac779136)
+  - Workflow jurisdiction &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/994 [<samp>(75e95)</samp>](https://github.com/alchemy-run/distilled/commit/75e95798e)
+  - Update spec to 2026-10-29 &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/999 [<samp>(c27df)</samp>](https://github.com/alchemy-run/distilled/commit/c27df876a)
+  - **workers**: Type Durable Object code_update_strategy &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/1021 [<samp>(b5713)</samp>](https://github.com/alchemy-run/distilled/commit/b57136bad)
+- **codegen**:
+  - Convert in memory under generate; stop committing .generated-specs &nbsp;-&nbsp; by **sam** and **Michael K** in https://github.com/alchemy-run/distilled/issues/933 [<samp>(ae0d5)</samp>](https://github.com/alchemy-run/distilled/commit/ae0d5e257)
+- **gcp**:
+  - AlloyDB executeSql and typed Spanner DDL operation ids &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/987 [<samp>(1de00)</samp>](https://github.com/alchemy-run/distilled/commit/1de00de2b)
+- **github**:
+  - Webhook payload types, accept media types, repos.getById &nbsp;-&nbsp; by **sam** and **Michael K** in https://github.com/alchemy-run/distilled/issues/936 [<samp>(11ae2)</samp>](https://github.com/alchemy-run/distilled/commit/11ae2046b)
+  - Link-header pagination; GraphQL Query SDK &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/983 [<samp>(0418e)</samp>](https://github.com/alchemy-run/distilled/commit/0418ebc5d)
+- **planetscale**:
+  - Add service token access operations &nbsp;-&nbsp; by **Jason Kuhrt** and **Michael K** in https://github.com/alchemy-run/distilled/issues/1006 [<samp>(394a0)</samp>](https://github.com/alchemy-run/distilled/commit/394a0e6af)
+- **prisma**:
+  - Domain ownership operations and typed DomainOwnershipRequired &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/1007 [<samp>(02e18)</samp>](https://github.com/alchemy-run/distilled/commit/02e187701)
+- **telemetry**:
+  - Semconv v1.44: Azure resource group, Bedrock GenAI attributes &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/995 [<samp>(158a0)</samp>](https://github.com/alchemy-run/distilled/commit/158a0caf1)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- Typed failures for bad coinbase keys, gcp ADC files and non-Latin-1 Basic credentials &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/959 [<samp>(25796)</samp>](https://github.com/alchemy-run/distilled/commit/2579674f0)
+- Withhold sensitive response bodies in seven more hand-written protocols &nbsp;-&nbsp; by **mattespapier** and **Michael K** in https://github.com/alchemy-run/distilled/issues/945 [<samp>(76c8e)</samp>](https://github.com/alchemy-run/distilled/commit/76c8e6593)
+- Typed errors and schema fixes from release prep &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/1022 [<samp>(f62ae)</samp>](https://github.com/alchemy-run/distilled/commit/f62ae9c6e)
+- **aws**:
+  - Strict mode fails a modeled event-stream event that does not match its schema &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/967 [<samp>(e4458)</samp>](https://github.com/alchemy-run/distilled/commit/e4458ec26)
+  - Endpoint rule errors fail with EndpointError, not retried &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/968 [<samp>(06a73)</samp>](https://github.com/alchemy-run/distilled/commit/06a732b89)
+  - Keep the original stream error instead of re-wrapping it &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/969 [<samp>(07996)</samp>](https://github.com/alchemy-run/distilled/commit/07996e201)
+  - Refuse an event-stream prelude length below the 16-byte minimum &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/973 [<samp>(3f88d)</samp>](https://github.com/alchemy-run/distilled/commit/3f88de4b6)
+  - Working browser builds without changing what Node loads &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/974 [<samp>(09a9a)</samp>](https://github.com/alchemy-run/distilled/commit/09a9abcf9)
+  - Redact sensitive members of responses that do not match their schema &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/1011 [<samp>(be250)</samp>](https://github.com/alchemy-run/distilled/commit/be250adfa)
+  - Keep sensitive members redacted in an event that fails to decode &nbsp;-&nbsp; by **mattespapier** in https://github.com/alchemy-run/distilled/issues/953 [<samp>(f529e)</samp>](https://github.com/alchemy-run/distilled/commit/f529eede3)
+  - **ec2**: Type IdempotentParameterMismatch on CreateVolume and RunInstances &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/984 [<samp>(09397)</samp>](https://github.com/alchemy-run/distilled/commit/093970e1b)
+  - **ecs**: Type ServiceLinkedRoleNotAssumable on PutClusterCapacityProviders &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/928 [<samp>(9eddd)</samp>](https://github.com/alchemy-run/distilled/commit/9edddffb1)
+  - **s3**: Type InvalidAccessKeyId on every operation &nbsp;-&nbsp; by **Michael K** and **mattespapier** in https://github.com/alchemy-run/distilled/issues/1014 [<samp>(8ae94)</samp>](https://github.com/alchemy-run/distilled/commit/8ae945e3a)
+  - **sns**: Type FifoTopicDataProtectionUnsupported on data protection policy ops &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/929 [<samp>(05f07)</samp>](https://github.com/alchemy-run/distilled/commit/05f07bf1c)
+- **bench**:
+  - Time added latency's call and roundtrip together &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/957 [<samp>(c7017)</samp>](https://github.com/alchemy-run/distilled/commit/c7017b88b)
+- **cloudflare**:
+  - Paginate queues listQueues &nbsp;-&nbsp; by **Andoni Enriquez**, **Claude Opus 5.5** and **Michael K** in https://github.com/alchemy-run/distilled/issues/919 [<samp>(c9a78)</samp>](https://github.com/alchemy-run/distilled/commit/c9a786098)
+  - Stop page pagination when result_info shows the last page &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/937 [<samp>(dfd18)</samp>](https://github.com/alchemy-run/distilled/commit/dfd18f6d9)
+  - Type the Container network configuration &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/988 [<samp>(f9782)</samp>](https://github.com/alchemy-run/distilled/commit/f9782bf4e)
+  - Declare Forbidden on every operation &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/989 [<samp>(e3678)</samp>](https://github.com/alchemy-run/distilled/commit/e3678a32e)
+  - Workflow instance params are any JSON value &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/996 [<samp>(6cd6b)</samp>](https://github.com/alchemy-run/distilled/commit/6cd6b86dd)
+  - Type WorkflowInternalError on workflow instance operations &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/1008 [<samp>(3f8d4)</samp>](https://github.com/alchemy-run/distilled/commit/3f8d4017d)
+  - **dns**: Drop foundation_dns from DNS settings requests &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/930 [<samp>(4a11a)</samp>](https://github.com/alchemy-run/distilled/commit/4a11aeafc)
+  - **email_routing**: Type patchDns missing-subdomain error &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/1004 [<samp>(dde8f)</samp>](https://github.com/alchemy-run/distilled/commit/dde8f025e)
+  - **workers**: Type UnknownWorkerEntrypoint on Worker uploads &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/1009 [<samp>(21459)</samp>](https://github.com/alchemy-run/distilled/commit/21459ed61)
+- **coinbase**:
+  - Map an error body that is not the Coinbase envelope by HTTP status &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/972 [<samp>(4db06)</samp>](https://github.com/alchemy-run/distilled/commit/4db069e30)
+- **core**:
+  - Typed failures for body reads, reused catchers, null pages and malformed GraphQL responses &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/960 [<samp>(a9703)</samp>](https://github.com/alchemy-run/distilled/commit/a97030f1a)
+  - Redact sensitive map values and list elements when decoding a response &nbsp;-&nbsp; by **mattespapier** and **Michael K** in https://github.com/alchemy-run/distilled/issues/942 [<samp>(c005d)</samp>](https://github.com/alchemy-run/distilled/commit/c005db2c8)
+- **gcp**:
+  - A failed metadata project-id read fails the credentials instead of leaving project unset &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/970 [<samp>(25088)</samp>](https://github.com/alchemy-run/distilled/commit/250886bf6)
+  - Type Bigtable's 400 for a table that isn't ready &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/993 [<samp>(e1e01)</samp>](https://github.com/alchemy-run/distilled/commit/e1e01814b)
+  - Type GovernedAgentNotFound; model v1 ragManagedVertexVectorSearch &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/1018 [<samp>(281a3)</samp>](https://github.com/alchemy-run/distilled/commit/281a3de5b)
+  - **pubsub**: Type BigQueryServiceAccountNotReady on subscriptions create/patch &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/985 [<samp>(5b149)</samp>](https://github.com/alchemy-run/distilled/commit/5b149e5ae)
+- **scripts**:
+  - Stub service modules that export op aliases &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/926 [<samp>(032eb)</samp>](https://github.com/alchemy-run/distilled/commit/032ebf41a)
+- **telemetry**:
+  - Span timing for streamed responses (GenAI streams cover the stream, others end at headers) &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/1016 [<samp>(3c5d2)</samp>](https://github.com/alchemy-run/distilled/commit/3c5d2a3cd)
+
+### &nbsp;&nbsp;&nbsp;🏎 Performance
+
+- **build**:
+  - Cut bundle-lib peak memory by building services separately &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/922 [<samp>(1ab88)</samp>](https://github.com/alchemy-run/distilled/commit/1ab88b3df)
+  - Halve bundle-lib memory and cut its time 4-7x &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/934 [<samp>(26512)</samp>](https://github.com/alchemy-run/distilled/commit/26512492a)
+- **codegen**:
+  - Apply post-processing edits in one pass &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/938 [<samp>(0021b)</samp>](https://github.com/alchemy-run/distilled/commit/0021bace3)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v1.0.0-rc.17...HEAD)
+
+---
+
+## v1.0.0-rc.17
+
+### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
+
+- **core**: Remove lazy service stubs &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/916 [<samp>(cd361)</samp>](https://github.com/alchemy-run/distilled/commit/cd36178fa)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **cloudflare**: Type SQL custom alerts and Workers Issues automations &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/923 [<samp>(0a258)</samp>](https://github.com/alchemy-run/distilled/commit/0a25891cc)
+- **core**: Opt-in lazy service stubs behind the distilled-lazy condition &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/917 [<samp>(07830)</samp>](https://github.com/alchemy-run/distilled/commit/07830aae3)
+- **fly-io**: Builders service with ensureDepotRemoteBuilder &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/925 [<samp>(a245b)</samp>](https://github.com/alchemy-run/distilled/commit/a245bf5b9)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **aws**:
+  - **glue**: Type Lake Formation denial on deleteDatabase &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/924 [<samp>(96cf2)</samp>](https://github.com/alchemy-run/distilled/commit/96cf26b6a)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v1.0.0-rc.16...HEAD)
+
+---
+
 ## v1.0.0-rc.16
 
 ### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes

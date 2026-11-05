@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "walletobjects" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Walletobjects",
+  service: "walletobjects",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3501,6 +3520,8 @@ export const addmessageEventticketclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageEventticketclass",
 }));
 
 export type AddmessageEventticketobjectError =
@@ -3521,6 +3542,8 @@ export const addmessageEventticketobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageEventticketobject",
 }));
 
 export type AddmessageFlightclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3536,6 +3559,8 @@ export const addmessageFlightclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageFlightclass",
 }));
 
 export type AddmessageFlightobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3551,6 +3576,8 @@ export const addmessageFlightobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageFlightobject",
 }));
 
 export type AddmessageGenericclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3566,6 +3593,8 @@ export const addmessageGenericclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageGenericclass",
 }));
 
 export type AddmessageGenericobjectError =
@@ -3586,6 +3615,8 @@ export const addmessageGenericobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageGenericobject",
 }));
 
 export type AddmessageGiftcardclassError =
@@ -3606,6 +3637,8 @@ export const addmessageGiftcardclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageGiftcardclass",
 }));
 
 export type AddmessageGiftcardobjectError =
@@ -3626,6 +3659,8 @@ export const addmessageGiftcardobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageGiftcardobject",
 }));
 
 export type AddmessageLoyaltyclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3641,6 +3676,8 @@ export const addmessageLoyaltyclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageLoyaltyclass",
 }));
 
 export type AddmessageLoyaltyobjectError =
@@ -3661,6 +3698,8 @@ export const addmessageLoyaltyobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageLoyaltyobject",
 }));
 
 export type AddmessageOfferclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3676,6 +3715,8 @@ export const addmessageOfferclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageOfferclass",
 }));
 
 export type AddmessageOfferobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3691,6 +3732,8 @@ export const addmessageOfferobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageOfferobject",
 }));
 
 export type AddmessageTransitclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3706,6 +3749,8 @@ export const addmessageTransitclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageTransitclass",
 }));
 
 export type AddmessageTransitobjectError =
@@ -3726,6 +3771,8 @@ export const addmessageTransitobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddmessageTransitobject",
 }));
 
 export type DownloadMediaError = NotFound | Forbidden | GcpOpError;
@@ -3741,6 +3788,8 @@ export const downloadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadMedia",
 }));
 
 export type GetEventticketclassError = NotFound | Forbidden | GcpOpError;
@@ -3756,6 +3805,8 @@ export const getEventticketclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventticketclass",
 }));
 
 export type GetEventticketobjectError = NotFound | Forbidden | GcpOpError;
@@ -3771,6 +3822,8 @@ export const getEventticketobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventticketobject",
 }));
 
 export type GetFlightclassError = NotFound | Forbidden | GcpOpError;
@@ -3786,6 +3839,8 @@ export const getFlightclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlightclass",
 }));
 
 export type GetFlightobjectError = NotFound | Forbidden | GcpOpError;
@@ -3801,6 +3856,8 @@ export const getFlightobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlightobject",
 }));
 
 export type GetGenericclassError = NotFound | Forbidden | GcpOpError;
@@ -3816,6 +3873,8 @@ export const getGenericclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenericclass",
 }));
 
 export type GetGenericobjectError = NotFound | Forbidden | GcpOpError;
@@ -3831,6 +3890,8 @@ export const getGenericobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenericobject",
 }));
 
 export type GetGiftcardclassError = NotFound | Forbidden | GcpOpError;
@@ -3846,6 +3907,8 @@ export const getGiftcardclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGiftcardclass",
 }));
 
 export type GetGiftcardobjectError = NotFound | Forbidden | GcpOpError;
@@ -3861,6 +3924,8 @@ export const getGiftcardobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGiftcardobject",
 }));
 
 export type GetIssuerError = NotFound | Forbidden | GcpOpError;
@@ -3876,6 +3941,8 @@ export const getIssuer: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuer",
 }));
 
 export type GetLoyaltyclassError = NotFound | Forbidden | GcpOpError;
@@ -3891,6 +3958,8 @@ export const getLoyaltyclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoyaltyclass",
 }));
 
 export type GetLoyaltyobjectError = NotFound | Forbidden | GcpOpError;
@@ -3906,6 +3975,8 @@ export const getLoyaltyobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoyaltyobject",
 }));
 
 export type GetOfferclassError = NotFound | Forbidden | GcpOpError;
@@ -3921,6 +3992,8 @@ export const getOfferclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOfferclass",
 }));
 
 export type GetOfferobjectError = NotFound | Forbidden | GcpOpError;
@@ -3936,6 +4009,8 @@ export const getOfferobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOfferobject",
 }));
 
 export type GetPermissionsError = NotFound | Forbidden | GcpOpError;
@@ -3951,6 +4026,8 @@ export const getPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissions",
 }));
 
 export type GetTransitclassError = NotFound | Forbidden | GcpOpError;
@@ -3966,6 +4043,8 @@ export const getTransitclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransitclass",
 }));
 
 export type GetTransitobjectError = NotFound | Forbidden | GcpOpError;
@@ -3981,6 +4060,8 @@ export const getTransitobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransitobject",
 }));
 
 export type InsertEventticketclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3996,6 +4077,8 @@ export const insertEventticketclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertEventticketclass",
 }));
 
 export type InsertEventticketobjectError =
@@ -4016,6 +4099,8 @@ export const insertEventticketobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertEventticketobject",
 }));
 
 export type InsertFlightclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4031,6 +4116,8 @@ export const insertFlightclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertFlightclass",
 }));
 
 export type InsertFlightobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4046,6 +4133,8 @@ export const insertFlightobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertFlightobject",
 }));
 
 export type InsertGenericclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4061,6 +4150,8 @@ export const insertGenericclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertGenericclass",
 }));
 
 export type InsertGenericobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4076,6 +4167,8 @@ export const insertGenericobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertGenericobject",
 }));
 
 export type InsertGiftcardclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4091,6 +4184,8 @@ export const insertGiftcardclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertGiftcardclass",
 }));
 
 export type InsertGiftcardobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4106,6 +4201,8 @@ export const insertGiftcardobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertGiftcardobject",
 }));
 
 export type InsertIssuerError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4121,6 +4218,8 @@ export const insertIssuer: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertIssuer",
 }));
 
 export type InsertJwtError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4136,6 +4235,8 @@ export const insertJwt: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertJwt",
 }));
 
 export type InsertLoyaltyclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4151,6 +4252,8 @@ export const insertLoyaltyclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertLoyaltyclass",
 }));
 
 export type InsertLoyaltyobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4166,6 +4269,8 @@ export const insertLoyaltyobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertLoyaltyobject",
 }));
 
 export type InsertOfferclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4181,6 +4286,8 @@ export const insertOfferclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertOfferclass",
 }));
 
 export type InsertOfferobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4196,6 +4303,8 @@ export const insertOfferobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertOfferobject",
 }));
 
 export type InsertSmarttapError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4211,6 +4320,8 @@ export const insertSmarttap: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertSmarttap",
 }));
 
 export type InsertTransitclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4226,6 +4337,8 @@ export const insertTransitclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertTransitclass",
 }));
 
 export type InsertTransitobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4241,6 +4354,8 @@ export const insertTransitobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertTransitobject",
 }));
 
 export type ListEventticketclassError = NotFound | Forbidden | GcpOpError;
@@ -4256,6 +4371,8 @@ export const listEventticketclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventticketclass",
 }));
 
 export type ListEventticketobjectError = NotFound | Forbidden | GcpOpError;
@@ -4271,6 +4388,8 @@ export const listEventticketobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventticketobject",
 }));
 
 export type ListFlightclassError = NotFound | Forbidden | GcpOpError;
@@ -4286,6 +4405,8 @@ export const listFlightclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlightclass",
 }));
 
 export type ListFlightobjectError = NotFound | Forbidden | GcpOpError;
@@ -4301,6 +4422,8 @@ export const listFlightobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlightobject",
 }));
 
 export type ListGenericclassError = NotFound | Forbidden | GcpOpError;
@@ -4316,6 +4439,8 @@ export const listGenericclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenericclass",
 }));
 
 export type ListGenericobjectError = NotFound | Forbidden | GcpOpError;
@@ -4331,6 +4456,8 @@ export const listGenericobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenericobject",
 }));
 
 export type ListGiftcardclassError = NotFound | Forbidden | GcpOpError;
@@ -4346,6 +4473,8 @@ export const listGiftcardclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGiftcardclass",
 }));
 
 export type ListGiftcardobjectError = NotFound | Forbidden | GcpOpError;
@@ -4361,6 +4490,8 @@ export const listGiftcardobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGiftcardobject",
 }));
 
 export type ListIssuerError = NotFound | Forbidden | GcpOpError;
@@ -4376,6 +4507,8 @@ export const listIssuer: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssuer",
 }));
 
 export type ListLoyaltyclassError = NotFound | Forbidden | GcpOpError;
@@ -4391,6 +4524,8 @@ export const listLoyaltyclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLoyaltyclass",
 }));
 
 export type ListLoyaltyobjectError = NotFound | Forbidden | GcpOpError;
@@ -4406,6 +4541,8 @@ export const listLoyaltyobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLoyaltyobject",
 }));
 
 export type ListOfferclassError = NotFound | Forbidden | GcpOpError;
@@ -4421,6 +4558,8 @@ export const listOfferclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOfferclass",
 }));
 
 export type ListOfferobjectError = NotFound | Forbidden | GcpOpError;
@@ -4436,6 +4575,8 @@ export const listOfferobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOfferobject",
 }));
 
 export type ListTransitclassError = NotFound | Forbidden | GcpOpError;
@@ -4451,6 +4592,8 @@ export const listTransitclass: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransitclass",
 }));
 
 export type ListTransitobjectError = NotFound | Forbidden | GcpOpError;
@@ -4466,6 +4609,8 @@ export const listTransitobject: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransitobject",
 }));
 
 export type ModifylinkedofferobjectsEventticketobjectError =
@@ -4486,6 +4631,8 @@ export const modifylinkedofferobjectsEventticketobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifylinkedofferobjectsEventticketobject",
 }));
 
 export type ModifylinkedofferobjectsLoyaltyobjectError =
@@ -4506,6 +4653,8 @@ export const modifylinkedofferobjectsLoyaltyobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifylinkedofferobjectsLoyaltyobject",
 }));
 
 export type PatchEventticketclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4521,6 +4670,8 @@ export const patchEventticketclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEventticketclass",
 }));
 
 export type PatchEventticketobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4536,6 +4687,8 @@ export const patchEventticketobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEventticketobject",
 }));
 
 export type PatchFlightclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4551,6 +4704,8 @@ export const patchFlightclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlightclass",
 }));
 
 export type PatchFlightobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4566,6 +4721,8 @@ export const patchFlightobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlightobject",
 }));
 
 export type PatchGenericclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4581,6 +4738,8 @@ export const patchGenericclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGenericclass",
 }));
 
 export type PatchGenericobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4596,6 +4755,8 @@ export const patchGenericobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGenericobject",
 }));
 
 export type PatchGiftcardclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4611,6 +4772,8 @@ export const patchGiftcardclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGiftcardclass",
 }));
 
 export type PatchGiftcardobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4626,6 +4789,8 @@ export const patchGiftcardobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGiftcardobject",
 }));
 
 export type PatchIssuerError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4641,6 +4806,8 @@ export const patchIssuer: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchIssuer",
 }));
 
 export type PatchLoyaltyclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4656,6 +4823,8 @@ export const patchLoyaltyclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLoyaltyclass",
 }));
 
 export type PatchLoyaltyobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4671,6 +4840,8 @@ export const patchLoyaltyobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLoyaltyobject",
 }));
 
 export type PatchOfferclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4686,6 +4857,8 @@ export const patchOfferclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOfferclass",
 }));
 
 export type PatchOfferobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4701,6 +4874,8 @@ export const patchOfferobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOfferobject",
 }));
 
 export type PatchTransitclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4716,6 +4891,8 @@ export const patchTransitclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTransitclass",
 }));
 
 export type PatchTransitobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4731,6 +4908,8 @@ export const patchTransitobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTransitobject",
 }));
 
 export type SetPassUpdateNoticeWalletobjectsV1PrivateContentError =
@@ -4755,6 +4934,8 @@ export const setPassUpdateNoticeWalletobjectsV1PrivateContent: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPassUpdateNoticeWalletobjectsV1PrivateContent",
 }));
 
 export type UpdateEventticketclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4770,6 +4951,8 @@ export const updateEventticketclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventticketclass",
 }));
 
 export type UpdateEventticketobjectError =
@@ -4790,6 +4973,8 @@ export const updateEventticketobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventticketobject",
 }));
 
 export type UpdateFlightclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4805,6 +4990,8 @@ export const updateFlightclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlightclass",
 }));
 
 export type UpdateFlightobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4820,6 +5007,8 @@ export const updateFlightobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlightobject",
 }));
 
 export type UpdateGenericclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4835,6 +5024,8 @@ export const updateGenericclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenericclass",
 }));
 
 export type UpdateGenericobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4850,6 +5041,8 @@ export const updateGenericobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenericobject",
 }));
 
 export type UpdateGiftcardclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4865,6 +5058,8 @@ export const updateGiftcardclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGiftcardclass",
 }));
 
 export type UpdateGiftcardobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4880,6 +5075,8 @@ export const updateGiftcardobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGiftcardobject",
 }));
 
 export type UpdateIssuerError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4895,6 +5092,8 @@ export const updateIssuer: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssuer",
 }));
 
 export type UpdateLoyaltyclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4910,6 +5109,8 @@ export const updateLoyaltyclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoyaltyclass",
 }));
 
 export type UpdateLoyaltyobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4925,6 +5126,8 @@ export const updateLoyaltyobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoyaltyobject",
 }));
 
 export type UpdateOfferclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4940,6 +5143,8 @@ export const updateOfferclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOfferclass",
 }));
 
 export type UpdateOfferobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4955,6 +5160,8 @@ export const updateOfferobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOfferobject",
 }));
 
 export type UpdatePermissionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4970,6 +5177,8 @@ export const updatePermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePermissions",
 }));
 
 export type UpdateTransitclassError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4985,6 +5194,8 @@ export const updateTransitclass: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransitclass",
 }));
 
 export type UpdateTransitobjectError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5000,6 +5211,8 @@ export const updateTransitobject: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransitobject",
 }));
 
 export type UploadMediaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5015,6 +5228,8 @@ export const uploadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadMedia",
 }));
 
 export type ValidateJwtError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5030,6 +5245,8 @@ export const validateJwt: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateJwt",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

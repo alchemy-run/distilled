@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Workflows",
+  propagate: "w3c",
+} as const;
+
 /** Comma-separated array of trigger IDs to add; max 15 */
 export type AddFeaturedRequestTriggerIdsList = Array<string>;
 export interface AddFeaturedRequest {
@@ -192,6 +205,8 @@ export const addFeatured: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddFeatured",
 }));
 
 export type AddTriggersPermissionsError = SlackOpError;
@@ -207,6 +222,8 @@ export const addTriggersPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTriggersPermissions",
 }));
 
 export type ListFeaturedError = SlackOpError;
@@ -222,6 +239,8 @@ export const listFeatured: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatured",
 }));
 
 export type ListTriggersPermissionsError = SlackOpError;
@@ -237,6 +256,8 @@ export const listTriggersPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggersPermissions",
 }));
 
 export type RemoveFeaturedError = SlackOpError;
@@ -252,6 +273,8 @@ export const removeFeatured: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveFeatured",
 }));
 
 export type RemoveTriggersPermissionsError = SlackOpError;
@@ -267,6 +290,8 @@ export const removeTriggersPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTriggersPermissions",
 }));
 
 export type SetFeaturedError = SlackOpError;
@@ -282,6 +307,8 @@ export const setFeatured: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFeatured",
 }));
 
 export type SetTriggersPermissionsError = SlackOpError;
@@ -297,6 +324,8 @@ export const setTriggersPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTriggersPermissions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * Auth0Protocol -- hand-written.
@@ -37,7 +37,8 @@ export type Auth0OpError =
   | UnknownAuth0Error
   | ConfigError
   | HttpClientError.HttpClientError
-  | Auth0ParseError;
+  | Auth0ParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Auth0 operation. */
 export type Auth0OpContext = Credentials | HttpClient.HttpClient;

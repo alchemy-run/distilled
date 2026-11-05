@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "AdGroups",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1139,6 +1152,8 @@ export const createAdGroup: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdGroup",
 }));
 
 export type DeleteAdGroupError = NotFound | WhopOpError;
@@ -1154,6 +1169,8 @@ export const deleteAdGroup: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdGroup",
 }));
 
 export type DuplicateAdGroupError = BadRequest | NotFound | Conflict | WhopOpError;
@@ -1169,6 +1186,8 @@ export const duplicateAdGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateAdGroup",
 }));
 
 export type EstimateAdGroupReachError = BadRequest | Forbidden | Conflict | WhopOpError;
@@ -1184,6 +1203,8 @@ export const estimateAdGroupReach: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EstimateAdGroupReach",
 }));
 
 export type GetAdGroupError = NotFound | WhopOpError;
@@ -1199,6 +1220,8 @@ export const getAdGroup: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdGroup",
 }));
 
 export type ListAdGroupsError = WhopOpError;
@@ -1216,6 +1239,8 @@ export const listAdGroups: API.PaginatedOperationMethod<
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAdGroups",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1241,6 +1266,8 @@ export const pauseAdGroup: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseAdGroup",
 }));
 
 export type SearchAdGroupTargetingOptionsError = BadRequest | Forbidden | WhopOpError;
@@ -1256,6 +1283,8 @@ export const searchAdGroupTargetingOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAdGroupTargetingOptions",
 }));
 
 export type UnpauseAdGroupError = Conflict | WhopOpError;
@@ -1271,6 +1300,8 @@ export const unpauseAdGroup: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpauseAdGroup",
 }));
 
 export type UpdateAdGroupError = WhopOpError;
@@ -1286,6 +1317,8 @@ export const updateAdGroup: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAdGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

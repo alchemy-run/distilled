@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -71,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://aps.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "amp",
+  service: "amp",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -817,7 +833,7 @@ export type CreateAlertManagerDefinitionError =
  * The `CreateAlertManagerDefinition` operation creates the alert manager definition in a workspace. If a workspace already has an alert manager definition, don't use this operation to update it. Instead, use `PutAlertManagerDefinition`.
  */
 export const createAlertManagerDefinition: API.OperationMethod<
-  CreateAlertManagerDefinitionRequest,
+  CreateAlertManagerDefinitionRequest & RegionInput,
   CreateAlertManagerDefinitionResponse,
   CreateAlertManagerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -836,6 +852,8 @@ export const createAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlertManagerDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateAlertManagerDefinition",
 }));
 
 export type CreateAnomalyDetectorError =
@@ -850,7 +868,7 @@ export type CreateAnomalyDetectorError =
  * Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors.
  */
 export const createAnomalyDetector: API.OperationMethod<
-  CreateAnomalyDetectorRequest,
+  CreateAnomalyDetectorRequest & RegionInput,
   CreateAnomalyDetectorResponse,
   CreateAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -868,6 +886,8 @@ export const createAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "CreateAnomalyDetector",
 }));
 
 export type CreateLoggingConfigurationError =
@@ -883,7 +903,7 @@ export type CreateLoggingConfigurationError =
  * These logging configurations are only for rules and alerting logs.
  */
 export const createLoggingConfiguration: API.OperationMethod<
-  CreateLoggingConfigurationRequest,
+  CreateLoggingConfigurationRequest & RegionInput,
   CreateLoggingConfigurationResponse,
   CreateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -900,6 +920,8 @@ export const createLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateLoggingConfiguration",
 }));
 
 export type CreateQueryLoggingConfigurationError =
@@ -913,7 +935,7 @@ export type CreateQueryLoggingConfigurationError =
  * Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold.
  */
 export const createQueryLoggingConfiguration: API.OperationMethod<
-  CreateQueryLoggingConfigurationRequest,
+  CreateQueryLoggingConfigurationRequest & RegionInput,
   CreateQueryLoggingConfigurationResponse,
   CreateQueryLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -930,6 +952,8 @@ export const createQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueryLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateQueryLoggingConfiguration",
 }));
 
 export type CreateRuleGroupsNamespaceError =
@@ -949,7 +973,7 @@ export type CreateRuleGroupsNamespaceError =
  * Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use `PutRuleGroupsNamespace`.
  */
 export const createRuleGroupsNamespace: API.OperationMethod<
-  CreateRuleGroupsNamespaceRequest,
+  CreateRuleGroupsNamespaceRequest & RegionInput,
   CreateRuleGroupsNamespaceResponse,
   CreateRuleGroupsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -968,6 +992,8 @@ export const createRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroupsNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateRuleGroupsNamespace",
 }));
 
 export type CreateScraperError =
@@ -991,7 +1017,7 @@ export type CreateScraperError =
  * For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the *Amazon Managed Service for Prometheus User Guide*.
  */
 export const createScraper: API.OperationMethod<
-  CreateScraperRequest,
+  CreateScraperRequest & RegionInput,
   CreateScraperResponse,
   CreateScraperError,
   Credentials | HttpClient.HttpClient
@@ -1010,6 +1036,8 @@ export const createScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScraper",
+  telemetry: TELEMETRY,
+  span: "CreateScraper",
 }));
 
 export type CreateWorkspaceError =
@@ -1024,7 +1052,7 @@ export type CreateWorkspaceError =
  * Creates a Prometheus workspace. A workspace is a logical space dedicated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account.
  */
 export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
+  CreateWorkspaceRequest & RegionInput,
   CreateWorkspaceResponse,
   CreateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1042,6 +1070,8 @@ export const createWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspace",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type DeleteAlertManagerDefinitionError =
@@ -1056,7 +1086,7 @@ export type DeleteAlertManagerDefinitionError =
  * Deletes the alert manager definition from a workspace.
  */
 export const deleteAlertManagerDefinition: API.OperationMethod<
-  DeleteAlertManagerDefinitionRequest,
+  DeleteAlertManagerDefinitionRequest & RegionInput,
   DeleteAlertManagerDefinitionResponse,
   DeleteAlertManagerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1074,6 +1104,8 @@ export const deleteAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlertManagerDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteAlertManagerDefinition",
 }));
 
 export type DeleteAnomalyDetectorError =
@@ -1088,7 +1120,7 @@ export type DeleteAnomalyDetectorError =
  * Removes an anomaly detector from a workspace. This operation is idempotent.
  */
 export const deleteAnomalyDetector: API.OperationMethod<
-  DeleteAnomalyDetectorRequest,
+  DeleteAnomalyDetectorRequest & RegionInput,
   DeleteAnomalyDetectorResponse,
   DeleteAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1106,6 +1138,8 @@ export const deleteAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "DeleteAnomalyDetector",
 }));
 
 export type DeleteLoggingConfigurationError =
@@ -1121,7 +1155,7 @@ export type DeleteLoggingConfigurationError =
  * These logging configurations are only for rules and alerting logs.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
-  DeleteLoggingConfigurationRequest,
+  DeleteLoggingConfigurationRequest & RegionInput,
   DeleteLoggingConfigurationResponse,
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1138,6 +1172,8 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLoggingConfiguration",
 }));
 
 export type DeleteQueryLoggingConfigurationError =
@@ -1151,7 +1187,7 @@ export type DeleteQueryLoggingConfigurationError =
  * Deletes the query logging configuration for the specified workspace.
  */
 export const deleteQueryLoggingConfiguration: API.OperationMethod<
-  DeleteQueryLoggingConfigurationRequest,
+  DeleteQueryLoggingConfigurationRequest & RegionInput,
   DeleteQueryLoggingConfigurationResponse,
   DeleteQueryLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1168,6 +1204,8 @@ export const deleteQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueryLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteQueryLoggingConfiguration",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1182,7 +1220,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1200,6 +1238,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRuleGroupsNamespaceError =
@@ -1214,7 +1254,7 @@ export type DeleteRuleGroupsNamespaceError =
  * Deletes one rule groups namespace and its associated rule groups definition.
  */
 export const deleteRuleGroupsNamespace: API.OperationMethod<
-  DeleteRuleGroupsNamespaceRequest,
+  DeleteRuleGroupsNamespaceRequest & RegionInput,
   DeleteRuleGroupsNamespaceResponse,
   DeleteRuleGroupsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1232,6 +1272,8 @@ export const deleteRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroupsNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleGroupsNamespace",
 }));
 
 export type DeleteScraperError =
@@ -1246,7 +1288,7 @@ export type DeleteScraperError =
  * The `DeleteScraper` operation deletes one scraper, and stops any metrics collection that the scraper performs.
  */
 export const deleteScraper: API.OperationMethod<
-  DeleteScraperRequest,
+  DeleteScraperRequest & RegionInput,
   DeleteScraperResponse,
   DeleteScraperError,
   Credentials | HttpClient.HttpClient
@@ -1264,6 +1306,8 @@ export const deleteScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScraper",
+  telemetry: TELEMETRY,
+  span: "DeleteScraper",
 }));
 
 export type DeleteScraperLoggingConfigurationError =
@@ -1277,7 +1321,7 @@ export type DeleteScraperLoggingConfigurationError =
  * Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
 export const deleteScraperLoggingConfiguration: API.OperationMethod<
-  DeleteScraperLoggingConfigurationRequest,
+  DeleteScraperLoggingConfigurationRequest & RegionInput,
   DeleteScraperLoggingConfigurationResponse,
   DeleteScraperLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1294,6 +1338,8 @@ export const deleteScraperLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScraperLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteScraperLoggingConfiguration",
 }));
 
 export type DeleteWorkspaceError =
@@ -1310,7 +1356,7 @@ export type DeleteWorkspaceError =
  * When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month.
  */
 export const deleteWorkspace: API.OperationMethod<
-  DeleteWorkspaceRequest,
+  DeleteWorkspaceRequest & RegionInput,
   DeleteWorkspaceResponse,
   DeleteWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1328,6 +1374,8 @@ export const deleteWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspace",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DescribeAlertManagerDefinitionError =
@@ -1341,7 +1389,7 @@ export type DescribeAlertManagerDefinitionError =
  * Retrieves the full information about the alert manager definition for a workspace.
  */
 export const describeAlertManagerDefinition: API.OperationMethod<
-  DescribeAlertManagerDefinitionRequest,
+  DescribeAlertManagerDefinitionRequest & RegionInput,
   DescribeAlertManagerDefinitionResponse,
   DescribeAlertManagerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1358,6 +1406,8 @@ export const describeAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlertManagerDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeAlertManagerDefinition",
 }));
 
 export type DescribeAnomalyDetectorError =
@@ -1371,7 +1421,7 @@ export type DescribeAnomalyDetectorError =
  * Retrieves detailed information about a specific anomaly detector, including its status and configuration.
  */
 export const describeAnomalyDetector: API.OperationMethod<
-  DescribeAnomalyDetectorRequest,
+  DescribeAnomalyDetectorRequest & RegionInput,
   DescribeAnomalyDetectorResponse,
   DescribeAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1388,6 +1438,8 @@ export const describeAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "DescribeAnomalyDetector",
 }));
 
 export type DescribeLoggingConfigurationError =
@@ -1402,7 +1454,7 @@ export type DescribeLoggingConfigurationError =
  * These logging configurations are only for rules and alerting logs.
  */
 export const describeLoggingConfiguration: API.OperationMethod<
-  DescribeLoggingConfigurationRequest,
+  DescribeLoggingConfigurationRequest & RegionInput,
   DescribeLoggingConfigurationResponse,
   DescribeLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1418,6 +1470,8 @@ export const describeLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeLoggingConfiguration",
 }));
 
 export type DescribeQueryLoggingConfigurationError =
@@ -1430,7 +1484,7 @@ export type DescribeQueryLoggingConfigurationError =
  * Retrieves the details of the query logging configuration for the specified workspace.
  */
 export const describeQueryLoggingConfiguration: API.OperationMethod<
-  DescribeQueryLoggingConfigurationRequest,
+  DescribeQueryLoggingConfigurationRequest & RegionInput,
   DescribeQueryLoggingConfigurationResponse,
   DescribeQueryLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1446,6 +1500,8 @@ export const describeQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQueryLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeQueryLoggingConfiguration",
 }));
 
 export type DescribeResourcePolicyError =
@@ -1459,7 +1515,7 @@ export type DescribeResourcePolicyError =
  * Returns information about the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1476,6 +1532,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeRuleGroupsNamespaceError =
@@ -1489,7 +1547,7 @@ export type DescribeRuleGroupsNamespaceError =
  * Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use `ListRuleGroupsNamespaces`.
  */
 export const describeRuleGroupsNamespace: API.OperationMethod<
-  DescribeRuleGroupsNamespaceRequest,
+  DescribeRuleGroupsNamespaceRequest & RegionInput,
   DescribeRuleGroupsNamespaceResponse,
   DescribeRuleGroupsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1506,6 +1564,8 @@ export const describeRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroupsNamespace",
+  telemetry: TELEMETRY,
+  span: "DescribeRuleGroupsNamespace",
 }));
 
 export type DescribeScraperError =
@@ -1519,7 +1579,7 @@ export type DescribeScraperError =
  * The `DescribeScraper` operation displays information about an existing scraper.
  */
 export const describeScraper: API.OperationMethod<
-  DescribeScraperRequest,
+  DescribeScraperRequest & RegionInput,
   DescribeScraperResponse,
   DescribeScraperError,
   Credentials | HttpClient.HttpClient
@@ -1536,6 +1596,8 @@ export const describeScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScraper",
+  telemetry: TELEMETRY,
+  span: "DescribeScraper",
 }));
 
 export type DescribeScraperLoggingConfigurationError =
@@ -1548,7 +1610,7 @@ export type DescribeScraperLoggingConfigurationError =
  * Describes the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
 export const describeScraperLoggingConfiguration: API.OperationMethod<
-  DescribeScraperLoggingConfigurationRequest,
+  DescribeScraperLoggingConfigurationRequest & RegionInput,
   DescribeScraperLoggingConfigurationResponse,
   DescribeScraperLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1564,6 +1626,8 @@ export const describeScraperLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScraperLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeScraperLoggingConfiguration",
 }));
 
 export type DescribeWorkspaceError =
@@ -1577,7 +1641,7 @@ export type DescribeWorkspaceError =
  * Returns information about an existing workspace.
  */
 export const describeWorkspace: API.OperationMethod<
-  DescribeWorkspaceRequest,
+  DescribeWorkspaceRequest & RegionInput,
   DescribeWorkspaceResponse,
   DescribeWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1594,6 +1658,8 @@ export const describeWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspace",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspace",
 }));
 
 export type DescribeWorkspaceConfigurationError =
@@ -1607,7 +1673,7 @@ export type DescribeWorkspaceConfigurationError =
  * Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
  */
 export const describeWorkspaceConfiguration: API.OperationMethod<
-  DescribeWorkspaceConfigurationRequest,
+  DescribeWorkspaceConfigurationRequest & RegionInput,
   DescribeWorkspaceConfigurationResponse,
   DescribeWorkspaceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1624,6 +1690,8 @@ export const describeWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspaceConfiguration",
 }));
 
 export type GetDefaultScraperConfigurationError =
@@ -1635,7 +1703,7 @@ export type GetDefaultScraperConfigurationError =
  * The `GetDefaultScraperConfiguration` operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
  */
 export const getDefaultScraperConfiguration: API.OperationMethod<
-  GetDefaultScraperConfigurationRequest,
+  GetDefaultScraperConfigurationRequest & RegionInput,
   GetDefaultScraperConfigurationResponse,
   GetDefaultScraperConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1646,6 +1714,8 @@ export const getDefaultScraperConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultScraperConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetDefaultScraperConfiguration",
 }));
 
 export type ListAnomalyDetectorsError =
@@ -1659,7 +1729,7 @@ export type ListAnomalyDetectorsError =
  * Returns a paginated list of anomaly detectors for a workspace with optional filtering by alias.
  */
 export const listAnomalyDetectors: API.PaginatedOperationMethod<
-  ListAnomalyDetectorsRequest,
+  ListAnomalyDetectorsRequest & RegionInput,
   ListAnomalyDetectorsResponse,
   ListAnomalyDetectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1683,6 +1753,8 @@ export const listAnomalyDetectors: API.PaginatedOperationMethod<
     items: "anomalyDetectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnomalyDetectors",
 })) as any;
 
 export type ListRuleGroupsNamespacesError =
@@ -1696,7 +1768,7 @@ export type ListRuleGroupsNamespacesError =
  * Returns a list of rule groups namespaces in a workspace.
  */
 export const listRuleGroupsNamespaces: API.PaginatedOperationMethod<
-  ListRuleGroupsNamespacesRequest,
+  ListRuleGroupsNamespacesRequest & RegionInput,
   ListRuleGroupsNamespacesResponse,
   ListRuleGroupsNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -1720,6 +1792,8 @@ export const listRuleGroupsNamespaces: API.PaginatedOperationMethod<
     items: "ruleGroupsNamespaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuleGroupsNamespaces",
 })) as any;
 
 export type ListScrapersError =
@@ -1732,7 +1806,7 @@ export type ListScrapersError =
  * The `ListScrapers` operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
  */
 export const listScrapers: API.PaginatedOperationMethod<
-  ListScrapersRequest,
+  ListScrapersRequest & RegionInput,
   ListScrapersResponse,
   ListScrapersError,
   Credentials | HttpClient.HttpClient,
@@ -1755,6 +1829,8 @@ export const listScrapers: API.PaginatedOperationMethod<
     items: "scrapers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScrapers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1768,7 +1844,7 @@ export type ListTagsForResourceError =
  * The `ListTagsForResource` operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1785,6 +1861,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkspacesError =
@@ -1797,7 +1875,7 @@ export type ListWorkspacesError =
  * Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted.
  */
 export const listWorkspaces: API.PaginatedOperationMethod<
-  ListWorkspacesRequest,
+  ListWorkspacesRequest & RegionInput,
   ListWorkspacesResponse,
   ListWorkspacesError,
   Credentials | HttpClient.HttpClient,
@@ -1820,6 +1898,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "workspaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 })) as any;
 
 export type PutAlertManagerDefinitionError =
@@ -1835,7 +1915,7 @@ export type PutAlertManagerDefinitionError =
  * Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use `CreateAlertManagerDefinition`.
  */
 export const putAlertManagerDefinition: API.OperationMethod<
-  PutAlertManagerDefinitionRequest,
+  PutAlertManagerDefinitionRequest & RegionInput,
   PutAlertManagerDefinitionResponse,
   PutAlertManagerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1854,6 +1934,8 @@ export const putAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlertManagerDefinition",
+  telemetry: TELEMETRY,
+  span: "PutAlertManagerDefinition",
 }));
 
 export type PutAnomalyDetectorError =
@@ -1868,7 +1950,7 @@ export type PutAnomalyDetectorError =
  * When you call `PutAnomalyDetector`, the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the detector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the single method for creating, updating, and retraining anomaly detectors.
  */
 export const putAnomalyDetector: API.OperationMethod<
-  PutAnomalyDetectorRequest,
+  PutAnomalyDetectorRequest & RegionInput,
   PutAnomalyDetectorResponse,
   PutAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1886,6 +1968,8 @@ export const putAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "PutAnomalyDetector",
 }));
 
 export type PutResourcePolicyError =
@@ -1906,7 +1990,7 @@ export type PutResourcePolicyError =
  * For more information about working with IAM, see Using Amazon Managed Service for Prometheus with IAM in the *Amazon Managed Service for Prometheus User Guide*.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1924,6 +2008,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type PutRuleGroupsNamespaceError =
@@ -1945,7 +2031,7 @@ export type PutRuleGroupsNamespaceError =
  * You can't use this operation to add tags to an existing rule groups namespace. Instead, use `TagResource`.
  */
 export const putRuleGroupsNamespace: API.OperationMethod<
-  PutRuleGroupsNamespaceRequest,
+  PutRuleGroupsNamespaceRequest & RegionInput,
   PutRuleGroupsNamespaceResponse,
   PutRuleGroupsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1964,6 +2050,8 @@ export const putRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRuleGroupsNamespace",
+  telemetry: TELEMETRY,
+  span: "PutRuleGroupsNamespace",
 }));
 
 export type TagResourceError =
@@ -1979,7 +2067,7 @@ export type TagResourceError =
  * If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use `UntagResource`.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1996,6 +2084,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2009,7 +2099,7 @@ export type UntagResourceError =
  * Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2026,6 +2116,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLoggingConfigurationError =
@@ -2041,7 +2133,7 @@ export type UpdateLoggingConfigurationError =
  * These logging configurations are only for rules and alerting logs.
  */
 export const updateLoggingConfiguration: API.OperationMethod<
-  UpdateLoggingConfigurationRequest,
+  UpdateLoggingConfigurationRequest & RegionInput,
   UpdateLoggingConfigurationResponse,
   UpdateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2058,6 +2150,8 @@ export const updateLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLoggingConfiguration",
 }));
 
 export type UpdateQueryLoggingConfigurationError =
@@ -2071,7 +2165,7 @@ export type UpdateQueryLoggingConfigurationError =
  * Updates the query logging configuration for the specified workspace.
  */
 export const updateQueryLoggingConfiguration: API.OperationMethod<
-  UpdateQueryLoggingConfigurationRequest,
+  UpdateQueryLoggingConfigurationRequest & RegionInput,
   UpdateQueryLoggingConfigurationResponse,
   UpdateQueryLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2088,6 +2182,8 @@ export const updateQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueryLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateQueryLoggingConfiguration",
 }));
 
 export type UpdateScraperError =
@@ -2105,7 +2201,7 @@ export type UpdateScraperError =
  * You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one.
  */
 export const updateScraper: API.OperationMethod<
-  UpdateScraperRequest,
+  UpdateScraperRequest & RegionInput,
   UpdateScraperResponse,
   UpdateScraperError,
   Credentials | HttpClient.HttpClient
@@ -2124,6 +2220,8 @@ export const updateScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScraper",
+  telemetry: TELEMETRY,
+  span: "UpdateScraper",
 }));
 
 export type UpdateScraperLoggingConfigurationError =
@@ -2137,7 +2235,7 @@ export type UpdateScraperLoggingConfigurationError =
  * Updates the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
 export const updateScraperLoggingConfiguration: API.OperationMethod<
-  UpdateScraperLoggingConfigurationRequest,
+  UpdateScraperLoggingConfigurationRequest & RegionInput,
   UpdateScraperLoggingConfigurationResponse,
   UpdateScraperLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2154,6 +2252,8 @@ export const updateScraperLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScraperLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateScraperLoggingConfiguration",
 }));
 
 export type UpdateWorkspaceAliasError =
@@ -2169,7 +2269,7 @@ export type UpdateWorkspaceAliasError =
  * Updates the alias of an existing workspace.
  */
 export const updateWorkspaceAlias: API.OperationMethod<
-  UpdateWorkspaceAliasRequest,
+  UpdateWorkspaceAliasRequest & RegionInput,
   UpdateWorkspaceAliasResponse,
   UpdateWorkspaceAliasError,
   Credentials | HttpClient.HttpClient
@@ -2188,6 +2288,8 @@ export const updateWorkspaceAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceAlias",
 }));
 
 export type UpdateWorkspaceConfigurationError =
@@ -2205,7 +2307,7 @@ export type UpdateWorkspaceConfigurationError =
  * You must specify at least one of `limitsPerLabelSet` or `retentionPeriodInDays` for the request to be valid.
  */
 export const updateWorkspaceConfiguration: API.OperationMethod<
-  UpdateWorkspaceConfigurationRequest,
+  UpdateWorkspaceConfigurationRequest & RegionInput,
   UpdateWorkspaceConfigurationResponse,
   UpdateWorkspaceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2224,6 +2326,8 @@ export const updateWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -152,6 +154,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NetworkManager",
+  service: "NetworkManager",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1912,7 +1928,7 @@ export type AcceptAttachmentError =
  * created and connected to a core network.
  */
 export const acceptAttachment: API.OperationMethod<
-  AcceptAttachmentRequest,
+  AcceptAttachmentRequest & RegionInput,
   AcceptAttachmentResponse,
   AcceptAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1930,6 +1946,8 @@ export const acceptAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAttachment",
+  telemetry: TELEMETRY,
+  span: "AcceptAttachment",
 }));
 
 export type AssociateConnectPeerError =
@@ -1949,7 +1967,7 @@ export type AssociateConnectPeerError =
  * attachment on a core network.
  */
 export const associateConnectPeer: API.OperationMethod<
-  AssociateConnectPeerRequest,
+  AssociateConnectPeerRequest & RegionInput,
   AssociateConnectPeerResponse,
   AssociateConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -1968,6 +1986,8 @@ export const associateConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConnectPeer",
+  telemetry: TELEMETRY,
+  span: "AssociateConnectPeer",
 }));
 
 export type AssociateCustomerGatewayError =
@@ -1993,7 +2013,7 @@ export type AssociateCustomerGatewayError =
  * You cannot associate a customer gateway with more than one device and link.
  */
 export const associateCustomerGateway: API.OperationMethod<
-  AssociateCustomerGatewayRequest,
+  AssociateCustomerGatewayRequest & RegionInput,
   AssociateCustomerGatewayResponse,
   AssociateCustomerGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2012,6 +2032,8 @@ export const associateCustomerGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCustomerGateway",
+  telemetry: TELEMETRY,
+  span: "AssociateCustomerGateway",
 }));
 
 export type AssociateLinkError =
@@ -2027,7 +2049,7 @@ export type AssociateLinkError =
  * Associates a link to a device. A device can be associated to multiple links and a link can be associated to multiple devices. The device and link must be in the same global network and the same site.
  */
 export const associateLink: API.OperationMethod<
-  AssociateLinkRequest,
+  AssociateLinkRequest & RegionInput,
   AssociateLinkResponse,
   AssociateLinkError,
   Credentials | HttpClient.HttpClient
@@ -2046,6 +2068,8 @@ export const associateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLink",
+  telemetry: TELEMETRY,
+  span: "AssociateLink",
 }));
 
 export type AssociateTransitGatewayConnectPeerError =
@@ -2067,7 +2091,7 @@ export type AssociateTransitGatewayConnectPeerError =
  * You cannot associate a transit gateway Connect peer with more than one device and link.
  */
 export const associateTransitGatewayConnectPeer: API.OperationMethod<
-  AssociateTransitGatewayConnectPeerRequest,
+  AssociateTransitGatewayConnectPeerRequest & RegionInput,
   AssociateTransitGatewayConnectPeerResponse,
   AssociateTransitGatewayConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -2086,6 +2110,8 @@ export const associateTransitGatewayConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTransitGatewayConnectPeer",
+  telemetry: TELEMETRY,
+  span: "AssociateTransitGatewayConnectPeer",
 }));
 
 export type CreateConnectAttachmentError =
@@ -2104,7 +2130,7 @@ export type CreateConnectAttachmentError =
  * attachment uses an existing VPC attachment as the underlying transport mechanism.
  */
 export const createConnectAttachment: API.OperationMethod<
-  CreateConnectAttachmentRequest,
+  CreateConnectAttachmentRequest & RegionInput,
   CreateConnectAttachmentResponse,
   CreateConnectAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2122,6 +2148,8 @@ export const createConnectAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateConnectAttachment",
 }));
 
 export type CreateConnectionError =
@@ -2136,7 +2164,7 @@ export type CreateConnectionError =
  * Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   CreateConnectionResponse,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2154,6 +2182,8 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateConnectPeerError =
@@ -2169,7 +2199,7 @@ export type CreateConnectPeerError =
  * The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
  */
 export const createConnectPeer: API.OperationMethod<
-  CreateConnectPeerRequest,
+  CreateConnectPeerRequest & RegionInput,
   CreateConnectPeerResponse,
   CreateConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -2187,6 +2217,8 @@ export const createConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectPeer",
+  telemetry: TELEMETRY,
+  span: "CreateConnectPeer",
 }));
 
 export type CreateCoreNetworkError =
@@ -2202,7 +2234,7 @@ export type CreateCoreNetworkError =
  * Creates a core network as part of your global network, and optionally, with a core network policy.
  */
 export const createCoreNetwork: API.OperationMethod<
-  CreateCoreNetworkRequest,
+  CreateCoreNetworkRequest & RegionInput,
   CreateCoreNetworkResponse,
   CreateCoreNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2221,6 +2253,8 @@ export const createCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateCoreNetwork",
 }));
 
 export type CreateCoreNetworkPrefixListAssociationError =
@@ -2236,7 +2270,7 @@ export type CreateCoreNetworkPrefixListAssociationError =
  * Creates an association between a core network and a prefix list for routing control.
  */
 export const createCoreNetworkPrefixListAssociation: API.OperationMethod<
-  CreateCoreNetworkPrefixListAssociationRequest,
+  CreateCoreNetworkPrefixListAssociationRequest & RegionInput,
   CreateCoreNetworkPrefixListAssociationResponse,
   CreateCoreNetworkPrefixListAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2255,6 +2289,8 @@ export const createCoreNetworkPrefixListAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreNetworkPrefixListAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateCoreNetworkPrefixListAssociation",
 }));
 
 export type CreateDeviceError =
@@ -2271,7 +2307,7 @@ export type CreateDeviceError =
  * location, the location of the site is used for visualization in the Network Manager console.
  */
 export const createDevice: API.OperationMethod<
-  CreateDeviceRequest,
+  CreateDeviceRequest & RegionInput,
   CreateDeviceResponse,
   CreateDeviceError,
   Credentials | HttpClient.HttpClient
@@ -2290,6 +2326,8 @@ export const createDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevice",
+  telemetry: TELEMETRY,
+  span: "CreateDevice",
 }));
 
 export type CreateDirectConnectGatewayAttachmentError =
@@ -2304,7 +2342,7 @@ export type CreateDirectConnectGatewayAttachmentError =
  * Creates an Amazon Web Services Direct Connect gateway attachment
  */
 export const createDirectConnectGatewayAttachment: API.OperationMethod<
-  CreateDirectConnectGatewayAttachmentRequest,
+  CreateDirectConnectGatewayAttachmentRequest & RegionInput,
   CreateDirectConnectGatewayAttachmentResponse,
   CreateDirectConnectGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2322,6 +2360,8 @@ export const createDirectConnectGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectConnectGatewayAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateDirectConnectGatewayAttachment",
 }));
 
 export type CreateGlobalNetworkError =
@@ -2336,7 +2376,7 @@ export type CreateGlobalNetworkError =
  * Creates a new, empty global network.
  */
 export const createGlobalNetwork: API.OperationMethod<
-  CreateGlobalNetworkRequest,
+  CreateGlobalNetworkRequest & RegionInput,
   CreateGlobalNetworkResponse,
   CreateGlobalNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2354,6 +2394,8 @@ export const createGlobalNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateGlobalNetwork",
 }));
 
 export type CreateLinkError =
@@ -2369,7 +2411,7 @@ export type CreateLinkError =
  * Creates a new link for a specified site.
  */
 export const createLink: API.OperationMethod<
-  CreateLinkRequest,
+  CreateLinkRequest & RegionInput,
   CreateLinkResponse,
   CreateLinkError,
   Credentials | HttpClient.HttpClient
@@ -2388,6 +2430,8 @@ export const createLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLink",
+  telemetry: TELEMETRY,
+  span: "CreateLink",
 }));
 
 export type CreateSiteError =
@@ -2403,7 +2447,7 @@ export type CreateSiteError =
  * Creates a new site in a global network.
  */
 export const createSite: API.OperationMethod<
-  CreateSiteRequest,
+  CreateSiteRequest & RegionInput,
   CreateSiteResponse,
   CreateSiteError,
   Credentials | HttpClient.HttpClient
@@ -2422,6 +2466,8 @@ export const createSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSite",
+  telemetry: TELEMETRY,
+  span: "CreateSite",
 }));
 
 export type CreateSiteToSiteVpnAttachmentError =
@@ -2436,7 +2482,7 @@ export type CreateSiteToSiteVpnAttachmentError =
  * Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
  */
 export const createSiteToSiteVpnAttachment: API.OperationMethod<
-  CreateSiteToSiteVpnAttachmentRequest,
+  CreateSiteToSiteVpnAttachmentRequest & RegionInput,
   CreateSiteToSiteVpnAttachmentResponse,
   CreateSiteToSiteVpnAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2454,6 +2500,8 @@ export const createSiteToSiteVpnAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSiteToSiteVpnAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateSiteToSiteVpnAttachment",
 }));
 
 export type CreateTransitGatewayPeeringError =
@@ -2468,7 +2516,7 @@ export type CreateTransitGatewayPeeringError =
  * Creates a transit gateway peering connection.
  */
 export const createTransitGatewayPeering: API.OperationMethod<
-  CreateTransitGatewayPeeringRequest,
+  CreateTransitGatewayPeeringRequest & RegionInput,
   CreateTransitGatewayPeeringResponse,
   CreateTransitGatewayPeeringError,
   Credentials | HttpClient.HttpClient
@@ -2486,6 +2534,8 @@ export const createTransitGatewayPeering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayPeering",
+  telemetry: TELEMETRY,
+  span: "CreateTransitGatewayPeering",
 }));
 
 export type CreateTransitGatewayRouteTableAttachmentError =
@@ -2500,7 +2550,7 @@ export type CreateTransitGatewayRouteTableAttachmentError =
  * Creates a transit gateway route table attachment.
  */
 export const createTransitGatewayRouteTableAttachment: API.OperationMethod<
-  CreateTransitGatewayRouteTableAttachmentRequest,
+  CreateTransitGatewayRouteTableAttachmentRequest & RegionInput,
   CreateTransitGatewayRouteTableAttachmentResponse,
   CreateTransitGatewayRouteTableAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2518,6 +2568,8 @@ export const createTransitGatewayRouteTableAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayRouteTableAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateTransitGatewayRouteTableAttachment",
 }));
 
 export type CreateVpcAttachmentError =
@@ -2532,7 +2584,7 @@ export type CreateVpcAttachmentError =
  * Creates a VPC attachment on an edge location of a core network.
  */
 export const createVpcAttachment: API.OperationMethod<
-  CreateVpcAttachmentRequest,
+  CreateVpcAttachmentRequest & RegionInput,
   CreateVpcAttachmentResponse,
   CreateVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2550,6 +2602,8 @@ export const createVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateVpcAttachment",
 }));
 
 export type DeleteAttachmentError =
@@ -2564,7 +2618,7 @@ export type DeleteAttachmentError =
  * Deletes an attachment. Supports all attachment types.
  */
 export const deleteAttachment: API.OperationMethod<
-  DeleteAttachmentRequest,
+  DeleteAttachmentRequest & RegionInput,
   DeleteAttachmentResponse,
   DeleteAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2582,6 +2636,8 @@ export const deleteAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteAttachment",
 }));
 
 export type DeleteConnectionError =
@@ -2596,7 +2652,7 @@ export type DeleteConnectionError =
  * Deletes the specified connection in your global network.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2614,6 +2670,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteConnectPeerError =
@@ -2628,7 +2686,7 @@ export type DeleteConnectPeerError =
  * Deletes a Connect peer.
  */
 export const deleteConnectPeer: API.OperationMethod<
-  DeleteConnectPeerRequest,
+  DeleteConnectPeerRequest & RegionInput,
   DeleteConnectPeerResponse,
   DeleteConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -2646,6 +2704,8 @@ export const deleteConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectPeer",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectPeer",
 }));
 
 export type DeleteCoreNetworkError =
@@ -2660,7 +2720,7 @@ export type DeleteCoreNetworkError =
  * Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
  */
 export const deleteCoreNetwork: API.OperationMethod<
-  DeleteCoreNetworkRequest,
+  DeleteCoreNetworkRequest & RegionInput,
   DeleteCoreNetworkResponse,
   DeleteCoreNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2678,6 +2738,8 @@ export const deleteCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreNetwork",
 }));
 
 export type DeleteCoreNetworkPolicyVersionError =
@@ -2692,7 +2754,7 @@ export type DeleteCoreNetworkPolicyVersionError =
  * Deletes a policy version from a core network. You can't delete the current LIVE policy.
  */
 export const deleteCoreNetworkPolicyVersion: API.OperationMethod<
-  DeleteCoreNetworkPolicyVersionRequest,
+  DeleteCoreNetworkPolicyVersionRequest & RegionInput,
   DeleteCoreNetworkPolicyVersionResponse,
   DeleteCoreNetworkPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -2710,6 +2772,8 @@ export const deleteCoreNetworkPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreNetworkPolicyVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreNetworkPolicyVersion",
 }));
 
 export type DeleteCoreNetworkPrefixListAssociationError =
@@ -2725,7 +2789,7 @@ export type DeleteCoreNetworkPrefixListAssociationError =
  * Deletes an association between a core network and a prefix list.
  */
 export const deleteCoreNetworkPrefixListAssociation: API.OperationMethod<
-  DeleteCoreNetworkPrefixListAssociationRequest,
+  DeleteCoreNetworkPrefixListAssociationRequest & RegionInput,
   DeleteCoreNetworkPrefixListAssociationResponse,
   DeleteCoreNetworkPrefixListAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2744,6 +2808,8 @@ export const deleteCoreNetworkPrefixListAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreNetworkPrefixListAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreNetworkPrefixListAssociation",
 }));
 
 export type DeleteDeviceError =
@@ -2759,7 +2825,7 @@ export type DeleteDeviceError =
  * customer gateways.
  */
 export const deleteDevice: API.OperationMethod<
-  DeleteDeviceRequest,
+  DeleteDeviceRequest & RegionInput,
   DeleteDeviceResponse,
   DeleteDeviceError,
   Credentials | HttpClient.HttpClient
@@ -2777,6 +2843,8 @@ export const deleteDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevice",
+  telemetry: TELEMETRY,
+  span: "DeleteDevice",
 }));
 
 export type DeleteGlobalNetworkError =
@@ -2792,7 +2860,7 @@ export type DeleteGlobalNetworkError =
  * (devices, links, and sites), deregister all transit gateways, and delete any core networks.
  */
 export const deleteGlobalNetwork: API.OperationMethod<
-  DeleteGlobalNetworkRequest,
+  DeleteGlobalNetworkRequest & RegionInput,
   DeleteGlobalNetworkResponse,
   DeleteGlobalNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2810,6 +2878,8 @@ export const deleteGlobalNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalNetwork",
 }));
 
 export type DeleteLinkError =
@@ -2825,7 +2895,7 @@ export type DeleteLinkError =
  * customer gateways.
  */
 export const deleteLink: API.OperationMethod<
-  DeleteLinkRequest,
+  DeleteLinkRequest & RegionInput,
   DeleteLinkResponse,
   DeleteLinkError,
   Credentials | HttpClient.HttpClient
@@ -2843,6 +2913,8 @@ export const deleteLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLink",
+  telemetry: TELEMETRY,
+  span: "DeleteLink",
 }));
 
 export type DeletePeeringError =
@@ -2857,7 +2929,7 @@ export type DeletePeeringError =
  * Deletes an existing peering connection.
  */
 export const deletePeering: API.OperationMethod<
-  DeletePeeringRequest,
+  DeletePeeringRequest & RegionInput,
   DeletePeeringResponse,
   DeletePeeringError,
   Credentials | HttpClient.HttpClient
@@ -2875,6 +2947,8 @@ export const deletePeering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePeering",
+  telemetry: TELEMETRY,
+  span: "DeletePeering",
 }));
 
 export type DeleteResourcePolicyError =
@@ -2888,7 +2962,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2905,6 +2979,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteSiteError =
@@ -2919,7 +2995,7 @@ export type DeleteSiteError =
  * Deletes an existing site. The site cannot be associated with any device or link.
  */
 export const deleteSite: API.OperationMethod<
-  DeleteSiteRequest,
+  DeleteSiteRequest & RegionInput,
   DeleteSiteResponse,
   DeleteSiteError,
   Credentials | HttpClient.HttpClient
@@ -2937,6 +3013,8 @@ export const deleteSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSite",
+  telemetry: TELEMETRY,
+  span: "DeleteSite",
 }));
 
 export type DeregisterTransitGatewayError =
@@ -2952,7 +3030,7 @@ export type DeregisterTransitGatewayError =
  * your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
  */
 export const deregisterTransitGateway: API.OperationMethod<
-  DeregisterTransitGatewayRequest,
+  DeregisterTransitGatewayRequest & RegionInput,
   DeregisterTransitGatewayResponse,
   DeregisterTransitGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2970,6 +3048,8 @@ export const deregisterTransitGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTransitGateway",
+  telemetry: TELEMETRY,
+  span: "DeregisterTransitGateway",
 }));
 
 export type DescribeGlobalNetworksError =
@@ -2986,7 +3066,7 @@ export type DescribeGlobalNetworksError =
  * network, use GetTransitGatewayRegistrations.
  */
 export const describeGlobalNetworks: API.PaginatedOperationMethod<
-  DescribeGlobalNetworksRequest,
+  DescribeGlobalNetworksRequest & RegionInput,
   DescribeGlobalNetworksResponse,
   DescribeGlobalNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -3010,6 +3090,8 @@ export const describeGlobalNetworks: API.PaginatedOperationMethod<
     items: "GlobalNetworks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGlobalNetworks",
 })) as any;
 
 export type DisassociateConnectPeerError =
@@ -3024,7 +3106,7 @@ export type DisassociateConnectPeerError =
  * Disassociates a core network Connect peer from a device and a link.
  */
 export const disassociateConnectPeer: API.OperationMethod<
-  DisassociateConnectPeerRequest,
+  DisassociateConnectPeerRequest & RegionInput,
   DisassociateConnectPeerResponse,
   DisassociateConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -3042,6 +3124,8 @@ export const disassociateConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConnectPeer",
+  telemetry: TELEMETRY,
+  span: "DisassociateConnectPeer",
 }));
 
 export type DisassociateCustomerGatewayError =
@@ -3056,7 +3140,7 @@ export type DisassociateCustomerGatewayError =
  * Disassociates a customer gateway from a device and a link.
  */
 export const disassociateCustomerGateway: API.OperationMethod<
-  DisassociateCustomerGatewayRequest,
+  DisassociateCustomerGatewayRequest & RegionInput,
   DisassociateCustomerGatewayResponse,
   DisassociateCustomerGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3074,6 +3158,8 @@ export const disassociateCustomerGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCustomerGateway",
+  telemetry: TELEMETRY,
+  span: "DisassociateCustomerGateway",
 }));
 
 export type DisassociateLinkError =
@@ -3089,7 +3175,7 @@ export type DisassociateLinkError =
  * gateways that are associated with the link.
  */
 export const disassociateLink: API.OperationMethod<
-  DisassociateLinkRequest,
+  DisassociateLinkRequest & RegionInput,
   DisassociateLinkResponse,
   DisassociateLinkError,
   Credentials | HttpClient.HttpClient
@@ -3107,6 +3193,8 @@ export const disassociateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLink",
+  telemetry: TELEMETRY,
+  span: "DisassociateLink",
 }));
 
 export type DisassociateTransitGatewayConnectPeerError =
@@ -3121,7 +3209,7 @@ export type DisassociateTransitGatewayConnectPeerError =
  * Disassociates a transit gateway Connect peer from a device and link.
  */
 export const disassociateTransitGatewayConnectPeer: API.OperationMethod<
-  DisassociateTransitGatewayConnectPeerRequest,
+  DisassociateTransitGatewayConnectPeerRequest & RegionInput,
   DisassociateTransitGatewayConnectPeerResponse,
   DisassociateTransitGatewayConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -3139,6 +3227,8 @@ export const disassociateTransitGatewayConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTransitGatewayConnectPeer",
+  telemetry: TELEMETRY,
+  span: "DisassociateTransitGatewayConnectPeer",
 }));
 
 export type ExecuteCoreNetworkChangeSetError =
@@ -3153,7 +3243,7 @@ export type ExecuteCoreNetworkChangeSetError =
  * Executes a change set on your core network. Deploys changes globally based on the policy submitted..
  */
 export const executeCoreNetworkChangeSet: API.OperationMethod<
-  ExecuteCoreNetworkChangeSetRequest,
+  ExecuteCoreNetworkChangeSetRequest & RegionInput,
   ExecuteCoreNetworkChangeSetResponse,
   ExecuteCoreNetworkChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -3171,6 +3261,8 @@ export const executeCoreNetworkChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteCoreNetworkChangeSet",
+  telemetry: TELEMETRY,
+  span: "ExecuteCoreNetworkChangeSet",
 }));
 
 export type GetConnectAttachmentError =
@@ -3184,7 +3276,7 @@ export type GetConnectAttachmentError =
  * Returns information about a core network Connect attachment.
  */
 export const getConnectAttachment: API.OperationMethod<
-  GetConnectAttachmentRequest,
+  GetConnectAttachmentRequest & RegionInput,
   GetConnectAttachmentResponse,
   GetConnectAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3201,6 +3293,8 @@ export const getConnectAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectAttachment",
+  telemetry: TELEMETRY,
+  span: "GetConnectAttachment",
 }));
 
 export type GetConnectionsError =
@@ -3214,7 +3308,7 @@ export type GetConnectionsError =
  * Gets information about one or more of your connections in a global network.
  */
 export const getConnections: API.PaginatedOperationMethod<
-  GetConnectionsRequest,
+  GetConnectionsRequest & RegionInput,
   GetConnectionsResponse,
   GetConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3238,6 +3332,8 @@ export const getConnections: API.PaginatedOperationMethod<
     items: "Connections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetConnections",
 })) as any;
 
 export type GetConnectPeerError =
@@ -3251,7 +3347,7 @@ export type GetConnectPeerError =
  * Returns information about a core network Connect peer.
  */
 export const getConnectPeer: API.OperationMethod<
-  GetConnectPeerRequest,
+  GetConnectPeerRequest & RegionInput,
   GetConnectPeerResponse,
   GetConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -3268,6 +3364,8 @@ export const getConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectPeer",
+  telemetry: TELEMETRY,
+  span: "GetConnectPeer",
 }));
 
 export type GetConnectPeerAssociationsError =
@@ -3282,7 +3380,7 @@ export type GetConnectPeerAssociationsError =
  * Returns information about a core network Connect peer associations.
  */
 export const getConnectPeerAssociations: API.PaginatedOperationMethod<
-  GetConnectPeerAssociationsRequest,
+  GetConnectPeerAssociationsRequest & RegionInput,
   GetConnectPeerAssociationsResponse,
   GetConnectPeerAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3307,6 +3405,8 @@ export const getConnectPeerAssociations: API.PaginatedOperationMethod<
     items: "ConnectPeerAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetConnectPeerAssociations",
 })) as any;
 
 export type GetCoreNetworkError =
@@ -3320,7 +3420,7 @@ export type GetCoreNetworkError =
  * Returns information about the LIVE policy for a core network.
  */
 export const getCoreNetwork: API.OperationMethod<
-  GetCoreNetworkRequest,
+  GetCoreNetworkRequest & RegionInput,
   GetCoreNetworkResponse,
   GetCoreNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3337,6 +3437,8 @@ export const getCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreNetwork",
+  telemetry: TELEMETRY,
+  span: "GetCoreNetwork",
 }));
 
 export type GetCoreNetworkChangeEventsError =
@@ -3350,7 +3452,7 @@ export type GetCoreNetworkChangeEventsError =
  * Returns information about a core network change event.
  */
 export const getCoreNetworkChangeEvents: API.PaginatedOperationMethod<
-  GetCoreNetworkChangeEventsRequest,
+  GetCoreNetworkChangeEventsRequest & RegionInput,
   GetCoreNetworkChangeEventsResponse,
   GetCoreNetworkChangeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3374,6 +3476,8 @@ export const getCoreNetworkChangeEvents: API.PaginatedOperationMethod<
     items: "CoreNetworkChangeEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCoreNetworkChangeEvents",
 })) as any;
 
 export type GetCoreNetworkChangeSetError =
@@ -3387,7 +3491,7 @@ export type GetCoreNetworkChangeSetError =
  * Returns a change set between the LIVE core network policy and a submitted policy.
  */
 export const getCoreNetworkChangeSet: API.PaginatedOperationMethod<
-  GetCoreNetworkChangeSetRequest,
+  GetCoreNetworkChangeSetRequest & RegionInput,
   GetCoreNetworkChangeSetResponse,
   GetCoreNetworkChangeSetError,
   Credentials | HttpClient.HttpClient,
@@ -3411,6 +3515,8 @@ export const getCoreNetworkChangeSet: API.PaginatedOperationMethod<
     items: "CoreNetworkChanges",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCoreNetworkChangeSet",
 })) as any;
 
 export type GetCoreNetworkPolicyError =
@@ -3424,7 +3530,7 @@ export type GetCoreNetworkPolicyError =
  * Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
  */
 export const getCoreNetworkPolicy: API.OperationMethod<
-  GetCoreNetworkPolicyRequest,
+  GetCoreNetworkPolicyRequest & RegionInput,
   GetCoreNetworkPolicyResponse,
   GetCoreNetworkPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3441,6 +3547,8 @@ export const getCoreNetworkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreNetworkPolicy",
+  telemetry: TELEMETRY,
+  span: "GetCoreNetworkPolicy",
 }));
 
 export type GetCustomerGatewayAssociationsError =
@@ -3456,7 +3564,7 @@ export type GetCustomerGatewayAssociationsError =
  * devices and links in your global network.
  */
 export const getCustomerGatewayAssociations: API.PaginatedOperationMethod<
-  GetCustomerGatewayAssociationsRequest,
+  GetCustomerGatewayAssociationsRequest & RegionInput,
   GetCustomerGatewayAssociationsResponse,
   GetCustomerGatewayAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3481,6 +3589,8 @@ export const getCustomerGatewayAssociations: API.PaginatedOperationMethod<
     items: "CustomerGatewayAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCustomerGatewayAssociations",
 })) as any;
 
 export type GetDevicesError =
@@ -3494,7 +3604,7 @@ export type GetDevicesError =
  * Gets information about one or more of your devices in a global network.
  */
 export const getDevices: API.PaginatedOperationMethod<
-  GetDevicesRequest,
+  GetDevicesRequest & RegionInput,
   GetDevicesResponse,
   GetDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -3518,6 +3628,8 @@ export const getDevices: API.PaginatedOperationMethod<
     items: "Devices",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDevices",
 })) as any;
 
 export type GetDirectConnectGatewayAttachmentError =
@@ -3531,7 +3643,7 @@ export type GetDirectConnectGatewayAttachmentError =
  * Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
  */
 export const getDirectConnectGatewayAttachment: API.OperationMethod<
-  GetDirectConnectGatewayAttachmentRequest,
+  GetDirectConnectGatewayAttachmentRequest & RegionInput,
   GetDirectConnectGatewayAttachmentResponse,
   GetDirectConnectGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3548,6 +3660,8 @@ export const getDirectConnectGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectConnectGatewayAttachment",
+  telemetry: TELEMETRY,
+  span: "GetDirectConnectGatewayAttachment",
 }));
 
 export type GetLinkAssociationsError =
@@ -3562,7 +3676,7 @@ export type GetLinkAssociationsError =
  * must be specified.
  */
 export const getLinkAssociations: API.PaginatedOperationMethod<
-  GetLinkAssociationsRequest,
+  GetLinkAssociationsRequest & RegionInput,
   GetLinkAssociationsResponse,
   GetLinkAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3586,6 +3700,8 @@ export const getLinkAssociations: API.PaginatedOperationMethod<
     items: "LinkAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetLinkAssociations",
 })) as any;
 
 export type GetLinksError =
@@ -3601,7 +3717,7 @@ export type GetLinksError =
  * If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
  */
 export const getLinks: API.PaginatedOperationMethod<
-  GetLinksRequest,
+  GetLinksRequest & RegionInput,
   GetLinksResponse,
   GetLinksError,
   Credentials | HttpClient.HttpClient,
@@ -3625,6 +3741,8 @@ export const getLinks: API.PaginatedOperationMethod<
     items: "Links",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetLinks",
 })) as any;
 
 export type GetNetworkResourceCountsError =
@@ -3637,7 +3755,7 @@ export type GetNetworkResourceCountsError =
  * Gets the count of network resources, by resource type, for the specified global network.
  */
 export const getNetworkResourceCounts: API.PaginatedOperationMethod<
-  GetNetworkResourceCountsRequest,
+  GetNetworkResourceCountsRequest & RegionInput,
   GetNetworkResourceCountsResponse,
   GetNetworkResourceCountsError,
   Credentials | HttpClient.HttpClient,
@@ -3660,6 +3778,8 @@ export const getNetworkResourceCounts: API.PaginatedOperationMethod<
     items: "NetworkResourceCounts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetNetworkResourceCounts",
 })) as any;
 
 export type GetNetworkResourceRelationshipsError =
@@ -3673,7 +3793,7 @@ export type GetNetworkResourceRelationshipsError =
  * Gets the network resource relationships for the specified global network.
  */
 export const getNetworkResourceRelationships: API.PaginatedOperationMethod<
-  GetNetworkResourceRelationshipsRequest,
+  GetNetworkResourceRelationshipsRequest & RegionInput,
   GetNetworkResourceRelationshipsResponse,
   GetNetworkResourceRelationshipsError,
   Credentials | HttpClient.HttpClient,
@@ -3697,6 +3817,8 @@ export const getNetworkResourceRelationships: API.PaginatedOperationMethod<
     items: "Relationships",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetNetworkResourceRelationships",
 })) as any;
 
 export type GetNetworkResourcesError =
@@ -3712,7 +3834,7 @@ export type GetNetworkResourcesError =
  * The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
  */
 export const getNetworkResources: API.PaginatedOperationMethod<
-  GetNetworkResourcesRequest,
+  GetNetworkResourcesRequest & RegionInput,
   GetNetworkResourcesResponse,
   GetNetworkResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3736,6 +3858,8 @@ export const getNetworkResources: API.PaginatedOperationMethod<
     items: "NetworkResources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetNetworkResources",
 })) as any;
 
 export type GetNetworkRoutesError =
@@ -3749,7 +3873,7 @@ export type GetNetworkRoutesError =
  * Gets the network routes of the specified global network.
  */
 export const getNetworkRoutes: API.OperationMethod<
-  GetNetworkRoutesRequest,
+  GetNetworkRoutesRequest & RegionInput,
   GetNetworkRoutesResponse,
   GetNetworkRoutesError,
   Credentials | HttpClient.HttpClient
@@ -3766,6 +3890,8 @@ export const getNetworkRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkRoutes",
+  telemetry: TELEMETRY,
+  span: "GetNetworkRoutes",
 }));
 
 export type GetNetworkTelemetryError =
@@ -3779,7 +3905,7 @@ export type GetNetworkTelemetryError =
  * Gets the network telemetry of the specified global network.
  */
 export const getNetworkTelemetry: API.PaginatedOperationMethod<
-  GetNetworkTelemetryRequest,
+  GetNetworkTelemetryRequest & RegionInput,
   GetNetworkTelemetryResponse,
   GetNetworkTelemetryError,
   Credentials | HttpClient.HttpClient,
@@ -3803,6 +3929,8 @@ export const getNetworkTelemetry: API.PaginatedOperationMethod<
     items: "NetworkTelemetry",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetNetworkTelemetry",
 })) as any;
 
 export type GetResourcePolicyError =
@@ -3815,7 +3943,7 @@ export type GetResourcePolicyError =
  * Returns information about a resource policy.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3831,6 +3959,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetRouteAnalysisError =
@@ -3844,7 +3974,7 @@ export type GetRouteAnalysisError =
  * Gets information about the specified route analysis.
  */
 export const getRouteAnalysis: API.OperationMethod<
-  GetRouteAnalysisRequest,
+  GetRouteAnalysisRequest & RegionInput,
   GetRouteAnalysisResponse,
   GetRouteAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -3861,6 +3991,8 @@ export const getRouteAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouteAnalysis",
+  telemetry: TELEMETRY,
+  span: "GetRouteAnalysis",
 }));
 
 export type GetSitesError =
@@ -3874,7 +4006,7 @@ export type GetSitesError =
  * Gets information about one or more of your sites in a global network.
  */
 export const getSites: API.PaginatedOperationMethod<
-  GetSitesRequest,
+  GetSitesRequest & RegionInput,
   GetSitesResponse,
   GetSitesError,
   Credentials | HttpClient.HttpClient,
@@ -3898,6 +4030,8 @@ export const getSites: API.PaginatedOperationMethod<
     items: "Sites",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSites",
 })) as any;
 
 export type GetSiteToSiteVpnAttachmentError =
@@ -3911,7 +4045,7 @@ export type GetSiteToSiteVpnAttachmentError =
  * Returns information about a site-to-site VPN attachment.
  */
 export const getSiteToSiteVpnAttachment: API.OperationMethod<
-  GetSiteToSiteVpnAttachmentRequest,
+  GetSiteToSiteVpnAttachmentRequest & RegionInput,
   GetSiteToSiteVpnAttachmentResponse,
   GetSiteToSiteVpnAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3928,6 +4062,8 @@ export const getSiteToSiteVpnAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSiteToSiteVpnAttachment",
+  telemetry: TELEMETRY,
+  span: "GetSiteToSiteVpnAttachment",
 }));
 
 export type GetTransitGatewayConnectPeerAssociationsError =
@@ -3942,7 +4078,7 @@ export type GetTransitGatewayConnectPeerAssociationsError =
  * Gets information about one or more of your transit gateway Connect peer associations in a global network.
  */
 export const getTransitGatewayConnectPeerAssociations: API.PaginatedOperationMethod<
-  GetTransitGatewayConnectPeerAssociationsRequest,
+  GetTransitGatewayConnectPeerAssociationsRequest & RegionInput,
   GetTransitGatewayConnectPeerAssociationsResponse,
   GetTransitGatewayConnectPeerAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3967,6 +4103,8 @@ export const getTransitGatewayConnectPeerAssociations: API.PaginatedOperationMet
     items: "TransitGatewayConnectPeerAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTransitGatewayConnectPeerAssociations",
 })) as any;
 
 export type GetTransitGatewayPeeringError =
@@ -3980,7 +4118,7 @@ export type GetTransitGatewayPeeringError =
  * Returns information about a transit gateway peer.
  */
 export const getTransitGatewayPeering: API.OperationMethod<
-  GetTransitGatewayPeeringRequest,
+  GetTransitGatewayPeeringRequest & RegionInput,
   GetTransitGatewayPeeringResponse,
   GetTransitGatewayPeeringError,
   Credentials | HttpClient.HttpClient
@@ -3997,6 +4135,8 @@ export const getTransitGatewayPeering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransitGatewayPeering",
+  telemetry: TELEMETRY,
+  span: "GetTransitGatewayPeering",
 }));
 
 export type GetTransitGatewayRegistrationsError =
@@ -4011,7 +4151,7 @@ export type GetTransitGatewayRegistrationsError =
  * global network.
  */
 export const getTransitGatewayRegistrations: API.PaginatedOperationMethod<
-  GetTransitGatewayRegistrationsRequest,
+  GetTransitGatewayRegistrationsRequest & RegionInput,
   GetTransitGatewayRegistrationsResponse,
   GetTransitGatewayRegistrationsError,
   Credentials | HttpClient.HttpClient,
@@ -4035,6 +4175,8 @@ export const getTransitGatewayRegistrations: API.PaginatedOperationMethod<
     items: "TransitGatewayRegistrations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTransitGatewayRegistrations",
 })) as any;
 
 export type GetTransitGatewayRouteTableAttachmentError =
@@ -4048,7 +4190,7 @@ export type GetTransitGatewayRouteTableAttachmentError =
  * Returns information about a transit gateway route table attachment.
  */
 export const getTransitGatewayRouteTableAttachment: API.OperationMethod<
-  GetTransitGatewayRouteTableAttachmentRequest,
+  GetTransitGatewayRouteTableAttachmentRequest & RegionInput,
   GetTransitGatewayRouteTableAttachmentResponse,
   GetTransitGatewayRouteTableAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4065,6 +4207,8 @@ export const getTransitGatewayRouteTableAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransitGatewayRouteTableAttachment",
+  telemetry: TELEMETRY,
+  span: "GetTransitGatewayRouteTableAttachment",
 }));
 
 export type GetVpcAttachmentError =
@@ -4078,7 +4222,7 @@ export type GetVpcAttachmentError =
  * Returns information about a VPC attachment.
  */
 export const getVpcAttachment: API.OperationMethod<
-  GetVpcAttachmentRequest,
+  GetVpcAttachmentRequest & RegionInput,
   GetVpcAttachmentResponse,
   GetVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4095,6 +4239,8 @@ export const getVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcAttachment",
+  telemetry: TELEMETRY,
+  span: "GetVpcAttachment",
 }));
 
 export type ListAttachmentRoutingPolicyAssociationsError =
@@ -4108,7 +4254,7 @@ export type ListAttachmentRoutingPolicyAssociationsError =
  * Lists the routing policy associations for attachments in a core network.
  */
 export const listAttachmentRoutingPolicyAssociations: API.PaginatedOperationMethod<
-  ListAttachmentRoutingPolicyAssociationsRequest,
+  ListAttachmentRoutingPolicyAssociationsRequest & RegionInput,
   ListAttachmentRoutingPolicyAssociationsResponse,
   ListAttachmentRoutingPolicyAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4132,6 +4278,8 @@ export const listAttachmentRoutingPolicyAssociations: API.PaginatedOperationMeth
     items: "AttachmentRoutingPolicyAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachmentRoutingPolicyAssociations",
 })) as any;
 
 export type ListAttachmentsError =
@@ -4144,7 +4292,7 @@ export type ListAttachmentsError =
  * Returns a list of core network attachments.
  */
 export const listAttachments: API.PaginatedOperationMethod<
-  ListAttachmentsRequest,
+  ListAttachmentsRequest & RegionInput,
   ListAttachmentsResponse,
   ListAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -4167,6 +4315,8 @@ export const listAttachments: API.PaginatedOperationMethod<
     items: "Attachments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachments",
 })) as any;
 
 export type ListConnectPeersError =
@@ -4179,7 +4329,7 @@ export type ListConnectPeersError =
  * Returns a list of core network Connect peers.
  */
 export const listConnectPeers: API.PaginatedOperationMethod<
-  ListConnectPeersRequest,
+  ListConnectPeersRequest & RegionInput,
   ListConnectPeersResponse,
   ListConnectPeersError,
   Credentials | HttpClient.HttpClient,
@@ -4202,6 +4352,8 @@ export const listConnectPeers: API.PaginatedOperationMethod<
     items: "ConnectPeers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectPeers",
 })) as any;
 
 export type ListCoreNetworkPolicyVersionsError =
@@ -4215,7 +4367,7 @@ export type ListCoreNetworkPolicyVersionsError =
  * Returns a list of core network policy versions.
  */
 export const listCoreNetworkPolicyVersions: API.PaginatedOperationMethod<
-  ListCoreNetworkPolicyVersionsRequest,
+  ListCoreNetworkPolicyVersionsRequest & RegionInput,
   ListCoreNetworkPolicyVersionsResponse,
   ListCoreNetworkPolicyVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4239,6 +4391,8 @@ export const listCoreNetworkPolicyVersions: API.PaginatedOperationMethod<
     items: "CoreNetworkPolicyVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreNetworkPolicyVersions",
 })) as any;
 
 export type ListCoreNetworkPrefixListAssociationsError =
@@ -4252,7 +4406,7 @@ export type ListCoreNetworkPrefixListAssociationsError =
  * Lists the prefix list associations for a core network.
  */
 export const listCoreNetworkPrefixListAssociations: API.PaginatedOperationMethod<
-  ListCoreNetworkPrefixListAssociationsRequest,
+  ListCoreNetworkPrefixListAssociationsRequest & RegionInput,
   ListCoreNetworkPrefixListAssociationsResponse,
   ListCoreNetworkPrefixListAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4276,6 +4430,8 @@ export const listCoreNetworkPrefixListAssociations: API.PaginatedOperationMethod
     items: "PrefixListAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreNetworkPrefixListAssociations",
 })) as any;
 
 export type ListCoreNetworkRoutingInformationError =
@@ -4289,7 +4445,7 @@ export type ListCoreNetworkRoutingInformationError =
  * Lists routing information for a core network, including routes and their attributes.
  */
 export const listCoreNetworkRoutingInformation: API.PaginatedOperationMethod<
-  ListCoreNetworkRoutingInformationRequest,
+  ListCoreNetworkRoutingInformationRequest & RegionInput,
   ListCoreNetworkRoutingInformationResponse,
   ListCoreNetworkRoutingInformationError,
   Credentials | HttpClient.HttpClient,
@@ -4313,6 +4469,8 @@ export const listCoreNetworkRoutingInformation: API.PaginatedOperationMethod<
     items: "CoreNetworkRoutingInformation",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreNetworkRoutingInformation",
 })) as any;
 
 export type ListCoreNetworksError =
@@ -4325,7 +4483,7 @@ export type ListCoreNetworksError =
  * Returns a list of owned and shared core networks.
  */
 export const listCoreNetworks: API.PaginatedOperationMethod<
-  ListCoreNetworksRequest,
+  ListCoreNetworksRequest & RegionInput,
   ListCoreNetworksResponse,
   ListCoreNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -4348,6 +4506,8 @@ export const listCoreNetworks: API.PaginatedOperationMethod<
     items: "CoreNetworks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreNetworks",
 })) as any;
 
 export type ListOrganizationServiceAccessStatusError = CommonErrors;
@@ -4355,7 +4515,7 @@ export type ListOrganizationServiceAccessStatusError = CommonErrors;
  * Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
  */
 export const listOrganizationServiceAccessStatus: API.OperationMethod<
-  ListOrganizationServiceAccessStatusRequest,
+  ListOrganizationServiceAccessStatusRequest & RegionInput,
   ListOrganizationServiceAccessStatusResponse,
   ListOrganizationServiceAccessStatusError,
   Credentials | HttpClient.HttpClient
@@ -4366,6 +4526,8 @@ export const listOrganizationServiceAccessStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationServiceAccessStatus",
+  telemetry: TELEMETRY,
+  span: "ListOrganizationServiceAccessStatus",
 }));
 
 export type ListPeeringsError =
@@ -4378,7 +4540,7 @@ export type ListPeeringsError =
  * Lists the peerings for a core network.
  */
 export const listPeerings: API.PaginatedOperationMethod<
-  ListPeeringsRequest,
+  ListPeeringsRequest & RegionInput,
   ListPeeringsResponse,
   ListPeeringsError,
   Credentials | HttpClient.HttpClient,
@@ -4401,6 +4563,8 @@ export const listPeerings: API.PaginatedOperationMethod<
     items: "Peerings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPeerings",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4414,7 +4578,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4431,6 +4595,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAttachmentRoutingPolicyLabelError =
@@ -4446,7 +4612,7 @@ export type PutAttachmentRoutingPolicyLabelError =
  * Applies a routing policy label to an attachment for traffic routing decisions.
  */
 export const putAttachmentRoutingPolicyLabel: API.OperationMethod<
-  PutAttachmentRoutingPolicyLabelRequest,
+  PutAttachmentRoutingPolicyLabelRequest & RegionInput,
   PutAttachmentRoutingPolicyLabelResponse,
   PutAttachmentRoutingPolicyLabelError,
   Credentials | HttpClient.HttpClient
@@ -4465,6 +4631,8 @@ export const putAttachmentRoutingPolicyLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttachmentRoutingPolicyLabel",
+  telemetry: TELEMETRY,
+  span: "PutAttachmentRoutingPolicyLabel",
 }));
 
 export type PutCoreNetworkPolicyError =
@@ -4480,7 +4648,7 @@ export type PutCoreNetworkPolicyError =
  * Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
  */
 export const putCoreNetworkPolicy: API.OperationMethod<
-  PutCoreNetworkPolicyRequest,
+  PutCoreNetworkPolicyRequest & RegionInput,
   PutCoreNetworkPolicyResponse,
   PutCoreNetworkPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4499,6 +4667,8 @@ export const putCoreNetworkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCoreNetworkPolicy",
+  telemetry: TELEMETRY,
+  span: "PutCoreNetworkPolicy",
 }));
 
 export type PutResourcePolicyError =
@@ -4513,7 +4683,7 @@ export type PutResourcePolicyError =
  * Creates or updates a resource policy.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4531,6 +4701,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterTransitGatewayError =
@@ -4549,7 +4721,7 @@ export type RegisterTransitGatewayError =
  * network. You cannot register a transit gateway in more than one global network.
  */
 export const registerTransitGateway: API.OperationMethod<
-  RegisterTransitGatewayRequest,
+  RegisterTransitGatewayRequest & RegionInput,
   RegisterTransitGatewayResponse,
   RegisterTransitGatewayError,
   Credentials | HttpClient.HttpClient
@@ -4567,6 +4739,8 @@ export const registerTransitGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTransitGateway",
+  telemetry: TELEMETRY,
+  span: "RegisterTransitGateway",
 }));
 
 export type RejectAttachmentError =
@@ -4581,7 +4755,7 @@ export type RejectAttachmentError =
  * Rejects a core network attachment request.
  */
 export const rejectAttachment: API.OperationMethod<
-  RejectAttachmentRequest,
+  RejectAttachmentRequest & RegionInput,
   RejectAttachmentResponse,
   RejectAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4599,6 +4773,8 @@ export const rejectAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAttachment",
+  telemetry: TELEMETRY,
+  span: "RejectAttachment",
 }));
 
 export type RemoveAttachmentRoutingPolicyLabelError =
@@ -4614,7 +4790,7 @@ export type RemoveAttachmentRoutingPolicyLabelError =
  * Removes a routing policy label from an attachment.
  */
 export const removeAttachmentRoutingPolicyLabel: API.OperationMethod<
-  RemoveAttachmentRoutingPolicyLabelRequest,
+  RemoveAttachmentRoutingPolicyLabelRequest & RegionInput,
   RemoveAttachmentRoutingPolicyLabelResponse,
   RemoveAttachmentRoutingPolicyLabelError,
   Credentials | HttpClient.HttpClient
@@ -4633,6 +4809,8 @@ export const removeAttachmentRoutingPolicyLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAttachmentRoutingPolicyLabel",
+  telemetry: TELEMETRY,
+  span: "RemoveAttachmentRoutingPolicyLabel",
 }));
 
 export type RestoreCoreNetworkPolicyVersionError =
@@ -4647,7 +4825,7 @@ export type RestoreCoreNetworkPolicyVersionError =
  * Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
  */
 export const restoreCoreNetworkPolicyVersion: API.OperationMethod<
-  RestoreCoreNetworkPolicyVersionRequest,
+  RestoreCoreNetworkPolicyVersionRequest & RegionInput,
   RestoreCoreNetworkPolicyVersionResponse,
   RestoreCoreNetworkPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -4665,6 +4843,8 @@ export const restoreCoreNetworkPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreCoreNetworkPolicyVersion",
+  telemetry: TELEMETRY,
+  span: "RestoreCoreNetworkPolicyVersion",
 }));
 
 export type StartOrganizationServiceAccessUpdateError =
@@ -4679,7 +4859,7 @@ export type StartOrganizationServiceAccessUpdateError =
  * Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
  */
 export const startOrganizationServiceAccessUpdate: API.OperationMethod<
-  StartOrganizationServiceAccessUpdateRequest,
+  StartOrganizationServiceAccessUpdateRequest & RegionInput,
   StartOrganizationServiceAccessUpdateResponse,
   StartOrganizationServiceAccessUpdateError,
   Credentials | HttpClient.HttpClient
@@ -4697,6 +4877,8 @@ export const startOrganizationServiceAccessUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOrganizationServiceAccessUpdate",
+  telemetry: TELEMETRY,
+  span: "StartOrganizationServiceAccessUpdate",
 }));
 
 export type StartRouteAnalysisError =
@@ -4712,7 +4894,7 @@ export type StartRouteAnalysisError =
  * see Route Analyzer.
  */
 export const startRouteAnalysis: API.OperationMethod<
-  StartRouteAnalysisRequest,
+  StartRouteAnalysisRequest & RegionInput,
   StartRouteAnalysisResponse,
   StartRouteAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -4730,6 +4912,8 @@ export const startRouteAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouteAnalysis",
+  telemetry: TELEMETRY,
+  span: "StartRouteAnalysis",
 }));
 
 export type TagResourceError =
@@ -4745,7 +4929,7 @@ export type TagResourceError =
  * Tags a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4764,6 +4948,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4778,7 +4964,7 @@ export type UntagResourceError =
  * Removes tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4796,6 +4982,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectionError =
@@ -4811,7 +4999,7 @@ export type UpdateConnectionError =
  * specify an empty string.
  */
 export const updateConnection: API.OperationMethod<
-  UpdateConnectionRequest,
+  UpdateConnectionRequest & RegionInput,
   UpdateConnectionResponse,
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -4829,6 +5017,8 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateConnection",
 }));
 
 export type UpdateCoreNetworkError =
@@ -4843,7 +5033,7 @@ export type UpdateCoreNetworkError =
  * Updates the description of a core network.
  */
 export const updateCoreNetwork: API.OperationMethod<
-  UpdateCoreNetworkRequest,
+  UpdateCoreNetworkRequest & RegionInput,
   UpdateCoreNetworkResponse,
   UpdateCoreNetworkError,
   Credentials | HttpClient.HttpClient
@@ -4861,6 +5051,8 @@ export const updateCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCoreNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateCoreNetwork",
 }));
 
 export type UpdateDeviceError =
@@ -4876,7 +5068,7 @@ export type UpdateDeviceError =
  * parameters, specify an empty string.
  */
 export const updateDevice: API.OperationMethod<
-  UpdateDeviceRequest,
+  UpdateDeviceRequest & RegionInput,
   UpdateDeviceResponse,
   UpdateDeviceError,
   Credentials | HttpClient.HttpClient
@@ -4894,6 +5086,8 @@ export const updateDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevice",
+  telemetry: TELEMETRY,
+  span: "UpdateDevice",
 }));
 
 export type UpdateDirectConnectGatewayAttachmentError =
@@ -4908,7 +5102,7 @@ export type UpdateDirectConnectGatewayAttachmentError =
  * Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment.
  */
 export const updateDirectConnectGatewayAttachment: API.OperationMethod<
-  UpdateDirectConnectGatewayAttachmentRequest,
+  UpdateDirectConnectGatewayAttachmentRequest & RegionInput,
   UpdateDirectConnectGatewayAttachmentResponse,
   UpdateDirectConnectGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4926,6 +5120,8 @@ export const updateDirectConnectGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectConnectGatewayAttachment",
+  telemetry: TELEMETRY,
+  span: "UpdateDirectConnectGatewayAttachment",
 }));
 
 export type UpdateGlobalNetworkError =
@@ -4941,7 +5137,7 @@ export type UpdateGlobalNetworkError =
  * specify an empty string.
  */
 export const updateGlobalNetwork: API.OperationMethod<
-  UpdateGlobalNetworkRequest,
+  UpdateGlobalNetworkRequest & RegionInput,
   UpdateGlobalNetworkResponse,
   UpdateGlobalNetworkError,
   Credentials | HttpClient.HttpClient
@@ -4959,6 +5155,8 @@ export const updateGlobalNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalNetwork",
 }));
 
 export type UpdateLinkError =
@@ -4975,7 +5173,7 @@ export type UpdateLinkError =
  * parameters, specify an empty string.
  */
 export const updateLink: API.OperationMethod<
-  UpdateLinkRequest,
+  UpdateLinkRequest & RegionInput,
   UpdateLinkResponse,
   UpdateLinkError,
   Credentials | HttpClient.HttpClient
@@ -4994,6 +5192,8 @@ export const updateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLink",
+  telemetry: TELEMETRY,
+  span: "UpdateLink",
 }));
 
 export type UpdateNetworkResourceMetadataError =
@@ -5008,7 +5208,7 @@ export type UpdateNetworkResourceMetadataError =
  * Updates the resource metadata for the specified global network.
  */
 export const updateNetworkResourceMetadata: API.OperationMethod<
-  UpdateNetworkResourceMetadataRequest,
+  UpdateNetworkResourceMetadataRequest & RegionInput,
   UpdateNetworkResourceMetadataResponse,
   UpdateNetworkResourceMetadataError,
   Credentials | HttpClient.HttpClient
@@ -5026,6 +5226,8 @@ export const updateNetworkResourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkResourceMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkResourceMetadata",
 }));
 
 export type UpdateSiteError =
@@ -5041,7 +5243,7 @@ export type UpdateSiteError =
  * parameters, specify an empty string.
  */
 export const updateSite: API.OperationMethod<
-  UpdateSiteRequest,
+  UpdateSiteRequest & RegionInput,
   UpdateSiteResponse,
   UpdateSiteError,
   Credentials | HttpClient.HttpClient
@@ -5059,6 +5261,8 @@ export const updateSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSite",
+  telemetry: TELEMETRY,
+  span: "UpdateSite",
 }));
 
 export type UpdateVpcAttachmentError =
@@ -5073,7 +5277,7 @@ export type UpdateVpcAttachmentError =
  * Updates a VPC attachment.
  */
 export const updateVpcAttachment: API.OperationMethod<
-  UpdateVpcAttachmentRequest,
+  UpdateVpcAttachmentRequest & RegionInput,
   UpdateVpcAttachmentResponse,
   UpdateVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -5091,6 +5295,8 @@ export const updateVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcAttachment",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcAttachment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

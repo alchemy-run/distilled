@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoAdmin",
+  labels: "forgejo",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -910,6 +923,8 @@ export const adminAddRuleToQuotaGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminAddRuleToQuotaGroup",
 }));
 
 export type AdminAddUserToQuotaGroupError =
@@ -931,6 +946,8 @@ export const adminAddUserToQuotaGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminAddUserToQuotaGroup",
 }));
 
 export type AdminAdoptRepositoryError = Forbidden | NotFound | ForgejoOpError;
@@ -946,6 +963,8 @@ export const adminAdoptRepository: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminAdoptRepository",
 }));
 
 export type AdminCreateHookError = ForgejoOpError;
@@ -961,6 +980,8 @@ export const adminCreateHook: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminCreateHook",
 }));
 
 export type AdminCreateOrgError = Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -976,6 +997,8 @@ export const adminCreateOrg: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminCreateOrg",
 }));
 
 export type AdminCreatePublicKeyError = Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -991,6 +1014,8 @@ export const adminCreatePublicKey: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminCreatePublicKey",
 }));
 
 export type AdminCreateQuotaGroupError =
@@ -1011,6 +1036,8 @@ export const adminCreateQuotaGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminCreateQuotaGroup",
 }));
 
 export type AdminCreateQuotaRuleError =
@@ -1031,6 +1058,8 @@ export const adminCreateQuotaRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminCreateQuotaRule",
 }));
 
 export type AdminCreateRepoError =
@@ -1052,6 +1081,8 @@ export const adminCreateRepo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminCreateRepo",
 }));
 
 export type AdminCreateUserError = BadRequest | Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -1067,6 +1098,8 @@ export const adminCreateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminCreateUser",
 }));
 
 export type AdminCreateUserAccessTokenError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1082,6 +1115,8 @@ export const adminCreateUserAccessToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminCreateUserAccessToken",
 }));
 
 export type AdminDeleteHookError = ForgejoOpError;
@@ -1097,6 +1132,8 @@ export const adminDeleteHook: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDeleteHook",
 }));
 
 export type AdminDeleteQuotaGroupError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1112,6 +1149,8 @@ export const adminDeleteQuotaGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDeleteQuotaGroup",
 }));
 
 export type AdminDeleteQuotaRuleError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1127,6 +1166,8 @@ export const adminDeleteQuotaRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDeleteQuotaRule",
 }));
 
 export type AdminDeleteUnadoptedRepositoryError = Forbidden | ForgejoOpError;
@@ -1142,6 +1183,8 @@ export const adminDeleteUnadoptedRepository: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUnadoptedRepository",
 }));
 
 export type AdminDeleteUserError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1157,6 +1200,8 @@ export const adminDeleteUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUser",
 }));
 
 export type AdminDeleteUserAccessTokenError =
@@ -1176,6 +1221,8 @@ export const adminDeleteUserAccessToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUserAccessToken",
 }));
 
 export type AdminDeleteUserEmailsError = Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -1191,6 +1238,8 @@ export const adminDeleteUserEmails: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUserEmails",
 }));
 
 export type AdminDeleteUserPublicKeyError = Forbidden | NotFound | ForgejoOpError;
@@ -1206,6 +1255,8 @@ export const adminDeleteUserPublicKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUserPublicKey",
 }));
 
 export type AdminEditHookError = ForgejoOpError;
@@ -1221,6 +1272,8 @@ export const adminEditHook: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminEditHook",
 }));
 
 export type AdminEditQuotaRuleError =
@@ -1241,6 +1294,8 @@ export const adminEditQuotaRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminEditQuotaRule",
 }));
 
 export type AdminEditUserError = BadRequest | Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -1256,6 +1311,8 @@ export const adminEditUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminEditUser",
 }));
 
 export type AdminGetActionRunJobsError = Forbidden | ForgejoOpError;
@@ -1271,6 +1328,8 @@ export const adminGetActionRunJobs: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetActionRunJobs",
 }));
 
 export type AdminGetAllEmailsError = Forbidden | ForgejoOpError;
@@ -1286,6 +1345,8 @@ export const adminGetAllEmails: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetAllEmails",
 }));
 
 export type AdminGetAllOrgsError = Forbidden | ForgejoOpError;
@@ -1301,6 +1362,8 @@ export const adminGetAllOrgs: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetAllOrgs",
 }));
 
 export type AdminGetHookError = ForgejoOpError;
@@ -1316,6 +1379,8 @@ export const adminGetHook: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetHook",
 }));
 
 export type AdminGetQuotaGroupError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1331,6 +1396,8 @@ export const adminGetQuotaGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetQuotaGroup",
 }));
 
 export type AdminGetQuotaRuleError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1346,6 +1413,8 @@ export const adminGetQuotaRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetQuotaRule",
 }));
 
 export type AdminGetUserQuotaError =
@@ -1366,6 +1435,8 @@ export const adminGetUserQuota: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetUserQuota",
 }));
 
 export type AdminListHooksError = ForgejoOpError;
@@ -1381,6 +1452,8 @@ export const adminListHooks: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminListHooks",
 }));
 
 export type AdminListQuotaGroupsError = Forbidden | ForgejoOpError;
@@ -1396,6 +1469,8 @@ export const adminListQuotaGroups: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminListQuotaGroups",
 }));
 
 export type AdminListQuotaRulesError = Forbidden | ForgejoOpError;
@@ -1411,6 +1486,8 @@ export const adminListQuotaRules: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminListQuotaRules",
 }));
 
 export type AdminListUserAccessTokensError = Forbidden | NotFound | ForgejoOpError;
@@ -1426,6 +1503,8 @@ export const adminListUserAccessTokens: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminListUserAccessTokens",
 }));
 
 export type AdminListUserEmailsError = Forbidden | NotFound | ForgejoOpError;
@@ -1441,6 +1520,8 @@ export const adminListUserEmails: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminListUserEmails",
 }));
 
 export type AdminListUsersInQuotaGroupError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1456,6 +1537,8 @@ export const adminListUsersInQuotaGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminListUsersInQuotaGroup",
 }));
 
 export type AdminRemoveRuleFromQuotaGroupError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1471,6 +1554,8 @@ export const adminRemoveRuleFromQuotaGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminRemoveRuleFromQuotaGroup",
 }));
 
 export type AdminRemoveUserFromQuotaGroupError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1486,6 +1571,8 @@ export const adminRemoveUserFromQuotaGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminRemoveUserFromQuotaGroup",
 }));
 
 export type AdminRenameUserError = Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -1501,6 +1588,8 @@ export const adminRenameUser: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminRenameUser",
 }));
 
 export type AdminSearchEmailsError = Forbidden | ForgejoOpError;
@@ -1516,6 +1605,8 @@ export const adminSearchEmails: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminSearchEmails",
 }));
 
 export type AdminSearchUsersError = Forbidden | ForgejoOpError;
@@ -1531,6 +1622,8 @@ export const adminSearchUsers: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminSearchUsers",
 }));
 
 export type AdminSetUserQuotaGroupsError =
@@ -1551,6 +1644,8 @@ export const adminSetUserQuotaGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminSetUserQuotaGroups",
 }));
 
 export type DeleteAdminRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -1566,6 +1661,8 @@ export const deleteAdminRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdminRunner",
 }));
 
 export type GetAdminRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -1581,6 +1678,8 @@ export const getAdminRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdminRunner",
 }));
 
 export type GetAdminRunnersError = BadRequest | NotFound | ForgejoOpError;
@@ -1596,6 +1695,8 @@ export const getAdminRunners: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdminRunners",
 }));
 
 export type ListAdminCronError = Forbidden | ForgejoOpError;
@@ -1611,6 +1712,8 @@ export const listAdminCron: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdminCron",
 }));
 
 export type ListAdminUnadoptedError = Forbidden | ForgejoOpError;
@@ -1626,6 +1729,8 @@ export const listAdminUnadopted: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdminUnadopted",
 }));
 
 export type RegisterAdminRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -1641,6 +1746,8 @@ export const registerAdminRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterAdminRunner",
 }));
 
 export type RunAdminCronError = NotFound | ForgejoOpError;
@@ -1656,6 +1763,8 @@ export const runAdminCron: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunAdminCron",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

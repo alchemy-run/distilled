@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://verifiedpermissions.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "VerifiedPermissions",
+  service: "VerifiedPermissions",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1215,7 +1232,7 @@ export type BatchGetPolicyError = ValidationException | CommonErrors;
  * The `BatchGetPolicy` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `verifiedpermissions:GetPolicy` in their IAM policies.
  */
 export const batchGetPolicy: API.OperationMethod<
-  BatchGetPolicyInput,
+  BatchGetPolicyInput & RegionInput,
   BatchGetPolicyOutput,
   BatchGetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1226,6 +1243,8 @@ export const batchGetPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPolicy",
+  telemetry: TELEMETRY,
+  span: "BatchGetPolicy",
 }));
 
 export type BatchIsAuthorizedError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1239,7 +1258,7 @@ export type BatchIsAuthorizedError = ResourceNotFoundException | ValidationExcep
  * The `BatchIsAuthorized` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `verifiedpermissions:IsAuthorized` in their IAM policies.
  */
 export const batchIsAuthorized: API.OperationMethod<
-  BatchIsAuthorizedInput,
+  BatchIsAuthorizedInput & RegionInput,
   BatchIsAuthorizedOutput,
   BatchIsAuthorizedError,
   Credentials | HttpClient.HttpClient
@@ -1250,6 +1269,8 @@ export const batchIsAuthorized: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorized",
+  telemetry: TELEMETRY,
+  span: "BatchIsAuthorized",
 }));
 
 export type BatchIsAuthorizedWithTokenError =
@@ -1266,7 +1287,7 @@ export type BatchIsAuthorizedWithTokenError =
  * The `BatchIsAuthorizedWithToken` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `verifiedpermissions:IsAuthorizedWithToken` in their IAM policies.
  */
 export const batchIsAuthorizedWithToken: API.OperationMethod<
-  BatchIsAuthorizedWithTokenInput,
+  BatchIsAuthorizedWithTokenInput & RegionInput,
   BatchIsAuthorizedWithTokenOutput,
   BatchIsAuthorizedWithTokenError,
   Credentials | HttpClient.HttpClient
@@ -1277,6 +1298,8 @@ export const batchIsAuthorizedWithToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorizedWithToken",
+  telemetry: TELEMETRY,
+  span: "BatchIsAuthorizedWithToken",
 }));
 
 export type CreateIdentitySourceError =
@@ -1301,7 +1324,7 @@ export type CreateIdentitySourceError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const createIdentitySource: API.OperationMethod<
-  CreateIdentitySourceInput,
+  CreateIdentitySourceInput & RegionInput,
   CreateIdentitySourceOutput,
   CreateIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -1317,6 +1340,8 @@ export const createIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentitySource",
+  telemetry: TELEMETRY,
+  span: "CreateIdentitySource",
 }));
 
 export type CreatePolicyError =
@@ -1337,7 +1362,7 @@ export type CreatePolicyError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyInput,
+  CreatePolicyInput & RegionInput,
   CreatePolicyOutput,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1353,6 +1378,8 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type CreatePolicyStoreError =
@@ -1368,7 +1395,7 @@ export type CreatePolicyStoreError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const createPolicyStore: API.OperationMethod<
-  CreatePolicyStoreInput,
+  CreatePolicyStoreInput & RegionInput,
   CreatePolicyStoreOutput,
   CreatePolicyStoreError,
   Credentials | HttpClient.HttpClient
@@ -1379,6 +1406,8 @@ export const createPolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStore",
+  telemetry: TELEMETRY,
+  span: "CreatePolicyStore",
 }));
 
 export type CreatePolicyStoreAliasError =
@@ -1395,7 +1424,7 @@ export type CreatePolicyStoreAliasError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const createPolicyStoreAlias: API.OperationMethod<
-  CreatePolicyStoreAliasInput,
+  CreatePolicyStoreAliasInput & RegionInput,
   CreatePolicyStoreAliasOutput,
   CreatePolicyStoreAliasError,
   Credentials | HttpClient.HttpClient
@@ -1411,6 +1440,8 @@ export const createPolicyStoreAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStoreAlias",
+  telemetry: TELEMETRY,
+  span: "CreatePolicyStoreAlias",
 }));
 
 export type CreatePolicyTemplateError =
@@ -1425,7 +1456,7 @@ export type CreatePolicyTemplateError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const createPolicyTemplate: API.OperationMethod<
-  CreatePolicyTemplateInput,
+  CreatePolicyTemplateInput & RegionInput,
   CreatePolicyTemplateOutput,
   CreatePolicyTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1441,6 +1472,8 @@ export const createPolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyTemplate",
+  telemetry: TELEMETRY,
+  span: "CreatePolicyTemplate",
 }));
 
 export type DeleteIdentitySourceError =
@@ -1451,7 +1484,7 @@ export type DeleteIdentitySourceError =
  * Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using IsAuthorizedWithToken. operations.
  */
 export const deleteIdentitySource: API.OperationMethod<
-  DeleteIdentitySourceInput,
+  DeleteIdentitySourceInput & RegionInput,
   DeleteIdentitySourceOutput,
   DeleteIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -1462,6 +1495,8 @@ export const deleteIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentitySource",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentitySource",
 }));
 
 export type DeletePolicyError = ConflictException | ResourceNotFoundException | CommonErrors;
@@ -1471,7 +1506,7 @@ export type DeletePolicyError = ConflictException | ResourceNotFoundException | 
  * This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful `HTTP 200` status code.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyInput,
+  DeletePolicyInput & RegionInput,
   DeletePolicyOutput,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1482,6 +1517,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeletePolicyStoreError = InvalidStateException | CommonErrors;
@@ -1491,7 +1528,7 @@ export type DeletePolicyStoreError = InvalidStateException | CommonErrors;
  * This operation is idempotent. If you specify a policy store that does not exist, the request response will still return a successful HTTP 200 status code.
  */
 export const deletePolicyStore: API.OperationMethod<
-  DeletePolicyStoreInput,
+  DeletePolicyStoreInput & RegionInput,
   DeletePolicyStoreOutput,
   DeletePolicyStoreError,
   Credentials | HttpClient.HttpClient
@@ -1502,6 +1539,8 @@ export const deletePolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStore",
+  telemetry: TELEMETRY,
+  span: "DeletePolicyStore",
 }));
 
 export type DeletePolicyStoreAliasError =
@@ -1521,7 +1560,7 @@ export type DeletePolicyStoreAliasError =
  * Verified Permissions is eventually consistent. If you hard delete a policy store alias and then immediately recreate it to be associated with a different policy store, requests that reference this alias may continue to be evaluated against the previously associated policy store for a short period of time.
  */
 export const deletePolicyStoreAlias: API.OperationMethod<
-  DeletePolicyStoreAliasInput,
+  DeletePolicyStoreAliasInput & RegionInput,
   DeletePolicyStoreAliasOutput,
   DeletePolicyStoreAliasError,
   Credentials | HttpClient.HttpClient
@@ -1532,6 +1571,8 @@ export const deletePolicyStoreAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStoreAlias",
+  telemetry: TELEMETRY,
+  span: "DeletePolicyStoreAlias",
 }));
 
 export type DeletePolicyTemplateError =
@@ -1544,7 +1585,7 @@ export type DeletePolicyTemplateError =
  * This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store.
  */
 export const deletePolicyTemplate: API.OperationMethod<
-  DeletePolicyTemplateInput,
+  DeletePolicyTemplateInput & RegionInput,
   DeletePolicyTemplateOutput,
   DeletePolicyTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1555,6 +1596,8 @@ export const deletePolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyTemplate",
+  telemetry: TELEMETRY,
+  span: "DeletePolicyTemplate",
 }));
 
 export type GetIdentitySourceError = ResourceNotFoundException | CommonErrors;
@@ -1562,7 +1605,7 @@ export type GetIdentitySourceError = ResourceNotFoundException | CommonErrors;
  * Retrieves the details about the specified identity source.
  */
 export const getIdentitySource: API.OperationMethod<
-  GetIdentitySourceInput,
+  GetIdentitySourceInput & RegionInput,
   GetIdentitySourceOutput,
   GetIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -1573,6 +1616,8 @@ export const getIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentitySource",
+  telemetry: TELEMETRY,
+  span: "GetIdentitySource",
 }));
 
 export type GetPolicyError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1580,7 +1625,7 @@ export type GetPolicyError = ResourceNotFoundException | ValidationException | C
  * Retrieves information about the specified policy.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyInput,
+  GetPolicyInput & RegionInput,
   GetPolicyOutput,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1591,6 +1636,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetPolicyStoreError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1598,7 +1645,7 @@ export type GetPolicyStoreError = ResourceNotFoundException | ValidationExceptio
  * Retrieves details about a policy store.
  */
 export const getPolicyStore: API.OperationMethod<
-  GetPolicyStoreInput,
+  GetPolicyStoreInput & RegionInput,
   GetPolicyStoreOutput,
   GetPolicyStoreError,
   Credentials | HttpClient.HttpClient
@@ -1609,6 +1656,8 @@ export const getPolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStore",
+  telemetry: TELEMETRY,
+  span: "GetPolicyStore",
 }));
 
 export type GetPolicyStoreAliasError = ResourceNotFoundException | CommonErrors;
@@ -1616,7 +1665,7 @@ export type GetPolicyStoreAliasError = ResourceNotFoundException | CommonErrors;
  * Retrieves details about the specified policy store alias.
  */
 export const getPolicyStoreAlias: API.OperationMethod<
-  GetPolicyStoreAliasInput,
+  GetPolicyStoreAliasInput & RegionInput,
   GetPolicyStoreAliasOutput,
   GetPolicyStoreAliasError,
   Credentials | HttpClient.HttpClient
@@ -1627,6 +1676,8 @@ export const getPolicyStoreAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStoreAlias",
+  telemetry: TELEMETRY,
+  span: "GetPolicyStoreAlias",
 }));
 
 export type GetPolicyTemplateError = ResourceNotFoundException | CommonErrors;
@@ -1634,7 +1685,7 @@ export type GetPolicyTemplateError = ResourceNotFoundException | CommonErrors;
  * Retrieve the details for the specified policy template in the specified policy store.
  */
 export const getPolicyTemplate: API.OperationMethod<
-  GetPolicyTemplateInput,
+  GetPolicyTemplateInput & RegionInput,
   GetPolicyTemplateOutput,
   GetPolicyTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1645,6 +1696,8 @@ export const getPolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyTemplate",
+  telemetry: TELEMETRY,
+  span: "GetPolicyTemplate",
 }));
 
 export type GetSchemaError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1652,7 +1705,7 @@ export type GetSchemaError = ResourceNotFoundException | ValidationException | C
  * Retrieve the details for the specified schema in the specified policy store.
  */
 export const getSchema: API.OperationMethod<
-  GetSchemaInput,
+  GetSchemaInput & RegionInput,
   GetSchemaOutput,
   GetSchemaError,
   Credentials | HttpClient.HttpClient
@@ -1663,6 +1716,8 @@ export const getSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
+  telemetry: TELEMETRY,
+  span: "GetSchema",
 }));
 
 export type IsAuthorizedError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1670,7 +1725,7 @@ export type IsAuthorizedError = ResourceNotFoundException | ValidationException 
  * Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either `Allow` or `Deny`, along with a list of the policies that resulted in the decision.
  */
 export const isAuthorized: API.OperationMethod<
-  IsAuthorizedInput,
+  IsAuthorizedInput & RegionInput,
   IsAuthorizedOutput,
   IsAuthorizedError,
   Credentials | HttpClient.HttpClient
@@ -1681,6 +1736,8 @@ export const isAuthorized: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorized",
+  telemetry: TELEMETRY,
+  span: "IsAuthorized",
 }));
 
 export type IsAuthorizedWithTokenError =
@@ -1695,7 +1752,7 @@ export type IsAuthorizedWithTokenError =
  * Tokens from an identity source user continue to be usable until they expire. Token revocation and resource deletion have no effect on the validity of a token in your policy store
  */
 export const isAuthorizedWithToken: API.OperationMethod<
-  IsAuthorizedWithTokenInput,
+  IsAuthorizedWithTokenInput & RegionInput,
   IsAuthorizedWithTokenOutput,
   IsAuthorizedWithTokenError,
   Credentials | HttpClient.HttpClient
@@ -1706,6 +1763,8 @@ export const isAuthorizedWithToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorizedWithToken",
+  telemetry: TELEMETRY,
+  span: "IsAuthorizedWithToken",
 }));
 
 export type ListIdentitySourcesError = ResourceNotFoundException | CommonErrors;
@@ -1713,7 +1772,7 @@ export type ListIdentitySourcesError = ResourceNotFoundException | CommonErrors;
  * Returns a paginated list of all of the identity sources defined in the specified policy store.
  */
 export const listIdentitySources: API.PaginatedOperationMethod<
-  ListIdentitySourcesInput,
+  ListIdentitySourcesInput & RegionInput,
   ListIdentitySourcesOutput,
   ListIdentitySourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1731,6 +1790,8 @@ export const listIdentitySources: API.PaginatedOperationMethod<
     items: "identitySources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentitySources",
 })) as any;
 
 export type ListPoliciesError = ResourceNotFoundException | CommonErrors;
@@ -1738,7 +1799,7 @@ export type ListPoliciesError = ResourceNotFoundException | CommonErrors;
  * Returns a paginated list of all policies stored in the specified policy store.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesInput,
+  ListPoliciesInput & RegionInput,
   ListPoliciesOutput,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1756,6 +1817,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 })) as any;
 
 export type ListPolicyStoreAliasesError = CommonErrors;
@@ -1763,7 +1826,7 @@ export type ListPolicyStoreAliasesError = CommonErrors;
  * Returns a paginated list of all policy store aliases in the calling Amazon Web Services account.
  */
 export const listPolicyStoreAliases: API.PaginatedOperationMethod<
-  ListPolicyStoreAliasesInput,
+  ListPolicyStoreAliasesInput & RegionInput,
   ListPolicyStoreAliasesOutput,
   ListPolicyStoreAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -1781,6 +1844,8 @@ export const listPolicyStoreAliases: API.PaginatedOperationMethod<
     items: "policyStoreAliases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStoreAliases",
 })) as any;
 
 export type ListPolicyStoresError = CommonErrors;
@@ -1788,7 +1853,7 @@ export type ListPolicyStoresError = CommonErrors;
  * Returns a paginated list of all policy stores in the calling Amazon Web Services account.
  */
 export const listPolicyStores: API.PaginatedOperationMethod<
-  ListPolicyStoresInput,
+  ListPolicyStoresInput & RegionInput,
   ListPolicyStoresOutput,
   ListPolicyStoresError,
   Credentials | HttpClient.HttpClient,
@@ -1806,6 +1871,8 @@ export const listPolicyStores: API.PaginatedOperationMethod<
     items: "policyStores",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStores",
 })) as any;
 
 export type ListPolicyTemplatesError = ResourceNotFoundException | CommonErrors;
@@ -1813,7 +1880,7 @@ export type ListPolicyTemplatesError = ResourceNotFoundException | CommonErrors;
  * Returns a paginated list of all policy templates in the specified policy store.
  */
 export const listPolicyTemplates: API.PaginatedOperationMethod<
-  ListPolicyTemplatesInput,
+  ListPolicyTemplatesInput & RegionInput,
   ListPolicyTemplatesOutput,
   ListPolicyTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1831,6 +1898,8 @@ export const listPolicyTemplates: API.PaginatedOperationMethod<
     items: "policyTemplates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyTemplates",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1843,7 +1912,7 @@ export type ListTagsForResourceError =
  * Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1859,6 +1928,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutSchemaError =
@@ -1873,7 +1944,7 @@ export type PutSchemaError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const putSchema: API.OperationMethod<
-  PutSchemaInput,
+  PutSchemaInput & RegionInput,
   PutSchemaOutput,
   PutSchemaError,
   Credentials | HttpClient.HttpClient
@@ -1889,6 +1960,8 @@ export const putSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSchema",
+  telemetry: TELEMETRY,
+  span: "PutSchema",
 }));
 
 export type TagResourceError =
@@ -1908,7 +1981,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1925,6 +1998,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1937,7 +2012,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1953,6 +2028,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIdentitySourceError =
@@ -1966,7 +2043,7 @@ export type UpdateIdentitySourceError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const updateIdentitySource: API.OperationMethod<
-  UpdateIdentitySourceInput,
+  UpdateIdentitySourceInput & RegionInput,
   UpdateIdentitySourceOutput,
   UpdateIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -1977,6 +2054,8 @@ export const updateIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentitySource",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentitySource",
 }));
 
 export type UpdatePolicyError =
@@ -2011,7 +2090,7 @@ export type UpdatePolicyError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const updatePolicy: API.OperationMethod<
-  UpdatePolicyInput,
+  UpdatePolicyInput & RegionInput,
   UpdatePolicyOutput,
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2027,6 +2106,8 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdatePolicy",
 }));
 
 export type UpdatePolicyStoreError =
@@ -2040,7 +2121,7 @@ export type UpdatePolicyStoreError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const updatePolicyStore: API.OperationMethod<
-  UpdatePolicyStoreInput,
+  UpdatePolicyStoreInput & RegionInput,
   UpdatePolicyStoreOutput,
   UpdatePolicyStoreError,
   Credentials | HttpClient.HttpClient
@@ -2051,6 +2132,8 @@ export const updatePolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyStore",
+  telemetry: TELEMETRY,
+  span: "UpdatePolicyStore",
 }));
 
 export type UpdatePolicyTemplateError =
@@ -2066,7 +2149,7 @@ export type UpdatePolicyTemplateError =
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
 export const updatePolicyTemplate: API.OperationMethod<
-  UpdatePolicyTemplateInput,
+  UpdatePolicyTemplateInput & RegionInput,
   UpdatePolicyTemplateOutput,
   UpdatePolicyTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2077,6 +2160,8 @@ export const updatePolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdatePolicyTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

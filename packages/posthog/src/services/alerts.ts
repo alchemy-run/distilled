@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Alerts",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -744,6 +757,8 @@ export const alertsDestinationsDeleteCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AlertsDestinationsDeleteCreate",
 }));
 
 export type AlertsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -758,6 +773,8 @@ export const alertsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AlertsDestroy",
 }));
 
 export type CreateAlertError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -772,6 +789,8 @@ export const createAlert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlert",
 }));
 
 export type CreateAlertsDestinationError = PosthogOpError;
@@ -787,6 +806,8 @@ export const createAlertsDestination: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlertsDestination",
 }));
 
 export type CreateAlertsSimulateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -802,6 +823,8 @@ export const createAlertsSimulate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlertsSimulate",
 }));
 
 export type CreateAlertsTestDeliveryError = PosthogOpError;
@@ -817,6 +840,8 @@ export const createAlertsTestDelivery: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlertsTestDelivery",
 }));
 
 export type GetAlertError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -831,6 +856,8 @@ export const getAlert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlert",
 }));
 
 export type ListAlertsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -845,6 +872,8 @@ export const listAlerts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlerts",
 }));
 
 export type UpdateAlertError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -859,6 +888,8 @@ export const updateAlert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAlert",
 }));
 
 export type UpdateAlertsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -873,6 +904,8 @@ export const updateAlertsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAlertsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

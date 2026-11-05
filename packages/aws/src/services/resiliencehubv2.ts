@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://resiliencehub.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "resiliencehubv2",
+  service: "resiliencehubv2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2438,7 +2454,7 @@ export type CreateAssertionError =
  * Creates a resilience assertion for a service.
  */
 export const createAssertion: API.OperationMethod<
-  CreateAssertionRequest,
+  CreateAssertionRequest & RegionInput,
   CreateAssertionResponse,
   CreateAssertionError,
   Credentials | HttpClient.HttpClient
@@ -2456,6 +2472,8 @@ export const createAssertion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssertion",
+  telemetry: TELEMETRY,
+  span: "CreateAssertion",
 }));
 
 export type CreateInputSourceError =
@@ -2470,7 +2488,7 @@ export type CreateInputSourceError =
  * Creates an input source for a service.
  */
 export const createInputSource: API.OperationMethod<
-  CreateInputSourceRequest,
+  CreateInputSourceRequest & RegionInput,
   CreateInputSourceResponse,
   CreateInputSourceError,
   Credentials | HttpClient.HttpClient
@@ -2488,6 +2506,8 @@ export const createInputSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInputSource",
+  telemetry: TELEMETRY,
+  span: "CreateInputSource",
 }));
 
 export type CreatePolicyError =
@@ -2502,7 +2522,7 @@ export type CreatePolicyError =
  * Creates a resilience policy that defines availability and disaster recovery requirements.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyRequest,
+  CreatePolicyRequest & RegionInput,
   CreatePolicyResponse,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2520,6 +2540,8 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type CreateReportError =
@@ -2534,7 +2556,7 @@ export type CreateReportError =
  * On-demand report creation. Idempotent -- duplicate requests with same clientToken return existing result.
  */
 export const createReport: API.OperationMethod<
-  CreateReportRequest,
+  CreateReportRequest & RegionInput,
   CreateReportResponse,
   CreateReportError,
   Credentials | HttpClient.HttpClient
@@ -2552,6 +2574,8 @@ export const createReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReport",
+  telemetry: TELEMETRY,
+  span: "CreateReport",
 }));
 
 export type CreateServiceError =
@@ -2566,7 +2590,7 @@ export type CreateServiceError =
  * Creates a service.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -2584,6 +2608,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateServiceFunctionError =
@@ -2598,7 +2624,7 @@ export type CreateServiceFunctionError =
  * Creates a service function within a service.
  */
 export const createServiceFunction: API.OperationMethod<
-  CreateServiceFunctionRequest,
+  CreateServiceFunctionRequest & RegionInput,
   CreateServiceFunctionResponse,
   CreateServiceFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2616,6 +2642,8 @@ export const createServiceFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceFunction",
+  telemetry: TELEMETRY,
+  span: "CreateServiceFunction",
 }));
 
 export type CreateServiceFunctionResourcesError =
@@ -2629,7 +2657,7 @@ export type CreateServiceFunctionResourcesError =
  * Associates resources with a service function.
  */
 export const createServiceFunctionResources: API.OperationMethod<
-  CreateServiceFunctionResourcesRequest,
+  CreateServiceFunctionResourcesRequest & RegionInput,
   CreateServiceFunctionResourcesResponse,
   CreateServiceFunctionResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2646,6 +2674,8 @@ export const createServiceFunctionResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceFunctionResources",
+  telemetry: TELEMETRY,
+  span: "CreateServiceFunctionResources",
 }));
 
 export type CreateSystemError =
@@ -2660,7 +2690,7 @@ export type CreateSystemError =
  * Creates a system that represents a logical grouping of services.
  */
 export const createSystem: API.OperationMethod<
-  CreateSystemRequest,
+  CreateSystemRequest & RegionInput,
   CreateSystemResponse,
   CreateSystemError,
   Credentials | HttpClient.HttpClient
@@ -2678,6 +2708,8 @@ export const createSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSystem",
+  telemetry: TELEMETRY,
+  span: "CreateSystem",
 }));
 
 export type CreateTestError =
@@ -2691,7 +2723,7 @@ export type CreateTestError =
  * Creates a test for a service by configuring a test template. Each service has one test per template.
  */
 export const createTest: API.OperationMethod<
-  CreateTestRequest,
+  CreateTestRequest & RegionInput,
   CreateTestResponse,
   CreateTestError,
   Credentials | HttpClient.HttpClient
@@ -2708,6 +2740,8 @@ export const createTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTest",
+  telemetry: TELEMETRY,
+  span: "CreateTest",
 }));
 
 export type CreateUserJourneyError =
@@ -2722,7 +2756,7 @@ export type CreateUserJourneyError =
  * Creates a user journey within a system.
  */
 export const createUserJourney: API.OperationMethod<
-  CreateUserJourneyRequest,
+  CreateUserJourneyRequest & RegionInput,
   CreateUserJourneyResponse,
   CreateUserJourneyError,
   Credentials | HttpClient.HttpClient
@@ -2740,6 +2774,8 @@ export const createUserJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserJourney",
+  telemetry: TELEMETRY,
+  span: "CreateUserJourney",
 }));
 
 export type DeleteAssertionError =
@@ -2752,7 +2788,7 @@ export type DeleteAssertionError =
  * Deletes a resilience assertion from a service.
  */
 export const deleteAssertion: API.OperationMethod<
-  DeleteAssertionRequest,
+  DeleteAssertionRequest & RegionInput,
   DeleteAssertionResponse,
   DeleteAssertionError,
   Credentials | HttpClient.HttpClient
@@ -2768,6 +2804,8 @@ export const deleteAssertion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssertion",
+  telemetry: TELEMETRY,
+  span: "DeleteAssertion",
 }));
 
 export type DeleteInputSourceError =
@@ -2780,7 +2818,7 @@ export type DeleteInputSourceError =
  * Deletes an input source.
  */
 export const deleteInputSource: API.OperationMethod<
-  DeleteInputSourceRequest,
+  DeleteInputSourceRequest & RegionInput,
   DeleteInputSourceResponse,
   DeleteInputSourceError,
   Credentials | HttpClient.HttpClient
@@ -2796,6 +2834,8 @@ export const deleteInputSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInputSource",
+  telemetry: TELEMETRY,
+  span: "DeleteInputSource",
 }));
 
 export type DeletePolicyError =
@@ -2809,7 +2849,7 @@ export type DeletePolicyError =
  * Deletes a resilience policy.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2826,6 +2866,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeleteServiceError =
@@ -2839,7 +2881,7 @@ export type DeleteServiceError =
  * Deletes a service.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -2856,6 +2898,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteServiceFunctionError =
@@ -2869,7 +2913,7 @@ export type DeleteServiceFunctionError =
  * Deletes a service function.
  */
 export const deleteServiceFunction: API.OperationMethod<
-  DeleteServiceFunctionRequest,
+  DeleteServiceFunctionRequest & RegionInput,
   DeleteServiceFunctionResponse,
   DeleteServiceFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2886,6 +2930,8 @@ export const deleteServiceFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceFunction",
 }));
 
 export type DeleteServiceFunctionResourcesError =
@@ -2899,7 +2945,7 @@ export type DeleteServiceFunctionResourcesError =
  * Removes resources from a service function.
  */
 export const deleteServiceFunctionResources: API.OperationMethod<
-  DeleteServiceFunctionResourcesRequest,
+  DeleteServiceFunctionResourcesRequest & RegionInput,
   DeleteServiceFunctionResourcesResponse,
   DeleteServiceFunctionResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2916,6 +2962,8 @@ export const deleteServiceFunctionResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceFunctionResources",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceFunctionResources",
 }));
 
 export type DeleteSystemError =
@@ -2929,7 +2977,7 @@ export type DeleteSystemError =
  * Deletes a system.
  */
 export const deleteSystem: API.OperationMethod<
-  DeleteSystemRequest,
+  DeleteSystemRequest & RegionInput,
   DeleteSystemResponse,
   DeleteSystemError,
   Credentials | HttpClient.HttpClient
@@ -2946,6 +2994,8 @@ export const deleteSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSystem",
+  telemetry: TELEMETRY,
+  span: "DeleteSystem",
 }));
 
 export type DeleteTestError =
@@ -2959,7 +3009,7 @@ export type DeleteTestError =
  * Deletes a test.
  */
 export const deleteTest: API.OperationMethod<
-  DeleteTestRequest,
+  DeleteTestRequest & RegionInput,
   DeleteTestResponse,
   DeleteTestError,
   Credentials | HttpClient.HttpClient
@@ -2976,6 +3026,8 @@ export const deleteTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTest",
+  telemetry: TELEMETRY,
+  span: "DeleteTest",
 }));
 
 export type DeleteTestSourcesError =
@@ -2989,7 +3041,7 @@ export type DeleteTestSourcesError =
  * Removes monitoring sources from a test. The operation is transactional and idempotent -- removing a source that is not attached is a no-op.
  */
 export const deleteTestSources: API.OperationMethod<
-  DeleteTestSourcesRequest,
+  DeleteTestSourcesRequest & RegionInput,
   DeleteTestSourcesResponse,
   DeleteTestSourcesError,
   Credentials | HttpClient.HttpClient
@@ -3006,6 +3058,8 @@ export const deleteTestSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestSources",
+  telemetry: TELEMETRY,
+  span: "DeleteTestSources",
 }));
 
 export type DeleteUserJourneyError =
@@ -3019,7 +3073,7 @@ export type DeleteUserJourneyError =
  * Deletes a user journey.
  */
 export const deleteUserJourney: API.OperationMethod<
-  DeleteUserJourneyRequest,
+  DeleteUserJourneyRequest & RegionInput,
   DeleteUserJourneyResponse,
   DeleteUserJourneyError,
   Credentials | HttpClient.HttpClient
@@ -3036,6 +3090,8 @@ export const deleteUserJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserJourney",
+  telemetry: TELEMETRY,
+  span: "DeleteUserJourney",
 }));
 
 export type GetDependencyInsightsError =
@@ -3049,7 +3105,7 @@ export type GetDependencyInsightsError =
  * Retrieves the dependency insights generated for a service. The response reports the current generation status; insights are populated once generation has completed. If generation failed, the response includes an error code, whose possible values are listed under the response's errorCode field, and a message describing the cause. To use this operation, you must have the `resiliencehub:GetDependencyInsights` permission on the service.
  */
 export const getDependencyInsights: API.OperationMethod<
-  GetDependencyInsightsRequest,
+  GetDependencyInsightsRequest & RegionInput,
   GetDependencyInsightsResponse,
   GetDependencyInsightsError,
   Credentials | HttpClient.HttpClient
@@ -3066,6 +3122,8 @@ export const getDependencyInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDependencyInsights",
+  telemetry: TELEMETRY,
+  span: "GetDependencyInsights",
 }));
 
 export type GetFailureModeFindingError =
@@ -3078,7 +3136,7 @@ export type GetFailureModeFindingError =
  * Retrieves a finding by findingId.
  */
 export const getFailureModeFinding: API.OperationMethod<
-  GetFailureModeFindingRequest,
+  GetFailureModeFindingRequest & RegionInput,
   GetFailureModeFindingResponse,
   GetFailureModeFindingError,
   Credentials | HttpClient.HttpClient
@@ -3094,6 +3152,8 @@ export const getFailureModeFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFailureModeFinding",
+  telemetry: TELEMETRY,
+  span: "GetFailureModeFinding",
 }));
 
 export type GetPolicyError =
@@ -3106,7 +3166,7 @@ export type GetPolicyError =
  * Retrieves a resilience policy by ARN.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3122,6 +3182,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetServiceError =
@@ -3134,7 +3196,7 @@ export type GetServiceError =
  * Retrieves a service by ARN.
  */
 export const getService: API.OperationMethod<
-  GetServiceRequest,
+  GetServiceRequest & RegionInput,
   GetServiceResponse,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -3150,6 +3212,8 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetSystemError =
@@ -3162,7 +3226,7 @@ export type GetSystemError =
  * Retrieves a system by ARN.
  */
 export const getSystem: API.OperationMethod<
-  GetSystemRequest,
+  GetSystemRequest & RegionInput,
   GetSystemResponse,
   GetSystemError,
   Credentials | HttpClient.HttpClient
@@ -3178,6 +3242,8 @@ export const getSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystem",
+  telemetry: TELEMETRY,
+  span: "GetSystem",
 }));
 
 export type GetTestError =
@@ -3190,7 +3256,7 @@ export type GetTestError =
  * Retrieves a test by ID.
  */
 export const getTest: API.OperationMethod<
-  GetTestRequest,
+  GetTestRequest & RegionInput,
   GetTestResponse,
   GetTestError,
   Credentials | HttpClient.HttpClient
@@ -3206,6 +3272,8 @@ export const getTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTest",
+  telemetry: TELEMETRY,
+  span: "GetTest",
 }));
 
 export type GetTestRunError =
@@ -3218,7 +3286,7 @@ export type GetTestRunError =
  * Retrieves a test run by ID, including its status, results, and the configuration snapshotted when the run started.
  */
 export const getTestRun: API.OperationMethod<
-  GetTestRunRequest,
+  GetTestRunRequest & RegionInput,
   GetTestRunResponse,
   GetTestRunError,
   Credentials | HttpClient.HttpClient
@@ -3234,6 +3302,8 @@ export const getTestRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestRun",
+  telemetry: TELEMETRY,
+  span: "GetTestRun",
 }));
 
 export type GetTestTemplateError =
@@ -3246,7 +3316,7 @@ export type GetTestTemplateError =
  * Retrieves a resilience test template by ARN, including the parameters it accepts and the fault actions it runs.
  */
 export const getTestTemplate: API.OperationMethod<
-  GetTestTemplateRequest,
+  GetTestTemplateRequest & RegionInput,
   GetTestTemplateResponse,
   GetTestTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3262,6 +3332,8 @@ export const getTestTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTestTemplate",
 }));
 
 export type GetUserJourneyError =
@@ -3274,7 +3346,7 @@ export type GetUserJourneyError =
  * Retrieves a user journey.
  */
 export const getUserJourney: API.OperationMethod<
-  GetUserJourneyRequest,
+  GetUserJourneyRequest & RegionInput,
   GetUserJourneyResponse,
   GetUserJourneyError,
   Credentials | HttpClient.HttpClient
@@ -3290,6 +3362,8 @@ export const getUserJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserJourney",
+  telemetry: TELEMETRY,
+  span: "GetUserJourney",
 }));
 
 export type ImportAppError =
@@ -3303,7 +3377,7 @@ export type ImportAppError =
  * Imports a V1 app into the V2 resource model, creating a service with the same name.
  */
 export const importApp: API.OperationMethod<
-  ImportAppRequest,
+  ImportAppRequest & RegionInput,
   ImportAppResponse,
   ImportAppError,
   Credentials | HttpClient.HttpClient
@@ -3320,6 +3394,8 @@ export const importApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApp",
+  telemetry: TELEMETRY,
+  span: "ImportApp",
 }));
 
 export type ImportPolicyError =
@@ -3333,7 +3409,7 @@ export type ImportPolicyError =
  * Imports a V1 policy into V2, mapping RTO/RPO values from V1 scenarios.
  */
 export const importPolicy: API.OperationMethod<
-  ImportPolicyRequest,
+  ImportPolicyRequest & RegionInput,
   ImportPolicyResponse,
   ImportPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3350,6 +3426,8 @@ export const importPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPolicy",
+  telemetry: TELEMETRY,
+  span: "ImportPolicy",
 }));
 
 export type ListAssertionsError =
@@ -3362,7 +3440,7 @@ export type ListAssertionsError =
  * Lists resilience assertions for a service.
  */
 export const listAssertions: API.PaginatedOperationMethod<
-  ListAssertionsRequest,
+  ListAssertionsRequest & RegionInput,
   ListAssertionsResponse,
   ListAssertionsError,
   Credentials | HttpClient.HttpClient,
@@ -3385,6 +3463,8 @@ export const listAssertions: API.PaginatedOperationMethod<
     items: "assertions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssertions",
 })) as any;
 
 export type ListDependenciesError =
@@ -3397,7 +3477,7 @@ export type ListDependenciesError =
  * Lists dependencies discovered for services.
  */
 export const listDependencies: API.PaginatedOperationMethod<
-  ListDependenciesRequest,
+  ListDependenciesRequest & RegionInput,
   ListDependenciesResponse,
   ListDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -3420,6 +3500,8 @@ export const listDependencies: API.PaginatedOperationMethod<
     items: "dependencySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDependencies",
 })) as any;
 
 export type ListFailureModeAssessmentsError =
@@ -3432,7 +3514,7 @@ export type ListFailureModeAssessmentsError =
  * Lists failure mode assessments.
  */
 export const listFailureModeAssessments: API.PaginatedOperationMethod<
-  ListFailureModeAssessmentsRequest,
+  ListFailureModeAssessmentsRequest & RegionInput,
   ListFailureModeAssessmentsResponse,
   ListFailureModeAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3455,6 +3537,8 @@ export const listFailureModeAssessments: API.PaginatedOperationMethod<
     items: "assessmentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFailureModeAssessments",
 })) as any;
 
 export type ListFailureModeFindingsError =
@@ -3467,7 +3551,7 @@ export type ListFailureModeFindingsError =
  * List findings.
  */
 export const listFailureModeFindings: API.PaginatedOperationMethod<
-  ListFailureModeFindingsRequest,
+  ListFailureModeFindingsRequest & RegionInput,
   ListFailureModeFindingsResponse,
   ListFailureModeFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -3490,6 +3574,8 @@ export const listFailureModeFindings: API.PaginatedOperationMethod<
     items: "findingsSummary",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFailureModeFindings",
 })) as any;
 
 export type ListInputSourcesError =
@@ -3502,7 +3588,7 @@ export type ListInputSourcesError =
  * Lists input sources for a service.
  */
 export const listInputSources: API.PaginatedOperationMethod<
-  ListInputSourcesRequest,
+  ListInputSourcesRequest & RegionInput,
   ListInputSourcesResponse,
   ListInputSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3525,6 +3611,8 @@ export const listInputSources: API.PaginatedOperationMethod<
     items: "inputSourceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInputSources",
 })) as any;
 
 export type ListPoliciesError =
@@ -3536,7 +3624,7 @@ export type ListPoliciesError =
  * Lists resilience policies.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3554,6 +3642,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 })) as any;
 
 export type ListPolicyEventsError =
@@ -3566,7 +3656,7 @@ export type ListPolicyEventsError =
  * Lists events for a resilience policy, including services that started or stopped using it, changes to cross-account sharing, and deletion of the policy.
  */
 export const listPolicyEvents: API.PaginatedOperationMethod<
-  ListPolicyEventsRequest,
+  ListPolicyEventsRequest & RegionInput,
   ListPolicyEventsResponse,
   ListPolicyEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3589,6 +3679,8 @@ export const listPolicyEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyEvents",
 })) as any;
 
 export type ListReportsError =
@@ -3602,7 +3694,7 @@ export type ListReportsError =
  * List reports for a service, or all reports owned by the account if serviceArn is not provided.
  */
 export const listReports: API.PaginatedOperationMethod<
-  ListReportsRequest,
+  ListReportsRequest & RegionInput,
   ListReportsResponse,
   ListReportsError,
   Credentials | HttpClient.HttpClient,
@@ -3626,6 +3718,8 @@ export const listReports: API.PaginatedOperationMethod<
     items: "reportGenerationResults",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReports",
 })) as any;
 
 export type ListResolvedTestRunTargetResourcesError =
@@ -3638,7 +3732,7 @@ export type ListResolvedTestRunTargetResourcesError =
  * Lists the AWS resources that AWS Fault Injection Service (AWS FIS) resolved as targets for a test run.
  */
 export const listResolvedTestRunTargetResources: API.PaginatedOperationMethod<
-  ListResolvedTestRunTargetResourcesRequest,
+  ListResolvedTestRunTargetResourcesRequest & RegionInput,
   ListResolvedTestRunTargetResourcesResponse,
   ListResolvedTestRunTargetResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3661,6 +3755,8 @@ export const listResolvedTestRunTargetResources: API.PaginatedOperationMethod<
     items: "resolvedTargetResources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolvedTestRunTargetResources",
 })) as any;
 
 export type ListResourcesError =
@@ -3673,7 +3769,7 @@ export type ListResourcesError =
  * List resources.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesRequest,
+  ListResourcesRequest & RegionInput,
   ListResourcesResponse,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3696,6 +3792,8 @@ export const listResources: API.PaginatedOperationMethod<
     items: "serviceResources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResources",
 })) as any;
 
 export type ListServiceEventsError =
@@ -3708,7 +3806,7 @@ export type ListServiceEventsError =
  * Lists events for a service.
  */
 export const listServiceEvents: API.PaginatedOperationMethod<
-  ListServiceEventsRequest,
+  ListServiceEventsRequest & RegionInput,
   ListServiceEventsResponse,
   ListServiceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3731,6 +3829,8 @@ export const listServiceEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceEvents",
 })) as any;
 
 export type ListServiceFunctionsError =
@@ -3743,7 +3843,7 @@ export type ListServiceFunctionsError =
  * Lists service functions for a service.
  */
 export const listServiceFunctions: API.PaginatedOperationMethod<
-  ListServiceFunctionsRequest,
+  ListServiceFunctionsRequest & RegionInput,
   ListServiceFunctionsResponse,
   ListServiceFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -3766,6 +3866,8 @@ export const listServiceFunctions: API.PaginatedOperationMethod<
     items: "serviceFunctions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceFunctions",
 })) as any;
 
 export type ListServicesError =
@@ -3777,7 +3879,7 @@ export type ListServicesError =
  * Lists services.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -3795,6 +3897,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "serviceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListServiceTopologyEdgesError =
@@ -3806,7 +3910,7 @@ export type ListServiceTopologyEdgesError =
  * Lists topology edges for a service.
  */
 export const listServiceTopologyEdges: API.PaginatedOperationMethod<
-  ListServiceTopologyEdgesRequest,
+  ListServiceTopologyEdgesRequest & RegionInput,
   ListServiceTopologyEdgesResponse,
   ListServiceTopologyEdgesError,
   Credentials | HttpClient.HttpClient,
@@ -3824,6 +3928,8 @@ export const listServiceTopologyEdges: API.PaginatedOperationMethod<
     items: "serviceTopologyEdgeSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceTopologyEdges",
 })) as any;
 
 export type ListSystemEventsError =
@@ -3836,7 +3942,7 @@ export type ListSystemEventsError =
  * Lists events for a system.
  */
 export const listSystemEvents: API.PaginatedOperationMethod<
-  ListSystemEventsRequest,
+  ListSystemEventsRequest & RegionInput,
   ListSystemEventsResponse,
   ListSystemEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3859,6 +3965,8 @@ export const listSystemEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSystemEvents",
 })) as any;
 
 export type ListSystemsError =
@@ -3870,7 +3978,7 @@ export type ListSystemsError =
  * Lists systems.
  */
 export const listSystems: API.PaginatedOperationMethod<
-  ListSystemsRequest,
+  ListSystemsRequest & RegionInput,
   ListSystemsResponse,
   ListSystemsError,
   Credentials | HttpClient.HttpClient,
@@ -3888,6 +3996,8 @@ export const listSystems: API.PaginatedOperationMethod<
     items: "systemSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSystems",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3901,7 +4011,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3918,6 +4028,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTestRunDependenciesError =
@@ -3930,7 +4042,7 @@ export type ListTestRunDependenciesError =
  * Lists the dependencies that a test run blocked. Each dependency reflects the discovered classification captured when the run started, so results do not change if a dependency is reclassified after the run.
  */
 export const listTestRunDependencies: API.PaginatedOperationMethod<
-  ListTestRunDependenciesRequest,
+  ListTestRunDependenciesRequest & RegionInput,
   ListTestRunDependenciesResponse,
   ListTestRunDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -3953,6 +4065,8 @@ export const listTestRunDependencies: API.PaginatedOperationMethod<
     items: "dependencies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestRunDependencies",
 })) as any;
 
 export type ListTestRunEventsError =
@@ -3965,7 +4079,7 @@ export type ListTestRunEventsError =
  * Lists the events in a test run's timeline.
  */
 export const listTestRunEvents: API.PaginatedOperationMethod<
-  ListTestRunEventsRequest,
+  ListTestRunEventsRequest & RegionInput,
   ListTestRunEventsResponse,
   ListTestRunEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3988,6 +4102,8 @@ export const listTestRunEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestRunEvents",
 })) as any;
 
 export type ListTestRunsError =
@@ -4000,7 +4116,7 @@ export type ListTestRunsError =
  * Lists the runs of a test, or all test runs for a service.
  */
 export const listTestRuns: API.PaginatedOperationMethod<
-  ListTestRunsRequest,
+  ListTestRunsRequest & RegionInput,
   ListTestRunsResponse,
   ListTestRunsError,
   Credentials | HttpClient.HttpClient,
@@ -4023,6 +4139,8 @@ export const listTestRuns: API.PaginatedOperationMethod<
     items: "testRuns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestRuns",
 })) as any;
 
 export type ListTestRunSourceEventsError =
@@ -4035,7 +4153,7 @@ export type ListTestRunSourceEventsError =
  * Lists the state-change events observed for a test run monitoring source. Events are returned for one source per call, in chronological order.
  */
 export const listTestRunSourceEvents: API.PaginatedOperationMethod<
-  ListTestRunSourceEventsRequest,
+  ListTestRunSourceEventsRequest & RegionInput,
   ListTestRunSourceEventsResponse,
   ListTestRunSourceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4058,6 +4176,8 @@ export const listTestRunSourceEvents: API.PaginatedOperationMethod<
     items: "testRunSourceEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestRunSourceEvents",
 })) as any;
 
 export type ListTestRunSourcesError =
@@ -4070,7 +4190,7 @@ export type ListTestRunSourcesError =
  * Lists the monitoring source snapshots captured for a test run, optionally filtered by type.
  */
 export const listTestRunSources: API.PaginatedOperationMethod<
-  ListTestRunSourcesRequest,
+  ListTestRunSourcesRequest & RegionInput,
   ListTestRunSourcesResponse,
   ListTestRunSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4093,6 +4213,8 @@ export const listTestRunSources: API.PaginatedOperationMethod<
     items: "testRunSources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestRunSources",
 })) as any;
 
 export type ListTestsError =
@@ -4105,7 +4227,7 @@ export type ListTestsError =
  * Lists the tests configured for a service.
  */
 export const listTests: API.PaginatedOperationMethod<
-  ListTestsRequest,
+  ListTestsRequest & RegionInput,
   ListTestsResponse,
   ListTestsError,
   Credentials | HttpClient.HttpClient,
@@ -4128,6 +4250,8 @@ export const listTests: API.PaginatedOperationMethod<
     items: "tests",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTests",
 })) as any;
 
 export type ListTestSourcesError =
@@ -4140,7 +4264,7 @@ export type ListTestSourcesError =
  * Lists the monitoring sources attached to a test, optionally filtered by type.
  */
 export const listTestSources: API.PaginatedOperationMethod<
-  ListTestSourcesRequest,
+  ListTestSourcesRequest & RegionInput,
   ListTestSourcesResponse,
   ListTestSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4163,6 +4287,8 @@ export const listTestSources: API.PaginatedOperationMethod<
     items: "testSources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestSources",
 })) as any;
 
 export type ListTestTemplatesError =
@@ -4174,7 +4300,7 @@ export type ListTestTemplatesError =
  * Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate.
  */
 export const listTestTemplates: API.OperationMethod<
-  ListTestTemplatesRequest,
+  ListTestTemplatesRequest & RegionInput,
   ListTestTemplatesResponse,
   ListTestTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -4185,6 +4311,8 @@ export const listTestTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestTemplates",
+  telemetry: TELEMETRY,
+  span: "ListTestTemplates",
 }));
 
 export type ListUserJourneysError =
@@ -4197,7 +4325,7 @@ export type ListUserJourneysError =
  * Lists user journeys for a system.
  */
 export const listUserJourneys: API.PaginatedOperationMethod<
-  ListUserJourneysRequest,
+  ListUserJourneysRequest & RegionInput,
   ListUserJourneysResponse,
   ListUserJourneysError,
   Credentials | HttpClient.HttpClient,
@@ -4220,6 +4348,8 @@ export const listUserJourneys: API.PaginatedOperationMethod<
     items: "userJourneySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserJourneys",
 })) as any;
 
 export type PutTestSourcesError =
@@ -4234,7 +4364,7 @@ export type PutTestSourcesError =
  * Adds or updates the monitoring sources on a test. The operation is transactional -- either every source is written or the call fails and nothing is written.
  */
 export const putTestSources: API.OperationMethod<
-  PutTestSourcesRequest,
+  PutTestSourcesRequest & RegionInput,
   PutTestSourcesResponse,
   PutTestSourcesError,
   Credentials | HttpClient.HttpClient
@@ -4252,6 +4382,8 @@ export const putTestSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTestSources",
+  telemetry: TELEMETRY,
+  span: "PutTestSources",
 }));
 
 export type StartDependencyInsightsError =
@@ -4266,7 +4398,7 @@ export type StartDependencyInsightsError =
  * Starts generating dependency insights for a service. Generation runs asynchronously; the response returns the initial status, and you retrieve the results with GetDependencyInsights. To use this operation, you must have the `resiliencehub:StartDependencyInsights` permission on the service.
  */
 export const startDependencyInsights: API.OperationMethod<
-  StartDependencyInsightsRequest,
+  StartDependencyInsightsRequest & RegionInput,
   StartDependencyInsightsResponse,
   StartDependencyInsightsError,
   Credentials | HttpClient.HttpClient
@@ -4284,6 +4416,8 @@ export const startDependencyInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDependencyInsights",
+  telemetry: TELEMETRY,
+  span: "StartDependencyInsights",
 }));
 
 export type StartFailureModeAssessmentError =
@@ -4298,7 +4432,7 @@ export type StartFailureModeAssessmentError =
  * Starts a failure mode assessment.
  */
 export const startFailureModeAssessment: API.OperationMethod<
-  StartFailureModeAssessmentRequest,
+  StartFailureModeAssessmentRequest & RegionInput,
   StartFailureModeAssessmentResponse,
   StartFailureModeAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -4316,6 +4450,8 @@ export const startFailureModeAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFailureModeAssessment",
+  telemetry: TELEMETRY,
+  span: "StartFailureModeAssessment",
 }));
 
 export type StartTestRunError =
@@ -4329,7 +4465,7 @@ export type StartTestRunError =
  * Starts a run of a test. Each run scopes to the current resources in the service and produces a pass or fail outcome.
  */
 export const startTestRun: API.OperationMethod<
-  StartTestRunRequest,
+  StartTestRunRequest & RegionInput,
   StartTestRunResponse,
   StartTestRunError,
   Credentials | HttpClient.HttpClient
@@ -4346,6 +4482,8 @@ export const startTestRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTestRun",
+  telemetry: TELEMETRY,
+  span: "StartTestRun",
 }));
 
 export type StopTestRunError =
@@ -4359,7 +4497,7 @@ export type StopTestRunError =
  * Stops an in-progress test run.
  */
 export const stopTestRun: API.OperationMethod<
-  StopTestRunRequest,
+  StopTestRunRequest & RegionInput,
   StopTestRunResponse,
   StopTestRunError,
   Credentials | HttpClient.HttpClient
@@ -4376,6 +4514,8 @@ export const stopTestRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTestRun",
+  telemetry: TELEMETRY,
+  span: "StopTestRun",
 }));
 
 export type TagResourceError =
@@ -4389,7 +4529,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4406,6 +4546,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4419,7 +4561,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4436,6 +4578,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAssertionError =
@@ -4449,7 +4593,7 @@ export type UpdateAssertionError =
  * Updates a resilience assertion.
  */
 export const updateAssertion: API.OperationMethod<
-  UpdateAssertionRequest,
+  UpdateAssertionRequest & RegionInput,
   UpdateAssertionResponse,
   UpdateAssertionError,
   Credentials | HttpClient.HttpClient
@@ -4466,6 +4610,8 @@ export const updateAssertion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssertion",
+  telemetry: TELEMETRY,
+  span: "UpdateAssertion",
 }));
 
 export type UpdateDependencyError =
@@ -4479,7 +4625,7 @@ export type UpdateDependencyError =
  * Updates a dependency classification.
  */
 export const updateDependency: API.OperationMethod<
-  UpdateDependencyRequest,
+  UpdateDependencyRequest & RegionInput,
   UpdateDependencyResponse,
   UpdateDependencyError,
   Credentials | HttpClient.HttpClient
@@ -4496,6 +4642,8 @@ export const updateDependency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDependency",
+  telemetry: TELEMETRY,
+  span: "UpdateDependency",
 }));
 
 export type UpdateFailureModeFindingError =
@@ -4509,7 +4657,7 @@ export type UpdateFailureModeFindingError =
  * Updates an existing finding.
  */
 export const updateFailureModeFinding: API.OperationMethod<
-  UpdateFailureModeFindingRequest,
+  UpdateFailureModeFindingRequest & RegionInput,
   UpdateFailureModeFindingResponse,
   UpdateFailureModeFindingError,
   Credentials | HttpClient.HttpClient
@@ -4526,6 +4674,8 @@ export const updateFailureModeFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFailureModeFinding",
+  telemetry: TELEMETRY,
+  span: "UpdateFailureModeFinding",
 }));
 
 export type UpdatePolicyError =
@@ -4539,7 +4689,7 @@ export type UpdatePolicyError =
  * Updates an existing resilience policy.
  */
 export const updatePolicy: API.OperationMethod<
-  UpdatePolicyRequest,
+  UpdatePolicyRequest & RegionInput,
   UpdatePolicyResponse,
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4556,6 +4706,8 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdatePolicy",
 }));
 
 export type UpdateServiceError =
@@ -4570,7 +4722,7 @@ export type UpdateServiceError =
  * Updates an existing service.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
+  UpdateServiceRequest & RegionInput,
   UpdateServiceResponse,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -4588,6 +4740,8 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateServiceFunctionError =
@@ -4601,7 +4755,7 @@ export type UpdateServiceFunctionError =
  * Updates a service function.
  */
 export const updateServiceFunction: API.OperationMethod<
-  UpdateServiceFunctionRequest,
+  UpdateServiceFunctionRequest & RegionInput,
   UpdateServiceFunctionResponse,
   UpdateServiceFunctionError,
   Credentials | HttpClient.HttpClient
@@ -4618,6 +4772,8 @@ export const updateServiceFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceFunction",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceFunction",
 }));
 
 export type UpdateSystemError =
@@ -4631,7 +4787,7 @@ export type UpdateSystemError =
  * Updates an existing system.
  */
 export const updateSystem: API.OperationMethod<
-  UpdateSystemRequest,
+  UpdateSystemRequest & RegionInput,
   UpdateSystemResponse,
   UpdateSystemError,
   Credentials | HttpClient.HttpClient
@@ -4648,6 +4804,8 @@ export const updateSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSystem",
+  telemetry: TELEMETRY,
+  span: "UpdateSystem",
 }));
 
 export type UpdateTestError =
@@ -4661,7 +4819,7 @@ export type UpdateTestError =
  * Updates the configuration of an existing test.
  */
 export const updateTest: API.OperationMethod<
-  UpdateTestRequest,
+  UpdateTestRequest & RegionInput,
   UpdateTestResponse,
   UpdateTestError,
   Credentials | HttpClient.HttpClient
@@ -4678,6 +4836,8 @@ export const updateTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTest",
+  telemetry: TELEMETRY,
+  span: "UpdateTest",
 }));
 
 export type UpdateUserJourneyError =
@@ -4691,7 +4851,7 @@ export type UpdateUserJourneyError =
  * Updates an existing user journey.
  */
 export const updateUserJourney: API.OperationMethod<
-  UpdateUserJourneyRequest,
+  UpdateUserJourneyRequest & RegionInput,
   UpdateUserJourneyResponse,
   UpdateUserJourneyError,
   Credentials | HttpClient.HttpClient
@@ -4708,6 +4868,8 @@ export const updateUserJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserJourney",
+  telemetry: TELEMETRY,
+  span: "UpdateUserJourney",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

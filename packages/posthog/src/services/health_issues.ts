@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "HealthIssues",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateHealthIssuesResolveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -165,6 +178,8 @@ export const createHealthIssuesResolve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHealthIssuesResolve",
 }));
 
 export type GetHealthIssueError = PosthogOpError;
@@ -180,6 +195,8 @@ export const getHealthIssue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealthIssue",
 }));
 
 export type GetHealthIssuesSummaryError = PosthogOpError;
@@ -195,6 +212,8 @@ export const getHealthIssuesSummary: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealthIssuesSummary",
 }));
 
 export type HealthIssuesRefreshCreateError = PosthogOpError;
@@ -209,6 +228,8 @@ export const healthIssuesRefreshCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HealthIssuesRefreshCreate",
 }));
 
 export type ListHealthIssuesError = PosthogOpError;
@@ -224,6 +245,8 @@ export const listHealthIssues: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHealthIssues",
 }));
 
 export type UpdateHealthIssuesPartialError = PosthogOpError;
@@ -238,6 +261,8 @@ export const updateHealthIssuesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHealthIssuesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

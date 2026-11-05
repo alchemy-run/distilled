@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -113,6 +115,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   ["cn-north-1", "cn-northwest-1", "aws-cn-global", "eusc-de-east-1"],
 );
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MarketplaceEntitlementService",
+  service: "MarketplaceEntitlementService",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
+
 export class InternalServiceErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
     "InternalServiceErrorException",
@@ -175,7 +192,7 @@ export type GetEntitlementsError =
  * filtered based on customer identifier, AWS account ID, license ARN, or product dimensions.
  */
 export const getEntitlements: API.PaginatedOperationMethod<
-  GetEntitlementsRequest,
+  GetEntitlementsRequest & RegionInput,
   GetEntitlementsResult,
   GetEntitlementsError,
   Credentials | HttpClient.HttpClient,
@@ -192,6 +209,8 @@ export const getEntitlements: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEntitlements",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://connect.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Connect",
+  service: "Connect",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -9476,7 +9492,7 @@ export type ActivateEvaluationFormError =
  * activated, it is available to start new evaluations based on the form.
  */
 export const activateEvaluationForm: API.OperationMethod<
-  ActivateEvaluationFormRequest,
+  ActivateEvaluationFormRequest & RegionInput,
   ActivateEvaluationFormResponse,
   ActivateEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -9493,6 +9509,8 @@ export const activateEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateEvaluationForm",
+  telemetry: TELEMETRY,
+  span: "ActivateEvaluationForm",
 }));
 
 export type AssociateAnalyticsDataSetError =
@@ -9507,7 +9525,7 @@ export type AssociateAnalyticsDataSetError =
  * only one dataset in a single call.
  */
 export const associateAnalyticsDataSet: API.OperationMethod<
-  AssociateAnalyticsDataSetRequest,
+  AssociateAnalyticsDataSetRequest & RegionInput,
   AssociateAnalyticsDataSetResponse,
   AssociateAnalyticsDataSetError,
   Creds | HttpClient.HttpClient
@@ -9524,6 +9542,8 @@ export const associateAnalyticsDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAnalyticsDataSet",
+  telemetry: TELEMETRY,
+  span: "AssociateAnalyticsDataSet",
 }));
 
 export type AssociateApprovedOriginError =
@@ -9541,7 +9561,7 @@ export type AssociateApprovedOriginError =
  * Associates an approved origin to an Connect Customer instance.
  */
 export const associateApprovedOrigin: API.OperationMethod<
-  AssociateApprovedOriginRequest,
+  AssociateApprovedOriginRequest & RegionInput,
   AssociateApprovedOriginResponse,
   AssociateApprovedOriginError,
   Creds | HttpClient.HttpClient
@@ -9560,6 +9580,8 @@ export const associateApprovedOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApprovedOrigin",
+  telemetry: TELEMETRY,
+  span: "AssociateApprovedOrigin",
 }));
 
 export type AssociateBotError =
@@ -9578,7 +9600,7 @@ export type AssociateBotError =
  * bot.
  */
 export const associateBot: API.OperationMethod<
-  AssociateBotRequest,
+  AssociateBotRequest & RegionInput,
   AssociateBotResponse,
   AssociateBotError,
   Creds | HttpClient.HttpClient
@@ -9597,6 +9619,8 @@ export const associateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBot",
+  telemetry: TELEMETRY,
+  span: "AssociateBot",
 }));
 
 export type AssociateContactWithUserError =
@@ -9643,7 +9667,7 @@ export type AssociateContactWithUserError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const associateContactWithUser: API.OperationMethod<
-  AssociateContactWithUserRequest,
+  AssociateContactWithUserRequest & RegionInput,
   AssociateContactWithUserResponse,
   AssociateContactWithUserError,
   Creds | HttpClient.HttpClient
@@ -9661,6 +9685,8 @@ export const associateContactWithUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateContactWithUser",
+  telemetry: TELEMETRY,
+  span: "AssociateContactWithUser",
 }));
 
 export type AssociateDefaultVocabularyError =
@@ -9675,7 +9701,7 @@ export type AssociateDefaultVocabularyError =
  * analysis sessions for the given language.
  */
 export const associateDefaultVocabulary: API.OperationMethod<
-  AssociateDefaultVocabularyRequest,
+  AssociateDefaultVocabularyRequest & RegionInput,
   AssociateDefaultVocabularyResponse,
   AssociateDefaultVocabularyError,
   Creds | HttpClient.HttpClient
@@ -9692,6 +9718,8 @@ export const associateDefaultVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDefaultVocabulary",
+  telemetry: TELEMETRY,
+  span: "AssociateDefaultVocabulary",
 }));
 
 export type AssociateEmailAddressAliasError =
@@ -9759,7 +9787,7 @@ export type AssociateEmailAddressAliasError =
  * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
  */
 export const associateEmailAddressAlias: API.OperationMethod<
-  AssociateEmailAddressAliasRequest,
+  AssociateEmailAddressAliasRequest & RegionInput,
   AssociateEmailAddressAliasResponse,
   AssociateEmailAddressAliasError,
   Creds | HttpClient.HttpClient
@@ -9779,6 +9807,8 @@ export const associateEmailAddressAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEmailAddressAlias",
+  telemetry: TELEMETRY,
+  span: "AssociateEmailAddressAlias",
 }));
 
 export type AssociateFlowError =
@@ -9793,7 +9823,7 @@ export type AssociateFlowError =
  * Associates a connect resource to a flow.
  */
 export const associateFlow: API.OperationMethod<
-  AssociateFlowRequest,
+  AssociateFlowRequest & RegionInput,
   AssociateFlowResponse,
   AssociateFlowError,
   Creds | HttpClient.HttpClient
@@ -9811,6 +9841,8 @@ export const associateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFlow",
+  telemetry: TELEMETRY,
+  span: "AssociateFlow",
 }));
 
 export type AssociateHoursOfOperationsError =
@@ -9826,7 +9858,7 @@ export type AssociateHoursOfOperationsError =
  * Associates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide.
  */
 export const associateHoursOfOperations: API.OperationMethod<
-  AssociateHoursOfOperationsRequest,
+  AssociateHoursOfOperationsRequest & RegionInput,
   AssociateHoursOfOperationsResponse,
   AssociateHoursOfOperationsError,
   Creds | HttpClient.HttpClient
@@ -9845,6 +9877,8 @@ export const associateHoursOfOperations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateHoursOfOperations",
+  telemetry: TELEMETRY,
+  span: "AssociateHoursOfOperations",
 }));
 
 export type AssociateInstanceStorageConfigError =
@@ -9867,7 +9901,7 @@ export type AssociateInstanceStorageConfigError =
  * association.
  */
 export const associateInstanceStorageConfig: API.OperationMethod<
-  AssociateInstanceStorageConfigRequest,
+  AssociateInstanceStorageConfigRequest & RegionInput,
   AssociateInstanceStorageConfigResponse,
   AssociateInstanceStorageConfigError,
   Creds | HttpClient.HttpClient
@@ -9885,6 +9919,8 @@ export const associateInstanceStorageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateInstanceStorageConfig",
+  telemetry: TELEMETRY,
+  span: "AssociateInstanceStorageConfig",
 }));
 
 export type AssociateLambdaFunctionError =
@@ -9902,7 +9938,7 @@ export type AssociateLambdaFunctionError =
  * Allows the specified Connect Customer instance to access the specified Lambda function.
  */
 export const associateLambdaFunction: API.OperationMethod<
-  AssociateLambdaFunctionRequest,
+  AssociateLambdaFunctionRequest & RegionInput,
   AssociateLambdaFunctionResponse,
   AssociateLambdaFunctionError,
   Creds | HttpClient.HttpClient
@@ -9921,6 +9957,8 @@ export const associateLambdaFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLambdaFunction",
+  telemetry: TELEMETRY,
+  span: "AssociateLambdaFunction",
 }));
 
 export type AssociateLexBotError =
@@ -9939,7 +9977,7 @@ export type AssociateLexBotError =
  * only supports the association of Amazon Lex V1 bots.
  */
 export const associateLexBot: API.OperationMethod<
-  AssociateLexBotRequest,
+  AssociateLexBotRequest & RegionInput,
   AssociateLexBotResponse,
   AssociateLexBotError,
   Creds | HttpClient.HttpClient
@@ -9958,6 +9996,8 @@ export const associateLexBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLexBot",
+  telemetry: TELEMETRY,
+  span: "AssociateLexBot",
 }));
 
 export type AssociatePhoneNumberContactFlowError =
@@ -9978,7 +10018,7 @@ export type AssociatePhoneNumberContactFlowError =
  * this scenario, you will receive a `ResourceNotFoundException`.
  */
 export const associatePhoneNumberContactFlow: API.OperationMethod<
-  AssociatePhoneNumberContactFlowRequest,
+  AssociatePhoneNumberContactFlowRequest & RegionInput,
   AssociatePhoneNumberContactFlowResponse,
   AssociatePhoneNumberContactFlowError,
   Creds | HttpClient.HttpClient
@@ -9995,6 +10035,8 @@ export const associatePhoneNumberContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePhoneNumberContactFlow",
+  telemetry: TELEMETRY,
+  span: "AssociatePhoneNumberContactFlow",
 }));
 
 export type AssociateQueueEmailAddressesError =
@@ -10022,7 +10064,7 @@ export type AssociateQueueEmailAddressesError =
  * - For outbound email contacts, agents can select from email addresses associated with their default outbound queue configured in their routing profile.
  */
 export const associateQueueEmailAddresses: API.OperationMethod<
-  AssociateQueueEmailAddressesRequest,
+  AssociateQueueEmailAddressesRequest & RegionInput,
   AssociateQueueEmailAddressesResponse,
   AssociateQueueEmailAddressesError,
   Creds | HttpClient.HttpClient
@@ -10041,6 +10083,8 @@ export const associateQueueEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateQueueEmailAddresses",
+  telemetry: TELEMETRY,
+  span: "AssociateQueueEmailAddresses",
 }));
 
 export type AssociateQueueQuickConnectsError =
@@ -10055,7 +10099,7 @@ export type AssociateQueueQuickConnectsError =
  * Associates a set of quick connects with a queue.
  */
 export const associateQueueQuickConnects: API.OperationMethod<
-  AssociateQueueQuickConnectsRequest,
+  AssociateQueueQuickConnectsRequest & RegionInput,
   AssociateQueueQuickConnectsResponse,
   AssociateQueueQuickConnectsError,
   Creds | HttpClient.HttpClient
@@ -10073,6 +10117,8 @@ export const associateQueueQuickConnects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateQueueQuickConnects",
+  telemetry: TELEMETRY,
+  span: "AssociateQueueQuickConnects",
 }));
 
 export type AssociateRoutingProfileQueuesError =
@@ -10086,7 +10132,7 @@ export type AssociateRoutingProfileQueuesError =
  * Associates a set of queues with a routing profile.
  */
 export const associateRoutingProfileQueues: API.OperationMethod<
-  AssociateRoutingProfileQueuesRequest,
+  AssociateRoutingProfileQueuesRequest & RegionInput,
   AssociateRoutingProfileQueuesResponse,
   AssociateRoutingProfileQueuesError,
   Creds | HttpClient.HttpClient
@@ -10103,6 +10149,8 @@ export const associateRoutingProfileQueues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRoutingProfileQueues",
+  telemetry: TELEMETRY,
+  span: "AssociateRoutingProfileQueues",
 }));
 
 export type AssociateSecurityKeyError =
@@ -10120,7 +10168,7 @@ export type AssociateSecurityKeyError =
  * Associates a security key to the instance.
  */
 export const associateSecurityKey: API.OperationMethod<
-  AssociateSecurityKeyRequest,
+  AssociateSecurityKeyRequest & RegionInput,
   AssociateSecurityKeyResponse,
   AssociateSecurityKeyError,
   Creds | HttpClient.HttpClient
@@ -10139,6 +10187,8 @@ export const associateSecurityKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSecurityKey",
+  telemetry: TELEMETRY,
+  span: "AssociateSecurityKey",
 }));
 
 export type AssociateSecurityProfilesError =
@@ -10154,7 +10204,7 @@ export type AssociateSecurityProfilesError =
  * Associate security profiles with an Entity in an Amazon Connect instance.
  */
 export const associateSecurityProfiles: API.OperationMethod<
-  AssociateSecurityProfilesRequest,
+  AssociateSecurityProfilesRequest & RegionInput,
   AssociateSecurityProfilesResponse,
   AssociateSecurityProfilesError,
   Creds | HttpClient.HttpClient
@@ -10173,6 +10223,8 @@ export const associateSecurityProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSecurityProfiles",
+  telemetry: TELEMETRY,
+  span: "AssociateSecurityProfiles",
 }));
 
 export type AssociateTrafficDistributionGroupUserError =
@@ -10188,7 +10240,7 @@ export type AssociateTrafficDistributionGroupUserError =
  * is created.
  */
 export const associateTrafficDistributionGroupUser: API.OperationMethod<
-  AssociateTrafficDistributionGroupUserRequest,
+  AssociateTrafficDistributionGroupUserRequest & RegionInput,
   AssociateTrafficDistributionGroupUserResponse,
   AssociateTrafficDistributionGroupUserError,
   Creds | HttpClient.HttpClient
@@ -10206,6 +10258,8 @@ export const associateTrafficDistributionGroupUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTrafficDistributionGroupUser",
+  telemetry: TELEMETRY,
+  span: "AssociateTrafficDistributionGroupUser",
 }));
 
 export type AssociateUserProficienciesError =
@@ -10219,7 +10273,7 @@ export type AssociateUserProficienciesError =
  * Associates a set of proficiencies with a user.
  */
 export const associateUserProficiencies: API.OperationMethod<
-  AssociateUserProficienciesRequest,
+  AssociateUserProficienciesRequest & RegionInput,
   AssociateUserProficienciesResponse,
   AssociateUserProficienciesError,
   Creds | HttpClient.HttpClient
@@ -10236,6 +10290,8 @@ export const associateUserProficiencies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUserProficiencies",
+  telemetry: TELEMETRY,
+  span: "AssociateUserProficiencies",
 }));
 
 export type AssociateWorkspaceError =
@@ -10252,7 +10308,7 @@ export type AssociateWorkspaceError =
  * configured views and pages.
  */
 export const associateWorkspace: API.OperationMethod<
-  AssociateWorkspaceRequest,
+  AssociateWorkspaceRequest & RegionInput,
   AssociateWorkspaceResponse,
   AssociateWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -10271,6 +10327,8 @@ export const associateWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWorkspace",
+  telemetry: TELEMETRY,
+  span: "AssociateWorkspace",
 }));
 
 export type BatchAssociateAnalyticsDataSetError =
@@ -10285,7 +10343,7 @@ export type BatchAssociateAnalyticsDataSetError =
  * associate multiple datasets in a single call.
  */
 export const batchAssociateAnalyticsDataSet: API.OperationMethod<
-  BatchAssociateAnalyticsDataSetRequest,
+  BatchAssociateAnalyticsDataSetRequest & RegionInput,
   BatchAssociateAnalyticsDataSetResponse,
   BatchAssociateAnalyticsDataSetError,
   Creds | HttpClient.HttpClient
@@ -10302,6 +10360,8 @@ export const batchAssociateAnalyticsDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateAnalyticsDataSet",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateAnalyticsDataSet",
 }));
 
 export type BatchCreateDataTableValueError =
@@ -10324,7 +10384,7 @@ export type BatchCreateDataTableValueError =
  * item request.
  */
 export const batchCreateDataTableValue: API.OperationMethod<
-  BatchCreateDataTableValueRequest,
+  BatchCreateDataTableValueRequest & RegionInput,
   BatchCreateDataTableValueResponse,
   BatchCreateDataTableValueError,
   Creds | HttpClient.HttpClient
@@ -10345,6 +10405,8 @@ export const batchCreateDataTableValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateDataTableValue",
+  telemetry: TELEMETRY,
+  span: "BatchCreateDataTableValue",
 }));
 
 export type BatchDeleteDataTableValueError =
@@ -10362,7 +10424,7 @@ export type BatchDeleteDataTableValueError =
  * were accessed. System managed values are not deletable by customers.
  */
 export const batchDeleteDataTableValue: API.OperationMethod<
-  BatchDeleteDataTableValueRequest,
+  BatchDeleteDataTableValueRequest & RegionInput,
   BatchDeleteDataTableValueResponse,
   BatchDeleteDataTableValueError,
   Creds | HttpClient.HttpClient
@@ -10381,6 +10443,8 @@ export const batchDeleteDataTableValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteDataTableValue",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteDataTableValue",
 }));
 
 export type BatchDescribeDataTableValueError =
@@ -10397,7 +10461,7 @@ export type BatchDescribeDataTableValueError =
  * maintain consistency with existing operations.
  */
 export const batchDescribeDataTableValue: API.OperationMethod<
-  BatchDescribeDataTableValueRequest,
+  BatchDescribeDataTableValueRequest & RegionInput,
   BatchDescribeDataTableValueResponse,
   BatchDescribeDataTableValueError,
   Creds | HttpClient.HttpClient
@@ -10415,6 +10479,8 @@ export const batchDescribeDataTableValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeDataTableValue",
+  telemetry: TELEMETRY,
+  span: "BatchDescribeDataTableValue",
 }));
 
 export type BatchDisassociateAnalyticsDataSetError =
@@ -10429,7 +10495,7 @@ export type BatchDisassociateAnalyticsDataSetError =
  * multiple datasets in a single call.
  */
 export const batchDisassociateAnalyticsDataSet: API.OperationMethod<
-  BatchDisassociateAnalyticsDataSetRequest,
+  BatchDisassociateAnalyticsDataSetRequest & RegionInput,
   BatchDisassociateAnalyticsDataSetResponse,
   BatchDisassociateAnalyticsDataSetError,
   Creds | HttpClient.HttpClient
@@ -10446,6 +10512,8 @@ export const batchDisassociateAnalyticsDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateAnalyticsDataSet",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateAnalyticsDataSet",
 }));
 
 export type BatchGetAttachedFileMetadataError =
@@ -10460,7 +10528,7 @@ export type BatchGetAttachedFileMetadataError =
  * provided in the input list must be associated with the input AssociatedResourceArn.
  */
 export const batchGetAttachedFileMetadata: API.OperationMethod<
-  BatchGetAttachedFileMetadataRequest,
+  BatchGetAttachedFileMetadataRequest & RegionInput,
   BatchGetAttachedFileMetadataResponse,
   BatchGetAttachedFileMetadataError,
   Creds | HttpClient.HttpClient
@@ -10477,6 +10545,8 @@ export const batchGetAttachedFileMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAttachedFileMetadata",
+  telemetry: TELEMETRY,
+  span: "BatchGetAttachedFileMetadata",
 }));
 
 export type BatchGetFlowAssociationError =
@@ -10491,7 +10561,7 @@ export type BatchGetFlowAssociationError =
  * Retrieve the flow associations for the given resources.
  */
 export const batchGetFlowAssociation: API.OperationMethod<
-  BatchGetFlowAssociationRequest,
+  BatchGetFlowAssociationRequest & RegionInput,
   BatchGetFlowAssociationResponse,
   BatchGetFlowAssociationError,
   Creds | HttpClient.HttpClient
@@ -10509,6 +10579,8 @@ export const batchGetFlowAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFlowAssociation",
+  telemetry: TELEMETRY,
+  span: "BatchGetFlowAssociation",
 }));
 
 export type BatchPutContactError =
@@ -10529,7 +10601,7 @@ export type BatchPutContactError =
  * voice call uses the same contactId that was created by BatchPutContact.
  */
 export const batchPutContact: API.OperationMethod<
-  BatchPutContactRequest,
+  BatchPutContactRequest & RegionInput,
   BatchPutContactResponse,
   BatchPutContactError,
   Creds | HttpClient.HttpClient
@@ -10547,6 +10619,8 @@ export const batchPutContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutContact",
+  telemetry: TELEMETRY,
+  span: "BatchPutContact",
 }));
 
 export type BatchUpdateDataTableValueError =
@@ -10564,7 +10638,7 @@ export type BatchUpdateDataTableValueError =
  * conflicts.
  */
 export const batchUpdateDataTableValue: API.OperationMethod<
-  BatchUpdateDataTableValueRequest,
+  BatchUpdateDataTableValueRequest & RegionInput,
   BatchUpdateDataTableValueResponse,
   BatchUpdateDataTableValueError,
   Creds | HttpClient.HttpClient
@@ -10583,6 +10657,8 @@ export const batchUpdateDataTableValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateDataTableValue",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateDataTableValue",
 }));
 
 export type ClaimPhoneNumberError =
@@ -10623,7 +10699,7 @@ export type ClaimPhoneNumberError =
  * open an Amazon Web Services support ticket.
  */
 export const claimPhoneNumber: API.OperationMethod<
-  ClaimPhoneNumberRequest,
+  ClaimPhoneNumberRequest & RegionInput,
   ClaimPhoneNumberResponse,
   ClaimPhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -10641,6 +10717,8 @@ export const claimPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClaimPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "ClaimPhoneNumber",
 }));
 
 export type CompleteAttachedFileUploadError =
@@ -10655,7 +10733,7 @@ export type CompleteAttachedFileUploadError =
  * StartAttachedFileUpload API.
  */
 export const completeAttachedFileUpload: API.OperationMethod<
-  CompleteAttachedFileUploadRequest,
+  CompleteAttachedFileUploadRequest & RegionInput,
   CompleteAttachedFileUploadResponse,
   CompleteAttachedFileUploadError,
   Creds | HttpClient.HttpClient
@@ -10672,6 +10750,8 @@ export const completeAttachedFileUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteAttachedFileUpload",
+  telemetry: TELEMETRY,
+  span: "CompleteAttachedFileUpload",
 }));
 
 export type CreateAgentStatusError =
@@ -10687,7 +10767,7 @@ export type CreateAgentStatusError =
  * Creates an agent status for the specified Connect Customer instance.
  */
 export const createAgentStatus: API.OperationMethod<
-  CreateAgentStatusRequest,
+  CreateAgentStatusRequest & RegionInput,
   CreateAgentStatusResponse,
   CreateAgentStatusError,
   Creds | HttpClient.HttpClient
@@ -10706,6 +10786,8 @@ export const createAgentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentStatus",
+  telemetry: TELEMETRY,
+  span: "CreateAgentStatus",
 }));
 
 export type CreateAttachedFileError =
@@ -10729,7 +10811,7 @@ export type CreateAttachedFileError =
  * run post-call analytics.
  */
 export const createAttachedFile: API.OperationMethod<
-  CreateAttachedFileRequest,
+  CreateAttachedFileRequest & RegionInput,
   CreateAttachedFileResponse,
   CreateAttachedFileError,
   Creds | HttpClient.HttpClient
@@ -10747,6 +10829,8 @@ export const createAttachedFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAttachedFile",
+  telemetry: TELEMETRY,
+  span: "CreateAttachedFile",
 }));
 
 export type CreateAuthCodeError =
@@ -10762,7 +10846,7 @@ export type CreateAuthCodeError =
  * to establish a session with scoped permissions defined by the specified scope parameters.
  */
 export const createAuthCode: API.OperationMethod<
-  CreateAuthCodeRequest,
+  CreateAuthCodeRequest & RegionInput,
   CreateAuthCodeResponse,
   CreateAuthCodeError,
   Creds | HttpClient.HttpClient
@@ -10780,6 +10864,8 @@ export const createAuthCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuthCode",
+  telemetry: TELEMETRY,
+  span: "CreateAuthCode",
 }));
 
 export type CreateContactError =
@@ -10812,7 +10898,7 @@ export type CreateContactError =
  * fail if your CreateContact limits aren't high enough.
  */
 export const createContact: API.OperationMethod<
-  CreateContactRequest,
+  CreateContactRequest & RegionInput,
   CreateContactResponse,
   CreateContactError,
   Creds | HttpClient.HttpClient
@@ -10833,6 +10919,8 @@ export const createContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContact",
+  telemetry: TELEMETRY,
+  span: "CreateContact",
 }));
 
 export type CreateContactFlowError =
@@ -10852,7 +10940,7 @@ export type CreateContactFlowError =
  * Flow language.
  */
 export const createContactFlow: API.OperationMethod<
-  CreateContactFlowRequest,
+  CreateContactFlowRequest & RegionInput,
   CreateContactFlowResponse,
   CreateContactFlowError,
   Creds | HttpClient.HttpClient
@@ -10872,6 +10960,8 @@ export const createContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlow",
+  telemetry: TELEMETRY,
+  span: "CreateContactFlow",
 }));
 
 export type CreateContactFlowModuleError =
@@ -10890,7 +10980,7 @@ export type CreateContactFlowModuleError =
  * Creates a flow module for the specified Connect Customer instance.
  */
 export const createContactFlowModule: API.OperationMethod<
-  CreateContactFlowModuleRequest,
+  CreateContactFlowModuleRequest & RegionInput,
   CreateContactFlowModuleResponse,
   CreateContactFlowModuleError,
   Creds | HttpClient.HttpClient
@@ -10912,6 +11002,8 @@ export const createContactFlowModule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlowModule",
+  telemetry: TELEMETRY,
+  span: "CreateContactFlowModule",
 }));
 
 export type CreateContactFlowModuleAliasError =
@@ -10928,7 +11020,7 @@ export type CreateContactFlowModuleAliasError =
  * Creates a named alias that points to a specific version of a contact flow module.
  */
 export const createContactFlowModuleAlias: API.OperationMethod<
-  CreateContactFlowModuleAliasRequest,
+  CreateContactFlowModuleAliasRequest & RegionInput,
   CreateContactFlowModuleAliasResponse,
   CreateContactFlowModuleAliasError,
   Creds | HttpClient.HttpClient
@@ -10948,6 +11040,8 @@ export const createContactFlowModuleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlowModuleAlias",
+  telemetry: TELEMETRY,
+  span: "CreateContactFlowModuleAlias",
 }));
 
 export type CreateContactFlowModuleVersionError =
@@ -10964,7 +11058,7 @@ export type CreateContactFlowModuleVersionError =
  * in time for version control and rollback capabilities.
  */
 export const createContactFlowModuleVersion: API.OperationMethod<
-  CreateContactFlowModuleVersionRequest,
+  CreateContactFlowModuleVersionRequest & RegionInput,
   CreateContactFlowModuleVersionResponse,
   CreateContactFlowModuleVersionError,
   Creds | HttpClient.HttpClient
@@ -10983,6 +11077,8 @@ export const createContactFlowModuleVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlowModuleVersion",
+  telemetry: TELEMETRY,
+  span: "CreateContactFlowModuleVersion",
 }));
 
 export type CreateContactFlowVersionError =
@@ -11001,7 +11097,7 @@ export type CreateContactFlowVersionError =
  * flows of type `Campaign`.
  */
 export const createContactFlowVersion: API.OperationMethod<
-  CreateContactFlowVersionRequest,
+  CreateContactFlowVersionRequest & RegionInput,
   CreateContactFlowVersionResponse,
   CreateContactFlowVersionError,
   Creds | HttpClient.HttpClient
@@ -11020,6 +11116,8 @@ export const createContactFlowVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactFlowVersion",
+  telemetry: TELEMETRY,
+  span: "CreateContactFlowVersion",
 }));
 
 export type CreateDataTableError =
@@ -11039,7 +11137,7 @@ export type CreateDataTableError =
  * instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
  */
 export const createDataTable: API.OperationMethod<
-  CreateDataTableRequest,
+  CreateDataTableRequest & RegionInput,
   CreateDataTableResponse,
   CreateDataTableError,
   Creds | HttpClient.HttpClient
@@ -11060,6 +11158,8 @@ export const createDataTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataTable",
+  telemetry: TELEMETRY,
+  span: "CreateDataTable",
 }));
 
 export type CreateDataTableAttributeError =
@@ -11080,7 +11180,7 @@ export type CreateDataTableAttributeError =
  * may not allow customers to create new attributes.
  */
 export const createDataTableAttribute: API.OperationMethod<
-  CreateDataTableAttributeRequest,
+  CreateDataTableAttributeRequest & RegionInput,
   CreateDataTableAttributeResponse,
   CreateDataTableAttributeError,
   Creds | HttpClient.HttpClient
@@ -11101,6 +11201,8 @@ export const createDataTableAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataTableAttribute",
+  telemetry: TELEMETRY,
+  span: "CreateDataTableAttribute",
 }));
 
 export type CreateEmailAddressError =
@@ -11121,7 +11223,7 @@ export type CreateEmailAddressError =
  * addresses in the Connect Customer Administrator Guide.
  */
 export const createEmailAddress: API.OperationMethod<
-  CreateEmailAddressRequest,
+  CreateEmailAddressRequest & RegionInput,
   CreateEmailAddressResponse,
   CreateEmailAddressError,
   Creds | HttpClient.HttpClient
@@ -11143,6 +11245,8 @@ export const createEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEmailAddress",
+  telemetry: TELEMETRY,
+  span: "CreateEmailAddress",
 }));
 
 export type CreateEvaluationFormError =
@@ -11159,7 +11263,7 @@ export type CreateEvaluationFormError =
  * identifiers cannot be duplicated within the same evaluation form.
  */
 export const createEvaluationForm: API.OperationMethod<
-  CreateEvaluationFormRequest,
+  CreateEvaluationFormRequest & RegionInput,
   CreateEvaluationFormResponse,
   CreateEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -11177,6 +11281,8 @@ export const createEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluationForm",
+  telemetry: TELEMETRY,
+  span: "CreateEvaluationForm",
 }));
 
 export type CreateExtractionDefinitionError =
@@ -11195,7 +11301,7 @@ export type CreateExtractionDefinitionError =
  * found.
  */
 export const createExtractionDefinition: API.OperationMethod<
-  CreateExtractionDefinitionRequest,
+  CreateExtractionDefinitionRequest & RegionInput,
   CreateExtractionDefinitionResponse,
   CreateExtractionDefinitionError,
   Creds | HttpClient.HttpClient
@@ -11214,6 +11320,8 @@ export const createExtractionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtractionDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateExtractionDefinition",
 }));
 
 export type CreateHoursOfOperationError =
@@ -11230,7 +11338,7 @@ export type CreateHoursOfOperationError =
  * Creates hours of operation.
  */
 export const createHoursOfOperation: API.OperationMethod<
-  CreateHoursOfOperationRequest,
+  CreateHoursOfOperationRequest & RegionInput,
   CreateHoursOfOperationResponse,
   CreateHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -11250,6 +11358,8 @@ export const createHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHoursOfOperation",
+  telemetry: TELEMETRY,
+  span: "CreateHoursOfOperation",
 }));
 
 export type CreateHoursOfOperationOverrideError =
@@ -11265,7 +11375,7 @@ export type CreateHoursOfOperationOverrideError =
  * Creates an hours of operation override in an Connect Customer hours of operation resource.
  */
 export const createHoursOfOperationOverride: API.OperationMethod<
-  CreateHoursOfOperationOverrideRequest,
+  CreateHoursOfOperationOverrideRequest & RegionInput,
   CreateHoursOfOperationOverrideResponse,
   CreateHoursOfOperationOverrideError,
   Creds | HttpClient.HttpClient
@@ -11284,6 +11394,8 @@ export const createHoursOfOperationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHoursOfOperationOverride",
+  telemetry: TELEMETRY,
+  span: "CreateHoursOfOperationOverride",
 }));
 
 export type CreateInstanceError =
@@ -11308,7 +11420,7 @@ export type CreateInstanceError =
  * You must wait 30 days before you can restart creating and deleting instances in your account.
  */
 export const createInstance: API.OperationMethod<
-  CreateInstanceRequest,
+  CreateInstanceRequest & RegionInput,
   CreateInstanceResponse,
   CreateInstanceError,
   Creds | HttpClient.HttpClient
@@ -11325,6 +11437,8 @@ export const createInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstance",
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type CreateIntegrationAssociationError =
@@ -11338,7 +11452,7 @@ export type CreateIntegrationAssociationError =
  * Creates an Amazon Web Services resource association with an Connect Customer instance.
  */
 export const createIntegrationAssociation: API.OperationMethod<
-  CreateIntegrationAssociationRequest,
+  CreateIntegrationAssociationRequest & RegionInput,
   CreateIntegrationAssociationResponse,
   CreateIntegrationAssociationError,
   Creds | HttpClient.HttpClient
@@ -11355,6 +11469,8 @@ export const createIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegrationAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationAssociation",
 }));
 
 export type CreateMetricError =
@@ -11372,7 +11488,7 @@ export type CreateMetricError =
  * that use formulas referencing existing Amazon Web Services-managed metrics, optionally with filters applied.
  */
 export const createMetric: API.OperationMethod<
-  CreateMetricRequest,
+  CreateMetricRequest & RegionInput,
   CreateMetricResponse,
   CreateMetricError,
   Creds | HttpClient.HttpClient
@@ -11392,6 +11508,8 @@ export const createMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMetric",
+  telemetry: TELEMETRY,
+  span: "CreateMetric",
 }));
 
 export type CreateNotificationError =
@@ -11407,7 +11525,7 @@ export type CreateNotificationError =
  * Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance.
  */
 export const createNotification: API.OperationMethod<
-  CreateNotificationRequest,
+  CreateNotificationRequest & RegionInput,
   CreateNotificationResponse,
   CreateNotificationError,
   Creds | HttpClient.HttpClient
@@ -11426,6 +11544,8 @@ export const createNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotification",
+  telemetry: TELEMETRY,
+  span: "CreateNotification",
 }));
 
 export type CreateParticipantError =
@@ -11442,7 +11562,7 @@ export type CreateParticipantError =
  * calling.
  */
 export const createParticipant: API.OperationMethod<
-  CreateParticipantRequest,
+  CreateParticipantRequest & RegionInput,
   CreateParticipantResponse,
   CreateParticipantError,
   Creds | HttpClient.HttpClient
@@ -11460,6 +11580,8 @@ export const createParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParticipant",
+  telemetry: TELEMETRY,
+  span: "CreateParticipant",
 }));
 
 export type CreatePersistentContactAssociationError =
@@ -11476,7 +11598,7 @@ export type CreatePersistentContactAssociationError =
  * the *Connect Customer Administrator Guide*.
  */
 export const createPersistentContactAssociation: API.OperationMethod<
-  CreatePersistentContactAssociationRequest,
+  CreatePersistentContactAssociationRequest & RegionInput,
   CreatePersistentContactAssociationResponse,
   CreatePersistentContactAssociationError,
   Creds | HttpClient.HttpClient
@@ -11494,6 +11616,8 @@ export const createPersistentContactAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePersistentContactAssociation",
+  telemetry: TELEMETRY,
+  span: "CreatePersistentContactAssociation",
 }));
 
 export type CreatePredefinedAttributeError =
@@ -11527,7 +11651,7 @@ export type CreatePredefinedAttributeError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const createPredefinedAttribute: API.OperationMethod<
-  CreatePredefinedAttributeRequest,
+  CreatePredefinedAttributeRequest & RegionInput,
   CreatePredefinedAttributeResponse,
   CreatePredefinedAttributeError,
   Creds | HttpClient.HttpClient
@@ -11546,6 +11670,8 @@ export const createPredefinedAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePredefinedAttribute",
+  telemetry: TELEMETRY,
+  span: "CreatePredefinedAttribute",
 }));
 
 export type CreatePromptError =
@@ -11562,7 +11688,7 @@ export type CreatePromptError =
  * *Connect Customer Administrator Guide*.
  */
 export const createPrompt: API.OperationMethod<
-  CreatePromptRequest,
+  CreatePromptRequest & RegionInput,
   CreatePromptResponse,
   CreatePromptError,
   Creds | HttpClient.HttpClient
@@ -11580,6 +11706,8 @@ export const createPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrompt",
+  telemetry: TELEMETRY,
+  span: "CreatePrompt",
 }));
 
 export type CreatePushNotificationRegistrationError =
@@ -11595,7 +11723,7 @@ export type CreatePushNotificationRegistrationError =
  * information about push notifications, see Set up push notifications in Connect Customer for mobile chat in the *Connect Customer Administrator Guide*.
  */
 export const createPushNotificationRegistration: API.OperationMethod<
-  CreatePushNotificationRegistrationRequest,
+  CreatePushNotificationRegistrationRequest & RegionInput,
   CreatePushNotificationRegistrationResponse,
   CreatePushNotificationRegistrationError,
   Creds | HttpClient.HttpClient
@@ -11613,6 +11741,8 @@ export const createPushNotificationRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePushNotificationRegistration",
+  telemetry: TELEMETRY,
+  span: "CreatePushNotificationRegistration",
 }));
 
 export type CreateQueueError =
@@ -11642,7 +11772,7 @@ export type CreateQueueError =
  * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResponse,
   CreateQueueError,
   Creds | HttpClient.HttpClient
@@ -11661,6 +11791,8 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type CreateQuickConnectError =
@@ -11676,7 +11808,7 @@ export type CreateQuickConnectError =
  * Creates a quick connect for the specified Connect Customer instance.
  */
 export const createQuickConnect: API.OperationMethod<
-  CreateQuickConnectRequest,
+  CreateQuickConnectRequest & RegionInput,
   CreateQuickConnectResponse,
   CreateQuickConnectError,
   Creds | HttpClient.HttpClient
@@ -11695,6 +11827,8 @@ export const createQuickConnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuickConnect",
+  telemetry: TELEMETRY,
+  span: "CreateQuickConnect",
 }));
 
 export type CreateRoutingProfileError =
@@ -11710,7 +11844,7 @@ export type CreateRoutingProfileError =
  * Creates a new routing profile.
  */
 export const createRoutingProfile: API.OperationMethod<
-  CreateRoutingProfileRequest,
+  CreateRoutingProfileRequest & RegionInput,
   CreateRoutingProfileResponse,
   CreateRoutingProfileError,
   Creds | HttpClient.HttpClient
@@ -11729,6 +11863,8 @@ export const createRoutingProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoutingProfile",
+  telemetry: TELEMETRY,
+  span: "CreateRoutingProfile",
 }));
 
 export type CreateRuleError =
@@ -11747,7 +11883,7 @@ export type CreateRuleError =
  * language to code conditions for the rule.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Creds | HttpClient.HttpClient
@@ -11766,6 +11902,8 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateSecurityProfileError =
@@ -11785,7 +11923,7 @@ export type CreateSecurityProfileError =
  * of security profile permissions.
  */
 export const createSecurityProfile: API.OperationMethod<
-  CreateSecurityProfileRequest,
+  CreateSecurityProfileRequest & RegionInput,
   CreateSecurityProfileResponse,
   CreateSecurityProfileError,
   Creds | HttpClient.HttpClient
@@ -11804,6 +11942,8 @@ export const createSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityProfile",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityProfile",
 }));
 
 export type CreateTaskTemplateError =
@@ -11818,7 +11958,7 @@ export type CreateTaskTemplateError =
  * Creates a new task template in the specified Connect Customer instance.
  */
 export const createTaskTemplate: API.OperationMethod<
-  CreateTaskTemplateRequest,
+  CreateTaskTemplateRequest & RegionInput,
   CreateTaskTemplateResponse,
   CreateTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -11836,6 +11976,8 @@ export const createTaskTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTaskTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTaskTemplate",
 }));
 
 export type CreateTestCaseError =
@@ -11855,7 +11997,7 @@ export type CreateTestCaseError =
  * Creates a test case with its content and metadata for the specified Amazon Connect instance.
  */
 export const createTestCase: API.OperationMethod<
-  CreateTestCaseRequest,
+  CreateTestCaseRequest & RegionInput,
   CreateTestCaseResponse,
   CreateTestCaseError,
   Creds | HttpClient.HttpClient
@@ -11878,6 +12020,8 @@ export const createTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestCase",
+  telemetry: TELEMETRY,
+  span: "CreateTestCase",
 }));
 
 export type CreateTrafficDistributionGroupError =
@@ -11904,7 +12048,7 @@ export type CreateTrafficDistributionGroupError =
  * *Connect Customer Administrator Guide*.
  */
 export const createTrafficDistributionGroup: API.OperationMethod<
-  CreateTrafficDistributionGroupRequest,
+  CreateTrafficDistributionGroupRequest & RegionInput,
   CreateTrafficDistributionGroupResponse,
   CreateTrafficDistributionGroupError,
   Creds | HttpClient.HttpClient
@@ -11924,6 +12068,8 @@ export const createTrafficDistributionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficDistributionGroup",
+  telemetry: TELEMETRY,
+  span: "CreateTrafficDistributionGroup",
 }));
 
 export type CreateUseCaseError =
@@ -11937,7 +12083,7 @@ export type CreateUseCaseError =
  * Creates a use case for an integration association.
  */
 export const createUseCase: API.OperationMethod<
-  CreateUseCaseRequest,
+  CreateUseCaseRequest & RegionInput,
   CreateUseCaseResponse,
   CreateUseCaseError,
   Creds | HttpClient.HttpClient
@@ -11954,6 +12100,8 @@ export const createUseCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUseCase",
+  telemetry: TELEMETRY,
+  span: "CreateUseCase",
 }));
 
 export type CreateUserError =
@@ -11988,7 +12136,7 @@ export type CreateUserError =
  * Administrator Guide.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Creds | HttpClient.HttpClient
@@ -12007,6 +12155,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateUserHierarchyGroupError =
@@ -12022,7 +12172,7 @@ export type CreateUserHierarchyGroupError =
  * Creates a new user hierarchy group.
  */
 export const createUserHierarchyGroup: API.OperationMethod<
-  CreateUserHierarchyGroupRequest,
+  CreateUserHierarchyGroupRequest & RegionInput,
   CreateUserHierarchyGroupResponse,
   CreateUserHierarchyGroupError,
   Creds | HttpClient.HttpClient
@@ -12041,6 +12191,8 @@ export const createUserHierarchyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserHierarchyGroup",
+  telemetry: TELEMETRY,
+  span: "CreateUserHierarchyGroup",
 }));
 
 export type CreateViewError =
@@ -12065,7 +12217,7 @@ export type CreateViewError =
  * provided view content based on the status. The view is idempotent if ClientToken is provided.
  */
 export const createView: API.OperationMethod<
-  CreateViewRequest,
+  CreateViewRequest & RegionInput,
   CreateViewResponse,
   CreateViewError,
   Creds | HttpClient.HttpClient
@@ -12086,6 +12238,8 @@ export const createView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateView",
+  telemetry: TELEMETRY,
+  span: "CreateView",
 }));
 
 export type CreateViewVersionError =
@@ -12107,7 +12261,7 @@ export type CreateViewVersionError =
  * if the supplied ViewContentSha256 is different from the ViewContentSha256 of the `$LATEST` alias.
  */
 export const createViewVersion: API.OperationMethod<
-  CreateViewVersionRequest,
+  CreateViewVersionRequest & RegionInput,
   CreateViewVersionResponse,
   CreateViewVersionError,
   Creds | HttpClient.HttpClient
@@ -12127,6 +12281,8 @@ export const createViewVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateViewVersion",
+  telemetry: TELEMETRY,
+  span: "CreateViewVersion",
 }));
 
 export type CreateVocabularyError =
@@ -12144,7 +12300,7 @@ export type CreateVocabularyError =
  * contact analysis sessions for that language.
  */
 export const createVocabulary: API.OperationMethod<
-  CreateVocabularyRequest,
+  CreateVocabularyRequest & RegionInput,
   CreateVocabularyResponse,
   CreateVocabularyError,
   Creds | HttpClient.HttpClient
@@ -12163,6 +12319,8 @@ export const createVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVocabulary",
+  telemetry: TELEMETRY,
+  span: "CreateVocabulary",
 }));
 
 export type CreateWorkspaceError =
@@ -12181,7 +12339,7 @@ export type CreateWorkspaceError =
  * users or routing profiles.
  */
 export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
+  CreateWorkspaceRequest & RegionInput,
   CreateWorkspaceResponse,
   CreateWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -12202,6 +12360,8 @@ export const createWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspace",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type CreateWorkspacePageError =
@@ -12220,7 +12380,7 @@ export type CreateWorkspacePageError =
  * Associates a view with a page in a workspace, defining what users see when they navigate to that page.
  */
 export const createWorkspacePage: API.OperationMethod<
-  CreateWorkspacePageRequest,
+  CreateWorkspacePageRequest & RegionInput,
   CreateWorkspacePageResponse,
   CreateWorkspacePageError,
   Creds | HttpClient.HttpClient
@@ -12242,6 +12402,8 @@ export const createWorkspacePage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspacePage",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspacePage",
 }));
 
 export type DeactivateEvaluationFormError =
@@ -12256,7 +12418,7 @@ export type DeactivateEvaluationFormError =
  * available for users to start new evaluations based on the form.
  */
 export const deactivateEvaluationForm: API.OperationMethod<
-  DeactivateEvaluationFormRequest,
+  DeactivateEvaluationFormRequest & RegionInput,
   DeactivateEvaluationFormResponse,
   DeactivateEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -12273,6 +12435,8 @@ export const deactivateEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateEvaluationForm",
+  telemetry: TELEMETRY,
+  span: "DeactivateEvaluationForm",
 }));
 
 export type DeleteAttachedFileError =
@@ -12289,7 +12453,7 @@ export type DeleteAttachedFileError =
  * enabled.
  */
 export const deleteAttachedFile: API.OperationMethod<
-  DeleteAttachedFileRequest,
+  DeleteAttachedFileRequest & RegionInput,
   DeleteAttachedFileResponse,
   DeleteAttachedFileError,
   Creds | HttpClient.HttpClient
@@ -12306,6 +12470,8 @@ export const deleteAttachedFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttachedFile",
+  telemetry: TELEMETRY,
+  span: "DeleteAttachedFile",
 }));
 
 export type DeleteContactDataError =
@@ -12329,7 +12495,7 @@ export type DeleteContactDataError =
  * outside the scope of this operation remains your responsibility to remove.
  */
 export const deleteContactData: API.OperationMethod<
-  DeleteContactDataRequest,
+  DeleteContactDataRequest & RegionInput,
   DeleteContactDataResponse,
   DeleteContactDataError,
   Creds | HttpClient.HttpClient
@@ -12347,6 +12513,8 @@ export const deleteContactData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactData",
+  telemetry: TELEMETRY,
+  span: "DeleteContactData",
 }));
 
 export type DeleteContactEvaluationError =
@@ -12360,7 +12528,7 @@ export type DeleteContactEvaluationError =
  * Deletes a contact evaluation in the specified Connect Customer instance.
  */
 export const deleteContactEvaluation: API.OperationMethod<
-  DeleteContactEvaluationRequest,
+  DeleteContactEvaluationRequest & RegionInput,
   DeleteContactEvaluationResponse,
   DeleteContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -12377,6 +12545,8 @@ export const deleteContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactEvaluation",
+  telemetry: TELEMETRY,
+  span: "DeleteContactEvaluation",
 }));
 
 export type DeleteContactFlowError =
@@ -12391,7 +12561,7 @@ export type DeleteContactFlowError =
  * Deletes a flow for the specified Connect Customer instance.
  */
 export const deleteContactFlow: API.OperationMethod<
-  DeleteContactFlowRequest,
+  DeleteContactFlowRequest & RegionInput,
   DeleteContactFlowResponse,
   DeleteContactFlowError,
   Creds | HttpClient.HttpClient
@@ -12409,6 +12579,8 @@ export const deleteContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteContactFlow",
 }));
 
 export type DeleteContactFlowModuleError =
@@ -12423,7 +12595,7 @@ export type DeleteContactFlowModuleError =
  * Deletes the specified flow module.
  */
 export const deleteContactFlowModule: API.OperationMethod<
-  DeleteContactFlowModuleRequest,
+  DeleteContactFlowModuleRequest & RegionInput,
   DeleteContactFlowModuleResponse,
   DeleteContactFlowModuleError,
   Creds | HttpClient.HttpClient
@@ -12441,6 +12613,8 @@ export const deleteContactFlowModule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlowModule",
+  telemetry: TELEMETRY,
+  span: "DeleteContactFlowModule",
 }));
 
 export type DeleteContactFlowModuleAliasError =
@@ -12456,7 +12630,7 @@ export type DeleteContactFlowModuleAliasError =
  * version itself.
  */
 export const deleteContactFlowModuleAlias: API.OperationMethod<
-  DeleteContactFlowModuleAliasRequest,
+  DeleteContactFlowModuleAliasRequest & RegionInput,
   DeleteContactFlowModuleAliasResponse,
   DeleteContactFlowModuleAliasError,
   Creds | HttpClient.HttpClient
@@ -12474,6 +12648,8 @@ export const deleteContactFlowModuleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlowModuleAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteContactFlowModuleAlias",
 }));
 
 export type DeleteContactFlowModuleVersionError =
@@ -12488,7 +12664,7 @@ export type DeleteContactFlowModuleVersionError =
  * Removes a specific version of a contact flow module.
  */
 export const deleteContactFlowModuleVersion: API.OperationMethod<
-  DeleteContactFlowModuleVersionRequest,
+  DeleteContactFlowModuleVersionRequest & RegionInput,
   DeleteContactFlowModuleVersionResponse,
   DeleteContactFlowModuleVersionError,
   Creds | HttpClient.HttpClient
@@ -12506,6 +12682,8 @@ export const deleteContactFlowModuleVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlowModuleVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteContactFlowModuleVersion",
 }));
 
 export type DeleteContactFlowVersionError =
@@ -12520,7 +12698,7 @@ export type DeleteContactFlowVersionError =
  * Deletes the particular version specified in flow version identifier.
  */
 export const deleteContactFlowVersion: API.OperationMethod<
-  DeleteContactFlowVersionRequest,
+  DeleteContactFlowVersionRequest & RegionInput,
   DeleteContactFlowVersionResponse,
   DeleteContactFlowVersionError,
   Creds | HttpClient.HttpClient
@@ -12538,6 +12716,8 @@ export const deleteContactFlowVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactFlowVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteContactFlowVersion",
 }));
 
 export type DeleteDataTableError =
@@ -12557,7 +12737,7 @@ export type DeleteDataTableError =
  * values were accessed.
  */
 export const deleteDataTable: API.OperationMethod<
-  DeleteDataTableRequest,
+  DeleteDataTableRequest & RegionInput,
   DeleteDataTableResponse,
   DeleteDataTableError,
   Creds | HttpClient.HttpClient
@@ -12576,6 +12756,8 @@ export const deleteDataTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataTable",
+  telemetry: TELEMETRY,
+  span: "DeleteDataTable",
 }));
 
 export type DeleteDataTableAttributeError =
@@ -12591,7 +12773,7 @@ export type DeleteDataTableAttributeError =
  * Deletes an attribute and all its values from a data table.
  */
 export const deleteDataTableAttribute: API.OperationMethod<
-  DeleteDataTableAttributeRequest,
+  DeleteDataTableAttributeRequest & RegionInput,
   DeleteDataTableAttributeResponse,
   DeleteDataTableAttributeError,
   Creds | HttpClient.HttpClient
@@ -12610,6 +12792,8 @@ export const deleteDataTableAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataTableAttribute",
+  telemetry: TELEMETRY,
+  span: "DeleteDataTableAttribute",
 }));
 
 export type DeleteEmailAddressError =
@@ -12625,7 +12809,7 @@ export type DeleteEmailAddressError =
  * Deletes email address from the specified Connect Customer instance.
  */
 export const deleteEmailAddress: API.OperationMethod<
-  DeleteEmailAddressRequest,
+  DeleteEmailAddressRequest & RegionInput,
   DeleteEmailAddressResponse,
   DeleteEmailAddressError,
   Creds | HttpClient.HttpClient
@@ -12644,6 +12828,8 @@ export const deleteEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailAddress",
+  telemetry: TELEMETRY,
+  span: "DeleteEmailAddress",
 }));
 
 export type DeleteEvaluationFormError =
@@ -12661,7 +12847,7 @@ export type DeleteEvaluationFormError =
  * - If no version is provided, then the full form (all versions) is deleted.
  */
 export const deleteEvaluationForm: API.OperationMethod<
-  DeleteEvaluationFormRequest,
+  DeleteEvaluationFormRequest & RegionInput,
   DeleteEvaluationFormResponse,
   DeleteEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -12678,6 +12864,8 @@ export const deleteEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluationForm",
+  telemetry: TELEMETRY,
+  span: "DeleteEvaluationForm",
 }));
 
 export type DeleteExtractionDefinitionError =
@@ -12691,7 +12879,7 @@ export type DeleteExtractionDefinitionError =
  * Deletes an extraction definition from the specified Connect Customer instance.
  */
 export const deleteExtractionDefinition: API.OperationMethod<
-  DeleteExtractionDefinitionRequest,
+  DeleteExtractionDefinitionRequest & RegionInput,
   DeleteExtractionDefinitionResponse,
   DeleteExtractionDefinitionError,
   Creds | HttpClient.HttpClient
@@ -12708,6 +12896,8 @@ export const deleteExtractionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtractionDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteExtractionDefinition",
 }));
 
 export type DeleteHoursOfOperationError =
@@ -12721,7 +12911,7 @@ export type DeleteHoursOfOperationError =
  * Deletes an hours of operation.
  */
 export const deleteHoursOfOperation: API.OperationMethod<
-  DeleteHoursOfOperationRequest,
+  DeleteHoursOfOperationRequest & RegionInput,
   DeleteHoursOfOperationResponse,
   DeleteHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -12738,6 +12928,8 @@ export const deleteHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHoursOfOperation",
+  telemetry: TELEMETRY,
+  span: "DeleteHoursOfOperation",
 }));
 
 export type DeleteHoursOfOperationOverrideError =
@@ -12751,7 +12943,7 @@ export type DeleteHoursOfOperationOverrideError =
  * Deletes an hours of operation override in an Connect Customer hours of operation resource.
  */
 export const deleteHoursOfOperationOverride: API.OperationMethod<
-  DeleteHoursOfOperationOverrideRequest,
+  DeleteHoursOfOperationOverrideRequest & RegionInput,
   DeleteHoursOfOperationOverrideResponse,
   DeleteHoursOfOperationOverrideError,
   Creds | HttpClient.HttpClient
@@ -12768,6 +12960,8 @@ export const deleteHoursOfOperationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHoursOfOperationOverride",
+  telemetry: TELEMETRY,
+  span: "DeleteHoursOfOperationOverride",
 }));
 
 export type DeleteInstanceError =
@@ -12786,7 +12980,7 @@ export type DeleteInstanceError =
  * You must wait 30 days before you can restart creating and deleting instances in your account.
  */
 export const deleteInstance: API.OperationMethod<
-  DeleteInstanceRequest,
+  DeleteInstanceRequest & RegionInput,
   DeleteInstanceResponse,
   DeleteInstanceError,
   Creds | HttpClient.HttpClient
@@ -12797,6 +12991,8 @@ export const deleteInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DeleteIntegrationAssociationError =
@@ -12810,7 +13006,7 @@ export type DeleteIntegrationAssociationError =
  * have any use cases associated with it.
  */
 export const deleteIntegrationAssociation: API.OperationMethod<
-  DeleteIntegrationAssociationRequest,
+  DeleteIntegrationAssociationRequest & RegionInput,
   DeleteIntegrationAssociationResponse,
   DeleteIntegrationAssociationError,
   Creds | HttpClient.HttpClient
@@ -12826,6 +13022,8 @@ export const deleteIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegrationAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAssociation",
 }));
 
 export type DeleteMetricError =
@@ -12841,7 +13039,7 @@ export type DeleteMetricError =
  * Deletes an existing metric from the specified Connect Customer instance. This operation fails with `ResourceConflictException` if the metric is currently in use in a dashboard.
  */
 export const deleteMetric: API.OperationMethod<
-  DeleteMetricRequest,
+  DeleteMetricRequest & RegionInput,
   DeleteMetricResponse,
   DeleteMetricError,
   Creds | HttpClient.HttpClient
@@ -12860,6 +13058,8 @@ export const deleteMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetric",
+  telemetry: TELEMETRY,
+  span: "DeleteMetric",
 }));
 
 export type DeleteNotificationError =
@@ -12874,7 +13074,7 @@ export type DeleteNotificationError =
  * Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs.
  */
 export const deleteNotification: API.OperationMethod<
-  DeleteNotificationRequest,
+  DeleteNotificationRequest & RegionInput,
   DeleteNotificationResponse,
   DeleteNotificationError,
   Creds | HttpClient.HttpClient
@@ -12892,6 +13092,8 @@ export const deleteNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotification",
+  telemetry: TELEMETRY,
+  span: "DeleteNotification",
 }));
 
 export type DeletePredefinedAttributeError =
@@ -12906,7 +13108,7 @@ export type DeletePredefinedAttributeError =
  * Deletes a predefined attribute from the specified Connect Customer instance.
  */
 export const deletePredefinedAttribute: API.OperationMethod<
-  DeletePredefinedAttributeRequest,
+  DeletePredefinedAttributeRequest & RegionInput,
   DeletePredefinedAttributeResponse,
   DeletePredefinedAttributeError,
   Creds | HttpClient.HttpClient
@@ -12924,6 +13126,8 @@ export const deletePredefinedAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePredefinedAttribute",
+  telemetry: TELEMETRY,
+  span: "DeletePredefinedAttribute",
 }));
 
 export type DeletePromptError =
@@ -12937,7 +13141,7 @@ export type DeletePromptError =
  * Deletes a prompt.
  */
 export const deletePrompt: API.OperationMethod<
-  DeletePromptRequest,
+  DeletePromptRequest & RegionInput,
   DeletePromptResponse,
   DeletePromptError,
   Creds | HttpClient.HttpClient
@@ -12954,6 +13158,8 @@ export const deletePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrompt",
+  telemetry: TELEMETRY,
+  span: "DeletePrompt",
 }));
 
 export type DeletePushNotificationRegistrationError =
@@ -12967,7 +13173,7 @@ export type DeletePushNotificationRegistrationError =
  * Deletes registration for a device token and a chat contact.
  */
 export const deletePushNotificationRegistration: API.OperationMethod<
-  DeletePushNotificationRegistrationRequest,
+  DeletePushNotificationRegistrationRequest & RegionInput,
   DeletePushNotificationRegistrationResponse,
   DeletePushNotificationRegistrationError,
   Creds | HttpClient.HttpClient
@@ -12984,6 +13190,8 @@ export const deletePushNotificationRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePushNotificationRegistration",
+  telemetry: TELEMETRY,
+  span: "DeletePushNotificationRegistration",
 }));
 
 export type DeleteQueueError =
@@ -12998,7 +13206,7 @@ export type DeleteQueueError =
  * Deletes a queue.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Creds | HttpClient.HttpClient
@@ -13016,6 +13224,8 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
 }));
 
 export type DeleteQuickConnectError =
@@ -13039,7 +13249,7 @@ export type DeleteQuickConnectError =
  * you're using Connect Customer Global Resiliency.
  */
 export const deleteQuickConnect: API.OperationMethod<
-  DeleteQuickConnectRequest,
+  DeleteQuickConnectRequest & RegionInput,
   DeleteQuickConnectResponse,
   DeleteQuickConnectError,
   Creds | HttpClient.HttpClient
@@ -13056,6 +13266,8 @@ export const deleteQuickConnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuickConnect",
+  telemetry: TELEMETRY,
+  span: "DeleteQuickConnect",
 }));
 
 export type DeleteRoutingProfileError =
@@ -13070,7 +13282,7 @@ export type DeleteRoutingProfileError =
  * Deletes a routing profile.
  */
 export const deleteRoutingProfile: API.OperationMethod<
-  DeleteRoutingProfileRequest,
+  DeleteRoutingProfileRequest & RegionInput,
   DeleteRoutingProfileResponse,
   DeleteRoutingProfileError,
   Creds | HttpClient.HttpClient
@@ -13088,6 +13300,8 @@ export const deleteRoutingProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoutingProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteRoutingProfile",
 }));
 
 export type DeleteRuleError =
@@ -13101,7 +13315,7 @@ export type DeleteRuleError =
  * Deletes a rule for the specified Connect Customer instance.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Creds | HttpClient.HttpClient
@@ -13118,6 +13332,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteSecurityProfileError =
@@ -13133,7 +13349,7 @@ export type DeleteSecurityProfileError =
  * Deletes a security profile.
  */
 export const deleteSecurityProfile: API.OperationMethod<
-  DeleteSecurityProfileRequest,
+  DeleteSecurityProfileRequest & RegionInput,
   DeleteSecurityProfileResponse,
   DeleteSecurityProfileError,
   Creds | HttpClient.HttpClient
@@ -13152,6 +13368,8 @@ export const deleteSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityProfile",
 }));
 
 export type DeleteSessionError =
@@ -13166,7 +13384,7 @@ export type DeleteSessionError =
  * Deletes a session for the specified Connect Customer instance.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Creds | HttpClient.HttpClient
@@ -13184,6 +13402,8 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type DeleteTaskTemplateError =
@@ -13197,7 +13417,7 @@ export type DeleteTaskTemplateError =
  * Deletes the task template.
  */
 export const deleteTaskTemplate: API.OperationMethod<
-  DeleteTaskTemplateRequest,
+  DeleteTaskTemplateRequest & RegionInput,
   DeleteTaskTemplateResponse,
   DeleteTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -13214,6 +13434,8 @@ export const deleteTaskTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTaskTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTaskTemplate",
 }));
 
 export type DeleteTestCaseError =
@@ -13228,7 +13450,7 @@ export type DeleteTestCaseError =
  * Deletes the test case that has already been created for the specified Amazon Connect instance.
  */
 export const deleteTestCase: API.OperationMethod<
-  DeleteTestCaseRequest,
+  DeleteTestCaseRequest & RegionInput,
   DeleteTestCaseResponse,
   DeleteTestCaseError,
   Creds | HttpClient.HttpClient
@@ -13246,6 +13468,8 @@ export const deleteTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestCase",
+  telemetry: TELEMETRY,
+  span: "DeleteTestCase",
 }));
 
 export type DeleteTrafficDistributionGroupError =
@@ -13262,7 +13486,7 @@ export type DeleteTrafficDistributionGroupError =
  * *Connect Customer Administrator Guide*.
  */
 export const deleteTrafficDistributionGroup: API.OperationMethod<
-  DeleteTrafficDistributionGroupRequest,
+  DeleteTrafficDistributionGroupRequest & RegionInput,
   DeleteTrafficDistributionGroupResponse,
   DeleteTrafficDistributionGroupError,
   Creds | HttpClient.HttpClient
@@ -13279,6 +13503,8 @@ export const deleteTrafficDistributionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficDistributionGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficDistributionGroup",
 }));
 
 export type DeleteUseCaseError =
@@ -13291,7 +13517,7 @@ export type DeleteUseCaseError =
  * Deletes a use case from an integration association.
  */
 export const deleteUseCase: API.OperationMethod<
-  DeleteUseCaseRequest,
+  DeleteUseCaseRequest & RegionInput,
   DeleteUseCaseResponse,
   DeleteUseCaseError,
   Creds | HttpClient.HttpClient
@@ -13307,6 +13533,8 @@ export const deleteUseCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUseCase",
+  telemetry: TELEMETRY,
+  span: "DeleteUseCase",
 }));
 
 export type DeleteUserError =
@@ -13333,7 +13561,7 @@ export type DeleteUserError =
  * you're using Connect Customer Global Resiliency.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Creds | HttpClient.HttpClient
@@ -13350,6 +13578,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserHierarchyGroupError =
@@ -13365,7 +13595,7 @@ export type DeleteUserHierarchyGroupError =
  * groups.
  */
 export const deleteUserHierarchyGroup: API.OperationMethod<
-  DeleteUserHierarchyGroupRequest,
+  DeleteUserHierarchyGroupRequest & RegionInput,
   DeleteUserHierarchyGroupResponse,
   DeleteUserHierarchyGroupError,
   Creds | HttpClient.HttpClient
@@ -13383,6 +13613,8 @@ export const deleteUserHierarchyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserHierarchyGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteUserHierarchyGroup",
 }));
 
 export type DeleteViewError =
@@ -13398,7 +13630,7 @@ export type DeleteViewError =
  * Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
  */
 export const deleteView: API.OperationMethod<
-  DeleteViewRequest,
+  DeleteViewRequest & RegionInput,
   DeleteViewResponse,
   DeleteViewError,
   Creds | HttpClient.HttpClient
@@ -13417,6 +13649,8 @@ export const deleteView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteView",
+  telemetry: TELEMETRY,
+  span: "DeleteView",
 }));
 
 export type DeleteViewVersionError =
@@ -13432,7 +13666,7 @@ export type DeleteViewVersionError =
  * Deletes the particular version specified in `ViewVersion` identifier.
  */
 export const deleteViewVersion: API.OperationMethod<
-  DeleteViewVersionRequest,
+  DeleteViewVersionRequest & RegionInput,
   DeleteViewVersionResponse,
   DeleteViewVersionError,
   Creds | HttpClient.HttpClient
@@ -13451,6 +13685,8 @@ export const deleteViewVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteViewVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteViewVersion",
 }));
 
 export type DeleteVocabularyError =
@@ -13465,7 +13701,7 @@ export type DeleteVocabularyError =
  * Deletes the vocabulary that has the given identifier.
  */
 export const deleteVocabulary: API.OperationMethod<
-  DeleteVocabularyRequest,
+  DeleteVocabularyRequest & RegionInput,
   DeleteVocabularyResponse,
   DeleteVocabularyError,
   Creds | HttpClient.HttpClient
@@ -13483,6 +13719,8 @@ export const deleteVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVocabulary",
+  telemetry: TELEMETRY,
+  span: "DeleteVocabulary",
 }));
 
 export type DeleteWorkspaceError =
@@ -13497,7 +13735,7 @@ export type DeleteWorkspaceError =
  * Deletes a workspace and removes all associated view and resource assignments.
  */
 export const deleteWorkspace: API.OperationMethod<
-  DeleteWorkspaceRequest,
+  DeleteWorkspaceRequest & RegionInput,
   DeleteWorkspaceResponse,
   DeleteWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -13515,6 +13753,8 @@ export const deleteWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspace",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DeleteWorkspaceMediaError =
@@ -13528,7 +13768,7 @@ export type DeleteWorkspaceMediaError =
  * Deletes a media asset (such as a logo) from a workspace.
  */
 export const deleteWorkspaceMedia: API.OperationMethod<
-  DeleteWorkspaceMediaRequest,
+  DeleteWorkspaceMediaRequest & RegionInput,
   DeleteWorkspaceMediaResponse,
   DeleteWorkspaceMediaError,
   Creds | HttpClient.HttpClient
@@ -13545,6 +13785,8 @@ export const deleteWorkspaceMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceMedia",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceMedia",
 }));
 
 export type DeleteWorkspacePageError =
@@ -13561,7 +13803,7 @@ export type DeleteWorkspacePageError =
  * deletion.
  */
 export const deleteWorkspacePage: API.OperationMethod<
-  DeleteWorkspacePageRequest,
+  DeleteWorkspacePageRequest & RegionInput,
   DeleteWorkspacePageResponse,
   DeleteWorkspacePageError,
   Creds | HttpClient.HttpClient
@@ -13580,6 +13822,8 @@ export const deleteWorkspacePage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspacePage",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspacePage",
 }));
 
 export type DescribeAgentStatusError =
@@ -13593,7 +13837,7 @@ export type DescribeAgentStatusError =
  * Describes an agent status.
  */
 export const describeAgentStatus: API.OperationMethod<
-  DescribeAgentStatusRequest,
+  DescribeAgentStatusRequest & RegionInput,
   DescribeAgentStatusResponse,
   DescribeAgentStatusError,
   Creds | HttpClient.HttpClient
@@ -13610,6 +13854,8 @@ export const describeAgentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgentStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeAgentStatus",
 }));
 
 export type DescribeAttachedFilesConfigurationError =
@@ -13625,7 +13871,7 @@ export type DescribeAttachedFilesConfigurationError =
  * If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration exists, the default configuration values for that attachment scope are returned.
  */
 export const describeAttachedFilesConfiguration: API.OperationMethod<
-  DescribeAttachedFilesConfigurationRequest,
+  DescribeAttachedFilesConfigurationRequest & RegionInput,
   DescribeAttachedFilesConfigurationResponse,
   DescribeAttachedFilesConfigurationError,
   Creds | HttpClient.HttpClient
@@ -13642,6 +13888,8 @@ export const describeAttachedFilesConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttachedFilesConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeAttachedFilesConfiguration",
 }));
 
 export type DescribeAuthenticationProfileError =
@@ -13658,7 +13906,7 @@ export type DescribeAuthenticationProfileError =
  * Describes the target authentication profile.
  */
 export const describeAuthenticationProfile: API.OperationMethod<
-  DescribeAuthenticationProfileRequest,
+  DescribeAuthenticationProfileRequest & RegionInput,
   DescribeAuthenticationProfileResponse,
   DescribeAuthenticationProfileError,
   Creds | HttpClient.HttpClient
@@ -13675,6 +13923,8 @@ export const describeAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuthenticationProfile",
+  telemetry: TELEMETRY,
+  span: "DescribeAuthenticationProfile",
 }));
 
 export type DescribeContactError =
@@ -13715,7 +13965,7 @@ export type DescribeContactError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const describeContact: API.OperationMethod<
-  DescribeContactRequest,
+  DescribeContactRequest & RegionInput,
   DescribeContactResponse,
   DescribeContactError,
   Creds | HttpClient.HttpClient
@@ -13732,6 +13982,8 @@ export const describeContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContact",
+  telemetry: TELEMETRY,
+  span: "DescribeContact",
 }));
 
 export type DescribeContactEvaluationError =
@@ -13744,7 +13996,7 @@ export type DescribeContactEvaluationError =
  * Describes a contact evaluation in the specified Connect Customer instance.
  */
 export const describeContactEvaluation: API.OperationMethod<
-  DescribeContactEvaluationRequest,
+  DescribeContactEvaluationRequest & RegionInput,
   DescribeContactEvaluationResponse,
   DescribeContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -13760,6 +14012,8 @@ export const describeContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactEvaluation",
+  telemetry: TELEMETRY,
+  span: "DescribeContactEvaluation",
 }));
 
 export type DescribeContactFlowError =
@@ -13788,7 +14042,7 @@ export type DescribeContactFlowError =
  * `SAVED` does not initiate validation of the content. `SAVED` | `PUBLISHED`
  */
 export const describeContactFlow: API.OperationMethod<
-  DescribeContactFlowRequest,
+  DescribeContactFlowRequest & RegionInput,
   DescribeContactFlowResponse,
   DescribeContactFlowError,
   Creds | HttpClient.HttpClient
@@ -13806,6 +14060,8 @@ export const describeContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactFlow",
+  telemetry: TELEMETRY,
+  span: "DescribeContactFlow",
 }));
 
 export type DescribeContactFlowModuleError =
@@ -13824,7 +14080,7 @@ export type DescribeContactFlowModuleError =
  * be supplied to view saved content that has not been published.
  */
 export const describeContactFlowModule: API.OperationMethod<
-  DescribeContactFlowModuleRequest,
+  DescribeContactFlowModuleRequest & RegionInput,
   DescribeContactFlowModuleResponse,
   DescribeContactFlowModuleError,
   Creds | HttpClient.HttpClient
@@ -13842,6 +14098,8 @@ export const describeContactFlowModule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactFlowModule",
+  telemetry: TELEMETRY,
+  span: "DescribeContactFlowModule",
 }));
 
 export type DescribeContactFlowModuleAliasError =
@@ -13857,7 +14115,7 @@ export type DescribeContactFlowModuleAliasError =
  * metadata.
  */
 export const describeContactFlowModuleAlias: API.OperationMethod<
-  DescribeContactFlowModuleAliasRequest,
+  DescribeContactFlowModuleAliasRequest & RegionInput,
   DescribeContactFlowModuleAliasResponse,
   DescribeContactFlowModuleAliasError,
   Creds | HttpClient.HttpClient
@@ -13875,6 +14133,8 @@ export const describeContactFlowModuleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactFlowModuleAlias",
+  telemetry: TELEMETRY,
+  span: "DescribeContactFlowModuleAlias",
 }));
 
 export type DescribeDataTableError =
@@ -13891,7 +14151,7 @@ export type DescribeDataTableError =
  * term but is allowed to maintain consistency with existing operations.
  */
 export const describeDataTable: API.OperationMethod<
-  DescribeDataTableRequest,
+  DescribeDataTableRequest & RegionInput,
   DescribeDataTableResponse,
   DescribeDataTableError,
   Creds | HttpClient.HttpClient
@@ -13909,6 +14169,8 @@ export const describeDataTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataTable",
+  telemetry: TELEMETRY,
+  span: "DescribeDataTable",
 }));
 
 export type DescribeDataTableAttributeError =
@@ -13924,7 +14186,7 @@ export type DescribeDataTableAttributeError =
  * and metadata. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations.
  */
 export const describeDataTableAttribute: API.OperationMethod<
-  DescribeDataTableAttributeRequest,
+  DescribeDataTableAttributeRequest & RegionInput,
   DescribeDataTableAttributeResponse,
   DescribeDataTableAttributeError,
   Creds | HttpClient.HttpClient
@@ -13942,6 +14204,8 @@ export const describeDataTableAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataTableAttribute",
+  telemetry: TELEMETRY,
+  span: "DescribeDataTableAttribute",
 }));
 
 export type DescribeEmailAddressError =
@@ -13956,7 +14220,7 @@ export type DescribeEmailAddressError =
  * Describe email address form the specified Connect Customer instance.
  */
 export const describeEmailAddress: API.OperationMethod<
-  DescribeEmailAddressRequest,
+  DescribeEmailAddressRequest & RegionInput,
   DescribeEmailAddressResponse,
   DescribeEmailAddressError,
   Creds | HttpClient.HttpClient
@@ -13974,6 +14238,8 @@ export const describeEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEmailAddress",
+  telemetry: TELEMETRY,
+  span: "DescribeEmailAddress",
 }));
 
 export type DescribeEvaluationFormError =
@@ -13987,7 +14253,7 @@ export type DescribeEvaluationFormError =
  * provided, the latest version of the evaluation form is described.
  */
 export const describeEvaluationForm: API.OperationMethod<
-  DescribeEvaluationFormRequest,
+  DescribeEvaluationFormRequest & RegionInput,
   DescribeEvaluationFormResponse,
   DescribeEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -14003,6 +14269,8 @@ export const describeEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEvaluationForm",
+  telemetry: TELEMETRY,
+  span: "DescribeEvaluationForm",
 }));
 
 export type DescribeExtractionDefinitionError =
@@ -14016,7 +14284,7 @@ export type DescribeExtractionDefinitionError =
  * Describes an extraction definition in the specified Connect Customer instance.
  */
 export const describeExtractionDefinition: API.OperationMethod<
-  DescribeExtractionDefinitionRequest,
+  DescribeExtractionDefinitionRequest & RegionInput,
   DescribeExtractionDefinitionResponse,
   DescribeExtractionDefinitionError,
   Creds | HttpClient.HttpClient
@@ -14033,6 +14301,8 @@ export const describeExtractionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExtractionDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeExtractionDefinition",
 }));
 
 export type DescribeHoursOfOperationError =
@@ -14046,7 +14316,7 @@ export type DescribeHoursOfOperationError =
  * Describes the hours of operation.
  */
 export const describeHoursOfOperation: API.OperationMethod<
-  DescribeHoursOfOperationRequest,
+  DescribeHoursOfOperationRequest & RegionInput,
   DescribeHoursOfOperationResponse,
   DescribeHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -14063,6 +14333,8 @@ export const describeHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHoursOfOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeHoursOfOperation",
 }));
 
 export type DescribeHoursOfOperationOverrideError =
@@ -14076,7 +14348,7 @@ export type DescribeHoursOfOperationOverrideError =
  * Describes the hours of operation override.
  */
 export const describeHoursOfOperationOverride: API.OperationMethod<
-  DescribeHoursOfOperationOverrideRequest,
+  DescribeHoursOfOperationOverrideRequest & RegionInput,
   DescribeHoursOfOperationOverrideResponse,
   DescribeHoursOfOperationOverrideError,
   Creds | HttpClient.HttpClient
@@ -14093,6 +14365,8 @@ export const describeHoursOfOperationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHoursOfOperationOverride",
+  telemetry: TELEMETRY,
+  span: "DescribeHoursOfOperationOverride",
 }));
 
 export type DescribeInstanceError =
@@ -14110,7 +14384,7 @@ export type DescribeInstanceError =
  * reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
  */
 export const describeInstance: API.OperationMethod<
-  DescribeInstanceRequest,
+  DescribeInstanceRequest & RegionInput,
   DescribeInstanceResponse,
   DescribeInstanceError,
   Creds | HttpClient.HttpClient
@@ -14121,6 +14395,8 @@ export const describeInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstance",
+  telemetry: TELEMETRY,
+  span: "DescribeInstance",
 }));
 
 export type DescribeInstanceAttributeError =
@@ -14136,7 +14412,7 @@ export type DescribeInstanceAttributeError =
  * Describes the specified instance attribute.
  */
 export const describeInstanceAttribute: API.OperationMethod<
-  DescribeInstanceAttributeRequest,
+  DescribeInstanceAttributeRequest & RegionInput,
   DescribeInstanceAttributeResponse,
   DescribeInstanceAttributeError,
   Creds | HttpClient.HttpClient
@@ -14153,6 +14429,8 @@ export const describeInstanceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceAttribute",
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceAttribute",
 }));
 
 export type DescribeInstanceStorageConfigError =
@@ -14169,7 +14447,7 @@ export type DescribeInstanceStorageConfigError =
  * ID.
  */
 export const describeInstanceStorageConfig: API.OperationMethod<
-  DescribeInstanceStorageConfigRequest,
+  DescribeInstanceStorageConfigRequest & RegionInput,
   DescribeInstanceStorageConfigResponse,
   DescribeInstanceStorageConfigError,
   Creds | HttpClient.HttpClient
@@ -14186,6 +14464,8 @@ export const describeInstanceStorageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceStorageConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceStorageConfig",
 }));
 
 export type DescribeMetricError =
@@ -14200,7 +14480,7 @@ export type DescribeMetricError =
  * Retrieves the full definition of an existing metric from the specified Connect Customer instance.
  */
 export const describeMetric: API.OperationMethod<
-  DescribeMetricRequest,
+  DescribeMetricRequest & RegionInput,
   DescribeMetricResponse,
   DescribeMetricError,
   Creds | HttpClient.HttpClient
@@ -14218,6 +14498,8 @@ export const describeMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetric",
+  telemetry: TELEMETRY,
+  span: "DescribeMetric",
 }));
 
 export type DescribeNotificationError =
@@ -14232,7 +14514,7 @@ export type DescribeNotificationError =
  * Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata.
  */
 export const describeNotification: API.OperationMethod<
-  DescribeNotificationRequest,
+  DescribeNotificationRequest & RegionInput,
   DescribeNotificationResponse,
   DescribeNotificationError,
   Creds | HttpClient.HttpClient
@@ -14250,6 +14532,8 @@ export const describeNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotification",
+  telemetry: TELEMETRY,
+  span: "DescribeNotification",
 }));
 
 export type DescribePhoneNumberError =
@@ -14269,7 +14553,7 @@ export type DescribePhoneNumberError =
  * this scenario, you receive a `ResourceNotFoundException`.
  */
 export const describePhoneNumber: API.OperationMethod<
-  DescribePhoneNumberRequest,
+  DescribePhoneNumberRequest & RegionInput,
   DescribePhoneNumberResponse,
   DescribePhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -14286,6 +14570,8 @@ export const describePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "DescribePhoneNumber",
 }));
 
 export type DescribePredefinedAttributeError =
@@ -14312,7 +14598,7 @@ export type DescribePredefinedAttributeError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const describePredefinedAttribute: API.OperationMethod<
-  DescribePredefinedAttributeRequest,
+  DescribePredefinedAttributeRequest & RegionInput,
   DescribePredefinedAttributeResponse,
   DescribePredefinedAttributeError,
   Creds | HttpClient.HttpClient
@@ -14329,6 +14615,8 @@ export const describePredefinedAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePredefinedAttribute",
+  telemetry: TELEMETRY,
+  span: "DescribePredefinedAttribute",
 }));
 
 export type DescribePromptError =
@@ -14342,7 +14630,7 @@ export type DescribePromptError =
  * Describes the prompt.
  */
 export const describePrompt: API.OperationMethod<
-  DescribePromptRequest,
+  DescribePromptRequest & RegionInput,
   DescribePromptResponse,
   DescribePromptError,
   Creds | HttpClient.HttpClient
@@ -14359,6 +14647,8 @@ export const describePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePrompt",
+  telemetry: TELEMETRY,
+  span: "DescribePrompt",
 }));
 
 export type DescribeQueueError =
@@ -14372,7 +14662,7 @@ export type DescribeQueueError =
  * Describes the specified queue.
  */
 export const describeQueue: API.OperationMethod<
-  DescribeQueueRequest,
+  DescribeQueueRequest & RegionInput,
   DescribeQueueResponse,
   DescribeQueueError,
   Creds | HttpClient.HttpClient
@@ -14389,6 +14679,8 @@ export const describeQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQueue",
+  telemetry: TELEMETRY,
+  span: "DescribeQueue",
 }));
 
 export type DescribeQuickConnectError =
@@ -14402,7 +14694,7 @@ export type DescribeQuickConnectError =
  * Describes the quick connect.
  */
 export const describeQuickConnect: API.OperationMethod<
-  DescribeQuickConnectRequest,
+  DescribeQuickConnectRequest & RegionInput,
   DescribeQuickConnectResponse,
   DescribeQuickConnectError,
   Creds | HttpClient.HttpClient
@@ -14419,6 +14711,8 @@ export const describeQuickConnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuickConnect",
+  telemetry: TELEMETRY,
+  span: "DescribeQuickConnect",
 }));
 
 export type DescribeRoutingProfileError =
@@ -14436,7 +14730,7 @@ export type DescribeRoutingProfileError =
  * AssociatedQueueIds.
  */
 export const describeRoutingProfile: API.OperationMethod<
-  DescribeRoutingProfileRequest,
+  DescribeRoutingProfileRequest & RegionInput,
   DescribeRoutingProfileResponse,
   DescribeRoutingProfileError,
   Creds | HttpClient.HttpClient
@@ -14453,6 +14747,8 @@ export const describeRoutingProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoutingProfile",
+  telemetry: TELEMETRY,
+  span: "DescribeRoutingProfile",
 }));
 
 export type DescribeRuleError =
@@ -14466,7 +14762,7 @@ export type DescribeRuleError =
  * Describes a rule for the specified Connect Customer instance.
  */
 export const describeRule: API.OperationMethod<
-  DescribeRuleRequest,
+  DescribeRuleRequest & RegionInput,
   DescribeRuleResponse,
   DescribeRuleError,
   Creds | HttpClient.HttpClient
@@ -14483,6 +14779,8 @@ export const describeRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRule",
+  telemetry: TELEMETRY,
+  span: "DescribeRule",
 }));
 
 export type DescribeSecurityProfileError =
@@ -14500,7 +14798,7 @@ export type DescribeSecurityProfileError =
  * of security profile permissions.
  */
 export const describeSecurityProfile: API.OperationMethod<
-  DescribeSecurityProfileRequest,
+  DescribeSecurityProfileRequest & RegionInput,
   DescribeSecurityProfileResponse,
   DescribeSecurityProfileError,
   Creds | HttpClient.HttpClient
@@ -14517,6 +14815,8 @@ export const describeSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityProfile",
+  telemetry: TELEMETRY,
+  span: "DescribeSecurityProfile",
 }));
 
 export type DescribeTestCaseError =
@@ -14531,7 +14831,7 @@ export type DescribeTestCaseError =
  * Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance.
  */
 export const describeTestCase: API.OperationMethod<
-  DescribeTestCaseRequest,
+  DescribeTestCaseRequest & RegionInput,
   DescribeTestCaseResponse,
   DescribeTestCaseError,
   Creds | HttpClient.HttpClient
@@ -14549,6 +14849,8 @@ export const describeTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTestCase",
+  telemetry: TELEMETRY,
+  span: "DescribeTestCase",
 }));
 
 export type DescribeTrafficDistributionGroupError =
@@ -14562,7 +14864,7 @@ export type DescribeTrafficDistributionGroupError =
  * Gets details and status of a traffic distribution group.
  */
 export const describeTrafficDistributionGroup: API.OperationMethod<
-  DescribeTrafficDistributionGroupRequest,
+  DescribeTrafficDistributionGroupRequest & RegionInput,
   DescribeTrafficDistributionGroupResponse,
   DescribeTrafficDistributionGroupError,
   Creds | HttpClient.HttpClient
@@ -14579,6 +14881,8 @@ export const describeTrafficDistributionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrafficDistributionGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeTrafficDistributionGroup",
 }));
 
 export type DescribeUserError =
@@ -14594,7 +14898,7 @@ export type DescribeUserError =
  * and note the IDs provided in the output.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Creds | HttpClient.HttpClient
@@ -14611,6 +14915,8 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  telemetry: TELEMETRY,
+  span: "DescribeUser",
 }));
 
 export type DescribeUserHierarchyGroupError =
@@ -14624,7 +14930,7 @@ export type DescribeUserHierarchyGroupError =
  * Describes the specified hierarchy group.
  */
 export const describeUserHierarchyGroup: API.OperationMethod<
-  DescribeUserHierarchyGroupRequest,
+  DescribeUserHierarchyGroupRequest & RegionInput,
   DescribeUserHierarchyGroupResponse,
   DescribeUserHierarchyGroupError,
   Creds | HttpClient.HttpClient
@@ -14641,6 +14947,8 @@ export const describeUserHierarchyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserHierarchyGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeUserHierarchyGroup",
 }));
 
 export type DescribeUserHierarchyStructureError =
@@ -14654,7 +14962,7 @@ export type DescribeUserHierarchyStructureError =
  * Describes the hierarchy structure of the specified Connect Customer instance.
  */
 export const describeUserHierarchyStructure: API.OperationMethod<
-  DescribeUserHierarchyStructureRequest,
+  DescribeUserHierarchyStructureRequest & RegionInput,
   DescribeUserHierarchyStructureResponse,
   DescribeUserHierarchyStructureError,
   Creds | HttpClient.HttpClient
@@ -14671,6 +14979,8 @@ export const describeUserHierarchyStructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserHierarchyStructure",
+  telemetry: TELEMETRY,
+  span: "DescribeUserHierarchyStructure",
 }));
 
 export type DescribeViewError =
@@ -14694,7 +15004,7 @@ export type DescribeViewError =
  * published content available. Version 1 is assumed for Amazon Web Services managed views.
  */
 export const describeView: API.OperationMethod<
-  DescribeViewRequest,
+  DescribeViewRequest & RegionInput,
   DescribeViewResponse,
   DescribeViewError,
   Creds | HttpClient.HttpClient
@@ -14712,6 +15022,8 @@ export const describeView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeView",
+  telemetry: TELEMETRY,
+  span: "DescribeView",
 }));
 
 export type DescribeVocabularyError =
@@ -14725,7 +15037,7 @@ export type DescribeVocabularyError =
  * Describes the specified vocabulary.
  */
 export const describeVocabulary: API.OperationMethod<
-  DescribeVocabularyRequest,
+  DescribeVocabularyRequest & RegionInput,
   DescribeVocabularyResponse,
   DescribeVocabularyError,
   Creds | HttpClient.HttpClient
@@ -14742,6 +15054,8 @@ export const describeVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVocabulary",
+  telemetry: TELEMETRY,
+  span: "DescribeVocabulary",
 }));
 
 export type DescribeWorkspaceError =
@@ -14756,7 +15070,7 @@ export type DescribeWorkspaceError =
  * Retrieves details about a workspace, including its configuration and metadata.
  */
 export const describeWorkspace: API.OperationMethod<
-  DescribeWorkspaceRequest,
+  DescribeWorkspaceRequest & RegionInput,
   DescribeWorkspaceResponse,
   DescribeWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -14774,6 +15088,8 @@ export const describeWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspace",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspace",
 }));
 
 export type DisassociateAnalyticsDataSetError =
@@ -14787,7 +15103,7 @@ export type DisassociateAnalyticsDataSetError =
  * Removes the dataset ID associated with a given Connect Customer instance.
  */
 export const disassociateAnalyticsDataSet: API.OperationMethod<
-  DisassociateAnalyticsDataSetRequest,
+  DisassociateAnalyticsDataSetRequest & RegionInput,
   DisassociateAnalyticsDataSetResponse,
   DisassociateAnalyticsDataSetError,
   Creds | HttpClient.HttpClient
@@ -14804,6 +15120,8 @@ export const disassociateAnalyticsDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAnalyticsDataSet",
+  telemetry: TELEMETRY,
+  span: "DisassociateAnalyticsDataSet",
 }));
 
 export type DisassociateApprovedOriginError =
@@ -14819,7 +15137,7 @@ export type DisassociateApprovedOriginError =
  * Revokes access to integrated applications from Connect Customer.
  */
 export const disassociateApprovedOrigin: API.OperationMethod<
-  DisassociateApprovedOriginRequest,
+  DisassociateApprovedOriginRequest & RegionInput,
   DisassociateApprovedOriginResponse,
   DisassociateApprovedOriginError,
   Creds | HttpClient.HttpClient
@@ -14836,6 +15154,8 @@ export const disassociateApprovedOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApprovedOrigin",
+  telemetry: TELEMETRY,
+  span: "DisassociateApprovedOrigin",
 }));
 
 export type DisassociateBotError =
@@ -14850,7 +15170,7 @@ export type DisassociateBotError =
  * Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
  */
 export const disassociateBot: API.OperationMethod<
-  DisassociateBotRequest,
+  DisassociateBotRequest & RegionInput,
   DisassociateBotResponse,
   DisassociateBotError,
   Creds | HttpClient.HttpClient
@@ -14866,6 +15186,8 @@ export const disassociateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBot",
+  telemetry: TELEMETRY,
+  span: "DisassociateBot",
 }));
 
 export type DisassociateEmailAddressAliasError =
@@ -14934,7 +15256,7 @@ export type DisassociateEmailAddressAliasError =
  * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
  */
 export const disassociateEmailAddressAlias: API.OperationMethod<
-  DisassociateEmailAddressAliasRequest,
+  DisassociateEmailAddressAliasRequest & RegionInput,
   DisassociateEmailAddressAliasResponse,
   DisassociateEmailAddressAliasError,
   Creds | HttpClient.HttpClient
@@ -14953,6 +15275,8 @@ export const disassociateEmailAddressAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEmailAddressAlias",
+  telemetry: TELEMETRY,
+  span: "DisassociateEmailAddressAlias",
 }));
 
 export type DisassociateFlowError =
@@ -14967,7 +15291,7 @@ export type DisassociateFlowError =
  * Disassociates a connect resource from a flow.
  */
 export const disassociateFlow: API.OperationMethod<
-  DisassociateFlowRequest,
+  DisassociateFlowRequest & RegionInput,
   DisassociateFlowResponse,
   DisassociateFlowError,
   Creds | HttpClient.HttpClient
@@ -14985,6 +15309,8 @@ export const disassociateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFlow",
+  telemetry: TELEMETRY,
+  span: "DisassociateFlow",
 }));
 
 export type DisassociateHoursOfOperationsError =
@@ -14999,7 +15325,7 @@ export type DisassociateHoursOfOperationsError =
  * Disassociates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide.
  */
 export const disassociateHoursOfOperations: API.OperationMethod<
-  DisassociateHoursOfOperationsRequest,
+  DisassociateHoursOfOperationsRequest & RegionInput,
   DisassociateHoursOfOperationsResponse,
   DisassociateHoursOfOperationsError,
   Creds | HttpClient.HttpClient
@@ -15017,6 +15343,8 @@ export const disassociateHoursOfOperations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateHoursOfOperations",
+  telemetry: TELEMETRY,
+  span: "DisassociateHoursOfOperations",
 }));
 
 export type DisassociateInstanceStorageConfigError =
@@ -15032,7 +15360,7 @@ export type DisassociateInstanceStorageConfigError =
  * Removes the storage type configurations for the specified resource type and association ID.
  */
 export const disassociateInstanceStorageConfig: API.OperationMethod<
-  DisassociateInstanceStorageConfigRequest,
+  DisassociateInstanceStorageConfigRequest & RegionInput,
   DisassociateInstanceStorageConfigResponse,
   DisassociateInstanceStorageConfigError,
   Creds | HttpClient.HttpClient
@@ -15049,6 +15377,8 @@ export const disassociateInstanceStorageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateInstanceStorageConfig",
+  telemetry: TELEMETRY,
+  span: "DisassociateInstanceStorageConfig",
 }));
 
 export type DisassociateLambdaFunctionError =
@@ -15064,7 +15394,7 @@ export type DisassociateLambdaFunctionError =
  * Remove the Lambda function from the dropdown options available in the relevant flow blocks.
  */
 export const disassociateLambdaFunction: API.OperationMethod<
-  DisassociateLambdaFunctionRequest,
+  DisassociateLambdaFunctionRequest & RegionInput,
   DisassociateLambdaFunctionResponse,
   DisassociateLambdaFunctionError,
   Creds | HttpClient.HttpClient
@@ -15081,6 +15411,8 @@ export const disassociateLambdaFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLambdaFunction",
+  telemetry: TELEMETRY,
+  span: "DisassociateLambdaFunction",
 }));
 
 export type DisassociateLexBotError =
@@ -15096,7 +15428,7 @@ export type DisassociateLexBotError =
  * Revokes authorization from the specified instance to access the specified Amazon Lex bot.
  */
 export const disassociateLexBot: API.OperationMethod<
-  DisassociateLexBotRequest,
+  DisassociateLexBotRequest & RegionInput,
   DisassociateLexBotResponse,
   DisassociateLexBotError,
   Creds | HttpClient.HttpClient
@@ -15113,6 +15445,8 @@ export const disassociateLexBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLexBot",
+  telemetry: TELEMETRY,
+  span: "DisassociateLexBot",
 }));
 
 export type DisassociatePhoneNumberContactFlowError =
@@ -15132,7 +15466,7 @@ export type DisassociatePhoneNumberContactFlowError =
  * `ResourceNotFoundException`.
  */
 export const disassociatePhoneNumberContactFlow: API.OperationMethod<
-  DisassociatePhoneNumberContactFlowRequest,
+  DisassociatePhoneNumberContactFlowRequest & RegionInput,
   DisassociatePhoneNumberContactFlowResponse,
   DisassociatePhoneNumberContactFlowError,
   Creds | HttpClient.HttpClient
@@ -15149,6 +15483,8 @@ export const disassociatePhoneNumberContactFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePhoneNumberContactFlow",
+  telemetry: TELEMETRY,
+  span: "DisassociatePhoneNumberContactFlow",
 }));
 
 export type DisassociateQueueEmailAddressesError =
@@ -15171,7 +15507,7 @@ export type DisassociateQueueEmailAddressesError =
  * - Changes take effect immediately and will affect the agent experience in the Contact Control Panel (CCP).
  */
 export const disassociateQueueEmailAddresses: API.OperationMethod<
-  DisassociateQueueEmailAddressesRequest,
+  DisassociateQueueEmailAddressesRequest & RegionInput,
   DisassociateQueueEmailAddressesResponse,
   DisassociateQueueEmailAddressesError,
   Creds | HttpClient.HttpClient
@@ -15189,6 +15525,8 @@ export const disassociateQueueEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateQueueEmailAddresses",
+  telemetry: TELEMETRY,
+  span: "DisassociateQueueEmailAddresses",
 }));
 
 export type DisassociateQueueQuickConnectsError =
@@ -15202,7 +15540,7 @@ export type DisassociateQueueQuickConnectsError =
  * Disassociates a set of quick connects from a queue.
  */
 export const disassociateQueueQuickConnects: API.OperationMethod<
-  DisassociateQueueQuickConnectsRequest,
+  DisassociateQueueQuickConnectsRequest & RegionInput,
   DisassociateQueueQuickConnectsResponse,
   DisassociateQueueQuickConnectsError,
   Creds | HttpClient.HttpClient
@@ -15219,6 +15557,8 @@ export const disassociateQueueQuickConnects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateQueueQuickConnects",
+  telemetry: TELEMETRY,
+  span: "DisassociateQueueQuickConnects",
 }));
 
 export type DisassociateRoutingProfileQueuesError =
@@ -15235,7 +15575,7 @@ export type DisassociateRoutingProfileQueuesError =
  * single call results in an InvalidParameterException.
  */
 export const disassociateRoutingProfileQueues: API.OperationMethod<
-  DisassociateRoutingProfileQueuesRequest,
+  DisassociateRoutingProfileQueuesRequest & RegionInput,
   DisassociateRoutingProfileQueuesResponse,
   DisassociateRoutingProfileQueuesError,
   Creds | HttpClient.HttpClient
@@ -15252,6 +15592,8 @@ export const disassociateRoutingProfileQueues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRoutingProfileQueues",
+  telemetry: TELEMETRY,
+  span: "DisassociateRoutingProfileQueues",
 }));
 
 export type DisassociateSecurityKeyError =
@@ -15267,7 +15609,7 @@ export type DisassociateSecurityKeyError =
  * Deletes the specified security key.
  */
 export const disassociateSecurityKey: API.OperationMethod<
-  DisassociateSecurityKeyRequest,
+  DisassociateSecurityKeyRequest & RegionInput,
   DisassociateSecurityKeyResponse,
   DisassociateSecurityKeyError,
   Creds | HttpClient.HttpClient
@@ -15284,6 +15626,8 @@ export const disassociateSecurityKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSecurityKey",
+  telemetry: TELEMETRY,
+  span: "DisassociateSecurityKey",
 }));
 
 export type DisassociateSecurityProfilesError =
@@ -15299,7 +15643,7 @@ export type DisassociateSecurityProfilesError =
  * Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance.
  */
 export const disassociateSecurityProfiles: API.OperationMethod<
-  DisassociateSecurityProfilesRequest,
+  DisassociateSecurityProfilesRequest & RegionInput,
   DisassociateSecurityProfilesResponse,
   DisassociateSecurityProfilesError,
   Creds | HttpClient.HttpClient
@@ -15318,6 +15662,8 @@ export const disassociateSecurityProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSecurityProfiles",
+  telemetry: TELEMETRY,
+  span: "DisassociateSecurityProfiles",
 }));
 
 export type DisassociateTrafficDistributionGroupUserError =
@@ -15333,7 +15679,7 @@ export type DisassociateTrafficDistributionGroupUserError =
  * traffic distribution group is created.
  */
 export const disassociateTrafficDistributionGroupUser: API.OperationMethod<
-  DisassociateTrafficDistributionGroupUserRequest,
+  DisassociateTrafficDistributionGroupUserRequest & RegionInput,
   DisassociateTrafficDistributionGroupUserResponse,
   DisassociateTrafficDistributionGroupUserError,
   Creds | HttpClient.HttpClient
@@ -15351,6 +15697,8 @@ export const disassociateTrafficDistributionGroupUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTrafficDistributionGroupUser",
+  telemetry: TELEMETRY,
+  span: "DisassociateTrafficDistributionGroupUser",
 }));
 
 export type DisassociateUserProficienciesError =
@@ -15364,7 +15712,7 @@ export type DisassociateUserProficienciesError =
  * Disassociates a set of proficiencies from a user.
  */
 export const disassociateUserProficiencies: API.OperationMethod<
-  DisassociateUserProficienciesRequest,
+  DisassociateUserProficienciesRequest & RegionInput,
   DisassociateUserProficienciesResponse,
   DisassociateUserProficienciesError,
   Creds | HttpClient.HttpClient
@@ -15381,6 +15729,8 @@ export const disassociateUserProficiencies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUserProficiencies",
+  telemetry: TELEMETRY,
+  span: "DisassociateUserProficiencies",
 }));
 
 export type DisassociateWorkspaceError =
@@ -15395,7 +15745,7 @@ export type DisassociateWorkspaceError =
  * Removes the association between a workspace and one or more users or routing profiles.
  */
 export const disassociateWorkspace: API.OperationMethod<
-  DisassociateWorkspaceRequest,
+  DisassociateWorkspaceRequest & RegionInput,
   DisassociateWorkspaceResponse,
   DisassociateWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -15413,6 +15763,8 @@ export const disassociateWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWorkspace",
+  telemetry: TELEMETRY,
+  span: "DisassociateWorkspace",
 }));
 
 export type DismissUserContactError =
@@ -15429,7 +15781,7 @@ export type DismissUserContactError =
  * `ERROR`, `ENDED`, or `REJECTED` state in the Agent Event Stream.
  */
 export const dismissUserContact: API.OperationMethod<
-  DismissUserContactRequest,
+  DismissUserContactRequest & RegionInput,
   DismissUserContactResponse,
   DismissUserContactError,
   Creds | HttpClient.HttpClient
@@ -15447,6 +15799,8 @@ export const dismissUserContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DismissUserContact",
+  telemetry: TELEMETRY,
+  span: "DismissUserContact",
 }));
 
 export type EvaluateDataTableValuesError =
@@ -15465,7 +15819,7 @@ export type EvaluateDataTableValuesError =
  * Batch Operations: Amazon Web Services API Standards.
  */
 export const evaluateDataTableValues: API.PaginatedOperationMethod<
-  EvaluateDataTableValuesRequest,
+  EvaluateDataTableValuesRequest & RegionInput,
   EvaluateDataTableValuesResponse,
   EvaluateDataTableValuesError,
   Creds | HttpClient.HttpClient,
@@ -15489,6 +15843,8 @@ export const evaluateDataTableValues: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "EvaluateDataTableValues",
 })) as any;
 
 export type GetAttachedFileError =
@@ -15503,7 +15859,7 @@ export type GetAttachedFileError =
  * attached file. It will only return a downloadURL if the status of the attached file is `APPROVED`.
  */
 export const getAttachedFile: API.OperationMethod<
-  GetAttachedFileRequest,
+  GetAttachedFileRequest & RegionInput,
   GetAttachedFileResponse,
   GetAttachedFileError,
   Creds | HttpClient.HttpClient
@@ -15520,6 +15876,8 @@ export const getAttachedFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttachedFile",
+  telemetry: TELEMETRY,
+  span: "GetAttachedFile",
 }));
 
 export type GetContactAttributesError =
@@ -15531,7 +15889,7 @@ export type GetContactAttributesError =
  * Retrieves the contact attributes for the specified contact.
  */
 export const getContactAttributes: API.OperationMethod<
-  GetContactAttributesRequest,
+  GetContactAttributesRequest & RegionInput,
   GetContactAttributesResponse,
   GetContactAttributesError,
   Creds | HttpClient.HttpClient
@@ -15542,6 +15900,8 @@ export const getContactAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactAttributes",
+  telemetry: TELEMETRY,
+  span: "GetContactAttributes",
 }));
 
 export type GetContactMetricsError =
@@ -15576,7 +15936,7 @@ export type GetContactMetricsError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const getContactMetrics: API.OperationMethod<
-  GetContactMetricsRequest,
+  GetContactMetricsRequest & RegionInput,
   GetContactMetricsResponse,
   GetContactMetricsError,
   Creds | HttpClient.HttpClient
@@ -15594,6 +15954,8 @@ export const getContactMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactMetrics",
+  telemetry: TELEMETRY,
+  span: "GetContactMetrics",
 }));
 
 export type GetCrossRegionRoutingError =
@@ -15611,7 +15973,7 @@ export type GetCrossRegionRoutingError =
  * This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing.
  */
 export const getCrossRegionRouting: API.OperationMethod<
-  GetCrossRegionRoutingRequest,
+  GetCrossRegionRoutingRequest & RegionInput,
   GetCrossRegionRoutingResponse,
   GetCrossRegionRoutingError,
   Creds | HttpClient.HttpClient
@@ -15628,6 +15990,8 @@ export const getCrossRegionRouting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCrossRegionRouting",
+  telemetry: TELEMETRY,
+  span: "GetCrossRegionRouting",
 }));
 
 export type GetCurrentMetricDataError =
@@ -15664,7 +16028,7 @@ export type GetCurrentMetricDataError =
  * - Add filters to reduce the amount of data returned
  */
 export const getCurrentMetricData: API.PaginatedOperationMethod<
-  GetCurrentMetricDataRequest,
+  GetCurrentMetricDataRequest & RegionInput,
   GetCurrentMetricDataResponse,
   GetCurrentMetricDataError,
   Creds | HttpClient.HttpClient,
@@ -15687,6 +16051,8 @@ export const getCurrentMetricData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCurrentMetricData",
 })) as any;
 
 export type GetCurrentUserDataError =
@@ -15700,7 +16066,7 @@ export type GetCurrentUserDataError =
  * Gets the real-time active user data from the specified Connect Customer instance.
  */
 export const getCurrentUserData: API.PaginatedOperationMethod<
-  GetCurrentUserDataRequest,
+  GetCurrentUserDataRequest & RegionInput,
   GetCurrentUserDataResponse,
   GetCurrentUserDataError,
   Creds | HttpClient.HttpClient,
@@ -15723,6 +16089,8 @@ export const getCurrentUserData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUserData",
 })) as any;
 
 export type GetEffectiveHoursOfOperationsError =
@@ -15736,7 +16104,7 @@ export type GetEffectiveHoursOfOperationsError =
  * Get the hours of operations with the effective override applied.
  */
 export const getEffectiveHoursOfOperations: API.OperationMethod<
-  GetEffectiveHoursOfOperationsRequest,
+  GetEffectiveHoursOfOperationsRequest & RegionInput,
   GetEffectiveHoursOfOperationsResponse,
   GetEffectiveHoursOfOperationsError,
   Creds | HttpClient.HttpClient
@@ -15753,6 +16121,8 @@ export const getEffectiveHoursOfOperations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEffectiveHoursOfOperations",
+  telemetry: TELEMETRY,
+  span: "GetEffectiveHoursOfOperations",
 }));
 
 export type GetEvaluationFormValidationError =
@@ -15769,7 +16139,7 @@ export type GetEvaluationFormValidationError =
  * indicating the cause of the failure.
  */
 export const getEvaluationFormValidation: API.OperationMethod<
-  GetEvaluationFormValidationRequest,
+  GetEvaluationFormValidationRequest & RegionInput,
   GetEvaluationFormValidationResponse,
   GetEvaluationFormValidationError,
   Creds | HttpClient.HttpClient
@@ -15785,6 +16155,8 @@ export const getEvaluationFormValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluationFormValidation",
+  telemetry: TELEMETRY,
+  span: "GetEvaluationFormValidation",
 }));
 
 export type GetFederationTokenError =
@@ -15808,7 +16180,7 @@ export type GetFederationTokenError =
  * `Provided identity: Principal: .... User: .... cannot be used for federation with Connect Customer`
  */
 export const getFederationToken: API.OperationMethod<
-  GetFederationTokenRequest,
+  GetFederationTokenRequest & RegionInput,
   GetFederationTokenResponse,
   GetFederationTokenError,
   Creds | HttpClient.HttpClient
@@ -15827,6 +16199,8 @@ export const getFederationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFederationToken",
+  telemetry: TELEMETRY,
+  span: "GetFederationToken",
 }));
 
 export type GetFlowAssociationError =
@@ -15841,7 +16215,7 @@ export type GetFlowAssociationError =
  * Retrieves the flow associated for a given resource.
  */
 export const getFlowAssociation: API.OperationMethod<
-  GetFlowAssociationRequest,
+  GetFlowAssociationRequest & RegionInput,
   GetFlowAssociationResponse,
   GetFlowAssociationError,
   Creds | HttpClient.HttpClient
@@ -15859,6 +16233,8 @@ export const getFlowAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowAssociation",
+  telemetry: TELEMETRY,
+  span: "GetFlowAssociation",
 }));
 
 export type GetMetricDataError =
@@ -15880,7 +16256,7 @@ export type GetMetricDataError =
  * contact volume changed per day of the week.
  */
 export const getMetricData: API.PaginatedOperationMethod<
-  GetMetricDataRequest,
+  GetMetricDataRequest & RegionInput,
   GetMetricDataResponse,
   GetMetricDataError,
   Creds | HttpClient.HttpClient,
@@ -15903,6 +16279,8 @@ export const getMetricData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetMetricData",
 })) as any;
 
 export type GetMetricDataV2Error =
@@ -15947,7 +16325,7 @@ export type GetMetricDataV2Error =
  * - Add filters to reduce the amount of data returned
  */
 export const getMetricDataV2: API.PaginatedOperationMethod<
-  GetMetricDataV2Request,
+  GetMetricDataV2Request & RegionInput,
   GetMetricDataV2Response,
   GetMetricDataV2Error,
   Creds | HttpClient.HttpClient,
@@ -15970,6 +16348,8 @@ export const getMetricDataV2: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetMetricDataV2",
 })) as any;
 
 export type GetPromptFileError =
@@ -15983,7 +16363,7 @@ export type GetPromptFileError =
  * Gets the prompt file.
  */
 export const getPromptFile: API.OperationMethod<
-  GetPromptFileRequest,
+  GetPromptFileRequest & RegionInput,
   GetPromptFileResponse,
   GetPromptFileError,
   Creds | HttpClient.HttpClient
@@ -16000,6 +16380,8 @@ export const getPromptFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPromptFile",
+  telemetry: TELEMETRY,
+  span: "GetPromptFile",
 }));
 
 export type GetTaskTemplateError =
@@ -16013,7 +16395,7 @@ export type GetTaskTemplateError =
  * Gets details about a specific task template in the specified Connect Customer instance.
  */
 export const getTaskTemplate: API.OperationMethod<
-  GetTaskTemplateRequest,
+  GetTaskTemplateRequest & RegionInput,
   GetTaskTemplateResponse,
   GetTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -16030,6 +16412,8 @@ export const getTaskTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaskTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTaskTemplate",
 }));
 
 export type GetTestCaseExecutionSummaryError =
@@ -16044,7 +16428,7 @@ export type GetTestCaseExecutionSummaryError =
  * Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary.
  */
 export const getTestCaseExecutionSummary: API.OperationMethod<
-  GetTestCaseExecutionSummaryRequest,
+  GetTestCaseExecutionSummaryRequest & RegionInput,
   GetTestCaseExecutionSummaryResponse,
   GetTestCaseExecutionSummaryError,
   Creds | HttpClient.HttpClient
@@ -16062,6 +16446,8 @@ export const getTestCaseExecutionSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestCaseExecutionSummary",
+  telemetry: TELEMETRY,
+  span: "GetTestCaseExecutionSummary",
 }));
 
 export type GetTrafficDistributionError =
@@ -16075,7 +16461,7 @@ export type GetTrafficDistributionError =
  * Retrieves the current traffic distribution for a given traffic distribution group.
  */
 export const getTrafficDistribution: API.OperationMethod<
-  GetTrafficDistributionRequest,
+  GetTrafficDistributionRequest & RegionInput,
   GetTrafficDistributionResponse,
   GetTrafficDistributionError,
   Creds | HttpClient.HttpClient
@@ -16092,6 +16478,8 @@ export const getTrafficDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficDistribution",
+  telemetry: TELEMETRY,
+  span: "GetTrafficDistribution",
 }));
 
 export type ImportPhoneNumberError =
@@ -16122,7 +16510,7 @@ export type ImportPhoneNumberError =
  * that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
  */
 export const importPhoneNumber: API.OperationMethod<
-  ImportPhoneNumberRequest,
+  ImportPhoneNumberRequest & RegionInput,
   ImportPhoneNumberResponse,
   ImportPhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -16140,6 +16528,8 @@ export const importPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "ImportPhoneNumber",
 }));
 
 export type ImportWorkspaceMediaError =
@@ -16153,7 +16543,7 @@ export type ImportWorkspaceMediaError =
  * Imports a media asset (such as a logo) for use in a workspace.
  */
 export const importWorkspaceMedia: API.OperationMethod<
-  ImportWorkspaceMediaRequest,
+  ImportWorkspaceMediaRequest & RegionInput,
   ImportWorkspaceMediaResponse,
   ImportWorkspaceMediaError,
   Creds | HttpClient.HttpClient
@@ -16170,6 +16560,8 @@ export const importWorkspaceMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportWorkspaceMedia",
+  telemetry: TELEMETRY,
+  span: "ImportWorkspaceMedia",
 }));
 
 export type ListAgentStatusesError =
@@ -16183,7 +16575,7 @@ export type ListAgentStatusesError =
  * Lists agent statuses.
  */
 export const listAgentStatuses: API.PaginatedOperationMethod<
-  ListAgentStatusRequest,
+  ListAgentStatusRequest & RegionInput,
   ListAgentStatusResponse,
   ListAgentStatusesError,
   Creds | HttpClient.HttpClient,
@@ -16207,6 +16599,8 @@ export const listAgentStatuses: API.PaginatedOperationMethod<
     items: "AgentStatusSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentStatuses",
 })) as any;
 
 export type ListAnalyticsDataAssociationsError =
@@ -16220,7 +16614,7 @@ export type ListAnalyticsDataAssociationsError =
  * Lists the association status of requested dataset ID for a given Connect Customer instance.
  */
 export const listAnalyticsDataAssociations: API.OperationMethod<
-  ListAnalyticsDataAssociationsRequest,
+  ListAnalyticsDataAssociationsRequest & RegionInput,
   ListAnalyticsDataAssociationsResponse,
   ListAnalyticsDataAssociationsError,
   Creds | HttpClient.HttpClient
@@ -16237,6 +16631,8 @@ export const listAnalyticsDataAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnalyticsDataAssociations",
+  telemetry: TELEMETRY,
+  span: "ListAnalyticsDataAssociations",
 }));
 
 export type ListAnalyticsDataLakeDataSetsError =
@@ -16250,7 +16646,7 @@ export type ListAnalyticsDataLakeDataSetsError =
  * Lists the data lake datasets available to associate with for a given Connect Customer instance.
  */
 export const listAnalyticsDataLakeDataSets: API.OperationMethod<
-  ListAnalyticsDataLakeDataSetsRequest,
+  ListAnalyticsDataLakeDataSetsRequest & RegionInput,
   ListAnalyticsDataLakeDataSetsResponse,
   ListAnalyticsDataLakeDataSetsError,
   Creds | HttpClient.HttpClient
@@ -16267,6 +16663,8 @@ export const listAnalyticsDataLakeDataSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnalyticsDataLakeDataSets",
+  telemetry: TELEMETRY,
+  span: "ListAnalyticsDataLakeDataSets",
 }));
 
 export type ListApprovedOriginsError =
@@ -16282,7 +16680,7 @@ export type ListApprovedOriginsError =
  * Returns a paginated list of all approved origins associated with the instance.
  */
 export const listApprovedOrigins: API.PaginatedOperationMethod<
-  ListApprovedOriginsRequest,
+  ListApprovedOriginsRequest & RegionInput,
   ListApprovedOriginsResponse,
   ListApprovedOriginsError,
   Creds | HttpClient.HttpClient,
@@ -16306,6 +16704,8 @@ export const listApprovedOrigins: API.PaginatedOperationMethod<
     items: "Origins",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApprovedOrigins",
 })) as any;
 
 export type ListAssociatedContactsError =
@@ -16319,7 +16719,7 @@ export type ListAssociatedContactsError =
  * Provides information about contact tree, a list of associated contacts with a unique identifier.
  */
 export const listAssociatedContacts: API.OperationMethod<
-  ListAssociatedContactsRequest,
+  ListAssociatedContactsRequest & RegionInput,
   ListAssociatedContactsResponse,
   ListAssociatedContactsError,
   Creds | HttpClient.HttpClient
@@ -16336,6 +16736,8 @@ export const listAssociatedContacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedContacts",
+  telemetry: TELEMETRY,
+  span: "ListAssociatedContacts",
 }));
 
 export type ListAttachedFilesConfigurationsError =
@@ -16351,7 +16753,7 @@ export type ListAttachedFilesConfigurationsError =
  * This API returns effective configurations (custom overrides or defaults) for each attachment scope. If no custom configuration exists for a scope, the default configuration values are returned.
  */
 export const listAttachedFilesConfigurations: API.PaginatedOperationMethod<
-  ListAttachedFilesConfigurationsRequest,
+  ListAttachedFilesConfigurationsRequest & RegionInput,
   ListAttachedFilesConfigurationsResponse,
   ListAttachedFilesConfigurationsError,
   Creds | HttpClient.HttpClient,
@@ -16375,6 +16777,8 @@ export const listAttachedFilesConfigurations: API.PaginatedOperationMethod<
     items: "AttachedFilesConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachedFilesConfigurations",
 })) as any;
 
 export type ListAuthenticationProfilesError =
@@ -16392,7 +16796,7 @@ export type ListAuthenticationProfilesError =
  * instance.
  */
 export const listAuthenticationProfiles: API.PaginatedOperationMethod<
-  ListAuthenticationProfilesRequest,
+  ListAuthenticationProfilesRequest & RegionInput,
   ListAuthenticationProfilesResponse,
   ListAuthenticationProfilesError,
   Creds | HttpClient.HttpClient,
@@ -16416,6 +16820,8 @@ export const listAuthenticationProfiles: API.PaginatedOperationMethod<
     items: "AuthenticationProfileSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAuthenticationProfiles",
 })) as any;
 
 export type ListBotsError =
@@ -16432,7 +16838,7 @@ export type ListBotsError =
  * bots.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Creds | HttpClient.HttpClient,
@@ -16455,6 +16861,8 @@ export const listBots: API.PaginatedOperationMethod<
     items: "LexBots",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBots",
 })) as any;
 
 export type ListChildHoursOfOperationsError =
@@ -16471,7 +16879,7 @@ export type ListChildHoursOfOperationsError =
  * * Administrator Guide*.
  */
 export const listChildHoursOfOperations: API.PaginatedOperationMethod<
-  ListChildHoursOfOperationsRequest,
+  ListChildHoursOfOperationsRequest & RegionInput,
   ListChildHoursOfOperationsResponse,
   ListChildHoursOfOperationsError,
   Creds | HttpClient.HttpClient,
@@ -16495,6 +16903,8 @@ export const listChildHoursOfOperations: API.PaginatedOperationMethod<
     items: "ChildHoursOfOperationsSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChildHoursOfOperations",
 })) as any;
 
 export type ListContactEvaluationsError =
@@ -16507,7 +16917,7 @@ export type ListContactEvaluationsError =
  * Lists contact evaluations in the specified Connect Customer instance.
  */
 export const listContactEvaluations: API.PaginatedOperationMethod<
-  ListContactEvaluationsRequest,
+  ListContactEvaluationsRequest & RegionInput,
   ListContactEvaluationsResponse,
   ListContactEvaluationsError,
   Creds | HttpClient.HttpClient,
@@ -16529,6 +16939,8 @@ export const listContactEvaluations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "EvaluationSummaryList",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactEvaluations",
 })) as any;
 
 export type ListContactFlowModuleAliasesError =
@@ -16544,7 +16956,7 @@ export type ListContactFlowModuleAliasesError =
  * metadata.
  */
 export const listContactFlowModuleAliases: API.PaginatedOperationMethod<
-  ListContactFlowModuleAliasesRequest,
+  ListContactFlowModuleAliasesRequest & RegionInput,
   ListContactFlowModuleAliasesResponse,
   ListContactFlowModuleAliasesError,
   Creds | HttpClient.HttpClient,
@@ -16569,6 +16981,8 @@ export const listContactFlowModuleAliases: API.PaginatedOperationMethod<
     items: "ContactFlowModuleAliasSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactFlowModuleAliases",
 })) as any;
 
 export type ListContactFlowModulesError =
@@ -16583,7 +16997,7 @@ export type ListContactFlowModulesError =
  * Provides information about the flow modules for the specified Connect Customer instance.
  */
 export const listContactFlowModules: API.PaginatedOperationMethod<
-  ListContactFlowModulesRequest,
+  ListContactFlowModulesRequest & RegionInput,
   ListContactFlowModulesResponse,
   ListContactFlowModulesError,
   Creds | HttpClient.HttpClient,
@@ -16608,6 +17022,8 @@ export const listContactFlowModules: API.PaginatedOperationMethod<
     items: "ContactFlowModulesSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactFlowModules",
 })) as any;
 
 export type ListContactFlowModuleVersionsError =
@@ -16622,7 +17038,7 @@ export type ListContactFlowModuleVersionsError =
  * Retrieves a paginated list of all versions for a specific contact flow module.
  */
 export const listContactFlowModuleVersions: API.PaginatedOperationMethod<
-  ListContactFlowModuleVersionsRequest,
+  ListContactFlowModuleVersionsRequest & RegionInput,
   ListContactFlowModuleVersionsResponse,
   ListContactFlowModuleVersionsError,
   Creds | HttpClient.HttpClient,
@@ -16647,6 +17063,8 @@ export const listContactFlowModuleVersions: API.PaginatedOperationMethod<
     items: "ContactFlowModuleVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactFlowModuleVersions",
 })) as any;
 
 export type ListContactFlowsError =
@@ -16666,7 +17084,7 @@ export type ListContactFlowsError =
  * Administrator Guide.
  */
 export const listContactFlows: API.PaginatedOperationMethod<
-  ListContactFlowsRequest,
+  ListContactFlowsRequest & RegionInput,
   ListContactFlowsResponse,
   ListContactFlowsError,
   Creds | HttpClient.HttpClient,
@@ -16690,6 +17108,8 @@ export const listContactFlows: API.PaginatedOperationMethod<
     items: "ContactFlowSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactFlows",
 })) as any;
 
 export type ListContactFlowVersionsError =
@@ -16704,7 +17124,7 @@ export type ListContactFlowVersionsError =
  * Returns all the available versions for the specified Connect Customer instance and flow identifier.
  */
 export const listContactFlowVersions: API.PaginatedOperationMethod<
-  ListContactFlowVersionsRequest,
+  ListContactFlowVersionsRequest & RegionInput,
   ListContactFlowVersionsResponse,
   ListContactFlowVersionsError,
   Creds | HttpClient.HttpClient,
@@ -16729,6 +17149,8 @@ export const listContactFlowVersions: API.PaginatedOperationMethod<
     items: "ContactFlowVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactFlowVersions",
 })) as any;
 
 export type ListContactReferencesError =
@@ -16746,7 +17168,7 @@ export type ListContactReferencesError =
  * or URLs.
  */
 export const listContactReferences: API.PaginatedOperationMethod<
-  ListContactReferencesRequest,
+  ListContactReferencesRequest & RegionInput,
   ListContactReferencesResponse,
   ListContactReferencesError,
   Creds | HttpClient.HttpClient,
@@ -16769,6 +17191,8 @@ export const listContactReferences: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "ReferenceSummaryList",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactReferences",
 })) as any;
 
 export type ListDataTableAttributesError =
@@ -16785,7 +17209,7 @@ export type ListDataTableAttributesError =
  * for CloudFormation integration.
  */
 export const listDataTableAttributes: API.PaginatedOperationMethod<
-  ListDataTableAttributesRequest,
+  ListDataTableAttributesRequest & RegionInput,
   ListDataTableAttributesResponse,
   ListDataTableAttributesError,
   Creds | HttpClient.HttpClient,
@@ -16810,6 +17234,8 @@ export const listDataTableAttributes: API.PaginatedOperationMethod<
     items: "Attributes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataTableAttributes",
 })) as any;
 
 export type ListDataTablePrimaryValuesError =
@@ -16825,7 +17251,7 @@ export type ListDataTablePrimaryValuesError =
  * attribute values that identify records in the table. Up to 100 records are returned per request.
  */
 export const listDataTablePrimaryValues: API.PaginatedOperationMethod<
-  ListDataTablePrimaryValuesRequest,
+  ListDataTablePrimaryValuesRequest & RegionInput,
   ListDataTablePrimaryValuesResponse,
   ListDataTablePrimaryValuesError,
   Creds | HttpClient.HttpClient,
@@ -16850,6 +17276,8 @@ export const listDataTablePrimaryValues: API.PaginatedOperationMethod<
     items: "PrimaryValuesList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataTablePrimaryValues",
 })) as any;
 
 export type ListDataTablesError =
@@ -16865,7 +17293,7 @@ export type ListDataTablesError =
  * including basic metadata and modification details.
  */
 export const listDataTables: API.PaginatedOperationMethod<
-  ListDataTablesRequest,
+  ListDataTablesRequest & RegionInput,
   ListDataTablesResponse,
   ListDataTablesError,
   Creds | HttpClient.HttpClient,
@@ -16890,6 +17318,8 @@ export const listDataTables: API.PaginatedOperationMethod<
     items: "DataTableSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataTables",
 })) as any;
 
 export type ListDataTableValuesError =
@@ -16905,7 +17335,7 @@ export type ListDataTableValuesError =
  * the raw stored values along with metadata such as lock versions and modification timestamps.
  */
 export const listDataTableValues: API.PaginatedOperationMethod<
-  ListDataTableValuesRequest,
+  ListDataTableValuesRequest & RegionInput,
   ListDataTableValuesResponse,
   ListDataTableValuesError,
   Creds | HttpClient.HttpClient,
@@ -16930,6 +17360,8 @@ export const listDataTableValues: API.PaginatedOperationMethod<
     items: "Values",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataTableValues",
 })) as any;
 
 export type ListDefaultVocabulariesError =
@@ -16942,7 +17374,7 @@ export type ListDefaultVocabulariesError =
  * Lists the default vocabularies for the specified Connect Customer instance.
  */
 export const listDefaultVocabularies: API.PaginatedOperationMethod<
-  ListDefaultVocabulariesRequest,
+  ListDefaultVocabulariesRequest & RegionInput,
   ListDefaultVocabulariesResponse,
   ListDefaultVocabulariesError,
   Creds | HttpClient.HttpClient,
@@ -16965,6 +17397,8 @@ export const listDefaultVocabularies: API.PaginatedOperationMethod<
     items: "DefaultVocabularyList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDefaultVocabularies",
 })) as any;
 
 export type ListEntitySecurityProfilesError =
@@ -16978,7 +17412,7 @@ export type ListEntitySecurityProfilesError =
  * Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance.
  */
 export const listEntitySecurityProfiles: API.PaginatedOperationMethod<
-  ListEntitySecurityProfilesRequest,
+  ListEntitySecurityProfilesRequest & RegionInput,
   ListEntitySecurityProfilesResponse,
   ListEntitySecurityProfilesError,
   Creds | HttpClient.HttpClient,
@@ -17002,6 +17436,8 @@ export const listEntitySecurityProfiles: API.PaginatedOperationMethod<
     items: "SecurityProfiles",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntitySecurityProfiles",
 })) as any;
 
 export type ListEvaluationFormAIVersionsError =
@@ -17014,7 +17450,7 @@ export type ListEvaluationFormAIVersionsError =
  * Lists the available AI versions for evaluation forms in the specified Connect Customer instance.
  */
 export const listEvaluationFormAIVersions: API.PaginatedOperationMethod<
-  ListEvaluationFormAIVersionsRequest,
+  ListEvaluationFormAIVersionsRequest & RegionInput,
   ListEvaluationFormAIVersionsResponse,
   ListEvaluationFormAIVersionsError,
   Creds | HttpClient.HttpClient,
@@ -17037,6 +17473,8 @@ export const listEvaluationFormAIVersions: API.PaginatedOperationMethod<
     items: "AIVersionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEvaluationFormAIVersions",
 })) as any;
 
 export type ListEvaluationFormsError =
@@ -17049,7 +17487,7 @@ export type ListEvaluationFormsError =
  * Lists evaluation forms in the specified Connect Customer instance.
  */
 export const listEvaluationForms: API.PaginatedOperationMethod<
-  ListEvaluationFormsRequest,
+  ListEvaluationFormsRequest & RegionInput,
   ListEvaluationFormsResponse,
   ListEvaluationFormsError,
   Creds | HttpClient.HttpClient,
@@ -17072,6 +17510,8 @@ export const listEvaluationForms: API.PaginatedOperationMethod<
     items: "EvaluationFormSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEvaluationForms",
 })) as any;
 
 export type ListEvaluationFormVersionsError =
@@ -17084,7 +17524,7 @@ export type ListEvaluationFormVersionsError =
  * Lists versions of an evaluation form in the specified Connect Customer instance.
  */
 export const listEvaluationFormVersions: API.PaginatedOperationMethod<
-  ListEvaluationFormVersionsRequest,
+  ListEvaluationFormVersionsRequest & RegionInput,
   ListEvaluationFormVersionsResponse,
   ListEvaluationFormVersionsError,
   Creds | HttpClient.HttpClient,
@@ -17107,6 +17547,8 @@ export const listEvaluationFormVersions: API.PaginatedOperationMethod<
     items: "EvaluationFormVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEvaluationFormVersions",
 })) as any;
 
 export type ListExtractionDefinitionsError =
@@ -17120,7 +17562,7 @@ export type ListExtractionDefinitionsError =
  * Lists extraction definitions in the specified Connect Customer instance.
  */
 export const listExtractionDefinitions: API.PaginatedOperationMethod<
-  ListExtractionDefinitionsRequest,
+  ListExtractionDefinitionsRequest & RegionInput,
   ListExtractionDefinitionsResponse,
   ListExtractionDefinitionsError,
   Creds | HttpClient.HttpClient,
@@ -17144,6 +17586,8 @@ export const listExtractionDefinitions: API.PaginatedOperationMethod<
     items: "ExtractionDefinitionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExtractionDefinitions",
 })) as any;
 
 export type ListFlowAssociationsError =
@@ -17158,7 +17602,7 @@ export type ListFlowAssociationsError =
  * List the flow association based on the filters.
  */
 export const listFlowAssociations: API.PaginatedOperationMethod<
-  ListFlowAssociationsRequest,
+  ListFlowAssociationsRequest & RegionInput,
   ListFlowAssociationsResponse,
   ListFlowAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -17183,6 +17627,8 @@ export const listFlowAssociations: API.PaginatedOperationMethod<
     items: "FlowAssociationSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowAssociations",
 })) as any;
 
 export type ListHoursOfOperationOverridesError =
@@ -17196,7 +17642,7 @@ export type ListHoursOfOperationOverridesError =
  * List the hours of operation overrides.
  */
 export const listHoursOfOperationOverrides: API.PaginatedOperationMethod<
-  ListHoursOfOperationOverridesRequest,
+  ListHoursOfOperationOverridesRequest & RegionInput,
   ListHoursOfOperationOverridesResponse,
   ListHoursOfOperationOverridesError,
   Creds | HttpClient.HttpClient,
@@ -17220,6 +17666,8 @@ export const listHoursOfOperationOverrides: API.PaginatedOperationMethod<
     items: "HoursOfOperationOverrideList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHoursOfOperationOverrides",
 })) as any;
 
 export type ListHoursOfOperationsError =
@@ -17236,7 +17684,7 @@ export type ListHoursOfOperationsError =
  * *Connect Customer Administrator Guide*.
  */
 export const listHoursOfOperations: API.PaginatedOperationMethod<
-  ListHoursOfOperationsRequest,
+  ListHoursOfOperationsRequest & RegionInput,
   ListHoursOfOperationsResponse,
   ListHoursOfOperationsError,
   Creds | HttpClient.HttpClient,
@@ -17260,6 +17708,8 @@ export const listHoursOfOperations: API.PaginatedOperationMethod<
     items: "HoursOfOperationSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHoursOfOperations",
 })) as any;
 
 export type ListInstanceAttributesError =
@@ -17275,7 +17725,7 @@ export type ListInstanceAttributesError =
  * Returns a paginated list of all attribute types for the given instance.
  */
 export const listInstanceAttributes: API.PaginatedOperationMethod<
-  ListInstanceAttributesRequest,
+  ListInstanceAttributesRequest & RegionInput,
   ListInstanceAttributesResponse,
   ListInstanceAttributesError,
   Creds | HttpClient.HttpClient,
@@ -17299,6 +17749,8 @@ export const listInstanceAttributes: API.PaginatedOperationMethod<
     items: "Attributes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstanceAttributes",
 })) as any;
 
 export type ListInstancesError = InternalServiceException | InvalidRequestException | CommonErrors;
@@ -17310,7 +17762,7 @@ export type ListInstancesError = InternalServiceException | InvalidRequestExcept
  * API was invoked.
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesRequest,
+  ListInstancesRequest & RegionInput,
   ListInstancesResponse,
   ListInstancesError,
   Creds | HttpClient.HttpClient,
@@ -17328,6 +17780,8 @@ export const listInstances: API.PaginatedOperationMethod<
     items: "InstanceSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 })) as any;
 
 export type ListInstanceStorageConfigsError =
@@ -17343,7 +17797,7 @@ export type ListInstanceStorageConfigsError =
  * Returns a paginated list of storage configs for the identified instance and resource type.
  */
 export const listInstanceStorageConfigs: API.PaginatedOperationMethod<
-  ListInstanceStorageConfigsRequest,
+  ListInstanceStorageConfigsRequest & RegionInput,
   ListInstanceStorageConfigsResponse,
   ListInstanceStorageConfigsError,
   Creds | HttpClient.HttpClient,
@@ -17367,6 +17821,8 @@ export const listInstanceStorageConfigs: API.PaginatedOperationMethod<
     items: "StorageConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstanceStorageConfigs",
 })) as any;
 
 export type ListIntegrationAssociationsError =
@@ -17379,7 +17835,7 @@ export type ListIntegrationAssociationsError =
  * Provides summary information about the Amazon Web Services resource associations for the specified Connect Customer instance.
  */
 export const listIntegrationAssociations: API.PaginatedOperationMethod<
-  ListIntegrationAssociationsRequest,
+  ListIntegrationAssociationsRequest & RegionInput,
   ListIntegrationAssociationsResponse,
   ListIntegrationAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -17402,6 +17858,8 @@ export const listIntegrationAssociations: API.PaginatedOperationMethod<
     items: "IntegrationAssociationSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAssociations",
 })) as any;
 
 export type ListLambdaFunctionsError =
@@ -17418,7 +17876,7 @@ export type ListLambdaFunctionsError =
  * blocks.
  */
 export const listLambdaFunctions: API.PaginatedOperationMethod<
-  ListLambdaFunctionsRequest,
+  ListLambdaFunctionsRequest & RegionInput,
   ListLambdaFunctionsResponse,
   ListLambdaFunctionsError,
   Creds | HttpClient.HttpClient,
@@ -17442,6 +17900,8 @@ export const listLambdaFunctions: API.PaginatedOperationMethod<
     items: "LambdaFunctions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLambdaFunctions",
 })) as any;
 
 export type ListLexBotsError =
@@ -17458,7 +17918,7 @@ export type ListLexBotsError =
  * both Amazon Lex V1 and V2 bots, use the ListBots API.
  */
 export const listLexBots: API.PaginatedOperationMethod<
-  ListLexBotsRequest,
+  ListLexBotsRequest & RegionInput,
   ListLexBotsResponse,
   ListLexBotsError,
   Creds | HttpClient.HttpClient,
@@ -17482,6 +17942,8 @@ export const listLexBots: API.PaginatedOperationMethod<
     items: "LexBots",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLexBots",
 })) as any;
 
 export type ListMetricsError =
@@ -17496,7 +17958,7 @@ export type ListMetricsError =
  * Retrieves a paginated list of metric summaries for the specified Connect Customer instance. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMetrics: API.PaginatedOperationMethod<
-  ListMetricsRequest,
+  ListMetricsRequest & RegionInput,
   ListMetricsResponse,
   ListMetricsError,
   Creds | HttpClient.HttpClient,
@@ -17521,6 +17983,8 @@ export const listMetrics: API.PaginatedOperationMethod<
     items: "MetricSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetrics",
 })) as any;
 
 export type ListNotificationsError =
@@ -17535,7 +17999,7 @@ export type ListNotificationsError =
  * Retrieves a paginated list of all notifications in the Amazon Connect instance.
  */
 export const listNotifications: API.OperationMethod<
-  ListNotificationsRequest,
+  ListNotificationsRequest & RegionInput,
   ListNotificationsResponse,
   ListNotificationsError,
   Creds | HttpClient.HttpClient
@@ -17553,6 +18017,8 @@ export const listNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotifications",
+  telemetry: TELEMETRY,
+  span: "ListNotifications",
 }));
 
 export type ListPhoneNumbersError =
@@ -17577,7 +18043,7 @@ export type ListPhoneNumbersError =
  * phone number ARN that can be used to tag phone number resources.
  */
 export const listPhoneNumbers: API.PaginatedOperationMethod<
-  ListPhoneNumbersRequest,
+  ListPhoneNumbersRequest & RegionInput,
   ListPhoneNumbersResponse,
   ListPhoneNumbersError,
   Creds | HttpClient.HttpClient,
@@ -17601,6 +18067,8 @@ export const listPhoneNumbers: API.PaginatedOperationMethod<
     items: "PhoneNumberSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumbers",
 })) as any;
 
 export type ListPhoneNumbersV2Error =
@@ -17624,7 +18092,7 @@ export type ListPhoneNumbersV2Error =
  * traffic distribution group.
  */
 export const listPhoneNumbersV2: API.PaginatedOperationMethod<
-  ListPhoneNumbersV2Request,
+  ListPhoneNumbersV2Request & RegionInput,
   ListPhoneNumbersV2Response,
   ListPhoneNumbersV2Error,
   Creds | HttpClient.HttpClient,
@@ -17648,6 +18116,8 @@ export const listPhoneNumbersV2: API.PaginatedOperationMethod<
     items: "ListPhoneNumbersSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumbersV2",
 })) as any;
 
 export type ListPredefinedAttributesError =
@@ -17674,7 +18144,7 @@ export type ListPredefinedAttributesError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const listPredefinedAttributes: API.PaginatedOperationMethod<
-  ListPredefinedAttributesRequest,
+  ListPredefinedAttributesRequest & RegionInput,
   ListPredefinedAttributesResponse,
   ListPredefinedAttributesError,
   Creds | HttpClient.HttpClient,
@@ -17698,6 +18168,8 @@ export const listPredefinedAttributes: API.PaginatedOperationMethod<
     items: "PredefinedAttributeSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPredefinedAttributes",
 })) as any;
 
 export type ListPromptsError =
@@ -17711,7 +18183,7 @@ export type ListPromptsError =
  * Provides information about the prompts for the specified Connect Customer instance.
  */
 export const listPrompts: API.PaginatedOperationMethod<
-  ListPromptsRequest,
+  ListPromptsRequest & RegionInput,
   ListPromptsResponse,
   ListPromptsError,
   Creds | HttpClient.HttpClient,
@@ -17735,6 +18207,8 @@ export const listPrompts: API.PaginatedOperationMethod<
     items: "PromptSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrompts",
 })) as any;
 
 export type ListQueueEmailAddressesError =
@@ -17759,7 +18233,7 @@ export type ListQueueEmailAddressesError =
  * - Results are paginated to handle queues with many associated email addresses (up to 50 per queue).
  */
 export const listQueueEmailAddresses: API.OperationMethod<
-  ListQueueEmailAddressesRequest,
+  ListQueueEmailAddressesRequest & RegionInput,
   ListQueueEmailAddressesResponse,
   ListQueueEmailAddressesError,
   Creds | HttpClient.HttpClient
@@ -17777,6 +18251,8 @@ export const listQueueEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQueueEmailAddresses",
+  telemetry: TELEMETRY,
+  span: "ListQueueEmailAddresses",
 }));
 
 export type ListQueueQuickConnectsError =
@@ -17790,7 +18266,7 @@ export type ListQueueQuickConnectsError =
  * Lists the quick connects associated with a queue.
  */
 export const listQueueQuickConnects: API.PaginatedOperationMethod<
-  ListQueueQuickConnectsRequest,
+  ListQueueQuickConnectsRequest & RegionInput,
   ListQueueQuickConnectsResponse,
   ListQueueQuickConnectsError,
   Creds | HttpClient.HttpClient,
@@ -17814,6 +18290,8 @@ export const listQueueQuickConnects: API.PaginatedOperationMethod<
     items: "QuickConnectSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueueQuickConnects",
 })) as any;
 
 export type ListQueuesError =
@@ -17834,7 +18312,7 @@ export type ListQueuesError =
  * *Connect Customer Administrator Guide*.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResponse,
   ListQueuesError,
   Creds | HttpClient.HttpClient,
@@ -17858,6 +18336,8 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "QueueSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 })) as any;
 
 export type ListQuickConnectsError =
@@ -17871,7 +18351,7 @@ export type ListQuickConnectsError =
  * Provides information about the quick connects for the specified Connect Customer instance.
  */
 export const listQuickConnects: API.PaginatedOperationMethod<
-  ListQuickConnectsRequest,
+  ListQuickConnectsRequest & RegionInput,
   ListQuickConnectsResponse,
   ListQuickConnectsError,
   Creds | HttpClient.HttpClient,
@@ -17895,6 +18375,8 @@ export const listQuickConnects: API.PaginatedOperationMethod<
     items: "QuickConnectSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQuickConnects",
 })) as any;
 
 export type ListRealtimeContactAnalysisSegmentsV2Error =
@@ -17913,7 +18395,7 @@ export type ListRealtimeContactAnalysisSegmentsV2Error =
  * occurs.
  */
 export const listRealtimeContactAnalysisSegmentsV2: API.PaginatedOperationMethod<
-  ListRealtimeContactAnalysisSegmentsV2Request,
+  ListRealtimeContactAnalysisSegmentsV2Request & RegionInput,
   ListRealtimeContactAnalysisSegmentsV2Response,
   ListRealtimeContactAnalysisSegmentsV2Error,
   Creds | HttpClient.HttpClient,
@@ -17937,6 +18419,8 @@ export const listRealtimeContactAnalysisSegmentsV2: API.PaginatedOperationMethod
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRealtimeContactAnalysisSegmentsV2",
 })) as any;
 
 export type ListRoutingProfileManualAssignmentQueuesError =
@@ -17967,7 +18451,7 @@ export type ListRoutingProfileManualAssignmentQueuesError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const listRoutingProfileManualAssignmentQueues: API.PaginatedOperationMethod<
-  ListRoutingProfileManualAssignmentQueuesRequest,
+  ListRoutingProfileManualAssignmentQueuesRequest & RegionInput,
   ListRoutingProfileManualAssignmentQueuesResponse,
   ListRoutingProfileManualAssignmentQueuesError,
   Creds | HttpClient.HttpClient,
@@ -17991,6 +18475,8 @@ export const listRoutingProfileManualAssignmentQueues: API.PaginatedOperationMet
     items: "RoutingProfileManualAssignmentQueueConfigSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoutingProfileManualAssignmentQueues",
 })) as any;
 
 export type ListRoutingProfileQueuesError =
@@ -18004,7 +18490,7 @@ export type ListRoutingProfileQueuesError =
  * Lists the queues associated with a routing profile.
  */
 export const listRoutingProfileQueues: API.PaginatedOperationMethod<
-  ListRoutingProfileQueuesRequest,
+  ListRoutingProfileQueuesRequest & RegionInput,
   ListRoutingProfileQueuesResponse,
   ListRoutingProfileQueuesError,
   Creds | HttpClient.HttpClient,
@@ -18028,6 +18514,8 @@ export const listRoutingProfileQueues: API.PaginatedOperationMethod<
     items: "RoutingProfileQueueConfigSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoutingProfileQueues",
 })) as any;
 
 export type ListRoutingProfilesError =
@@ -18043,7 +18531,7 @@ export type ListRoutingProfilesError =
  * For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the *Connect Customer Administrator Guide*.
  */
 export const listRoutingProfiles: API.PaginatedOperationMethod<
-  ListRoutingProfilesRequest,
+  ListRoutingProfilesRequest & RegionInput,
   ListRoutingProfilesResponse,
   ListRoutingProfilesError,
   Creds | HttpClient.HttpClient,
@@ -18067,6 +18555,8 @@ export const listRoutingProfiles: API.PaginatedOperationMethod<
     items: "RoutingProfileSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoutingProfiles",
 })) as any;
 
 export type ListRulesError =
@@ -18080,7 +18570,7 @@ export type ListRulesError =
  * List all rules for the specified Connect Customer instance.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Creds | HttpClient.HttpClient,
@@ -18104,6 +18594,8 @@ export const listRules: API.PaginatedOperationMethod<
     items: "RuleSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 })) as any;
 
 export type ListSecurityKeysError =
@@ -18119,7 +18611,7 @@ export type ListSecurityKeysError =
  * Returns a paginated list of all security keys associated with the instance.
  */
 export const listSecurityKeys: API.PaginatedOperationMethod<
-  ListSecurityKeysRequest,
+  ListSecurityKeysRequest & RegionInput,
   ListSecurityKeysResponse,
   ListSecurityKeysError,
   Creds | HttpClient.HttpClient,
@@ -18143,6 +18635,8 @@ export const listSecurityKeys: API.PaginatedOperationMethod<
     items: "SecurityKeys",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityKeys",
 })) as any;
 
 export type ListSecurityProfileAIAgentsError =
@@ -18156,7 +18650,7 @@ export type ListSecurityProfileAIAgentsError =
  * Returns a list of the allowed AI agents in a specific security profile.
  */
 export const listSecurityProfileAIAgents: API.PaginatedOperationMethod<
-  ListSecurityProfileAIAgentsRequest,
+  ListSecurityProfileAIAgentsRequest & RegionInput,
   ListSecurityProfileAIAgentsResponse,
   ListSecurityProfileAIAgentsError,
   Creds | HttpClient.HttpClient,
@@ -18180,6 +18674,8 @@ export const listSecurityProfileAIAgents: API.PaginatedOperationMethod<
     items: "AllowedAIAgents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityProfileAIAgents",
 })) as any;
 
 export type ListSecurityProfileApplicationsError =
@@ -18193,7 +18689,7 @@ export type ListSecurityProfileApplicationsError =
  * Returns a list of third-party applications or MCP Servers in a specific security profile.
  */
 export const listSecurityProfileApplications: API.PaginatedOperationMethod<
-  ListSecurityProfileApplicationsRequest,
+  ListSecurityProfileApplicationsRequest & RegionInput,
   ListSecurityProfileApplicationsResponse,
   ListSecurityProfileApplicationsError,
   Creds | HttpClient.HttpClient,
@@ -18217,6 +18713,8 @@ export const listSecurityProfileApplications: API.PaginatedOperationMethod<
     items: "Applications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityProfileApplications",
 })) as any;
 
 export type ListSecurityProfileFlowModulesError =
@@ -18230,7 +18728,7 @@ export type ListSecurityProfileFlowModulesError =
  * A list of Flow Modules an AI Agent can invoke as a tool
  */
 export const listSecurityProfileFlowModules: API.PaginatedOperationMethod<
-  ListSecurityProfileFlowModulesRequest,
+  ListSecurityProfileFlowModulesRequest & RegionInput,
   ListSecurityProfileFlowModulesResponse,
   ListSecurityProfileFlowModulesError,
   Creds | HttpClient.HttpClient,
@@ -18254,6 +18752,8 @@ export const listSecurityProfileFlowModules: API.PaginatedOperationMethod<
     items: "AllowedFlowModules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityProfileFlowModules",
 })) as any;
 
 export type ListSecurityProfilePermissionsError =
@@ -18271,7 +18771,7 @@ export type ListSecurityProfilePermissionsError =
  * of security profile permissions.
  */
 export const listSecurityProfilePermissions: API.PaginatedOperationMethod<
-  ListSecurityProfilePermissionsRequest,
+  ListSecurityProfilePermissionsRequest & RegionInput,
   ListSecurityProfilePermissionsResponse,
   ListSecurityProfilePermissionsError,
   Creds | HttpClient.HttpClient,
@@ -18295,6 +18795,8 @@ export const listSecurityProfilePermissions: API.PaginatedOperationMethod<
     items: "Permissions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityProfilePermissions",
 })) as any;
 
 export type ListSecurityProfilesError =
@@ -18312,7 +18814,7 @@ export type ListSecurityProfilesError =
  * of security profile permissions.
  */
 export const listSecurityProfiles: API.PaginatedOperationMethod<
-  ListSecurityProfilesRequest,
+  ListSecurityProfilesRequest & RegionInput,
   ListSecurityProfilesResponse,
   ListSecurityProfilesError,
   Creds | HttpClient.HttpClient,
@@ -18336,6 +18838,8 @@ export const listSecurityProfiles: API.PaginatedOperationMethod<
     items: "SecurityProfileSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityProfiles",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -18352,7 +18856,7 @@ export type ListTagsForResourceError =
  * Examples in the *Connect Customer Administrator Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -18369,6 +18873,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTaskTemplatesError =
@@ -18382,7 +18888,7 @@ export type ListTaskTemplatesError =
  * Lists task templates for the specified Connect Customer instance.
  */
 export const listTaskTemplates: API.PaginatedOperationMethod<
-  ListTaskTemplatesRequest,
+  ListTaskTemplatesRequest & RegionInput,
   ListTaskTemplatesResponse,
   ListTaskTemplatesError,
   Creds | HttpClient.HttpClient,
@@ -18406,6 +18912,8 @@ export const listTaskTemplates: API.PaginatedOperationMethod<
     items: "TaskTemplates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTaskTemplates",
 })) as any;
 
 export type ListTestCaseExecutionRecordsError =
@@ -18420,7 +18928,7 @@ export type ListTestCaseExecutionRecordsError =
  * Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance.
  */
 export const listTestCaseExecutionRecords: API.OperationMethod<
-  ListTestCaseExecutionRecordsRequest,
+  ListTestCaseExecutionRecordsRequest & RegionInput,
   ListTestCaseExecutionRecordsResponse,
   ListTestCaseExecutionRecordsError,
   Creds | HttpClient.HttpClient
@@ -18438,6 +18946,8 @@ export const listTestCaseExecutionRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestCaseExecutionRecords",
+  telemetry: TELEMETRY,
+  span: "ListTestCaseExecutionRecords",
 }));
 
 export type ListTestCaseExecutionsError =
@@ -18452,7 +18962,7 @@ export type ListTestCaseExecutionsError =
  * Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance.
  */
 export const listTestCaseExecutions: API.OperationMethod<
-  ListTestCaseExecutionsRequest,
+  ListTestCaseExecutionsRequest & RegionInput,
   ListTestCaseExecutionsResponse,
   ListTestCaseExecutionsError,
   Creds | HttpClient.HttpClient
@@ -18470,6 +18980,8 @@ export const listTestCaseExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestCaseExecutions",
+  telemetry: TELEMETRY,
+  span: "ListTestCaseExecutions",
 }));
 
 export type ListTestCasesError =
@@ -18484,7 +18996,7 @@ export type ListTestCasesError =
  * Lists the test cases present in the specific Amazon Connect instance.
  */
 export const listTestCases: API.PaginatedOperationMethod<
-  ListTestCasesRequest,
+  ListTestCasesRequest & RegionInput,
   ListTestCasesResponse,
   ListTestCasesError,
   Creds | HttpClient.HttpClient,
@@ -18509,6 +19021,8 @@ export const listTestCases: API.PaginatedOperationMethod<
     items: "TestCaseSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestCases",
 })) as any;
 
 export type ListTrafficDistributionGroupsError =
@@ -18521,7 +19035,7 @@ export type ListTrafficDistributionGroupsError =
  * Lists traffic distribution groups.
  */
 export const listTrafficDistributionGroups: API.PaginatedOperationMethod<
-  ListTrafficDistributionGroupsRequest,
+  ListTrafficDistributionGroupsRequest & RegionInput,
   ListTrafficDistributionGroupsResponse,
   ListTrafficDistributionGroupsError,
   Creds | HttpClient.HttpClient,
@@ -18544,6 +19058,8 @@ export const listTrafficDistributionGroups: API.PaginatedOperationMethod<
     items: "TrafficDistributionGroupSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrafficDistributionGroups",
 })) as any;
 
 export type ListTrafficDistributionGroupUsersError =
@@ -18557,7 +19073,7 @@ export type ListTrafficDistributionGroupUsersError =
  * Lists traffic distribution group users.
  */
 export const listTrafficDistributionGroupUsers: API.PaginatedOperationMethod<
-  ListTrafficDistributionGroupUsersRequest,
+  ListTrafficDistributionGroupUsersRequest & RegionInput,
   ListTrafficDistributionGroupUsersResponse,
   ListTrafficDistributionGroupUsersError,
   Creds | HttpClient.HttpClient,
@@ -18581,6 +19097,8 @@ export const listTrafficDistributionGroupUsers: API.PaginatedOperationMethod<
     items: "TrafficDistributionGroupUserSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrafficDistributionGroupUsers",
 })) as any;
 
 export type ListUseCasesError =
@@ -18593,7 +19111,7 @@ export type ListUseCasesError =
  * Lists the use cases for the integration association.
  */
 export const listUseCases: API.PaginatedOperationMethod<
-  ListUseCasesRequest,
+  ListUseCasesRequest & RegionInput,
   ListUseCasesResponse,
   ListUseCasesError,
   Creds | HttpClient.HttpClient,
@@ -18616,6 +19134,8 @@ export const listUseCases: API.PaginatedOperationMethod<
     items: "UseCaseSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUseCases",
 })) as any;
 
 export type ListUserHierarchyGroupsError =
@@ -18631,7 +19151,7 @@ export type ListUserHierarchyGroupsError =
  * For more information about agent hierarchies, see Set Up Agent Hierarchies in the *Connect Customer Administrator Guide*.
  */
 export const listUserHierarchyGroups: API.PaginatedOperationMethod<
-  ListUserHierarchyGroupsRequest,
+  ListUserHierarchyGroupsRequest & RegionInput,
   ListUserHierarchyGroupsResponse,
   ListUserHierarchyGroupsError,
   Creds | HttpClient.HttpClient,
@@ -18655,6 +19175,8 @@ export const listUserHierarchyGroups: API.PaginatedOperationMethod<
     items: "UserHierarchyGroupSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserHierarchyGroups",
 })) as any;
 
 export type ListUserNotificationsError =
@@ -18669,7 +19191,7 @@ export type ListUserNotificationsError =
  * Retrieves a paginated list of notifications for a specific user, including the notification status for that user.
  */
 export const listUserNotifications: API.OperationMethod<
-  ListUserNotificationsRequest,
+  ListUserNotificationsRequest & RegionInput,
   ListUserNotificationsResponse,
   ListUserNotificationsError,
   Creds | HttpClient.HttpClient
@@ -18687,6 +19209,8 @@ export const listUserNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserNotifications",
+  telemetry: TELEMETRY,
+  span: "ListUserNotifications",
 }));
 
 export type ListUserProficienciesError =
@@ -18700,7 +19224,7 @@ export type ListUserProficienciesError =
  * Lists proficiencies associated with a user.
  */
 export const listUserProficiencies: API.PaginatedOperationMethod<
-  ListUserProficienciesRequest,
+  ListUserProficienciesRequest & RegionInput,
   ListUserProficienciesResponse,
   ListUserProficienciesError,
   Creds | HttpClient.HttpClient,
@@ -18724,6 +19248,8 @@ export const listUserProficiencies: API.PaginatedOperationMethod<
     items: "UserProficiencyList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserProficiencies",
 })) as any;
 
 export type ListUsersError =
@@ -18737,7 +19263,7 @@ export type ListUsersError =
  * Provides summary information about the users for the specified Connect Customer instance.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Creds | HttpClient.HttpClient,
@@ -18761,6 +19287,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "UserSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type ListViewsError =
@@ -18777,7 +19305,7 @@ export type ListViewsError =
  * Results are sorted primarily by type, and secondarily by name.
  */
 export const listViews: API.PaginatedOperationMethod<
-  ListViewsRequest,
+  ListViewsRequest & RegionInput,
   ListViewsResponse,
   ListViewsError,
   Creds | HttpClient.HttpClient,
@@ -18802,6 +19330,8 @@ export const listViews: API.PaginatedOperationMethod<
     items: "ViewsSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListViews",
 })) as any;
 
 export type ListViewVersionsError =
@@ -18818,7 +19348,7 @@ export type ListViewVersionsError =
  * Results will be sorted from highest to lowest.
  */
 export const listViewVersions: API.PaginatedOperationMethod<
-  ListViewVersionsRequest,
+  ListViewVersionsRequest & RegionInput,
   ListViewVersionsResponse,
   ListViewVersionsError,
   Creds | HttpClient.HttpClient,
@@ -18843,6 +19373,8 @@ export const listViewVersions: API.PaginatedOperationMethod<
     items: "ViewVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListViewVersions",
 })) as any;
 
 export type ListWorkspaceMediaError =
@@ -18857,7 +19389,7 @@ export type ListWorkspaceMediaError =
  * Lists media assets (such as logos) associated with a workspace.
  */
 export const listWorkspaceMedia: API.OperationMethod<
-  ListWorkspaceMediaRequest,
+  ListWorkspaceMediaRequest & RegionInput,
   ListWorkspaceMediaResponse,
   ListWorkspaceMediaError,
   Creds | HttpClient.HttpClient
@@ -18875,6 +19407,8 @@ export const listWorkspaceMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkspaceMedia",
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceMedia",
 }));
 
 export type ListWorkspacePagesError =
@@ -18889,7 +19423,7 @@ export type ListWorkspacePagesError =
  * Lists the page configurations in a workspace, including the views assigned to each page.
  */
 export const listWorkspacePages: API.PaginatedOperationMethod<
-  ListWorkspacePagesRequest,
+  ListWorkspacePagesRequest & RegionInput,
   ListWorkspacePagesResponse,
   ListWorkspacePagesError,
   Creds | HttpClient.HttpClient,
@@ -18914,6 +19448,8 @@ export const listWorkspacePages: API.PaginatedOperationMethod<
     items: "WorkspacePageList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspacePages",
 })) as any;
 
 export type ListWorkspacesError =
@@ -18928,7 +19464,7 @@ export type ListWorkspacesError =
  * Lists the workspaces in an Amazon Connect instance.
  */
 export const listWorkspaces: API.PaginatedOperationMethod<
-  ListWorkspacesRequest,
+  ListWorkspacesRequest & RegionInput,
   ListWorkspacesResponse,
   ListWorkspacesError,
   Creds | HttpClient.HttpClient,
@@ -18953,6 +19489,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "WorkspaceSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 })) as any;
 
 export type MonitorContactError =
@@ -18969,7 +19507,7 @@ export type MonitorContactError =
  * *userId* will be set to silent monitoring mode on the contact.
  */
 export const monitorContact: API.OperationMethod<
-  MonitorContactRequest,
+  MonitorContactRequest & RegionInput,
   MonitorContactResponse,
   MonitorContactError,
   Creds | HttpClient.HttpClient
@@ -18988,6 +19526,8 @@ export const monitorContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MonitorContact",
+  telemetry: TELEMETRY,
+  span: "MonitorContact",
 }));
 
 export type PauseContactError =
@@ -19004,7 +19544,7 @@ export type PauseContactError =
  * Allows pausing an ongoing task contact.
  */
 export const pauseContact: API.OperationMethod<
-  PauseContactRequest,
+  PauseContactRequest & RegionInput,
   PauseContactResponse,
   PauseContactError,
   Creds | HttpClient.HttpClient
@@ -19024,6 +19564,8 @@ export const pauseContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseContact",
+  telemetry: TELEMETRY,
+  span: "PauseContact",
 }));
 
 export type PutUserStatusError =
@@ -19042,7 +19584,7 @@ export type PutUserStatusError =
  * next status in the *Connect Customer Administrator Guide*.
  */
 export const putUserStatus: API.OperationMethod<
-  PutUserStatusRequest,
+  PutUserStatusRequest & RegionInput,
   PutUserStatusResponse,
   PutUserStatusError,
   Creds | HttpClient.HttpClient
@@ -19060,6 +19602,8 @@ export const putUserStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUserStatus",
+  telemetry: TELEMETRY,
+  span: "PutUserStatus",
 }));
 
 export type ReleasePhoneNumberError =
@@ -19098,7 +19642,7 @@ export type ReleasePhoneNumberError =
  * open an Amazon Web Services support ticket.
  */
 export const releasePhoneNumber: API.OperationMethod<
-  ReleasePhoneNumberRequest,
+  ReleasePhoneNumberRequest & RegionInput,
   ReleasePhoneNumberResponse,
   ReleasePhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -19117,6 +19661,8 @@ export const releasePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleasePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "ReleasePhoneNumber",
 }));
 
 export type ReplicateInstanceError =
@@ -19137,7 +19683,7 @@ export type ReplicateInstanceError =
  * instance in the *Connect Customer Administrator Guide*.
  */
 export const replicateInstance: API.OperationMethod<
-  ReplicateInstanceRequest,
+  ReplicateInstanceRequest & RegionInput,
   ReplicateInstanceResponse,
   ReplicateInstanceError,
   Creds | HttpClient.HttpClient
@@ -19157,6 +19703,8 @@ export const replicateInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplicateInstance",
+  telemetry: TELEMETRY,
+  span: "ReplicateInstance",
 }));
 
 export type ResumeContactError =
@@ -19172,7 +19720,7 @@ export type ResumeContactError =
  * Allows resuming a task contact in a paused state.
  */
 export const resumeContact: API.OperationMethod<
-  ResumeContactRequest,
+  ResumeContactRequest & RegionInput,
   ResumeContactResponse,
   ResumeContactError,
   Creds | HttpClient.HttpClient
@@ -19191,6 +19739,8 @@ export const resumeContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeContact",
+  telemetry: TELEMETRY,
+  span: "ResumeContact",
 }));
 
 export type ResumeContactRecordingError =
@@ -19207,7 +19757,7 @@ export type ResumeContactRecordingError =
  * Voice and screen recordings are supported.
  */
 export const resumeContactRecording: API.OperationMethod<
-  ResumeContactRecordingRequest,
+  ResumeContactRecordingRequest & RegionInput,
   ResumeContactRecordingResponse,
   ResumeContactRecordingError,
   Creds | HttpClient.HttpClient
@@ -19223,6 +19773,8 @@ export const resumeContactRecording: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeContactRecording",
+  telemetry: TELEMETRY,
+  span: "ResumeContactRecording",
 }));
 
 export type SearchAgentStatusesError =
@@ -19236,7 +19788,7 @@ export type SearchAgentStatusesError =
  * Searches AgentStatuses in an Connect Customer instance, with optional filtering.
  */
 export const searchAgentStatuses: API.PaginatedOperationMethod<
-  SearchAgentStatusesRequest,
+  SearchAgentStatusesRequest & RegionInput,
   SearchAgentStatusesResponse,
   SearchAgentStatusesError,
   Creds | HttpClient.HttpClient,
@@ -19260,6 +19812,8 @@ export const searchAgentStatuses: API.PaginatedOperationMethod<
     items: "AgentStatuses",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchAgentStatuses",
 })) as any;
 
 export type SearchAvailablePhoneNumbersError =
@@ -19274,7 +19828,7 @@ export type SearchAvailablePhoneNumbersError =
  * the traffic distribution group.
  */
 export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
-  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersRequest & RegionInput,
   SearchAvailablePhoneNumbersResponse,
   SearchAvailablePhoneNumbersError,
   Creds | HttpClient.HttpClient,
@@ -19297,6 +19851,8 @@ export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
     items: "AvailableNumbersList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchAvailablePhoneNumbers",
 })) as any;
 
 export type SearchContactEvaluationsError =
@@ -19326,7 +19882,7 @@ export type SearchContactEvaluationsError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const searchContactEvaluations: API.OperationMethod<
-  SearchContactEvaluationsRequest,
+  SearchContactEvaluationsRequest & RegionInput,
   SearchContactEvaluationsResponse,
   SearchContactEvaluationsError,
   Creds | HttpClient.HttpClient
@@ -19343,6 +19899,8 @@ export const searchContactEvaluations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchContactEvaluations",
+  telemetry: TELEMETRY,
+  span: "SearchContactEvaluations",
 }));
 
 export type SearchContactFlowModulesError =
@@ -19356,7 +19914,7 @@ export type SearchContactFlowModulesError =
  * Searches the flow modules in an Connect Customer instance, with optional filtering.
  */
 export const searchContactFlowModules: API.PaginatedOperationMethod<
-  SearchContactFlowModulesRequest,
+  SearchContactFlowModulesRequest & RegionInput,
   SearchContactFlowModulesResponse,
   SearchContactFlowModulesError,
   Creds | HttpClient.HttpClient,
@@ -19380,6 +19938,8 @@ export const searchContactFlowModules: API.PaginatedOperationMethod<
     items: "ContactFlowModules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchContactFlowModules",
 })) as any;
 
 export type SearchContactFlowsError =
@@ -19393,7 +19953,7 @@ export type SearchContactFlowsError =
  * Searches the flows in an Connect Customer instance, with optional filtering.
  */
 export const searchContactFlows: API.PaginatedOperationMethod<
-  SearchContactFlowsRequest,
+  SearchContactFlowsRequest & RegionInput,
   SearchContactFlowsResponse,
   SearchContactFlowsError,
   Creds | HttpClient.HttpClient,
@@ -19417,6 +19977,8 @@ export const searchContactFlows: API.PaginatedOperationMethod<
     items: "ContactFlows",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchContactFlows",
 })) as any;
 
 export type SearchContactsError =
@@ -19430,7 +19992,7 @@ export type SearchContactsError =
  * Searches contacts in an Connect Customer instance.
  */
 export const searchContacts: API.PaginatedOperationMethod<
-  SearchContactsRequest,
+  SearchContactsRequest & RegionInput,
   SearchContactsResponse,
   SearchContactsError,
   Creds | HttpClient.HttpClient,
@@ -19454,6 +20016,8 @@ export const searchContacts: API.PaginatedOperationMethod<
     items: "Contacts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchContacts",
 })) as any;
 
 export type SearchDataTablesError =
@@ -19469,7 +20033,7 @@ export type SearchDataTablesError =
  * supports both search criteria and filters.
  */
 export const searchDataTables: API.PaginatedOperationMethod<
-  SearchDataTablesRequest,
+  SearchDataTablesRequest & RegionInput,
   SearchDataTablesResponse,
   SearchDataTablesError,
   Creds | HttpClient.HttpClient,
@@ -19493,6 +20057,8 @@ export const searchDataTables: API.PaginatedOperationMethod<
     items: "DataTables",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchDataTables",
 })) as any;
 
 export type SearchEmailAddressesError =
@@ -19507,7 +20073,7 @@ export type SearchEmailAddressesError =
  * Searches email address in an instance, with optional filtering.
  */
 export const searchEmailAddresses: API.OperationMethod<
-  SearchEmailAddressesRequest,
+  SearchEmailAddressesRequest & RegionInput,
   SearchEmailAddressesResponse,
   SearchEmailAddressesError,
   Creds | HttpClient.HttpClient
@@ -19525,6 +20091,8 @@ export const searchEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchEmailAddresses",
+  telemetry: TELEMETRY,
+  span: "SearchEmailAddresses",
 }));
 
 export type SearchEvaluationFormsError =
@@ -19556,7 +20124,7 @@ export type SearchEvaluationFormsError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const searchEvaluationForms: API.OperationMethod<
-  SearchEvaluationFormsRequest,
+  SearchEvaluationFormsRequest & RegionInput,
   SearchEvaluationFormsResponse,
   SearchEvaluationFormsError,
   Creds | HttpClient.HttpClient
@@ -19573,6 +20141,8 @@ export const searchEvaluationForms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchEvaluationForms",
+  telemetry: TELEMETRY,
+  span: "SearchEvaluationForms",
 }));
 
 export type SearchHoursOfOperationOverridesError =
@@ -19586,7 +20156,7 @@ export type SearchHoursOfOperationOverridesError =
  * Searches the hours of operation overrides.
  */
 export const searchHoursOfOperationOverrides: API.PaginatedOperationMethod<
-  SearchHoursOfOperationOverridesRequest,
+  SearchHoursOfOperationOverridesRequest & RegionInput,
   SearchHoursOfOperationOverridesResponse,
   SearchHoursOfOperationOverridesError,
   Creds | HttpClient.HttpClient,
@@ -19610,6 +20180,8 @@ export const searchHoursOfOperationOverrides: API.PaginatedOperationMethod<
     items: "HoursOfOperationOverrides",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchHoursOfOperationOverrides",
 })) as any;
 
 export type SearchHoursOfOperationsError =
@@ -19623,7 +20195,7 @@ export type SearchHoursOfOperationsError =
  * Searches the hours of operation in an Connect Customer instance, with optional filtering.
  */
 export const searchHoursOfOperations: API.PaginatedOperationMethod<
-  SearchHoursOfOperationsRequest,
+  SearchHoursOfOperationsRequest & RegionInput,
   SearchHoursOfOperationsResponse,
   SearchHoursOfOperationsError,
   Creds | HttpClient.HttpClient,
@@ -19647,6 +20219,8 @@ export const searchHoursOfOperations: API.PaginatedOperationMethod<
     items: "HoursOfOperations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchHoursOfOperations",
 })) as any;
 
 export type SearchMetricsError =
@@ -19661,7 +20235,7 @@ export type SearchMetricsError =
  * Searches for metrics in the specified Connect Customer instance using search criteria and optional tag-based filters. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const searchMetrics: API.PaginatedOperationMethod<
-  SearchMetricsRequest,
+  SearchMetricsRequest & RegionInput,
   SearchMetricsResponse,
   SearchMetricsError,
   Creds | HttpClient.HttpClient,
@@ -19686,6 +20260,8 @@ export const searchMetrics: API.PaginatedOperationMethod<
     items: "Metrics",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchMetrics",
 })) as any;
 
 export type SearchNotificationsError =
@@ -19700,7 +20276,7 @@ export type SearchNotificationsError =
  * Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags.
  */
 export const searchNotifications: API.OperationMethod<
-  SearchNotificationsRequest,
+  SearchNotificationsRequest & RegionInput,
   SearchNotificationsResponse,
   SearchNotificationsError,
   Creds | HttpClient.HttpClient
@@ -19718,6 +20294,8 @@ export const searchNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchNotifications",
+  telemetry: TELEMETRY,
+  span: "SearchNotifications",
 }));
 
 export type SearchPredefinedAttributesError =
@@ -19744,7 +20322,7 @@ export type SearchPredefinedAttributesError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const searchPredefinedAttributes: API.PaginatedOperationMethod<
-  SearchPredefinedAttributesRequest,
+  SearchPredefinedAttributesRequest & RegionInput,
   SearchPredefinedAttributesResponse,
   SearchPredefinedAttributesError,
   Creds | HttpClient.HttpClient,
@@ -19768,6 +20346,8 @@ export const searchPredefinedAttributes: API.PaginatedOperationMethod<
     items: "PredefinedAttributes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchPredefinedAttributes",
 })) as any;
 
 export type SearchPromptsError =
@@ -19781,7 +20361,7 @@ export type SearchPromptsError =
  * Searches prompts in an Connect Customer instance, with optional filtering.
  */
 export const searchPrompts: API.PaginatedOperationMethod<
-  SearchPromptsRequest,
+  SearchPromptsRequest & RegionInput,
   SearchPromptsResponse,
   SearchPromptsError,
   Creds | HttpClient.HttpClient,
@@ -19805,6 +20385,8 @@ export const searchPrompts: API.PaginatedOperationMethod<
     items: "Prompts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchPrompts",
 })) as any;
 
 export type SearchQueuesError =
@@ -19818,7 +20400,7 @@ export type SearchQueuesError =
  * Searches queues in an Connect Customer instance, with optional filtering.
  */
 export const searchQueues: API.PaginatedOperationMethod<
-  SearchQueuesRequest,
+  SearchQueuesRequest & RegionInput,
   SearchQueuesResponse,
   SearchQueuesError,
   Creds | HttpClient.HttpClient,
@@ -19842,6 +20424,8 @@ export const searchQueues: API.PaginatedOperationMethod<
     items: "Queues",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchQueues",
 })) as any;
 
 export type SearchQuickConnectsError =
@@ -19855,7 +20439,7 @@ export type SearchQuickConnectsError =
  * Searches quick connects in an Connect Customer instance, with optional filtering.
  */
 export const searchQuickConnects: API.PaginatedOperationMethod<
-  SearchQuickConnectsRequest,
+  SearchQuickConnectsRequest & RegionInput,
   SearchQuickConnectsResponse,
   SearchQuickConnectsError,
   Creds | HttpClient.HttpClient,
@@ -19879,6 +20463,8 @@ export const searchQuickConnects: API.PaginatedOperationMethod<
     items: "QuickConnects",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchQuickConnects",
 })) as any;
 
 export type SearchResourceTagsError =
@@ -19893,7 +20479,7 @@ export type SearchResourceTagsError =
  * Searches tags used in an Connect Customer instance using optional search criteria.
  */
 export const searchResourceTags: API.PaginatedOperationMethod<
-  SearchResourceTagsRequest,
+  SearchResourceTagsRequest & RegionInput,
   SearchResourceTagsResponse,
   SearchResourceTagsError,
   Creds | HttpClient.HttpClient,
@@ -19918,6 +20504,8 @@ export const searchResourceTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchResourceTags",
 })) as any;
 
 export type SearchRoutingProfilesError =
@@ -19934,7 +20522,7 @@ export type SearchRoutingProfilesError =
  * MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but DescribeRoutingProfile does.
  */
 export const searchRoutingProfiles: API.PaginatedOperationMethod<
-  SearchRoutingProfilesRequest,
+  SearchRoutingProfilesRequest & RegionInput,
   SearchRoutingProfilesResponse,
   SearchRoutingProfilesError,
   Creds | HttpClient.HttpClient,
@@ -19958,6 +20546,8 @@ export const searchRoutingProfiles: API.PaginatedOperationMethod<
     items: "RoutingProfiles",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchRoutingProfiles",
 })) as any;
 
 export type SearchRulesError =
@@ -19972,7 +20562,7 @@ export type SearchRulesError =
  * Searches rules in an Connect Customer instance, with optional filtering.
  */
 export const searchRules: API.PaginatedOperationMethod<
-  SearchRulesRequest,
+  SearchRulesRequest & RegionInput,
   SearchRulesResponse,
   SearchRulesError,
   Creds | HttpClient.HttpClient,
@@ -19997,6 +20587,8 @@ export const searchRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchRules",
 })) as any;
 
 export type SearchSecurityProfilesError =
@@ -20014,7 +20606,7 @@ export type SearchSecurityProfilesError =
  * of security profile permissions.
  */
 export const searchSecurityProfiles: API.PaginatedOperationMethod<
-  SearchSecurityProfilesRequest,
+  SearchSecurityProfilesRequest & RegionInput,
   SearchSecurityProfilesResponse,
   SearchSecurityProfilesError,
   Creds | HttpClient.HttpClient,
@@ -20038,6 +20630,8 @@ export const searchSecurityProfiles: API.PaginatedOperationMethod<
     items: "SecurityProfiles",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSecurityProfiles",
 })) as any;
 
 export type SearchTestCasesError =
@@ -20052,7 +20646,7 @@ export type SearchTestCasesError =
  * Searches for test cases in the specified Amazon Connect instance, with optional filtering.
  */
 export const searchTestCases: API.PaginatedOperationMethod<
-  SearchTestCasesRequest,
+  SearchTestCasesRequest & RegionInput,
   SearchTestCasesResponse,
   SearchTestCasesError,
   Creds | HttpClient.HttpClient,
@@ -20077,6 +20671,8 @@ export const searchTestCases: API.PaginatedOperationMethod<
     items: "TestCases",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchTestCases",
 })) as any;
 
 export type SearchUserHierarchyGroupsError =
@@ -20093,7 +20689,7 @@ export type SearchUserHierarchyGroupsError =
  * instance. It is not user-definable, nor is it visible in the UI.
  */
 export const searchUserHierarchyGroups: API.PaginatedOperationMethod<
-  SearchUserHierarchyGroupsRequest,
+  SearchUserHierarchyGroupsRequest & RegionInput,
   SearchUserHierarchyGroupsResponse,
   SearchUserHierarchyGroupsError,
   Creds | HttpClient.HttpClient,
@@ -20117,6 +20713,8 @@ export const searchUserHierarchyGroups: API.PaginatedOperationMethod<
     items: "UserHierarchyGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchUserHierarchyGroups",
 })) as any;
 
 export type SearchUsersError =
@@ -20132,7 +20730,7 @@ export type SearchUsersError =
  * `AfterContactWorkTimeLimit` is returned in milliseconds.
  */
 export const searchUsers: API.PaginatedOperationMethod<
-  SearchUsersRequest,
+  SearchUsersRequest & RegionInput,
   SearchUsersResponse,
   SearchUsersError,
   Creds | HttpClient.HttpClient,
@@ -20156,6 +20754,8 @@ export const searchUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchUsers",
 })) as any;
 
 export type SearchViewsError =
@@ -20170,7 +20770,7 @@ export type SearchViewsError =
  * Searches views based on name, description, or tags.
  */
 export const searchViews: API.PaginatedOperationMethod<
-  SearchViewsRequest,
+  SearchViewsRequest & RegionInput,
   SearchViewsResponse,
   SearchViewsError,
   Creds | HttpClient.HttpClient,
@@ -20195,6 +20795,8 @@ export const searchViews: API.PaginatedOperationMethod<
     items: "Views",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchViews",
 })) as any;
 
 export type SearchVocabulariesError =
@@ -20208,7 +20810,7 @@ export type SearchVocabulariesError =
  * `NameStartsWith`, and `LanguageCode`.
  */
 export const searchVocabularies: API.PaginatedOperationMethod<
-  SearchVocabulariesRequest,
+  SearchVocabulariesRequest & RegionInput,
   SearchVocabulariesResponse,
   SearchVocabulariesError,
   Creds | HttpClient.HttpClient,
@@ -20231,6 +20833,8 @@ export const searchVocabularies: API.PaginatedOperationMethod<
     items: "VocabularySummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchVocabularies",
 })) as any;
 
 export type SearchWorkspaceAssociationsError =
@@ -20245,7 +20849,7 @@ export type SearchWorkspaceAssociationsError =
  * Searches for workspace associations with users or routing profiles based on various criteria.
  */
 export const searchWorkspaceAssociations: API.PaginatedOperationMethod<
-  SearchWorkspaceAssociationsRequest,
+  SearchWorkspaceAssociationsRequest & RegionInput,
   SearchWorkspaceAssociationsResponse,
   SearchWorkspaceAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -20270,6 +20874,8 @@ export const searchWorkspaceAssociations: API.PaginatedOperationMethod<
     items: "WorkspaceAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchWorkspaceAssociations",
 })) as any;
 
 export type SearchWorkspacesError =
@@ -20284,7 +20890,7 @@ export type SearchWorkspacesError =
  * Searches workspaces based on name, description, visibility, or tags.
  */
 export const searchWorkspaces: API.PaginatedOperationMethod<
-  SearchWorkspacesRequest,
+  SearchWorkspacesRequest & RegionInput,
   SearchWorkspacesResponse,
   SearchWorkspacesError,
   Creds | HttpClient.HttpClient,
@@ -20309,6 +20915,8 @@ export const searchWorkspaces: API.PaginatedOperationMethod<
     items: "Workspaces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchWorkspaces",
 })) as any;
 
 export type SendChatIntegrationEventError =
@@ -20334,7 +20942,7 @@ export type SendChatIntegrationEventError =
  * integration.
  */
 export const sendChatIntegrationEvent: API.OperationMethod<
-  SendChatIntegrationEventRequest,
+  SendChatIntegrationEventRequest & RegionInput,
   SendChatIntegrationEventResponse,
   SendChatIntegrationEventError,
   Creds | HttpClient.HttpClient
@@ -20351,6 +20959,8 @@ export const sendChatIntegrationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendChatIntegrationEvent",
+  telemetry: TELEMETRY,
+  span: "SendChatIntegrationEvent",
 }));
 
 export type SendOutboundEmailError =
@@ -20370,7 +20980,7 @@ export type SendOutboundEmailError =
  * and call this API.
  */
 export const sendOutboundEmail: API.OperationMethod<
-  SendOutboundEmailRequest,
+  SendOutboundEmailRequest & RegionInput,
   SendOutboundEmailResponse,
   SendOutboundEmailError,
   Creds | HttpClient.HttpClient
@@ -20389,6 +20999,8 @@ export const sendOutboundEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendOutboundEmail",
+  telemetry: TELEMETRY,
+  span: "SendOutboundEmail",
 }));
 
 export type SendOutboundWebNotificationError =
@@ -20407,7 +21019,7 @@ export type SendOutboundWebNotificationError =
  * and call this API.
  */
 export const sendOutboundWebNotification: API.OperationMethod<
-  SendOutboundWebNotificationRequest,
+  SendOutboundWebNotificationRequest & RegionInput,
   SendOutboundWebNotificationResponse,
   SendOutboundWebNotificationError,
   Creds | HttpClient.HttpClient
@@ -20424,6 +21036,8 @@ export const sendOutboundWebNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendOutboundWebNotification",
+  telemetry: TELEMETRY,
+  span: "SendOutboundWebNotification",
 }));
 
 export type StartAssistantContactError =
@@ -20448,7 +21062,7 @@ export type StartAssistantContactError =
  * - Connect Customer Chat security best practices
  */
 export const startAssistantContact: API.OperationMethod<
-  StartAssistantContactRequest,
+  StartAssistantContactRequest & RegionInput,
   StartAssistantContactResponse,
   StartAssistantContactError,
   Creds | HttpClient.HttpClient
@@ -20467,6 +21081,8 @@ export const startAssistantContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssistantContact",
+  telemetry: TELEMETRY,
+  span: "StartAssistantContact",
 }));
 
 export type StartAttachedFileUploadError =
@@ -20484,7 +21100,7 @@ export type StartAttachedFileUploadError =
  * Connect Customer Task.
  */
 export const startAttachedFileUpload: API.OperationMethod<
-  StartAttachedFileUploadRequest,
+  StartAttachedFileUploadRequest & RegionInput,
   StartAttachedFileUploadResponse,
   StartAttachedFileUploadError,
   Creds | HttpClient.HttpClient
@@ -20502,6 +21118,8 @@ export const startAttachedFileUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAttachedFileUpload",
+  telemetry: TELEMETRY,
+  span: "StartAttachedFileUpload",
 }));
 
 export type StartChatContactError =
@@ -20541,7 +21159,7 @@ export type StartChatContactError =
  * - Connect Customer Chat security best practices
  */
 export const startChatContact: API.OperationMethod<
-  StartChatContactRequest,
+  StartChatContactRequest & RegionInput,
   StartChatContactResponse,
   StartChatContactError,
   Creds | HttpClient.HttpClient
@@ -20558,6 +21176,8 @@ export const startChatContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChatContact",
+  telemetry: TELEMETRY,
+  span: "StartChatContact",
 }));
 
 export type StartContactConversationalAnalyticsJobError =
@@ -20581,7 +21201,7 @@ export type StartContactConversationalAnalyticsJobError =
  * run post-call analytics.
  */
 export const startContactConversationalAnalyticsJob: API.OperationMethod<
-  StartContactConversationalAnalyticsJobRequest,
+  StartContactConversationalAnalyticsJobRequest & RegionInput,
   StartContactConversationalAnalyticsJobResponse,
   StartContactConversationalAnalyticsJobError,
   Creds | HttpClient.HttpClient
@@ -20599,6 +21219,8 @@ export const startContactConversationalAnalyticsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactConversationalAnalyticsJob",
+  telemetry: TELEMETRY,
+  span: "StartContactConversationalAnalyticsJob",
 }));
 
 export type StartContactEvaluationError =
@@ -20615,7 +21237,7 @@ export type StartContactEvaluationError =
  * activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.
  */
 export const startContactEvaluation: API.OperationMethod<
-  StartContactEvaluationRequest,
+  StartContactEvaluationRequest & RegionInput,
   StartContactEvaluationResponse,
   StartContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -20633,6 +21255,8 @@ export const startContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactEvaluation",
+  telemetry: TELEMETRY,
+  span: "StartContactEvaluation",
 }));
 
 export type StartContactMediaProcessingError =
@@ -20649,7 +21273,7 @@ export type StartContactMediaProcessingError =
  * rest of the chat, even if an individual contact segment ends.
  */
 export const startContactMediaProcessing: API.OperationMethod<
-  StartContactMediaProcessingRequest,
+  StartContactMediaProcessingRequest & RegionInput,
   StartContactMediaProcessingResponse,
   StartContactMediaProcessingError,
   Creds | HttpClient.HttpClient
@@ -20668,6 +21292,8 @@ export const startContactMediaProcessing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactMediaProcessing",
+  telemetry: TELEMETRY,
+  span: "StartContactMediaProcessing",
 }));
 
 export type StartContactRecordingError =
@@ -20696,7 +21322,7 @@ export type StartContactRecordingError =
  * Only voice recordings are supported at this time.
  */
 export const startContactRecording: API.OperationMethod<
-  StartContactRecordingRequest,
+  StartContactRecordingRequest & RegionInput,
   StartContactRecordingResponse,
   StartContactRecordingError,
   Creds | HttpClient.HttpClient
@@ -20713,6 +21339,8 @@ export const startContactRecording: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactRecording",
+  telemetry: TELEMETRY,
+  span: "StartContactRecording",
 }));
 
 export type StartContactStreamingError =
@@ -20736,7 +21364,7 @@ export type StartContactStreamingError =
  * - Connect Customer Chat security best practices
  */
 export const startContactStreaming: API.OperationMethod<
-  StartContactStreamingRequest,
+  StartContactStreamingRequest & RegionInput,
   StartContactStreamingResponse,
   StartContactStreamingError,
   Creds | HttpClient.HttpClient
@@ -20753,6 +21381,8 @@ export const startContactStreaming: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContactStreaming",
+  telemetry: TELEMETRY,
+  span: "StartContactStreaming",
 }));
 
 export type StartEmailContactError =
@@ -20769,7 +21399,7 @@ export type StartEmailContactError =
  * this API provides the ContactId of the email contact created.
  */
 export const startEmailContact: API.OperationMethod<
-  StartEmailContactRequest,
+  StartEmailContactRequest & RegionInput,
   StartEmailContactResponse,
   StartEmailContactError,
   Creds | HttpClient.HttpClient
@@ -20788,6 +21418,8 @@ export const startEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEmailContact",
+  telemetry: TELEMETRY,
+  span: "StartEmailContact",
 }));
 
 export type StartEvaluationFormValidationError =
@@ -20806,7 +21438,7 @@ export type StartEvaluationFormValidationError =
  * retrieve the status and results once the validation completes.
  */
 export const startEvaluationFormValidation: API.OperationMethod<
-  StartEvaluationFormValidationRequest,
+  StartEvaluationFormValidationRequest & RegionInput,
   StartEvaluationFormValidationResponse,
   StartEvaluationFormValidationError,
   Creds | HttpClient.HttpClient
@@ -20824,6 +21456,8 @@ export const startEvaluationFormValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEvaluationFormValidation",
+  telemetry: TELEMETRY,
+  span: "StartEvaluationFormValidation",
 }));
 
 export type StartOutboundChatContactError =
@@ -20861,7 +21495,7 @@ export type StartOutboundChatContactError =
  * Business messaging
  */
 export const startOutboundChatContact: API.OperationMethod<
-  StartOutboundChatContactRequest,
+  StartOutboundChatContactRequest & RegionInput,
   StartOutboundChatContactResponse,
   StartOutboundChatContactError,
   Creds | HttpClient.HttpClient
@@ -20880,6 +21514,8 @@ export const startOutboundChatContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOutboundChatContact",
+  telemetry: TELEMETRY,
+  span: "StartOutboundChatContact",
 }));
 
 export type StartOutboundEmailContactError =
@@ -20896,7 +21532,7 @@ export type StartOutboundEmailContactError =
  * customer.
  */
 export const startOutboundEmailContact: API.OperationMethod<
-  StartOutboundEmailContactRequest,
+  StartOutboundEmailContactRequest & RegionInput,
   StartOutboundEmailContactResponse,
   StartOutboundEmailContactError,
   Creds | HttpClient.HttpClient
@@ -20915,6 +21551,8 @@ export const startOutboundEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOutboundEmailContact",
+  telemetry: TELEMETRY,
+  span: "StartOutboundEmailContact",
 }));
 
 export type StartOutboundVoiceContactError =
@@ -20949,7 +21587,7 @@ export type StartOutboundVoiceContactError =
  * role in your account and call this API with OutboundStrategy.
  */
 export const startOutboundVoiceContact: API.OperationMethod<
-  StartOutboundVoiceContactRequest,
+  StartOutboundVoiceContactRequest & RegionInput,
   StartOutboundVoiceContactResponse,
   StartOutboundVoiceContactError,
   Creds | HttpClient.HttpClient
@@ -20968,6 +21606,8 @@ export const startOutboundVoiceContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOutboundVoiceContact",
+  telemetry: TELEMETRY,
+  span: "StartOutboundVoiceContact",
 }));
 
 export type StartScreenSharingError =
@@ -20983,7 +21623,7 @@ export type StartScreenSharingError =
  * capabilities in the *Connect Customer Administrator Guide*.
  */
 export const startScreenSharing: API.OperationMethod<
-  StartScreenSharingRequest,
+  StartScreenSharingRequest & RegionInput,
   StartScreenSharingResponse,
   StartScreenSharingError,
   Creds | HttpClient.HttpClient
@@ -21001,6 +21641,8 @@ export const startScreenSharing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartScreenSharing",
+  telemetry: TELEMETRY,
+  span: "StartScreenSharing",
 }));
 
 export type StartTaskContactError =
@@ -21047,7 +21689,7 @@ export type StartTaskContactError =
  * *Connect Customer Administrator Guide*.
  */
 export const startTaskContact: API.OperationMethod<
-  StartTaskContactRequest,
+  StartTaskContactRequest & RegionInput,
   StartTaskContactResponse,
   StartTaskContactError,
   Creds | HttpClient.HttpClient
@@ -21065,6 +21707,8 @@ export const startTaskContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTaskContact",
+  telemetry: TELEMETRY,
+  span: "StartTaskContact",
 }));
 
 export type StartTestCaseExecutionError =
@@ -21080,7 +21724,7 @@ export type StartTestCaseExecutionError =
  * Starts executing a published test case.
  */
 export const startTestCaseExecution: API.OperationMethod<
-  StartTestCaseExecutionRequest,
+  StartTestCaseExecutionRequest & RegionInput,
   StartTestCaseExecutionResponse,
   StartTestCaseExecutionError,
   Creds | HttpClient.HttpClient
@@ -21099,6 +21743,8 @@ export const startTestCaseExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTestCaseExecution",
+  telemetry: TELEMETRY,
+  span: "StartTestCaseExecution",
 }));
 
 export type StartWebRTCContactError =
@@ -21115,7 +21761,7 @@ export type StartWebRTCContactError =
  * InstanceId).
  */
 export const startWebRTCContact: API.OperationMethod<
-  StartWebRTCContactRequest,
+  StartWebRTCContactRequest & RegionInput,
   StartWebRTCContactResponse,
   StartWebRTCContactError,
   Creds | HttpClient.HttpClient
@@ -21133,6 +21779,8 @@ export const startWebRTCContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWebRTCContact",
+  telemetry: TELEMETRY,
+  span: "StartWebRTCContact",
 }));
 
 export type StopContactError =
@@ -21160,7 +21808,7 @@ export type StopContactError =
  * Chat and task contacts can be terminated in any state, regardless of initiation method.
  */
 export const stopContact: API.OperationMethod<
-  StopContactRequest,
+  StopContactRequest & RegionInput,
   StopContactResponse,
   StopContactError,
   Creds | HttpClient.HttpClient
@@ -21178,6 +21826,8 @@ export const stopContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContact",
+  telemetry: TELEMETRY,
+  span: "StopContact",
 }));
 
 export type StopContactMediaProcessingError =
@@ -21192,7 +21842,7 @@ export type StopContactMediaProcessingError =
  * Stops in-flight message processing for an ongoing chat session.
  */
 export const stopContactMediaProcessing: API.OperationMethod<
-  StopContactMediaProcessingRequest,
+  StopContactMediaProcessingRequest & RegionInput,
   StopContactMediaProcessingResponse,
   StopContactMediaProcessingError,
   Creds | HttpClient.HttpClient
@@ -21210,6 +21860,8 @@ export const stopContactMediaProcessing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContactMediaProcessing",
+  telemetry: TELEMETRY,
+  span: "StopContactMediaProcessing",
 }));
 
 export type StopContactRecordingError =
@@ -21227,7 +21879,7 @@ export type StopContactRecordingError =
  * Only voice recordings are supported at this time.
  */
 export const stopContactRecording: API.OperationMethod<
-  StopContactRecordingRequest,
+  StopContactRecordingRequest & RegionInput,
   StopContactRecordingResponse,
   StopContactRecordingError,
   Creds | HttpClient.HttpClient
@@ -21243,6 +21895,8 @@ export const stopContactRecording: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContactRecording",
+  telemetry: TELEMETRY,
+  span: "StopContactRecording",
 }));
 
 export type StopContactStreamingError =
@@ -21256,7 +21910,7 @@ export type StopContactStreamingError =
  * API.
  */
 export const stopContactStreaming: API.OperationMethod<
-  StopContactStreamingRequest,
+  StopContactStreamingRequest & RegionInput,
   StopContactStreamingResponse,
   StopContactStreamingError,
   Creds | HttpClient.HttpClient
@@ -21272,6 +21926,8 @@ export const stopContactStreaming: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContactStreaming",
+  telemetry: TELEMETRY,
+  span: "StopContactStreaming",
 }));
 
 export type StopTestCaseExecutionError =
@@ -21286,7 +21942,7 @@ export type StopTestCaseExecutionError =
  * Stops a running test execution.
  */
 export const stopTestCaseExecution: API.OperationMethod<
-  StopTestCaseExecutionRequest,
+  StopTestCaseExecutionRequest & RegionInput,
   StopTestCaseExecutionResponse,
   StopTestCaseExecutionError,
   Creds | HttpClient.HttpClient
@@ -21304,6 +21960,8 @@ export const stopTestCaseExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTestCaseExecution",
+  telemetry: TELEMETRY,
+  span: "StopTestCaseExecution",
 }));
 
 export type SubmitContactEvaluationError =
@@ -21322,7 +21980,7 @@ export type SubmitContactEvaluationError =
  * If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
  */
 export const submitContactEvaluation: API.OperationMethod<
-  SubmitContactEvaluationRequest,
+  SubmitContactEvaluationRequest & RegionInput,
   SubmitContactEvaluationResponse,
   SubmitContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -21339,6 +21997,8 @@ export const submitContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitContactEvaluation",
+  telemetry: TELEMETRY,
+  span: "SubmitContactEvaluation",
 }));
 
 export type SuspendContactRecordingError =
@@ -21359,7 +22019,7 @@ export type SuspendContactRecordingError =
  * Voice (IVR, agent) and screen recordings are supported.
  */
 export const suspendContactRecording: API.OperationMethod<
-  SuspendContactRecordingRequest,
+  SuspendContactRecordingRequest & RegionInput,
   SuspendContactRecordingResponse,
   SuspendContactRecordingError,
   Creds | HttpClient.HttpClient
@@ -21375,6 +22035,8 @@ export const suspendContactRecording: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendContactRecording",
+  telemetry: TELEMETRY,
+  span: "SuspendContactRecording",
 }));
 
 export type TagContactError =
@@ -21390,7 +22052,7 @@ export type TagContactError =
  * view of your Connect Customer usage.
  */
 export const tagContact: API.OperationMethod<
-  TagContactRequest,
+  TagContactRequest & RegionInput,
   TagContactResponse,
   TagContactError,
   Creds | HttpClient.HttpClient
@@ -21408,6 +22070,8 @@ export const tagContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagContact",
+  telemetry: TELEMETRY,
+  span: "TagContact",
 }));
 
 export type TagResourceError =
@@ -21427,7 +22091,7 @@ export type TagResourceError =
  * Examples in the *Connect Customer Administrator Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Creds | HttpClient.HttpClient
@@ -21444,6 +22108,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TransferContactError =
@@ -21476,7 +22142,7 @@ export type TransferContactError =
  * - A contact cannot be transferred more than 11 times.
  */
 export const transferContact: API.OperationMethod<
-  TransferContactRequest,
+  TransferContactRequest & RegionInput,
   TransferContactResponse,
   TransferContactError,
   Creds | HttpClient.HttpClient
@@ -21495,6 +22161,8 @@ export const transferContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferContact",
+  telemetry: TELEMETRY,
+  span: "TransferContact",
 }));
 
 export type UntagContactError =
@@ -21510,7 +22178,7 @@ export type UntagContactError =
  * view of your Connect Customer usage.
  */
 export const untagContact: API.OperationMethod<
-  UntagContactRequest,
+  UntagContactRequest & RegionInput,
   UntagContactResponse,
   UntagContactError,
   Creds | HttpClient.HttpClient
@@ -21528,6 +22196,8 @@ export const untagContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagContact",
+  telemetry: TELEMETRY,
+  span: "UntagContact",
 }));
 
 export type UntagResourceError =
@@ -21541,7 +22211,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Creds | HttpClient.HttpClient
@@ -21558,6 +22228,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentStatusError =
@@ -21573,7 +22245,7 @@ export type UpdateAgentStatusError =
  * Updates agent status.
  */
 export const updateAgentStatus: API.OperationMethod<
-  UpdateAgentStatusRequest,
+  UpdateAgentStatusRequest & RegionInput,
   UpdateAgentStatusResponse,
   UpdateAgentStatusError,
   Creds | HttpClient.HttpClient
@@ -21592,6 +22264,8 @@ export const updateAgentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentStatus",
 }));
 
 export type UpdateAttachedFilesConfigurationError =
@@ -21607,7 +22281,7 @@ export type UpdateAttachedFilesConfigurationError =
  * If no instance-specific configuration exists, this operation creates one. Partial updates are supported--only specified fields are updated, while unspecified fields retain their current values.
  */
 export const updateAttachedFilesConfiguration: API.OperationMethod<
-  UpdateAttachedFilesConfigurationRequest,
+  UpdateAttachedFilesConfigurationRequest & RegionInput,
   UpdateAttachedFilesConfigurationResponse,
   UpdateAttachedFilesConfigurationError,
   Creds | HttpClient.HttpClient
@@ -21624,6 +22298,8 @@ export const updateAttachedFilesConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttachedFilesConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateAttachedFilesConfiguration",
 }));
 
 export type UpdateAuthenticationProfileError =
@@ -21640,7 +22316,7 @@ export type UpdateAuthenticationProfileError =
  * Updates the selected authentication profile.
  */
 export const updateAuthenticationProfile: API.OperationMethod<
-  UpdateAuthenticationProfileRequest,
+  UpdateAuthenticationProfileRequest & RegionInput,
   UpdateAuthenticationProfileResponse,
   UpdateAuthenticationProfileError,
   Creds | HttpClient.HttpClient
@@ -21657,6 +22333,8 @@ export const updateAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthenticationProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateAuthenticationProfile",
 }));
 
 export type UpdateContactError =
@@ -21678,7 +22356,7 @@ export type UpdateContactError =
  * You can add or update user-defined contact information for both ongoing and completed contacts.
  */
 export const updateContact: API.OperationMethod<
-  UpdateContactRequest,
+  UpdateContactRequest & RegionInput,
   UpdateContactResponse,
   UpdateContactError,
   Creds | HttpClient.HttpClient
@@ -21698,6 +22376,8 @@ export const updateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContact",
+  telemetry: TELEMETRY,
+  span: "UpdateContact",
 }));
 
 export type UpdateContactAttributesError =
@@ -21721,7 +22401,7 @@ export type UpdateContactAttributesError =
  * specifications in the *Connect Customer Administrator Guide*.
  */
 export const updateContactAttributes: API.OperationMethod<
-  UpdateContactAttributesRequest,
+  UpdateContactAttributesRequest & RegionInput,
   UpdateContactAttributesResponse,
   UpdateContactAttributesError,
   Creds | HttpClient.HttpClient
@@ -21738,6 +22418,8 @@ export const updateContactAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateContactAttributes",
 }));
 
 export type UpdateContactEvaluationError =
@@ -21753,7 +22435,7 @@ export type UpdateContactEvaluationError =
  * answer or note can be deleted by passing an empty object (`{}`) to the question identifier.
  */
 export const updateContactEvaluation: API.OperationMethod<
-  UpdateContactEvaluationRequest,
+  UpdateContactEvaluationRequest & RegionInput,
   UpdateContactEvaluationResponse,
   UpdateContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -21770,6 +22452,8 @@ export const updateContactEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactEvaluation",
+  telemetry: TELEMETRY,
+  span: "UpdateContactEvaluation",
 }));
 
 export type UpdateContactFlowContentError =
@@ -21791,7 +22475,7 @@ export type UpdateContactFlowContentError =
  * be supplied to view saved content that has not been published.
  */
 export const updateContactFlowContent: API.OperationMethod<
-  UpdateContactFlowContentRequest,
+  UpdateContactFlowContentRequest & RegionInput,
   UpdateContactFlowContentResponse,
   UpdateContactFlowContentError,
   Creds | HttpClient.HttpClient
@@ -21809,6 +22493,8 @@ export const updateContactFlowContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowContent",
+  telemetry: TELEMETRY,
+  span: "UpdateContactFlowContent",
 }));
 
 export type UpdateContactFlowMetadataError =
@@ -21823,7 +22509,7 @@ export type UpdateContactFlowMetadataError =
  * Updates metadata about specified flow.
  */
 export const updateContactFlowMetadata: API.OperationMethod<
-  UpdateContactFlowMetadataRequest,
+  UpdateContactFlowMetadataRequest & RegionInput,
   UpdateContactFlowMetadataResponse,
   UpdateContactFlowMetadataError,
   Creds | HttpClient.HttpClient
@@ -21841,6 +22527,8 @@ export const updateContactFlowMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateContactFlowMetadata",
 }));
 
 export type UpdateContactFlowModuleAliasError =
@@ -21857,7 +22545,7 @@ export type UpdateContactFlowModuleAliasError =
  * Updates a specific Aliases metadata, including the version it's tied to, it's name, and description.
  */
 export const updateContactFlowModuleAlias: API.OperationMethod<
-  UpdateContactFlowModuleAliasRequest,
+  UpdateContactFlowModuleAliasRequest & RegionInput,
   UpdateContactFlowModuleAliasResponse,
   UpdateContactFlowModuleAliasError,
   Creds | HttpClient.HttpClient
@@ -21877,6 +22565,8 @@ export const updateContactFlowModuleAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowModuleAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateContactFlowModuleAlias",
 }));
 
 export type UpdateContactFlowModuleContentError =
@@ -21895,7 +22585,7 @@ export type UpdateContactFlowModuleContentError =
  * be supplied to view saved content that has not been published.
  */
 export const updateContactFlowModuleContent: API.OperationMethod<
-  UpdateContactFlowModuleContentRequest,
+  UpdateContactFlowModuleContentRequest & RegionInput,
   UpdateContactFlowModuleContentResponse,
   UpdateContactFlowModuleContentError,
   Creds | HttpClient.HttpClient
@@ -21913,6 +22603,8 @@ export const updateContactFlowModuleContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowModuleContent",
+  telemetry: TELEMETRY,
+  span: "UpdateContactFlowModuleContent",
 }));
 
 export type UpdateContactFlowModuleMetadataError =
@@ -21928,7 +22620,7 @@ export type UpdateContactFlowModuleMetadataError =
  * Updates metadata about specified flow module.
  */
 export const updateContactFlowModuleMetadata: API.OperationMethod<
-  UpdateContactFlowModuleMetadataRequest,
+  UpdateContactFlowModuleMetadataRequest & RegionInput,
   UpdateContactFlowModuleMetadataResponse,
   UpdateContactFlowModuleMetadataError,
   Creds | HttpClient.HttpClient
@@ -21947,6 +22639,8 @@ export const updateContactFlowModuleMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowModuleMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateContactFlowModuleMetadata",
 }));
 
 export type UpdateContactFlowNameError =
@@ -21964,7 +22658,7 @@ export type UpdateContactFlowNameError =
  * Flow language.
  */
 export const updateContactFlowName: API.OperationMethod<
-  UpdateContactFlowNameRequest,
+  UpdateContactFlowNameRequest & RegionInput,
   UpdateContactFlowNameResponse,
   UpdateContactFlowNameError,
   Creds | HttpClient.HttpClient
@@ -21982,6 +22676,8 @@ export const updateContactFlowName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactFlowName",
+  telemetry: TELEMETRY,
+  span: "UpdateContactFlowName",
 }));
 
 export type UpdateContactRoutingDataError =
@@ -22005,7 +22701,7 @@ export type UpdateContactRoutingDataError =
  * Either **QueuePriority** or **QueueTimeAdjustmentInSeconds** should be provided within the request body, but not both.
  */
 export const updateContactRoutingData: API.OperationMethod<
-  UpdateContactRoutingDataRequest,
+  UpdateContactRoutingDataRequest & RegionInput,
   UpdateContactRoutingDataResponse,
   UpdateContactRoutingDataError,
   Creds | HttpClient.HttpClient
@@ -22024,6 +22720,8 @@ export const updateContactRoutingData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactRoutingData",
+  telemetry: TELEMETRY,
+  span: "UpdateContactRoutingData",
 }));
 
 export type UpdateContactScheduleError =
@@ -22038,7 +22736,7 @@ export type UpdateContactScheduleError =
  * Updates the scheduled time of a task contact that is already scheduled.
  */
 export const updateContactSchedule: API.OperationMethod<
-  UpdateContactScheduleRequest,
+  UpdateContactScheduleRequest & RegionInput,
   UpdateContactScheduleResponse,
   UpdateContactScheduleError,
   Creds | HttpClient.HttpClient
@@ -22056,6 +22754,8 @@ export const updateContactSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateContactSchedule",
 }));
 
 export type UpdateContactTaskTemplateError =
@@ -22102,7 +22802,7 @@ export type UpdateContactTaskTemplateError =
  * task has a reference that matches a required field's name but not its datatype.
  */
 export const updateContactTaskTemplate: API.OperationMethod<
-  UpdateContactTaskTemplateRequest,
+  UpdateContactTaskTemplateRequest & RegionInput,
   UpdateContactTaskTemplateResponse,
   UpdateContactTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -22121,6 +22821,8 @@ export const updateContactTaskTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactTaskTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateContactTaskTemplate",
 }));
 
 export type UpdateCrossRegionRoutingError =
@@ -22141,7 +22843,7 @@ export type UpdateCrossRegionRoutingError =
  * search continue to operate globally after you use this operation.
  */
 export const updateCrossRegionRouting: API.OperationMethod<
-  UpdateCrossRegionRoutingRequest,
+  UpdateCrossRegionRoutingRequest & RegionInput,
   UpdateCrossRegionRoutingResponse,
   UpdateCrossRegionRoutingError,
   Creds | HttpClient.HttpClient
@@ -22159,6 +22861,8 @@ export const updateCrossRegionRouting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrossRegionRouting",
+  telemetry: TELEMETRY,
+  span: "UpdateCrossRegionRouting",
 }));
 
 export type UpdateDataTableAttributeError =
@@ -22179,7 +22883,7 @@ export type UpdateDataTableAttributeError =
  * validation only runs when values are created or updated.
  */
 export const updateDataTableAttribute: API.OperationMethod<
-  UpdateDataTableAttributeRequest,
+  UpdateDataTableAttributeRequest & RegionInput,
   UpdateDataTableAttributeResponse,
   UpdateDataTableAttributeError,
   Creds | HttpClient.HttpClient
@@ -22200,6 +22904,8 @@ export const updateDataTableAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataTableAttribute",
+  telemetry: TELEMETRY,
+  span: "UpdateDataTableAttribute",
 }));
 
 export type UpdateDataTableMetadataError =
@@ -22218,7 +22924,7 @@ export type UpdateDataTableMetadataError =
  * must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable.
  */
 export const updateDataTableMetadata: API.OperationMethod<
-  UpdateDataTableMetadataRequest,
+  UpdateDataTableMetadataRequest & RegionInput,
   UpdateDataTableMetadataResponse,
   UpdateDataTableMetadataError,
   Creds | HttpClient.HttpClient
@@ -22238,6 +22944,8 @@ export const updateDataTableMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataTableMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateDataTableMetadata",
 }));
 
 export type UpdateDataTablePrimaryValuesError =
@@ -22255,7 +22963,7 @@ export type UpdateDataTablePrimaryValuesError =
  * not authorized to use this endpoint. The combination of new primary values must be unique within the table.
  */
 export const updateDataTablePrimaryValues: API.OperationMethod<
-  UpdateDataTablePrimaryValuesRequest,
+  UpdateDataTablePrimaryValuesRequest & RegionInput,
   UpdateDataTablePrimaryValuesResponse,
   UpdateDataTablePrimaryValuesError,
   Creds | HttpClient.HttpClient
@@ -22274,6 +22982,8 @@ export const updateDataTablePrimaryValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataTablePrimaryValues",
+  telemetry: TELEMETRY,
+  span: "UpdateDataTablePrimaryValues",
 }));
 
 export type UpdateEmailAddressMetadataError =
@@ -22290,7 +23000,7 @@ export type UpdateEmailAddressMetadataError =
  * Administrator Guide.
  */
 export const updateEmailAddressMetadata: API.OperationMethod<
-  UpdateEmailAddressMetadataRequest,
+  UpdateEmailAddressMetadataRequest & RegionInput,
   UpdateEmailAddressMetadataResponse,
   UpdateEmailAddressMetadataError,
   Creds | HttpClient.HttpClient
@@ -22309,6 +23019,8 @@ export const updateEmailAddressMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmailAddressMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateEmailAddressMetadata",
 }));
 
 export type UpdateEvaluationFormError =
@@ -22327,7 +23039,7 @@ export type UpdateEvaluationFormError =
  * content.
  */
 export const updateEvaluationForm: API.OperationMethod<
-  UpdateEvaluationFormRequest,
+  UpdateEvaluationFormRequest & RegionInput,
   UpdateEvaluationFormResponse,
   UpdateEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -22345,6 +23057,8 @@ export const updateEvaluationForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEvaluationForm",
+  telemetry: TELEMETRY,
+  span: "UpdateEvaluationForm",
 }));
 
 export type UpdateExtractionDefinitionError =
@@ -22359,7 +23073,7 @@ export type UpdateExtractionDefinitionError =
  * Updates an extraction definition in the specified Connect Customer instance.
  */
 export const updateExtractionDefinition: API.OperationMethod<
-  UpdateExtractionDefinitionRequest,
+  UpdateExtractionDefinitionRequest & RegionInput,
   UpdateExtractionDefinitionResponse,
   UpdateExtractionDefinitionError,
   Creds | HttpClient.HttpClient
@@ -22377,6 +23091,8 @@ export const updateExtractionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtractionDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateExtractionDefinition",
 }));
 
 export type UpdateHoursOfOperationError =
@@ -22391,7 +23107,7 @@ export type UpdateHoursOfOperationError =
  * Updates the hours of operation.
  */
 export const updateHoursOfOperation: API.OperationMethod<
-  UpdateHoursOfOperationRequest,
+  UpdateHoursOfOperationRequest & RegionInput,
   UpdateHoursOfOperationResponse,
   UpdateHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -22409,6 +23125,8 @@ export const updateHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHoursOfOperation",
+  telemetry: TELEMETRY,
+  span: "UpdateHoursOfOperation",
 }));
 
 export type UpdateHoursOfOperationOverrideError =
@@ -22424,7 +23142,7 @@ export type UpdateHoursOfOperationOverrideError =
  * Update the hours of operation override.
  */
 export const updateHoursOfOperationOverride: API.OperationMethod<
-  UpdateHoursOfOperationOverrideRequest,
+  UpdateHoursOfOperationOverrideRequest & RegionInput,
   UpdateHoursOfOperationOverrideResponse,
   UpdateHoursOfOperationOverrideError,
   Creds | HttpClient.HttpClient
@@ -22443,6 +23161,8 @@ export const updateHoursOfOperationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHoursOfOperationOverride",
+  telemetry: TELEMETRY,
+  span: "UpdateHoursOfOperationOverride",
 }));
 
 export type UpdateInstanceAttributeError =
@@ -22458,7 +23178,7 @@ export type UpdateInstanceAttributeError =
  * Updates the value for the specified attribute type.
  */
 export const updateInstanceAttribute: API.OperationMethod<
-  UpdateInstanceAttributeRequest,
+  UpdateInstanceAttributeRequest & RegionInput,
   UpdateInstanceAttributeResponse,
   UpdateInstanceAttributeError,
   Creds | HttpClient.HttpClient
@@ -22475,6 +23195,8 @@ export const updateInstanceAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceAttribute",
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceAttribute",
 }));
 
 export type UpdateInstanceStorageConfigError =
@@ -22490,7 +23212,7 @@ export type UpdateInstanceStorageConfigError =
  * Updates an existing configuration for a resource type. This API is idempotent.
  */
 export const updateInstanceStorageConfig: API.OperationMethod<
-  UpdateInstanceStorageConfigRequest,
+  UpdateInstanceStorageConfigRequest & RegionInput,
   UpdateInstanceStorageConfigResponse,
   UpdateInstanceStorageConfigError,
   Creds | HttpClient.HttpClient
@@ -22507,6 +23229,8 @@ export const updateInstanceStorageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceStorageConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceStorageConfig",
 }));
 
 export type UpdateMetricContentError =
@@ -22521,7 +23245,7 @@ export type UpdateMetricContentError =
  * Updates the calculation, unit, and/or trend indicator of an existing metric in the specified Connect Customer instance.
  */
 export const updateMetricContent: API.OperationMethod<
-  UpdateMetricContentRequest,
+  UpdateMetricContentRequest & RegionInput,
   UpdateMetricContentResponse,
   UpdateMetricContentError,
   Creds | HttpClient.HttpClient
@@ -22539,6 +23263,8 @@ export const updateMetricContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMetricContent",
+  telemetry: TELEMETRY,
+  span: "UpdateMetricContent",
 }));
 
 export type UpdateMetricMetadataError =
@@ -22554,7 +23280,7 @@ export type UpdateMetricMetadataError =
  * Updates the name and/or description of an existing metric in the specified Connect Customer instance.
  */
 export const updateMetricMetadata: API.OperationMethod<
-  UpdateMetricMetadataRequest,
+  UpdateMetricMetadataRequest & RegionInput,
   UpdateMetricMetadataResponse,
   UpdateMetricMetadataError,
   Creds | HttpClient.HttpClient
@@ -22573,6 +23299,8 @@ export const updateMetricMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMetricMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateMetricMetadata",
 }));
 
 export type UpdateNotificationContentError =
@@ -22587,7 +23315,7 @@ export type UpdateNotificationContentError =
  * Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent.
  */
 export const updateNotificationContent: API.OperationMethod<
-  UpdateNotificationContentRequest,
+  UpdateNotificationContentRequest & RegionInput,
   UpdateNotificationContentResponse,
   UpdateNotificationContentError,
   Creds | HttpClient.HttpClient
@@ -22605,6 +23333,8 @@ export const updateNotificationContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationContent",
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationContent",
 }));
 
 export type UpdateParticipantAuthenticationError =
@@ -22629,7 +23359,7 @@ export type UpdateParticipantAuthenticationError =
  * identity information occur asynchronously after the response is returned.
  */
 export const updateParticipantAuthentication: API.OperationMethod<
-  UpdateParticipantAuthenticationRequest,
+  UpdateParticipantAuthenticationRequest & RegionInput,
   UpdateParticipantAuthenticationResponse,
   UpdateParticipantAuthenticationError,
   Creds | HttpClient.HttpClient
@@ -22647,6 +23377,8 @@ export const updateParticipantAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParticipantAuthentication",
+  telemetry: TELEMETRY,
+  span: "UpdateParticipantAuthentication",
 }));
 
 export type UpdateParticipantRoleConfigError =
@@ -22673,7 +23405,7 @@ export type UpdateParticipantRoleConfigError =
  * Set up chat timeouts for human participants.
  */
 export const updateParticipantRoleConfig: API.OperationMethod<
-  UpdateParticipantRoleConfigRequest,
+  UpdateParticipantRoleConfigRequest & RegionInput,
   UpdateParticipantRoleConfigResponse,
   UpdateParticipantRoleConfigError,
   Creds | HttpClient.HttpClient
@@ -22691,6 +23423,8 @@ export const updateParticipantRoleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParticipantRoleConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateParticipantRoleConfig",
 }));
 
 export type UpdatePhoneNumberError =
@@ -22712,7 +23446,7 @@ export type UpdatePhoneNumberError =
  * You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
  */
 export const updatePhoneNumber: API.OperationMethod<
-  UpdatePhoneNumberRequest,
+  UpdatePhoneNumberRequest & RegionInput,
   UpdatePhoneNumberResponse,
   UpdatePhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -22731,6 +23465,8 @@ export const updatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumber",
 }));
 
 export type UpdatePhoneNumberMetadataError =
@@ -22749,7 +23485,7 @@ export type UpdatePhoneNumberMetadataError =
  * To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API.
  */
 export const updatePhoneNumberMetadata: API.OperationMethod<
-  UpdatePhoneNumberMetadataRequest,
+  UpdatePhoneNumberMetadataRequest & RegionInput,
   UpdatePhoneNumberMetadataResponse,
   UpdatePhoneNumberMetadataError,
   Creds | HttpClient.HttpClient
@@ -22769,6 +23505,8 @@ export const updatePhoneNumberMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumberMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumberMetadata",
 }));
 
 export type UpdatePredefinedAttributeError =
@@ -22800,7 +23538,7 @@ export type UpdatePredefinedAttributeError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const updatePredefinedAttribute: API.OperationMethod<
-  UpdatePredefinedAttributeRequest,
+  UpdatePredefinedAttributeRequest & RegionInput,
   UpdatePredefinedAttributeResponse,
   UpdatePredefinedAttributeError,
   Creds | HttpClient.HttpClient
@@ -22817,6 +23555,8 @@ export const updatePredefinedAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePredefinedAttribute",
+  telemetry: TELEMETRY,
+  span: "UpdatePredefinedAttribute",
 }));
 
 export type UpdatePromptError =
@@ -22830,7 +23570,7 @@ export type UpdatePromptError =
  * Updates a prompt.
  */
 export const updatePrompt: API.OperationMethod<
-  UpdatePromptRequest,
+  UpdatePromptRequest & RegionInput,
   UpdatePromptResponse,
   UpdatePromptError,
   Creds | HttpClient.HttpClient
@@ -22847,6 +23587,8 @@ export const updatePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrompt",
+  telemetry: TELEMETRY,
+  span: "UpdatePrompt",
 }));
 
 export type UpdateQueueHoursOfOperationError =
@@ -22860,7 +23602,7 @@ export type UpdateQueueHoursOfOperationError =
  * Updates the hours of operation for the specified queue.
  */
 export const updateQueueHoursOfOperation: API.OperationMethod<
-  UpdateQueueHoursOfOperationRequest,
+  UpdateQueueHoursOfOperationRequest & RegionInput,
   UpdateQueueHoursOfOperationResponse,
   UpdateQueueHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -22877,6 +23619,8 @@ export const updateQueueHoursOfOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueHoursOfOperation",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueHoursOfOperation",
 }));
 
 export type UpdateQueueMaxContactsError =
@@ -22890,7 +23634,7 @@ export type UpdateQueueMaxContactsError =
  * Updates the maximum number of contacts allowed in a queue before it is considered full.
  */
 export const updateQueueMaxContacts: API.OperationMethod<
-  UpdateQueueMaxContactsRequest,
+  UpdateQueueMaxContactsRequest & RegionInput,
   UpdateQueueMaxContactsResponse,
   UpdateQueueMaxContactsError,
   Creds | HttpClient.HttpClient
@@ -22907,6 +23651,8 @@ export const updateQueueMaxContacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueMaxContacts",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueMaxContacts",
 }));
 
 export type UpdateQueueNameError =
@@ -22921,7 +23667,7 @@ export type UpdateQueueNameError =
  * Updates the name and description of a queue. At least `Name` or `Description` must be provided.
  */
 export const updateQueueName: API.OperationMethod<
-  UpdateQueueNameRequest,
+  UpdateQueueNameRequest & RegionInput,
   UpdateQueueNameResponse,
   UpdateQueueNameError,
   Creds | HttpClient.HttpClient
@@ -22939,6 +23685,8 @@ export const updateQueueName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueName",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueName",
 }));
 
 export type UpdateQueueOutboundCallerConfigError =
@@ -22966,7 +23714,7 @@ export type UpdateQueueOutboundCallerConfigError =
  * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
  */
 export const updateQueueOutboundCallerConfig: API.OperationMethod<
-  UpdateQueueOutboundCallerConfigRequest,
+  UpdateQueueOutboundCallerConfigRequest & RegionInput,
   UpdateQueueOutboundCallerConfigResponse,
   UpdateQueueOutboundCallerConfigError,
   Creds | HttpClient.HttpClient
@@ -22983,6 +23731,8 @@ export const updateQueueOutboundCallerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueOutboundCallerConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueOutboundCallerConfig",
 }));
 
 export type UpdateQueueOutboundEmailConfigError =
@@ -22998,7 +23748,7 @@ export type UpdateQueueOutboundEmailConfigError =
  * Updates the outbound email address Id for a specified queue.
  */
 export const updateQueueOutboundEmailConfig: API.OperationMethod<
-  UpdateQueueOutboundEmailConfigRequest,
+  UpdateQueueOutboundEmailConfigRequest & RegionInput,
   UpdateQueueOutboundEmailConfigResponse,
   UpdateQueueOutboundEmailConfigError,
   Creds | HttpClient.HttpClient
@@ -23017,6 +23767,8 @@ export const updateQueueOutboundEmailConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueOutboundEmailConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueOutboundEmailConfig",
 }));
 
 export type UpdateQueueStatusError =
@@ -23030,7 +23782,7 @@ export type UpdateQueueStatusError =
  * Updates the status of the queue.
  */
 export const updateQueueStatus: API.OperationMethod<
-  UpdateQueueStatusRequest,
+  UpdateQueueStatusRequest & RegionInput,
   UpdateQueueStatusResponse,
   UpdateQueueStatusError,
   Creds | HttpClient.HttpClient
@@ -23047,6 +23799,8 @@ export const updateQueueStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueueStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueStatus",
 }));
 
 export type UpdateQuickConnectConfigError =
@@ -23060,7 +23814,7 @@ export type UpdateQuickConnectConfigError =
  * Updates the configuration settings for the specified quick connect.
  */
 export const updateQuickConnectConfig: API.OperationMethod<
-  UpdateQuickConnectConfigRequest,
+  UpdateQuickConnectConfigRequest & RegionInput,
   UpdateQuickConnectConfigResponse,
   UpdateQuickConnectConfigError,
   Creds | HttpClient.HttpClient
@@ -23077,6 +23831,8 @@ export const updateQuickConnectConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickConnectConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateQuickConnectConfig",
 }));
 
 export type UpdateQuickConnectNameError =
@@ -23090,7 +23846,7 @@ export type UpdateQuickConnectNameError =
  * Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
  */
 export const updateQuickConnectName: API.OperationMethod<
-  UpdateQuickConnectNameRequest,
+  UpdateQuickConnectNameRequest & RegionInput,
   UpdateQuickConnectNameResponse,
   UpdateQuickConnectNameError,
   Creds | HttpClient.HttpClient
@@ -23107,6 +23863,8 @@ export const updateQuickConnectName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickConnectName",
+  telemetry: TELEMETRY,
+  span: "UpdateQuickConnectName",
 }));
 
 export type UpdateRoutingProfileAgentAvailabilityTimerError =
@@ -23121,7 +23879,7 @@ export type UpdateRoutingProfileAgentAvailabilityTimerError =
  * their last inbound contact or *longest idle time*.
  */
 export const updateRoutingProfileAgentAvailabilityTimer: API.OperationMethod<
-  UpdateRoutingProfileAgentAvailabilityTimerRequest,
+  UpdateRoutingProfileAgentAvailabilityTimerRequest & RegionInput,
   UpdateRoutingProfileAgentAvailabilityTimerResponse,
   UpdateRoutingProfileAgentAvailabilityTimerError,
   Creds | HttpClient.HttpClient
@@ -23146,6 +23904,8 @@ export const updateRoutingProfileAgentAvailabilityTimer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileAgentAvailabilityTimer",
+  telemetry: TELEMETRY,
+  span: "UpdateRoutingProfileAgentAvailabilityTimer",
 }));
 
 export type UpdateRoutingProfileConcurrencyError =
@@ -23159,7 +23919,7 @@ export type UpdateRoutingProfileConcurrencyError =
  * Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
  */
 export const updateRoutingProfileConcurrency: API.OperationMethod<
-  UpdateRoutingProfileConcurrencyRequest,
+  UpdateRoutingProfileConcurrencyRequest & RegionInput,
   UpdateRoutingProfileConcurrencyResponse,
   UpdateRoutingProfileConcurrencyError,
   Creds | HttpClient.HttpClient
@@ -23176,6 +23936,8 @@ export const updateRoutingProfileConcurrency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileConcurrency",
+  telemetry: TELEMETRY,
+  span: "UpdateRoutingProfileConcurrency",
 }));
 
 export type UpdateRoutingProfileDefaultOutboundQueueError =
@@ -23189,7 +23951,7 @@ export type UpdateRoutingProfileDefaultOutboundQueueError =
  * Updates the default outbound queue of a routing profile.
  */
 export const updateRoutingProfileDefaultOutboundQueue: API.OperationMethod<
-  UpdateRoutingProfileDefaultOutboundQueueRequest,
+  UpdateRoutingProfileDefaultOutboundQueueRequest & RegionInput,
   UpdateRoutingProfileDefaultOutboundQueueResponse,
   UpdateRoutingProfileDefaultOutboundQueueError,
   Creds | HttpClient.HttpClient
@@ -23206,6 +23968,8 @@ export const updateRoutingProfileDefaultOutboundQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileDefaultOutboundQueue",
+  telemetry: TELEMETRY,
+  span: "UpdateRoutingProfileDefaultOutboundQueue",
 }));
 
 export type UpdateRoutingProfileNameError =
@@ -23220,7 +23984,7 @@ export type UpdateRoutingProfileNameError =
  * Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
  */
 export const updateRoutingProfileName: API.OperationMethod<
-  UpdateRoutingProfileNameRequest,
+  UpdateRoutingProfileNameRequest & RegionInput,
   UpdateRoutingProfileNameResponse,
   UpdateRoutingProfileNameError,
   Creds | HttpClient.HttpClient
@@ -23238,6 +24002,8 @@ export const updateRoutingProfileName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileName",
+  telemetry: TELEMETRY,
+  span: "UpdateRoutingProfileName",
 }));
 
 export type UpdateRoutingProfileQueuesError =
@@ -23251,7 +24017,7 @@ export type UpdateRoutingProfileQueuesError =
  * Updates the properties associated with a set of queues for a routing profile.
  */
 export const updateRoutingProfileQueues: API.OperationMethod<
-  UpdateRoutingProfileQueuesRequest,
+  UpdateRoutingProfileQueuesRequest & RegionInput,
   UpdateRoutingProfileQueuesResponse,
   UpdateRoutingProfileQueuesError,
   Creds | HttpClient.HttpClient
@@ -23268,6 +24034,8 @@ export const updateRoutingProfileQueues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingProfileQueues",
+  telemetry: TELEMETRY,
+  span: "UpdateRoutingProfileQueues",
 }));
 
 export type UpdateRuleError =
@@ -23285,7 +24053,7 @@ export type UpdateRuleError =
  * language to code conditions for the rule.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Creds | HttpClient.HttpClient
@@ -23303,6 +24071,8 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 export type UpdateSecurityProfileError =
@@ -23320,7 +24090,7 @@ export type UpdateSecurityProfileError =
  * of security profile permissions.
  */
 export const updateSecurityProfile: API.OperationMethod<
-  UpdateSecurityProfileRequest,
+  UpdateSecurityProfileRequest & RegionInput,
   UpdateSecurityProfileResponse,
   UpdateSecurityProfileError,
   Creds | HttpClient.HttpClient
@@ -23337,6 +24107,8 @@ export const updateSecurityProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityProfile",
 }));
 
 export type UpdateTaskTemplateError =
@@ -23352,7 +24124,7 @@ export type UpdateTaskTemplateError =
  * not support partial updates. Instead it does a full update of template content.
  */
 export const updateTaskTemplate: API.OperationMethod<
-  UpdateTaskTemplateRequest,
+  UpdateTaskTemplateRequest & RegionInput,
   UpdateTaskTemplateResponse,
   UpdateTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -23370,6 +24142,8 @@ export const updateTaskTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTaskTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTaskTemplate",
 }));
 
 export type UpdateTestCaseError =
@@ -23386,7 +24160,7 @@ export type UpdateTestCaseError =
  * Updates any of the metadata for a test case, such as the name, description, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance.
  */
 export const updateTestCase: API.OperationMethod<
-  UpdateTestCaseRequest,
+  UpdateTestCaseRequest & RegionInput,
   UpdateTestCaseResponse,
   UpdateTestCaseError,
   Creds | HttpClient.HttpClient
@@ -23406,6 +24180,8 @@ export const updateTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTestCase",
+  telemetry: TELEMETRY,
+  span: "UpdateTestCase",
 }));
 
 export type UpdateTrafficDistributionError =
@@ -23439,7 +24215,7 @@ export type UpdateTrafficDistributionError =
  * - Invoke the UpdateTrafficDistribution API in the region that should handle traffic.
  */
 export const updateTrafficDistribution: API.OperationMethod<
-  UpdateTrafficDistributionRequest,
+  UpdateTrafficDistributionRequest & RegionInput,
   UpdateTrafficDistributionResponse,
   UpdateTrafficDistributionError,
   Creds | HttpClient.HttpClient
@@ -23457,6 +24233,8 @@ export const updateTrafficDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficDistribution",
+  telemetry: TELEMETRY,
+  span: "UpdateTrafficDistribution",
 }));
 
 export type UpdateUserConfigError =
@@ -23473,7 +24251,7 @@ export type UpdateUserConfigError =
  * This operation replaces the UpdateUserPhoneConfig API. While UpdateUserPhoneConfig applies the same ACW timeout to all channels, UpdateUserConfig allows you to set different auto-accept and ACW timeout values for each channel type.
  */
 export const updateUserConfig: API.OperationMethod<
-  UpdateUserConfigRequest,
+  UpdateUserConfigRequest & RegionInput,
   UpdateUserConfigResponse,
   UpdateUserConfigError,
   Creds | HttpClient.HttpClient
@@ -23491,6 +24269,8 @@ export const updateUserConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateUserConfig",
 }));
 
 export type UpdateUserHierarchyError =
@@ -23504,7 +24284,7 @@ export type UpdateUserHierarchyError =
  * Assigns the specified hierarchy group to the specified user.
  */
 export const updateUserHierarchy: API.OperationMethod<
-  UpdateUserHierarchyRequest,
+  UpdateUserHierarchyRequest & RegionInput,
   UpdateUserHierarchyResponse,
   UpdateUserHierarchyError,
   Creds | HttpClient.HttpClient
@@ -23521,6 +24301,8 @@ export const updateUserHierarchy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserHierarchy",
+  telemetry: TELEMETRY,
+  span: "UpdateUserHierarchy",
 }));
 
 export type UpdateUserHierarchyGroupNameError =
@@ -23535,7 +24317,7 @@ export type UpdateUserHierarchyGroupNameError =
  * Updates the name of the user hierarchy group.
  */
 export const updateUserHierarchyGroupName: API.OperationMethod<
-  UpdateUserHierarchyGroupNameRequest,
+  UpdateUserHierarchyGroupNameRequest & RegionInput,
   UpdateUserHierarchyGroupNameResponse,
   UpdateUserHierarchyGroupNameError,
   Creds | HttpClient.HttpClient
@@ -23553,6 +24335,8 @@ export const updateUserHierarchyGroupName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserHierarchyGroupName",
+  telemetry: TELEMETRY,
+  span: "UpdateUserHierarchyGroupName",
 }));
 
 export type UpdateUserHierarchyStructureError =
@@ -23567,7 +24351,7 @@ export type UpdateUserHierarchyStructureError =
  * Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
  */
 export const updateUserHierarchyStructure: API.OperationMethod<
-  UpdateUserHierarchyStructureRequest,
+  UpdateUserHierarchyStructureRequest & RegionInput,
   UpdateUserHierarchyStructureResponse,
   UpdateUserHierarchyStructureError,
   Creds | HttpClient.HttpClient
@@ -23585,6 +24369,8 @@ export const updateUserHierarchyStructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserHierarchyStructure",
+  telemetry: TELEMETRY,
+  span: "UpdateUserHierarchyStructure",
 }));
 
 export type UpdateUserIdentityInfoError =
@@ -23604,7 +24390,7 @@ export type UpdateUserIdentityInfoError =
  * in the *Connect Customer Administrator Guide*.
  */
 export const updateUserIdentityInfo: API.OperationMethod<
-  UpdateUserIdentityInfoRequest,
+  UpdateUserIdentityInfoRequest & RegionInput,
   UpdateUserIdentityInfoResponse,
   UpdateUserIdentityInfoError,
   Creds | HttpClient.HttpClient
@@ -23621,6 +24407,8 @@ export const updateUserIdentityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserIdentityInfo",
+  telemetry: TELEMETRY,
+  span: "UpdateUserIdentityInfo",
 }));
 
 export type UpdateUserNotificationStatusError =
@@ -23635,7 +24423,7 @@ export type UpdateUserNotificationStatusError =
  * Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget.
  */
 export const updateUserNotificationStatus: API.OperationMethod<
-  UpdateUserNotificationStatusRequest,
+  UpdateUserNotificationStatusRequest & RegionInput,
   UpdateUserNotificationStatusResponse,
   UpdateUserNotificationStatusError,
   Creds | HttpClient.HttpClient
@@ -23653,6 +24441,8 @@ export const updateUserNotificationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserNotificationStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateUserNotificationStatus",
 }));
 
 export type UpdateUserPhoneConfigError =
@@ -23668,7 +24458,7 @@ export type UpdateUserPhoneConfigError =
  * We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles.
  */
 export const updateUserPhoneConfig: API.OperationMethod<
-  UpdateUserPhoneConfigRequest,
+  UpdateUserPhoneConfigRequest & RegionInput,
   UpdateUserPhoneConfigResponse,
   UpdateUserPhoneConfigError,
   Creds | HttpClient.HttpClient
@@ -23685,6 +24475,8 @@ export const updateUserPhoneConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPhoneConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateUserPhoneConfig",
 }));
 
 export type UpdateUserProficienciesError =
@@ -23698,7 +24490,7 @@ export type UpdateUserProficienciesError =
  * Updates the properties associated with the proficiencies of a user.
  */
 export const updateUserProficiencies: API.OperationMethod<
-  UpdateUserProficienciesRequest,
+  UpdateUserProficienciesRequest & RegionInput,
   UpdateUserProficienciesResponse,
   UpdateUserProficienciesError,
   Creds | HttpClient.HttpClient
@@ -23715,6 +24507,8 @@ export const updateUserProficiencies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserProficiencies",
+  telemetry: TELEMETRY,
+  span: "UpdateUserProficiencies",
 }));
 
 export type UpdateUserRoutingProfileError =
@@ -23728,7 +24522,7 @@ export type UpdateUserRoutingProfileError =
  * Assigns the specified routing profile to the specified user.
  */
 export const updateUserRoutingProfile: API.OperationMethod<
-  UpdateUserRoutingProfileRequest,
+  UpdateUserRoutingProfileRequest & RegionInput,
   UpdateUserRoutingProfileResponse,
   UpdateUserRoutingProfileError,
   Creds | HttpClient.HttpClient
@@ -23745,6 +24539,8 @@ export const updateUserRoutingProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserRoutingProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateUserRoutingProfile",
 }));
 
 export type UpdateUserSecurityProfilesError =
@@ -23758,7 +24554,7 @@ export type UpdateUserSecurityProfilesError =
  * Assigns the specified security profiles to the specified user.
  */
 export const updateUserSecurityProfiles: API.OperationMethod<
-  UpdateUserSecurityProfilesRequest,
+  UpdateUserSecurityProfilesRequest & RegionInput,
   UpdateUserSecurityProfilesResponse,
   UpdateUserSecurityProfilesError,
   Creds | HttpClient.HttpClient
@@ -23775,6 +24571,8 @@ export const updateUserSecurityProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserSecurityProfiles",
+  telemetry: TELEMETRY,
+  span: "UpdateUserSecurityProfiles",
 }));
 
 export type UpdateViewContentError =
@@ -23795,7 +24593,7 @@ export type UpdateViewContentError =
  * `PUBLISHED`.
  */
 export const updateViewContent: API.OperationMethod<
-  UpdateViewContentRequest,
+  UpdateViewContentRequest & RegionInput,
   UpdateViewContentResponse,
   UpdateViewContentError,
   Creds | HttpClient.HttpClient
@@ -23814,6 +24612,8 @@ export const updateViewContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateViewContent",
+  telemetry: TELEMETRY,
+  span: "UpdateViewContent",
 }));
 
 export type UpdateViewMetadataError =
@@ -23831,7 +24631,7 @@ export type UpdateViewMetadataError =
  * provided.
  */
 export const updateViewMetadata: API.OperationMethod<
-  UpdateViewMetadataRequest,
+  UpdateViewMetadataRequest & RegionInput,
   UpdateViewMetadataResponse,
   UpdateViewMetadataError,
   Creds | HttpClient.HttpClient
@@ -23851,6 +24651,8 @@ export const updateViewMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateViewMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateViewMetadata",
 }));
 
 export type UpdateWorkspaceMetadataError =
@@ -23866,7 +24668,7 @@ export type UpdateWorkspaceMetadataError =
  * Updates the metadata of a workspace, such as its name and description.
  */
 export const updateWorkspaceMetadata: API.OperationMethod<
-  UpdateWorkspaceMetadataRequest,
+  UpdateWorkspaceMetadataRequest & RegionInput,
   UpdateWorkspaceMetadataResponse,
   UpdateWorkspaceMetadataError,
   Creds | HttpClient.HttpClient
@@ -23885,6 +24687,8 @@ export const updateWorkspaceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceMetadata",
 }));
 
 export type UpdateWorkspacePageError =
@@ -23901,7 +24705,7 @@ export type UpdateWorkspacePageError =
  * Updates the configuration of a page in a workspace, including the associated view and input data.
  */
 export const updateWorkspacePage: API.OperationMethod<
-  UpdateWorkspacePageRequest,
+  UpdateWorkspacePageRequest & RegionInput,
   UpdateWorkspacePageResponse,
   UpdateWorkspacePageError,
   Creds | HttpClient.HttpClient
@@ -23921,6 +24725,8 @@ export const updateWorkspacePage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspacePage",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspacePage",
 }));
 
 export type UpdateWorkspaceThemeError =
@@ -23935,7 +24741,7 @@ export type UpdateWorkspaceThemeError =
  * Updates the theme configuration for a workspace, including colors and styling.
  */
 export const updateWorkspaceTheme: API.OperationMethod<
-  UpdateWorkspaceThemeRequest,
+  UpdateWorkspaceThemeRequest & RegionInput,
   UpdateWorkspaceThemeResponse,
   UpdateWorkspaceThemeError,
   Creds | HttpClient.HttpClient
@@ -23953,6 +24759,8 @@ export const updateWorkspaceTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceTheme",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceTheme",
 }));
 
 export type UpdateWorkspaceVisibilityError =
@@ -23968,7 +24776,7 @@ export type UpdateWorkspaceVisibilityError =
  * only, or none.
  */
 export const updateWorkspaceVisibility: API.OperationMethod<
-  UpdateWorkspaceVisibilityRequest,
+  UpdateWorkspaceVisibilityRequest & RegionInput,
   UpdateWorkspaceVisibilityResponse,
   UpdateWorkspaceVisibilityError,
   Creds | HttpClient.HttpClient
@@ -23986,6 +24794,8 @@ export const updateWorkspaceVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceVisibility",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceVisibility",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

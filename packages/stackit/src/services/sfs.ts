@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Sfs",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -552,6 +565,8 @@ export const createResourcePool: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourcePool",
 }));
 
 export type CreateResourcePoolSnapshotError = BadRequest | StackitOpError;
@@ -567,6 +582,8 @@ export const createResourcePoolSnapshot: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourcePoolSnapshot",
 }));
 
 export type CreateShareError = BadRequest | StackitOpError;
@@ -582,6 +599,8 @@ export const createShare: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShare",
 }));
 
 export type CreateShareExportPolicyError = BadRequest | StackitOpError;
@@ -597,6 +616,8 @@ export const createShareExportPolicy: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShareExportPolicy",
 }));
 
 export type DeleteResourcePoolError = BadRequest | StackitOpError;
@@ -612,6 +633,8 @@ export const deleteResourcePool: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePool",
 }));
 
 export type DeleteResourcePoolSnapshotError = BadRequest | StackitOpError;
@@ -627,6 +650,8 @@ export const deleteResourcePoolSnapshot: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePoolSnapshot",
 }));
 
 export type DeleteShareError = BadRequest | StackitOpError;
@@ -642,6 +667,8 @@ export const deleteShare: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteShare",
 }));
 
 export type DeleteShareExportPolicyError = BadRequest | StackitOpError;
@@ -657,6 +684,8 @@ export const deleteShareExportPolicy: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteShareExportPolicy",
 }));
 
 export type DisableLockError = StackitOpError;
@@ -672,6 +701,8 @@ export const disableLock: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableLock",
 }));
 
 export type EnableLockError = StackitOpError;
@@ -687,6 +718,8 @@ export const enableLock: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableLock",
 }));
 
 export type GetLockError = StackitOpError;
@@ -702,6 +735,8 @@ export const getLock: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLock",
 }));
 
 export type GetResourcePoolError = BadRequest | StackitOpError;
@@ -717,6 +752,8 @@ export const getResourcePool: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcePool",
 }));
 
 export type GetResourcePoolSnapshotError = BadRequest | StackitOpError;
@@ -732,6 +769,8 @@ export const getResourcePoolSnapshot: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcePoolSnapshot",
 }));
 
 export type GetShareError = BadRequest | StackitOpError;
@@ -747,6 +786,8 @@ export const getShare: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShare",
 }));
 
 export type GetShareExportPolicyError = BadRequest | StackitOpError;
@@ -762,6 +803,8 @@ export const getShareExportPolicy: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShareExportPolicy",
 }));
 
 export type GetSnapshotPolicyError = StackitOpError;
@@ -777,6 +820,8 @@ export const getSnapshotPolicy: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshotPolicy",
 }));
 
 export type ListPerformanceClassesError = BadRequest | StackitOpError;
@@ -792,6 +837,8 @@ export const listPerformanceClasses: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPerformanceClasses",
 }));
 
 export type ListResourcePoolsError = BadRequest | StackitOpError;
@@ -807,6 +854,8 @@ export const listResourcePools: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourcePools",
 }));
 
 export type ListResourcePoolSnapshotsError = BadRequest | StackitOpError;
@@ -822,6 +871,8 @@ export const listResourcePoolSnapshots: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourcePoolSnapshots",
 }));
 
 export type ListShareExportPoliciesError = BadRequest | StackitOpError;
@@ -837,6 +888,8 @@ export const listShareExportPolicies: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShareExportPolicies",
 }));
 
 export type ListSharesError = BadRequest | StackitOpError;
@@ -852,6 +905,8 @@ export const listShares: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShares",
 }));
 
 export type ListSnapshotPoliciesError = StackitOpError;
@@ -867,6 +922,8 @@ export const listSnapshotPolicies: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotPolicies",
 }));
 
 export type UpdateResourcePoolError = BadRequest | StackitOpError;
@@ -882,6 +939,8 @@ export const updateResourcePool: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourcePool",
 }));
 
 export type UpdateResourcePoolSnapshotError = BadRequest | StackitOpError;
@@ -897,6 +956,8 @@ export const updateResourcePoolSnapshot: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourcePoolSnapshot",
 }));
 
 export type UpdateShareError = BadRequest | StackitOpError;
@@ -912,6 +973,8 @@ export const updateShare: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateShare",
 }));
 
 export type UpdateShareExportPolicyError = BadRequest | StackitOpError;
@@ -927,6 +990,8 @@ export const updateShareExportPolicy: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateShareExportPolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

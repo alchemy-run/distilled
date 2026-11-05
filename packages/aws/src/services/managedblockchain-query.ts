@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://managedblockchain-query.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ManagedBlockchainQuery",
+  service: "ManagedBlockchainQuery",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -425,7 +441,7 @@ export type BatchGetTokenBalanceError =
  * ERC-721, and ERC 1155 token standards are supported.
  */
 export const batchGetTokenBalance: API.OperationMethod<
-  BatchGetTokenBalanceInput,
+  BatchGetTokenBalanceInput & RegionInput,
   BatchGetTokenBalanceOutput,
   BatchGetTokenBalanceError,
   Credentials | HttpClient.HttpClient
@@ -443,6 +459,8 @@ export const batchGetTokenBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTokenBalance",
+  telemetry: TELEMETRY,
+  span: "BatchGetTokenBalance",
 }));
 
 export type GetAssetContractError =
@@ -463,7 +481,7 @@ export type GetAssetContractError =
  * Metadata will be available for additional contracts in the future.
  */
 export const getAssetContract: API.OperationMethod<
-  GetAssetContractInput,
+  GetAssetContractInput & RegionInput,
   GetAssetContractOutput,
   GetAssetContractError,
   Credentials | HttpClient.HttpClient
@@ -481,6 +499,8 @@ export const getAssetContract: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssetContract",
+  telemetry: TELEMETRY,
+  span: "GetAssetContract",
 }));
 
 export type GetTokenBalanceError =
@@ -498,7 +518,7 @@ export type GetTokenBalanceError =
  * ERC-721, and ERC 1155 token standards are supported.
  */
 export const getTokenBalance: API.OperationMethod<
-  GetTokenBalanceInput,
+  GetTokenBalanceInput & RegionInput,
   GetTokenBalanceOutput,
   GetTokenBalanceError,
   Credentials | HttpClient.HttpClient
@@ -516,6 +536,8 @@ export const getTokenBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTokenBalance",
+  telemetry: TELEMETRY,
+  span: "GetTokenBalance",
 }));
 
 export type GetTransactionError =
@@ -534,7 +556,7 @@ export type GetTransactionError =
  * finality.
  */
 export const getTransaction: API.OperationMethod<
-  GetTransactionInput,
+  GetTransactionInput & RegionInput,
   GetTransactionOutput,
   GetTransactionError,
   Credentials | HttpClient.HttpClient
@@ -552,6 +574,8 @@ export const getTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransaction",
+  telemetry: TELEMETRY,
+  span: "GetTransaction",
 }));
 
 export type ListAssetContractsError =
@@ -569,7 +593,7 @@ export type ListAssetContractsError =
  * operation.
  */
 export const listAssetContracts: API.PaginatedOperationMethod<
-  ListAssetContractsInput,
+  ListAssetContractsInput & RegionInput,
   ListAssetContractsOutput,
   ListAssetContractsError,
   Credentials | HttpClient.HttpClient,
@@ -593,6 +617,8 @@ export const listAssetContracts: API.PaginatedOperationMethod<
     items: "contracts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetContracts",
 })) as any;
 
 export type ListFilteredTransactionEventsError =
@@ -608,7 +634,7 @@ export type ListFilteredTransactionEventsError =
  * This operation is only supported on the Bitcoin networks.
  */
 export const listFilteredTransactionEvents: API.PaginatedOperationMethod<
-  ListFilteredTransactionEventsInput,
+  ListFilteredTransactionEventsInput & RegionInput,
   ListFilteredTransactionEventsOutput,
   ListFilteredTransactionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -632,6 +658,8 @@ export const listFilteredTransactionEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFilteredTransactionEvents",
 })) as any;
 
 export type ListTokenBalancesError =
@@ -655,7 +683,7 @@ export type ListTokenBalancesError =
  * the `tokenFilter` when using this operation.
  */
 export const listTokenBalances: API.PaginatedOperationMethod<
-  ListTokenBalancesInput,
+  ListTokenBalancesInput & RegionInput,
   ListTokenBalancesOutput,
   ListTokenBalancesError,
   Credentials | HttpClient.HttpClient,
@@ -679,6 +707,8 @@ export const listTokenBalances: API.PaginatedOperationMethod<
     items: "tokenBalances",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTokenBalances",
 })) as any;
 
 export type ListTransactionEventsError =
@@ -696,7 +726,7 @@ export type ListTransactionEventsError =
  * finality.
  */
 export const listTransactionEvents: API.PaginatedOperationMethod<
-  ListTransactionEventsInput,
+  ListTransactionEventsInput & RegionInput,
   ListTransactionEventsOutput,
   ListTransactionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -720,6 +750,8 @@ export const listTransactionEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTransactionEvents",
 })) as any;
 
 export type ListTransactionsError =
@@ -733,7 +765,7 @@ export type ListTransactionsError =
  * Lists all the transaction events for a transaction.
  */
 export const listTransactions: API.PaginatedOperationMethod<
-  ListTransactionsInput,
+  ListTransactionsInput & RegionInput,
   ListTransactionsOutput,
   ListTransactionsError,
   Credentials | HttpClient.HttpClient,
@@ -757,6 +789,8 @@ export const listTransactions: API.PaginatedOperationMethod<
     items: "transactions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTransactions",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

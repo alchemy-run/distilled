@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * ApacheSupersetProtocol -- hand-written.
@@ -38,7 +38,8 @@ export type ApacheSupersetOpError =
   | UnknownApacheSupersetError
   | ConfigError
   | HttpClientError.HttpClientError
-  | ApacheSupersetParseError;
+  | ApacheSupersetParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Apache Superset operation. */
 export type ApacheSupersetOpContext = Credentials | HttpClient.HttpClient;

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "RunCommand",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -153,6 +166,8 @@ export const createCommand: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommand",
 }));
 
 export type GetCommandError = BadRequest | NotFound | StackitOpError;
@@ -168,6 +183,8 @@ export const getCommand: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommand",
 }));
 
 export type GetCommandTemplateError = BadRequest | NotFound | StackitOpError;
@@ -183,6 +200,8 @@ export const getCommandTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommandTemplate",
 }));
 
 export type ListCommandsError = BadRequest | NotFound | StackitOpError;
@@ -198,6 +217,8 @@ export const listCommands: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommands",
 }));
 
 export type ListCommandTemplatesError = BadRequest | StackitOpError;
@@ -213,6 +234,8 @@ export const listCommandTemplates: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommandTemplates",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

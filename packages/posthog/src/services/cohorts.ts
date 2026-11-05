@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Cohorts",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -501,6 +514,8 @@ export const cohortsAddPersonsToStaticCohortPartialUpdate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CohortsAddPersonsToStaticCohortPartialUpdate",
 }));
 
 export type CohortsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -516,6 +531,8 @@ export const cohortsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CohortsDestroy",
 }));
 
 export type CohortsRemovePersonFromStaticCohortPartialUpdateError =
@@ -542,6 +559,8 @@ export const cohortsRemovePersonFromStaticCohortPartialUpdate: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CohortsRemovePersonFromStaticCohortPartialUpdate",
 }));
 
 export type CreateCohortError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -556,6 +575,8 @@ export const createCohort: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCohort",
 }));
 
 export type GetCohortError = Forbidden | NotFound | PosthogOpError;
@@ -570,6 +591,8 @@ export const getCohort: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCohort",
 }));
 
 export type GetCohortsActivityError = Forbidden | NotFound | PosthogOpError;
@@ -584,6 +607,8 @@ export const getCohortsActivity: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCohortsActivity",
 }));
 
 export type GetCohortsAllActivityError = Forbidden | NotFound | PosthogOpError;
@@ -598,6 +623,8 @@ export const getCohortsAllActivity: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCohortsAllActivity",
 }));
 
 export type GetCohortsCalculationHistoryError = Forbidden | NotFound | PosthogOpError;
@@ -612,6 +639,8 @@ export const getCohortsCalculationHistory: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCohortsCalculationHistory",
 }));
 
 export type GetCohortsPersonError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -626,6 +655,8 @@ export const getCohortsPerson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCohortsPerson",
 }));
 
 export type GetCohortsUsedInError = PosthogOpError;
@@ -640,6 +671,8 @@ export const getCohortsUsedIn: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCohortsUsedIn",
 }));
 
 export type ListCohortsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -654,6 +687,8 @@ export const listCohorts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCohorts",
 }));
 
 export type UpdateCohortError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -668,6 +703,8 @@ export const updateCohort: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCohort",
 }));
 
 export type UpdateCohortsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -682,6 +719,8 @@ export const updateCohortsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCohortsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mediapackagev2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaPackageV2",
+  service: "MediaPackageV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1205,7 +1221,7 @@ export type CancelHarvestJobError =
  * Cancels an in-progress harvest job.
  */
 export const cancelHarvestJob: API.OperationMethod<
-  CancelHarvestJobRequest,
+  CancelHarvestJobRequest & RegionInput,
   CancelHarvestJobResponse,
   CancelHarvestJobError,
   Credentials | HttpClient.HttpClient
@@ -1223,6 +1239,8 @@ export const cancelHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelHarvestJob",
+  telemetry: TELEMETRY,
+  span: "CancelHarvestJob",
 }));
 
 export type CreateChannelError =
@@ -1238,7 +1256,7 @@ export type CreateChannelError =
  * Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1257,6 +1275,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateChannelGroupError =
@@ -1272,7 +1292,7 @@ export type CreateChannelGroupError =
  * Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
  */
 export const createChannelGroup: API.OperationMethod<
-  CreateChannelGroupRequest,
+  CreateChannelGroupRequest & RegionInput,
   CreateChannelGroupResponse,
   CreateChannelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1291,6 +1311,8 @@ export const createChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelGroup",
+  telemetry: TELEMETRY,
+  span: "CreateChannelGroup",
 }));
 
 export type CreateHarvestJobError =
@@ -1306,7 +1328,7 @@ export type CreateHarvestJobError =
  * Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket.
  */
 export const createHarvestJob: API.OperationMethod<
-  CreateHarvestJobRequest,
+  CreateHarvestJobRequest & RegionInput,
   CreateHarvestJobResponse,
   CreateHarvestJobError,
   Credentials | HttpClient.HttpClient
@@ -1325,6 +1347,8 @@ export const createHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarvestJob",
+  telemetry: TELEMETRY,
+  span: "CreateHarvestJob",
 }));
 
 export type CreateOriginEndpointError =
@@ -1340,7 +1364,7 @@ export type CreateOriginEndpointError =
  * The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
  */
 export const createOriginEndpoint: API.OperationMethod<
-  CreateOriginEndpointRequest,
+  CreateOriginEndpointRequest & RegionInput,
   CreateOriginEndpointResponse,
   CreateOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1359,6 +1383,8 @@ export const createOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateOriginEndpoint",
 }));
 
 export type DeleteChannelError =
@@ -1372,7 +1398,7 @@ export type DeleteChannelError =
  * Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1389,6 +1415,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteChannelGroupError =
@@ -1402,7 +1430,7 @@ export type DeleteChannelGroupError =
  * Delete a channel group. You must delete the channel group's channels and origin endpoints before you can delete the channel group. If you delete a channel group, you'll lose access to the egress domain and will have to create a new channel group to replace it.
  */
 export const deleteChannelGroup: API.OperationMethod<
-  DeleteChannelGroupRequest,
+  DeleteChannelGroupRequest & RegionInput,
   DeleteChannelGroupResponse,
   DeleteChannelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1419,6 +1447,8 @@ export const deleteChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelGroup",
 }));
 
 export type DeleteChannelPolicyError =
@@ -1432,7 +1462,7 @@ export type DeleteChannelPolicyError =
  * Delete a channel policy.
  */
 export const deleteChannelPolicy: API.OperationMethod<
-  DeleteChannelPolicyRequest,
+  DeleteChannelPolicyRequest & RegionInput,
   DeleteChannelPolicyResponse,
   DeleteChannelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1449,6 +1479,8 @@ export const deleteChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelPolicy",
 }));
 
 export type DeleteOriginEndpointError =
@@ -1461,7 +1493,7 @@ export type DeleteOriginEndpointError =
  * Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel.
  */
 export const deleteOriginEndpoint: API.OperationMethod<
-  DeleteOriginEndpointRequest,
+  DeleteOriginEndpointRequest & RegionInput,
   DeleteOriginEndpointResponse,
   DeleteOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1477,6 +1509,8 @@ export const deleteOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginEndpoint",
 }));
 
 export type DeleteOriginEndpointPolicyError =
@@ -1490,7 +1524,7 @@ export type DeleteOriginEndpointPolicyError =
  * Delete an origin endpoint policy.
  */
 export const deleteOriginEndpointPolicy: API.OperationMethod<
-  DeleteOriginEndpointPolicyRequest,
+  DeleteOriginEndpointPolicyRequest & RegionInput,
   DeleteOriginEndpointPolicyResponse,
   DeleteOriginEndpointPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1507,6 +1541,8 @@ export const deleteOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpointPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginEndpointPolicy",
 }));
 
 export type GetChannelError =
@@ -1520,7 +1556,7 @@ export type GetChannelError =
  * Retrieves the specified channel that's configured in AWS Elemental MediaPackage.
  */
 export const getChannel: API.OperationMethod<
-  GetChannelRequest,
+  GetChannelRequest & RegionInput,
   GetChannelResponse,
   GetChannelError,
   Credentials | HttpClient.HttpClient
@@ -1537,6 +1573,8 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
+  telemetry: TELEMETRY,
+  span: "GetChannel",
 }));
 
 export type GetChannelGroupError =
@@ -1550,7 +1588,7 @@ export type GetChannelGroupError =
  * Retrieves the specified channel group that's configured in AWS Elemental MediaPackage.
  */
 export const getChannelGroup: API.OperationMethod<
-  GetChannelGroupRequest,
+  GetChannelGroupRequest & RegionInput,
   GetChannelGroupResponse,
   GetChannelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1567,6 +1605,8 @@ export const getChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelGroup",
+  telemetry: TELEMETRY,
+  span: "GetChannelGroup",
 }));
 
 export type GetChannelPolicyError =
@@ -1580,7 +1620,7 @@ export type GetChannelPolicyError =
  * Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources.
  */
 export const getChannelPolicy: API.OperationMethod<
-  GetChannelPolicyRequest,
+  GetChannelPolicyRequest & RegionInput,
   GetChannelPolicyResponse,
   GetChannelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1597,6 +1637,8 @@ export const getChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelPolicy",
+  telemetry: TELEMETRY,
+  span: "GetChannelPolicy",
 }));
 
 export type GetHarvestJobError =
@@ -1610,7 +1652,7 @@ export type GetHarvestJobError =
  * Retrieves the details of a specific harvest job.
  */
 export const getHarvestJob: API.OperationMethod<
-  GetHarvestJobRequest,
+  GetHarvestJobRequest & RegionInput,
   GetHarvestJobResponse,
   GetHarvestJobError,
   Credentials | HttpClient.HttpClient
@@ -1627,6 +1669,8 @@ export const getHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarvestJob",
+  telemetry: TELEMETRY,
+  span: "GetHarvestJob",
 }));
 
 export type GetOriginEndpointError =
@@ -1640,7 +1684,7 @@ export type GetOriginEndpointError =
  * Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
  */
 export const getOriginEndpoint: API.OperationMethod<
-  GetOriginEndpointRequest,
+  GetOriginEndpointRequest & RegionInput,
   GetOriginEndpointResponse,
   GetOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1657,6 +1701,8 @@ export const getOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetOriginEndpoint",
 }));
 
 export type GetOriginEndpointPolicyError =
@@ -1670,7 +1716,7 @@ export type GetOriginEndpointPolicyError =
  * Retrieves the specified origin endpoint policy that's configured in AWS Elemental MediaPackage.
  */
 export const getOriginEndpointPolicy: API.OperationMethod<
-  GetOriginEndpointPolicyRequest,
+  GetOriginEndpointPolicyRequest & RegionInput,
   GetOriginEndpointPolicyResponse,
   GetOriginEndpointPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1687,6 +1733,8 @@ export const getOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginEndpointPolicy",
+  telemetry: TELEMETRY,
+  span: "GetOriginEndpointPolicy",
 }));
 
 export type ListChannelGroupsError =
@@ -1699,7 +1747,7 @@ export type ListChannelGroupsError =
  * Retrieves all channel groups that are configured in Elemental MediaPackage.
  */
 export const listChannelGroups: API.PaginatedOperationMethod<
-  ListChannelGroupsRequest,
+  ListChannelGroupsRequest & RegionInput,
   ListChannelGroupsResponse,
   ListChannelGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1722,6 +1770,8 @@ export const listChannelGroups: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelGroups",
 })) as any;
 
 export type ListChannelsError =
@@ -1735,7 +1785,7 @@ export type ListChannelsError =
  * Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1759,6 +1809,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListHarvestJobsError =
@@ -1772,7 +1824,7 @@ export type ListHarvestJobsError =
  * Retrieves a list of harvest jobs that match the specified criteria.
  */
 export const listHarvestJobs: API.PaginatedOperationMethod<
-  ListHarvestJobsRequest,
+  ListHarvestJobsRequest & RegionInput,
   ListHarvestJobsResponse,
   ListHarvestJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1796,6 +1848,8 @@ export const listHarvestJobs: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHarvestJobs",
 })) as any;
 
 export type ListOriginEndpointsError =
@@ -1809,7 +1863,7 @@ export type ListOriginEndpointsError =
  * Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
  */
 export const listOriginEndpoints: API.PaginatedOperationMethod<
-  ListOriginEndpointsRequest,
+  ListOriginEndpointsRequest & RegionInput,
   ListOriginEndpointsResponse,
   ListOriginEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1833,6 +1887,8 @@ export const listOriginEndpoints: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOriginEndpoints",
 })) as any;
 
 export type ListTagsForResourceError = ValidationException | CommonErrors;
@@ -1840,7 +1896,7 @@ export type ListTagsForResourceError = ValidationException | CommonErrors;
  * Lists the tags assigned to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1851,6 +1907,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutChannelPolicyError =
@@ -1865,7 +1923,7 @@ export type PutChannelPolicyError =
  * Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
  */
 export const putChannelPolicy: API.OperationMethod<
-  PutChannelPolicyRequest,
+  PutChannelPolicyRequest & RegionInput,
   PutChannelPolicyResponse,
   PutChannelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1883,6 +1941,8 @@ export const putChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelPolicy",
+  telemetry: TELEMETRY,
+  span: "PutChannelPolicy",
 }));
 
 export type PutOriginEndpointPolicyError =
@@ -1897,7 +1957,7 @@ export type PutOriginEndpointPolicyError =
  * Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
  */
 export const putOriginEndpointPolicy: API.OperationMethod<
-  PutOriginEndpointPolicyRequest,
+  PutOriginEndpointPolicyRequest & RegionInput,
   PutOriginEndpointPolicyResponse,
   PutOriginEndpointPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1915,6 +1975,8 @@ export const putOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOriginEndpointPolicy",
+  telemetry: TELEMETRY,
+  span: "PutOriginEndpointPolicy",
 }));
 
 export type ResetChannelStateError =
@@ -1931,7 +1993,7 @@ export type ResetChannelStateError =
  * Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder.
  */
 export const resetChannelState: API.OperationMethod<
-  ResetChannelStateRequest,
+  ResetChannelStateRequest & RegionInput,
   ResetChannelStateResponse,
   ResetChannelStateError,
   Credentials | HttpClient.HttpClient
@@ -1949,6 +2011,8 @@ export const resetChannelState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetChannelState",
+  telemetry: TELEMETRY,
+  span: "ResetChannelState",
 }));
 
 export type ResetOriginEndpointStateError =
@@ -1965,7 +2029,7 @@ export type ResetOriginEndpointStateError =
  * MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpoint.
  */
 export const resetOriginEndpointState: API.OperationMethod<
-  ResetOriginEndpointStateRequest,
+  ResetOriginEndpointStateRequest & RegionInput,
   ResetOriginEndpointStateResponse,
   ResetOriginEndpointStateError,
   Credentials | HttpClient.HttpClient
@@ -1983,6 +2047,8 @@ export const resetOriginEndpointState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetOriginEndpointState",
+  telemetry: TELEMETRY,
+  span: "ResetOriginEndpointState",
 }));
 
 export type TagResourceError = ValidationException | CommonErrors;
@@ -1992,7 +2058,7 @@ export type TagResourceError = ValidationException | CommonErrors;
  * Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2003,6 +2069,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ValidationException | CommonErrors;
@@ -2010,7 +2078,7 @@ export type UntagResourceError = ValidationException | CommonErrors;
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2021,6 +2089,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateChannelError =
@@ -2037,7 +2107,7 @@ export type UpdateChannelError =
  * Any edits you make that impact the video output may not be reflected for a few minutes.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -2055,6 +2125,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateChannelGroupError =
@@ -2071,7 +2143,7 @@ export type UpdateChannelGroupError =
  * Any edits you make that impact the video output may not be reflected for a few minutes.
  */
 export const updateChannelGroup: API.OperationMethod<
-  UpdateChannelGroupRequest,
+  UpdateChannelGroupRequest & RegionInput,
   UpdateChannelGroupResponse,
   UpdateChannelGroupError,
   Credentials | HttpClient.HttpClient
@@ -2089,6 +2161,8 @@ export const updateChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelGroup",
 }));
 
 export type UpdateOriginEndpointError =
@@ -2106,7 +2180,7 @@ export type UpdateOriginEndpointError =
  * Any edits you make that impact the video output may not be reflected for a few minutes.
  */
 export const updateOriginEndpoint: API.OperationMethod<
-  UpdateOriginEndpointRequest,
+  UpdateOriginEndpointRequest & RegionInput,
   UpdateOriginEndpointResponse,
   UpdateOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2125,6 +2199,8 @@ export const updateOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateOriginEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

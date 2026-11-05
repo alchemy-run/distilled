@@ -17,6 +17,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "ContentScanning",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class ContentScanningNotEnabled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ContentScanningNotEnabled>()("ContentScanningNotEnabled", {
@@ -177,6 +191,8 @@ export const createContentScanning: API.OperationMethod<
   errors: [ContentScanningNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContentScanning",
 }));
 
 export type CreatePayloadError =
@@ -204,6 +220,8 @@ export const createPayload: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreatePayload",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -224,6 +242,8 @@ export const deletePayload: API.PaginatedOperationMethod<
     errors: [ContentScanningNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "DeletePayload",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -242,6 +262,8 @@ export const disableContentScanning: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableContentScanning",
 }));
 
 export type EnableContentScanningError = CloudflareOpError;
@@ -257,6 +279,8 @@ export const enableContentScanning: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableContentScanning",
 }));
 
 export type GetContentScanningError = Forbidden | CloudflareOpError;
@@ -272,6 +296,8 @@ export const getContentScanning: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContentScanning",
 }));
 
 export type GetSettingsError = Forbidden | CloudflareOpError;
@@ -287,6 +313,8 @@ export const getSettings: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettings",
 }));
 
 export type ListPayloadsError = ContentScanningNotEnabled | Forbidden | CloudflareOpError;
@@ -304,6 +332,8 @@ export const listPayloads: API.PaginatedOperationMethod<
     errors: [ContentScanningNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPayloads",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -322,6 +352,8 @@ export const update: API.OperationMethod<
   errors: [ContentScanningNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Update",
 }));
 
 export type UpdatePayloadError = CloudflareOpError;
@@ -337,6 +369,8 @@ export const updatePayload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePayload",
 }));
 
 // Alias of getContentScanning (same route, alternate export name upstream).

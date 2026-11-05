@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://nova-act.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NovaAct",
+  service: "NovaAct",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -469,7 +485,7 @@ export type CreateActError =
  * Creates a new AI task (act) within a session that can interact with tools and perform specific actions.
  */
 export const createAct: API.OperationMethod<
-  CreateActRequest,
+  CreateActRequest & RegionInput,
   CreateActResponse,
   CreateActError,
   Credentials | HttpClient.HttpClient
@@ -488,6 +504,8 @@ export const createAct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAct",
+  telemetry: TELEMETRY,
+  span: "CreateAct",
 }));
 
 export type CreateSessionError =
@@ -503,7 +521,7 @@ export type CreateSessionError =
  * Creates a new session context within a workflow run to manage conversation state and acts.
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionResponse,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -522,6 +540,8 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type CreateWorkflowDefinitionError =
@@ -536,7 +556,7 @@ export type CreateWorkflowDefinitionError =
  * Creates a new workflow definition template that can be used to execute multiple workflow runs.
  */
 export const createWorkflowDefinition: API.OperationMethod<
-  CreateWorkflowDefinitionRequest,
+  CreateWorkflowDefinitionRequest & RegionInput,
   CreateWorkflowDefinitionResponse,
   CreateWorkflowDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -554,6 +574,8 @@ export const createWorkflowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowDefinition",
 }));
 
 export type CreateWorkflowRunError =
@@ -568,7 +590,7 @@ export type CreateWorkflowRunError =
  * Creates a new execution instance of a workflow definition with specified parameters.
  */
 export const createWorkflowRun: API.OperationMethod<
-  CreateWorkflowRunRequest,
+  CreateWorkflowRunRequest & RegionInput,
   CreateWorkflowRunResponse,
   CreateWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -586,6 +608,8 @@ export const createWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowRun",
 }));
 
 export type DeleteWorkflowDefinitionError =
@@ -600,7 +624,7 @@ export type DeleteWorkflowDefinitionError =
  * Deletes a workflow definition and all associated resources. This operation cannot be undone.
  */
 export const deleteWorkflowDefinition: API.OperationMethod<
-  DeleteWorkflowDefinitionRequest,
+  DeleteWorkflowDefinitionRequest & RegionInput,
   DeleteWorkflowDefinitionResponse,
   DeleteWorkflowDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -618,6 +642,8 @@ export const deleteWorkflowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowDefinition",
 }));
 
 export type DeleteWorkflowRunError =
@@ -632,7 +658,7 @@ export type DeleteWorkflowRunError =
  * Terminates and cleans up a workflow run, stopping all associated acts and sessions.
  */
 export const deleteWorkflowRun: API.OperationMethod<
-  DeleteWorkflowRunRequest,
+  DeleteWorkflowRunRequest & RegionInput,
   DeleteWorkflowRunResponse,
   DeleteWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -650,6 +676,8 @@ export const deleteWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowRun",
 }));
 
 export type GetWorkflowDefinitionError =
@@ -663,7 +691,7 @@ export type GetWorkflowDefinitionError =
  * Retrieves the details and configuration of a specific workflow definition.
  */
 export const getWorkflowDefinition: API.OperationMethod<
-  GetWorkflowDefinitionRequest,
+  GetWorkflowDefinitionRequest & RegionInput,
   GetWorkflowDefinitionResponse,
   GetWorkflowDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -680,6 +708,8 @@ export const getWorkflowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowDefinition",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowDefinition",
 }));
 
 export type GetWorkflowRunError =
@@ -694,7 +724,7 @@ export type GetWorkflowRunError =
  * Retrieves the current state, configuration, and execution details of a workflow run.
  */
 export const getWorkflowRun: API.OperationMethod<
-  GetWorkflowRunRequest,
+  GetWorkflowRunRequest & RegionInput,
   GetWorkflowRunResponse,
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -712,6 +742,8 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRun",
 }));
 
 export type InvokeActStepError =
@@ -727,7 +759,7 @@ export type InvokeActStepError =
  * Executes the next step of an act, processing tool call results and returning new tool calls if needed.
  */
 export const invokeActStep: API.OperationMethod<
-  InvokeActStepRequest,
+  InvokeActStepRequest & RegionInput,
   InvokeActStepResponse,
   InvokeActStepError,
   Credentials | HttpClient.HttpClient
@@ -746,6 +778,8 @@ export const invokeActStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeActStep",
+  telemetry: TELEMETRY,
+  span: "InvokeActStep",
 }));
 
 export type ListActsError =
@@ -760,7 +794,7 @@ export type ListActsError =
  * Lists all acts within a specific session with their current status and execution details.
  */
 export const listActs: API.PaginatedOperationMethod<
-  ListActsRequest,
+  ListActsRequest & RegionInput,
   ListActsResponse,
   ListActsError,
   Credentials | HttpClient.HttpClient,
@@ -785,6 +819,8 @@ export const listActs: API.PaginatedOperationMethod<
     items: "actSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActs",
 })) as any;
 
 export type ListModelsError =
@@ -796,7 +832,7 @@ export type ListModelsError =
  * Lists all available AI models that can be used for workflow execution, including their status and compatibility information.
  */
 export const listModels: API.OperationMethod<
-  ListModelsRequest,
+  ListModelsRequest & RegionInput,
   ListModelsResponse,
   ListModelsError,
   Credentials | HttpClient.HttpClient
@@ -807,6 +843,8 @@ export const listModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListModels",
+  telemetry: TELEMETRY,
+  span: "ListModels",
 }));
 
 export type ListSessionsError =
@@ -821,7 +859,7 @@ export type ListSessionsError =
  * Lists all sessions within a specific workflow run.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -846,6 +884,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListWorkflowDefinitionsError =
@@ -858,7 +898,7 @@ export type ListWorkflowDefinitionsError =
  * Lists all workflow definitions in your account with optional filtering and pagination.
  */
 export const listWorkflowDefinitions: API.PaginatedOperationMethod<
-  ListWorkflowDefinitionsRequest,
+  ListWorkflowDefinitionsRequest & RegionInput,
   ListWorkflowDefinitionsResponse,
   ListWorkflowDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -881,6 +921,8 @@ export const listWorkflowDefinitions: API.PaginatedOperationMethod<
     items: "workflowDefinitionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowDefinitions",
 })) as any;
 
 export type ListWorkflowRunsError =
@@ -895,7 +937,7 @@ export type ListWorkflowRunsError =
  * Lists all workflow runs for a specific workflow definition with optional filtering and pagination.
  */
 export const listWorkflowRuns: API.PaginatedOperationMethod<
-  ListWorkflowRunsRequest,
+  ListWorkflowRunsRequest & RegionInput,
   ListWorkflowRunsResponse,
   ListWorkflowRunsError,
   Credentials | HttpClient.HttpClient,
@@ -920,6 +962,8 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
     items: "workflowRunSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRuns",
 })) as any;
 
 export type UpdateActError =
@@ -934,7 +978,7 @@ export type UpdateActError =
  * Updates an existing act's configuration, status, or error information.
  */
 export const updateAct: API.OperationMethod<
-  UpdateActRequest,
+  UpdateActRequest & RegionInput,
   UpdateActResponse,
   UpdateActError,
   Credentials | HttpClient.HttpClient
@@ -952,6 +996,8 @@ export const updateAct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAct",
+  telemetry: TELEMETRY,
+  span: "UpdateAct",
 }));
 
 export type UpdateWorkflowRunError =
@@ -966,7 +1012,7 @@ export type UpdateWorkflowRunError =
  * Updates the configuration or state of an active workflow run.
  */
 export const updateWorkflowRun: API.OperationMethod<
-  UpdateWorkflowRunRequest,
+  UpdateWorkflowRunRequest & RegionInput,
   UpdateWorkflowRunResponse,
   UpdateWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -984,6 +1030,8 @@ export const updateWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflowRun",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

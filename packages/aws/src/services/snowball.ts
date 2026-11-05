@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://snowball.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Snowball",
+  service: "Snowball",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ClusterLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ClusterLimitExceededException>()(
@@ -675,7 +692,7 @@ export type CancelClusterError =
  * job to cancel it.
  */
 export const cancelCluster: API.OperationMethod<
-  CancelClusterRequest,
+  CancelClusterRequest & RegionInput,
   CancelClusterResult,
   CancelClusterError,
   Credentials | HttpClient.HttpClient
@@ -686,6 +703,8 @@ export const cancelCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCluster",
+  telemetry: TELEMETRY,
+  span: "CancelCluster",
 }));
 
 export type CancelJobError =
@@ -700,7 +719,7 @@ export type CancelJobError =
  * response element data returned.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResult,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -711,6 +730,8 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
+  telemetry: TELEMETRY,
+  span: "CancelJob",
 }));
 
 export type CreateAddressError =
@@ -724,7 +745,7 @@ export type CreateAddressError =
  * exception is thrown. If providing an address as a JSON file through the `cli-input-json` option, include the full file path. For example, `--cli-input-json file://create-address.json`.
  */
 export const createAddress: API.OperationMethod<
-  CreateAddressRequest,
+  CreateAddressRequest & RegionInput,
   CreateAddressResult,
   CreateAddressError,
   Credentials | HttpClient.HttpClient
@@ -735,6 +756,8 @@ export const createAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddress",
+  telemetry: TELEMETRY,
+  span: "CreateAddress",
 }));
 
 export type CreateClusterError =
@@ -748,7 +771,7 @@ export type CreateClusterError =
  * cluster does not ship until these five node jobs have been created.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResult,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -764,6 +787,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateJobError =
@@ -856,7 +881,7 @@ export type CreateJobError =
  * - Description: Snowball Edge Storage Optimized 210TB
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResult,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -873,6 +898,8 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  telemetry: TELEMETRY,
+  span: "CreateJob",
 }));
 
 export type CreateLongTermPricingError = InvalidResourceException | CommonErrors;
@@ -881,7 +908,7 @@ export type CreateLongTermPricingError = InvalidResourceException | CommonErrors
  * 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing.
  */
 export const createLongTermPricing: API.OperationMethod<
-  CreateLongTermPricingRequest,
+  CreateLongTermPricingRequest & RegionInput,
   CreateLongTermPricingResult,
   CreateLongTermPricingError,
   Credentials | HttpClient.HttpClient
@@ -892,6 +919,8 @@ export const createLongTermPricing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLongTermPricing",
+  telemetry: TELEMETRY,
+  span: "CreateLongTermPricing",
 }));
 
 export type CreateReturnShippingLabelError =
@@ -905,7 +934,7 @@ export type CreateReturnShippingLabelError =
  * Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
  */
 export const createReturnShippingLabel: API.OperationMethod<
-  CreateReturnShippingLabelRequest,
+  CreateReturnShippingLabelRequest & RegionInput,
   CreateReturnShippingLabelResult,
   CreateReturnShippingLabelError,
   Credentials | HttpClient.HttpClient
@@ -922,6 +951,8 @@ export const createReturnShippingLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReturnShippingLabel",
+  telemetry: TELEMETRY,
+  span: "CreateReturnShippingLabel",
 }));
 
 export type DescribeAddressError = InvalidResourceException | CommonErrors;
@@ -930,7 +961,7 @@ export type DescribeAddressError = InvalidResourceException | CommonErrors;
  * form of an `Address` object.
  */
 export const describeAddress: API.OperationMethod<
-  DescribeAddressRequest,
+  DescribeAddressRequest & RegionInput,
   DescribeAddressResult,
   DescribeAddressError,
   Credentials | HttpClient.HttpClient
@@ -941,6 +972,8 @@ export const describeAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddress",
+  telemetry: TELEMETRY,
+  span: "DescribeAddress",
 }));
 
 export type DescribeAddressesError =
@@ -953,7 +986,7 @@ export type DescribeAddressesError =
  * account in all US regions.
  */
 export const describeAddresses: API.PaginatedOperationMethod<
-  DescribeAddressesRequest,
+  DescribeAddressesRequest & RegionInput,
   DescribeAddressesResult,
   DescribeAddressesError,
   Credentials | HttpClient.HttpClient,
@@ -971,6 +1004,8 @@ export const describeAddresses: API.PaginatedOperationMethod<
     items: "Addresses",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAddresses",
 })) as any;
 
 export type DescribeClusterError = InvalidResourceException | CommonErrors;
@@ -979,7 +1014,7 @@ export type DescribeClusterError = InvalidResourceException | CommonErrors;
  * status, and other important metadata.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
+  DescribeClusterRequest & RegionInput,
   DescribeClusterResult,
   DescribeClusterError,
   Credentials | HttpClient.HttpClient
@@ -990,6 +1025,8 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeCluster",
 }));
 
 export type DescribeJobError = InvalidResourceException | CommonErrors;
@@ -998,7 +1035,7 @@ export type DescribeJobError = InvalidResourceException | CommonErrors;
  * and other important metadata.
  */
 export const describeJob: API.OperationMethod<
-  DescribeJobRequest,
+  DescribeJobRequest & RegionInput,
   DescribeJobResult,
   DescribeJobError,
   Credentials | HttpClient.HttpClient
@@ -1009,6 +1046,8 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
+  telemetry: TELEMETRY,
+  span: "DescribeJob",
 }));
 
 export type DescribeReturnShippingLabelError =
@@ -1020,7 +1059,7 @@ export type DescribeReturnShippingLabelError =
  * Information on the shipping label of a Snow device that is being returned to Amazon Web Services.
  */
 export const describeReturnShippingLabel: API.OperationMethod<
-  DescribeReturnShippingLabelRequest,
+  DescribeReturnShippingLabelRequest & RegionInput,
   DescribeReturnShippingLabelResult,
   DescribeReturnShippingLabelError,
   Credentials | HttpClient.HttpClient
@@ -1031,6 +1070,8 @@ export const describeReturnShippingLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReturnShippingLabel",
+  telemetry: TELEMETRY,
+  span: "DescribeReturnShippingLabel",
 }));
 
 export type GetJobManifestError =
@@ -1059,7 +1100,7 @@ export type GetJobManifestError =
  * days after the job is created.
  */
 export const getJobManifest: API.OperationMethod<
-  GetJobManifestRequest,
+  GetJobManifestRequest & RegionInput,
   GetJobManifestResult,
   GetJobManifestError,
   Credentials | HttpClient.HttpClient
@@ -1070,6 +1111,8 @@ export const getJobManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobManifest",
+  telemetry: TELEMETRY,
+  span: "GetJobManifest",
 }));
 
 export type GetJobUnlockCodeError =
@@ -1094,7 +1137,7 @@ export type GetJobUnlockCodeError =
  * associated with that job.
  */
 export const getJobUnlockCode: API.OperationMethod<
-  GetJobUnlockCodeRequest,
+  GetJobUnlockCodeRequest & RegionInput,
   GetJobUnlockCodeResult,
   GetJobUnlockCodeError,
   Credentials | HttpClient.HttpClient
@@ -1105,6 +1148,8 @@ export const getJobUnlockCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobUnlockCode",
+  telemetry: TELEMETRY,
+  span: "GetJobUnlockCode",
 }));
 
 export type GetSnowballUsageError = CommonErrors;
@@ -1116,7 +1161,7 @@ export type GetSnowballUsageError = CommonErrors;
  * is 1. If you want to increase your service limit, contact Amazon Web Services Support.
  */
 export const getSnowballUsage: API.OperationMethod<
-  GetSnowballUsageRequest,
+  GetSnowballUsageRequest & RegionInput,
   GetSnowballUsageResult,
   GetSnowballUsageError,
   Credentials | HttpClient.HttpClient
@@ -1127,6 +1172,8 @@ export const getSnowballUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnowballUsage",
+  telemetry: TELEMETRY,
+  span: "GetSnowballUsage",
 }));
 
 export type GetSoftwareUpdatesError =
@@ -1138,7 +1185,7 @@ export type GetSoftwareUpdatesError =
  * `JobId`.
  */
 export const getSoftwareUpdates: API.OperationMethod<
-  GetSoftwareUpdatesRequest,
+  GetSoftwareUpdatesRequest & RegionInput,
   GetSoftwareUpdatesResult,
   GetSoftwareUpdatesError,
   Credentials | HttpClient.HttpClient
@@ -1149,6 +1196,8 @@ export const getSoftwareUpdates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSoftwareUpdates",
+  telemetry: TELEMETRY,
+  span: "GetSoftwareUpdates",
 }));
 
 export type ListClusterJobsError =
@@ -1161,7 +1210,7 @@ export type ListClusterJobsError =
  * state, a job's ID, and other information.
  */
 export const listClusterJobs: API.PaginatedOperationMethod<
-  ListClusterJobsRequest,
+  ListClusterJobsRequest & RegionInput,
   ListClusterJobsResult,
   ListClusterJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1179,6 +1228,8 @@ export const listClusterJobs: API.PaginatedOperationMethod<
     items: "JobListEntries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterJobs",
 })) as any;
 
 export type ListClustersError = InvalidNextTokenException | CommonErrors;
@@ -1188,7 +1239,7 @@ export type ListClustersError = InvalidNextTokenException | CommonErrors;
  * important status information.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResult,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -1206,6 +1257,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "ClusterListEntries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListCompatibleImagesError =
@@ -1219,7 +1272,7 @@ export type ListCompatibleImagesError =
  * Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
  */
 export const listCompatibleImages: API.PaginatedOperationMethod<
-  ListCompatibleImagesRequest,
+  ListCompatibleImagesRequest & RegionInput,
   ListCompatibleImagesResult,
   ListCompatibleImagesError,
   Credentials | HttpClient.HttpClient,
@@ -1237,6 +1290,8 @@ export const listCompatibleImages: API.PaginatedOperationMethod<
     items: "CompatibleImages",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCompatibleImages",
 })) as any;
 
 export type ListJobsError = InvalidNextTokenException | CommonErrors;
@@ -1248,7 +1303,7 @@ export type ListJobsError = InvalidNextTokenException | CommonErrors;
  * account in all US regions.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1266,6 +1321,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "JobListEntries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListLongTermPricingError =
@@ -1276,7 +1333,7 @@ export type ListLongTermPricingError =
  * Lists all long-term pricing types.
  */
 export const listLongTermPricing: API.PaginatedOperationMethod<
-  ListLongTermPricingRequest,
+  ListLongTermPricingRequest & RegionInput,
   ListLongTermPricingResult,
   ListLongTermPricingError,
   Credentials | HttpClient.HttpClient,
@@ -1294,6 +1351,8 @@ export const listLongTermPricing: API.PaginatedOperationMethod<
     items: "LongTermPricingEntries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLongTermPricing",
 })) as any;
 
 export type ListPickupLocationsError = InvalidResourceException | CommonErrors;
@@ -1301,7 +1360,7 @@ export type ListPickupLocationsError = InvalidResourceException | CommonErrors;
  * A list of locations from which the customer can choose to pickup a device.
  */
 export const listPickupLocations: API.PaginatedOperationMethod<
-  ListPickupLocationsRequest,
+  ListPickupLocationsRequest & RegionInput,
   ListPickupLocationsResult,
   ListPickupLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -1318,6 +1377,8 @@ export const listPickupLocations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPickupLocations",
 })) as any;
 
 export type ListServiceVersionsError =
@@ -1329,7 +1390,7 @@ export type ListServiceVersionsError =
  * array of `ServiceVersion` object containing the supported versions for a particular service.
  */
 export const listServiceVersions: API.OperationMethod<
-  ListServiceVersionsRequest,
+  ListServiceVersionsRequest & RegionInput,
   ListServiceVersionsResult,
   ListServiceVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1340,6 +1401,8 @@ export const listServiceVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceVersions",
+  telemetry: TELEMETRY,
+  span: "ListServiceVersions",
 }));
 
 export type UpdateClusterError =
@@ -1356,7 +1419,7 @@ export type UpdateClusterError =
  * action is no longer available.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResult,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -1373,6 +1436,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateJobError =
@@ -1389,7 +1454,7 @@ export type UpdateJobError =
  * within 60 minutes of the job being created, this action is no longer available.
  */
 export const updateJob: API.OperationMethod<
-  UpdateJobRequest,
+  UpdateJobRequest & RegionInput,
   UpdateJobResult,
   UpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -1407,6 +1472,8 @@ export const updateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJob",
+  telemetry: TELEMETRY,
+  span: "UpdateJob",
 }));
 
 export type UpdateJobShipmentStateError =
@@ -1417,7 +1484,7 @@ export type UpdateJobShipmentStateError =
  * Updates the state when a shipment state changes to a different state.
  */
 export const updateJobShipmentState: API.OperationMethod<
-  UpdateJobShipmentStateRequest,
+  UpdateJobShipmentStateRequest & RegionInput,
   UpdateJobShipmentStateResult,
   UpdateJobShipmentStateError,
   Credentials | HttpClient.HttpClient
@@ -1428,6 +1495,8 @@ export const updateJobShipmentState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobShipmentState",
+  telemetry: TELEMETRY,
+  span: "UpdateJobShipmentState",
 }));
 
 export type UpdateLongTermPricingError = InvalidResourceException | CommonErrors;
@@ -1435,7 +1504,7 @@ export type UpdateLongTermPricingError = InvalidResourceException | CommonErrors
  * Updates the long-term pricing type.
  */
 export const updateLongTermPricing: API.OperationMethod<
-  UpdateLongTermPricingRequest,
+  UpdateLongTermPricingRequest & RegionInput,
   UpdateLongTermPricingResult,
   UpdateLongTermPricingError,
   Credentials | HttpClient.HttpClient
@@ -1446,6 +1515,8 @@ export const updateLongTermPricing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLongTermPricing",
+  telemetry: TELEMETRY,
+  span: "UpdateLongTermPricing",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

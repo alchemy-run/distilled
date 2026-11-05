@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://aiops.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AIOps",
+  service: "AIOps",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -275,7 +291,7 @@ export type CreateInvestigationGroupError =
  * For more information about configuring CloudWatch alarms, see Using Amazon CloudWatch alarms
  */
 export const createInvestigationGroup: API.OperationMethod<
-  CreateInvestigationGroupInput,
+  CreateInvestigationGroupInput & RegionInput,
   CreateInvestigationGroupOutput,
   CreateInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -294,6 +310,8 @@ export const createInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvestigationGroup",
+  telemetry: TELEMETRY,
+  span: "CreateInvestigationGroup",
 }));
 
 export type DeleteInvestigationGroupError =
@@ -307,7 +325,7 @@ export type DeleteInvestigationGroupError =
  * Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
  */
 export const deleteInvestigationGroup: API.OperationMethod<
-  DeleteInvestigationGroupRequest,
+  DeleteInvestigationGroupRequest & RegionInput,
   DeleteInvestigationGroupResponse,
   DeleteInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -324,6 +342,8 @@ export const deleteInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteInvestigationGroup",
 }));
 
 export type DeleteInvestigationGroupPolicyError =
@@ -338,7 +358,7 @@ export type DeleteInvestigationGroupPolicyError =
  * Removes the IAM resource policy from being associated with the investigation group that you specify.
  */
 export const deleteInvestigationGroupPolicy: API.OperationMethod<
-  DeleteInvestigationGroupPolicyRequest,
+  DeleteInvestigationGroupPolicyRequest & RegionInput,
   DeleteInvestigationGroupPolicyOutput,
   DeleteInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -356,6 +376,8 @@ export const deleteInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteInvestigationGroupPolicy",
 }));
 
 export type GetInvestigationGroupError =
@@ -369,7 +391,7 @@ export type GetInvestigationGroupError =
  * Returns the configuration information for the specified investigation group.
  */
 export const getInvestigationGroup: API.OperationMethod<
-  GetInvestigationGroupRequest,
+  GetInvestigationGroupRequest & RegionInput,
   GetInvestigationGroupResponse,
   GetInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -386,6 +408,8 @@ export const getInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroup",
+  telemetry: TELEMETRY,
+  span: "GetInvestigationGroup",
 }));
 
 export type GetInvestigationGroupPolicyError =
@@ -400,7 +424,7 @@ export type GetInvestigationGroupPolicyError =
  * Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, `{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}`.
  */
 export const getInvestigationGroupPolicy: API.OperationMethod<
-  GetInvestigationGroupPolicyRequest,
+  GetInvestigationGroupPolicyRequest & RegionInput,
   GetInvestigationGroupPolicyResponse,
   GetInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -418,6 +442,8 @@ export const getInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "GetInvestigationGroupPolicy",
 }));
 
 export type ListInvestigationGroupsError =
@@ -429,7 +455,7 @@ export type ListInvestigationGroupsError =
  * Returns the ARN and name of each investigation group in the account.
  */
 export const listInvestigationGroups: API.PaginatedOperationMethod<
-  ListInvestigationGroupsInput,
+  ListInvestigationGroupsInput & RegionInput,
   ListInvestigationGroupsOutput,
   ListInvestigationGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -447,6 +473,8 @@ export const listInvestigationGroups: API.PaginatedOperationMethod<
     items: "investigationGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvestigationGroups",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -461,7 +489,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -479,6 +507,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutInvestigationGroupPolicyError =
@@ -498,7 +528,7 @@ export type PutInvestigationGroupPolicyError =
  * ` { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent" ], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount": "account-id" }, "ArnLike": { "aws:SourceArn": "arn:aws:cloudwatch:region:account-id:alarm:*" } } } ] } `
  */
 export const putInvestigationGroupPolicy: API.OperationMethod<
-  PutInvestigationGroupPolicyRequest,
+  PutInvestigationGroupPolicyRequest & RegionInput,
   PutInvestigationGroupPolicyResponse,
   PutInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -517,6 +547,8 @@ export const putInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInvestigationGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "PutInvestigationGroupPolicy",
 }));
 
 export type TagResourceError =
@@ -537,7 +569,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -555,6 +587,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -569,7 +603,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -587,6 +621,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateInvestigationGroupError =
@@ -602,7 +638,7 @@ export type UpdateInvestigationGroupError =
  * Updates the configuration of the specified investigation group.
  */
 export const updateInvestigationGroup: API.OperationMethod<
-  UpdateInvestigationGroupRequest,
+  UpdateInvestigationGroupRequest & RegionInput,
   UpdateInvestigationGroupOutput,
   UpdateInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -621,6 +657,8 @@ export const updateInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvestigationGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateInvestigationGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

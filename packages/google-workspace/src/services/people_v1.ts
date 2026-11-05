@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "People",
+  service: "people",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1305,6 +1318,8 @@ export const batchCreateContactsPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreateContactsPeople",
 }));
 
 export type BatchDeleteContactsPeopleError =
@@ -1325,6 +1340,8 @@ export const batchDeleteContactsPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteContactsPeople",
 }));
 
 export type BatchGetContactGroupsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1340,6 +1357,8 @@ export const batchGetContactGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetContactGroups",
 }));
 
 export type BatchUpdateContactsPeopleError =
@@ -1360,6 +1379,8 @@ export const batchUpdateContactsPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateContactsPeople",
 }));
 
 export type CopyOtherContactToMyContactsGroupOtherContactsError =
@@ -1384,6 +1405,8 @@ export const copyOtherContactToMyContactsGroupOtherContacts: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyOtherContactToMyContactsGroupOtherContacts",
 }));
 
 export type CreateContactGroupsError =
@@ -1404,6 +1427,8 @@ export const createContactGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContactGroups",
 }));
 
 export type CreateContactPeopleError =
@@ -1424,6 +1449,8 @@ export const createContactPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContactPeople",
 }));
 
 export type DeleteContactGroupsError =
@@ -1444,6 +1471,8 @@ export const deleteContactGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContactGroups",
 }));
 
 export type DeleteContactPeopleError =
@@ -1464,6 +1493,8 @@ export const deleteContactPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContactPeople",
 }));
 
 export type DeleteContactPhotoPeopleError =
@@ -1484,6 +1515,8 @@ export const deleteContactPhotoPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContactPhotoPeople",
 }));
 
 export type GetBatchGetPeopleError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1499,6 +1532,8 @@ export const getBatchGetPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchGetPeople",
 }));
 
 export type GetContactGroupsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1514,6 +1549,8 @@ export const getContactGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContactGroups",
 }));
 
 export type GetPeopleError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1529,6 +1566,8 @@ export const getPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPeople",
 }));
 
 export type ListContactGroupsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1545,6 +1584,8 @@ export const listContactGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContactGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1562,6 +1603,8 @@ export const listDirectoryPeoplePeople: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDirectoryPeoplePeople",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1579,6 +1622,8 @@ export const listOtherContacts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOtherContacts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1596,6 +1641,8 @@ export const listPeopleConnections: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPeopleConnections",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1617,6 +1664,8 @@ export const modifyContactGroupsMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyContactGroupsMembers",
 }));
 
 export type SearchContactsPeopleError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1632,6 +1681,8 @@ export const searchContactsPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchContactsPeople",
 }));
 
 export type SearchDirectoryPeoplePeopleError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1648,6 +1699,8 @@ export const searchDirectoryPeoplePeople: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchDirectoryPeoplePeople",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1664,6 +1717,8 @@ export const searchOtherContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchOtherContacts",
 }));
 
 export type UpdateContactGroupsError =
@@ -1684,6 +1739,8 @@ export const updateContactGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContactGroups",
 }));
 
 export type UpdateContactPeopleError =
@@ -1704,6 +1761,8 @@ export const updateContactPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContactPeople",
 }));
 
 export type UpdateContactPhotoPeopleError =
@@ -1724,6 +1783,8 @@ export const updateContactPhotoPeople: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContactPhotoPeople",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

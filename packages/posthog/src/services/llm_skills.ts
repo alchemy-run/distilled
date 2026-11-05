@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "LlmSkills",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -576,6 +589,8 @@ export const createLlmSkill: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmSkill",
 }));
 
 export type CreateLlmSkillsNameFileError = PosthogOpError;
@@ -590,6 +605,8 @@ export const createLlmSkillsNameFile: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmSkillsNameFile",
 }));
 
 export type GetLlmSkillsBundleError = PosthogOpError;
@@ -605,6 +622,8 @@ export const getLlmSkillsBundle: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmSkillsBundle",
 }));
 
 export type GetLlmSkillsNameError = PosthogOpError;
@@ -619,6 +638,8 @@ export const getLlmSkillsName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmSkillsName",
 }));
 
 export type GetLlmSkillsNameFileError = PosthogOpError;
@@ -633,6 +654,8 @@ export const getLlmSkillsNameFile: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmSkillsNameFile",
 }));
 
 export type GetLlmSkillsNameSkillMdError = PosthogOpError;
@@ -648,6 +671,8 @@ export const getLlmSkillsNameSkillMd: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmSkillsNameSkillMd",
 }));
 
 export type GetLlmSkillsResolveNameError = PosthogOpError;
@@ -662,6 +687,8 @@ export const getLlmSkillsResolveName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmSkillsResolveName",
 }));
 
 export type ListLlmSkillsError = PosthogOpError;
@@ -676,6 +703,8 @@ export const listLlmSkills: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmSkills",
 }));
 
 export type LlmSkillsImportCreateError = PosthogOpError;
@@ -690,6 +719,8 @@ export const llmSkillsImportCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsImportCreate",
 }));
 
 export type LlmSkillsMarketplaceInstallCommandCreateError = PosthogOpError;
@@ -705,6 +736,8 @@ export const llmSkillsMarketplaceInstallCommandCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsMarketplaceInstallCommandCreate",
 }));
 
 export type LlmSkillsMarketplaceInstallCommandRetrieveError = PosthogOpError;
@@ -720,6 +753,8 @@ export const llmSkillsMarketplaceInstallCommandRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsMarketplaceInstallCommandRetrieve",
 }));
 
 export type LlmSkillsNameArchiveCreateError = PosthogOpError;
@@ -734,6 +769,8 @@ export const llmSkillsNameArchiveCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsNameArchiveCreate",
 }));
 
 export type LlmSkillsNameDuplicateCreateError = PosthogOpError;
@@ -748,6 +785,8 @@ export const llmSkillsNameDuplicateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsNameDuplicateCreate",
 }));
 
 export type LlmSkillsNameExportRetrieveError = PosthogOpError;
@@ -762,6 +801,8 @@ export const llmSkillsNameExportRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsNameExportRetrieve",
 }));
 
 export type LlmSkillsNameFilesDestroyError = PosthogOpError;
@@ -776,6 +817,8 @@ export const llmSkillsNameFilesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsNameFilesDestroy",
 }));
 
 export type LlmSkillsNameFilesRenameCreateError = PosthogOpError;
@@ -790,6 +833,8 @@ export const llmSkillsNameFilesRenameCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsNameFilesRenameCreate",
 }));
 
 export type LlmSkillsNamePublishCommunityCreateError = Conflict | PosthogOpError;
@@ -804,6 +849,8 @@ export const llmSkillsNamePublishCommunityCreate: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsNamePublishCommunityCreate",
 }));
 
 export type LlmSkillsNameRenameCreateError = PosthogOpError;
@@ -818,6 +865,8 @@ export const llmSkillsNameRenameCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsNameRenameCreate",
 }));
 
 export type LlmSkillsSearchRetrieveError = PosthogOpError;
@@ -832,6 +881,8 @@ export const llmSkillsSearchRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmSkillsSearchRetrieve",
 }));
 
 export type UpdateLlmSkillsNamePartialError = PosthogOpError;
@@ -846,6 +897,8 @@ export const updateLlmSkillsNamePartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmSkillsNamePartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

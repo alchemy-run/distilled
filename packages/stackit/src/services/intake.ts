@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Intake",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -439,6 +452,8 @@ export const createIntake: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntake",
 }));
 
 export type CreateIntakeRunnerError = BadRequest | Conflict | StackitOpError;
@@ -454,6 +469,8 @@ export const createIntakeRunner: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntakeRunner",
 }));
 
 export type CreateIntakeUserError = BadRequest | Conflict | StackitOpError;
@@ -469,6 +486,8 @@ export const createIntakeUser: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntakeUser",
 }));
 
 export type DeleteIntakeError = NotFound | Conflict | StackitOpError;
@@ -484,6 +503,8 @@ export const deleteIntake: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntake",
 }));
 
 export type DeleteIntakeRunnerError = NotFound | Conflict | StackitOpError;
@@ -499,6 +520,8 @@ export const deleteIntakeRunner: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntakeRunner",
 }));
 
 export type DeleteIntakeUserError = NotFound | Conflict | StackitOpError;
@@ -514,6 +537,8 @@ export const deleteIntakeUser: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntakeUser",
 }));
 
 export type GetIntakeError = NotFound | StackitOpError;
@@ -529,6 +554,8 @@ export const getIntake: API.OperationMethod<
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntake",
 }));
 
 export type GetIntakeRunnerError = NotFound | StackitOpError;
@@ -544,6 +571,8 @@ export const getIntakeRunner: API.OperationMethod<
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntakeRunner",
 }));
 
 export type GetIntakeUserError = NotFound | StackitOpError;
@@ -559,6 +588,8 @@ export const getIntakeUser: API.OperationMethod<
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntakeUser",
 }));
 
 export type ListIntakeRunnersError = StackitOpError;
@@ -574,6 +605,8 @@ export const listIntakeRunners: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntakeRunners",
 }));
 
 export type ListIntakesError = StackitOpError;
@@ -589,6 +622,8 @@ export const listIntakes: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntakes",
 }));
 
 export type ListIntakeUsersError = StackitOpError;
@@ -604,6 +639,8 @@ export const listIntakeUsers: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntakeUsers",
 }));
 
 export type UpdateIntakeError = NotFound | Conflict | StackitOpError;
@@ -619,6 +656,8 @@ export const updateIntake: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntake",
 }));
 
 export type UpdateIntakeRunnerError = BadRequest | Conflict | StackitOpError;
@@ -634,6 +673,8 @@ export const updateIntakeRunner: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntakeRunner",
 }));
 
 export type UpdateIntakeUserError = NotFound | Conflict | StackitOpError;
@@ -649,6 +690,8 @@ export const updateIntakeUser: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntakeUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

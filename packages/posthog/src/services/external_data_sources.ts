@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ExternalDataSources",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2734,6 +2747,8 @@ export const createExternalDataSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSource",
 }));
 
 export type CreateExternalDataSourcesCheckCdcPrerequisiteError =
@@ -2757,6 +2772,8 @@ export const createExternalDataSourcesCheckCdcPrerequisite: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesCheckCdcPrerequisite",
 }));
 
 export type CreateExternalDataSourcesCheckCdcPrerequisitesForSourceError = PosthogOpError;
@@ -2780,6 +2797,8 @@ export const createExternalDataSourcesCheckCdcPrerequisitesForSource: API.Operat
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesCheckCdcPrerequisitesForSource",
 }));
 
 export type CreateExternalDataSourcesCredentialAccountError = PosthogOpError;
@@ -2795,6 +2814,8 @@ export const createExternalDataSourcesCredentialAccount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesCredentialAccount",
 }));
 
 export type CreateExternalDataSourcesDatabaseSchemaError =
@@ -2814,6 +2835,8 @@ export const createExternalDataSourcesDatabaseSchema: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesDatabaseSchema",
 }));
 
 export type CreateExternalDataSourcesDraftCustomManifestError = PosthogOpError;
@@ -2829,6 +2852,8 @@ export const createExternalDataSourcesDraftCustomManifest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesDraftCustomManifest",
 }));
 
 export type CreateExternalDataSourcesPreviewResourceError = PosthogOpError;
@@ -2844,6 +2869,8 @@ export const createExternalDataSourcesPreviewResource: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesPreviewResource",
 }));
 
 export type CreateExternalDataSourcesReloadError =
@@ -2863,6 +2890,8 @@ export const createExternalDataSourcesReload: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesReload",
 }));
 
 export type CreateExternalDataSourcesRepairCdcError = BadRequest | Conflict | PosthogOpError;
@@ -2878,6 +2907,8 @@ export const createExternalDataSourcesRepairCdc: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesRepairCdc",
 }));
 
 export type CreateExternalDataSourcesSetupError = PosthogOpError;
@@ -2893,6 +2924,8 @@ export const createExternalDataSourcesSetup: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesSetup",
 }));
 
 export type CreateExternalDataSourcesSourcePrefixError =
@@ -2912,6 +2945,8 @@ export const createExternalDataSourcesSourcePrefix: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesSourcePrefix",
 }));
 
 export type CreateExternalDataSourcesStoreCredentialsError = PosthogOpError;
@@ -2927,6 +2962,8 @@ export const createExternalDataSourcesStoreCredentials: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesStoreCredentials",
 }));
 
 export type ExternalDataSourcesBulkUpdateSchemasPartialUpdateError =
@@ -2954,6 +2991,8 @@ export const externalDataSourcesBulkUpdateSchemasPartialUpdate: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesBulkUpdateSchemasPartialUpdate",
 }));
 
 export type ExternalDataSourcesConnectLinkRetrieveError = PosthogOpError;
@@ -2969,6 +3008,8 @@ export const externalDataSourcesConnectLinkRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesConnectLinkRetrieve",
 }));
 
 export type ExternalDataSourcesCreateWebhookCreateError =
@@ -2988,6 +3029,8 @@ export const externalDataSourcesCreateWebhookCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesCreateWebhookCreate",
 }));
 
 export type ExternalDataSourcesDeleteWebhookCreateError =
@@ -3007,6 +3050,8 @@ export const externalDataSourcesDeleteWebhookCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesDeleteWebhookCreate",
 }));
 
 export type ExternalDataSourcesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -3022,6 +3067,8 @@ export const externalDataSourcesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesDestroy",
 }));
 
 export type ExternalDataSourcesDisableCdcCreateError = PosthogOpError;
@@ -3037,6 +3084,8 @@ export const externalDataSourcesDisableCdcCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesDisableCdcCreate",
 }));
 
 export type ExternalDataSourcesEnableCdcCreateError = PosthogOpError;
@@ -3052,6 +3101,8 @@ export const externalDataSourcesEnableCdcCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesEnableCdcCreate",
 }));
 
 export type ExternalDataSourcesRefreshSchemasCreateError =
@@ -3071,6 +3122,8 @@ export const externalDataSourcesRefreshSchemasCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesRefreshSchemasCreate",
 }));
 
 export type ExternalDataSourcesResumeCdcCreateError = BadRequest | PosthogOpError;
@@ -3086,6 +3139,8 @@ export const externalDataSourcesResumeCdcCreate: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesResumeCdcCreate",
 }));
 
 export type ExternalDataSourcesUpdateCdcSettingsCreateError = PosthogOpError;
@@ -3101,6 +3156,8 @@ export const externalDataSourcesUpdateCdcSettingsCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesUpdateCdcSettingsCreate",
 }));
 
 export type ExternalDataSourcesUpdateWebhookInputsCreateError =
@@ -3120,6 +3177,8 @@ export const externalDataSourcesUpdateWebhookInputsCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesUpdateWebhookInputsCreate",
 }));
 
 export type GetExternalDataSourceError = Forbidden | NotFound | PosthogOpError;
@@ -3135,6 +3194,8 @@ export const getExternalDataSource: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSource",
 }));
 
 export type GetExternalDataSourcesCdcStatusError = PosthogOpError;
@@ -3150,6 +3211,8 @@ export const getExternalDataSourcesCdcStatus: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSourcesCdcStatus",
 }));
 
 export type GetExternalDataSourcesDestinationError = PosthogOpError;
@@ -3165,6 +3228,8 @@ export const getExternalDataSourcesDestination: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSourcesDestination",
 }));
 
 export type GetExternalDataSourcesOauthAccountError = PosthogOpError;
@@ -3180,6 +3245,8 @@ export const getExternalDataSourcesOauthAccount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSourcesOauthAccount",
 }));
 
 export type GetExternalDataSourcesWebhookInfoError = Forbidden | NotFound | PosthogOpError;
@@ -3195,6 +3262,8 @@ export const getExternalDataSourcesWebhookInfo: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSourcesWebhookInfo",
 }));
 
 export type GetExternalDataSourcesWizardError = Forbidden | NotFound | PosthogOpError;
@@ -3210,6 +3279,8 @@ export const getExternalDataSourcesWizard: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSourcesWizard",
 }));
 
 export type ListExternalDataSourcesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3225,6 +3296,8 @@ export const listExternalDataSources: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalDataSources",
 }));
 
 export type ListExternalDataSourcesConnectionsError =
@@ -3244,6 +3317,8 @@ export const listExternalDataSourcesConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalDataSourcesConnections",
 }));
 
 export type ListExternalDataSourcesDirectConnectionOptionsError = PosthogOpError;
@@ -3267,6 +3342,8 @@ export const listExternalDataSourcesDirectConnectionOptions: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalDataSourcesDirectConnectionOptions",
 }));
 
 export type ListExternalDataSourcesJobsError = Forbidden | NotFound | PosthogOpError;
@@ -3282,6 +3359,8 @@ export const listExternalDataSourcesJobs: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalDataSourcesJobs",
 }));
 
 export type ListExternalDataSourcesStoredCredentialsError = PosthogOpError;
@@ -3297,6 +3376,8 @@ export const listExternalDataSourcesStoredCredentials: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalDataSourcesStoredCredentials",
 }));
 
 export type UpdateExternalDataSourceError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3312,6 +3393,8 @@ export const updateExternalDataSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalDataSource",
 }));
 
 export type UpdateExternalDataSourcesDestinationsPartialError = PosthogOpError;
@@ -3327,6 +3410,8 @@ export const updateExternalDataSourcesDestinationsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalDataSourcesDestinationsPartial",
 }));
 
 export type UpdateExternalDataSourcesPartialError =
@@ -3346,6 +3431,8 @@ export const updateExternalDataSourcesPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalDataSourcesPartial",
 }));
 
 export type UpdateExternalDataSourcesRevenueAnalyticsConfigPartialError =
@@ -3373,6 +3460,8 @@ export const updateExternalDataSourcesRevenueAnalyticsConfigPartial: API.Operati
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalDataSourcesRevenueAnalyticsConfigPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

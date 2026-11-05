@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "HogFunctionTemplates",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -134,6 +147,8 @@ export const getHogFunctionTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHogFunctionTemplate",
 }));
 
 export type ListHogFunctionTemplatesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -148,6 +163,8 @@ export const listHogFunctionTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHogFunctionTemplates",
 }));
 
 export type ListPublicHogFunctionTemplatesError = BadRequest | Forbidden | PosthogOpError;
@@ -162,6 +179,8 @@ export const listPublicHogFunctionTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicHogFunctionTemplates",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

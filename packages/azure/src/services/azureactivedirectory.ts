@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "microsoft.aadiam" },
+  prefix: "Azureactivedirectory",
+  service: "Azureactivedirectory",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Private endpoint object properties. */
 export interface PrivateEndpoint {
   /** Full identifier of the private endpoint resource. */
@@ -390,6 +411,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type CreatePrivateLinkForAzureAdError = AzureOpError;
@@ -405,6 +428,8 @@ export const CreatePrivateLinkForAzureAd: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateLinkForAzureAd",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -420,6 +445,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeletePrivateLinkForAzureAdError = AzureOpError;
@@ -435,6 +462,8 @@ export const DeletePrivateLinkForAzureAd: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkForAzureAd",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -450,6 +479,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkForAzureAdError = AzureOpError;
@@ -465,6 +496,8 @@ export const GetPrivateLinkForAzureAd: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkForAzureAd",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -480,6 +513,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type ListPrivateEndpointConnectionByPolicyNameError = AzureOpError;
@@ -495,6 +530,8 @@ export const ListPrivateEndpointConnectionByPolicyName: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByPolicyName",
 }));
 
 export type ListPrivateLinkForAzureAdError = AzureOpError;
@@ -510,6 +547,8 @@ export const ListPrivateLinkForAzureAd: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkForAzureAd",
 }));
 
 export type ListPrivateLinkForAzureAdBySubscriptionError = AzureOpError;
@@ -525,6 +564,8 @@ export const ListPrivateLinkForAzureAdBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkForAzureAdBySubscription",
 }));
 
 export type ListPrivateLinkResourceByPrivateLinkPolicyError = AzureOpError;
@@ -540,6 +581,8 @@ export const ListPrivateLinkResourceByPrivateLinkPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByPrivateLinkPolicy",
 }));
 
 export type UpdatePrivateLinkForAzureAdError = AzureOpError;
@@ -555,6 +598,8 @@ export const UpdatePrivateLinkForAzureAd: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkForAzureAd",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

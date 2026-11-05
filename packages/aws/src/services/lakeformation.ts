@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lakeformation.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LakeFormation",
+  service: "LakeFormation",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1176,7 +1192,7 @@ export type AddLFTagsToResourceError =
  * Attaches one or more LF-tags to an existing resource.
  */
 export const addLFTagsToResource: API.OperationMethod<
-  AddLFTagsToResourceRequest,
+  AddLFTagsToResourceRequest & RegionInput,
   AddLFTagsToResourceResponse,
   AddLFTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1194,6 +1210,8 @@ export const addLFTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddLFTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddLFTagsToResource",
 }));
 
 export type AssumeDecoratedRoleWithSAMLError =
@@ -1222,7 +1240,7 @@ export type AssumeDecoratedRoleWithSAMLError =
  * - lakeformation:GetDataAccess
  */
 export const assumeDecoratedRoleWithSAML: API.OperationMethod<
-  AssumeDecoratedRoleWithSAMLRequest,
+  AssumeDecoratedRoleWithSAMLRequest & RegionInput,
   AssumeDecoratedRoleWithSAMLResponse,
   AssumeDecoratedRoleWithSAMLError,
   Credentials | HttpClient.HttpClient
@@ -1239,6 +1257,8 @@ export const assumeDecoratedRoleWithSAML: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeDecoratedRoleWithSAML",
+  telemetry: TELEMETRY,
+  span: "AssumeDecoratedRoleWithSAML",
 }));
 
 export type BatchGrantPermissionsError =
@@ -1249,7 +1269,7 @@ export type BatchGrantPermissionsError =
  * Batch operation to grant permissions to the principal.
  */
 export const batchGrantPermissions: API.OperationMethod<
-  BatchGrantPermissionsRequest,
+  BatchGrantPermissionsRequest & RegionInput,
   BatchGrantPermissionsResponse,
   BatchGrantPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -1260,6 +1280,8 @@ export const batchGrantPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGrantPermissions",
+  telemetry: TELEMETRY,
+  span: "BatchGrantPermissions",
 }));
 
 export type BatchRevokePermissionsError =
@@ -1270,7 +1292,7 @@ export type BatchRevokePermissionsError =
  * Batch operation to revoke permissions from the principal.
  */
 export const batchRevokePermissions: API.OperationMethod<
-  BatchRevokePermissionsRequest,
+  BatchRevokePermissionsRequest & RegionInput,
   BatchRevokePermissionsResponse,
   BatchRevokePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -1281,6 +1303,8 @@ export const batchRevokePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRevokePermissions",
+  telemetry: TELEMETRY,
+  span: "BatchRevokePermissions",
 }));
 
 export type CancelTransactionError =
@@ -1296,7 +1320,7 @@ export type CancelTransactionError =
  * Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
  */
 export const cancelTransaction: API.OperationMethod<
-  CancelTransactionRequest,
+  CancelTransactionRequest & RegionInput,
   CancelTransactionResponse,
   CancelTransactionError,
   Credentials | HttpClient.HttpClient
@@ -1315,6 +1339,8 @@ export const cancelTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTransaction",
+  telemetry: TELEMETRY,
+  span: "CancelTransaction",
 }));
 
 export type CommitTransactionError =
@@ -1329,7 +1355,7 @@ export type CommitTransactionError =
  * Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
  */
 export const commitTransaction: API.OperationMethod<
-  CommitTransactionRequest,
+  CommitTransactionRequest & RegionInput,
   CommitTransactionResponse,
   CommitTransactionError,
   Credentials | HttpClient.HttpClient
@@ -1347,6 +1373,8 @@ export const commitTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CommitTransaction",
+  telemetry: TELEMETRY,
+  span: "CommitTransaction",
 }));
 
 export type CreateDataCellsFilterError =
@@ -1362,7 +1390,7 @@ export type CreateDataCellsFilterError =
  * Creates a data cell filter to allow one to grant access to certain columns on certain rows.
  */
 export const createDataCellsFilter: API.OperationMethod<
-  CreateDataCellsFilterRequest,
+  CreateDataCellsFilterRequest & RegionInput,
   CreateDataCellsFilterResponse,
   CreateDataCellsFilterError,
   Credentials | HttpClient.HttpClient
@@ -1381,6 +1409,8 @@ export const createDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataCellsFilter",
+  telemetry: TELEMETRY,
+  span: "CreateDataCellsFilter",
 }));
 
 export type CreateLakeFormationIdentityCenterConfigurationError =
@@ -1395,7 +1425,7 @@ export type CreateLakeFormationIdentityCenterConfigurationError =
  * Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
  */
 export const createLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  CreateLakeFormationIdentityCenterConfigurationRequest,
+  CreateLakeFormationIdentityCenterConfigurationRequest & RegionInput,
   CreateLakeFormationIdentityCenterConfigurationResponse,
   CreateLakeFormationIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1421,6 +1451,8 @@ export const createLakeFormationIdentityCenterConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLakeFormationIdentityCenterConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateLakeFormationIdentityCenterConfiguration",
 }));
 
 export type CreateLakeFormationOptInError =
@@ -1437,7 +1469,7 @@ export type CreateLakeFormationOptInError =
  * Enforce Lake Formation permissions for the given databases, tables, and principals.
  */
 export const createLakeFormationOptIn: API.OperationMethod<
-  CreateLakeFormationOptInRequest,
+  CreateLakeFormationOptInRequest & RegionInput,
   CreateLakeFormationOptInResponse,
   CreateLakeFormationOptInError,
   Credentials | HttpClient.HttpClient
@@ -1457,6 +1489,8 @@ export const createLakeFormationOptIn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLakeFormationOptIn",
+  telemetry: TELEMETRY,
+  span: "CreateLakeFormationOptIn",
 }));
 
 export type CreateLFTagError =
@@ -1471,7 +1505,7 @@ export type CreateLFTagError =
  * Creates an LF-tag with the specified name and values.
  */
 export const createLFTag: API.OperationMethod<
-  CreateLFTagRequest,
+  CreateLFTagRequest & RegionInput,
   CreateLFTagResponse,
   CreateLFTagError,
   Credentials | HttpClient.HttpClient
@@ -1489,6 +1523,8 @@ export const createLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLFTag",
+  telemetry: TELEMETRY,
+  span: "CreateLFTag",
 }));
 
 export type CreateLFTagExpressionError =
@@ -1511,7 +1547,7 @@ export type CreateLFTagExpressionError =
  * included in the expression.
  */
 export const createLFTagExpression: API.OperationMethod<
-  CreateLFTagExpressionRequest,
+  CreateLFTagExpressionRequest & RegionInput,
   CreateLFTagExpressionResponse,
   CreateLFTagExpressionError,
   Credentials | HttpClient.HttpClient
@@ -1529,6 +1565,8 @@ export const createLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLFTagExpression",
+  telemetry: TELEMETRY,
+  span: "CreateLFTagExpression",
 }));
 
 export type DeleteDataCellsFilterError =
@@ -1542,7 +1580,7 @@ export type DeleteDataCellsFilterError =
  * Deletes a data cell filter.
  */
 export const deleteDataCellsFilter: API.OperationMethod<
-  DeleteDataCellsFilterRequest,
+  DeleteDataCellsFilterRequest & RegionInput,
   DeleteDataCellsFilterResponse,
   DeleteDataCellsFilterError,
   Credentials | HttpClient.HttpClient
@@ -1559,6 +1597,8 @@ export const deleteDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataCellsFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteDataCellsFilter",
 }));
 
 export type DeleteLakeFormationIdentityCenterConfigurationError =
@@ -1573,7 +1613,7 @@ export type DeleteLakeFormationIdentityCenterConfigurationError =
  * Deletes an IAM Identity Center connection with Lake Formation.
  */
 export const deleteLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  DeleteLakeFormationIdentityCenterConfigurationRequest,
+  DeleteLakeFormationIdentityCenterConfigurationRequest & RegionInput,
   DeleteLakeFormationIdentityCenterConfigurationResponse,
   DeleteLakeFormationIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1599,6 +1639,8 @@ export const deleteLakeFormationIdentityCenterConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLakeFormationIdentityCenterConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLakeFormationIdentityCenterConfiguration",
 }));
 
 export type DeleteLakeFormationOptInError =
@@ -1614,7 +1656,7 @@ export type DeleteLakeFormationOptInError =
  * Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
  */
 export const deleteLakeFormationOptIn: API.OperationMethod<
-  DeleteLakeFormationOptInRequest,
+  DeleteLakeFormationOptInRequest & RegionInput,
   DeleteLakeFormationOptInResponse,
   DeleteLakeFormationOptInError,
   Credentials | HttpClient.HttpClient
@@ -1633,6 +1675,8 @@ export const deleteLakeFormationOptIn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLakeFormationOptIn",
+  telemetry: TELEMETRY,
+  span: "DeleteLakeFormationOptIn",
 }));
 
 export type DeleteLFTagError =
@@ -1652,7 +1696,7 @@ export type DeleteLFTagError =
  * them.
  */
 export const deleteLFTag: API.OperationMethod<
-  DeleteLFTagRequest,
+  DeleteLFTagRequest & RegionInput,
   DeleteLFTagResponse,
   DeleteLFTagError,
   Credentials | HttpClient.HttpClient
@@ -1669,6 +1713,8 @@ export const deleteLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLFTag",
+  telemetry: TELEMETRY,
+  span: "DeleteLFTag",
 }));
 
 export type DeleteLFTagExpressionError =
@@ -1683,7 +1729,7 @@ export type DeleteLFTagExpressionError =
  * Deleting a LF-Tag expression will also delete all `LFTagPolicy` permissions referencing the LF-Tag expression.
  */
 export const deleteLFTagExpression: API.OperationMethod<
-  DeleteLFTagExpressionRequest,
+  DeleteLFTagExpressionRequest & RegionInput,
   DeleteLFTagExpressionResponse,
   DeleteLFTagExpressionError,
   Credentials | HttpClient.HttpClient
@@ -1700,6 +1746,8 @@ export const deleteLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLFTagExpression",
+  telemetry: TELEMETRY,
+  span: "DeleteLFTagExpression",
 }));
 
 export type DeleteObjectsOnCancelError =
@@ -1721,7 +1769,7 @@ export type DeleteObjectsOnCancelError =
  * Rolling Back Amazon S3 Writes.
  */
 export const deleteObjectsOnCancel: API.OperationMethod<
-  DeleteObjectsOnCancelRequest,
+  DeleteObjectsOnCancelRequest & RegionInput,
   DeleteObjectsOnCancelResponse,
   DeleteObjectsOnCancelError,
   Credentials | HttpClient.HttpClient
@@ -1741,6 +1789,8 @@ export const deleteObjectsOnCancel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectsOnCancel",
+  telemetry: TELEMETRY,
+  span: "DeleteObjectsOnCancel",
 }));
 
 export type DeregisterResourceError =
@@ -1756,7 +1806,7 @@ export type DeregisterResourceError =
  * When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
  */
 export const deregisterResource: API.OperationMethod<
-  DeregisterResourceRequest,
+  DeregisterResourceRequest & RegionInput,
   DeregisterResourceResponse,
   DeregisterResourceError,
   Credentials | HttpClient.HttpClient
@@ -1773,6 +1823,8 @@ export const deregisterResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterResource",
+  telemetry: TELEMETRY,
+  span: "DeregisterResource",
 }));
 
 export type DescribeLakeFormationIdentityCenterConfigurationError =
@@ -1786,7 +1838,7 @@ export type DescribeLakeFormationIdentityCenterConfigurationError =
  * Retrieves the instance ARN and application ARN for the connection.
  */
 export const describeLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  DescribeLakeFormationIdentityCenterConfigurationRequest,
+  DescribeLakeFormationIdentityCenterConfigurationRequest & RegionInput,
   DescribeLakeFormationIdentityCenterConfigurationResponse,
   DescribeLakeFormationIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1811,6 +1863,8 @@ export const describeLakeFormationIdentityCenterConfiguration: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLakeFormationIdentityCenterConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeLakeFormationIdentityCenterConfiguration",
 }));
 
 export type DescribeResourceError =
@@ -1823,7 +1877,7 @@ export type DescribeResourceError =
  * Retrieves the current data access role for the given resource registered in Lake Formation.
  */
 export const describeResource: API.OperationMethod<
-  DescribeResourceRequest,
+  DescribeResourceRequest & RegionInput,
   DescribeResourceResponse,
   DescribeResourceError,
   Credentials | HttpClient.HttpClient
@@ -1839,6 +1893,8 @@ export const describeResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResource",
+  telemetry: TELEMETRY,
+  span: "DescribeResource",
 }));
 
 export type DescribeTransactionError =
@@ -1851,7 +1907,7 @@ export type DescribeTransactionError =
  * Returns the details of a single transaction.
  */
 export const describeTransaction: API.OperationMethod<
-  DescribeTransactionRequest,
+  DescribeTransactionRequest & RegionInput,
   DescribeTransactionResponse,
   DescribeTransactionError,
   Credentials | HttpClient.HttpClient
@@ -1867,6 +1923,8 @@ export const describeTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTransaction",
+  telemetry: TELEMETRY,
+  span: "DescribeTransaction",
 }));
 
 export type ExtendTransactionError =
@@ -1884,7 +1942,7 @@ export type ExtendTransactionError =
  * Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
  */
 export const extendTransaction: API.OperationMethod<
-  ExtendTransactionRequest,
+  ExtendTransactionRequest & RegionInput,
   ExtendTransactionResponse,
   ExtendTransactionError,
   Credentials | HttpClient.HttpClient
@@ -1903,6 +1961,8 @@ export const extendTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExtendTransaction",
+  telemetry: TELEMETRY,
+  span: "ExtendTransaction",
 }));
 
 export type GetDataCellsFilterError =
@@ -1916,7 +1976,7 @@ export type GetDataCellsFilterError =
  * Returns a data cells filter.
  */
 export const getDataCellsFilter: API.OperationMethod<
-  GetDataCellsFilterRequest,
+  GetDataCellsFilterRequest & RegionInput,
   GetDataCellsFilterResponse,
   GetDataCellsFilterError,
   Credentials | HttpClient.HttpClient
@@ -1933,6 +1993,8 @@ export const getDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataCellsFilter",
+  telemetry: TELEMETRY,
+  span: "GetDataCellsFilter",
 }));
 
 export type GetDataLakePrincipalError =
@@ -1944,7 +2006,7 @@ export type GetDataLakePrincipalError =
  * Returns the identity of the invoking principal.
  */
 export const getDataLakePrincipal: API.OperationMethod<
-  GetDataLakePrincipalRequest,
+  GetDataLakePrincipalRequest & RegionInput,
   GetDataLakePrincipalResponse,
   GetDataLakePrincipalError,
   Credentials | HttpClient.HttpClient
@@ -1955,6 +2017,8 @@ export const getDataLakePrincipal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakePrincipal",
+  telemetry: TELEMETRY,
+  span: "GetDataLakePrincipal",
 }));
 
 export type GetDataLakeSettingsError =
@@ -1966,7 +2030,7 @@ export type GetDataLakeSettingsError =
  * Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
  */
 export const getDataLakeSettings: API.OperationMethod<
-  GetDataLakeSettingsRequest,
+  GetDataLakeSettingsRequest & RegionInput,
   GetDataLakeSettingsResponse,
   GetDataLakeSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1977,6 +2041,8 @@ export const getDataLakeSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeSettings",
+  telemetry: TELEMETRY,
+  span: "GetDataLakeSettings",
 }));
 
 export type GetEffectivePermissionsForPathError =
@@ -1990,7 +2056,7 @@ export type GetEffectivePermissionsForPathError =
  * at a path in Amazon S3. `GetEffectivePermissionsForPath` will not return databases and tables if the catalog is encrypted.
  */
 export const getEffectivePermissionsForPath: API.PaginatedOperationMethod<
-  GetEffectivePermissionsForPathRequest,
+  GetEffectivePermissionsForPathRequest & RegionInput,
   GetEffectivePermissionsForPathResponse,
   GetEffectivePermissionsForPathError,
   Credentials | HttpClient.HttpClient,
@@ -2012,6 +2078,8 @@ export const getEffectivePermissionsForPath: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEffectivePermissionsForPath",
 })) as any;
 
 export type GetLFTagError =
@@ -2025,7 +2093,7 @@ export type GetLFTagError =
  * Returns an LF-tag definition.
  */
 export const getLFTag: API.OperationMethod<
-  GetLFTagRequest,
+  GetLFTagRequest & RegionInput,
   GetLFTagResponse,
   GetLFTagError,
   Credentials | HttpClient.HttpClient
@@ -2042,6 +2110,8 @@ export const getLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLFTag",
+  telemetry: TELEMETRY,
+  span: "GetLFTag",
 }));
 
 export type GetLFTagExpressionError =
@@ -2055,7 +2125,7 @@ export type GetLFTagExpressionError =
  * Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have `DESCRIBE` permission on the LF-Tag expression resource.
  */
 export const getLFTagExpression: API.OperationMethod<
-  GetLFTagExpressionRequest,
+  GetLFTagExpressionRequest & RegionInput,
   GetLFTagExpressionResponse,
   GetLFTagExpressionError,
   Credentials | HttpClient.HttpClient
@@ -2072,6 +2142,8 @@ export const getLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLFTagExpression",
+  telemetry: TELEMETRY,
+  span: "GetLFTagExpression",
 }));
 
 export type GetQueryStateError =
@@ -2083,7 +2155,7 @@ export type GetQueryStateError =
  * Returns the state of a query previously submitted. Clients are expected to poll `GetQueryState` to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to `StartQueryPlanning`.
  */
 export const getQueryState: API.OperationMethod<
-  GetQueryStateRequest,
+  GetQueryStateRequest & RegionInput,
   GetQueryStateResponse,
   GetQueryStateError,
   Credentials | HttpClient.HttpClient
@@ -2095,6 +2167,8 @@ export const getQueryState: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueryState",
   endpointHostPrefix: "query-",
+  telemetry: TELEMETRY,
+  span: "GetQueryState",
 }));
 
 export type GetQueryStatisticsError =
@@ -2109,7 +2183,7 @@ export type GetQueryStatisticsError =
  * Retrieves statistics on the planning and execution of a query.
  */
 export const getQueryStatistics: API.OperationMethod<
-  GetQueryStatisticsRequest,
+  GetQueryStatisticsRequest & RegionInput,
   GetQueryStatisticsResponse,
   GetQueryStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2128,6 +2202,8 @@ export const getQueryStatistics: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueryStatistics",
   endpointHostPrefix: "query-",
+  telemetry: TELEMETRY,
+  span: "GetQueryStatistics",
 }));
 
 export type GetResourceLFTagsError =
@@ -2142,7 +2218,7 @@ export type GetResourceLFTagsError =
  * Returns the LF-tags applied to a resource.
  */
 export const getResourceLFTags: API.OperationMethod<
-  GetResourceLFTagsRequest,
+  GetResourceLFTagsRequest & RegionInput,
   GetResourceLFTagsResponse,
   GetResourceLFTagsError,
   Credentials | HttpClient.HttpClient
@@ -2160,6 +2236,8 @@ export const getResourceLFTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceLFTags",
+  telemetry: TELEMETRY,
+  span: "GetResourceLFTags",
 }));
 
 export type GetTableObjectsError =
@@ -2175,7 +2253,7 @@ export type GetTableObjectsError =
  * Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
  */
 export const getTableObjects: API.PaginatedOperationMethod<
-  GetTableObjectsRequest,
+  GetTableObjectsRequest & RegionInput,
   GetTableObjectsResponse,
   GetTableObjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2200,6 +2278,8 @@ export const getTableObjects: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTableObjects",
 })) as any;
 
 export type GetTemporaryDataLocationCredentialsError =
@@ -2234,7 +2314,7 @@ export type GetTemporaryDataLocationCredentialsError =
  * call.
  */
 export const getTemporaryDataLocationCredentials: API.OperationMethod<
-  GetTemporaryDataLocationCredentialsRequest,
+  GetTemporaryDataLocationCredentialsRequest & RegionInput,
   GetTemporaryDataLocationCredentialsResponse,
   GetTemporaryDataLocationCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2253,6 +2333,8 @@ export const getTemporaryDataLocationCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemporaryDataLocationCredentials",
+  telemetry: TELEMETRY,
+  span: "GetTemporaryDataLocationCredentials",
 }));
 
 export type GetTemporaryGluePartitionCredentialsError =
@@ -2267,7 +2349,7 @@ export type GetTemporaryGluePartitionCredentialsError =
  * This API is identical to `GetTemporaryTableCredentials` except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
  */
 export const getTemporaryGluePartitionCredentials: API.OperationMethod<
-  GetTemporaryGluePartitionCredentialsRequest,
+  GetTemporaryGluePartitionCredentialsRequest & RegionInput,
   GetTemporaryGluePartitionCredentialsResponse,
   GetTemporaryGluePartitionCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2285,6 +2367,8 @@ export const getTemporaryGluePartitionCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemporaryGluePartitionCredentials",
+  telemetry: TELEMETRY,
+  span: "GetTemporaryGluePartitionCredentials",
 }));
 
 export type GetTemporaryGlueTableCredentialsError =
@@ -2301,7 +2385,7 @@ export type GetTemporaryGlueTableCredentialsError =
  * To call this API, the role that the service assumes must have `lakeformation:GetDataAccess` permission on the resource.
  */
 export const getTemporaryGlueTableCredentials: API.OperationMethod<
-  GetTemporaryGlueTableCredentialsRequest,
+  GetTemporaryGlueTableCredentialsRequest & RegionInput,
   GetTemporaryGlueTableCredentialsResponse,
   GetTemporaryGlueTableCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2319,6 +2403,8 @@ export const getTemporaryGlueTableCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemporaryGlueTableCredentials",
+  telemetry: TELEMETRY,
+  span: "GetTemporaryGlueTableCredentials",
 }));
 
 export type GetWorkUnitResultsError =
@@ -2332,7 +2418,7 @@ export type GetWorkUnitResultsError =
  * Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
  */
 export const getWorkUnitResults: API.OperationMethod<
-  GetWorkUnitResultsRequest,
+  GetWorkUnitResultsRequest & RegionInput,
   GetWorkUnitResultsResponse,
   GetWorkUnitResultsError,
   Credentials | HttpClient.HttpClient
@@ -2350,6 +2436,8 @@ export const getWorkUnitResults: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorkUnitResults",
   endpointHostPrefix: "data-",
+  telemetry: TELEMETRY,
+  span: "GetWorkUnitResults",
 }));
 
 export type GetWorkUnitsError =
@@ -2363,7 +2451,7 @@ export type GetWorkUnitsError =
  * Retrieves the work units generated by the `StartQueryPlanning` operation.
  */
 export const getWorkUnits: API.PaginatedOperationMethod<
-  GetWorkUnitsRequest,
+  GetWorkUnitsRequest & RegionInput,
   GetWorkUnitsResponse,
   GetWorkUnitsError,
   Credentials | HttpClient.HttpClient,
@@ -2388,6 +2476,8 @@ export const getWorkUnits: API.PaginatedOperationMethod<
     items: "WorkUnitRanges",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetWorkUnits",
 })) as any;
 
 export type GrantPermissionsError =
@@ -2402,7 +2492,7 @@ export type GrantPermissionsError =
  * For information about permissions, see Security and Access Control to Metadata and Data.
  */
 export const grantPermissions: API.OperationMethod<
-  GrantPermissionsRequest,
+  GrantPermissionsRequest & RegionInput,
   GrantPermissionsResponse,
   GrantPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -2418,6 +2508,8 @@ export const grantPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GrantPermissions",
+  telemetry: TELEMETRY,
+  span: "GrantPermissions",
 }));
 
 export type ListDataCellsFilterError =
@@ -2430,7 +2522,7 @@ export type ListDataCellsFilterError =
  * Lists all the data cell filters on a table.
  */
 export const listDataCellsFilter: API.PaginatedOperationMethod<
-  ListDataCellsFilterRequest,
+  ListDataCellsFilterRequest & RegionInput,
   ListDataCellsFilterResponse,
   ListDataCellsFilterError,
   Credentials | HttpClient.HttpClient,
@@ -2453,6 +2545,8 @@ export const listDataCellsFilter: API.PaginatedOperationMethod<
     items: "DataCellsFilters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataCellsFilter",
 })) as any;
 
 export type ListLakeFormationOptInsError =
@@ -2467,7 +2561,7 @@ export type ListLakeFormationOptInsError =
  * Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
  */
 export const listLakeFormationOptIns: API.PaginatedOperationMethod<
-  ListLakeFormationOptInsRequest,
+  ListLakeFormationOptInsRequest & RegionInput,
   ListLakeFormationOptInsResponse,
   ListLakeFormationOptInsError,
   Credentials | HttpClient.HttpClient,
@@ -2491,6 +2585,8 @@ export const listLakeFormationOptIns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLakeFormationOptIns",
 })) as any;
 
 export type ListLFTagExpressionsError =
@@ -2504,7 +2600,7 @@ export type ListLFTagExpressionsError =
  * Returns the LF-Tag expressions in caller's account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression.
  */
 export const listLFTagExpressions: API.PaginatedOperationMethod<
-  ListLFTagExpressionsRequest,
+  ListLFTagExpressionsRequest & RegionInput,
   ListLFTagExpressionsResponse,
   ListLFTagExpressionsError,
   Credentials | HttpClient.HttpClient,
@@ -2528,6 +2624,8 @@ export const listLFTagExpressions: API.PaginatedOperationMethod<
     items: "LFTagExpressions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLFTagExpressions",
 })) as any;
 
 export type ListLFTagsError =
@@ -2541,7 +2639,7 @@ export type ListLFTagsError =
  * Lists LF-tags that the requester has permission to view.
  */
 export const listLFTags: API.PaginatedOperationMethod<
-  ListLFTagsRequest,
+  ListLFTagsRequest & RegionInput,
   ListLFTagsResponse,
   ListLFTagsError,
   Credentials | HttpClient.HttpClient,
@@ -2565,6 +2663,8 @@ export const listLFTags: API.PaginatedOperationMethod<
     items: "LFTags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLFTags",
 })) as any;
 
 export type ListPermissionsError =
@@ -2583,7 +2683,7 @@ export type ListPermissionsError =
  * For information about permissions, see Security and Access Control to Metadata and Data.
  */
 export const listPermissions: API.PaginatedOperationMethod<
-  ListPermissionsRequest,
+  ListPermissionsRequest & RegionInput,
   ListPermissionsResponse,
   ListPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -2605,6 +2705,8 @@ export const listPermissions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissions",
 })) as any;
 
 export type ListResourcesError =
@@ -2616,7 +2718,7 @@ export type ListResourcesError =
  * Lists the resources registered to be managed by the Data Catalog.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesRequest,
+  ListResourcesRequest & RegionInput,
   ListResourcesResponse,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2633,6 +2735,8 @@ export const listResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResources",
 })) as any;
 
 export type ListTableStorageOptimizersError =
@@ -2645,7 +2749,7 @@ export type ListTableStorageOptimizersError =
  * Returns the configuration of all storage optimizers associated with a specified table.
  */
 export const listTableStorageOptimizers: API.PaginatedOperationMethod<
-  ListTableStorageOptimizersRequest,
+  ListTableStorageOptimizersRequest & RegionInput,
   ListTableStorageOptimizersResponse,
   ListTableStorageOptimizersError,
   Credentials | HttpClient.HttpClient,
@@ -2667,6 +2771,8 @@ export const listTableStorageOptimizers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTableStorageOptimizers",
 })) as any;
 
 export type ListTransactionsError =
@@ -2680,7 +2786,7 @@ export type ListTransactionsError =
  * This operation can help you identify uncommitted transactions or to get information about transactions.
  */
 export const listTransactions: API.PaginatedOperationMethod<
-  ListTransactionsRequest,
+  ListTransactionsRequest & RegionInput,
   ListTransactionsResponse,
   ListTransactionsError,
   Credentials | HttpClient.HttpClient,
@@ -2697,6 +2803,8 @@ export const listTransactions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTransactions",
 })) as any;
 
 export type PutDataLakeSettingsError =
@@ -2710,7 +2818,7 @@ export type PutDataLakeSettingsError =
  * This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
  */
 export const putDataLakeSettings: API.OperationMethod<
-  PutDataLakeSettingsRequest,
+  PutDataLakeSettingsRequest & RegionInput,
   PutDataLakeSettingsResponse,
   PutDataLakeSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2721,6 +2829,8 @@ export const putDataLakeSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataLakeSettings",
+  telemetry: TELEMETRY,
+  span: "PutDataLakeSettings",
 }));
 
 export type RegisterResourceError =
@@ -2747,7 +2857,7 @@ export type RegisterResourceError =
  * `arn:aws:iam::12345:role/my-data-access-role`
  */
 export const registerResource: API.OperationMethod<
-  RegisterResourceRequest,
+  RegisterResourceRequest & RegionInput,
   RegisterResourceResponse,
   RegisterResourceError,
   Credentials | HttpClient.HttpClient
@@ -2766,6 +2876,8 @@ export const registerResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterResource",
+  telemetry: TELEMETRY,
+  span: "RegisterResource",
 }));
 
 export type RemoveLFTagsFromResourceError =
@@ -2781,7 +2893,7 @@ export type RemoveLFTagsFromResourceError =
  * Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify column input.
  */
 export const removeLFTagsFromResource: API.OperationMethod<
-  RemoveLFTagsFromResourceRequest,
+  RemoveLFTagsFromResourceRequest & RegionInput,
   RemoveLFTagsFromResourceResponse,
   RemoveLFTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -2800,6 +2912,8 @@ export const removeLFTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveLFTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveLFTagsFromResource",
 }));
 
 export type RevokePermissionsError =
@@ -2812,7 +2926,7 @@ export type RevokePermissionsError =
  * Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
  */
 export const revokePermissions: API.OperationMethod<
-  RevokePermissionsRequest,
+  RevokePermissionsRequest & RegionInput,
   RevokePermissionsResponse,
   RevokePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -2828,6 +2942,8 @@ export const revokePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokePermissions",
+  telemetry: TELEMETRY,
+  span: "RevokePermissions",
 }));
 
 export type SearchDatabasesByLFTagsError =
@@ -2842,7 +2958,7 @@ export type SearchDatabasesByLFTagsError =
  * This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is used by admins who want to grant user permissions on certain `TagConditions`. Before making a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given `TagConditions` are valid to verify whether the returned resources can be shared.
  */
 export const searchDatabasesByLFTags: API.PaginatedOperationMethod<
-  SearchDatabasesByLFTagsRequest,
+  SearchDatabasesByLFTagsRequest & RegionInput,
   SearchDatabasesByLFTagsResponse,
   SearchDatabasesByLFTagsError,
   Credentials | HttpClient.HttpClient,
@@ -2867,6 +2983,8 @@ export const searchDatabasesByLFTags: API.PaginatedOperationMethod<
     items: "DatabaseList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchDatabasesByLFTags",
 })) as any;
 
 export type SearchTablesByLFTagsError =
@@ -2881,7 +2999,7 @@ export type SearchTablesByLFTagsError =
  * This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to verify whether the returned resources can be shared.
  */
 export const searchTablesByLFTags: API.PaginatedOperationMethod<
-  SearchTablesByLFTagsRequest,
+  SearchTablesByLFTagsRequest & RegionInput,
   SearchTablesByLFTagsResponse,
   SearchTablesByLFTagsError,
   Credentials | HttpClient.HttpClient,
@@ -2906,6 +3024,8 @@ export const searchTablesByLFTags: API.PaginatedOperationMethod<
     items: "TableList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchTablesByLFTags",
 })) as any;
 
 export type StartQueryPlanningError =
@@ -2920,7 +3040,7 @@ export type StartQueryPlanningError =
  * This operation generates work units that can be retrieved with the `GetWorkUnits` operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
  */
 export const startQueryPlanning: API.OperationMethod<
-  StartQueryPlanningRequest,
+  StartQueryPlanningRequest & RegionInput,
   StartQueryPlanningResponse,
   StartQueryPlanningError,
   Credentials | HttpClient.HttpClient
@@ -2937,6 +3057,8 @@ export const startQueryPlanning: API.OperationMethod<
   retry: Retry,
   operationName: "StartQueryPlanning",
   endpointHostPrefix: "query-",
+  telemetry: TELEMETRY,
+  span: "StartQueryPlanning",
 }));
 
 export type StartTransactionError =
@@ -2947,7 +3069,7 @@ export type StartTransactionError =
  * Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
  */
 export const startTransaction: API.OperationMethod<
-  StartTransactionRequest,
+  StartTransactionRequest & RegionInput,
   StartTransactionResponse,
   StartTransactionError,
   Credentials | HttpClient.HttpClient
@@ -2958,6 +3080,8 @@ export const startTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTransaction",
+  telemetry: TELEMETRY,
+  span: "StartTransaction",
 }));
 
 export type UpdateDataCellsFilterError =
@@ -2972,7 +3096,7 @@ export type UpdateDataCellsFilterError =
  * Updates a data cell filter.
  */
 export const updateDataCellsFilter: API.OperationMethod<
-  UpdateDataCellsFilterRequest,
+  UpdateDataCellsFilterRequest & RegionInput,
   UpdateDataCellsFilterResponse,
   UpdateDataCellsFilterError,
   Credentials | HttpClient.HttpClient
@@ -2990,6 +3114,8 @@ export const updateDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataCellsFilter",
+  telemetry: TELEMETRY,
+  span: "UpdateDataCellsFilter",
 }));
 
 export type UpdateLakeFormationIdentityCenterConfigurationError =
@@ -3004,7 +3130,7 @@ export type UpdateLakeFormationIdentityCenterConfigurationError =
  * Updates the IAM Identity Center connection parameters.
  */
 export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  UpdateLakeFormationIdentityCenterConfigurationRequest,
+  UpdateLakeFormationIdentityCenterConfigurationRequest & RegionInput,
   UpdateLakeFormationIdentityCenterConfigurationResponse,
   UpdateLakeFormationIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3030,6 +3156,8 @@ export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLakeFormationIdentityCenterConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLakeFormationIdentityCenterConfiguration",
 }));
 
 export type UpdateLFTagError =
@@ -3044,7 +3172,7 @@ export type UpdateLFTagError =
  * Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
  */
 export const updateLFTag: API.OperationMethod<
-  UpdateLFTagRequest,
+  UpdateLFTagRequest & RegionInput,
   UpdateLFTagResponse,
   UpdateLFTagError,
   Credentials | HttpClient.HttpClient
@@ -3062,6 +3190,8 @@ export const updateLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLFTag",
+  telemetry: TELEMETRY,
+  span: "UpdateLFTag",
 }));
 
 export type UpdateLFTagExpressionError =
@@ -3077,7 +3207,7 @@ export type UpdateLFTagExpressionError =
  * Updating a LF-Tag expression immediately changes the permission boundaries of all existing `LFTagPolicy` permission grants that reference the given LF-Tag expression.
  */
 export const updateLFTagExpression: API.OperationMethod<
-  UpdateLFTagExpressionRequest,
+  UpdateLFTagExpressionRequest & RegionInput,
   UpdateLFTagExpressionResponse,
   UpdateLFTagExpressionError,
   Credentials | HttpClient.HttpClient
@@ -3095,6 +3225,8 @@ export const updateLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLFTagExpression",
+  telemetry: TELEMETRY,
+  span: "UpdateLFTagExpression",
 }));
 
 export type UpdateResourceError =
@@ -3107,7 +3239,7 @@ export type UpdateResourceError =
  * Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
  */
 export const updateResource: API.OperationMethod<
-  UpdateResourceRequest,
+  UpdateResourceRequest & RegionInput,
   UpdateResourceResponse,
   UpdateResourceError,
   Credentials | HttpClient.HttpClient
@@ -3123,6 +3255,8 @@ export const updateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
+  telemetry: TELEMETRY,
+  span: "UpdateResource",
 }));
 
 export type UpdateTableObjectsError =
@@ -3140,7 +3274,7 @@ export type UpdateTableObjectsError =
  * Updates the manifest of Amazon S3 objects that make up the specified governed table.
  */
 export const updateTableObjects: API.OperationMethod<
-  UpdateTableObjectsRequest,
+  UpdateTableObjectsRequest & RegionInput,
   UpdateTableObjectsResponse,
   UpdateTableObjectsError,
   Credentials | HttpClient.HttpClient
@@ -3161,6 +3295,8 @@ export const updateTableObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableObjects",
+  telemetry: TELEMETRY,
+  span: "UpdateTableObjects",
 }));
 
 export type UpdateTableStorageOptimizerError =
@@ -3173,7 +3309,7 @@ export type UpdateTableStorageOptimizerError =
  * Updates the configuration of the storage optimizers for a table.
  */
 export const updateTableStorageOptimizer: API.OperationMethod<
-  UpdateTableStorageOptimizerRequest,
+  UpdateTableStorageOptimizerRequest & RegionInput,
   UpdateTableStorageOptimizerResponse,
   UpdateTableStorageOptimizerError,
   Credentials | HttpClient.HttpClient
@@ -3189,6 +3325,8 @@ export const updateTableStorageOptimizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableStorageOptimizer",
+  telemetry: TELEMETRY,
+  span: "UpdateTableStorageOptimizer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

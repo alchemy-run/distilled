@@ -64,6 +64,13 @@ export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
  * request schemas that don't carry the page param (the server would return
  * page 1 forever): if the server reports a page other than the one
  * requested, stop without re-emitting the duplicate page.
+ *
+ * When `result_info` shows the listing is exhausted, stop without asking for
+ * the empty page: either `total_pages` says this was the last page, or the
+ * page came back short of `per_page` and the items seen so far reach
+ * `total_count`. A short page alone is not trusted -- some endpoints omit
+ * `result_info` or cap page sizes below what they report -- so the count
+ * check needs both signals.
  */
 const paginatePageByItems: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
@@ -71,10 +78,14 @@ const paginatePageByItems: Pagination.PaginationStrategy = (operation, input, pa
     return Stream.die(new Error("Cloudflare page pagination requires an inputToken"));
   }
 
-  type State = { page: number; done: boolean };
+  type State = { page: number; seen: number; done: boolean };
   const startPage = typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
+  const requestedPageSize =
+    pagination.pageSize && typeof input[pagination.pageSize] === "number"
+      ? (input[pagination.pageSize] as number)
+      : undefined;
 
-  return Stream.unfold({ page: startPage, done: false } as State, (state) =>
+  return Stream.unfold({ page: startPage, seen: 0, done: false } as State, (state) =>
     Effect.gen(function* () {
       if (state.done) return undefined;
 
@@ -96,7 +107,18 @@ const paginatePageByItems: Pagination.PaginationStrategy = (operation, input, pa
         return undefined;
       }
 
-      return [response, { page: state.page + 1, done: (items ?? []).length === 0 }] as const;
+      const count = (items ?? []).length;
+      const seen = state.seen + count;
+      const info = Pagination.getPath(response, "resultInfo") as ResultInfo | null | undefined;
+      const perPage = info?.perPage ?? requestedPageSize;
+      const lastPage =
+        (typeof info?.totalPages === "number" && state.page >= info.totalPages) ||
+        (typeof info?.totalCount === "number" &&
+          typeof perPage === "number" &&
+          count < perPage &&
+          seen >= info.totalCount);
+
+      return [response, { page: state.page + 1, seen, done: count === 0 || lastPage }] as const;
     }),
   );
 };

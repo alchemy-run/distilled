@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "AiGateway",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -535,6 +549,8 @@ export const archiveAiGatewayBudget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveAiGatewayBudget",
 }));
 
 export type ArchiveAiGatewayBudgetDefaultError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -550,6 +566,8 @@ export const archiveAiGatewayBudgetDefault: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveAiGatewayBudgetDefault",
 }));
 
 export type CreateAiGatewayRuleError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -565,6 +583,8 @@ export const createAiGatewayRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiGatewayRule",
 }));
 
 export type CreateAiGatewayVirtualModelConfigError =
@@ -585,6 +605,8 @@ export const createAiGatewayVirtualModelConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiGatewayVirtualModelConfig",
 }));
 
 export type DeleteAiGatewayRuleError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -600,6 +622,8 @@ export const deleteAiGatewayRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAiGatewayRule",
 }));
 
 export type DeleteAiGatewayVirtualModelConfigError =
@@ -619,6 +643,8 @@ export const deleteAiGatewayVirtualModelConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAiGatewayVirtualModelConfig",
 }));
 
 export type DeleteAiGatewayVirtualModelConfigBySlugError =
@@ -638,6 +664,8 @@ export const deleteAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAiGatewayVirtualModelConfigBySlug",
 }));
 
 export type GetAiGatewayVirtualModelConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -653,6 +681,8 @@ export const getAiGatewayVirtualModelConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiGatewayVirtualModelConfig",
 }));
 
 export type GetAiGatewayVirtualModelConfigBySlugError =
@@ -672,6 +702,8 @@ export const getAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiGatewayVirtualModelConfigBySlug",
 }));
 
 export type ListAiGatewayBudgetDefaultsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -687,6 +719,8 @@ export const listAiGatewayBudgetDefaults: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiGatewayBudgetDefaults",
 }));
 
 export type ListAiGatewayBudgetsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -702,6 +736,8 @@ export const listAiGatewayBudgets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiGatewayBudgets",
 }));
 
 export type ListAiGatewayRulesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -717,6 +753,8 @@ export const listAiGatewayRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiGatewayRules",
 }));
 
 export type ListAiGatewayVirtualModelConfigsError =
@@ -736,6 +774,8 @@ export const listAiGatewayVirtualModelConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiGatewayVirtualModelConfigs",
 }));
 
 export type UpdateAiGatewayRuleError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -751,6 +791,8 @@ export const updateAiGatewayRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiGatewayRule",
 }));
 
 export type UpdateAiGatewayVirtualModelConfigError =
@@ -770,6 +812,8 @@ export const updateAiGatewayVirtualModelConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiGatewayVirtualModelConfig",
 }));
 
 export type UpdateAiGatewayVirtualModelConfigBySlugError =
@@ -789,6 +833,8 @@ export const updateAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiGatewayVirtualModelConfigBySlug",
 }));
 
 export type UpsertAiGatewayBudgetError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -804,6 +850,8 @@ export const upsertAiGatewayBudget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertAiGatewayBudget",
 }));
 
 export type UpsertAiGatewayBudgetDefaultError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -819,6 +867,8 @@ export const upsertAiGatewayBudgetDefault: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertAiGatewayBudgetDefault",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

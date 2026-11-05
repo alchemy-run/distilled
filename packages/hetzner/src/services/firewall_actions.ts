@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "FirewallActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** Type of the resource. */
 export type ApplyFirewallToResourcesRequestApplyToItemType = "server" | "label_selector";
 /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
@@ -412,6 +425,8 @@ export const applyFirewallToResources: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyFirewallToResources",
 }));
 
 export type GetFirewallsActionError = HetznerOpError;
@@ -427,6 +442,8 @@ export const getFirewallsAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirewallsAction",
 }));
 
 export type ListFirewallActionsError = HetznerOpError;
@@ -444,6 +461,8 @@ export const listFirewallActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFirewallActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -470,6 +489,8 @@ export const listFirewallsActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFirewallsActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -494,6 +515,8 @@ export const removeFirewallFromResources: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveFirewallFromResources",
 }));
 
 export type SetFirewallRulesError = HetznerOpError;
@@ -509,6 +532,8 @@ export const setFirewallRules: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFirewallRules",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

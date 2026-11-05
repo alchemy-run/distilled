@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * InfisicalProtocol -- hand-written.
@@ -36,7 +36,8 @@ export type InfisicalOpError =
   | UnknownInfisicalError
   | ConfigError
   | HttpClientError.HttpClientError
-  | InfisicalParseError;
+  | InfisicalParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Infisical operation. */
 export type InfisicalOpContext = Credentials | HttpClient.HttpClient;
