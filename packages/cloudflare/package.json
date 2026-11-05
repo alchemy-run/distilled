@@ -588,7 +588,8 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-cloudflare"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "workspace:*",
+    "@distilled.cloud/s3": "workspace:*"
   },
   "devDependencies": {
     "@distilled.cloud/dev": "workspace:*",

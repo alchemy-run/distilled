@@ -1,9 +1,9 @@
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
+import { makeResponseParser } from "@distilled.cloud/s3/client/response-parser";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import { isTransientError } from "../../src/category.ts";
-import { makeResponseParser } from "../../src/client/response-parser.ts";
 import { InternalError, ParseError } from "../../src/errors.ts";
 import { ValidationException, getContactInformation } from "../../src/services/account.ts";
 import { getCredentialsForIdentity } from "../../src/services/cognito-identity.ts";

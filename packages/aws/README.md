@@ -8,6 +8,11 @@ Effect-native AWS SDK generated from [Smithy](https://smithy.io) models with ful
 npm install @distilled.cloud/aws effect
 ```
 
+Only need S3, or an S3-compatible store such as Cloudflare R2? Install
+[`@distilled.cloud/s3`](../s3) instead: the S3 client and the runtime it
+needs, without the other services or the credential providers. This package
+builds on it, and `@distilled.cloud/aws/s3` re-exports it.
+
 ## Quick Start
 
 ```typescript

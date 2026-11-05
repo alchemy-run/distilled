@@ -17,63 +17,14 @@
   "browser": {
     "./lib/_bundle/sdk.js": "./lib/_browser/_bundle/sdk.js",
     "./lib/auth.browser.js": "./lib/_browser/auth.browser.js",
-    "./lib/client/protocol.js": "./lib/_browser/client/protocol.js",
-    "./lib/client/request-builder.js": "./lib/_browser/client/request-builder.js",
-    "./lib/client/response-parser.js": "./lib/_browser/client/response-parser.js",
-    "./lib/client/stream-parser.js": "./lib/_browser/client/stream-parser.js",
-    "./lib/customizations/api-gateway.js": "./lib/_browser/customizations/api-gateway.js",
-    "./lib/customizations/glacier.js": "./lib/_browser/customizations/glacier.js",
-    "./lib/eventstream/parser.js": "./lib/_browser/eventstream/parser.js",
-    "./lib/eventstream/serializer.js": "./lib/_browser/eventstream/serializer.js",
-    "./lib/hash/crc32-portable.js": "./lib/_browser/hash/crc32-portable.js",
-    "./lib/hash/crc32.browser.js": "./lib/_browser/hash/crc32.browser.js",
-    "./lib/hash/md5.browser.js": "./lib/_browser/hash/md5.browser.js",
-    "./lib/middleware/checksum.js": "./lib/_browser/middleware/checksum.js",
-    "./lib/middleware/middleware.js": "./lib/_browser/middleware/middleware.js",
-    "./lib/middleware/streaming-body.js": "./lib/_browser/middleware/streaming-body.js",
-    "./lib/presign.js": "./lib/_browser/presign.js",
-    "./lib/protocols/aws-json.js": "./lib/_browser/protocols/aws-json.js",
-    "./lib/protocols/aws-query.js": "./lib/_browser/protocols/aws-query.js",
-    "./lib/protocols/ec2-query.js": "./lib/_browser/protocols/ec2-query.js",
-    "./lib/protocols/rest-json.js": "./lib/_browser/protocols/rest-json.js",
-    "./lib/protocols/rest-xml.js": "./lib/_browser/protocols/rest-xml.js",
-    "./lib/rules-engine/aws-functions.js": "./lib/_browser/rules-engine/aws-functions.js",
-    "./lib/rules-engine/endpoint-resolver.js": "./lib/_browser/rules-engine/endpoint-resolver.js",
-    "./lib/rules-engine/standard-functions.js": "./lib/_browser/rules-engine/standard-functions.js",
-    "./lib/util/codec.js": "./lib/_browser/util/codec.js",
-    "./lib/util/query-params.js": "./lib/_browser/util/query-params.js",
-    "./lib/util/serialize-input.js": "./lib/_browser/util/serialize-input.js",
-    "./lib/util/xml.js": "./lib/_browser/util/xml.js"
-  },
-  "imports": {
-    "#crc32": {
-      "types": "./src/hash/crc32.ts",
-      "bun": "./src/hash/crc32.ts",
-      "worker": "./src/hash/crc32.ts",
-      "browser": "./lib/hash/crc32.browser.js",
-      "default": "./lib/hash/crc32.js"
-    },
-    "#md5": {
-      "types": "./src/hash/md5.ts",
-      "bun": "./src/hash/md5.ts",
-      "worker": "./src/hash/md5.ts",
-      "browser": "./lib/hash/md5.browser.js",
-      "default": "./lib/hash/md5.js"
-    },
-    "#utf8": {
-      "types": "./src/hash/utf8.ts",
-      "bun": "./src/hash/utf8.ts",
-      "worker": "./src/hash/utf8.ts",
-      "browser": "./lib/hash/utf8.browser.js",
-      "default": "./lib/hash/utf8.js"
-    }
+    "./lib/endpoint.js": "./lib/_browser/endpoint.js",
+    "./lib/protocols/rest-json.js": "./lib/_browser/protocols/rest-json.js"
   },
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
-      "browser": "./lib/index.browser.js",
       "default": "./lib/index.js"
     },
     "./*": {
@@ -145,12 +96,6 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
-    "./client/*": {
-      "types": "./lib/client/*.d.ts",
-      "bun": "./src/client/*.ts",
-      "worker": "./src/client/*.ts",
-      "default": "./lib/client/*.js"
-    },
     "./customizations/*": {
       "types": "./lib/customizations/*.d.ts",
       "bun": "./src/customizations/*.ts",
@@ -162,24 +107,6 @@
       "bun": "./src/error-message.ts",
       "worker": "./src/error-message.ts",
       "default": "./lib/error-message.js"
-    },
-    "./eventstream/*": {
-      "types": "./lib/eventstream/*.d.ts",
-      "bun": "./src/eventstream/*.ts",
-      "worker": "./src/eventstream/*.ts",
-      "default": "./lib/eventstream/*.js"
-    },
-    "./hash/*": {
-      "types": "./lib/hash/*.d.ts",
-      "bun": "./src/hash/*.ts",
-      "worker": "./src/hash/*.ts",
-      "default": "./lib/hash/*.js"
-    },
-    "./middleware/*": {
-      "types": "./lib/middleware/*.d.ts",
-      "bun": "./src/middleware/*.ts",
-      "worker": "./src/middleware/*.ts",
-      "default": "./lib/middleware/*.js"
     },
     "./patch/*": {
       "types": "./lib/patch/*.d.ts",
@@ -198,12 +125,6 @@
       "bun": "./src/protocols/*.ts",
       "worker": "./src/protocols/*.ts",
       "default": "./lib/protocols/*.js"
-    },
-    "./rules-engine/*": {
-      "types": "./lib/rules-engine/*.d.ts",
-      "bun": "./src/rules-engine/*.ts",
-      "worker": "./src/rules-engine/*.ts",
-      "default": "./lib/rules-engine/*.js"
     },
     "./util/*": {
       "types": "./lib/util/*.d.ts",
@@ -230,8 +151,8 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-aws"
   },
   "dependencies": {
-    "@distilled.cloud/aws4signer": "workspace:*",
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "workspace:*",
+    "@distilled.cloud/s3": "workspace:*"
   },
   "devDependencies": {
     "@distilled.cloud/dev": "workspace:*",
