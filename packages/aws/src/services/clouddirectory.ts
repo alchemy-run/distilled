@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1464,7 +1465,7 @@ export type AddFacetToObjectError =
  * Adds a new Facet to an object. An object can have more than one facet applied on it.
  */
 export const addFacetToObject: API.OperationMethod<
-  AddFacetToObjectRequest,
+  AddFacetToObjectRequest & RegionInput,
   AddFacetToObjectResponse,
   AddFacetToObjectError,
   Credentials | HttpClient.HttpClient
@@ -1505,7 +1506,7 @@ export type ApplySchemaError =
  * name and version as that of the published schema.
  */
 export const applySchema: API.OperationMethod<
-  ApplySchemaRequest,
+  ApplySchemaRequest & RegionInput,
   ApplySchemaResponse,
   ApplySchemaError,
   Credentials | HttpClient.HttpClient
@@ -1552,7 +1553,7 @@ export type AttachObjectError =
  * - Using `ObjectIdentifier`
  */
 export const attachObject: API.OperationMethod<
-  AttachObjectRequest,
+  AttachObjectRequest & RegionInput,
   AttachObjectResponse,
   AttachObjectError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1596,7 @@ export type AttachPolicyError =
  * policies.
  */
 export const attachPolicy: API.OperationMethod<
-  AttachPolicyRequest,
+  AttachPolicyRequest & RegionInput,
   AttachPolicyResponse,
   AttachPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1638,7 +1639,7 @@ export type AttachToIndexError =
  * Attaches the specified object to the specified index.
  */
 export const attachToIndex: API.OperationMethod<
-  AttachToIndexRequest,
+  AttachToIndexRequest & RegionInput,
   AttachToIndexResponse,
   AttachToIndexError,
   Credentials | HttpClient.HttpClient
@@ -1682,7 +1683,7 @@ export type AttachTypedLinkError =
  * Attaches a typed link to a specified source and target object. For more information, see Typed Links.
  */
 export const attachTypedLink: API.OperationMethod<
-  AttachTypedLinkRequest,
+  AttachTypedLinkRequest & RegionInput,
   AttachTypedLinkResponse,
   AttachTypedLinkError,
   Credentials | HttpClient.HttpClient
@@ -1721,7 +1722,7 @@ export type BatchReadError =
  * Performs all the read operations in a batch.
  */
 export const batchRead: API.OperationMethod<
-  BatchReadRequest,
+  BatchReadRequest & RegionInput,
   BatchReadResponse,
   BatchReadError,
   Credentials | HttpClient.HttpClient
@@ -1759,7 +1760,7 @@ export type BatchWriteError =
  * none.
  */
 export const batchWrite: API.OperationMethod<
-  BatchWriteRequest,
+  BatchWriteRequest & RegionInput,
   BatchWriteResponse,
   BatchWriteError,
   Credentials | HttpClient.HttpClient
@@ -1801,7 +1802,7 @@ export type CreateDirectoryError =
  * `QuickStartSchema`. For more information, see Managed Schema in the *Amazon Cloud Directory Developer Guide*.
  */
 export const createDirectory: API.OperationMethod<
-  CreateDirectoryRequest,
+  CreateDirectoryRequest & RegionInput,
   CreateDirectoryResponse,
   CreateDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -1842,7 +1843,7 @@ export type CreateFacetError =
  * in development or applied schemas.
  */
 export const createFacet: API.OperationMethod<
-  CreateFacetRequest,
+  CreateFacetRequest & RegionInput,
   CreateFacetResponse,
   CreateFacetError,
   Credentials | HttpClient.HttpClient
@@ -1885,7 +1886,7 @@ export type CreateIndexError =
  * Creates an index object. See Indexing and search for more information.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -1932,7 +1933,7 @@ export type CreateObjectError =
  * policy object, if the facet from which you create the object is a policy facet.
  */
 export const createObject: API.OperationMethod<
-  CreateObjectRequest,
+  CreateObjectRequest & RegionInput,
   CreateObjectResponse,
   CreateObjectError,
   Credentials | HttpClient.HttpClient
@@ -1984,7 +1985,7 @@ export type CreateSchemaError =
  * facets. You can apply only published schemas to directories.
  */
 export const createSchema: API.OperationMethod<
-  CreateSchemaRequest,
+  CreateSchemaRequest & RegionInput,
   CreateSchemaResponse,
   CreateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2023,7 +2024,7 @@ export type CreateTypedLinkFacetError =
  * Creates a TypedLinkFacet. For more information, see Typed Links.
  */
 export const createTypedLinkFacet: API.OperationMethod<
-  CreateTypedLinkFacetRequest,
+  CreateTypedLinkFacetRequest & RegionInput,
   CreateTypedLinkFacetResponse,
   CreateTypedLinkFacetError,
   Credentials | HttpClient.HttpClient
@@ -2066,7 +2067,7 @@ export type DeleteDirectoryError =
  * when deleting directories.
  */
 export const deleteDirectory: API.OperationMethod<
-  DeleteDirectoryRequest,
+  DeleteDirectoryRequest & RegionInput,
   DeleteDirectoryResponse,
   DeleteDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2108,7 +2109,7 @@ export type DeleteFacetError =
  * deletion.
  */
 export const deleteFacet: API.OperationMethod<
-  DeleteFacetRequest,
+  DeleteFacetRequest & RegionInput,
   DeleteFacetResponse,
   DeleteFacetError,
   Credentials | HttpClient.HttpClient
@@ -2149,7 +2150,7 @@ export type DeleteObjectError =
  * parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits.
  */
 export const deleteObject: API.OperationMethod<
-  DeleteObjectRequest,
+  DeleteObjectRequest & RegionInput,
   DeleteObjectResponse,
   DeleteObjectError,
   Credentials | HttpClient.HttpClient
@@ -2188,7 +2189,7 @@ export type DeleteSchemaError =
  * Deletes a given schema. Schemas in a development and published state can only be deleted.
  */
 export const deleteSchema: API.OperationMethod<
-  DeleteSchemaRequest,
+  DeleteSchemaRequest & RegionInput,
   DeleteSchemaResponse,
   DeleteSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2226,7 +2227,7 @@ export type DeleteTypedLinkFacetError =
  * Deletes a TypedLinkFacet. For more information, see Typed Links.
  */
 export const deleteTypedLinkFacet: API.OperationMethod<
-  DeleteTypedLinkFacetRequest,
+  DeleteTypedLinkFacetRequest & RegionInput,
   DeleteTypedLinkFacetResponse,
   DeleteTypedLinkFacetError,
   Credentials | HttpClient.HttpClient
@@ -2266,7 +2267,7 @@ export type DetachFromIndexError =
  * Detaches the specified object from the specified index.
  */
 export const detachFromIndex: API.OperationMethod<
-  DetachFromIndexRequest,
+  DetachFromIndexRequest & RegionInput,
   DetachFromIndexResponse,
   DetachFromIndexError,
   Credentials | HttpClient.HttpClient
@@ -2308,7 +2309,7 @@ export type DetachObjectError =
  * parent is specified by the link name.
  */
 export const detachObject: API.OperationMethod<
-  DetachObjectRequest,
+  DetachObjectRequest & RegionInput,
   DetachObjectResponse,
   DetachObjectError,
   Credentials | HttpClient.HttpClient
@@ -2348,7 +2349,7 @@ export type DetachPolicyError =
  * Detaches a policy from an object.
  */
 export const detachPolicy: API.OperationMethod<
-  DetachPolicyRequest,
+  DetachPolicyRequest & RegionInput,
   DetachPolicyResponse,
   DetachPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2388,7 +2389,7 @@ export type DetachTypedLinkError =
  * Detaches a typed link from a specified source and target object. For more information, see Typed Links.
  */
 export const detachTypedLink: API.OperationMethod<
-  DetachTypedLinkRequest,
+  DetachTypedLinkRequest & RegionInput,
   DetachTypedLinkResponse,
   DetachTypedLinkError,
   Credentials | HttpClient.HttpClient
@@ -2428,7 +2429,7 @@ export type DisableDirectoryError =
  * Only enabled directories can be disabled. Disabled directories may be reenabled.
  */
 export const disableDirectory: API.OperationMethod<
-  DisableDirectoryRequest,
+  DisableDirectoryRequest & RegionInput,
   DisableDirectoryResponse,
   DisableDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2467,7 +2468,7 @@ export type EnableDirectoryError =
  * enabled, the directory can then be read and written to.
  */
 export const enableDirectory: API.OperationMethod<
-  EnableDirectoryRequest,
+  EnableDirectoryRequest & RegionInput,
   EnableDirectoryResponse,
   EnableDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2504,7 +2505,7 @@ export type GetAppliedSchemaVersionError =
  * Returns current applied schema version ARN, including the minor version in use.
  */
 export const getAppliedSchemaVersion: API.OperationMethod<
-  GetAppliedSchemaVersionRequest,
+  GetAppliedSchemaVersionRequest & RegionInput,
   GetAppliedSchemaVersionResponse,
   GetAppliedSchemaVersionError,
   Credentials | HttpClient.HttpClient
@@ -2539,7 +2540,7 @@ export type GetDirectoryError =
  * Retrieves metadata about a directory.
  */
 export const getDirectory: API.OperationMethod<
-  GetDirectoryRequest,
+  GetDirectoryRequest & RegionInput,
   GetDirectoryResponse,
   GetDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2576,7 +2577,7 @@ export type GetFacetError =
  * facets -- published, development, or applied.
  */
 export const getFacet: API.OperationMethod<
-  GetFacetRequest,
+  GetFacetRequest & RegionInput,
   GetFacetResponse,
   GetFacetError,
   Credentials | HttpClient.HttpClient
@@ -2615,7 +2616,7 @@ export type GetLinkAttributesError =
  * Retrieves attributes that are associated with a typed link.
  */
 export const getLinkAttributes: API.OperationMethod<
-  GetLinkAttributesRequest,
+  GetLinkAttributesRequest & RegionInput,
   GetLinkAttributesResponse,
   GetLinkAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2655,7 +2656,7 @@ export type GetObjectAttributesError =
  * Retrieves attributes within a facet that are associated with an object.
  */
 export const getObjectAttributes: API.OperationMethod<
-  GetObjectAttributesRequest,
+  GetObjectAttributesRequest & RegionInput,
   GetObjectAttributesResponse,
   GetObjectAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2694,7 +2695,7 @@ export type GetObjectInformationError =
  * Retrieves metadata about an object.
  */
 export const getObjectInformation: API.OperationMethod<
-  GetObjectInformationRequest,
+  GetObjectInformationRequest & RegionInput,
   GetObjectInformationResponse,
   GetObjectInformationError,
   Credentials | HttpClient.HttpClient
@@ -2731,7 +2732,7 @@ export type GetSchemaAsJsonError =
  * Retrieves a JSON representation of the schema. See JSON Schema Format for more information.
  */
 export const getSchemaAsJson: API.OperationMethod<
-  GetSchemaAsJsonRequest,
+  GetSchemaAsJsonRequest & RegionInput,
   GetSchemaAsJsonResponse,
   GetSchemaAsJsonError,
   Credentials | HttpClient.HttpClient
@@ -2769,7 +2770,7 @@ export type GetTypedLinkFacetInformationError =
  * Returns the identity attribute order for a specific TypedLinkFacet. For more information, see Typed Links.
  */
 export const getTypedLinkFacetInformation: API.OperationMethod<
-  GetTypedLinkFacetInformationRequest,
+  GetTypedLinkFacetInformationRequest & RegionInput,
   GetTypedLinkFacetInformationResponse,
   GetTypedLinkFacetInformationError,
   Credentials | HttpClient.HttpClient
@@ -2808,7 +2809,7 @@ export type ListAppliedSchemaArnsError =
  * Lists schema major versions applied to a directory. If `SchemaArn` is provided, lists the minor version.
  */
 export const listAppliedSchemaArns: API.PaginatedOperationMethod<
-  ListAppliedSchemaArnsRequest,
+  ListAppliedSchemaArnsRequest & RegionInput,
   ListAppliedSchemaArnsResponse,
   ListAppliedSchemaArnsError,
   Credentials | HttpClient.HttpClient,
@@ -2852,7 +2853,7 @@ export type ListAttachedIndicesError =
  * Lists indices attached to the specified object.
  */
 export const listAttachedIndices: API.PaginatedOperationMethod<
-  ListAttachedIndicesRequest,
+  ListAttachedIndicesRequest & RegionInput,
   ListAttachedIndicesResponse,
   ListAttachedIndicesError,
   Credentials | HttpClient.HttpClient,
@@ -2897,7 +2898,7 @@ export type ListDevelopmentSchemaArnsError =
  * state.
  */
 export const listDevelopmentSchemaArns: API.PaginatedOperationMethod<
-  ListDevelopmentSchemaArnsRequest,
+  ListDevelopmentSchemaArnsRequest & RegionInput,
   ListDevelopmentSchemaArnsResponse,
   ListDevelopmentSchemaArnsError,
   Credentials | HttpClient.HttpClient,
@@ -2940,7 +2941,7 @@ export type ListDirectoriesError =
  * Lists directories created within an account.
  */
 export const listDirectories: API.PaginatedOperationMethod<
-  ListDirectoriesRequest,
+  ListDirectoriesRequest & RegionInput,
   ListDirectoriesResponse,
   ListDirectoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2984,7 +2985,7 @@ export type ListFacetAttributesError =
  * Retrieves attributes attached to the facet.
  */
 export const listFacetAttributes: API.PaginatedOperationMethod<
-  ListFacetAttributesRequest,
+  ListFacetAttributesRequest & RegionInput,
   ListFacetAttributesResponse,
   ListFacetAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -3029,7 +3030,7 @@ export type ListFacetNamesError =
  * Retrieves the names of facets that exist in a schema.
  */
 export const listFacetNames: API.PaginatedOperationMethod<
-  ListFacetNamesRequest,
+  ListFacetNamesRequest & RegionInput,
   ListFacetNamesResponse,
   ListFacetNamesError,
   Credentials | HttpClient.HttpClient,
@@ -3077,7 +3078,7 @@ export type ListIncomingTypedLinksError =
  * attributes. For more information, see Typed Links.
  */
 export const listIncomingTypedLinks: API.OperationMethod<
-  ListIncomingTypedLinksRequest,
+  ListIncomingTypedLinksRequest & RegionInput,
   ListIncomingTypedLinksResponse,
   ListIncomingTypedLinksError,
   Credentials | HttpClient.HttpClient
@@ -3120,7 +3121,7 @@ export type ListIndexError =
  * Lists objects attached to the specified index.
  */
 export const listIndex: API.PaginatedOperationMethod<
-  ListIndexRequest,
+  ListIndexRequest & RegionInput,
   ListIndexResponse,
   ListIndexError,
   Credentials | HttpClient.HttpClient,
@@ -3165,7 +3166,7 @@ export type ListManagedSchemaArnsError =
  * Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
  */
 export const listManagedSchemaArns: API.PaginatedOperationMethod<
-  ListManagedSchemaArnsRequest,
+  ListManagedSchemaArnsRequest & RegionInput,
   ListManagedSchemaArnsResponse,
   ListManagedSchemaArnsError,
   Credentials | HttpClient.HttpClient,
@@ -3209,7 +3210,7 @@ export type ListObjectAttributesError =
  * Lists all attributes that are associated with an object.
  */
 export const listObjectAttributes: API.PaginatedOperationMethod<
-  ListObjectAttributesRequest,
+  ListObjectAttributesRequest & RegionInput,
   ListObjectAttributesResponse,
   ListObjectAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -3258,7 +3259,7 @@ export type ListObjectChildrenError =
  * object.
  */
 export const listObjectChildren: API.PaginatedOperationMethod<
-  ListObjectChildrenRequest,
+  ListObjectChildrenRequest & RegionInput,
   ListObjectChildrenResponse,
   ListObjectChildrenError,
   Credentials | HttpClient.HttpClient,
@@ -3313,7 +3314,7 @@ export type ListObjectParentPathsError =
  * target object.
  */
 export const listObjectParentPaths: API.PaginatedOperationMethod<
-  ListObjectParentPathsRequest,
+  ListObjectParentPathsRequest & RegionInput,
   ListObjectParentPathsResponse,
   ListObjectParentPathsError,
   Credentials | HttpClient.HttpClient,
@@ -3361,7 +3362,7 @@ export type ListObjectParentsError =
  * fashion.
  */
 export const listObjectParents: API.PaginatedOperationMethod<
-  ListObjectParentsRequest,
+  ListObjectParentsRequest & RegionInput,
   ListObjectParentsResponse,
   ListObjectParentsError,
   Credentials | HttpClient.HttpClient,
@@ -3408,7 +3409,7 @@ export type ListObjectPoliciesError =
  * Returns policies attached to an object in pagination fashion.
  */
 export const listObjectPolicies: API.PaginatedOperationMethod<
-  ListObjectPoliciesRequest,
+  ListObjectPoliciesRequest & RegionInput,
   ListObjectPoliciesResponse,
   ListObjectPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3457,7 +3458,7 @@ export type ListOutgoingTypedLinksError =
  * attributes. For more information, see Typed Links.
  */
 export const listOutgoingTypedLinks: API.OperationMethod<
-  ListOutgoingTypedLinksRequest,
+  ListOutgoingTypedLinksRequest & RegionInput,
   ListOutgoingTypedLinksResponse,
   ListOutgoingTypedLinksError,
   Credentials | HttpClient.HttpClient
@@ -3499,7 +3500,7 @@ export type ListPolicyAttachmentsError =
  * Returns all of the `ObjectIdentifiers` to which a given policy is attached.
  */
 export const listPolicyAttachments: API.PaginatedOperationMethod<
-  ListPolicyAttachmentsRequest,
+  ListPolicyAttachmentsRequest & RegionInput,
   ListPolicyAttachmentsResponse,
   ListPolicyAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3545,7 +3546,7 @@ export type ListPublishedSchemaArnsError =
  * Lists the major version families of each published schema. If a major version ARN is provided as `SchemaArn`, the minor version revisions in that family are listed instead.
  */
 export const listPublishedSchemaArns: API.PaginatedOperationMethod<
-  ListPublishedSchemaArnsRequest,
+  ListPublishedSchemaArnsRequest & RegionInput,
   ListPublishedSchemaArnsResponse,
   ListPublishedSchemaArnsError,
   Credentials | HttpClient.HttpClient,
@@ -3591,7 +3592,7 @@ export type ListTagsForResourceError =
  * call.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3636,7 +3637,7 @@ export type ListTypedLinkFacetAttributesError =
  * Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
  */
 export const listTypedLinkFacetAttributes: API.PaginatedOperationMethod<
-  ListTypedLinkFacetAttributesRequest,
+  ListTypedLinkFacetAttributesRequest & RegionInput,
   ListTypedLinkFacetAttributesResponse,
   ListTypedLinkFacetAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -3682,7 +3683,7 @@ export type ListTypedLinkFacetNamesError =
  * For more information, see Typed Links.
  */
 export const listTypedLinkFacetNames: API.PaginatedOperationMethod<
-  ListTypedLinkFacetNamesRequest,
+  ListTypedLinkFacetNamesRequest & RegionInput,
   ListTypedLinkFacetNamesResponse,
   ListTypedLinkFacetNamesError,
   Credentials | HttpClient.HttpClient,
@@ -3732,7 +3733,7 @@ export type LookupPolicyError =
  * information, see Policies.
  */
 export const lookupPolicy: API.PaginatedOperationMethod<
-  LookupPolicyRequest,
+  LookupPolicyRequest & RegionInput,
   LookupPolicyResponse,
   LookupPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -3777,7 +3778,7 @@ export type PublishSchemaError =
  * Publishes a development schema with a major version and a recommended minor version.
  */
 export const publishSchema: API.OperationMethod<
-  PublishSchemaRequest,
+  PublishSchemaRequest & RegionInput,
   PublishSchemaResponse,
   PublishSchemaError,
   Credentials | HttpClient.HttpClient
@@ -3815,7 +3816,7 @@ export type PutSchemaFromJsonError =
  * Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information.
  */
 export const putSchemaFromJson: API.OperationMethod<
-  PutSchemaFromJsonRequest,
+  PutSchemaFromJsonRequest & RegionInput,
   PutSchemaFromJsonResponse,
   PutSchemaFromJsonError,
   Credentials | HttpClient.HttpClient
@@ -3854,7 +3855,7 @@ export type RemoveFacetFromObjectError =
  * Removes the specified facet from the specified object.
  */
 export const removeFacetFromObject: API.OperationMethod<
-  RemoveFacetFromObjectRequest,
+  RemoveFacetFromObjectRequest & RegionInput,
   RemoveFacetFromObjectResponse,
   RemoveFacetFromObjectError,
   Credentials | HttpClient.HttpClient
@@ -3893,7 +3894,7 @@ export type TagResourceError =
  * An API operation for adding tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3931,7 +3932,7 @@ export type UntagResourceError =
  * An API operation for removing tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3978,7 +3979,7 @@ export type UpdateFacetError =
  * - Deletes existing `Attributes`, `Rules`, or `ObjectTypes`.
  */
 export const updateFacet: API.OperationMethod<
-  UpdateFacetRequest,
+  UpdateFacetRequest & RegionInput,
   UpdateFacetResponse,
   UpdateFacetError,
   Credentials | HttpClient.HttpClient
@@ -4020,7 +4021,7 @@ export type UpdateLinkAttributesError =
  * Updates a given typed link's attributes. Attributes to be updated must not contribute to the typed link's identity, as defined by its `IdentityAttributeOrder`.
  */
 export const updateLinkAttributes: API.OperationMethod<
-  UpdateLinkAttributesRequest,
+  UpdateLinkAttributesRequest & RegionInput,
   UpdateLinkAttributesResponse,
   UpdateLinkAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4061,7 +4062,7 @@ export type UpdateObjectAttributesError =
  * Updates a given object's attributes.
  */
 export const updateObjectAttributes: API.OperationMethod<
-  UpdateObjectAttributesRequest,
+  UpdateObjectAttributesRequest & RegionInput,
   UpdateObjectAttributesResponse,
   UpdateObjectAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4101,7 +4102,7 @@ export type UpdateSchemaError =
  * updated.
  */
 export const updateSchema: API.OperationMethod<
-  UpdateSchemaRequest,
+  UpdateSchemaRequest & RegionInput,
   UpdateSchemaResponse,
   UpdateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4141,7 +4142,7 @@ export type UpdateTypedLinkFacetError =
  * Updates a TypedLinkFacet. For more information, see Typed Links.
  */
 export const updateTypedLinkFacet: API.OperationMethod<
-  UpdateTypedLinkFacetRequest,
+  UpdateTypedLinkFacetRequest & RegionInput,
   UpdateTypedLinkFacetResponse,
   UpdateTypedLinkFacetError,
   Credentials | HttpClient.HttpClient
@@ -4183,7 +4184,7 @@ export type UpgradeAppliedSchemaError =
  * Upgrades a single directory in-place using the `PublishedSchemaArn` with schema updates found in `MinorVersion`. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
  */
 export const upgradeAppliedSchema: API.OperationMethod<
-  UpgradeAppliedSchemaRequest,
+  UpgradeAppliedSchemaRequest & RegionInput,
   UpgradeAppliedSchemaResponse,
   UpgradeAppliedSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4223,7 +4224,7 @@ export type UpgradePublishedSchemaError =
  * Upgrades a published schema under a new minor version revision using the current contents of `DevelopmentSchemaArn`.
  */
 export const upgradePublishedSchema: API.OperationMethod<
-  UpgradePublishedSchemaRequest,
+  UpgradePublishedSchemaRequest & RegionInput,
   UpgradePublishedSchemaResponse,
   UpgradePublishedSchemaError,
   Credentials | HttpClient.HttpClient

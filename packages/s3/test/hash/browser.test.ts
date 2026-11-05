@@ -56,13 +56,13 @@ describe("browser hash variants match Node", () => {
   });
 });
 
-test("the browser entry bundles with no Node built-ins or Buffer", async () => {
+test("the S3 client bundles for the browser with no Node built-ins or Buffer", async () => {
   const imports: Record<string, Record<string, string>> = JSON.parse(
     readFileSync(join(pkg, "package.json"), "utf8"),
   ).imports;
   const nodeImports: string[] = [];
   const bundle = await rolldown({
-    input: join(pkg, "src/index.browser.ts"),
+    input: join(pkg, "src/index.ts"),
     platform: "browser",
     logLevel: "silent",
     external: (id) => (id.startsWith("node:") ? (nodeImports.push(id), true) : false),

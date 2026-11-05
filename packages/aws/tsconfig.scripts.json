@@ -17,7 +17,7 @@
   "references": [
     { "path": "../core" },
     { "path": "../dev" },
-    { "path": "../aws4signer" },
+    { "path": "../s3" },
     { "path": "./tsconfig.json" }
   ]
 }

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1096,7 +1097,7 @@ export type CreateDatasetError =
  * information. A dataset also contains any tags associated with the ingested data.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1135,7 +1136,7 @@ export type CreateInferenceSchedulerError =
  * You must also provide an S3 bucket location for the output data.
  */
 export const createInferenceScheduler: API.OperationMethod<
-  CreateInferenceSchedulerRequest,
+  CreateInferenceSchedulerRequest & RegionInput,
   CreateInferenceSchedulerResponse,
   CreateInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1171,7 +1172,7 @@ export type CreateLabelError =
  * Creates a label for an event.
  */
 export const createLabel: API.OperationMethod<
-  CreateLabelRequest,
+  CreateLabelRequest & RegionInput,
   CreateLabelResponse,
   CreateLabelError,
   Credentials | HttpClient.HttpClient
@@ -1206,7 +1207,7 @@ export type CreateLabelGroupError =
  * Creates a group of labels.
  */
 export const createLabelGroup: API.OperationMethod<
-  CreateLabelGroupRequest,
+  CreateLabelGroupRequest & RegionInput,
   CreateLabelGroupResponse,
   CreateLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1251,7 +1252,7 @@ export type CreateModelError =
  * Another portion of the data is used to evaluate the model's accuracy.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   CreateModelResponse,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -1286,7 +1287,7 @@ export type CreateRetrainingSchedulerError =
  * Creates a retraining scheduler on the specified model.
  */
 export const createRetrainingScheduler: API.OperationMethod<
-  CreateRetrainingSchedulerRequest,
+  CreateRetrainingSchedulerRequest & RegionInput,
   CreateRetrainingSchedulerResponse,
   CreateRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1324,7 +1325,7 @@ export type DeleteDatasetError =
  * does prevent it from being used in the future.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1359,7 +1360,7 @@ export type DeleteInferenceSchedulerError =
  * deleted.
  */
 export const deleteInferenceScheduler: API.OperationMethod<
-  DeleteInferenceSchedulerRequest,
+  DeleteInferenceSchedulerRequest & RegionInput,
   DeleteInferenceSchedulerResponse,
   DeleteInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1393,7 +1394,7 @@ export type DeleteLabelError =
  * Deletes a label.
  */
 export const deleteLabel: API.OperationMethod<
-  DeleteLabelRequest,
+  DeleteLabelRequest & RegionInput,
   DeleteLabelResponse,
   DeleteLabelError,
   Credentials | HttpClient.HttpClient
@@ -1427,7 +1428,7 @@ export type DeleteLabelGroupError =
  * Deletes a group of labels.
  */
 export const deleteLabelGroup: API.OperationMethod<
-  DeleteLabelGroupRequest,
+  DeleteLabelGroupRequest & RegionInput,
   DeleteLabelGroupResponse,
   DeleteLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1462,7 +1463,7 @@ export type DeleteModelError =
  * from being used with an inference scheduler, even one that is already set up.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResponse,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -1496,7 +1497,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy attached to the resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1531,7 +1532,7 @@ export type DeleteRetrainingSchedulerError =
  * `STOPPED` status.
  */
 export const deleteRetrainingScheduler: API.OperationMethod<
-  DeleteRetrainingSchedulerRequest,
+  DeleteRetrainingSchedulerRequest & RegionInput,
   DeleteRetrainingSchedulerResponse,
   DeleteRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1566,7 @@ export type DescribeDataIngestionJobError =
  * ARN, and status.
  */
 export const describeDataIngestionJob: API.OperationMethod<
-  DescribeDataIngestionJobRequest,
+  DescribeDataIngestionJobRequest & RegionInput,
   DescribeDataIngestionJobResponse,
   DescribeDataIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -1598,7 +1599,7 @@ export type DescribeDatasetError =
  * column names, and data types.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1631,7 +1632,7 @@ export type DescribeInferenceSchedulerError =
  * status, and associated metadata
  */
 export const describeInferenceScheduler: API.OperationMethod<
-  DescribeInferenceSchedulerRequest,
+  DescribeInferenceSchedulerRequest & RegionInput,
   DescribeInferenceSchedulerResponse,
   DescribeInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1663,7 +1664,7 @@ export type DescribeLabelError =
  * Returns the name of the label.
  */
 export const describeLabel: API.OperationMethod<
-  DescribeLabelRequest,
+  DescribeLabelRequest & RegionInput,
   DescribeLabelResponse,
   DescribeLabelError,
   Credentials | HttpClient.HttpClient
@@ -1695,7 +1696,7 @@ export type DescribeLabelGroupError =
  * Returns information about the label group.
  */
 export const describeLabelGroup: API.OperationMethod<
-  DescribeLabelGroupRequest,
+  DescribeLabelGroupRequest & RegionInput,
   DescribeLabelGroupResponse,
   DescribeLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -1729,7 +1730,7 @@ export type DescribeModelError =
  * and so on.
  */
 export const describeModel: API.OperationMethod<
-  DescribeModelRequest,
+  DescribeModelRequest & RegionInput,
   DescribeModelResponse,
   DescribeModelError,
   Credentials | HttpClient.HttpClient
@@ -1761,7 +1762,7 @@ export type DescribeModelVersionError =
  * Retrieves information about a specific machine learning model version.
  */
 export const describeModelVersion: API.OperationMethod<
-  DescribeModelVersionRequest,
+  DescribeModelVersionRequest & RegionInput,
   DescribeModelVersionResponse,
   DescribeModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -1793,7 +1794,7 @@ export type DescribeResourcePolicyError =
  * Provides the details of a resource policy attached to a resource.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1826,7 +1827,7 @@ export type DescribeRetrainingSchedulerError =
  * model name and retraining parameters.
  */
 export const describeRetrainingScheduler: API.OperationMethod<
-  DescribeRetrainingSchedulerRequest,
+  DescribeRetrainingSchedulerRequest & RegionInput,
   DescribeRetrainingSchedulerResponse,
   DescribeRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -1860,7 +1861,7 @@ export type ImportDatasetError =
  * Imports a dataset.
  */
 export const importDataset: API.OperationMethod<
-  ImportDatasetRequest,
+  ImportDatasetRequest & RegionInput,
   ImportDatasetResponse,
   ImportDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1896,7 +1897,7 @@ export type ImportModelVersionError =
  * Imports a model that has been trained successfully.
  */
 export const importModelVersion: API.OperationMethod<
-  ImportModelVersionRequest,
+  ImportModelVersionRequest & RegionInput,
   ImportModelVersionResponse,
   ImportModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -1930,7 +1931,7 @@ export type ListDataIngestionJobsError =
  * of the input data, status, and so on.
  */
 export const listDataIngestionJobs: API.PaginatedOperationMethod<
-  ListDataIngestionJobsRequest,
+  ListDataIngestionJobsRequest & RegionInput,
   ListDataIngestionJobsResponse,
   ListDataIngestionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1966,7 +1967,7 @@ export type ListDatasetsError =
  * Lists all datasets currently available in your account, filtering on the dataset name.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -2003,7 +2004,7 @@ export type ListInferenceEventsError =
  * Lists all inference events that have been found for the specified inference scheduler.
  */
 export const listInferenceEvents: API.PaginatedOperationMethod<
-  ListInferenceEventsRequest,
+  ListInferenceEventsRequest & RegionInput,
   ListInferenceEventsResponse,
   ListInferenceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2042,7 +2043,7 @@ export type ListInferenceExecutionsError =
  * scheduler.
  */
 export const listInferenceExecutions: API.PaginatedOperationMethod<
-  ListInferenceExecutionsRequest,
+  ListInferenceExecutionsRequest & RegionInput,
   ListInferenceExecutionsResponse,
   ListInferenceExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2079,7 +2080,7 @@ export type ListInferenceSchedulersError =
  * Retrieves a list of all inference schedulers currently available for your account.
  */
 export const listInferenceSchedulers: API.PaginatedOperationMethod<
-  ListInferenceSchedulersRequest,
+  ListInferenceSchedulersRequest & RegionInput,
   ListInferenceSchedulersResponse,
   ListInferenceSchedulersError,
   Credentials | HttpClient.HttpClient,
@@ -2115,7 +2116,7 @@ export type ListLabelGroupsError =
  * Returns a list of the label groups.
  */
 export const listLabelGroups: API.PaginatedOperationMethod<
-  ListLabelGroupsRequest,
+  ListLabelGroupsRequest & RegionInput,
   ListLabelGroupsResponse,
   ListLabelGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2151,7 +2152,7 @@ export type ListLabelsError =
  * Provides a list of labels.
  */
 export const listLabels: API.PaginatedOperationMethod<
-  ListLabelsRequest,
+  ListLabelsRequest & RegionInput,
   ListLabelsResponse,
   ListLabelsError,
   Credentials | HttpClient.HttpClient,
@@ -2188,7 +2189,7 @@ export type ListModelsError =
  * and status.
  */
 export const listModels: API.PaginatedOperationMethod<
-  ListModelsRequest,
+  ListModelsRequest & RegionInput,
   ListModelsResponse,
   ListModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2227,7 +2228,7 @@ export type ListModelVersionsError =
  * `MaxModelVersion` and `MinModelVersion` fields.
  */
 export const listModelVersions: API.PaginatedOperationMethod<
-  ListModelVersionsRequest,
+  ListModelVersionsRequest & RegionInput,
   ListModelVersionsResponse,
   ListModelVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2265,7 +2266,7 @@ export type ListRetrainingSchedulersError =
  * status.
  */
 export const listRetrainingSchedulers: API.PaginatedOperationMethod<
-  ListRetrainingSchedulersRequest,
+  ListRetrainingSchedulersRequest & RegionInput,
   ListRetrainingSchedulersResponse,
   ListRetrainingSchedulersError,
   Credentials | HttpClient.HttpClient,
@@ -2304,7 +2305,7 @@ export type ListSensorStatisticsError =
  * Statistics for a previous ingestion job.
  */
 export const listSensorStatistics: API.PaginatedOperationMethod<
-  ListSensorStatisticsRequest,
+  ListSensorStatisticsRequest & RegionInput,
   ListSensorStatisticsResponse,
   ListSensorStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -2342,7 +2343,7 @@ export type ListTagsForResourceError =
  * Lists all the tags for a specified resource, including key and value.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2376,7 +2377,7 @@ export type PutResourcePolicyError =
  * Creates a resource control policy for a given resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2412,7 +2413,7 @@ export type StartDataIngestionJobError =
  * Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
  */
 export const startDataIngestionJob: API.OperationMethod<
-  StartDataIngestionJobRequest,
+  StartDataIngestionJobRequest & RegionInput,
   StartDataIngestionJobResponse,
   StartDataIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -2447,7 +2448,7 @@ export type StartInferenceSchedulerError =
  * Starts an inference scheduler.
  */
 export const startInferenceScheduler: API.OperationMethod<
-  StartInferenceSchedulerRequest,
+  StartInferenceSchedulerRequest & RegionInput,
   StartInferenceSchedulerResponse,
   StartInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2481,7 +2482,7 @@ export type StartRetrainingSchedulerError =
  * Starts a retraining scheduler.
  */
 export const startRetrainingScheduler: API.OperationMethod<
-  StartRetrainingSchedulerRequest,
+  StartRetrainingSchedulerRequest & RegionInput,
   StartRetrainingSchedulerResponse,
   StartRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2515,7 +2516,7 @@ export type StopInferenceSchedulerError =
  * Stops an inference scheduler.
  */
 export const stopInferenceScheduler: API.OperationMethod<
-  StopInferenceSchedulerRequest,
+  StopInferenceSchedulerRequest & RegionInput,
   StopInferenceSchedulerResponse,
   StopInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2549,7 +2550,7 @@ export type StopRetrainingSchedulerError =
  * Stops a retraining scheduler.
  */
 export const stopRetrainingScheduler: API.OperationMethod<
-  StopRetrainingSchedulerRequest,
+  StopRetrainingSchedulerRequest & RegionInput,
   StopRetrainingSchedulerResponse,
   StopRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2587,7 +2588,7 @@ export type TagResourceError =
  * resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2620,7 +2621,7 @@ export type UntagResourceError =
  * Removes a specific tag from a given resource. The tag is specified by its key.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2653,7 +2654,7 @@ export type UpdateActiveModelVersionError =
  * Sets the active model version for a given machine learning model.
  */
 export const updateActiveModelVersion: API.OperationMethod<
-  UpdateActiveModelVersionRequest,
+  UpdateActiveModelVersionRequest & RegionInput,
   UpdateActiveModelVersionResponse,
   UpdateActiveModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -2687,7 +2688,7 @@ export type UpdateInferenceSchedulerError =
  * Updates an inference scheduler.
  */
 export const updateInferenceScheduler: API.OperationMethod<
-  UpdateInferenceSchedulerRequest,
+  UpdateInferenceSchedulerRequest & RegionInput,
   UpdateInferenceSchedulerResponse,
   UpdateInferenceSchedulerError,
   Credentials | HttpClient.HttpClient
@@ -2721,7 +2722,7 @@ export type UpdateLabelGroupError =
  * Updates the label group.
  */
 export const updateLabelGroup: API.OperationMethod<
-  UpdateLabelGroupRequest,
+  UpdateLabelGroupRequest & RegionInput,
   UpdateLabelGroupResponse,
   UpdateLabelGroupError,
   Credentials | HttpClient.HttpClient
@@ -2755,7 +2756,7 @@ export type UpdateModelError =
  * Updates a model in the account.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   UpdateModelResponse,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -2789,7 +2790,7 @@ export type UpdateRetrainingSchedulerError =
  * Updates a retraining scheduler.
  */
 export const updateRetrainingScheduler: API.OperationMethod<
-  UpdateRetrainingSchedulerRequest,
+  UpdateRetrainingSchedulerRequest & RegionInput,
   UpdateRetrainingSchedulerResponse,
   UpdateRetrainingSchedulerError,
   Credentials | HttpClient.HttpClient

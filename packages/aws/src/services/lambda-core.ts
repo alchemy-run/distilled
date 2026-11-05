@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -363,7 +364,7 @@ export type CreateNetworkConnectorError =
  * This operation is idempotent when you provide a `ClientToken` -- if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
  */
 export const createNetworkConnector: API.OperationMethod<
-  CreateNetworkConnectorRequest,
+  CreateNetworkConnectorRequest & RegionInput,
   CreateNetworkConnectorResponse,
   CreateNetworkConnectorError,
   Credentials | HttpClient.HttpClient
@@ -400,7 +401,7 @@ export type DeleteNetworkConnectorError =
  * Deleting with an unqualified identifier removes the connector and all of its versions. To remove a single historical version, supply its version-qualified ARN; the connector and its remaining versions are unaffected. You can't delete the latest version on its own -- delete the connector to remove it.
  */
 export const deleteNetworkConnector: API.OperationMethod<
-  DeleteNetworkConnectorRequest,
+  DeleteNetworkConnectorRequest & RegionInput,
   DeleteNetworkConnectorResponse,
   DeleteNetworkConnectorError,
   Credentials | HttpClient.HttpClient
@@ -433,7 +434,7 @@ export type GetNetworkConnectorError =
  * The response includes the full connector configuration, current state, and -- if the connector has been updated -- the `LastUpdateStatus` and `LastUpdateStatusReasonCode` fields that indicate whether the most recent update succeeded or failed.
  */
 export const getNetworkConnector: API.OperationMethod<
-  GetNetworkConnectorRequest,
+  GetNetworkConnectorRequest & RegionInput,
   GetNetworkConnectorResponse,
   GetNetworkConnectorError,
   Credentials | HttpClient.HttpClient
@@ -464,7 +465,7 @@ export type ListNetworkConnectorsError =
  * Each item in the response includes the connector ARN, name, ID, type, current state, and last modified timestamp. To retrieve full configuration details for a specific connector, use `GetNetworkConnector`.
  */
 export const listNetworkConnectors: API.PaginatedOperationMethod<
-  ListNetworkConnectorsRequest,
+  ListNetworkConnectorsRequest & RegionInput,
   ListNetworkConnectorsResponse,
   ListNetworkConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -498,7 +499,7 @@ export type ListNetworkConnectorVersionsError =
  * Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (latest) configuration of the connector, use `GetNetworkConnector`; to inspect a specific version, call `GetNetworkConnector` with a version-qualified identifier.
  */
 export const listNetworkConnectorVersions: API.PaginatedOperationMethod<
-  ListNetworkConnectorVersionsRequest,
+  ListNetworkConnectorVersionsRequest & RegionInput,
   ListNetworkConnectorVersionsResponse,
   ListNetworkConnectorVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -542,7 +543,7 @@ export type UpdateNetworkConnectorError =
  * Each successful configuration change creates a new immutable version. A connector can have a limited number of versions; once that limit is reached, further updates fail with `NetworkConnectorLimitExceededException` until you delete older versions.
  */
 export const updateNetworkConnector: API.OperationMethod<
-  UpdateNetworkConnectorRequest,
+  UpdateNetworkConnectorRequest & RegionInput,
   UpdateNetworkConnectorResponse,
   UpdateNetworkConnectorError,
   Credentials | HttpClient.HttpClient

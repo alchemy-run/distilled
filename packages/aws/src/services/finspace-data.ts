@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -728,7 +729,7 @@ export type AssociateUserToPermissionGroupError =
  * Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
  */
 export const associateUserToPermissionGroup: API.OperationMethod<
-  AssociateUserToPermissionGroupRequest,
+  AssociateUserToPermissionGroupRequest & RegionInput,
   AssociateUserToPermissionGroupResponse,
   AssociateUserToPermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -763,7 +764,7 @@ export type CreateChangesetError =
  * Creates a new Changeset in a FinSpace Dataset.
  */
 export const createChangeset: API.OperationMethod<
-  CreateChangesetRequest,
+  CreateChangesetRequest & RegionInput,
   CreateChangesetResponse,
   CreateChangesetError,
   Creds | HttpClient.HttpClient
@@ -799,7 +800,7 @@ export type CreateDatasetError =
  * Creates a new FinSpace Dataset.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Creds | HttpClient.HttpClient
@@ -834,7 +835,7 @@ export type CreateDataViewError =
  * Creates a Dataview for a Dataset.
  */
 export const createDataView: API.OperationMethod<
-  CreateDataViewRequest,
+  CreateDataViewRequest & RegionInput,
   CreateDataViewResponse,
   CreateDataViewError,
   Creds | HttpClient.HttpClient
@@ -868,7 +869,7 @@ export type CreatePermissionGroupError =
  * Creates a group of permissions for various actions that a user can perform in FinSpace.
  */
 export const createPermissionGroup: API.OperationMethod<
-  CreatePermissionGroupRequest,
+  CreatePermissionGroupRequest & RegionInput,
   CreatePermissionGroupResponse,
   CreatePermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type CreateUserError =
  * Creates a new user in FinSpace.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Creds | HttpClient.HttpClient
@@ -937,7 +938,7 @@ export type DeleteDatasetError =
  * Deletes a FinSpace Dataset.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Creds | HttpClient.HttpClient
@@ -973,7 +974,7 @@ export type DeletePermissionGroupError =
  * Deletes a permission group. This action is irreversible.
  */
 export const deletePermissionGroup: API.OperationMethod<
-  DeletePermissionGroupRequest,
+  DeletePermissionGroupRequest & RegionInput,
   DeletePermissionGroupResponse,
   DeletePermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -1008,7 +1009,7 @@ export type DisableUserError =
  * Denies access to the FinSpace web application and API for the specified user.
  */
 export const disableUser: API.OperationMethod<
-  DisableUserRequest,
+  DisableUserRequest & RegionInput,
   DisableUserResponse,
   DisableUserError,
   Creds | HttpClient.HttpClient
@@ -1042,7 +1043,7 @@ export type DisassociateUserFromPermissionGroupError =
  * Removes a user from a permission group.
  */
 export const disassociateUserFromPermissionGroup: API.OperationMethod<
-  DisassociateUserFromPermissionGroupRequest,
+  DisassociateUserFromPermissionGroupRequest & RegionInput,
   DisassociateUserFromPermissionGroupResponse,
   DisassociateUserFromPermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -1077,7 +1078,7 @@ export type EnableUserError =
  * Allows the specified user to access the FinSpace web application and API.
  */
 export const enableUser: API.OperationMethod<
-  EnableUserRequest,
+  EnableUserRequest & RegionInput,
   EnableUserResponse,
   EnableUserError,
   Creds | HttpClient.HttpClient
@@ -1112,7 +1113,7 @@ export type GetChangesetError =
  * Get information about a Changeset.
  */
 export const getChangeset: API.OperationMethod<
-  GetChangesetRequest,
+  GetChangesetRequest & RegionInput,
   GetChangesetResponse,
   GetChangesetError,
   Creds | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type GetDatasetError =
  * Returns information about a Dataset.
  */
 export const getDataset: API.OperationMethod<
-  GetDatasetRequest,
+  GetDatasetRequest & RegionInput,
   GetDatasetResponse,
   GetDatasetError,
   Creds | HttpClient.HttpClient
@@ -1179,7 +1180,7 @@ export type GetDataViewError =
  * Gets information about a Dataview.
  */
 export const getDataView: API.OperationMethod<
-  GetDataViewRequest,
+  GetDataViewRequest & RegionInput,
   GetDataViewResponse,
   GetDataViewError,
   Creds | HttpClient.HttpClient
@@ -1215,7 +1216,7 @@ export type GetExternalDataViewAccessDetailsError =
  * - You must be a member of a FinSpace user group, where the dataset that you want to access has `Read Dataset Data` permissions.
  */
 export const getExternalDataViewAccessDetails: API.OperationMethod<
-  GetExternalDataViewAccessDetailsRequest,
+  GetExternalDataViewAccessDetailsRequest & RegionInput,
   GetExternalDataViewAccessDetailsResponse,
   GetExternalDataViewAccessDetailsError,
   Creds | HttpClient.HttpClient
@@ -1247,7 +1248,7 @@ export type GetPermissionGroupError =
  * Retrieves the details of a specific permission group.
  */
 export const getPermissionGroup: API.OperationMethod<
-  GetPermissionGroupRequest,
+  GetPermissionGroupRequest & RegionInput,
   GetPermissionGroupResponse,
   GetPermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -1278,7 +1279,7 @@ export type GetProgrammaticAccessCredentialsError =
  * Request programmatic credentials to use with FinSpace SDK. For more information, see Step 2. Access credentials programmatically using IAM access key id and secret access key.
  */
 export const getProgrammaticAccessCredentials: API.OperationMethod<
-  GetProgrammaticAccessCredentialsRequest,
+  GetProgrammaticAccessCredentialsRequest & RegionInput,
   GetProgrammaticAccessCredentialsResponse,
   GetProgrammaticAccessCredentialsError,
   Creds | HttpClient.HttpClient
@@ -1309,7 +1310,7 @@ export type GetUserError =
  * Retrieves details for a specific user.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Creds | HttpClient.HttpClient
@@ -1341,7 +1342,7 @@ export type GetWorkingLocationError =
  * as a scratch space in FinSpace notebook.
  */
 export const getWorkingLocation: API.OperationMethod<
-  GetWorkingLocationRequest,
+  GetWorkingLocationRequest & RegionInput,
   GetWorkingLocationResponse,
   GetWorkingLocationError,
   Creds | HttpClient.HttpClient
@@ -1373,7 +1374,7 @@ export type ListChangesetsError =
  * Lists the FinSpace Changesets for a Dataset.
  */
 export const listChangesets: API.PaginatedOperationMethod<
-  ListChangesetsRequest,
+  ListChangesetsRequest & RegionInput,
   ListChangesetsResponse,
   ListChangesetsError,
   Creds | HttpClient.HttpClient,
@@ -1413,7 +1414,7 @@ export type ListDatasetsError =
  * Lists all of the active Datasets that a user has access to.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Creds | HttpClient.HttpClient,
@@ -1452,7 +1453,7 @@ export type ListDataViewsError =
  * Lists all available Dataviews for a Dataset.
  */
 export const listDataViews: API.PaginatedOperationMethod<
-  ListDataViewsRequest,
+  ListDataViewsRequest & RegionInput,
   ListDataViewsResponse,
   ListDataViewsError,
   Creds | HttpClient.HttpClient,
@@ -1490,7 +1491,7 @@ export type ListPermissionGroupsError =
  * Lists all available permission groups in FinSpace.
  */
 export const listPermissionGroups: API.PaginatedOperationMethod<
-  ListPermissionGroupsRequest,
+  ListPermissionGroupsRequest & RegionInput,
   ListPermissionGroupsResponse,
   ListPermissionGroupsError,
   Creds | HttpClient.HttpClient,
@@ -1528,7 +1529,7 @@ export type ListPermissionGroupsByUserError =
  * Lists all the permission groups that are associated with a specific user.
  */
 export const listPermissionGroupsByUser: API.OperationMethod<
-  ListPermissionGroupsByUserRequest,
+  ListPermissionGroupsByUserRequest & RegionInput,
   ListPermissionGroupsByUserResponse,
   ListPermissionGroupsByUserError,
   Creds | HttpClient.HttpClient
@@ -1559,7 +1560,7 @@ export type ListUsersError =
  * Lists all available users in FinSpace.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Creds | HttpClient.HttpClient,
@@ -1597,7 +1598,7 @@ export type ListUsersByPermissionGroupError =
  * Lists details of all the users in a specific permission group.
  */
 export const listUsersByPermissionGroup: API.OperationMethod<
-  ListUsersByPermissionGroupRequest,
+  ListUsersByPermissionGroupRequest & RegionInput,
   ListUsersByPermissionGroupResponse,
   ListUsersByPermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type ResetUserPasswordError =
  * Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
  */
 export const resetUserPassword: API.OperationMethod<
-  ResetUserPasswordRequest,
+  ResetUserPasswordRequest & RegionInput,
   ResetUserPasswordResponse,
   ResetUserPasswordError,
   Creds | HttpClient.HttpClient
@@ -1664,7 +1665,7 @@ export type UpdateChangesetError =
  * Updates a FinSpace Changeset.
  */
 export const updateChangeset: API.OperationMethod<
-  UpdateChangesetRequest,
+  UpdateChangesetRequest & RegionInput,
   UpdateChangesetResponse,
   UpdateChangesetError,
   Creds | HttpClient.HttpClient
@@ -1698,7 +1699,7 @@ export type UpdateDatasetError =
  * Updates a FinSpace Dataset.
  */
 export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
+  UpdateDatasetRequest & RegionInput,
   UpdateDatasetResponse,
   UpdateDatasetError,
   Creds | HttpClient.HttpClient
@@ -1732,7 +1733,7 @@ export type UpdatePermissionGroupError =
  * Modifies the details of a permission group. You cannot modify a `permissionGroupID`.
  */
 export const updatePermissionGroup: API.OperationMethod<
-  UpdatePermissionGroupRequest,
+  UpdatePermissionGroupRequest & RegionInput,
   UpdatePermissionGroupResponse,
   UpdatePermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -1766,7 +1767,7 @@ export type UpdateUserError =
  * Modifies the details of the specified user. You cannot update the `userId` for a user.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Creds | HttpClient.HttpClient

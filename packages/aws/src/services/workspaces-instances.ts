@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -613,7 +614,7 @@ export type AssociateVolumeError =
  * Attaches a volume to a WorkSpace Instance.
  */
 export const associateVolume: API.OperationMethod<
-  AssociateVolumeRequest,
+  AssociateVolumeRequest & RegionInput,
   AssociateVolumeResponse,
   AssociateVolumeError,
   Credentials | HttpClient.HttpClient
@@ -647,7 +648,7 @@ export type CreateVolumeError =
  * Creates a new volume for WorkSpace Instances.
  */
 export const createVolume: API.OperationMethod<
-  CreateVolumeRequest,
+  CreateVolumeRequest & RegionInput,
   CreateVolumeResponse,
   CreateVolumeError,
   Credentials | HttpClient.HttpClient
@@ -681,7 +682,7 @@ export type CreateWorkspaceInstanceError =
  * Launches a new WorkSpace Instance with specified configuration parameters, enabling programmatic workspace deployment.
  */
 export const createWorkspaceInstance: API.OperationMethod<
-  CreateWorkspaceInstanceRequest,
+  CreateWorkspaceInstanceRequest & RegionInput,
   CreateWorkspaceInstanceResponse,
   CreateWorkspaceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -715,7 +716,7 @@ export type DeleteVolumeError =
  * Deletes a specified volume.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeRequest,
+  DeleteVolumeRequest & RegionInput,
   DeleteVolumeResponse,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
@@ -751,7 +752,7 @@ export type DeleteWorkspaceInstanceError =
  * Usage of this API will result in deletion of the resource in question.
  */
 export const deleteWorkspaceInstance: API.OperationMethod<
-  DeleteWorkspaceInstanceRequest,
+  DeleteWorkspaceInstanceRequest & RegionInput,
   DeleteWorkspaceInstanceResponse,
   DeleteWorkspaceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -785,7 +786,7 @@ export type DisassociateVolumeError =
  * Detaches a volume from a WorkSpace Instance.
  */
 export const disassociateVolume: API.OperationMethod<
-  DisassociateVolumeRequest,
+  DisassociateVolumeRequest & RegionInput,
   DisassociateVolumeResponse,
   DisassociateVolumeError,
   Credentials | HttpClient.HttpClient
@@ -818,7 +819,7 @@ export type GetWorkspaceInstanceError =
  * Retrieves detailed information about a specific WorkSpace Instance.
  */
 export const getWorkspaceInstance: API.OperationMethod<
-  GetWorkspaceInstanceRequest,
+  GetWorkspaceInstanceRequest & RegionInput,
   GetWorkspaceInstanceResponse,
   GetWorkspaceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -849,7 +850,7 @@ export type ListInstanceTypesError =
  * Retrieves a list of instance types supported by Amazon WorkSpaces Instances, enabling precise workspace infrastructure configuration.
  */
 export const listInstanceTypes: API.PaginatedOperationMethod<
-  ListInstanceTypesRequest,
+  ListInstanceTypesRequest & RegionInput,
   ListInstanceTypesResponse,
   ListInstanceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -886,7 +887,7 @@ export type ListRegionsError =
  * Retrieves a list of AWS regions supported by Amazon WorkSpaces Instances, enabling region discovery for workspace deployments.
  */
 export const listRegions: API.PaginatedOperationMethod<
-  ListRegionsRequest,
+  ListRegionsRequest & RegionInput,
   ListRegionsResponse,
   ListRegionsError,
   Credentials | HttpClient.HttpClient,
@@ -924,7 +925,7 @@ export type ListTagsForResourceError =
  * Retrieves tags for a WorkSpace Instance.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -955,7 +956,7 @@ export type ListWorkspaceInstancesError =
  * Retrieves a collection of WorkSpaces Instances based on specified filters.
  */
 export const listWorkspaceInstances: API.PaginatedOperationMethod<
-  ListWorkspaceInstancesRequest,
+  ListWorkspaceInstancesRequest & RegionInput,
   ListWorkspaceInstancesResponse,
   ListWorkspaceInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -993,7 +994,7 @@ export type TagResourceError =
  * Adds tags to a WorkSpace Instance.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1025,7 +1026,7 @@ export type UntagResourceError =
  * Removes tags from a WorkSpace Instance.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

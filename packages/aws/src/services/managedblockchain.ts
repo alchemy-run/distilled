@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -702,7 +703,7 @@ export type CreateAccessorError =
  * The accessor contains information required for token based access.
  */
 export const createAccessor: API.OperationMethod<
-  CreateAccessorInput,
+  CreateAccessorInput & RegionInput,
   CreateAccessorOutput,
   CreateAccessorError,
   Credentials | HttpClient.HttpClient
@@ -742,7 +743,7 @@ export type CreateMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const createMember: API.OperationMethod<
-  CreateMemberInput,
+  CreateMemberInput & RegionInput,
   CreateMemberOutput,
   CreateMemberError,
   Credentials | HttpClient.HttpClient
@@ -782,7 +783,7 @@ export type CreateNetworkError =
  * Applies only to Hyperledger Fabric.
  */
 export const createNetwork: API.OperationMethod<
-  CreateNetworkInput,
+  CreateNetworkInput & RegionInput,
   CreateNetworkOutput,
   CreateNetworkError,
   Credentials | HttpClient.HttpClient
@@ -822,7 +823,7 @@ export type CreateNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const createNode: API.OperationMethod<
-  CreateNodeInput,
+  CreateNodeInput & RegionInput,
   CreateNodeOutput,
   CreateNodeError,
   Credentials | HttpClient.HttpClient
@@ -862,7 +863,7 @@ export type CreateProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const createProposal: API.OperationMethod<
-  CreateProposalInput,
+  CreateProposalInput & RegionInput,
   CreateProposalOutput,
   CreateProposalError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type DeleteAccessorError =
  * `AVAILABLE` state remain open until they expire (up to 2 hours).
  */
 export const deleteAccessor: API.OperationMethod<
-  DeleteAccessorInput,
+  DeleteAccessorInput & RegionInput,
   DeleteAccessorOutput,
   DeleteAccessorError,
   Credentials | HttpClient.HttpClient
@@ -937,7 +938,7 @@ export type DeleteMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberInput,
+  DeleteMemberInput & RegionInput,
   DeleteMemberOutput,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
@@ -973,7 +974,7 @@ export type DeleteNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const deleteNode: API.OperationMethod<
-  DeleteNodeInput,
+  DeleteNodeInput & RegionInput,
   DeleteNodeOutput,
   DeleteNodeError,
   Credentials | HttpClient.HttpClient
@@ -1007,7 +1008,7 @@ export type GetAccessorError =
  * information required for token based access to your Ethereum nodes.
  */
 export const getAccessor: API.OperationMethod<
-  GetAccessorInput,
+  GetAccessorInput & RegionInput,
   GetAccessorOutput,
   GetAccessorError,
   Credentials | HttpClient.HttpClient
@@ -1041,7 +1042,7 @@ export type GetMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const getMember: API.OperationMethod<
-  GetMemberInput,
+  GetMemberInput & RegionInput,
   GetMemberOutput,
   GetMemberError,
   Credentials | HttpClient.HttpClient
@@ -1075,7 +1076,7 @@ export type GetNetworkError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const getNetwork: API.OperationMethod<
-  GetNetworkInput,
+  GetNetworkInput & RegionInput,
   GetNetworkOutput,
   GetNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1109,7 +1110,7 @@ export type GetNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const getNode: API.OperationMethod<
-  GetNodeInput,
+  GetNodeInput & RegionInput,
   GetNodeOutput,
   GetNodeError,
   Credentials | HttpClient.HttpClient
@@ -1143,7 +1144,7 @@ export type GetProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const getProposal: API.OperationMethod<
-  GetProposalInput,
+  GetProposalInput & RegionInput,
   GetProposalOutput,
   GetProposalError,
   Credentials | HttpClient.HttpClient
@@ -1175,7 +1176,7 @@ export type ListAccessorsError =
  * information required for token based access to your Ethereum nodes.
  */
 export const listAccessors: API.PaginatedOperationMethod<
-  ListAccessorsInput,
+  ListAccessorsInput & RegionInput,
   ListAccessorsOutput,
   ListAccessorsError,
   Credentials | HttpClient.HttpClient,
@@ -1216,7 +1217,7 @@ export type ListInvitationsError =
  * Applies only to Hyperledger Fabric.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsInput,
+  ListInvitationsInput & RegionInput,
   ListInvitationsOutput,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1256,7 +1257,7 @@ export type ListMembersError =
  * Applies only to Hyperledger Fabric.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersInput,
+  ListMembersInput & RegionInput,
   ListMembersOutput,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -1294,7 +1295,7 @@ export type ListNetworksError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const listNetworks: API.PaginatedOperationMethod<
-  ListNetworksInput,
+  ListNetworksInput & RegionInput,
   ListNetworksOutput,
   ListNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -1332,7 +1333,7 @@ export type ListNodesError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const listNodes: API.PaginatedOperationMethod<
-  ListNodesInput,
+  ListNodesInput & RegionInput,
   ListNodesOutput,
   ListNodesError,
   Credentials | HttpClient.HttpClient,
@@ -1371,7 +1372,7 @@ export type ListProposalsError =
  * Applies only to Hyperledger Fabric.
  */
 export const listProposals: API.PaginatedOperationMethod<
-  ListProposalsInput,
+  ListProposalsInput & RegionInput,
   ListProposalsOutput,
   ListProposalsError,
   Credentials | HttpClient.HttpClient,
@@ -1410,7 +1411,7 @@ export type ListProposalVotesError =
  * Applies only to Hyperledger Fabric.
  */
 export const listProposalVotes: API.PaginatedOperationMethod<
-  ListProposalVotesInput,
+  ListProposalVotesInput & RegionInput,
   ListProposalVotesOutput,
   ListProposalVotesError,
   Credentials | HttpClient.HttpClient,
@@ -1448,7 +1449,7 @@ export type ListTagsForResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1482,7 +1483,7 @@ export type RejectInvitationError =
  * Applies only to Hyperledger Fabric.
  */
 export const rejectInvitation: API.OperationMethod<
-  RejectInvitationInput,
+  RejectInvitationInput & RegionInput,
   RejectInvitationOutput,
   RejectInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1522,7 @@ export type TagResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1554,7 +1555,7 @@ export type UntagResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1587,7 +1588,7 @@ export type UpdateMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const updateMember: API.OperationMethod<
-  UpdateMemberInput,
+  UpdateMemberInput & RegionInput,
   UpdateMemberOutput,
   UpdateMemberError,
   Credentials | HttpClient.HttpClient
@@ -1621,7 +1622,7 @@ export type UpdateNodeError =
  * Applies only to Hyperledger Fabric.
  */
 export const updateNode: API.OperationMethod<
-  UpdateNodeInput,
+  UpdateNodeInput & RegionInput,
   UpdateNodeOutput,
   UpdateNodeError,
   Credentials | HttpClient.HttpClient
@@ -1656,7 +1657,7 @@ export type VoteOnProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const voteOnProposal: API.OperationMethod<
-  VoteOnProposalInput,
+  VoteOnProposalInput & RegionInput,
   VoteOnProposalOutput,
   VoteOnProposalError,
   Credentials | HttpClient.HttpClient

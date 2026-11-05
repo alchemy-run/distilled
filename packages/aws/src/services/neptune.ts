@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2034,7 +2035,7 @@ export type AddRoleToDBClusterError =
  * Neptune DB cluster.
  */
 export const addRoleToDBCluster: API.OperationMethod<
-  AddRoleToDBClusterMessage,
+  AddRoleToDBClusterMessage & RegionInput,
   AddRoleToDBClusterResponse,
   AddRoleToDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -2062,7 +2063,7 @@ export type AddSourceIdentifierToSubscriptionError =
  * Adds a source identifier to an existing event notification subscription.
  */
 export const addSourceIdentifierToSubscription: API.OperationMethod<
-  AddSourceIdentifierToSubscriptionMessage,
+  AddSourceIdentifierToSubscriptionMessage & RegionInput,
   AddSourceIdentifierToSubscriptionResult,
   AddSourceIdentifierToSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2088,7 +2089,7 @@ export type AddTagsToResourceError =
  * Condition statement in an IAM policy for Amazon Neptune.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceMessage,
+  AddTagsToResourceMessage & RegionInput,
   AddTagsToResourceResponse,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -2108,7 +2109,7 @@ export type ApplyPendingMaintenanceActionError = ResourceNotFoundFault | CommonE
  * Applies a pending maintenance action to a resource (for example, to a DB instance).
  */
 export const applyPendingMaintenanceAction: API.OperationMethod<
-  ApplyPendingMaintenanceActionMessage,
+  ApplyPendingMaintenanceActionMessage & RegionInput,
   ApplyPendingMaintenanceActionResult,
   ApplyPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -2132,7 +2133,7 @@ export type CopyDBClusterParameterGroupError =
  * Copies the specified DB cluster parameter group.
  */
 export const copyDBClusterParameterGroup: API.OperationMethod<
-  CopyDBClusterParameterGroupMessage,
+  CopyDBClusterParameterGroupMessage & RegionInput,
   CopyDBClusterParameterGroupResult,
   CopyDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2167,7 +2168,7 @@ export type CopyDBClusterSnapshotError =
  * shared DB cluster snapshot.
  */
 export const copyDBClusterSnapshot: API.OperationMethod<
-  CopyDBClusterSnapshotMessage,
+  CopyDBClusterSnapshotMessage & RegionInput,
   CopyDBClusterSnapshotResult,
   CopyDBClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2198,7 +2199,7 @@ export type CopyDBParameterGroupError =
  * Copies the specified DB parameter group.
  */
 export const copyDBParameterGroup: API.OperationMethod<
-  CopyDBParameterGroupMessage,
+  CopyDBParameterGroupMessage & RegionInput,
   CopyDBParameterGroupResult,
   CopyDBParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2249,7 +2250,7 @@ export type CreateDBClusterError =
  * cluster if its `DeletionProtection` field is set to `false`.
  */
 export const createDBCluster: API.OperationMethod<
-  CreateDBClusterMessage,
+  CreateDBClusterMessage & RegionInput,
   CreateDBClusterResult,
   CreateDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -2295,7 +2296,7 @@ export type CreateDBClusterEndpointError =
  * Creates a new custom endpoint and associates it with an Amazon Neptune DB cluster.
  */
 export const createDBClusterEndpoint: API.OperationMethod<
-  CreateDBClusterEndpointMessage,
+  CreateDBClusterEndpointMessage & RegionInput,
   CreateDBClusterEndpointOutput,
   CreateDBClusterEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2350,7 +2351,7 @@ export type CreateDBClusterParameterGroupError =
  * command to verify that your DB cluster parameter group has been created or modified.
  */
 export const createDBClusterParameterGroup: API.OperationMethod<
-  CreateDBClusterParameterGroupMessage,
+  CreateDBClusterParameterGroupMessage & RegionInput,
   CreateDBClusterParameterGroupResult,
   CreateDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2376,7 +2377,7 @@ export type CreateDBClusterSnapshotError =
  * Creates a snapshot of a DB cluster.
  */
 export const createDBClusterSnapshot: API.OperationMethod<
-  CreateDBClusterSnapshotMessage,
+  CreateDBClusterSnapshotMessage & RegionInput,
   CreateDBClusterSnapshotResult,
   CreateDBClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2421,7 +2422,7 @@ export type CreateDBInstanceError =
  * Creates a new DB instance.
  */
 export const createDBInstance: API.OperationMethod<
-  CreateDBInstanceMessage,
+  CreateDBInstanceMessage & RegionInput,
   CreateDBInstanceResult,
   CreateDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2482,7 +2483,7 @@ export type CreateDBParameterGroupError =
  * been created or modified.
  */
 export const createDBParameterGroup: API.OperationMethod<
-  CreateDBParameterGroupMessage,
+  CreateDBParameterGroupMessage & RegionInput,
   CreateDBParameterGroupResult,
   CreateDBParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2509,7 +2510,7 @@ export type CreateDBSubnetGroupError =
  * least two AZs in the Amazon Region.
  */
 export const createDBSubnetGroup: API.OperationMethod<
-  CreateDBSubnetGroupMessage,
+  CreateDBSubnetGroupMessage & RegionInput,
   CreateDBSubnetGroupResult,
   CreateDBSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2559,7 +2560,7 @@ export type CreateEventSubscriptionError =
  * from all Neptune sources belonging to your customer account.
  */
 export const createEventSubscription: API.OperationMethod<
-  CreateEventSubscriptionMessage,
+  CreateEventSubscriptionMessage & RegionInput,
   CreateEventSubscriptionResult,
   CreateEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2601,7 +2602,7 @@ export type CreateGlobalClusterError =
  * primary cluster of the global database.
  */
 export const createGlobalCluster: API.OperationMethod<
-  CreateGlobalClusterMessage,
+  CreateGlobalClusterMessage & RegionInput,
   CreateGlobalClusterResult,
   CreateGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -2638,7 +2639,7 @@ export type DeleteDBClusterError =
  * `False`.
  */
 export const deleteDBCluster: API.OperationMethod<
-  DeleteDBClusterMessage,
+  DeleteDBClusterMessage & RegionInput,
   DeleteDBClusterResult,
   DeleteDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -2668,7 +2669,7 @@ export type DeleteDBClusterEndpointError =
  * Deletes a custom endpoint and removes it from an Amazon Neptune DB cluster.
  */
 export const deleteDBClusterEndpoint: API.OperationMethod<
-  DeleteDBClusterEndpointMessage,
+  DeleteDBClusterEndpointMessage & RegionInput,
   DeleteDBClusterEndpointOutput,
   DeleteDBClusterEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2696,7 +2697,7 @@ export type DeleteDBClusterParameterGroupError =
  * deleted can't be associated with any DB clusters.
  */
 export const deleteDBClusterParameterGroup: API.OperationMethod<
-  DeleteDBClusterParameterGroupMessage,
+  DeleteDBClusterParameterGroupMessage & RegionInput,
   DeleteDBClusterParameterGroupResponse,
   DeleteDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2723,7 +2724,7 @@ export type DeleteDBClusterSnapshotError =
  * deleted.
  */
 export const deleteDBClusterSnapshot: API.OperationMethod<
-  DeleteDBClusterSnapshotMessage,
+  DeleteDBClusterSnapshotMessage & RegionInput,
   DeleteDBClusterSnapshotResult,
   DeleteDBClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2765,7 +2766,7 @@ export type DeleteDBInstanceError =
  * if it has deletion protection enabled.
  */
 export const deleteDBInstance: API.OperationMethod<
-  DeleteDBInstanceMessage,
+  DeleteDBInstanceMessage & RegionInput,
   DeleteDBInstanceResult,
   DeleteDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2795,7 +2796,7 @@ export type DeleteDBParameterGroupError =
  * associated with any DB instances.
  */
 export const deleteDBParameterGroup: API.OperationMethod<
-  DeleteDBParameterGroupMessage,
+  DeleteDBParameterGroupMessage & RegionInput,
   DeleteDBParameterGroupResponse,
   DeleteDBParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2821,7 +2822,7 @@ export type DeleteDBSubnetGroupError =
  * The specified database subnet group must not be associated with any DB instances.
  */
 export const deleteDBSubnetGroup: API.OperationMethod<
-  DeleteDBSubnetGroupMessage,
+  DeleteDBSubnetGroupMessage & RegionInput,
   DeleteDBSubnetGroupResponse,
   DeleteDBSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2844,7 +2845,7 @@ export type DeleteEventSubscriptionError =
  * Deletes an event notification subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
-  DeleteEventSubscriptionMessage,
+  DeleteEventSubscriptionMessage & RegionInput,
   DeleteEventSubscriptionResult,
   DeleteEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2868,7 +2869,7 @@ export type DeleteGlobalClusterError =
  * already be detached or deleted first.
  */
 export const deleteGlobalCluster: API.OperationMethod<
-  DeleteGlobalClusterMessage,
+  DeleteGlobalClusterMessage & RegionInput,
   DeleteGlobalClusterResult,
   DeleteGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -2891,7 +2892,7 @@ export type DescribeDBClusterEndpointsError = DBClusterNotFoundFault | CommonErr
  * and Amazon DocDB clusters.
  */
 export const describeDBClusterEndpoints: API.PaginatedOperationMethod<
-  DescribeDBClusterEndpointsMessage,
+  DescribeDBClusterEndpointsMessage & RegionInput,
   DBClusterEndpointMessage,
   DescribeDBClusterEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -2920,7 +2921,7 @@ export type DescribeDBClusterParameterGroupsError = DBParameterGroupNotFoundFaul
  * the description of the specified DB cluster parameter group.
  */
 export const describeDBClusterParameterGroups: API.PaginatedOperationMethod<
-  DescribeDBClusterParameterGroupsMessage,
+  DescribeDBClusterParameterGroupsMessage & RegionInput,
   DBClusterParameterGroupsMessage,
   DescribeDBClusterParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2947,7 +2948,7 @@ export type DescribeDBClusterParametersError = DBParameterGroupNotFoundFault | C
  * Returns the detailed parameter list for a particular DB cluster parameter group.
  */
 export const describeDBClusterParameters: API.PaginatedOperationMethod<
-  DescribeDBClusterParametersMessage,
+  DescribeDBClusterParametersMessage & RegionInput,
   DBClusterParameterGroupDetails,
   DescribeDBClusterParametersError,
   Credentials | HttpClient.HttpClient,
@@ -2978,7 +2979,7 @@ export type DescribeDBClustersError = DBClusterNotFoundFault | CommonErrors;
  * and Amazon DocDB clusters.
  */
 export const describeDBClusters: API.PaginatedOperationMethod<
-  DescribeDBClustersMessage,
+  DescribeDBClustersMessage & RegionInput,
   DBClusterMessage,
   DescribeDBClustersError,
   Credentials | HttpClient.HttpClient,
@@ -3018,7 +3019,7 @@ export type DescribeDBClusterSnapshotAttributesError =
  * snapshot, or to make the manual DB cluster snapshot public or private, use the ModifyDBClusterSnapshotAttribute API action.
  */
 export const describeDBClusterSnapshotAttributes: API.OperationMethod<
-  DescribeDBClusterSnapshotAttributesMessage,
+  DescribeDBClusterSnapshotAttributesMessage & RegionInput,
   DescribeDBClusterSnapshotAttributesResult,
   DescribeDBClusterSnapshotAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3039,7 +3040,7 @@ export type DescribeDBClusterSnapshotsError = DBClusterSnapshotNotFoundFault | C
  * pagination.
  */
 export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
-  DescribeDBClusterSnapshotsMessage,
+  DescribeDBClusterSnapshotsMessage & RegionInput,
   DBClusterSnapshotMessage,
   DescribeDBClusterSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -3066,7 +3067,7 @@ export type DescribeDBEngineVersionsError = CommonErrors;
  * Returns a list of the available DB engines.
  */
 export const describeDBEngineVersions: API.PaginatedOperationMethod<
-  DescribeDBEngineVersionsMessage,
+  DescribeDBEngineVersionsMessage & RegionInput,
   DBEngineVersionMessage,
   DescribeDBEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3096,7 +3097,7 @@ export type DescribeDBInstancesError = DBInstanceNotFoundFault | CommonErrors;
  * and Amazon DocDB instances.
  */
 export const describeDBInstances: API.PaginatedOperationMethod<
-  DescribeDBInstancesMessage,
+  DescribeDBInstancesMessage & RegionInput,
   DBInstanceMessage,
   DescribeDBInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -3125,7 +3126,7 @@ export type DescribeDBParameterGroupsError = DBParameterGroupNotFoundFault | Com
  * the specified DB parameter group.
  */
 export const describeDBParameterGroups: API.PaginatedOperationMethod<
-  DescribeDBParameterGroupsMessage,
+  DescribeDBParameterGroupsMessage & RegionInput,
   DBParameterGroupsMessage,
   DescribeDBParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3152,7 +3153,7 @@ export type DescribeDBParametersError = DBParameterGroupNotFoundFault | CommonEr
  * Returns the detailed parameter list for a particular DB parameter group.
  */
 export const describeDBParameters: API.PaginatedOperationMethod<
-  DescribeDBParametersMessage,
+  DescribeDBParametersMessage & RegionInput,
   DBParameterGroupDetails,
   DescribeDBParametersError,
   Credentials | HttpClient.HttpClient,
@@ -3182,7 +3183,7 @@ export type DescribeDBSubnetGroupsError = DBSubnetGroupNotFoundFault | CommonErr
  * For an overview of CIDR ranges, go to the Wikipedia Tutorial.
  */
 export const describeDBSubnetGroups: API.PaginatedOperationMethod<
-  DescribeDBSubnetGroupsMessage,
+  DescribeDBSubnetGroupsMessage & RegionInput,
   DBSubnetGroupMessage,
   DescribeDBSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3210,7 +3211,7 @@ export type DescribeEngineDefaultClusterParametersError = CommonErrors;
  * engine.
  */
 export const describeEngineDefaultClusterParameters: API.OperationMethod<
-  DescribeEngineDefaultClusterParametersMessage,
+  DescribeEngineDefaultClusterParametersMessage & RegionInput,
   DescribeEngineDefaultClusterParametersResult,
   DescribeEngineDefaultClusterParametersError,
   Credentials | HttpClient.HttpClient
@@ -3231,7 +3232,7 @@ export type DescribeEngineDefaultParametersError = CommonErrors;
  * engine.
  */
 export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
-  DescribeEngineDefaultParametersMessage,
+  DescribeEngineDefaultParametersMessage & RegionInput,
   DescribeEngineDefaultParametersResult,
   DescribeEngineDefaultParametersError,
   Credentials | HttpClient.HttpClient,
@@ -3259,7 +3260,7 @@ export type DescribeEventCategoriesError = CommonErrors;
  * specified source type.
  */
 export const describeEventCategories: API.OperationMethod<
-  DescribeEventCategoriesMessage,
+  DescribeEventCategoriesMessage & RegionInput,
   EventCategoriesMessage,
   DescribeEventCategoriesError,
   Credentials | HttpClient.HttpClient
@@ -3282,7 +3283,7 @@ export type DescribeEventsError = CommonErrors;
  * By default, the past hour of events are returned.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3313,7 +3314,7 @@ export type DescribeEventSubscriptionsError = SubscriptionNotFoundFault | Common
  * If you specify a SubscriptionName, lists the description for that subscription.
  */
 export const describeEventSubscriptions: API.PaginatedOperationMethod<
-  DescribeEventSubscriptionsMessage,
+  DescribeEventSubscriptionsMessage & RegionInput,
   EventSubscriptionsMessage,
   DescribeEventSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -3341,7 +3342,7 @@ export type DescribeGlobalClustersError = GlobalClusterNotFoundFault | CommonErr
  * supports pagination.
  */
 export const describeGlobalClusters: API.PaginatedOperationMethod<
-  DescribeGlobalClustersMessage,
+  DescribeGlobalClustersMessage & RegionInput,
   GlobalClustersMessage,
   DescribeGlobalClustersError,
   Credentials | HttpClient.HttpClient,
@@ -3368,7 +3369,7 @@ export type DescribeOrderableDBInstanceOptionsError = CommonErrors;
  * Returns a list of orderable DB instance options for the specified engine.
  */
 export const describeOrderableDBInstanceOptions: API.PaginatedOperationMethod<
-  DescribeOrderableDBInstanceOptionsMessage,
+  DescribeOrderableDBInstanceOptionsMessage & RegionInput,
   OrderableDBInstanceOptionsMessage,
   DescribeOrderableDBInstanceOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -3396,7 +3397,7 @@ export type DescribePendingMaintenanceActionsError = ResourceNotFoundFault | Com
  * maintenance action.
  */
 export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
-  DescribePendingMaintenanceActionsMessage,
+  DescribePendingMaintenanceActionsMessage & RegionInput,
   PendingMaintenanceActionsMessage,
   DescribePendingMaintenanceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3428,7 +3429,7 @@ export type DescribeValidDBInstanceModificationsError =
  * information when you call ModifyDBInstance.
  */
 export const describeValidDBInstanceModifications: API.OperationMethod<
-  DescribeValidDBInstanceModificationsMessage,
+  DescribeValidDBInstanceModificationsMessage & RegionInput,
   DescribeValidDBInstanceModificationsResult,
   DescribeValidDBInstanceModificationsError,
   Credentials | HttpClient.HttpClient
@@ -3461,7 +3462,7 @@ export type FailoverDBClusterError =
  * endpoint addresses when the failover is complete.
  */
 export const failoverDBCluster: API.OperationMethod<
-  FailoverDBClusterMessage,
+  FailoverDBClusterMessage & RegionInput,
   FailoverDBClusterResult,
   FailoverDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -3499,7 +3500,7 @@ export type FailoverGlobalClusterError =
  * database topology.
  */
 export const failoverGlobalCluster: API.OperationMethod<
-  FailoverGlobalClusterMessage,
+  FailoverGlobalClusterMessage & RegionInput,
   FailoverGlobalClusterResult,
   FailoverGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -3528,7 +3529,7 @@ export type ListTagsForResourceError =
  * Lists all tags on an Amazon Neptune resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
+  ListTagsForResourceMessage & RegionInput,
   TagListMessage,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3563,7 +3564,7 @@ export type ModifyDBClusterError =
  * parameters by specifying these parameters and the new values in the request.
  */
 export const modifyDBCluster: API.OperationMethod<
-  ModifyDBClusterMessage,
+  ModifyDBClusterMessage & RegionInput,
   ModifyDBClusterResult,
   ModifyDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -3603,7 +3604,7 @@ export type ModifyDBClusterEndpointError =
  * Modifies the properties of an endpoint in an Amazon Neptune DB cluster.
  */
 export const modifyDBClusterEndpoint: API.OperationMethod<
-  ModifyDBClusterEndpointMessage,
+  ModifyDBClusterEndpointMessage & RegionInput,
   ModifyDBClusterEndpointOutput,
   ModifyDBClusterEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3649,7 +3650,7 @@ export type ModifyDBClusterParameterGroupError =
  * group has been created or modified.
  */
 export const modifyDBClusterParameterGroup: API.OperationMethod<
-  ModifyDBClusterParameterGroupMessage,
+  ModifyDBClusterParameterGroupMessage & RegionInput,
   DBClusterParameterGroupNameMessage,
   ModifyDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -3688,7 +3689,7 @@ export type ModifyDBClusterSnapshotAttributeError =
  * whether a manual DB cluster snapshot public or private, use the DescribeDBClusterSnapshotAttributes API action.
  */
 export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
-  ModifyDBClusterSnapshotAttributeMessage,
+  ModifyDBClusterSnapshotAttributeMessage & RegionInput,
   ModifyDBClusterSnapshotAttributeResult,
   ModifyDBClusterSnapshotAttributeError,
   Credentials | HttpClient.HttpClient
@@ -3731,7 +3732,7 @@ export type ModifyDBInstanceError =
  * modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance.
  */
 export const modifyDBInstance: API.OperationMethod<
-  ModifyDBInstanceMessage,
+  ModifyDBInstanceMessage & RegionInput,
   ModifyDBInstanceResult,
   ModifyDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3788,7 +3789,7 @@ export type ModifyDBParameterGroupError =
  * been created or modified.
  */
 export const modifyDBParameterGroup: API.OperationMethod<
-  ModifyDBParameterGroupMessage,
+  ModifyDBParameterGroupMessage & RegionInput,
   DBParameterGroupNameMessage,
   ModifyDBParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -3815,7 +3816,7 @@ export type ModifyDBSubnetGroupError =
  * at least two AZs in the Amazon Region.
  */
 export const modifyDBSubnetGroup: API.OperationMethod<
-  ModifyDBSubnetGroupMessage,
+  ModifyDBSubnetGroupMessage & RegionInput,
   ModifyDBSubnetGroupResult,
   ModifyDBSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3853,7 +3854,7 @@ export type ModifyEventSubscriptionError =
  * by using the **DescribeEventCategories** action.
  */
 export const modifyEventSubscription: API.OperationMethod<
-  ModifyEventSubscriptionMessage,
+  ModifyEventSubscriptionMessage & RegionInput,
   ModifyEventSubscriptionResult,
   ModifyEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3888,7 +3889,7 @@ export type ModifyGlobalClusterError =
  * and their new values in the request.
  */
 export const modifyGlobalCluster: API.OperationMethod<
-  ModifyGlobalClusterMessage,
+  ModifyGlobalClusterMessage & RegionInput,
   ModifyGlobalClusterResult,
   ModifyGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -3917,7 +3918,7 @@ export type PromoteReadReplicaDBClusterError =
  * Not supported.
  */
 export const promoteReadReplicaDBCluster: API.OperationMethod<
-  PromoteReadReplicaDBClusterMessage,
+  PromoteReadReplicaDBClusterMessage & RegionInput,
   PromoteReadReplicaDBClusterResult,
   PromoteReadReplicaDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -3945,7 +3946,7 @@ export type RebootDBInstanceError =
  * results in a momentary outage, during which the DB instance status is set to rebooting.
  */
 export const rebootDBInstance: API.OperationMethod<
-  RebootDBInstanceMessage,
+  RebootDBInstanceMessage & RegionInput,
   RebootDBInstanceResult,
   RebootDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3972,7 +3973,7 @@ export type RemoveFromGlobalClusterError =
  * primary cluster.
  */
 export const removeFromGlobalCluster: API.OperationMethod<
-  RemoveFromGlobalClusterMessage,
+  RemoveFromGlobalClusterMessage & RegionInput,
   RemoveFromGlobalClusterResult,
   RemoveFromGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -3996,7 +3997,7 @@ export type RemoveRoleFromDBClusterError =
  * Disassociates an Identity and Access Management (IAM) role from a DB cluster.
  */
 export const removeRoleFromDBCluster: API.OperationMethod<
-  RemoveRoleFromDBClusterMessage,
+  RemoveRoleFromDBClusterMessage & RegionInput,
   RemoveRoleFromDBClusterResponse,
   RemoveRoleFromDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -4019,7 +4020,7 @@ export type RemoveSourceIdentifierFromSubscriptionError =
  * Removes a source identifier from an existing event notification subscription.
  */
 export const removeSourceIdentifierFromSubscription: API.OperationMethod<
-  RemoveSourceIdentifierFromSubscriptionMessage,
+  RemoveSourceIdentifierFromSubscriptionMessage & RegionInput,
   RemoveSourceIdentifierFromSubscriptionResult,
   RemoveSourceIdentifierFromSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4043,7 +4044,7 @@ export type RemoveTagsFromResourceError =
  * Removes metadata tags from an Amazon Neptune resource.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceMessage,
+  RemoveTagsFromResourceMessage & RegionInput,
   RemoveTagsFromResourceResponse,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -4074,7 +4075,7 @@ export type ResetDBClusterParameterGroupError =
  * that you want the updated static parameter to apply to.
  */
 export const resetDBClusterParameterGroup: API.OperationMethod<
-  ResetDBClusterParameterGroupMessage,
+  ResetDBClusterParameterGroupMessage & RegionInput,
   DBClusterParameterGroupNameMessage,
   ResetDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -4103,7 +4104,7 @@ export type ResetDBParameterGroupError =
  * `RebootDBInstance` request.
  */
 export const resetDBParameterGroup: API.OperationMethod<
-  ResetDBParameterGroupMessage,
+  ResetDBParameterGroupMessage & RegionInput,
   DBParameterGroupNameMessage,
   ResetDBParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -4148,7 +4149,7 @@ export type RestoreDBClusterFromSnapshotError =
  * that the new DB cluster is created with the default security group.
  */
 export const restoreDBClusterFromSnapshot: API.OperationMethod<
-  RestoreDBClusterFromSnapshotMessage,
+  RestoreDBClusterFromSnapshotMessage & RegionInput,
   RestoreDBClusterFromSnapshotResult,
   RestoreDBClusterFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4216,7 +4217,7 @@ export type RestoreDBClusterToPointInTimeError =
  * available.
  */
 export const restoreDBClusterToPointInTime: API.OperationMethod<
-  RestoreDBClusterToPointInTimeMessage,
+  RestoreDBClusterToPointInTimeMessage & RegionInput,
   RestoreDBClusterToPointInTimeResult,
   RestoreDBClusterToPointInTimeError,
   Credentials | HttpClient.HttpClient
@@ -4260,7 +4261,7 @@ export type StartDBClusterError =
  * console, the Amazon CLI stop-db-cluster command, or the StopDBCluster API.
  */
 export const startDBCluster: API.OperationMethod<
-  StartDBClusterMessage,
+  StartDBClusterMessage & RegionInput,
   StartDBClusterResult,
   StartDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -4289,7 +4290,7 @@ export type StopDBClusterError =
  * restore if necessary.
  */
 export const stopDBCluster: API.OperationMethod<
-  StopDBClusterMessage,
+  StopDBClusterMessage & RegionInput,
   StopDBClusterResult,
   StopDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -4324,7 +4325,7 @@ export type SwitchoverGlobalClusterError =
  * to fall back to the original primary after a global database failover.
  */
 export const switchoverGlobalCluster: API.OperationMethod<
-  SwitchoverGlobalClusterMessage,
+  SwitchoverGlobalClusterMessage & RegionInput,
   SwitchoverGlobalClusterResult,
   SwitchoverGlobalClusterError,
   Credentials | HttpClient.HttpClient

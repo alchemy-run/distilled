@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -376,7 +377,7 @@ export type DeleteConnectionError =
  * Requires permission to access the DeleteConnection action.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -416,7 +417,7 @@ export type DeleteThingShadowError =
  * For more information, see DeleteThingShadow in the IoT Developer Guide.
  */
 export const deleteThingShadow: API.OperationMethod<
-  DeleteThingShadowRequest,
+  DeleteThingShadowRequest & RegionInput,
   DeleteThingShadowResponse,
   DeleteThingShadowError,
   Credentials | HttpClient.HttpClient
@@ -454,7 +455,7 @@ export type GetConnectionError =
  * Requires permission to access the GetConnection action.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -498,7 +499,7 @@ export type GetRetainedMessageError =
  * pricing - Messaging.
  */
 export const getRetainedMessage: API.OperationMethod<
-  GetRetainedMessageRequest,
+  GetRetainedMessageRequest & RegionInput,
   GetRetainedMessageResponse,
   GetRetainedMessageError,
   Credentials | HttpClient.HttpClient
@@ -542,7 +543,7 @@ export type GetThingShadowError =
  * IoT Developer Guide.
  */
 export const getThingShadow: API.OperationMethod<
-  GetThingShadowRequest,
+  GetThingShadowRequest & RegionInput,
   GetThingShadowResponse,
   GetThingShadowError,
   Credentials | HttpClient.HttpClient
@@ -583,7 +584,7 @@ export type ListNamedShadowsForThingError =
  * Requires permission to access the ListNamedShadowsForThing action.
  */
 export const listNamedShadowsForThing: API.OperationMethod<
-  ListNamedShadowsForThingRequest,
+  ListNamedShadowsForThingRequest & RegionInput,
   ListNamedShadowsForThingResponse,
   ListNamedShadowsForThingError,
   Credentials | HttpClient.HttpClient
@@ -633,7 +634,7 @@ export type ListRetainedMessagesError =
  * pricing - Messaging.
  */
 export const listRetainedMessages: API.PaginatedOperationMethod<
-  ListRetainedMessagesRequest,
+  ListRetainedMessagesRequest & RegionInput,
   ListRetainedMessagesResponse,
   ListRetainedMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -676,7 +677,7 @@ export type ListSubscriptionsError =
  * Requires permission to access the ListSubscriptions action.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsRequest,
+  ListSubscriptionsRequest & RegionInput,
   ListSubscriptionsResponse,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -725,7 +726,7 @@ export type PublishError =
  * pricing - Messaging.
  */
 export const publish: API.OperationMethod<
-  PublishRequest,
+  PublishRequest & RegionInput,
   PublishResponse,
   PublishError,
   Credentials | HttpClient.HttpClient
@@ -769,7 +770,7 @@ export type SendDirectMessageError =
  * pricing.
  */
 export const sendDirectMessage: API.OperationMethod<
-  SendDirectMessageRequest,
+  SendDirectMessageRequest & RegionInput,
   SendDirectMessageResponse,
   SendDirectMessageError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +815,7 @@ export type UpdateThingShadowError =
  * IoT Developer Guide.
  */
 export const updateThingShadow: API.OperationMethod<
-  UpdateThingShadowRequest,
+  UpdateThingShadowRequest & RegionInput,
   UpdateThingShadowResponse,
   UpdateThingShadowError,
   Credentials | HttpClient.HttpClient

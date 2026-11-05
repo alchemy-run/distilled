@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1205,7 +1206,7 @@ export type CreateCallAnalyticsCategoryError =
  * real-time transcriptions.
  */
 export const createCallAnalyticsCategory: API.OperationMethod<
-  CreateCallAnalyticsCategoryRequest,
+  CreateCallAnalyticsCategoryRequest & RegionInput,
   CreateCallAnalyticsCategoryResponse,
   CreateCallAnalyticsCategoryError,
   Credentials | HttpClient.HttpClient
@@ -1246,7 +1247,7 @@ export type CreateLanguageModelError =
  * - A unique name for your model
  */
 export const createLanguageModel: API.OperationMethod<
-  CreateLanguageModelRequest,
+  CreateLanguageModelRequest & RegionInput,
   CreateLanguageModelResponse,
   CreateLanguageModelError,
   Credentials | HttpClient.HttpClient
@@ -1291,7 +1292,7 @@ export type CreateMedicalVocabularyError =
  * vocabularies.
  */
 export const createMedicalVocabulary: API.OperationMethod<
-  CreateMedicalVocabularyRequest,
+  CreateMedicalVocabularyRequest & RegionInput,
   CreateMedicalVocabularyResponse,
   CreateMedicalVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1334,7 +1335,7 @@ export type CreateVocabularyError =
  * vocabularies.
  */
 export const createVocabulary: API.OperationMethod<
-  CreateVocabularyRequest,
+  CreateVocabularyRequest & RegionInput,
   CreateVocabularyResponse,
   CreateVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1376,7 +1377,7 @@ export type CreateVocabularyFilterError =
  * filtering.
  */
 export const createVocabularyFilter: API.OperationMethod<
-  CreateVocabularyFilterRequest,
+  CreateVocabularyFilterRequest & RegionInput,
   CreateVocabularyFilterResponse,
   CreateVocabularyFilterError,
   Credentials | HttpClient.HttpClient
@@ -1408,7 +1409,7 @@ export type DeleteCallAnalyticsCategoryError =
  * sensitive.
  */
 export const deleteCallAnalyticsCategory: API.OperationMethod<
-  DeleteCallAnalyticsCategoryRequest,
+  DeleteCallAnalyticsCategoryRequest & RegionInput,
   DeleteCallAnalyticsCategoryResponse,
   DeleteCallAnalyticsCategoryError,
   Credentials | HttpClient.HttpClient
@@ -1439,7 +1440,7 @@ export type DeleteCallAnalyticsJobError =
  * sensitive.
  */
 export const deleteCallAnalyticsJob: API.OperationMethod<
-  DeleteCallAnalyticsJobRequest,
+  DeleteCallAnalyticsJobRequest & RegionInput,
   DeleteCallAnalyticsJobResponse,
   DeleteCallAnalyticsJobError,
   Credentials | HttpClient.HttpClient
@@ -1465,7 +1466,7 @@ export type DeleteLanguageModelError =
  * names are case sensitive.
  */
 export const deleteLanguageModel: API.OperationMethod<
-  DeleteLanguageModelRequest,
+  DeleteLanguageModelRequest & RegionInput,
   DeleteLanguageModelResponse,
   DeleteLanguageModelError,
   Credentials | HttpClient.HttpClient
@@ -1491,7 +1492,7 @@ export type DeleteMedicalScribeJobError =
  * case sensitive.
  */
 export const deleteMedicalScribeJob: API.OperationMethod<
-  DeleteMedicalScribeJobRequest,
+  DeleteMedicalScribeJobRequest & RegionInput,
   DeleteMedicalScribeJobResponse,
   DeleteMedicalScribeJobError,
   Credentials | HttpClient.HttpClient
@@ -1517,7 +1518,7 @@ export type DeleteMedicalTranscriptionJobError =
  * case sensitive.
  */
 export const deleteMedicalTranscriptionJob: API.OperationMethod<
-  DeleteMedicalTranscriptionJobRequest,
+  DeleteMedicalTranscriptionJobRequest & RegionInput,
   DeleteMedicalTranscriptionJobResponse,
   DeleteMedicalTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -1544,7 +1545,7 @@ export type DeleteMedicalVocabularyError =
  * vocabulary names are case sensitive.
  */
 export const deleteMedicalVocabulary: API.OperationMethod<
-  DeleteMedicalVocabularyRequest,
+  DeleteMedicalVocabularyRequest & RegionInput,
   DeleteMedicalVocabularyResponse,
   DeleteMedicalVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1575,7 +1576,7 @@ export type DeleteTranscriptionJobError =
  * sensitive.
  */
 export const deleteTranscriptionJob: API.OperationMethod<
-  DeleteTranscriptionJobRequest,
+  DeleteTranscriptionJobRequest & RegionInput,
   DeleteTranscriptionJobResponse,
   DeleteTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -1602,7 +1603,7 @@ export type DeleteVocabularyError =
  * are case sensitive.
  */
 export const deleteVocabulary: API.OperationMethod<
-  DeleteVocabularyRequest,
+  DeleteVocabularyRequest & RegionInput,
   DeleteVocabularyResponse,
   DeleteVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1634,7 +1635,7 @@ export type DeleteVocabularyFilterError =
  * Custom vocabulary filter names are case sensitive.
  */
 export const deleteVocabularyFilter: API.OperationMethod<
-  DeleteVocabularyFilterRequest,
+  DeleteVocabularyFilterRequest & RegionInput,
   DeleteVocabularyFilterResponse,
   DeleteVocabularyFilterError,
   Credentials | HttpClient.HttpClient
@@ -1672,7 +1673,7 @@ export type DescribeLanguageModelError =
  * failure.
  */
 export const describeLanguageModel: API.OperationMethod<
-  DescribeLanguageModelRequest,
+  DescribeLanguageModelRequest & RegionInput,
   DescribeLanguageModelResponse,
   DescribeLanguageModelError,
   Credentials | HttpClient.HttpClient
@@ -1704,7 +1705,7 @@ export type GetCallAnalyticsCategoryError =
  * To get a list of your Call Analytics categories, use the operation.
  */
 export const getCallAnalyticsCategory: API.OperationMethod<
-  GetCallAnalyticsCategoryRequest,
+  GetCallAnalyticsCategoryRequest & RegionInput,
   GetCallAnalyticsCategoryResponse,
   GetCallAnalyticsCategoryError,
   Credentials | HttpClient.HttpClient
@@ -1749,7 +1750,7 @@ export type GetCallAnalyticsJobError =
  * To get a list of your Call Analytics jobs, use the operation.
  */
 export const getCallAnalyticsJob: API.OperationMethod<
-  GetCallAnalyticsJobRequest,
+  GetCallAnalyticsJobRequest & RegionInput,
   GetCallAnalyticsJobResponse,
   GetCallAnalyticsJobError,
   Credentials | HttpClient.HttpClient
@@ -1788,7 +1789,7 @@ export type GetMedicalScribeJobError =
  * To get a list of your Medical Scribe jobs, use the operation.
  */
 export const getMedicalScribeJob: API.OperationMethod<
-  GetMedicalScribeJobRequest,
+  GetMedicalScribeJobRequest & RegionInput,
   GetMedicalScribeJobResponse,
   GetMedicalScribeJobError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type GetMedicalTranscriptionJobError =
  * To get a list of your medical transcription jobs, use the operation.
  */
 export const getMedicalTranscriptionJob: API.OperationMethod<
-  GetMedicalTranscriptionJobRequest,
+  GetMedicalTranscriptionJobRequest & RegionInput,
   GetMedicalTranscriptionJobResponse,
   GetMedicalTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -1864,7 +1865,7 @@ export type GetMedicalVocabularyError =
  * To get a list of your custom medical vocabularies, use the operation.
  */
 export const getMedicalVocabulary: API.OperationMethod<
-  GetMedicalVocabularyRequest,
+  GetMedicalVocabularyRequest & RegionInput,
   GetMedicalVocabularyResponse,
   GetMedicalVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1906,7 +1907,7 @@ export type GetTranscriptionJobError =
  * To get a list of your transcription jobs, use the operation.
  */
 export const getTranscriptionJob: API.OperationMethod<
-  GetTranscriptionJobRequest,
+  GetTranscriptionJobRequest & RegionInput,
   GetTranscriptionJobResponse,
   GetTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -1944,7 +1945,7 @@ export type GetVocabularyError =
  * To get a list of your custom vocabularies, use the operation.
  */
 export const getVocabulary: API.OperationMethod<
-  GetVocabularyRequest,
+  GetVocabularyRequest & RegionInput,
   GetVocabularyResponse,
   GetVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1976,7 +1977,7 @@ export type GetVocabularyFilterError =
  * To get a list of your custom vocabulary filters, use the operation.
  */
 export const getVocabularyFilter: API.OperationMethod<
-  GetVocabularyFilterRequest,
+  GetVocabularyFilterRequest & RegionInput,
   GetVocabularyFilterResponse,
   GetVocabularyFilterError,
   Credentials | HttpClient.HttpClient
@@ -2008,7 +2009,7 @@ export type ListCallAnalyticsCategoriesError =
  * To get detailed information about a specific Call Analytics category, use the operation.
  */
 export const listCallAnalyticsCategories: API.PaginatedOperationMethod<
-  ListCallAnalyticsCategoriesRequest,
+  ListCallAnalyticsCategoriesRequest & RegionInput,
   ListCallAnalyticsCategoriesResponse,
   ListCallAnalyticsCategoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2041,7 +2042,7 @@ export type ListCallAnalyticsJobsError =
  * To get detailed information about a specific Call Analytics job, use the operation.
  */
 export const listCallAnalyticsJobs: API.PaginatedOperationMethod<
-  ListCallAnalyticsJobsRequest,
+  ListCallAnalyticsJobsRequest & RegionInput,
   ListCallAnalyticsJobsResponse,
   ListCallAnalyticsJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2074,7 +2075,7 @@ export type ListLanguageModelsError =
  * To get detailed information about a specific custom language model, use the operation.
  */
 export const listLanguageModels: API.PaginatedOperationMethod<
-  ListLanguageModelsRequest,
+  ListLanguageModelsRequest & RegionInput,
   ListLanguageModelsResponse,
   ListLanguageModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2107,7 +2108,7 @@ export type ListMedicalScribeJobsError =
  * To get detailed information about a specific Medical Scribe job, use the operation.
  */
 export const listMedicalScribeJobs: API.PaginatedOperationMethod<
-  ListMedicalScribeJobsRequest,
+  ListMedicalScribeJobsRequest & RegionInput,
   ListMedicalScribeJobsResponse,
   ListMedicalScribeJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2140,7 +2141,7 @@ export type ListMedicalTranscriptionJobsError =
  * To get detailed information about a specific medical transcription job, use the operation.
  */
 export const listMedicalTranscriptionJobs: API.PaginatedOperationMethod<
-  ListMedicalTranscriptionJobsRequest,
+  ListMedicalTranscriptionJobsRequest & RegionInput,
   ListMedicalTranscriptionJobsResponse,
   ListMedicalTranscriptionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2173,7 +2174,7 @@ export type ListMedicalVocabulariesError =
  * To get detailed information about a specific custom medical vocabulary, use the operation.
  */
 export const listMedicalVocabularies: API.PaginatedOperationMethod<
-  ListMedicalVocabulariesRequest,
+  ListMedicalVocabulariesRequest & RegionInput,
   ListMedicalVocabulariesResponse,
   ListMedicalVocabulariesError,
   Credentials | HttpClient.HttpClient,
@@ -2208,7 +2209,7 @@ export type ListTagsForResourceError =
  * resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2240,7 +2241,7 @@ export type ListTranscriptionJobsError =
  * To get detailed information about a specific transcription job, use the operation.
  */
 export const listTranscriptionJobs: API.PaginatedOperationMethod<
-  ListTranscriptionJobsRequest,
+  ListTranscriptionJobsRequest & RegionInput,
   ListTranscriptionJobsResponse,
   ListTranscriptionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2273,7 +2274,7 @@ export type ListVocabulariesError =
  * To get detailed information about a specific custom vocabulary, use the operation.
  */
 export const listVocabularies: API.PaginatedOperationMethod<
-  ListVocabulariesRequest,
+  ListVocabulariesRequest & RegionInput,
   ListVocabulariesResponse,
   ListVocabulariesError,
   Credentials | HttpClient.HttpClient,
@@ -2306,7 +2307,7 @@ export type ListVocabularyFiltersError =
  * To get detailed information about a specific custom vocabulary filter, use the operation.
  */
 export const listVocabularyFilters: API.PaginatedOperationMethod<
-  ListVocabularyFiltersRequest,
+  ListVocabularyFiltersRequest & RegionInput,
   ListVocabularyFiltersResponse,
   ListVocabularyFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -2379,7 +2380,7 @@ export type StartCallAnalyticsJobError =
  * `RedactedMediaFileUri` field of your response.
  */
 export const startCallAnalyticsJob: API.OperationMethod<
-  StartCallAnalyticsJobRequest,
+  StartCallAnalyticsJobRequest & RegionInput,
   StartCallAnalyticsJobResponse,
   StartCallAnalyticsJobError,
   Credentials | HttpClient.HttpClient
@@ -2440,7 +2441,7 @@ export type StartMedicalScribeJobError =
  * value of `Settings` is set to true.
  */
 export const startMedicalScribeJob: API.OperationMethod<
-  StartMedicalScribeJobRequest,
+  StartMedicalScribeJobRequest & RegionInput,
   StartMedicalScribeJobResponse,
   StartMedicalScribeJobError,
   Credentials | HttpClient.HttpClient
@@ -2505,7 +2506,7 @@ export type StartMedicalTranscriptionJobError =
  * dictation.
  */
 export const startMedicalTranscriptionJob: API.OperationMethod<
-  StartMedicalTranscriptionJobRequest,
+  StartMedicalTranscriptionJobRequest & RegionInput,
   StartMedicalTranscriptionJobResponse,
   StartMedicalTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -2562,7 +2563,7 @@ export type StartTranscriptionJobError =
  * the languages for you.
  */
 export const startTranscriptionJob: API.OperationMethod<
-  StartTranscriptionJobRequest,
+  StartTranscriptionJobRequest & RegionInput,
   StartTranscriptionJobResponse,
   StartTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -2597,7 +2598,7 @@ export type TagResourceError =
  * resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2632,7 +2633,7 @@ export type UntagResourceError =
  * `ResourceArn` and `TagKeys`.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2669,7 +2670,7 @@ export type UpdateCallAnalyticsCategoryError =
  * To create a new category, see .
  */
 export const updateCallAnalyticsCategory: API.OperationMethod<
-  UpdateCallAnalyticsCategoryRequest,
+  UpdateCallAnalyticsCategoryRequest & RegionInput,
   UpdateCallAnalyticsCategoryResponse,
   UpdateCallAnalyticsCategoryError,
   Credentials | HttpClient.HttpClient
@@ -2711,7 +2712,7 @@ export type UpdateLanguageModelError =
  * is being processed.
  */
 export const updateLanguageModel: API.OperationMethod<
-  UpdateLanguageModelRequest,
+  UpdateLanguageModelRequest & RegionInput,
   UpdateLanguageModelResponse,
   UpdateLanguageModelError,
   Credentials | HttpClient.HttpClient
@@ -2745,7 +2746,7 @@ export type UpdateMedicalVocabularyError =
  * onto an existing custom vocabulary.
  */
 export const updateMedicalVocabulary: API.OperationMethod<
-  UpdateMedicalVocabularyRequest,
+  UpdateMedicalVocabularyRequest & RegionInput,
   UpdateMedicalVocabularyResponse,
   UpdateMedicalVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -2783,7 +2784,7 @@ export type UpdateVocabularyError =
  * `Phrases` or `VocabularyFileUri` in your request.
  */
 export const updateVocabulary: API.OperationMethod<
-  UpdateVocabularyRequest,
+  UpdateVocabularyRequest & RegionInput,
   UpdateVocabularyResponse,
   UpdateVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -2820,7 +2821,7 @@ export type UpdateVocabularyFilterError =
  * in your request.
  */
 export const updateVocabularyFilter: API.OperationMethod<
-  UpdateVocabularyFilterRequest,
+  UpdateVocabularyFilterRequest & RegionInput,
   UpdateVocabularyFilterResponse,
   UpdateVocabularyFilterError,
   Credentials | HttpClient.HttpClient

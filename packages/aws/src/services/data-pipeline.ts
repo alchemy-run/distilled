@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -389,7 +390,7 @@ export type ActivatePipelineError =
  * {}
  */
 export const activatePipeline: API.OperationMethod<
-  ActivatePipelineInput,
+  ActivatePipelineInput & RegionInput,
   ActivatePipelineOutput,
   ActivatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -419,7 +420,7 @@ export type AddTagsError =
  * Adds or modifies tags for the specified pipeline.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -464,7 +465,7 @@ export type CreatePipelineError = InternalServiceError | InvalidRequestException
  * {"pipelineId": "df-06372391ZG65EXAMPLE"}
  */
 export const createPipeline: API.OperationMethod<
-  CreatePipelineInput,
+  CreatePipelineInput & RegionInput,
   CreatePipelineOutput,
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -493,7 +494,7 @@ export type DeactivatePipelineError =
  * Optionally, you can specify the date and time to resume the pipeline.
  */
 export const deactivatePipeline: API.OperationMethod<
-  DeactivatePipelineInput,
+  DeactivatePipelineInput & RegionInput,
   DeactivatePipelineOutput,
   DeactivatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -544,7 +545,7 @@ export type DeletePipelineError =
  * Unexpected response: 200, OK, undefined
  */
 export const deletePipeline: API.OperationMethod<
-  DeletePipelineInput,
+  DeletePipelineInput & RegionInput,
   DeletePipelineResponse,
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
@@ -617,7 +618,7 @@ export type DescribeObjectsError =
  * }
  */
 export const describeObjects: API.PaginatedOperationMethod<
-  DescribeObjectsInput,
+  DescribeObjectsInput & RegionInput,
   DescribeObjectsOutput,
   DescribeObjectsError,
   Credentials | HttpClient.HttpClient,
@@ -702,7 +703,7 @@ export type DescribePipelinesError =
  * }
  */
 export const describePipelines: API.OperationMethod<
-  DescribePipelinesInput,
+  DescribePipelinesInput & RegionInput,
   DescribePipelinesOutput,
   DescribePipelinesError,
   Credentials | HttpClient.HttpClient
@@ -753,7 +754,7 @@ export type EvaluateExpressionError =
  * {"evaluatedExpression": "Transform started at 2012-12-12T00:00:00 and finished at 2012-12-21T18:00:00"}
  */
 export const evaluateExpression: API.OperationMethod<
-  EvaluateExpressionInput,
+  EvaluateExpressionInput & RegionInput,
   EvaluateExpressionOutput,
   EvaluateExpressionError,
   Credentials | HttpClient.HttpClient
@@ -838,7 +839,7 @@ export type GetPipelineDefinitionError =
  * }
  */
 export const getPipelineDefinition: API.OperationMethod<
-  GetPipelineDefinitionInput,
+  GetPipelineDefinitionInput & RegionInput,
   GetPipelineDefinitionOutput,
   GetPipelineDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -888,7 +889,7 @@ export type ListPipelinesError = InternalServiceError | InvalidRequestException 
  * }
  */
 export const listPipelines: API.PaginatedOperationMethod<
-  ListPipelinesInput,
+  ListPipelinesInput & RegionInput,
   ListPipelinesOutput,
   ListPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -982,7 +983,7 @@ export type PollForTaskError =
  * }
  */
 export const pollForTask: API.OperationMethod<
-  PollForTaskInput,
+  PollForTaskInput & RegionInput,
   PollForTaskOutput,
   PollForTaskError,
   Credentials | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type PutPipelineDefinitionError =
  * "message": "Pipeline definition has errors: Could not save the pipeline definition due to FATAL errors: [com.amazon.setl.webservice.ValidationError@108d7ea9] Please call Validate to validate your pipeline"}
  */
 export const putPipelineDefinition: API.OperationMethod<
-  PutPipelineDefinitionInput,
+  PutPipelineDefinitionInput & RegionInput,
   PutPipelineDefinitionOutput,
   PutPipelineDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type QueryObjectsError =
  * }
  */
 export const queryObjects: API.PaginatedOperationMethod<
-  QueryObjectsInput,
+  QueryObjectsInput & RegionInput,
   QueryObjectsOutput,
   QueryObjectsError,
   Credentials | HttpClient.HttpClient,
@@ -1241,7 +1242,7 @@ export type RemoveTagsError =
  * Removes existing tags from the specified pipeline.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsInput,
+  RemoveTagsInput & RegionInput,
   RemoveTagsOutput,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -1301,7 +1302,7 @@ export type ReportTaskProgressError =
  * {"canceled": false}
  */
 export const reportTaskProgress: API.OperationMethod<
-  ReportTaskProgressInput,
+  ReportTaskProgressInput & RegionInput,
   ReportTaskProgressOutput,
   ReportTaskProgressError,
   Credentials | HttpClient.HttpClient
@@ -1352,7 +1353,7 @@ export type ReportTaskRunnerHeartbeatError =
  * {"terminate": false}
  */
 export const reportTaskRunnerHeartbeat: API.OperationMethod<
-  ReportTaskRunnerHeartbeatInput,
+  ReportTaskRunnerHeartbeatInput & RegionInput,
   ReportTaskRunnerHeartbeatOutput,
   ReportTaskRunnerHeartbeatError,
   Credentials | HttpClient.HttpClient
@@ -1399,7 +1400,7 @@ export type SetStatusError =
  * Unexpected response: 200, OK, undefined
  */
 export const setStatus: API.OperationMethod<
-  SetStatusInput,
+  SetStatusInput & RegionInput,
   SetStatusResponse,
   SetStatusError,
   Credentials | HttpClient.HttpClient
@@ -1450,7 +1451,7 @@ export type SetTaskStatusError =
  * {}
  */
 export const setTaskStatus: API.OperationMethod<
-  SetTaskStatusInput,
+  SetTaskStatusInput & RegionInput,
   SetTaskStatusOutput,
   SetTaskStatusError,
   Credentials | HttpClient.HttpClient
@@ -1612,7 +1613,7 @@ export type ValidatePipelineDefinitionError =
  * }
  */
 export const validatePipelineDefinition: API.OperationMethod<
-  ValidatePipelineDefinitionInput,
+  ValidatePipelineDefinitionInput & RegionInput,
   ValidatePipelineDefinitionOutput,
   ValidatePipelineDefinitionError,
   Credentials | HttpClient.HttpClient

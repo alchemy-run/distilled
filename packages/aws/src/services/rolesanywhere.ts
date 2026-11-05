@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -391,7 +392,7 @@ export type CreateProfileError = AccessDeniedException | ValidationException | C
  * **Required permissions: ** `rolesanywhere:CreateProfile`.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileRequest,
+  CreateProfileRequest & RegionInput,
   ProfileDetailResponse,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -413,7 +414,7 @@ export type CreateTrustAnchorError = AccessDeniedException | ValidationException
  * **Required permissions: ** `rolesanywhere:CreateTrustAnchor`.
  */
 export const createTrustAnchor: API.OperationMethod<
-  CreateTrustAnchorRequest,
+  CreateTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   CreateTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -437,7 +438,7 @@ export type DeleteAttributeMappingError =
  * Delete an entry from the attribute mapping rules enforced by a given profile.
  */
 export const deleteAttributeMapping: API.OperationMethod<
-  DeleteAttributeMappingRequest,
+  DeleteAttributeMappingRequest & RegionInput,
   DeleteAttributeMappingResponse,
   DeleteAttributeMappingError,
   Credentials | HttpClient.HttpClient
@@ -459,7 +460,7 @@ export type DeleteCrlError = AccessDeniedException | ResourceNotFoundException |
  * **Required permissions: ** `rolesanywhere:DeleteCrl`.
  */
 export const deleteCrl: API.OperationMethod<
-  ScalarCrlRequest,
+  ScalarCrlRequest & RegionInput,
   CrlDetailResponse,
   DeleteCrlError,
   Credentials | HttpClient.HttpClient
@@ -481,7 +482,7 @@ export type DeleteProfileError = AccessDeniedException | ResourceNotFoundExcepti
  * **Required permissions: ** `rolesanywhere:DeleteProfile`.
  */
 export const deleteProfile: API.OperationMethod<
-  ScalarProfileRequest,
+  ScalarProfileRequest & RegionInput,
   ProfileDetailResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -506,7 +507,7 @@ export type DeleteTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:DeleteTrustAnchor`.
  */
 export const deleteTrustAnchor: API.OperationMethod<
-  ScalarTrustAnchorRequest,
+  ScalarTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   DeleteTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -532,7 +533,7 @@ export type DisableCrlError = AccessDeniedException | ResourceNotFoundException 
  * **Required permissions: ** `rolesanywhere:DisableCrl`.
  */
 export const disableCrl: API.OperationMethod<
-  DisableCrlRequest,
+  DisableCrlRequest & RegionInput,
   CrlDetailResponse,
   DisableCrlError,
   Credentials | HttpClient.HttpClient
@@ -558,7 +559,7 @@ export type DisableProfileError = AccessDeniedException | ResourceNotFoundExcept
  * **Required permissions: ** `rolesanywhere:DisableProfile`.
  */
 export const disableProfile: API.OperationMethod<
-  DisableProfileRequest,
+  DisableProfileRequest & RegionInput,
   ProfileDetailResponse,
   DisableProfileError,
   Credentials | HttpClient.HttpClient
@@ -589,7 +590,7 @@ export type DisableTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:DisableTrustAnchor`.
  */
 export const disableTrustAnchor: API.OperationMethod<
-  DisableTrustAnchorRequest,
+  DisableTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   DisableTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -615,7 +616,7 @@ export type EnableCrlError = AccessDeniedException | ResourceNotFoundException |
  * **Required permissions: ** `rolesanywhere:EnableCrl`.
  */
 export const enableCrl: API.OperationMethod<
-  EnableCrlRequest,
+  EnableCrlRequest & RegionInput,
   CrlDetailResponse,
   EnableCrlError,
   Credentials | HttpClient.HttpClient
@@ -641,7 +642,7 @@ export type EnableProfileError = AccessDeniedException | ResourceNotFoundExcepti
  * **Required permissions: ** `rolesanywhere:EnableProfile`.
  */
 export const enableProfile: API.OperationMethod<
-  EnableProfileRequest,
+  EnableProfileRequest & RegionInput,
   ProfileDetailResponse,
   EnableProfileError,
   Credentials | HttpClient.HttpClient
@@ -672,7 +673,7 @@ export type EnableTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:EnableTrustAnchor`.
  */
 export const enableTrustAnchor: API.OperationMethod<
-  EnableTrustAnchorRequest,
+  EnableTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   EnableTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -698,7 +699,7 @@ export type GetCrlError = ResourceNotFoundException | CommonErrors;
  * **Required permissions: ** `rolesanywhere:GetCrl`.
  */
 export const getCrl: API.OperationMethod<
-  GetCrlRequest,
+  GetCrlRequest & RegionInput,
   CrlDetailResponse,
   GetCrlError,
   Credentials | HttpClient.HttpClient
@@ -724,7 +725,7 @@ export type GetProfileError = AccessDeniedException | ResourceNotFoundException 
  * **Required permissions: ** `rolesanywhere:GetProfile`.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileRequest,
+  GetProfileRequest & RegionInput,
   ProfileDetailResponse,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -746,7 +747,7 @@ export type GetSubjectError = AccessDeniedException | ResourceNotFoundException 
  * **Required permissions: ** `rolesanywhere:GetSubject`.
  */
 export const getSubject: API.OperationMethod<
-  ScalarSubjectRequest,
+  ScalarSubjectRequest & RegionInput,
   SubjectDetailResponse,
   GetSubjectError,
   Credentials | HttpClient.HttpClient
@@ -776,7 +777,7 @@ export type GetTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:GetTrustAnchor`.
  */
 export const getTrustAnchor: API.OperationMethod<
-  GetTrustAnchorRequest,
+  GetTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   GetTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -798,7 +799,7 @@ export type ImportCrlError = AccessDeniedException | ValidationException | Commo
  * **Required permissions: ** `rolesanywhere:ImportCrl`.
  */
 export const importCrl: API.OperationMethod<
-  ImportCrlRequest,
+  ImportCrlRequest & RegionInput,
   CrlDetailResponse,
   ImportCrlError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +821,7 @@ export type ListCrlsError = AccessDeniedException | ValidationException | Common
  * **Required permissions: ** `rolesanywhere:ListCrls`.
  */
 export const listCrls: API.PaginatedOperationMethod<
-  ListRequest,
+  ListRequest & RegionInput,
   ListCrlsResponse,
   ListCrlsError,
   Credentials | HttpClient.HttpClient,
@@ -848,7 +849,7 @@ export type ListProfilesError = AccessDeniedException | ValidationException | Co
  * **Required permissions: ** `rolesanywhere:ListProfiles`.
  */
 export const listProfiles: API.PaginatedOperationMethod<
-  ListProfilesRequest,
+  ListProfilesRequest & RegionInput,
   ListProfilesResponse,
   ListProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -876,7 +877,7 @@ export type ListSubjectsError = AccessDeniedException | ValidationException | Co
  * **Required permissions: ** `rolesanywhere:ListSubjects`.
  */
 export const listSubjects: API.PaginatedOperationMethod<
-  ListSubjectsRequest,
+  ListSubjectsRequest & RegionInput,
   ListSubjectsResponse,
   ListSubjectsError,
   Credentials | HttpClient.HttpClient,
@@ -904,7 +905,7 @@ export type ListTagsForResourceError =
  * **Required permissions: ** `rolesanywhere:ListTagsForResource`.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -930,7 +931,7 @@ export type ListTrustAnchorsError = AccessDeniedException | ValidationException 
  * **Required permissions: ** `rolesanywhere:ListTrustAnchors`.
  */
 export const listTrustAnchors: API.PaginatedOperationMethod<
-  ListTrustAnchorsRequest,
+  ListTrustAnchorsRequest & RegionInput,
   ListTrustAnchorsResponse,
   ListTrustAnchorsError,
   Credentials | HttpClient.HttpClient,
@@ -956,7 +957,7 @@ export type PutAttributeMappingError =
  * Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
  */
 export const putAttributeMapping: API.OperationMethod<
-  PutAttributeMappingRequest,
+  PutAttributeMappingRequest & RegionInput,
   PutAttributeMappingResponse,
   PutAttributeMappingError,
   Credentials | HttpClient.HttpClient
@@ -984,7 +985,7 @@ export type PutNotificationSettingsError =
  * **Required permissions: ** `rolesanywhere:PutNotificationSettings`.
  */
 export const putNotificationSettings: API.OperationMethod<
-  PutNotificationSettingsRequest,
+  PutNotificationSettingsRequest & RegionInput,
   PutNotificationSettingsResponse,
   PutNotificationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1010,7 +1011,7 @@ export type ResetNotificationSettingsError =
  * **Required permissions: ** `rolesanywhere:ResetNotificationSettings`.
  */
 export const resetNotificationSettings: API.OperationMethod<
-  ResetNotificationSettingsRequest,
+  ResetNotificationSettingsRequest & RegionInput,
   ResetNotificationSettingsResponse,
   ResetNotificationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1037,7 +1038,7 @@ export type TagResourceError =
  * **Required permissions: ** `rolesanywhere:TagResource`.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1068,7 +1069,7 @@ export type UntagResourceError =
  * **Required permissions: ** `rolesanywhere:UntagResource`.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1094,7 +1095,7 @@ export type UpdateCrlError =
  * **Required permissions: ** `rolesanywhere:UpdateCrl`.
  */
 export const updateCrl: API.OperationMethod<
-  UpdateCrlRequest,
+  UpdateCrlRequest & RegionInput,
   CrlDetailResponse,
   UpdateCrlError,
   Credentials | HttpClient.HttpClient
@@ -1120,7 +1121,7 @@ export type UpdateProfileError =
  * **Required permissions: ** `rolesanywhere:UpdateProfile`.
  */
 export const updateProfile: API.OperationMethod<
-  UpdateProfileRequest,
+  UpdateProfileRequest & RegionInput,
   ProfileDetailResponse,
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type UpdateTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:UpdateTrustAnchor`.
  */
 export const updateTrustAnchor: API.OperationMethod<
-  UpdateTrustAnchorRequest,
+  UpdateTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   UpdateTrustAnchorError,
   Credentials | HttpClient.HttpClient

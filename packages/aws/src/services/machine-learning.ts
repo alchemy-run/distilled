@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -761,7 +762,7 @@ export type AddTagsError =
  * `AddTags` updates the tag's value.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -800,7 +801,7 @@ export type CreateBatchPredictionError =
  * the results are available in the location specified by the `OutputUri` parameter.
  */
 export const createBatchPrediction: API.OperationMethod<
-  CreateBatchPredictionInput,
+  CreateBatchPredictionInput & RegionInput,
   CreateBatchPredictionOutput,
   CreateBatchPredictionError,
   Credentials | HttpClient.HttpClient
@@ -832,7 +833,7 @@ export type CreateDataSourceFromRDSError =
  * If Amazon ML cannot accept the input source, it sets the `Status` parameter to `FAILED` and includes an error message in the `Message` attribute of the `GetDataSource` operation response.
  */
 export const createDataSourceFromRDS: API.OperationMethod<
-  CreateDataSourceFromRDSInput,
+  CreateDataSourceFromRDSInput & RegionInput,
   CreateDataSourceFromRDSOutput,
   CreateDataSourceFromRDSError,
   Credentials | HttpClient.HttpClient
@@ -885,7 +886,7 @@ export type CreateDataSourceFromRedshiftError =
  * make sure that all required fields have the appropriate values.
  */
 export const createDataSourceFromRedshift: API.OperationMethod<
-  CreateDataSourceFromRedshiftInput,
+  CreateDataSourceFromRedshiftInput & RegionInput,
   CreateDataSourceFromRedshiftOutput,
   CreateDataSourceFromRedshiftError,
   Credentials | HttpClient.HttpClient
@@ -939,7 +940,7 @@ export type CreateDataSourceFromS3Error =
  * word combinations? The recipe provides answers to these questions.
  */
 export const createDataSourceFromS3: API.OperationMethod<
-  CreateDataSourceFromS3Input,
+  CreateDataSourceFromS3Input & RegionInput,
   CreateDataSourceFromS3Output,
   CreateDataSourceFromS3Error,
   Credentials | HttpClient.HttpClient
@@ -972,7 +973,7 @@ export type CreateEvaluationError =
  * You can use the `GetEvaluation` operation to check progress of the evaluation during the creation operation.
  */
 export const createEvaluation: API.OperationMethod<
-  CreateEvaluationInput,
+  CreateEvaluationInput & RegionInput,
   CreateEvaluationOutput,
   CreateEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -1015,7 +1016,7 @@ export type CreateMLModelError =
  * `CreateDataSourceFromRedshift` operations.
  */
 export const createMLModel: API.OperationMethod<
-  CreateMLModelInput,
+  CreateMLModelInput & RegionInput,
   CreateMLModelOutput,
   CreateMLModelError,
   Credentials | HttpClient.HttpClient
@@ -1039,7 +1040,7 @@ export type CreateRealtimeEndpointError =
  * Creates a real-time endpoint for the `MLModel`. The endpoint contains the URI of the `MLModel`; that is, the location to send real-time prediction requests for the specified `MLModel`.
  */
 export const createRealtimeEndpoint: API.OperationMethod<
-  CreateRealtimeEndpointInput,
+  CreateRealtimeEndpointInput & RegionInput,
   CreateRealtimeEndpointOutput,
   CreateRealtimeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1068,7 +1069,7 @@ export type DeleteBatchPredictionError =
  * **Caution:** The result of the `DeleteBatchPrediction` operation is irreversible.
  */
 export const deleteBatchPrediction: API.OperationMethod<
-  DeleteBatchPredictionInput,
+  DeleteBatchPredictionInput & RegionInput,
   DeleteBatchPredictionOutput,
   DeleteBatchPredictionError,
   Credentials | HttpClient.HttpClient
@@ -1096,7 +1097,7 @@ export type DeleteDataSourceError =
  * **Caution:** The results of the `DeleteDataSource` operation are irreversible.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceInput,
+  DeleteDataSourceInput & RegionInput,
   DeleteDataSourceOutput,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1125,7 +1126,7 @@ export type DeleteEvaluationError =
  * **Caution:** The results of the `DeleteEvaluation` operation are irreversible.
  */
 export const deleteEvaluation: API.OperationMethod<
-  DeleteEvaluationInput,
+  DeleteEvaluationInput & RegionInput,
   DeleteEvaluationOutput,
   DeleteEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -1154,7 +1155,7 @@ export type DeleteMLModelError =
  * **Caution:** The result of the `DeleteMLModel` operation is irreversible.
  */
 export const deleteMLModel: API.OperationMethod<
-  DeleteMLModelInput,
+  DeleteMLModelInput & RegionInput,
   DeleteMLModelOutput,
   DeleteMLModelError,
   Credentials | HttpClient.HttpClient
@@ -1178,7 +1179,7 @@ export type DeleteRealtimeEndpointError =
  * Deletes a real time endpoint of an `MLModel`.
  */
 export const deleteRealtimeEndpoint: API.OperationMethod<
-  DeleteRealtimeEndpointInput,
+  DeleteRealtimeEndpointInput & RegionInput,
   DeleteRealtimeEndpointOutput,
   DeleteRealtimeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1205,7 +1206,7 @@ export type DeleteTagsError =
  * If you specify a tag that doesn't exist, Amazon ML ignores it.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsInput,
+  DeleteTagsInput & RegionInput,
   DeleteTagsOutput,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -1233,7 +1234,7 @@ export type DescribeBatchPredictionsError =
  * Returns a list of `BatchPrediction` operations that match the search criteria in the request.
  */
 export const describeBatchPredictions: API.PaginatedOperationMethod<
-  DescribeBatchPredictionsInput,
+  DescribeBatchPredictionsInput & RegionInput,
   DescribeBatchPredictionsOutput,
   DescribeBatchPredictionsError,
   Credentials | HttpClient.HttpClient,
@@ -1263,7 +1264,7 @@ export type DescribeDataSourcesError =
  * Returns a list of `DataSource` that match the search criteria in the request.
  */
 export const describeDataSources: API.PaginatedOperationMethod<
-  DescribeDataSourcesInput,
+  DescribeDataSourcesInput & RegionInput,
   DescribeDataSourcesOutput,
   DescribeDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1293,7 +1294,7 @@ export type DescribeEvaluationsError =
  * Returns a list of `DescribeEvaluations` that match the search criteria in the request.
  */
 export const describeEvaluations: API.PaginatedOperationMethod<
-  DescribeEvaluationsInput,
+  DescribeEvaluationsInput & RegionInput,
   DescribeEvaluationsOutput,
   DescribeEvaluationsError,
   Credentials | HttpClient.HttpClient,
@@ -1320,7 +1321,7 @@ export type DescribeMLModelsError = InternalServerException | InvalidInputExcept
  * Returns a list of `MLModel` that match the search criteria in the request.
  */
 export const describeMLModels: API.PaginatedOperationMethod<
-  DescribeMLModelsInput,
+  DescribeMLModelsInput & RegionInput,
   DescribeMLModelsOutput,
   DescribeMLModelsError,
   Credentials | HttpClient.HttpClient,
@@ -1351,7 +1352,7 @@ export type DescribeTagsError =
  * Describes one or more of the tags for your Amazon ML object.
  */
 export const describeTags: API.OperationMethod<
-  DescribeTagsInput,
+  DescribeTagsInput & RegionInput,
   DescribeTagsOutput,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
@@ -1376,7 +1377,7 @@ export type GetBatchPredictionError =
  * `Batch Prediction` request.
  */
 export const getBatchPrediction: API.OperationMethod<
-  GetBatchPredictionInput,
+  GetBatchPredictionInput & RegionInput,
   GetBatchPredictionOutput,
   GetBatchPredictionError,
   Credentials | HttpClient.HttpClient
@@ -1403,7 +1404,7 @@ export type GetDataSourceError =
  * adds the schema description and the list of files pointed to by the DataSource to the normal format.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceInput,
+  GetDataSourceInput & RegionInput,
   GetDataSourceOutput,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1427,7 +1428,7 @@ export type GetEvaluationError =
  * Returns an `Evaluation` that includes metadata as well as the current status of the `Evaluation`.
  */
 export const getEvaluation: API.OperationMethod<
-  GetEvaluationInput,
+  GetEvaluationInput & RegionInput,
   GetEvaluationOutput,
   GetEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -1453,7 +1454,7 @@ export type GetMLModelError =
  * `GetMLModel` provides results in normal or verbose format.
  */
 export const getMLModel: API.OperationMethod<
-  GetMLModelInput,
+  GetMLModelInput & RegionInput,
   GetMLModelOutput,
   GetMLModelError,
   Credentials | HttpClient.HttpClient
@@ -1482,7 +1483,7 @@ export type PredictError =
  * response parameter is populated depends on the type of model requested.
  */
 export const predict: API.OperationMethod<
-  PredictInput,
+  PredictInput & RegionInput,
   PredictOutput,
   PredictError,
   Credentials | HttpClient.HttpClient
@@ -1514,7 +1515,7 @@ export type UpdateBatchPredictionError =
  * You can use the `GetBatchPrediction` operation to view the contents of the updated data element.
  */
 export const updateBatchPrediction: API.OperationMethod<
-  UpdateBatchPredictionInput,
+  UpdateBatchPredictionInput & RegionInput,
   UpdateBatchPredictionOutput,
   UpdateBatchPredictionError,
   Credentials | HttpClient.HttpClient
@@ -1540,7 +1541,7 @@ export type UpdateDataSourceError =
  * You can use the `GetDataSource` operation to view the contents of the updated data element.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceInput,
+  UpdateDataSourceInput & RegionInput,
   UpdateDataSourceOutput,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1567,7 @@ export type UpdateEvaluationError =
  * You can use the `GetEvaluation` operation to view the contents of the updated data element.
  */
 export const updateEvaluation: API.OperationMethod<
-  UpdateEvaluationInput,
+  UpdateEvaluationInput & RegionInput,
   UpdateEvaluationOutput,
   UpdateEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -1592,7 +1593,7 @@ export type UpdateMLModelError =
  * You can use the `GetMLModel` operation to view the contents of the updated data element.
  */
 export const updateMLModel: API.OperationMethod<
-  UpdateMLModelInput,
+  UpdateMLModelInput & RegionInput,
   UpdateMLModelOutput,
   UpdateMLModelError,
   Credentials | HttpClient.HttpClient

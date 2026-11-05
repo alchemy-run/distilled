@@ -62,6 +62,13 @@ number.
 14. **Allow edits by maintainers.** Keep the box ticked so a maintainer can
     merge `main` and regenerate. Example: a fork PR without it waits until
     the author rebases it.
+15. **A value that picks where a call goes is a param and a layer.** A
+    region, jurisdiction, account or org stays an optional member of each
+    operation's input, and a layer can set it for a whole scope. The call's
+    value wins over the layer. Do not remove the member to make the layer
+    the only way. Example: `S3.getObject({ Bucket, Key, region })` and
+    `Effect.provide(Region.of("eu-west-1"))` both work; #1047 removed R2's
+    `jurisdiction` members for a layer and #1063 put them back.
 
 ## Getting the repo
 

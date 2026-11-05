@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1057,7 +1058,7 @@ export type BatchCreateBillScenarioCommitmentModificationError =
  * The `BatchCreateBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateBillScenarioCommitmentModification` in your policies.
  */
 export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
-  BatchCreateBillScenarioCommitmentModificationRequest,
+  BatchCreateBillScenarioCommitmentModificationRequest & RegionInput,
   BatchCreateBillScenarioCommitmentModificationResponse,
   BatchCreateBillScenarioCommitmentModificationError,
   Credentials | HttpClient.HttpClient
@@ -1092,7 +1093,7 @@ export type BatchCreateBillScenarioUsageModificationError =
  * The `BatchCreateBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateBillScenarioUsageModification` in your policies.
  */
 export const batchCreateBillScenarioUsageModification: API.OperationMethod<
-  BatchCreateBillScenarioUsageModificationRequest,
+  BatchCreateBillScenarioUsageModificationRequest & RegionInput,
   BatchCreateBillScenarioUsageModificationResponse,
   BatchCreateBillScenarioUsageModificationError,
   Credentials | HttpClient.HttpClient
@@ -1124,7 +1125,7 @@ export type BatchCreateWorkloadEstimateUsageError =
  * The `BatchCreateWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateWorkloadEstimateUsage` in your policies.
  */
 export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
-  BatchCreateWorkloadEstimateUsageRequest,
+  BatchCreateWorkloadEstimateUsageRequest & RegionInput,
   BatchCreateWorkloadEstimateUsageResponse,
   BatchCreateWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient
@@ -1155,7 +1156,7 @@ export type BatchDeleteBillScenarioCommitmentModificationError =
  * The `BatchDeleteBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioCommitmentModification` in your policies.
  */
 export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
-  BatchDeleteBillScenarioCommitmentModificationRequest,
+  BatchDeleteBillScenarioCommitmentModificationRequest & RegionInput,
   BatchDeleteBillScenarioCommitmentModificationResponse,
   BatchDeleteBillScenarioCommitmentModificationError,
   Credentials | HttpClient.HttpClient
@@ -1190,7 +1191,7 @@ export type BatchDeleteBillScenarioUsageModificationError =
  * The `BatchDeleteBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioUsageModification` in your policies.
  */
 export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
-  BatchDeleteBillScenarioUsageModificationRequest,
+  BatchDeleteBillScenarioUsageModificationRequest & RegionInput,
   BatchDeleteBillScenarioUsageModificationResponse,
   BatchDeleteBillScenarioUsageModificationError,
   Credentials | HttpClient.HttpClient
@@ -1221,7 +1222,7 @@ export type BatchDeleteWorkloadEstimateUsageError =
  * The `BatchDeleteWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteWorkloadEstimateUsage` in your policies.
  */
 export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
-  BatchDeleteWorkloadEstimateUsageRequest,
+  BatchDeleteWorkloadEstimateUsageRequest & RegionInput,
   BatchDeleteWorkloadEstimateUsageResponse,
   BatchDeleteWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient
@@ -1247,7 +1248,7 @@ export type BatchUpdateBillScenarioCommitmentModificationError =
  * The `BatchUpdateBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateBillScenarioCommitmentModification` in your policies.
  */
 export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
-  BatchUpdateBillScenarioCommitmentModificationRequest,
+  BatchUpdateBillScenarioCommitmentModificationRequest & RegionInput,
   BatchUpdateBillScenarioCommitmentModificationResponse,
   BatchUpdateBillScenarioCommitmentModificationError,
   Credentials | HttpClient.HttpClient
@@ -1274,7 +1275,7 @@ export type BatchUpdateBillScenarioUsageModificationError =
  * The `BatchUpdateBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateBillScenarioUsageModification` in your policies.
  */
 export const batchUpdateBillScenarioUsageModification: API.OperationMethod<
-  BatchUpdateBillScenarioUsageModificationRequest,
+  BatchUpdateBillScenarioUsageModificationRequest & RegionInput,
   BatchUpdateBillScenarioUsageModificationResponse,
   BatchUpdateBillScenarioUsageModificationError,
   Credentials | HttpClient.HttpClient
@@ -1305,7 +1306,7 @@ export type BatchUpdateWorkloadEstimateUsageError =
  * The `BatchUpdateWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateWorkloadEstimateUsage` in your policies.
  */
 export const batchUpdateWorkloadEstimateUsage: API.OperationMethod<
-  BatchUpdateWorkloadEstimateUsageRequest,
+  BatchUpdateWorkloadEstimateUsageRequest & RegionInput,
   BatchUpdateWorkloadEstimateUsageResponse,
   BatchUpdateWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient
@@ -1329,7 +1330,7 @@ export type CreateBillEstimateError =
  * Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments from your most recent completed anniversary bill, with any applicable discounts applied.
  */
 export const createBillEstimate: API.OperationMethod<
-  CreateBillEstimateRequest,
+  CreateBillEstimateRequest & RegionInput,
   CreateBillEstimateResponse,
   CreateBillEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1353,7 +1354,7 @@ export type CreateBillScenarioError =
  * Creates a new bill scenario to model potential changes to Amazon Web Services usage and costs.
  */
 export const createBillScenario: API.OperationMethod<
-  CreateBillScenarioRequest,
+  CreateBillScenarioRequest & RegionInput,
   CreateBillScenarioResponse,
   CreateBillScenarioError,
   Credentials | HttpClient.HttpClient
@@ -1377,7 +1378,7 @@ export type CreateWorkloadEstimateError =
  * Creates a new workload estimate to model costs for a specific workload.
  */
 export const createWorkloadEstimate: API.OperationMethod<
-  CreateWorkloadEstimateRequest,
+  CreateWorkloadEstimateRequest & RegionInput,
   CreateWorkloadEstimateResponse,
   CreateWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1397,7 +1398,7 @@ export type DeleteBillEstimateError = ConflictException | DataUnavailableExcepti
  * Deletes an existing bill estimate.
  */
 export const deleteBillEstimate: API.OperationMethod<
-  DeleteBillEstimateRequest,
+  DeleteBillEstimateRequest & RegionInput,
   DeleteBillEstimateResponse,
   DeleteBillEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1417,7 +1418,7 @@ export type DeleteBillScenarioError = ConflictException | DataUnavailableExcepti
  * Deletes an existing bill scenario.
  */
 export const deleteBillScenario: API.OperationMethod<
-  DeleteBillScenarioRequest,
+  DeleteBillScenarioRequest & RegionInput,
   DeleteBillScenarioResponse,
   DeleteBillScenarioError,
   Credentials | HttpClient.HttpClient
@@ -1437,7 +1438,7 @@ export type DeleteWorkloadEstimateError = DataUnavailableException | CommonError
  * Deletes an existing workload estimate.
  */
 export const deleteWorkloadEstimate: API.OperationMethod<
-  DeleteWorkloadEstimateRequest,
+  DeleteWorkloadEstimateRequest & RegionInput,
   DeleteWorkloadEstimateResponse,
   DeleteWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1460,7 +1461,7 @@ export type GetBillEstimateError =
  * Retrieves details of a specific bill estimate.
  */
 export const getBillEstimate: API.OperationMethod<
-  GetBillEstimateRequest,
+  GetBillEstimateRequest & RegionInput,
   GetBillEstimateResponse,
   GetBillEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1484,7 @@ export type GetBillScenarioError =
  * Retrieves details of a specific bill scenario.
  */
 export const getBillScenario: API.OperationMethod<
-  GetBillScenarioRequest,
+  GetBillScenarioRequest & RegionInput,
   GetBillScenarioResponse,
   GetBillScenarioError,
   Credentials | HttpClient.HttpClient
@@ -1503,7 +1504,7 @@ export type GetPreferencesError = DataUnavailableException | CommonErrors;
  * Retrieves the current preferences for Pricing Calculator.
  */
 export const getPreferences: API.OperationMethod<
-  GetPreferencesRequest,
+  GetPreferencesRequest & RegionInput,
   GetPreferencesResponse,
   GetPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1526,7 +1527,7 @@ export type GetWorkloadEstimateError =
  * Retrieves details of a specific workload estimate.
  */
 export const getWorkloadEstimate: API.OperationMethod<
-  GetWorkloadEstimateRequest,
+  GetWorkloadEstimateRequest & RegionInput,
   GetWorkloadEstimateResponse,
   GetWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1549,7 +1550,7 @@ export type ListBillEstimateCommitmentsError =
  * Lists the commitments associated with a bill estimate.
  */
 export const listBillEstimateCommitments: API.PaginatedOperationMethod<
-  ListBillEstimateCommitmentsRequest,
+  ListBillEstimateCommitmentsRequest & RegionInput,
   ListBillEstimateCommitmentsResponse,
   ListBillEstimateCommitmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1579,7 +1580,7 @@ export type ListBillEstimateInputCommitmentModificationsError =
  * Lists the input commitment modifications associated with a bill estimate.
  */
 export const listBillEstimateInputCommitmentModifications: API.PaginatedOperationMethod<
-  ListBillEstimateInputCommitmentModificationsRequest,
+  ListBillEstimateInputCommitmentModificationsRequest & RegionInput,
   ListBillEstimateInputCommitmentModificationsResponse,
   ListBillEstimateInputCommitmentModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -1613,7 +1614,7 @@ export type ListBillEstimateInputUsageModificationsError =
  * Lists the input usage modifications associated with a bill estimate.
  */
 export const listBillEstimateInputUsageModifications: API.PaginatedOperationMethod<
-  ListBillEstimateInputUsageModificationsRequest,
+  ListBillEstimateInputUsageModificationsRequest & RegionInput,
   ListBillEstimateInputUsageModificationsResponse,
   ListBillEstimateInputUsageModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -1643,7 +1644,7 @@ export type ListBillEstimateLineItemsError =
  * Lists the line items associated with a bill estimate.
  */
 export const listBillEstimateLineItems: API.PaginatedOperationMethod<
-  ListBillEstimateLineItemsRequest,
+  ListBillEstimateLineItemsRequest & RegionInput,
   ListBillEstimateLineItemsResponse,
   ListBillEstimateLineItemsError,
   Credentials | HttpClient.HttpClient,
@@ -1670,7 +1671,7 @@ export type ListBillEstimatesError = DataUnavailableException | CommonErrors;
  * Lists all bill estimates for the account.
  */
 export const listBillEstimates: API.PaginatedOperationMethod<
-  ListBillEstimatesRequest,
+  ListBillEstimatesRequest & RegionInput,
   ListBillEstimatesResponse,
   ListBillEstimatesError,
   Credentials | HttpClient.HttpClient,
@@ -1700,7 +1701,7 @@ export type ListBillScenarioCommitmentModificationsError =
  * Lists the commitment modifications associated with a bill scenario.
  */
 export const listBillScenarioCommitmentModifications: API.PaginatedOperationMethod<
-  ListBillScenarioCommitmentModificationsRequest,
+  ListBillScenarioCommitmentModificationsRequest & RegionInput,
   ListBillScenarioCommitmentModificationsResponse,
   ListBillScenarioCommitmentModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -1727,7 +1728,7 @@ export type ListBillScenariosError = DataUnavailableException | CommonErrors;
  * Lists all bill scenarios for the account.
  */
 export const listBillScenarios: API.PaginatedOperationMethod<
-  ListBillScenariosRequest,
+  ListBillScenariosRequest & RegionInput,
   ListBillScenariosResponse,
   ListBillScenariosError,
   Credentials | HttpClient.HttpClient,
@@ -1757,7 +1758,7 @@ export type ListBillScenarioUsageModificationsError =
  * Lists the usage modifications associated with a bill scenario.
  */
 export const listBillScenarioUsageModifications: API.PaginatedOperationMethod<
-  ListBillScenarioUsageModificationsRequest,
+  ListBillScenarioUsageModificationsRequest & RegionInput,
   ListBillScenarioUsageModificationsResponse,
   ListBillScenarioUsageModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -1784,7 +1785,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists all tags associated with a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1804,7 +1805,7 @@ export type ListWorkloadEstimatesError = DataUnavailableException | CommonErrors
  * Lists all workload estimates for the account.
  */
 export const listWorkloadEstimates: API.PaginatedOperationMethod<
-  ListWorkloadEstimatesRequest,
+  ListWorkloadEstimatesRequest & RegionInput,
   ListWorkloadEstimatesResponse,
   ListWorkloadEstimatesError,
   Credentials | HttpClient.HttpClient,
@@ -1834,7 +1835,7 @@ export type ListWorkloadEstimateUsageError =
  * Lists the usage associated with a workload estimate.
  */
 export const listWorkloadEstimateUsage: API.PaginatedOperationMethod<
-  ListWorkloadEstimateUsageRequest,
+  ListWorkloadEstimateUsageRequest & RegionInput,
   ListWorkloadEstimateUsageResponse,
   ListWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient,
@@ -1864,7 +1865,7 @@ export type TagResourceError =
  * Adds one or more tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1884,7 +1885,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes one or more tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1908,7 +1909,7 @@ export type UpdateBillEstimateError =
  * Updates an existing bill estimate.
  */
 export const updateBillEstimate: API.OperationMethod<
-  UpdateBillEstimateRequest,
+  UpdateBillEstimateRequest & RegionInput,
   UpdateBillEstimateResponse,
   UpdateBillEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1932,7 +1933,7 @@ export type UpdateBillScenarioError =
  * Updates an existing bill scenario.
  */
 export const updateBillScenario: API.OperationMethod<
-  UpdateBillScenarioRequest,
+  UpdateBillScenarioRequest & RegionInput,
   UpdateBillScenarioResponse,
   UpdateBillScenarioError,
   Credentials | HttpClient.HttpClient
@@ -1955,7 +1956,7 @@ export type UpdatePreferencesError =
  * Updates the preferences for Pricing Calculator.
  */
 export const updatePreferences: API.OperationMethod<
-  UpdatePreferencesRequest,
+  UpdatePreferencesRequest & RegionInput,
   UpdatePreferencesResponse,
   UpdatePreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1979,7 +1980,7 @@ export type UpdateWorkloadEstimateError =
  * Updates an existing workload estimate.
  */
 export const updateWorkloadEstimate: API.OperationMethod<
-  UpdateWorkloadEstimateRequest,
+  UpdateWorkloadEstimateRequest & RegionInput,
   UpdateWorkloadEstimateResponse,
   UpdateWorkloadEstimateError,
   Credentials | HttpClient.HttpClient

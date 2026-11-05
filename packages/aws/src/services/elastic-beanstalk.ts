@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1297,7 +1298,7 @@ export type AbortEnvironmentUpdateError = InsufficientPrivilegesException | Comm
  * Cancels in-progress environment configuration update or application version deployment.
  */
 export const abortEnvironmentUpdate: API.OperationMethod<
-  AbortEnvironmentUpdateMessage,
+  AbortEnvironmentUpdateMessage & RegionInput,
   AbortEnvironmentUpdateResponse,
   AbortEnvironmentUpdateError,
   Credentials | HttpClient.HttpClient
@@ -1321,7 +1322,7 @@ export type ApplyEnvironmentManagedActionError =
  * action ID of a managed action with DescribeEnvironmentManagedActions.
  */
 export const applyEnvironmentManagedAction: API.OperationMethod<
-  ApplyEnvironmentManagedActionRequest,
+  ApplyEnvironmentManagedActionRequest & RegionInput,
   ApplyEnvironmentManagedActionResult,
   ApplyEnvironmentManagedActionError,
   Credentials | HttpClient.HttpClient
@@ -1346,7 +1347,7 @@ export type AssociateEnvironmentOperationsRoleError =
  * downstream services during subsequent calls acting on this environment.
  */
 export const associateEnvironmentOperationsRole: API.OperationMethod<
-  AssociateEnvironmentOperationsRoleMessage,
+  AssociateEnvironmentOperationsRoleMessage & RegionInput,
   AssociateEnvironmentOperationsRoleResponse,
   AssociateEnvironmentOperationsRoleError,
   Credentials | HttpClient.HttpClient
@@ -1366,7 +1367,7 @@ export type CheckDNSAvailabilityError = CommonErrors;
  * Checks if the specified CNAME is available.
  */
 export const checkDNSAvailability: API.OperationMethod<
-  CheckDNSAvailabilityMessage,
+  CheckDNSAvailabilityMessage & RegionInput,
   CheckDNSAvailabilityResultMessage,
   CheckDNSAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -1391,7 +1392,7 @@ export type ComposeEnvironmentsError =
  * in the source bundles in an environment manifest named `env.yaml`. See Compose Environments for details.
  */
 export const composeEnvironments: API.OperationMethod<
-  ComposeEnvironmentsMessage,
+  ComposeEnvironmentsMessage & RegionInput,
   EnvironmentDescriptionsMessage,
   ComposeEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -1412,7 +1413,7 @@ export type CreateApplicationError = TooManyApplicationsException | CommonErrors
  * no application versions.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationMessage,
+  CreateApplicationMessage & RegionInput,
   ApplicationDescriptionMessage,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1450,7 +1451,7 @@ export type CreateApplicationVersionError =
  * location, you receive an exception when you attempt to launch an environment from the application version.
  */
 export const createApplicationVersion: API.OperationMethod<
-  CreateApplicationVersionMessage,
+  CreateApplicationVersionMessage & RegionInput,
   ApplicationVersionDescriptionMessage,
   CreateApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1494,7 +1495,7 @@ export type CreateConfigurationTemplateError =
  * - ListAvailableSolutionStacks
  */
 export const createConfigurationTemplate: API.OperationMethod<
-  CreateConfigurationTemplateMessage,
+  CreateConfigurationTemplateMessage & RegionInput,
   ConfigurationSettingsDescription,
   CreateConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1522,7 @@ export type CreateEnvironmentError =
  * Launches an Elastic Beanstalk environment for the specified application using the specified configuration.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentMessage,
+  CreateEnvironmentMessage & RegionInput,
   EnvironmentDescription,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1545,7 +1546,7 @@ export type CreatePlatformVersionError =
  * Create a new version of your custom platform.
  */
 export const createPlatformVersion: API.OperationMethod<
-  CreatePlatformVersionRequest,
+  CreatePlatformVersionRequest & RegionInput,
   CreatePlatformVersionResult,
   CreatePlatformVersionError,
   Credentials | HttpClient.HttpClient
@@ -1575,7 +1576,7 @@ export type CreateStorageLocationError =
  * `CreateStorageLocation` still returns the bucket name but does not create a new bucket.
  */
 export const createStorageLocation: API.OperationMethod<
-  CreateStorageLocationRequest,
+  CreateStorageLocationRequest & RegionInput,
   CreateStorageLocationResultMessage,
   CreateStorageLocationError,
   Credentials | HttpClient.HttpClient
@@ -1602,7 +1603,7 @@ export type DeleteApplicationError = OperationInProgressException | CommonErrors
  * You cannot delete an application that has a running environment.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationMessage,
+  DeleteApplicationMessage & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1629,7 +1630,7 @@ export type DeleteApplicationVersionError =
  * You cannot delete an application version that is associated with a running environment.
  */
 export const deleteApplicationVersion: API.OperationMethod<
-  DeleteApplicationVersionMessage,
+  DeleteApplicationVersionMessage & RegionInput,
   DeleteApplicationVersionResponse,
   DeleteApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1658,7 +1659,7 @@ export type DeleteConfigurationTemplateError = OperationInProgressException | Co
  * without affecting the running environment.
  */
 export const deleteConfigurationTemplate: API.OperationMethod<
-  DeleteConfigurationTemplateMessage,
+  DeleteConfigurationTemplateMessage & RegionInput,
   DeleteConfigurationTemplateResponse,
   DeleteConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1684,7 +1685,7 @@ export type DeleteEnvironmentConfigurationError = CommonErrors;
  * is deleted with this action.
  */
 export const deleteEnvironmentConfiguration: API.OperationMethod<
-  DeleteEnvironmentConfigurationMessage,
+  DeleteEnvironmentConfigurationMessage & RegionInput,
   DeleteEnvironmentConfigurationResponse,
   DeleteEnvironmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1709,7 +1710,7 @@ export type DeletePlatformVersionError =
  * Deletes the specified version of a custom platform.
  */
 export const deletePlatformVersion: API.OperationMethod<
-  DeletePlatformVersionRequest,
+  DeletePlatformVersionRequest & RegionInput,
   DeletePlatformVersionResult,
   DeletePlatformVersionError,
   Credentials | HttpClient.HttpClient
@@ -1745,7 +1746,7 @@ export type DescribeAccountAttributesError = InsufficientPrivilegesException | C
  * same topic.
  */
 export const describeAccountAttributes: API.OperationMethod<
-  DescribeAccountAttributesRequest,
+  DescribeAccountAttributesRequest & RegionInput,
   DescribeAccountAttributesResult,
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1778,7 +1779,7 @@ export type DescribeApplicationsError = CommonErrors;
  * instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the same topic.
  */
 export const describeApplications: API.OperationMethod<
-  DescribeApplicationsMessage,
+  DescribeApplicationsMessage & RegionInput,
   ApplicationDescriptionsMessage,
   DescribeApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -1807,7 +1808,7 @@ export type DescribeApplicationVersionsError = CommonErrors;
  * same topic.
  */
 export const describeApplicationVersions: API.OperationMethod<
-  DescribeApplicationVersionsMessage,
+  DescribeApplicationVersionsMessage & RegionInput,
   ApplicationVersionDescriptionsMessage,
   DescribeApplicationVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1842,7 +1843,7 @@ export type DescribeConfigurationOptionsError = TooManyBucketsException | Common
  * same topic.
  */
 export const describeConfigurationOptions: API.OperationMethod<
-  DescribeConfigurationOptionsMessage,
+  DescribeConfigurationOptionsMessage & RegionInput,
   ConfigurationOptionsDescription,
   DescribeConfigurationOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1885,7 +1886,7 @@ export type DescribeConfigurationSettingsError = TooManyBucketsException | Commo
  * - DeleteEnvironmentConfiguration
  */
 export const describeConfigurationSettings: API.OperationMethod<
-  DescribeConfigurationSettingsMessage,
+  DescribeConfigurationSettingsMessage & RegionInput,
   ConfigurationSettingsDescriptions,
   DescribeConfigurationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1919,7 +1920,7 @@ export type DescribeEnvironmentHealthError =
  * same topic.
  */
 export const describeEnvironmentHealth: API.OperationMethod<
-  DescribeEnvironmentHealthRequest,
+  DescribeEnvironmentHealthRequest & RegionInput,
   DescribeEnvironmentHealthResult,
   DescribeEnvironmentHealthError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type DescribeEnvironmentManagedActionHistoryError =
  * Lists an environment's completed and failed managed actions.
  */
 export const describeEnvironmentManagedActionHistory: API.PaginatedOperationMethod<
-  DescribeEnvironmentManagedActionHistoryRequest,
+  DescribeEnvironmentManagedActionHistoryRequest & RegionInput,
   DescribeEnvironmentManagedActionHistoryResult,
   DescribeEnvironmentManagedActionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1980,7 +1981,7 @@ export type DescribeEnvironmentManagedActionsError =
  * same topic.
  */
 export const describeEnvironmentManagedActions: API.OperationMethod<
-  DescribeEnvironmentManagedActionsRequest,
+  DescribeEnvironmentManagedActionsRequest & RegionInput,
   DescribeEnvironmentManagedActionsResult,
   DescribeEnvironmentManagedActionsError,
   Credentials | HttpClient.HttpClient
@@ -2000,7 +2001,7 @@ export type DescribeEnvironmentResourcesError = InsufficientPrivilegesException 
  * Returns Amazon Web Services resources for this environment.
  */
 export const describeEnvironmentResources: API.OperationMethod<
-  DescribeEnvironmentResourcesMessage,
+  DescribeEnvironmentResourcesMessage & RegionInput,
   EnvironmentResourceDescriptionsMessage,
   DescribeEnvironmentResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2030,7 +2031,7 @@ export type DescribeEnvironmentsError = CommonErrors;
  * same topic.
  */
 export const describeEnvironments: API.OperationMethod<
-  DescribeEnvironmentsMessage,
+  DescribeEnvironmentsMessage & RegionInput,
   EnvironmentDescriptionsMessage,
   DescribeEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -2061,7 +2062,7 @@ export type DescribeEventsError = CommonErrors;
  * same topic.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventDescriptionsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2101,7 +2102,7 @@ export type DescribeInstancesHealthError =
  * same topic.
  */
 export const describeInstancesHealth: API.OperationMethod<
-  DescribeInstancesHealthRequest,
+  DescribeInstancesHealthRequest & RegionInput,
   DescribeInstancesHealthResult,
   DescribeInstancesHealthError,
   Credentials | HttpClient.HttpClient
@@ -2136,7 +2137,7 @@ export type DescribePlatformVersionError =
  * same topic.
  */
 export const describePlatformVersion: API.OperationMethod<
-  DescribePlatformVersionRequest,
+  DescribePlatformVersionRequest & RegionInput,
   DescribePlatformVersionResult,
   DescribePlatformVersionError,
   Credentials | HttpClient.HttpClient
@@ -2161,7 +2162,7 @@ export type DisassociateEnvironmentOperationsRoleError =
  * services during subsequent calls acting on this environment.
  */
 export const disassociateEnvironmentOperationsRole: API.OperationMethod<
-  DisassociateEnvironmentOperationsRoleMessage,
+  DisassociateEnvironmentOperationsRoleMessage & RegionInput,
   DisassociateEnvironmentOperationsRoleResponse,
   DisassociateEnvironmentOperationsRoleError,
   Credentials | HttpClient.HttpClient
@@ -2190,7 +2191,7 @@ export type ListAvailableSolutionStacksError = CommonErrors;
  * same topic.
  */
 export const listAvailableSolutionStacks: API.OperationMethod<
-  ListAvailableSolutionStacksRequest,
+  ListAvailableSolutionStacksRequest & RegionInput,
   ListAvailableSolutionStacksResultMessage,
   ListAvailableSolutionStacksError,
   Credentials | HttpClient.HttpClient
@@ -2221,7 +2222,7 @@ export type ListPlatformBranchesError = CommonErrors;
  * same topic.
  */
 export const listPlatformBranches: API.PaginatedOperationMethod<
-  ListPlatformBranchesRequest,
+  ListPlatformBranchesRequest & RegionInput,
   ListPlatformBranchesResult,
   ListPlatformBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -2263,7 +2264,7 @@ export type ListPlatformVersionsError =
  * For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary.
  */
 export const listPlatformVersions: API.PaginatedOperationMethod<
-  ListPlatformVersionsRequest,
+  ListPlatformVersionsRequest & RegionInput,
   ListPlatformVersionsResult,
   ListPlatformVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2305,7 +2306,7 @@ export type ListTagsForResourceError =
  * same topic.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
+  ListTagsForResourceMessage & RegionInput,
   ResourceTagsDescriptionMessage,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2330,7 +2331,7 @@ export type RebuildEnvironmentError = InsufficientPrivilegesException | CommonEr
  * restart.
  */
 export const rebuildEnvironment: API.OperationMethod<
-  RebuildEnvironmentMessage,
+  RebuildEnvironmentMessage & RegionInput,
   RebuildEnvironmentResponse,
   RebuildEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2365,7 +2366,7 @@ export type RequestEnvironmentInfoError = CommonErrors;
  * - RetrieveEnvironmentInfo
  */
 export const requestEnvironmentInfo: API.OperationMethod<
-  RequestEnvironmentInfoMessage,
+  RequestEnvironmentInfoMessage & RegionInput,
   RequestEnvironmentInfoResponse,
   RequestEnvironmentInfoError,
   Credentials | HttpClient.HttpClient
@@ -2385,7 +2386,7 @@ export type RestartAppServerError = CommonErrors;
  * Causes the environment to restart the application container server running on each Amazon EC2 instance.
  */
 export const restartAppServer: API.OperationMethod<
-  RestartAppServerMessage,
+  RestartAppServerMessage & RegionInput,
   RestartAppServerResponse,
   RestartAppServerError,
   Credentials | HttpClient.HttpClient
@@ -2409,7 +2410,7 @@ export type RetrieveEnvironmentInfoError = CommonErrors;
  * - RequestEnvironmentInfo
  */
 export const retrieveEnvironmentInfo: API.OperationMethod<
-  RetrieveEnvironmentInfoMessage,
+  RetrieveEnvironmentInfoMessage & RegionInput,
   RetrieveEnvironmentInfoResultMessage,
   RetrieveEnvironmentInfoError,
   Credentials | HttpClient.HttpClient
@@ -2429,7 +2430,7 @@ export type SwapEnvironmentCNAMEsError = CommonErrors;
  * Swaps the CNAMEs of two environments.
  */
 export const swapEnvironmentCNAMEs: API.OperationMethod<
-  SwapEnvironmentCNAMEsMessage,
+  SwapEnvironmentCNAMEsMessage & RegionInput,
   SwapEnvironmentCNAMEsResponse,
   SwapEnvironmentCNAMEsError,
   Credentials | HttpClient.HttpClient
@@ -2449,7 +2450,7 @@ export type TerminateEnvironmentError = InsufficientPrivilegesException | Common
  * Terminates the specified environment.
  */
 export const terminateEnvironment: API.OperationMethod<
-  TerminateEnvironmentMessage,
+  TerminateEnvironmentMessage & RegionInput,
   EnvironmentDescription,
   TerminateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2472,7 +2473,7 @@ export type UpdateApplicationError = CommonErrors;
  * unchanged. To clear these properties, specify an empty string.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationMessage,
+  UpdateApplicationMessage & RegionInput,
   ApplicationDescriptionMessage,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2494,7 +2495,7 @@ export type UpdateApplicationResourceLifecycleError =
  * Modifies lifecycle settings for an application.
  */
 export const updateApplicationResourceLifecycle: API.OperationMethod<
-  UpdateApplicationResourceLifecycleMessage,
+  UpdateApplicationResourceLifecycleMessage & RegionInput,
   ApplicationResourceLifecycleDescriptionMessage,
   UpdateApplicationResourceLifecycleError,
   Credentials | HttpClient.HttpClient
@@ -2517,7 +2518,7 @@ export type UpdateApplicationVersionError = CommonErrors;
  * string.
  */
 export const updateApplicationVersion: API.OperationMethod<
-  UpdateApplicationVersionMessage,
+  UpdateApplicationVersionMessage & RegionInput,
   ApplicationVersionDescriptionMessage,
   UpdateApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -2548,7 +2549,7 @@ export type UpdateConfigurationTemplateError =
  * - DescribeConfigurationOptions
  */
 export const updateConfigurationTemplate: API.OperationMethod<
-  UpdateConfigurationTemplateMessage,
+  UpdateConfigurationTemplateMessage & RegionInput,
   ConfigurationSettingsDescription,
   UpdateConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2576,7 +2577,7 @@ export type UpdateEnvironmentError =
  * When updating the configuration settings to a new template or individual settings, a draft configuration is created and DescribeConfigurationSettings for this environment returns two setting descriptions with different `DeploymentStatus` values.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentMessage,
+  UpdateEnvironmentMessage & RegionInput,
   EnvironmentDescription,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2619,7 +2620,7 @@ export type UpdateTagsForResourceError =
  * For details about creating a custom user policy, see Creating a Custom User Policy.
  */
 export const updateTagsForResource: API.OperationMethod<
-  UpdateTagsForResourceMessage,
+  UpdateTagsForResourceMessage & RegionInput,
   UpdateTagsForResourceResponse,
   UpdateTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2652,7 +2653,7 @@ export type ValidateConfigurationSettingsError =
  * with the selection of option values.
  */
 export const validateConfigurationSettings: API.OperationMethod<
-  ValidateConfigurationSettingsMessage,
+  ValidateConfigurationSettingsMessage & RegionInput,
   ConfigurationSettingsValidationMessages,
   ValidateConfigurationSettingsError,
   Credentials | HttpClient.HttpClient

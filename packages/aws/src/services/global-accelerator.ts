@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -912,7 +913,7 @@ export type AddCustomRoutingEndpointsError =
  * AllowCustomRoutingTraffic operation.
  */
 export const addCustomRoutingEndpoints: API.OperationMethod<
-  AddCustomRoutingEndpointsRequest,
+  AddCustomRoutingEndpointsRequest & RegionInput,
   AddCustomRoutingEndpointsResponse,
   AddCustomRoutingEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -964,7 +965,7 @@ export type AddEndpointsError =
  * Endpoints for standard accelerators in the *Global Accelerator Developer Guide*.
  */
 export const addEndpoints: API.OperationMethod<
-  AddEndpointsRequest,
+  AddEndpointsRequest & RegionInput,
   AddEndpointsResponse,
   AddEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -1005,7 +1006,7 @@ export type AdvertiseByoipCidrError =
  * IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
 export const advertiseByoipCidr: API.OperationMethod<
-  AdvertiseByoipCidrRequest,
+  AdvertiseByoipCidrRequest & RegionInput,
   AdvertiseByoipCidrResponse,
   AdvertiseByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -1041,7 +1042,7 @@ export type AllowCustomRoutingTrafficError =
  * accelerator: the status changes from IN_PROGRESS to DEPLOYED.
  */
 export const allowCustomRoutingTraffic: API.OperationMethod<
-  AllowCustomRoutingTrafficRequest,
+  AllowCustomRoutingTrafficRequest & RegionInput,
   AllowCustomRoutingTrafficResponse,
   AllowCustomRoutingTrafficError,
   Credentials | HttpClient.HttpClient
@@ -1072,7 +1073,7 @@ export type CreateAcceleratorError =
  * on Amazon Web Services CLI commands.
  */
 export const createAccelerator: API.OperationMethod<
-  CreateAcceleratorRequest,
+  CreateAcceleratorRequest & RegionInput,
   CreateAcceleratorResponse,
   CreateAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1123,7 +1124,7 @@ export type CreateCrossAccountAttachmentError =
  * Global Accelerator Developer Guide.
  */
 export const createCrossAccountAttachment: API.OperationMethod<
-  CreateCrossAccountAttachmentRequest,
+  CreateCrossAccountAttachmentRequest & RegionInput,
   CreateCrossAccountAttachmentResponse,
   CreateCrossAccountAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1165,7 +1166,7 @@ export type CreateCustomRoutingAcceleratorError =
  * on Amazon Web Services CLI commands.
  */
 export const createCustomRoutingAccelerator: API.OperationMethod<
-  CreateCustomRoutingAcceleratorRequest,
+  CreateCustomRoutingAcceleratorRequest & RegionInput,
   CreateCustomRoutingAcceleratorResponse,
   CreateCustomRoutingAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1202,7 +1203,7 @@ export type CreateCustomRoutingEndpointGroupError =
  * Region.
  */
 export const createCustomRoutingEndpointGroup: API.OperationMethod<
-  CreateCustomRoutingEndpointGroupRequest,
+  CreateCustomRoutingEndpointGroupRequest & RegionInput,
   CreateCustomRoutingEndpointGroupResponse,
   CreateCustomRoutingEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1238,7 +1239,7 @@ export type CreateCustomRoutingListenerError =
  * Connections arrive to assigned static IP addresses on the port range that you specify.
  */
 export const createCustomRoutingListener: API.OperationMethod<
-  CreateCustomRoutingListenerRequest,
+  CreateCustomRoutingListenerRequest & RegionInput,
   CreateCustomRoutingListenerResponse,
   CreateCustomRoutingListenerError,
   Credentials | HttpClient.HttpClient
@@ -1277,7 +1278,7 @@ export type CreateEndpointGroupError =
  * Endpoints for standard accelerators in the *Global Accelerator Developer Guide*.
  */
 export const createEndpointGroup: API.OperationMethod<
-  CreateEndpointGroupRequest,
+  CreateEndpointGroupRequest & RegionInput,
   CreateEndpointGroupResponse,
   CreateEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1312,7 +1313,7 @@ export type CreateListenerError =
  * IP addresses on a port, port range, or list of port ranges that you specify.
  */
 export const createListener: API.OperationMethod<
-  CreateListenerRequest,
+  CreateListenerRequest & RegionInput,
   CreateListenerResponse,
   CreateListenerError,
   Credentials | HttpClient.HttpClient
@@ -1357,7 +1358,7 @@ export type DeleteAcceleratorError =
  * the *Global Accelerator Developer Guide*.
  */
 export const deleteAccelerator: API.OperationMethod<
-  DeleteAcceleratorRequest,
+  DeleteAcceleratorRequest & RegionInput,
   DeleteAcceleratorResponse,
   DeleteAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1396,7 +1397,7 @@ export type DeleteCrossAccountAttachmentError =
  * Global Accelerator Developer Guide.
  */
 export const deleteCrossAccountAttachment: API.OperationMethod<
-  DeleteCrossAccountAttachmentRequest,
+  DeleteCrossAccountAttachmentRequest & RegionInput,
   DeleteCrossAccountAttachmentResponse,
   DeleteCrossAccountAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1441,7 +1442,7 @@ export type DeleteCustomRoutingAcceleratorError =
  * the *Global Accelerator Developer Guide*.
  */
 export const deleteCustomRoutingAccelerator: API.OperationMethod<
-  DeleteCustomRoutingAcceleratorRequest,
+  DeleteCustomRoutingAcceleratorRequest & RegionInput,
   DeleteCustomRoutingAcceleratorResponse,
   DeleteCustomRoutingAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1472,7 +1473,7 @@ export type DeleteCustomRoutingEndpointGroupError =
  * Delete an endpoint group from a listener for a custom routing accelerator.
  */
 export const deleteCustomRoutingEndpointGroup: API.OperationMethod<
-  DeleteCustomRoutingEndpointGroupRequest,
+  DeleteCustomRoutingEndpointGroupRequest & RegionInput,
   DeleteCustomRoutingEndpointGroupResponse,
   DeleteCustomRoutingEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1497,7 +1498,7 @@ export type DeleteCustomRoutingListenerError =
  * Delete a listener for a custom routing accelerator.
  */
 export const deleteCustomRoutingListener: API.OperationMethod<
-  DeleteCustomRoutingListenerRequest,
+  DeleteCustomRoutingListenerRequest & RegionInput,
   DeleteCustomRoutingListenerResponse,
   DeleteCustomRoutingListenerError,
   Credentials | HttpClient.HttpClient
@@ -1526,7 +1527,7 @@ export type DeleteEndpointGroupError =
  * Delete an endpoint group from a listener.
  */
 export const deleteEndpointGroup: API.OperationMethod<
-  DeleteEndpointGroupRequest,
+  DeleteEndpointGroupRequest & RegionInput,
   DeleteEndpointGroupResponse,
   DeleteEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1551,7 +1552,7 @@ export type DeleteListenerError =
  * Delete a listener from an accelerator.
  */
 export const deleteListener: API.OperationMethod<
-  DeleteListenerRequest,
+  DeleteListenerRequest & RegionInput,
   DeleteListenerResponse,
   DeleteListenerError,
   Credentials | HttpClient.HttpClient
@@ -1586,7 +1587,7 @@ export type DenyCustomRoutingTrafficError =
  * accelerator: the status changes from IN_PROGRESS to DEPLOYED.
  */
 export const denyCustomRoutingTraffic: API.OperationMethod<
-  DenyCustomRoutingTrafficRequest,
+  DenyCustomRoutingTrafficRequest & RegionInput,
   DenyCustomRoutingTrafficResponse,
   DenyCustomRoutingTrafficError,
   Credentials | HttpClient.HttpClient
@@ -1619,7 +1620,7 @@ export type DeprovisionByoipCidrError =
  * your own IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
 export const deprovisionByoipCidr: API.OperationMethod<
-  DeprovisionByoipCidrRequest,
+  DeprovisionByoipCidrRequest & RegionInput,
   DeprovisionByoipCidrResponse,
   DeprovisionByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -1649,7 +1650,7 @@ export type DescribeAcceleratorError =
  * Describe an accelerator.
  */
 export const describeAccelerator: API.OperationMethod<
-  DescribeAcceleratorRequest,
+  DescribeAcceleratorRequest & RegionInput,
   DescribeAcceleratorResponse,
   DescribeAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1673,7 +1674,7 @@ export type DescribeAcceleratorAttributesError =
  * Describe the attributes of an accelerator.
  */
 export const describeAcceleratorAttributes: API.OperationMethod<
-  DescribeAcceleratorAttributesRequest,
+  DescribeAcceleratorAttributesRequest & RegionInput,
   DescribeAcceleratorAttributesResponse,
   DescribeAcceleratorAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1698,7 +1699,7 @@ export type DescribeCrossAccountAttachmentError =
  * Gets configuration information about a cross-account attachment.
  */
 export const describeCrossAccountAttachment: API.OperationMethod<
-  DescribeCrossAccountAttachmentRequest,
+  DescribeCrossAccountAttachmentRequest & RegionInput,
   DescribeCrossAccountAttachmentResponse,
   DescribeCrossAccountAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1727,7 +1728,7 @@ export type DescribeCustomRoutingAcceleratorError =
  * Describe a custom routing accelerator.
  */
 export const describeCustomRoutingAccelerator: API.OperationMethod<
-  DescribeCustomRoutingAcceleratorRequest,
+  DescribeCustomRoutingAcceleratorRequest & RegionInput,
   DescribeCustomRoutingAcceleratorResponse,
   DescribeCustomRoutingAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1751,7 +1752,7 @@ export type DescribeCustomRoutingAcceleratorAttributesError =
  * Describe the attributes of a custom routing accelerator.
  */
 export const describeCustomRoutingAcceleratorAttributes: API.OperationMethod<
-  DescribeCustomRoutingAcceleratorAttributesRequest,
+  DescribeCustomRoutingAcceleratorAttributesRequest & RegionInput,
   DescribeCustomRoutingAcceleratorAttributesResponse,
   DescribeCustomRoutingAcceleratorAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1775,7 +1776,7 @@ export type DescribeCustomRoutingEndpointGroupError =
  * Describe an endpoint group for a custom routing accelerator.
  */
 export const describeCustomRoutingEndpointGroup: API.OperationMethod<
-  DescribeCustomRoutingEndpointGroupRequest,
+  DescribeCustomRoutingEndpointGroupRequest & RegionInput,
   DescribeCustomRoutingEndpointGroupResponse,
   DescribeCustomRoutingEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1799,7 +1800,7 @@ export type DescribeCustomRoutingListenerError =
  * The description of a listener for a custom routing accelerator.
  */
 export const describeCustomRoutingListener: API.OperationMethod<
-  DescribeCustomRoutingListenerRequest,
+  DescribeCustomRoutingListenerRequest & RegionInput,
   DescribeCustomRoutingListenerResponse,
   DescribeCustomRoutingListenerError,
   Credentials | HttpClient.HttpClient
@@ -1823,7 +1824,7 @@ export type DescribeEndpointGroupError =
  * Describe an endpoint group.
  */
 export const describeEndpointGroup: API.OperationMethod<
-  DescribeEndpointGroupRequest,
+  DescribeEndpointGroupRequest & RegionInput,
   DescribeEndpointGroupResponse,
   DescribeEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1847,7 +1848,7 @@ export type DescribeListenerError =
  * Describe a listener.
  */
 export const describeListener: API.OperationMethod<
-  DescribeListenerRequest,
+  DescribeListenerRequest & RegionInput,
   DescribeListenerResponse,
   DescribeListenerError,
   Credentials | HttpClient.HttpClient
@@ -1871,7 +1872,7 @@ export type ListAcceleratorsError =
  * List the accelerators for an Amazon Web Services account.
  */
 export const listAccelerators: API.PaginatedOperationMethod<
-  ListAcceleratorsRequest,
+  ListAcceleratorsRequest & RegionInput,
   ListAcceleratorsResponse,
   ListAcceleratorsError,
   Credentials | HttpClient.HttpClient,
@@ -1904,7 +1905,7 @@ export type ListByoipCidrsError =
  * the current state and a history of state changes.
  */
 export const listByoipCidrs: API.PaginatedOperationMethod<
-  ListByoipCidrsRequest,
+  ListByoipCidrsRequest & RegionInput,
   ListByoipCidrsResponse,
   ListByoipCidrsError,
   Credentials | HttpClient.HttpClient,
@@ -1941,7 +1942,7 @@ export type ListCrossAccountAttachmentsError =
  * List the cross-account attachments that have been created in Global Accelerator.
  */
 export const listCrossAccountAttachments: API.PaginatedOperationMethod<
-  ListCrossAccountAttachmentsRequest,
+  ListCrossAccountAttachmentsRequest & RegionInput,
   ListCrossAccountAttachmentsResponse,
   ListCrossAccountAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1980,7 +1981,7 @@ export type ListCrossAccountResourceAccountsError =
  * Global Accelerator Developer Guide.
  */
 export const listCrossAccountResourceAccounts: API.OperationMethod<
-  ListCrossAccountResourceAccountsRequest,
+  ListCrossAccountResourceAccountsRequest & RegionInput,
   ListCrossAccountResourceAccountsResponse,
   ListCrossAccountResourceAccountsError,
   Credentials | HttpClient.HttpClient
@@ -2006,7 +2007,7 @@ export type ListCrossAccountResourcesError =
  * List the cross-account resources available to work with.
  */
 export const listCrossAccountResources: API.PaginatedOperationMethod<
-  ListCrossAccountResourcesRequest,
+  ListCrossAccountResourcesRequest & RegionInput,
   ListCrossAccountResourcesResponse,
   ListCrossAccountResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2043,7 +2044,7 @@ export type ListCustomRoutingAcceleratorsError =
  * List the custom routing accelerators for an Amazon Web Services account.
  */
 export const listCustomRoutingAccelerators: API.PaginatedOperationMethod<
-  ListCustomRoutingAcceleratorsRequest,
+  ListCustomRoutingAcceleratorsRequest & RegionInput,
   ListCustomRoutingAcceleratorsResponse,
   ListCustomRoutingAcceleratorsError,
   Credentials | HttpClient.HttpClient,
@@ -2075,7 +2076,7 @@ export type ListCustomRoutingEndpointGroupsError =
  * List the endpoint groups that are associated with a listener for a custom routing accelerator.
  */
 export const listCustomRoutingEndpointGroups: API.PaginatedOperationMethod<
-  ListCustomRoutingEndpointGroupsRequest,
+  ListCustomRoutingEndpointGroupsRequest & RegionInput,
   ListCustomRoutingEndpointGroupsResponse,
   ListCustomRoutingEndpointGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2112,7 +2113,7 @@ export type ListCustomRoutingListenersError =
  * List the listeners for a custom routing accelerator.
  */
 export const listCustomRoutingListeners: API.PaginatedOperationMethod<
-  ListCustomRoutingListenersRequest,
+  ListCustomRoutingListenersRequest & RegionInput,
   ListCustomRoutingListenersResponse,
   ListCustomRoutingListenersError,
   Credentials | HttpClient.HttpClient,
@@ -2160,7 +2161,7 @@ export type ListCustomRoutingPortMappingsError =
  * ports are allowed or denied traffic.
  */
 export const listCustomRoutingPortMappings: API.PaginatedOperationMethod<
-  ListCustomRoutingPortMappingsRequest,
+  ListCustomRoutingPortMappingsRequest & RegionInput,
   ListCustomRoutingPortMappingsResponse,
   ListCustomRoutingPortMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -2201,7 +2202,7 @@ export type ListCustomRoutingPortMappingsByDestinationError =
  * list the port mappings for a specific destination instance.
  */
 export const listCustomRoutingPortMappingsByDestination: API.PaginatedOperationMethod<
-  ListCustomRoutingPortMappingsByDestinationRequest,
+  ListCustomRoutingPortMappingsByDestinationRequest & RegionInput,
   ListCustomRoutingPortMappingsByDestinationResponse,
   ListCustomRoutingPortMappingsByDestinationError,
   Credentials | HttpClient.HttpClient,
@@ -2238,7 +2239,7 @@ export type ListEndpointGroupsError =
  * List the endpoint groups that are associated with a listener.
  */
 export const listEndpointGroups: API.PaginatedOperationMethod<
-  ListEndpointGroupsRequest,
+  ListEndpointGroupsRequest & RegionInput,
   ListEndpointGroupsResponse,
   ListEndpointGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2275,7 +2276,7 @@ export type ListListenersError =
  * List the listeners for an accelerator.
  */
 export const listListeners: API.PaginatedOperationMethod<
-  ListListenersRequest,
+  ListListenersRequest & RegionInput,
   ListListenersResponse,
   ListListenersError,
   Credentials | HttpClient.HttpClient,
@@ -2317,7 +2318,7 @@ export type ListTagsForResourceError =
  * in Global Accelerator in the *Global Accelerator Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2356,7 +2357,7 @@ export type ProvisionByoipCidrError =
  * IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
 export const provisionByoipCidr: API.OperationMethod<
-  ProvisionByoipCidrRequest,
+  ProvisionByoipCidrRequest & RegionInput,
   ProvisionByoipCidrResponse,
   ProvisionByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -2389,7 +2390,7 @@ export type RemoveCustomRoutingEndpointsError =
  * Remove endpoints from a custom routing accelerator.
  */
 export const removeCustomRoutingEndpoints: API.OperationMethod<
-  RemoveCustomRoutingEndpointsRequest,
+  RemoveCustomRoutingEndpointsRequest & RegionInput,
   RemoveCustomRoutingEndpointsResponse,
   RemoveCustomRoutingEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2435,7 +2436,7 @@ export type RemoveEndpointsError =
  * remain in the group.
  */
 export const removeEndpoints: API.OperationMethod<
-  RemoveEndpointsRequest,
+  RemoveEndpointsRequest & RegionInput,
   RemoveEndpointsResponse,
   RemoveEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2468,7 +2469,7 @@ export type TagResourceError =
  * in Global Accelerator in the *Global Accelerator Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2496,7 +2497,7 @@ export type UntagResourceError =
  * in Global Accelerator in the *Global Accelerator Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2539,7 +2540,7 @@ export type UpdateAcceleratorError =
  * on Amazon Web Services CLI commands.
  */
 export const updateAccelerator: API.OperationMethod<
-  UpdateAcceleratorRequest,
+  UpdateAcceleratorRequest & RegionInput,
   UpdateAcceleratorResponse,
   UpdateAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -2572,7 +2573,7 @@ export type UpdateAcceleratorAttributesError =
  * Update the attributes for an accelerator.
  */
 export const updateAcceleratorAttributes: API.OperationMethod<
-  UpdateAcceleratorAttributesRequest,
+  UpdateAcceleratorAttributesRequest & RegionInput,
   UpdateAcceleratorAttributesResponse,
   UpdateAcceleratorAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2611,7 +2612,7 @@ export type UpdateCrossAccountAttachmentError =
  * Global Accelerator Developer Guide.
  */
 export const updateCrossAccountAttachment: API.OperationMethod<
-  UpdateCrossAccountAttachmentRequest,
+  UpdateCrossAccountAttachmentRequest & RegionInput,
   UpdateCrossAccountAttachmentResponse,
   UpdateCrossAccountAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2644,7 +2645,7 @@ export type UpdateCustomRoutingAcceleratorError =
  * Update a custom routing accelerator.
  */
 export const updateCustomRoutingAccelerator: API.OperationMethod<
-  UpdateCustomRoutingAcceleratorRequest,
+  UpdateCustomRoutingAcceleratorRequest & RegionInput,
   UpdateCustomRoutingAcceleratorResponse,
   UpdateCustomRoutingAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -2676,7 +2677,7 @@ export type UpdateCustomRoutingAcceleratorAttributesError =
  * Update the attributes for a custom routing accelerator.
  */
 export const updateCustomRoutingAcceleratorAttributes: API.OperationMethod<
-  UpdateCustomRoutingAcceleratorAttributesRequest,
+  UpdateCustomRoutingAcceleratorAttributesRequest & RegionInput,
   UpdateCustomRoutingAcceleratorAttributesResponse,
   UpdateCustomRoutingAcceleratorAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2708,7 +2709,7 @@ export type UpdateCustomRoutingListenerError =
  * Update a listener for a custom routing accelerator.
  */
 export const updateCustomRoutingListener: API.OperationMethod<
-  UpdateCustomRoutingListenerRequest,
+  UpdateCustomRoutingListenerRequest & RegionInput,
   UpdateCustomRoutingListenerResponse,
   UpdateCustomRoutingListenerError,
   Credentials | HttpClient.HttpClient
@@ -2740,7 +2741,7 @@ export type UpdateEndpointGroupError =
  * Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
  */
 export const updateEndpointGroup: API.OperationMethod<
-  UpdateEndpointGroupRequest,
+  UpdateEndpointGroupRequest & RegionInput,
   UpdateEndpointGroupResponse,
   UpdateEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -2772,7 +2773,7 @@ export type UpdateListenerError =
  * Update a listener.
  */
 export const updateListener: API.OperationMethod<
-  UpdateListenerRequest,
+  UpdateListenerRequest & RegionInput,
   UpdateListenerResponse,
   UpdateListenerError,
   Credentials | HttpClient.HttpClient
@@ -2812,7 +2813,7 @@ export type WithdrawByoipCidrError =
  * IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
 export const withdrawByoipCidr: API.OperationMethod<
-  WithdrawByoipCidrRequest,
+  WithdrawByoipCidrRequest & RegionInput,
   WithdrawByoipCidrResponse,
   WithdrawByoipCidrError,
   Credentials | HttpClient.HttpClient

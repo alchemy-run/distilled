@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -721,7 +722,7 @@ export type CancelJobRunError =
  * SparkSQL query, that you submit to Amazon EMR on EKS.
  */
 export const cancelJobRun: API.OperationMethod<
-  CancelJobRunRequest,
+  CancelJobRunRequest & RegionInput,
   CancelJobRunResponse,
   CancelJobRunError,
   Creds | HttpClient.HttpClient
@@ -749,7 +750,7 @@ export type CreateJobTemplateError =
  * API request.
  */
 export const createJobTemplate: API.OperationMethod<
-  CreateJobTemplateRequest,
+  CreateJobTemplateRequest & RegionInput,
   CreateJobTemplateResponse,
   CreateJobTemplateError,
   Creds | HttpClient.HttpClient
@@ -780,7 +781,7 @@ export type CreateManagedEndpointError =
  * communicate with your virtual cluster.
  */
 export const createManagedEndpoint: API.OperationMethod<
-  CreateManagedEndpointRequest,
+  CreateManagedEndpointRequest & RegionInput,
   CreateManagedEndpointResponse,
   CreateManagedEndpointError,
   Creds | HttpClient.HttpClient
@@ -812,7 +813,7 @@ export type CreateSecurityConfigurationError =
  * to re-use a security setup each time you create a virtual cluster.
  */
 export const createSecurityConfiguration: API.OperationMethod<
-  CreateSecurityConfigurationRequest,
+  CreateSecurityConfigurationRequest & RegionInput,
   CreateSecurityConfigurationResponse,
   CreateSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -842,7 +843,7 @@ export type CreateVirtualClusterError =
  * Kubernetes namespaces to meet your requirements.
  */
 export const createVirtualCluster: API.OperationMethod<
-  CreateVirtualClusterRequest,
+  CreateVirtualClusterRequest & RegionInput,
   CreateVirtualClusterResponse,
   CreateVirtualClusterError,
   Creds | HttpClient.HttpClient
@@ -876,7 +877,7 @@ export type DeleteJobTemplateError =
  * API request.
  */
 export const deleteJobTemplate: API.OperationMethod<
-  DeleteJobTemplateRequest,
+  DeleteJobTemplateRequest & RegionInput,
   DeleteJobTemplateResponse,
   DeleteJobTemplateError,
   Creds | HttpClient.HttpClient
@@ -901,7 +902,7 @@ export type DeleteManagedEndpointError =
  * communicate with your virtual cluster.
  */
 export const deleteManagedEndpoint: API.OperationMethod<
-  DeleteManagedEndpointRequest,
+  DeleteManagedEndpointRequest & RegionInput,
   DeleteManagedEndpointResponse,
   DeleteManagedEndpointError,
   Creds | HttpClient.HttpClient
@@ -924,7 +925,7 @@ export type DeleteSecurityConfigurationError =
  * Deletes a security configuration.
  */
 export const deleteSecurityConfiguration: API.OperationMethod<
-  DeleteSecurityConfigurationRequest,
+  DeleteSecurityConfigurationRequest & RegionInput,
   DeleteSecurityConfigurationResponse,
   DeleteSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -951,7 +952,7 @@ export type DeleteVirtualClusterError =
  * Kubernetes namespaces to meet your requirements.
  */
 export const deleteVirtualCluster: API.OperationMethod<
-  DeleteVirtualClusterRequest,
+  DeleteVirtualClusterRequest & RegionInput,
   DeleteVirtualClusterResponse,
   DeleteVirtualClusterError,
   Creds | HttpClient.HttpClient
@@ -977,7 +978,7 @@ export type DescribeJobRunError =
  * Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
  */
 export const describeJobRun: API.OperationMethod<
-  DescribeJobRunRequest,
+  DescribeJobRunRequest & RegionInput,
   DescribeJobRunResponse,
   DescribeJobRunError,
   Creds | HttpClient.HttpClient
@@ -1010,7 +1011,7 @@ export type DescribeJobTemplateError =
  * certain values in StartJobRun API request.
  */
 export const describeJobTemplate: API.OperationMethod<
-  DescribeJobTemplateRequest,
+  DescribeJobTemplateRequest & RegionInput,
   DescribeJobTemplateResponse,
   DescribeJobTemplateError,
   Creds | HttpClient.HttpClient
@@ -1041,7 +1042,7 @@ export type DescribeManagedEndpointError =
  * that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
  */
 export const describeManagedEndpoint: API.OperationMethod<
-  DescribeManagedEndpointRequest,
+  DescribeManagedEndpointRequest & RegionInput,
   DescribeManagedEndpointResponse,
   DescribeManagedEndpointError,
   Creds | HttpClient.HttpClient
@@ -1075,7 +1076,7 @@ export type DescribeSecurityConfigurationError =
  * create a virtual cluster.
  */
 export const describeSecurityConfiguration: API.OperationMethod<
-  DescribeSecurityConfigurationRequest,
+  DescribeSecurityConfigurationRequest & RegionInput,
   DescribeSecurityConfigurationResponse,
   DescribeSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -1110,7 +1111,7 @@ export type DescribeVirtualClusterError =
  * requirements.
  */
 export const describeVirtualCluster: API.OperationMethod<
-  DescribeVirtualClusterRequest,
+  DescribeVirtualClusterRequest & RegionInput,
   DescribeVirtualClusterResponse,
   DescribeVirtualClusterError,
   Creds | HttpClient.HttpClient
@@ -1141,7 +1142,7 @@ export type GetManagedEndpointSessionCredentialsError =
  * Generate a session token to connect to a managed endpoint.
  */
 export const getManagedEndpointSessionCredentials: API.OperationMethod<
-  GetManagedEndpointSessionCredentialsRequest,
+  GetManagedEndpointSessionCredentialsRequest & RegionInput,
   GetManagedEndpointSessionCredentialsResponse,
   GetManagedEndpointSessionCredentialsError,
   Creds | HttpClient.HttpClient
@@ -1172,7 +1173,7 @@ export type ListJobRunsError =
  * Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
  */
 export const listJobRuns: API.PaginatedOperationMethod<
-  ListJobRunsRequest,
+  ListJobRunsRequest & RegionInput,
   ListJobRunsResponse,
   ListJobRunsError,
   Creds | HttpClient.HttpClient,
@@ -1206,7 +1207,7 @@ export type ListJobTemplatesError =
  * certain values in StartJobRun API request.
  */
 export const listJobTemplates: API.PaginatedOperationMethod<
-  ListJobTemplatesRequest,
+  ListJobTemplatesRequest & RegionInput,
   ListJobTemplatesResponse,
   ListJobTemplatesError,
   Creds | HttpClient.HttpClient,
@@ -1238,7 +1239,7 @@ export type ListManagedEndpointsError =
  * that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
  */
 export const listManagedEndpoints: API.PaginatedOperationMethod<
-  ListManagedEndpointsRequest,
+  ListManagedEndpointsRequest & RegionInput,
   ListManagedEndpointsResponse,
   ListManagedEndpointsError,
   Creds | HttpClient.HttpClient,
@@ -1273,7 +1274,7 @@ export type ListSecurityConfigurationsError =
  * cluster.
  */
 export const listSecurityConfigurations: API.PaginatedOperationMethod<
-  ListSecurityConfigurationsRequest,
+  ListSecurityConfigurationsRequest & RegionInput,
   ListSecurityConfigurationsResponse,
   ListSecurityConfigurationsError,
   Creds | HttpClient.HttpClient,
@@ -1305,7 +1306,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to the resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -1339,7 +1340,7 @@ export type ListVirtualClustersError =
  * requirements.
  */
 export const listVirtualClusters: API.PaginatedOperationMethod<
-  ListVirtualClustersRequest,
+  ListVirtualClustersRequest & RegionInput,
   ListVirtualClustersResponse,
   ListVirtualClustersError,
   Creds | HttpClient.HttpClient,
@@ -1372,7 +1373,7 @@ export type StartJobRunError =
  * SparkSQL query, that you submit to Amazon EMR on EKS.
  */
 export const startJobRun: API.OperationMethod<
-  StartJobRunRequest,
+  StartJobRunRequest & RegionInput,
   StartJobRunResponse,
   StartJobRunError,
   Creds | HttpClient.HttpClient
@@ -1411,7 +1412,7 @@ export type TagResourceError =
  * you add.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Creds | HttpClient.HttpClient
@@ -1443,7 +1444,7 @@ export type UntagResourceError =
  * Removes tags from resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Creds | HttpClient.HttpClient
@@ -1476,7 +1477,7 @@ export type UpdateVirtualClusterError =
  * Kubernetes namespaces to meet your requirements.
  */
 export const updateVirtualCluster: API.OperationMethod<
-  UpdateVirtualClusterRequest,
+  UpdateVirtualClusterRequest & RegionInput,
   UpdateVirtualClusterResponse,
   UpdateVirtualClusterError,
   Creds | HttpClient.HttpClient

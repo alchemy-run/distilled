@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1285,7 +1286,7 @@ export type BatchCreateVariableError =
  * Creates a batch of variables.
  */
 export const batchCreateVariable: API.OperationMethod<
-  BatchCreateVariableRequest,
+  BatchCreateVariableRequest & RegionInput,
   BatchCreateVariableResult,
   BatchCreateVariableError,
   Credentials | HttpClient.HttpClient
@@ -1315,7 +1316,7 @@ export type BatchGetVariableError =
  * Gets a batch of variables.
  */
 export const batchGetVariable: API.OperationMethod<
-  BatchGetVariableRequest,
+  BatchGetVariableRequest & RegionInput,
   BatchGetVariableResult,
   BatchGetVariableError,
   Credentials | HttpClient.HttpClient
@@ -1346,7 +1347,7 @@ export type CancelBatchImportJobError =
  * Cancels an in-progress batch import job.
  */
 export const cancelBatchImportJob: API.OperationMethod<
-  CancelBatchImportJobRequest,
+  CancelBatchImportJobRequest & RegionInput,
   CancelBatchImportJobResult,
   CancelBatchImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1378,7 +1379,7 @@ export type CancelBatchPredictionJobError =
  * Cancels the specified batch prediction job.
  */
 export const cancelBatchPredictionJob: API.OperationMethod<
-  CancelBatchPredictionJobRequest,
+  CancelBatchPredictionJobRequest & RegionInput,
   CancelBatchPredictionJobResult,
   CancelBatchPredictionJobError,
   Credentials | HttpClient.HttpClient
@@ -1410,7 +1411,7 @@ export type CreateBatchImportJobError =
  * Creates a batch import job.
  */
 export const createBatchImportJob: API.OperationMethod<
-  CreateBatchImportJobRequest,
+  CreateBatchImportJobRequest & RegionInput,
   CreateBatchImportJobResult,
   CreateBatchImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1442,7 +1443,7 @@ export type CreateBatchPredictionJobError =
  * Creates a batch prediction job.
  */
 export const createBatchPredictionJob: API.OperationMethod<
-  CreateBatchPredictionJobRequest,
+  CreateBatchPredictionJobRequest & RegionInput,
   CreateBatchPredictionJobResult,
   CreateBatchPredictionJobError,
   Credentials | HttpClient.HttpClient
@@ -1474,7 +1475,7 @@ export type CreateDetectorVersionError =
  * Creates a detector version. The detector version starts in a `DRAFT` status.
  */
 export const createDetectorVersion: API.OperationMethod<
-  CreateDetectorVersionRequest,
+  CreateDetectorVersionRequest & RegionInput,
   CreateDetectorVersionResult,
   CreateDetectorVersionError,
   Credentials | HttpClient.HttpClient
@@ -1508,7 +1509,7 @@ export type CreateListError =
  * For more information, see Lists.
  */
 export const createList: API.OperationMethod<
-  CreateListRequest,
+  CreateListRequest & RegionInput,
   CreateListResult,
   CreateListError,
   Credentials | HttpClient.HttpClient
@@ -1538,7 +1539,7 @@ export type CreateModelError =
  * Creates a model using the specified model type.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   CreateModelResult,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -1569,7 +1570,7 @@ export type CreateModelVersionError =
  * Creates a version of the model using the specified model type and model id.
  */
 export const createModelVersion: API.OperationMethod<
-  CreateModelVersionRequest,
+  CreateModelVersionRequest & RegionInput,
   CreateModelVersionResult,
   CreateModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1601,7 @@ export type CreateRuleError =
  * Creates a rule for use with the specified detector.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResult,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type CreateVariableError =
  * Creates a variable.
  */
 export const createVariable: API.OperationMethod<
-  CreateVariableRequest,
+  CreateVariableRequest & RegionInput,
   CreateVariableResult,
   CreateVariableError,
   Credentials | HttpClient.HttpClient
@@ -1660,7 +1661,7 @@ export type DeleteBatchImportJobError =
  * Deletes the specified batch import job ID record. This action does not delete the data that was batch imported.
  */
 export const deleteBatchImportJob: API.OperationMethod<
-  DeleteBatchImportJobRequest,
+  DeleteBatchImportJobRequest & RegionInput,
   DeleteBatchImportJobResult,
   DeleteBatchImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type DeleteBatchPredictionJobError =
  * Deletes a batch prediction job.
  */
 export const deleteBatchPredictionJob: API.OperationMethod<
-  DeleteBatchPredictionJobRequest,
+  DeleteBatchPredictionJobRequest & RegionInput,
   DeleteBatchPredictionJobResult,
   DeleteBatchPredictionJobError,
   Credentials | HttpClient.HttpClient
@@ -1723,7 +1724,7 @@ export type DeleteDetectorError =
  * When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteDetector: API.OperationMethod<
-  DeleteDetectorRequest,
+  DeleteDetectorRequest & RegionInput,
   DeleteDetectorResult,
   DeleteDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1758,7 +1759,7 @@ export type DeleteDetectorVersionError =
  * When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteDetectorVersion: API.OperationMethod<
-  DeleteDetectorVersionRequest,
+  DeleteDetectorVersionRequest & RegionInput,
   DeleteDetectorVersionResult,
   DeleteDetectorVersionError,
   Credentials | HttpClient.HttpClient
@@ -1795,7 +1796,7 @@ export type DeleteEntityTypeError =
  * When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteEntityType: API.OperationMethod<
-  DeleteEntityTypeRequest,
+  DeleteEntityTypeRequest & RegionInput,
   DeleteEntityTypeResult,
   DeleteEntityTypeError,
   Credentials | HttpClient.HttpClient
@@ -1829,7 +1830,7 @@ export type DeleteEventError =
  * If `deleteAuditHistory` is `True`, event data is available through search for up to 30 seconds after the delete operation is completed.
  */
 export const deleteEvent: API.OperationMethod<
-  DeleteEventRequest,
+  DeleteEventRequest & RegionInput,
   DeleteEventResult,
   DeleteEventError,
   Credentials | HttpClient.HttpClient
@@ -1861,7 +1862,7 @@ export type DeleteEventsByEventTypeError =
  * Deletes all events of a particular event type.
  */
 export const deleteEventsByEventType: API.OperationMethod<
-  DeleteEventsByEventTypeRequest,
+  DeleteEventsByEventTypeRequest & RegionInput,
   DeleteEventsByEventTypeResult,
   DeleteEventsByEventTypeError,
   Credentials | HttpClient.HttpClient
@@ -1898,7 +1899,7 @@ export type DeleteEventTypeError =
  * When you delete an event type, Amazon Fraud Detector permanently deletes that event type and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteEventType: API.OperationMethod<
-  DeleteEventTypeRequest,
+  DeleteEventTypeRequest & RegionInput,
   DeleteEventTypeResult,
   DeleteEventTypeError,
   Credentials | HttpClient.HttpClient
@@ -1932,7 +1933,7 @@ export type DeleteExternalModelError =
  * You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
  */
 export const deleteExternalModel: API.OperationMethod<
-  DeleteExternalModelRequest,
+  DeleteExternalModelRequest & RegionInput,
   DeleteExternalModelResult,
   DeleteExternalModelError,
   Credentials | HttpClient.HttpClient
@@ -1969,7 +1970,7 @@ export type DeleteLabelError =
  * When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteLabel: API.OperationMethod<
-  DeleteLabelRequest,
+  DeleteLabelRequest & RegionInput,
   DeleteLabelResult,
   DeleteLabelError,
   Credentials | HttpClient.HttpClient
@@ -1997,7 +1998,7 @@ export type DeleteListError =
  * When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements in the list.
  */
 export const deleteList: API.OperationMethod<
-  DeleteListRequest,
+  DeleteListRequest & RegionInput,
   DeleteListResult,
   DeleteListError,
   Credentials | HttpClient.HttpClient
@@ -2033,7 +2034,7 @@ export type DeleteModelError =
  * When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResult,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -2069,7 +2070,7 @@ export type DeleteModelVersionError =
  * When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteModelVersion: API.OperationMethod<
-  DeleteModelVersionRequest,
+  DeleteModelVersionRequest & RegionInput,
   DeleteModelVersionResult,
   DeleteModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -2105,7 +2106,7 @@ export type DeleteOutcomeError =
  * When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteOutcome: API.OperationMethod<
-  DeleteOutcomeRequest,
+  DeleteOutcomeRequest & RegionInput,
   DeleteOutcomeResult,
   DeleteOutcomeError,
   Credentials | HttpClient.HttpClient
@@ -2139,7 +2140,7 @@ export type DeleteRuleError =
  * When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResult,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2177,7 +2178,7 @@ export type DeleteVariableError =
  * When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
  */
 export const deleteVariable: API.OperationMethod<
-  DeleteVariableRequest,
+  DeleteVariableRequest & RegionInput,
   DeleteVariableResult,
   DeleteVariableError,
   Credentials | HttpClient.HttpClient
@@ -2209,7 +2210,7 @@ export type DescribeDetectorError =
  * Gets all versions for a specified detector.
  */
 export const describeDetector: API.OperationMethod<
-  DescribeDetectorRequest,
+  DescribeDetectorRequest & RegionInput,
   DescribeDetectorResult,
   DescribeDetectorError,
   Credentials | HttpClient.HttpClient
@@ -2241,7 +2242,7 @@ export type DescribeModelVersionsError =
  * Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
  */
 export const describeModelVersions: API.PaginatedOperationMethod<
-  DescribeModelVersionsRequest,
+  DescribeModelVersionsRequest & RegionInput,
   DescribeModelVersionsResult,
   DescribeModelVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2282,7 +2283,7 @@ export type GetBatchImportJobsError =
  * A null pagination token fetches the records from the beginning.
  */
 export const getBatchImportJobs: API.PaginatedOperationMethod<
-  GetBatchImportJobsRequest,
+  GetBatchImportJobsRequest & RegionInput,
   GetBatchImportJobsResult,
   GetBatchImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2320,7 +2321,7 @@ export type GetBatchPredictionJobsError =
  * Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
  */
 export const getBatchPredictionJobs: API.PaginatedOperationMethod<
-  GetBatchPredictionJobsRequest,
+  GetBatchPredictionJobsRequest & RegionInput,
   GetBatchPredictionJobsResult,
   GetBatchPredictionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2358,7 +2359,7 @@ export type GetDeleteEventsByEventTypeStatusError =
  * Retrieves the status of a `DeleteEventsByEventType` action.
  */
 export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
-  GetDeleteEventsByEventTypeStatusRequest,
+  GetDeleteEventsByEventTypeStatusRequest & RegionInput,
   GetDeleteEventsByEventTypeStatusResult,
   GetDeleteEventsByEventTypeStatusError,
   Credentials | HttpClient.HttpClient
@@ -2395,7 +2396,7 @@ export type GetDetectorsError =
  * fetches the records from the beginning.
  */
 export const getDetectors: API.PaginatedOperationMethod<
-  GetDetectorsRequest,
+  GetDetectorsRequest & RegionInput,
   GetDetectorsResult,
   GetDetectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2433,7 +2434,7 @@ export type GetDetectorVersionError =
  * Gets a particular detector version.
  */
 export const getDetectorVersion: API.OperationMethod<
-  GetDetectorVersionRequest,
+  GetDetectorVersionRequest & RegionInput,
   GetDetectorVersionResult,
   GetDetectorVersionError,
   Credentials | HttpClient.HttpClient
@@ -2470,7 +2471,7 @@ export type GetEntityTypesError =
  * fetches the records from the beginning.
  */
 export const getEntityTypes: API.PaginatedOperationMethod<
-  GetEntityTypesRequest,
+  GetEntityTypesRequest & RegionInput,
   GetEntityTypesResult,
   GetEntityTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2508,7 +2509,7 @@ export type GetEventError =
  * Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results.
  */
 export const getEvent: API.OperationMethod<
-  GetEventRequest,
+  GetEventRequest & RegionInput,
   GetEventResult,
   GetEventError,
   Credentials | HttpClient.HttpClient
@@ -2542,7 +2543,7 @@ export type GetEventPredictionError =
  * Evaluates an event against a detector version. If a version ID is not provided, the detector's (`ACTIVE`) version is used.
  */
 export const getEventPrediction: API.OperationMethod<
-  GetEventPredictionRequest,
+  GetEventPredictionRequest & RegionInput,
   GetEventPredictionResult,
   GetEventPredictionError,
   Credentials | HttpClient.HttpClient
@@ -2576,7 +2577,7 @@ export type GetEventPredictionMetadataError =
  * Gets details of the past fraud predictions for the specified event ID, event type, detector ID, and detector version ID that was generated in the specified time period.
  */
 export const getEventPredictionMetadata: API.OperationMethod<
-  GetEventPredictionMetadataRequest,
+  GetEventPredictionMetadataRequest & RegionInput,
   GetEventPredictionMetadataResult,
   GetEventPredictionMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2613,7 +2614,7 @@ export type GetEventTypesError =
  * fetches the records from the beginning.
  */
 export const getEventTypes: API.PaginatedOperationMethod<
-  GetEventTypesRequest,
+  GetEventTypesRequest & RegionInput,
   GetEventTypesResult,
   GetEventTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2656,7 +2657,7 @@ export type GetExternalModelsError =
  * of your request. A null pagination token fetches the records from the beginning.
  */
 export const getExternalModels: API.PaginatedOperationMethod<
-  GetExternalModelsRequest,
+  GetExternalModelsRequest & RegionInput,
   GetExternalModelsResult,
   GetExternalModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2693,7 +2694,7 @@ export type GetKMSEncryptionKeyError =
  * Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
  */
 export const getKMSEncryptionKey: API.OperationMethod<
-  GetKMSEncryptionKeyRequest,
+  GetKMSEncryptionKeyRequest & RegionInput,
   GetKMSEncryptionKeyResult,
   GetKMSEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -2729,7 +2730,7 @@ export type GetLabelsError =
  * fetches the records from the beginning.
  */
 export const getLabels: API.PaginatedOperationMethod<
-  GetLabelsRequest,
+  GetLabelsRequest & RegionInput,
   GetLabelsResult,
   GetLabelsError,
   Credentials | HttpClient.HttpClient,
@@ -2767,7 +2768,7 @@ export type GetListElementsError =
  * Gets all the elements in the specified list.
  */
 export const getListElements: API.PaginatedOperationMethod<
-  GetListElementsRequest,
+  GetListElementsRequest & RegionInput,
   GetListElementsResult,
   GetListElementsError,
   Credentials | HttpClient.HttpClient,
@@ -2805,7 +2806,7 @@ export type GetListsMetadataError =
  * Gets the metadata of either all the lists under the account or the specified list.
  */
 export const getListsMetadata: API.PaginatedOperationMethod<
-  GetListsMetadataRequest,
+  GetListsMetadataRequest & RegionInput,
   GetListsMetadataResult,
   GetListsMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -2850,7 +2851,7 @@ export type GetModelsError =
  * fetches the records from the beginning.
  */
 export const getModels: API.PaginatedOperationMethod<
-  GetModelsRequest,
+  GetModelsRequest & RegionInput,
   GetModelsResult,
   GetModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2888,7 +2889,7 @@ export type GetModelVersionError =
  * Gets the details of the specified model version.
  */
 export const getModelVersion: API.OperationMethod<
-  GetModelVersionRequest,
+  GetModelVersionRequest & RegionInput,
   GetModelVersionResult,
   GetModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -2925,7 +2926,7 @@ export type GetOutcomesError =
  * fetches the records from the beginning.
  */
 export const getOutcomes: API.PaginatedOperationMethod<
-  GetOutcomesRequest,
+  GetOutcomesRequest & RegionInput,
   GetOutcomesResult,
   GetOutcomesError,
   Credentials | HttpClient.HttpClient,
@@ -2965,7 +2966,7 @@ export type GetRulesError =
  * This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
  */
 export const getRules: API.PaginatedOperationMethod<
-  GetRulesRequest,
+  GetRulesRequest & RegionInput,
   GetRulesResult,
   GetRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3008,7 +3009,7 @@ export type GetVariablesError =
  * fetches the records from the beginning.
  */
 export const getVariables: API.PaginatedOperationMethod<
-  GetVariablesRequest,
+  GetVariablesRequest & RegionInput,
   GetVariablesResult,
   GetVariablesError,
   Credentials | HttpClient.HttpClient,
@@ -3056,7 +3057,7 @@ export type ListEventPredictionsError =
  * the `nextToken` from the response as part of your request. A null `nextToken` fetches the records from the beginning.
  */
 export const listEventPredictions: API.PaginatedOperationMethod<
-  ListEventPredictionsRequest,
+  ListEventPredictionsRequest & RegionInput,
   ListEventPredictionsResult,
   ListEventPredictionsError,
   Credentials | HttpClient.HttpClient,
@@ -3094,7 +3095,7 @@ export type ListTagsForResourceError =
  * fetches the records from the beginning.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3131,7 +3132,7 @@ export type PutDetectorError =
  * Creates or updates a detector.
  */
 export const putDetector: API.OperationMethod<
-  PutDetectorRequest,
+  PutDetectorRequest & RegionInput,
   PutDetectorResult,
   PutDetectorError,
   Credentials | HttpClient.HttpClient
@@ -3163,7 +3164,7 @@ export type PutEntityTypeError =
  * Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
  */
 export const putEntityType: API.OperationMethod<
-  PutEntityTypeRequest,
+  PutEntityTypeRequest & RegionInput,
   PutEntityTypeResult,
   PutEntityTypeError,
   Credentials | HttpClient.HttpClient
@@ -3195,7 +3196,7 @@ export type PutEventTypeError =
  * Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
  */
 export const putEventType: API.OperationMethod<
-  PutEventTypeRequest,
+  PutEventTypeRequest & RegionInput,
   PutEventTypeResult,
   PutEventTypeError,
   Credentials | HttpClient.HttpClient
@@ -3227,7 +3228,7 @@ export type PutExternalModelError =
  * Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
  */
 export const putExternalModel: API.OperationMethod<
-  PutExternalModelRequest,
+  PutExternalModelRequest & RegionInput,
   PutExternalModelResult,
   PutExternalModelError,
   Credentials | HttpClient.HttpClient
@@ -3260,7 +3261,7 @@ export type PutKMSEncryptionKeyError =
  * Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
  */
 export const putKMSEncryptionKey: API.OperationMethod<
-  PutKMSEncryptionKeyRequest,
+  PutKMSEncryptionKeyRequest & RegionInput,
   PutKMSEncryptionKeyResult,
   PutKMSEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -3293,7 +3294,7 @@ export type PutLabelError =
  * Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector.
  */
 export const putLabel: API.OperationMethod<
-  PutLabelRequest,
+  PutLabelRequest & RegionInput,
   PutLabelResult,
   PutLabelError,
   Credentials | HttpClient.HttpClient
@@ -3325,7 +3326,7 @@ export type PutOutcomeError =
  * Creates or updates an outcome.
  */
 export const putOutcome: API.OperationMethod<
-  PutOutcomeRequest,
+  PutOutcomeRequest & RegionInput,
   PutOutcomeResult,
   PutOutcomeError,
   Credentials | HttpClient.HttpClient
@@ -3358,7 +3359,7 @@ export type SendEventError =
  * Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use `SendEvent` to upload a historical dataset, which you can then later use to train a model.
  */
 export const sendEvent: API.OperationMethod<
-  SendEventRequest,
+  SendEventRequest & RegionInput,
   SendEventResult,
   SendEventError,
   Credentials | HttpClient.HttpClient
@@ -3390,7 +3391,7 @@ export type TagResourceError =
  * Assigns tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3420,7 +3421,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3452,7 +3453,7 @@ export type UpdateDetectorVersionError =
  * Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a `DRAFT` detector version.
  */
 export const updateDetectorVersion: API.OperationMethod<
-  UpdateDetectorVersionRequest,
+  UpdateDetectorVersionRequest & RegionInput,
   UpdateDetectorVersionResult,
   UpdateDetectorVersionError,
   Credentials | HttpClient.HttpClient
@@ -3486,7 +3487,7 @@ export type UpdateDetectorVersionMetadataError =
  * `INACTIVE`).
  */
 export const updateDetectorVersionMetadata: API.OperationMethod<
-  UpdateDetectorVersionMetadataRequest,
+  UpdateDetectorVersionMetadataRequest & RegionInput,
   UpdateDetectorVersionMetadataResult,
   UpdateDetectorVersionMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3520,7 +3521,7 @@ export type UpdateDetectorVersionStatusError =
  * demotions using `UpdateDetectorVersionStatus`: `DRAFT` to `ACTIVE`, `ACTIVE` to `INACTIVE`, and `INACTIVE` to `ACTIVE`.
  */
 export const updateDetectorVersionStatus: API.OperationMethod<
-  UpdateDetectorVersionStatusRequest,
+  UpdateDetectorVersionStatusRequest & RegionInput,
   UpdateDetectorVersionStatusResult,
   UpdateDetectorVersionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3554,7 +3555,7 @@ export type UpdateEventLabelError =
  * Updates the specified event with a new label.
  */
 export const updateEventLabel: API.OperationMethod<
-  UpdateEventLabelRequest,
+  UpdateEventLabelRequest & RegionInput,
   UpdateEventLabelResult,
   UpdateEventLabelError,
   Credentials | HttpClient.HttpClient
@@ -3588,7 +3589,7 @@ export type UpdateListError =
  * Updates a list.
  */
 export const updateList: API.OperationMethod<
-  UpdateListRequest,
+  UpdateListRequest & RegionInput,
   UpdateListResult,
   UpdateListError,
   Credentials | HttpClient.HttpClient
@@ -3622,7 +3623,7 @@ export type UpdateModelError =
  * Updates model description.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   UpdateModelResult,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -3656,7 +3657,7 @@ export type UpdateModelVersionError =
  * Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
  */
 export const updateModelVersion: API.OperationMethod<
-  UpdateModelVersionRequest,
+  UpdateModelVersionRequest & RegionInput,
   UpdateModelVersionResult,
   UpdateModelVersionError,
   Credentials | HttpClient.HttpClient
@@ -3698,7 +3699,7 @@ export type UpdateModelVersionStatusError =
  * - Change `ACTIVE` to `INACTIVE`.
  */
 export const updateModelVersionStatus: API.OperationMethod<
-  UpdateModelVersionStatusRequest,
+  UpdateModelVersionStatusRequest & RegionInput,
   UpdateModelVersionStatusResult,
   UpdateModelVersionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3732,7 +3733,7 @@ export type UpdateRuleMetadataError =
  * Updates a rule's metadata. The description attribute can be updated.
  */
 export const updateRuleMetadata: API.OperationMethod<
-  UpdateRuleMetadataRequest,
+  UpdateRuleMetadataRequest & RegionInput,
   UpdateRuleMetadataResult,
   UpdateRuleMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3766,7 +3767,7 @@ export type UpdateRuleVersionError =
  * Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
  */
 export const updateRuleVersion: API.OperationMethod<
-  UpdateRuleVersionRequest,
+  UpdateRuleVersionRequest & RegionInput,
   UpdateRuleVersionResult,
   UpdateRuleVersionError,
   Credentials | HttpClient.HttpClient
@@ -3800,7 +3801,7 @@ export type UpdateVariableError =
  * Updates a variable.
  */
 export const updateVariable: API.OperationMethod<
-  UpdateVariableRequest,
+  UpdateVariableRequest & RegionInput,
   UpdateVariableResult,
   UpdateVariableError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1243,7 +1244,7 @@ export type BatchGetCaseRuleError =
  * Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const batchGetCaseRule: API.OperationMethod<
-  BatchGetCaseRuleRequest,
+  BatchGetCaseRuleRequest & RegionInput,
   BatchGetCaseRuleResponse,
   BatchGetCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -1275,7 +1276,7 @@ export type BatchGetFieldError =
  * Returns the description for the list of fields in the request parameters.
  */
 export const batchGetField: API.OperationMethod<
-  BatchGetFieldRequest,
+  BatchGetFieldRequest & RegionInput,
   BatchGetFieldResponse,
   BatchGetFieldError,
   Credentials | HttpClient.HttpClient
@@ -1308,7 +1309,7 @@ export type BatchPutFieldOptionsError =
  * Creates and updates a set of field options for a single select field in a Cases domain.
  */
 export const batchPutFieldOptions: API.OperationMethod<
-  BatchPutFieldOptionsRequest,
+  BatchPutFieldOptionsRequest & RegionInput,
   BatchPutFieldOptionsResponse,
   BatchPutFieldOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1352,7 +1353,7 @@ export type CreateCaseError =
  * - `title`
  */
 export const createCase: API.OperationMethod<
-  CreateCaseRequest,
+  CreateCaseRequest & RegionInput,
   CreateCaseResponse,
   CreateCaseError,
   Credentials | HttpClient.HttpClient
@@ -1387,7 +1388,7 @@ export type CreateCaseRuleError =
  * Creates a new case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const createCaseRule: API.OperationMethod<
-  CreateCaseRuleRequest,
+  CreateCaseRuleRequest & RegionInput,
   CreateCaseRuleResponse,
   CreateCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -1424,7 +1425,7 @@ export type CreateDomainError =
  * This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1459,7 +1460,7 @@ export type CreateFieldError =
  * Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
  */
 export const createField: API.OperationMethod<
-  CreateFieldRequest,
+  CreateFieldRequest & RegionInput,
   CreateFieldResponse,
   CreateFieldError,
   Credentials | HttpClient.HttpClient
@@ -1501,7 +1502,7 @@ export type CreateLayoutError =
  * Title and Status fields cannot be part of layouts since they are not configurable.
  */
 export const createLayout: API.OperationMethod<
-  CreateLayoutRequest,
+  CreateLayoutRequest & RegionInput,
   CreateLayoutResponse,
   CreateLayoutError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1567,7 @@ export type CreateRelatedItemError =
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
 export const createRelatedItem: API.OperationMethod<
-  CreateRelatedItemRequest,
+  CreateRelatedItemRequest & RegionInput,
   CreateRelatedItemResponse,
   CreateRelatedItemError,
   Credentials | HttpClient.HttpClient
@@ -1611,7 +1612,7 @@ export type CreateTemplateError =
  * - UpdateTemplate
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1653,7 +1654,7 @@ export type DeleteCaseError =
  * This action is irreversible. After you delete a case, you cannot recover its data.
  */
 export const deleteCase: API.OperationMethod<
-  DeleteCaseRequest,
+  DeleteCaseRequest & RegionInput,
   DeleteCaseResponse,
   DeleteCaseError,
   Credentials | HttpClient.HttpClient
@@ -1685,7 +1686,7 @@ export type DeleteCaseRuleError =
  * Deletes a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const deleteCaseRule: API.OperationMethod<
-  DeleteCaseRuleRequest,
+  DeleteCaseRuleRequest & RegionInput,
   DeleteCaseRuleResponse,
   DeleteCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -1720,7 +1721,7 @@ export type DeleteDomainError =
  * After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -1781,7 +1782,7 @@ export type DeleteFieldError =
  * - Calling `GetCaseEventConfiguration` does not return field IDs for deleted fields.
  */
 export const deleteField: API.OperationMethod<
-  DeleteFieldRequest,
+  DeleteFieldRequest & RegionInput,
   DeleteFieldResponse,
   DeleteFieldError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1825,7 @@ export type DeleteLayoutError =
  * - Deleted layouts are not included in the `ListLayouts` response.
  */
 export const deleteLayout: API.OperationMethod<
-  DeleteLayoutRequest,
+  DeleteLayoutRequest & RegionInput,
   DeleteLayoutResponse,
   DeleteLayoutError,
   Credentials | HttpClient.HttpClient
@@ -1859,7 +1860,7 @@ export type DeleteRelatedItemError =
  * This API cannot be used on a FILE type related attachment. To delete this type of file, use the DeleteAttachedFile API
  */
 export const deleteRelatedItem: API.OperationMethod<
-  DeleteRelatedItemRequest,
+  DeleteRelatedItemRequest & RegionInput,
   DeleteRelatedItemResponse,
   DeleteRelatedItemError,
   Credentials | HttpClient.HttpClient
@@ -1902,7 +1903,7 @@ export type DeleteTemplateError =
  * - Deleted templates are not included in the `ListTemplates` response.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1935,7 +1936,7 @@ export type GetCaseError =
  * Returns information about a specific case if it exists.
  */
 export const getCase: API.PaginatedOperationMethod<
-  GetCaseRequest,
+  GetCaseRequest & RegionInput,
   GetCaseResponse,
   GetCaseError,
   Credentials | HttpClient.HttpClient,
@@ -1969,7 +1970,7 @@ export type GetCaseAuditEventsError =
  * Returns the audit history about a specific case if it exists.
  */
 export const getCaseAuditEvents: API.PaginatedOperationMethod<
-  GetCaseAuditEventsRequest,
+  GetCaseAuditEventsRequest & RegionInput,
   GetCaseAuditEventsResponse,
   GetCaseAuditEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2007,7 +2008,7 @@ export type GetCaseEventConfigurationError =
  * Returns the case event publishing configuration.
  */
 export const getCaseEventConfiguration: API.OperationMethod<
-  GetCaseEventConfigurationRequest,
+  GetCaseEventConfigurationRequest & RegionInput,
   GetCaseEventConfigurationResponse,
   GetCaseEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2039,7 +2040,7 @@ export type GetDomainError =
  * Returns information about a specific domain if it exists.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainRequest,
+  GetDomainRequest & RegionInput,
   GetDomainResponse,
   GetDomainError,
   Credentials | HttpClient.HttpClient
@@ -2071,7 +2072,7 @@ export type GetLayoutError =
  * Returns the details for the requested layout.
  */
 export const getLayout: API.OperationMethod<
-  GetLayoutRequest,
+  GetLayoutRequest & RegionInput,
   GetLayoutResponse,
   GetLayoutError,
   Credentials | HttpClient.HttpClient
@@ -2111,7 +2112,7 @@ export type GetTemplateError =
  * - UpdateTemplate
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateRequest,
+  GetTemplateRequest & RegionInput,
   GetTemplateResponse,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2143,7 +2144,7 @@ export type ListCaseRulesError =
  * Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const listCaseRules: API.PaginatedOperationMethod<
-  ListCaseRulesRequest,
+  ListCaseRulesRequest & RegionInput,
   ListCaseRulesResponse,
   ListCaseRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2182,7 +2183,7 @@ export type ListCasesForContactError =
  * Lists cases for a given contact.
  */
 export const listCasesForContact: API.PaginatedOperationMethod<
-  ListCasesForContactRequest,
+  ListCasesForContactRequest & RegionInput,
   ListCasesForContactResponse,
   ListCasesForContactError,
   Credentials | HttpClient.HttpClient,
@@ -2219,7 +2220,7 @@ export type ListDomainsError =
  * Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2256,7 +2257,7 @@ export type ListFieldOptionsError =
  * Lists all of the field options for a field identifier in the domain.
  */
 export const listFieldOptions: API.PaginatedOperationMethod<
-  ListFieldOptionsRequest,
+  ListFieldOptionsRequest & RegionInput,
   ListFieldOptionsResponse,
   ListFieldOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2294,7 +2295,7 @@ export type ListFieldsError =
  * Lists all fields in a Cases domain.
  */
 export const listFields: API.PaginatedOperationMethod<
-  ListFieldsRequest,
+  ListFieldsRequest & RegionInput,
   ListFieldsResponse,
   ListFieldsError,
   Credentials | HttpClient.HttpClient,
@@ -2332,7 +2333,7 @@ export type ListLayoutsError =
  * Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
  */
 export const listLayouts: API.PaginatedOperationMethod<
-  ListLayoutsRequest,
+  ListLayoutsRequest & RegionInput,
   ListLayoutsResponse,
   ListLayoutsError,
   Credentials | HttpClient.HttpClient,
@@ -2370,7 +2371,7 @@ export type ListTagsForResourceError =
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2412,7 +2413,7 @@ export type ListTemplatesError =
  * - UpdateTemplate
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2451,7 +2452,7 @@ export type PutCaseEventConfigurationError =
  * Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the *Amazon Connect Administrator Guide*
  */
 export const putCaseEventConfiguration: API.OperationMethod<
-  PutCaseEventConfigurationRequest,
+  PutCaseEventConfigurationRequest & RegionInput,
   PutCaseEventConfigurationResponse,
   PutCaseEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2502,7 +2503,7 @@ export type SearchAllRelatedItemsError =
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
 export const searchAllRelatedItems: API.PaginatedOperationMethod<
-  SearchAllRelatedItemsRequest,
+  SearchAllRelatedItemsRequest & RegionInput,
   SearchAllRelatedItemsResponse,
   SearchAllRelatedItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2543,7 +2544,7 @@ export type SearchCasesError =
  * For `customer_id` you must provide the full customer profile ARN in this format: ` arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID`.
  */
 export const searchCases: API.PaginatedOperationMethod<
-  SearchCasesRequest,
+  SearchCasesRequest & RegionInput,
   SearchCasesResponse,
   SearchCasesError,
   Credentials | HttpClient.HttpClient,
@@ -2584,7 +2585,7 @@ export type SearchRelatedItemsError =
  * If no filters are provided, this returns all related items associated with a case.
  */
 export const searchRelatedItems: API.PaginatedOperationMethod<
-  SearchRelatedItemsRequest,
+  SearchRelatedItemsRequest & RegionInput,
   SearchRelatedItemsResponse,
   SearchRelatedItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2623,7 +2624,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2655,7 +2656,7 @@ export type UntagResourceError =
  * Untags a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2691,7 +2692,7 @@ export type UpdateCaseError =
  * If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
  */
 export const updateCase: API.OperationMethod<
-  UpdateCaseRequest,
+  UpdateCaseRequest & RegionInput,
   UpdateCaseResponse,
   UpdateCaseError,
   Credentials | HttpClient.HttpClient
@@ -2725,7 +2726,7 @@ export type UpdateCaseRuleError =
  * Updates a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const updateCaseRule: API.OperationMethod<
-  UpdateCaseRuleRequest,
+  UpdateCaseRuleRequest & RegionInput,
   UpdateCaseRuleResponse,
   UpdateCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -2760,7 +2761,7 @@ export type UpdateFieldError =
  * Updates the properties of an existing field.
  */
 export const updateField: API.OperationMethod<
-  UpdateFieldRequest,
+  UpdateFieldRequest & RegionInput,
   UpdateFieldResponse,
   UpdateFieldError,
   Credentials | HttpClient.HttpClient
@@ -2801,7 +2802,7 @@ export type UpdateLayoutError =
  * Title and Status fields cannot be part of layouts because they are not configurable.
  */
 export const updateLayout: API.OperationMethod<
-  UpdateLayoutRequest,
+  UpdateLayoutRequest & RegionInput,
   UpdateLayoutResponse,
   UpdateLayoutError,
   Credentials | HttpClient.HttpClient
@@ -2850,7 +2851,7 @@ export type UpdateRelatedItemError =
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
 export const updateRelatedItem: API.OperationMethod<
-  UpdateRelatedItemRequest,
+  UpdateRelatedItemRequest & RegionInput,
   UpdateRelatedItemResponse,
   UpdateRelatedItemError,
   Credentials | HttpClient.HttpClient
@@ -2895,7 +2896,7 @@ export type UpdateTemplateError =
  * - ListTemplates
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient

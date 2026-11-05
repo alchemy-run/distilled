@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1406,7 +1407,7 @@ export type AcceptGrantError =
  * Accepts the specified grant.
  */
 export const acceptGrant: API.OperationMethod<
-  AcceptGrantRequest,
+  AcceptGrantRequest & RegionInput,
   AcceptGrantResponse,
   AcceptGrantError,
   Credentials | HttpClient.HttpClient
@@ -1443,7 +1444,7 @@ export type CheckInLicenseError =
  * Checks in the specified license. Check in a license when it is no longer in use.
  */
 export const checkInLicense: API.OperationMethod<
-  CheckInLicenseRequest,
+  CheckInLicenseRequest & RegionInput,
   CheckInLicenseResponse,
   CheckInLicenseError,
   Credentials | HttpClient.HttpClient
@@ -1484,7 +1485,7 @@ export type CheckoutBorrowLicenseError =
  * Checks out the specified license for offline use.
  */
 export const checkoutBorrowLicense: API.OperationMethod<
-  CheckoutBorrowLicenseRequest,
+  CheckoutBorrowLicenseRequest & RegionInput,
   CheckoutBorrowLicenseResponse,
   CheckoutBorrowLicenseError,
   Credentials | HttpClient.HttpClient
@@ -1530,7 +1531,7 @@ export type CheckoutLicenseError =
  * specify the account as the beneficiary.
  */
 export const checkoutLicense: API.OperationMethod<
-  CheckoutLicenseRequest,
+  CheckoutLicenseRequest & RegionInput,
   CheckoutLicenseResponse,
   CheckoutLicenseError,
   Credentials | HttpClient.HttpClient
@@ -1571,7 +1572,7 @@ export type CreateGrantError =
  * organizational unit (OU). For more information, see Granted licenses in License Manager in the *License Manager User Guide*.
  */
 export const createGrant: API.OperationMethod<
-  CreateGrantRequest,
+  CreateGrantRequest & RegionInput,
   CreateGrantResponse,
   CreateGrantError,
   Credentials | HttpClient.HttpClient
@@ -1608,7 +1609,7 @@ export type CreateGrantVersionError =
  * Granted licenses in License Manager in the *License Manager User Guide*.
  */
 export const createGrantVersion: API.OperationMethod<
-  CreateGrantVersionRequest,
+  CreateGrantVersionRequest & RegionInput,
   CreateGrantVersionResponse,
   CreateGrantVersionError,
   Credentials | HttpClient.HttpClient
@@ -1644,7 +1645,7 @@ export type CreateLicenseError =
  * Creates a license.
  */
 export const createLicense: API.OperationMethod<
-  CreateLicenseRequest,
+  CreateLicenseRequest & RegionInput,
   CreateLicenseResponse,
   CreateLicenseError,
   Credentials | HttpClient.HttpClient
@@ -1679,7 +1680,7 @@ export type CreateLicenseAssetGroupError =
  * Creates a license asset group.
  */
 export const createLicenseAssetGroup: API.OperationMethod<
-  CreateLicenseAssetGroupRequest,
+  CreateLicenseAssetGroupRequest & RegionInput,
   CreateLicenseAssetGroupResponse,
   CreateLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1713,7 +1714,7 @@ export type CreateLicenseAssetRulesetError =
  * Creates a license asset ruleset.
  */
 export const createLicenseAssetRuleset: API.OperationMethod<
-  CreateLicenseAssetRulesetRequest,
+  CreateLicenseAssetRulesetRequest & RegionInput,
   CreateLicenseAssetRulesetResponse,
   CreateLicenseAssetRulesetError,
   Credentials | HttpClient.HttpClient
@@ -1753,7 +1754,7 @@ export type CreateLicenseConfigurationError =
  * license must be associated with a host), and the number of licenses purchased and used.
  */
 export const createLicenseConfiguration: API.OperationMethod<
-  CreateLicenseConfigurationRequest,
+  CreateLicenseConfigurationRequest & RegionInput,
   CreateLicenseConfigurationResponse,
   CreateLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1787,7 +1788,7 @@ export type CreateLicenseConversionTaskForResourceError =
  * Creates a new license conversion task.
  */
 export const createLicenseConversionTaskForResource: API.OperationMethod<
-  CreateLicenseConversionTaskForResourceRequest,
+  CreateLicenseConversionTaskForResourceRequest & RegionInput,
   CreateLicenseConversionTaskForResourceResponse,
   CreateLicenseConversionTaskForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1823,7 +1824,7 @@ export type CreateLicenseManagerReportGeneratorError =
  * Creates a report generator.
  */
 export const createLicenseManagerReportGenerator: API.OperationMethod<
-  CreateLicenseManagerReportGeneratorRequest,
+  CreateLicenseManagerReportGeneratorRequest & RegionInput,
   CreateLicenseManagerReportGeneratorResponse,
   CreateLicenseManagerReportGeneratorError,
   Credentials | HttpClient.HttpClient
@@ -1861,7 +1862,7 @@ export type CreateLicenseVersionError =
  * Creates a new version of the specified license.
  */
 export const createLicenseVersion: API.OperationMethod<
-  CreateLicenseVersionRequest,
+  CreateLicenseVersionRequest & RegionInput,
   CreateLicenseVersionResponse,
   CreateLicenseVersionError,
   Credentials | HttpClient.HttpClient
@@ -1903,7 +1904,7 @@ export type CreateTokenError =
  * call License Manager to manage the specified license.
  */
 export const createToken: API.OperationMethod<
-  CreateTokenRequest,
+  CreateTokenRequest & RegionInput,
   CreateTokenResponse,
   CreateTokenError,
   Credentials | HttpClient.HttpClient
@@ -1940,7 +1941,7 @@ export type DeleteGrantError =
  * Deletes the specified grant.
  */
 export const deleteGrant: API.OperationMethod<
-  DeleteGrantRequest,
+  DeleteGrantRequest & RegionInput,
   DeleteGrantResponse,
   DeleteGrantError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type DeleteLicenseError =
  * Deletes the specified license.
  */
 export const deleteLicense: API.OperationMethod<
-  DeleteLicenseRequest,
+  DeleteLicenseRequest & RegionInput,
   DeleteLicenseResponse,
   DeleteLicenseError,
   Credentials | HttpClient.HttpClient
@@ -2013,7 +2014,7 @@ export type DeleteLicenseAssetGroupError =
  * Deletes a license asset group.
  */
 export const deleteLicenseAssetGroup: API.OperationMethod<
-  DeleteLicenseAssetGroupRequest,
+  DeleteLicenseAssetGroupRequest & RegionInput,
   DeleteLicenseAssetGroupResponse,
   DeleteLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2047,7 +2048,7 @@ export type DeleteLicenseAssetRulesetError =
  * Deletes a license asset ruleset.
  */
 export const deleteLicenseAssetRuleset: API.OperationMethod<
-  DeleteLicenseAssetRulesetRequest,
+  DeleteLicenseAssetRulesetRequest & RegionInput,
   DeleteLicenseAssetRulesetResponse,
   DeleteLicenseAssetRulesetError,
   Credentials | HttpClient.HttpClient
@@ -2083,7 +2084,7 @@ export type DeleteLicenseConfigurationError =
  * You cannot delete a license configuration that is in use.
  */
 export const deleteLicenseConfiguration: API.OperationMethod<
-  DeleteLicenseConfigurationRequest,
+  DeleteLicenseConfigurationRequest & RegionInput,
   DeleteLicenseConfigurationResponse,
   DeleteLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2122,7 +2123,7 @@ export type DeleteLicenseManagerReportGeneratorError =
  * The action cannot be reversed. It has no effect on the previous reports from this generator.
  */
 export const deleteLicenseManagerReportGenerator: API.OperationMethod<
-  DeleteLicenseManagerReportGeneratorRequest,
+  DeleteLicenseManagerReportGeneratorRequest & RegionInput,
   DeleteLicenseManagerReportGeneratorResponse,
   DeleteLicenseManagerReportGeneratorError,
   Credentials | HttpClient.HttpClient
@@ -2159,7 +2160,7 @@ export type DeleteTokenError =
  * Deletes the specified token. Must be called in the license home Region.
  */
 export const deleteToken: API.OperationMethod<
-  DeleteTokenRequest,
+  DeleteTokenRequest & RegionInput,
   DeleteTokenResponse,
   DeleteTokenError,
   Credentials | HttpClient.HttpClient
@@ -2195,7 +2196,7 @@ export type ExtendLicenseConsumptionError =
  * Extends the expiration date for license consumption.
  */
 export const extendLicenseConsumption: API.OperationMethod<
-  ExtendLicenseConsumptionRequest,
+  ExtendLicenseConsumptionRequest & RegionInput,
   ExtendLicenseConsumptionResponse,
   ExtendLicenseConsumptionError,
   Credentials | HttpClient.HttpClient
@@ -2231,7 +2232,7 @@ export type GetAccessTokenError =
  * are valid for one hour.
  */
 export const getAccessToken: API.OperationMethod<
-  GetAccessTokenRequest,
+  GetAccessTokenRequest & RegionInput,
   GetAccessTokenResponse,
   GetAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -2267,7 +2268,7 @@ export type GetGrantError =
  * Gets detailed information about the specified grant.
  */
 export const getGrant: API.OperationMethod<
-  GetGrantRequest,
+  GetGrantRequest & RegionInput,
   GetGrantResponse,
   GetGrantError,
   Credentials | HttpClient.HttpClient
@@ -2304,7 +2305,7 @@ export type GetLicenseError =
  * Gets detailed information about the specified license.
  */
 export const getLicense: API.OperationMethod<
-  GetLicenseRequest,
+  GetLicenseRequest & RegionInput,
   GetLicenseResponse,
   GetLicenseError,
   Credentials | HttpClient.HttpClient
@@ -2339,7 +2340,7 @@ export type GetLicenseAssetGroupError =
  * Gets a license asset group.
  */
 export const getLicenseAssetGroup: API.OperationMethod<
-  GetLicenseAssetGroupRequest,
+  GetLicenseAssetGroupRequest & RegionInput,
   GetLicenseAssetGroupResponse,
   GetLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2373,7 +2374,7 @@ export type GetLicenseAssetRulesetError =
  * Gets a license asset ruleset.
  */
 export const getLicenseAssetRuleset: API.OperationMethod<
-  GetLicenseAssetRulesetRequest,
+  GetLicenseAssetRulesetRequest & RegionInput,
   GetLicenseAssetRulesetResponse,
   GetLicenseAssetRulesetError,
   Credentials | HttpClient.HttpClient
@@ -2407,7 +2408,7 @@ export type GetLicenseConfigurationError =
  * Gets detailed information about the specified license configuration.
  */
 export const getLicenseConfiguration: API.OperationMethod<
-  GetLicenseConfigurationRequest,
+  GetLicenseConfigurationRequest & RegionInput,
   GetLicenseConfigurationResponse,
   GetLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2440,7 +2441,7 @@ export type GetLicenseConversionTaskError =
  * Gets information about the specified license type conversion task.
  */
 export const getLicenseConversionTask: API.OperationMethod<
-  GetLicenseConversionTaskRequest,
+  GetLicenseConversionTaskRequest & RegionInput,
   GetLicenseConversionTaskResponse,
   GetLicenseConversionTaskError,
   Credentials | HttpClient.HttpClient
@@ -2475,7 +2476,7 @@ export type GetLicenseManagerReportGeneratorError =
  * Gets information about the specified report generator.
  */
 export const getLicenseManagerReportGenerator: API.OperationMethod<
-  GetLicenseManagerReportGeneratorRequest,
+  GetLicenseManagerReportGeneratorRequest & RegionInput,
   GetLicenseManagerReportGeneratorResponse,
   GetLicenseManagerReportGeneratorError,
   Credentials | HttpClient.HttpClient
@@ -2511,7 +2512,7 @@ export type GetLicenseUsageError =
  * Gets detailed information about the usage of the specified license.
  */
 export const getLicenseUsage: API.OperationMethod<
-  GetLicenseUsageRequest,
+  GetLicenseUsageRequest & RegionInput,
   GetLicenseUsageResponse,
   GetLicenseUsageError,
   Credentials | HttpClient.HttpClient
@@ -2543,7 +2544,7 @@ export type GetServiceSettingsError =
  * Gets the License Manager settings for the current Region.
  */
 export const getServiceSettings: API.OperationMethod<
-  GetServiceSettingsRequest,
+  GetServiceSettingsRequest & RegionInput,
   GetServiceSettingsResponse,
   GetServiceSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2575,7 +2576,7 @@ export type ListAssetsForLicenseAssetGroupError =
  * Lists assets for a license asset group.
  */
 export const listAssetsForLicenseAssetGroup: API.OperationMethod<
-  ListAssetsForLicenseAssetGroupRequest,
+  ListAssetsForLicenseAssetGroupRequest & RegionInput,
   ListAssetsForLicenseAssetGroupResponse,
   ListAssetsForLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2613,7 +2614,7 @@ export type ListAssociationsForLicenseConfigurationError =
  * the license rules).
  */
 export const listAssociationsForLicenseConfiguration: API.OperationMethod<
-  ListAssociationsForLicenseConfigurationRequest,
+  ListAssociationsForLicenseConfigurationRequest & RegionInput,
   ListAssociationsForLicenseConfigurationResponse,
   ListAssociationsForLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2648,7 +2649,7 @@ export type ListDistributedGrantsError =
  * Lists the grants distributed for the specified license.
  */
 export const listDistributedGrants: API.OperationMethod<
-  ListDistributedGrantsRequest,
+  ListDistributedGrantsRequest & RegionInput,
   ListDistributedGrantsResponse,
   ListDistributedGrantsError,
   Credentials | HttpClient.HttpClient
@@ -2682,7 +2683,7 @@ export type ListFailuresForLicenseConfigurationOperationsError =
  * Lists the license configuration operations that failed.
  */
 export const listFailuresForLicenseConfigurationOperations: API.OperationMethod<
-  ListFailuresForLicenseConfigurationOperationsRequest,
+  ListFailuresForLicenseConfigurationOperationsRequest & RegionInput,
   ListFailuresForLicenseConfigurationOperationsResponse,
   ListFailuresForLicenseConfigurationOperationsError,
   Credentials | HttpClient.HttpClient
@@ -2723,7 +2724,7 @@ export type ListLicenseAssetGroupsError =
  * Lists license asset groups.
  */
 export const listLicenseAssetGroups: API.OperationMethod<
-  ListLicenseAssetGroupsRequest,
+  ListLicenseAssetGroupsRequest & RegionInput,
   ListLicenseAssetGroupsResponse,
   ListLicenseAssetGroupsError,
   Credentials | HttpClient.HttpClient
@@ -2757,7 +2758,7 @@ export type ListLicenseAssetRulesetsError =
  * Lists license asset rulesets.
  */
 export const listLicenseAssetRulesets: API.OperationMethod<
-  ListLicenseAssetRulesetsRequest,
+  ListLicenseAssetRulesetsRequest & RegionInput,
   ListLicenseAssetRulesetsResponse,
   ListLicenseAssetRulesetsError,
   Credentials | HttpClient.HttpClient
@@ -2791,7 +2792,7 @@ export type ListLicenseConfigurationsError =
  * Lists the license configurations for your account.
  */
 export const listLicenseConfigurations: API.OperationMethod<
-  ListLicenseConfigurationsRequest,
+  ListLicenseConfigurationsRequest & RegionInput,
   ListLicenseConfigurationsResponse,
   ListLicenseConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -2825,7 +2826,7 @@ export type ListLicenseConfigurationsForOrganizationError =
  * Lists license configurations for an organization.
  */
 export const listLicenseConfigurationsForOrganization: API.OperationMethod<
-  ListLicenseConfigurationsForOrganizationRequest,
+  ListLicenseConfigurationsForOrganizationRequest & RegionInput,
   ListLicenseConfigurationsForOrganizationResponse,
   ListLicenseConfigurationsForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2858,7 +2859,7 @@ export type ListLicenseConversionTasksError =
  * Lists the license type conversion tasks for your account.
  */
 export const listLicenseConversionTasks: API.OperationMethod<
-  ListLicenseConversionTasksRequest,
+  ListLicenseConversionTasksRequest & RegionInput,
   ListLicenseConversionTasksResponse,
   ListLicenseConversionTasksError,
   Credentials | HttpClient.HttpClient
@@ -2893,7 +2894,7 @@ export type ListLicenseManagerReportGeneratorsError =
  * Lists the report generators for your account.
  */
 export const listLicenseManagerReportGenerators: API.OperationMethod<
-  ListLicenseManagerReportGeneratorsRequest,
+  ListLicenseManagerReportGeneratorsRequest & RegionInput,
   ListLicenseManagerReportGeneratorsResponse,
   ListLicenseManagerReportGeneratorsError,
   Credentials | HttpClient.HttpClient
@@ -2929,7 +2930,7 @@ export type ListLicensesError =
  * Lists the licenses for your account.
  */
 export const listLicenses: API.OperationMethod<
-  ListLicensesRequest,
+  ListLicensesRequest & RegionInput,
   ListLicensesResponse,
   ListLicensesError,
   Credentials | HttpClient.HttpClient
@@ -2962,7 +2963,7 @@ export type ListLicenseSpecificationsForResourceError =
  * Describes the license configurations for the specified resource.
  */
 export const listLicenseSpecificationsForResource: API.OperationMethod<
-  ListLicenseSpecificationsForResourceRequest,
+  ListLicenseSpecificationsForResourceRequest & RegionInput,
   ListLicenseSpecificationsForResourceResponse,
   ListLicenseSpecificationsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2994,7 +2995,7 @@ export type ListLicenseVersionsError =
  * Lists all versions of the specified license.
  */
 export const listLicenseVersions: API.OperationMethod<
-  ListLicenseVersionsRequest,
+  ListLicenseVersionsRequest & RegionInput,
   ListLicenseVersionsResponse,
   ListLicenseVersionsError,
   Credentials | HttpClient.HttpClient
@@ -3030,7 +3031,7 @@ export type ListReceivedGrantsError =
  * (OU) to which this member account belongs.
  */
 export const listReceivedGrants: API.OperationMethod<
-  ListReceivedGrantsRequest,
+  ListReceivedGrantsRequest & RegionInput,
   ListReceivedGrantsResponse,
   ListReceivedGrantsError,
   Credentials | HttpClient.HttpClient
@@ -3066,7 +3067,7 @@ export type ListReceivedGrantsForOrganizationError =
  * Lists the grants received for all accounts in the organization.
  */
 export const listReceivedGrantsForOrganization: API.OperationMethod<
-  ListReceivedGrantsForOrganizationRequest,
+  ListReceivedGrantsForOrganizationRequest & RegionInput,
   ListReceivedGrantsForOrganizationResponse,
   ListReceivedGrantsForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -3102,7 +3103,7 @@ export type ListReceivedLicensesError =
  * Lists received licenses.
  */
 export const listReceivedLicenses: API.OperationMethod<
-  ListReceivedLicensesRequest,
+  ListReceivedLicensesRequest & RegionInput,
   ListReceivedLicensesResponse,
   ListReceivedLicensesError,
   Credentials | HttpClient.HttpClient
@@ -3138,7 +3139,7 @@ export type ListReceivedLicensesForOrganizationError =
  * Lists the licenses received for all accounts in the organization.
  */
 export const listReceivedLicensesForOrganization: API.OperationMethod<
-  ListReceivedLicensesForOrganizationRequest,
+  ListReceivedLicensesForOrganizationRequest & RegionInput,
   ListReceivedLicensesForOrganizationResponse,
   ListReceivedLicensesForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -3174,7 +3175,7 @@ export type ListResourceInventoryError =
  * Lists resources managed using Systems Manager inventory.
  */
 export const listResourceInventory: API.OperationMethod<
-  ListResourceInventoryRequest,
+  ListResourceInventoryRequest & RegionInput,
   ListResourceInventoryResponse,
   ListResourceInventoryError,
   Credentials | HttpClient.HttpClient
@@ -3210,7 +3211,7 @@ export type ListTagsForResourceError =
  * License Manager, see the TagResource operation.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3243,7 +3244,7 @@ export type ListTokensError =
  * Lists your tokens.
  */
 export const listTokens: API.OperationMethod<
-  ListTokensRequest,
+  ListTokensRequest & RegionInput,
   ListTokensResponse,
   ListTokensError,
   Credentials | HttpClient.HttpClient
@@ -3278,7 +3279,7 @@ export type ListUsageForLicenseConfigurationError =
  * current license consumption for any license inventory and configuration.
  */
 export const listUsageForLicenseConfiguration: API.OperationMethod<
-  ListUsageForLicenseConfigurationRequest,
+  ListUsageForLicenseConfigurationRequest & RegionInput,
   ListUsageForLicenseConfigurationResponse,
   ListUsageForLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3313,7 +3314,7 @@ export type RejectGrantError =
  * Rejects the specified grant.
  */
 export const rejectGrant: API.OperationMethod<
-  RejectGrantRequest,
+  RejectGrantRequest & RegionInput,
   RejectGrantResponse,
   RejectGrantError,
   Credentials | HttpClient.HttpClient
@@ -3357,7 +3358,7 @@ export type TagResourceError =
  * - Report generators
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3391,7 +3392,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3425,7 +3426,7 @@ export type UpdateLicenseAssetGroupError =
  * Updates a license asset group.
  */
 export const updateLicenseAssetGroup: API.OperationMethod<
-  UpdateLicenseAssetGroupRequest,
+  UpdateLicenseAssetGroupRequest & RegionInput,
   UpdateLicenseAssetGroupResponse,
   UpdateLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3459,7 +3460,7 @@ export type UpdateLicenseAssetRulesetError =
  * Updates a license asset ruleset.
  */
 export const updateLicenseAssetRuleset: API.OperationMethod<
-  UpdateLicenseAssetRulesetRequest,
+  UpdateLicenseAssetRulesetRequest & RegionInput,
   UpdateLicenseAssetRulesetResponse,
   UpdateLicenseAssetRulesetError,
   Credentials | HttpClient.HttpClient
@@ -3495,7 +3496,7 @@ export type UpdateLicenseConfigurationError =
  * Modifies the attributes of an existing license configuration.
  */
 export const updateLicenseConfiguration: API.OperationMethod<
-  UpdateLicenseConfigurationRequest,
+  UpdateLicenseConfigurationRequest & RegionInput,
   UpdateLicenseConfigurationResponse,
   UpdateLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3535,7 +3536,7 @@ export type UpdateLicenseManagerReportGeneratorError =
  * After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
  */
 export const updateLicenseManagerReportGenerator: API.OperationMethod<
-  UpdateLicenseManagerReportGeneratorRequest,
+  UpdateLicenseManagerReportGeneratorRequest & RegionInput,
   UpdateLicenseManagerReportGeneratorResponse,
   UpdateLicenseManagerReportGeneratorError,
   Credentials | HttpClient.HttpClient
@@ -3577,7 +3578,7 @@ export type UpdateLicenseSpecificationsForResourceError =
  * as they send license configurations to the operation that creates the resource.
  */
 export const updateLicenseSpecificationsForResource: API.OperationMethod<
-  UpdateLicenseSpecificationsForResourceRequest,
+  UpdateLicenseSpecificationsForResourceRequest & RegionInput,
   UpdateLicenseSpecificationsForResourceResponse,
   UpdateLicenseSpecificationsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3614,7 +3615,7 @@ export type UpdateServiceSettingsError =
  * Updates License Manager settings for the current Region.
  */
 export const updateServiceSettings: API.OperationMethod<
-  UpdateServiceSettingsRequest,
+  UpdateServiceSettingsRequest & RegionInput,
   UpdateServiceSettingsResponse,
   UpdateServiceSettingsError,
   Credentials | HttpClient.HttpClient

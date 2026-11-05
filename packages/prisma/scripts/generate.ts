@@ -102,4 +102,10 @@ runGeneratorCli({
   // scripts/convert.ts, not to the Smithy model.
   patchesDir: false,
   spec: () => spec,
+  // A bucket's S3 API, under the management import path; the layer is
+  // hand-written.
+  append: (resource) =>
+    resource === "management"
+      ? 'export { layerS3, S3BucketName, S3CredentialsError, type LayerS3Options } from "../layer-s3.ts";'
+      : undefined,
 });

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1179,7 +1180,7 @@ export type CreateDeploymentError =
  * Creates a deployment. A deployment applies one or more policies to the accounts and resources selected by a scope. Use `isPublished` to create the deployment in published (`ACTIVE`) or draft (`DRAFT`) state. The response includes coverage information and any warnings about the deployment.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentInput,
+  CreateDeploymentInput & RegionInput,
   CreateDeploymentOutput,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1216,7 +1217,7 @@ export type CreateDeploymentSnapshotError =
  * Creates a snapshot of the current published version of the specified deployment.
  */
 export const createDeploymentSnapshot: API.OperationMethod<
-  CreateDeploymentSnapshotInput,
+  CreateDeploymentSnapshotInput & RegionInput,
   CreateDeploymentSnapshotOutput,
   CreateDeploymentSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1253,7 +1254,7 @@ export type CreatePolicyError =
  * Creates a policy. A policy combines templates and rules with enforcement settings for a firewall type, such as AWS WAF or AWS Shield Advanced. Use `isPublished` to create the policy in published (`ACTIVE`) or draft (`DRAFT`) state.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyInput,
+  CreatePolicyInput & RegionInput,
   CreatePolicyOutput,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1290,7 +1291,7 @@ export type CreatePolicySnapshotError =
  * Creates a snapshot of the current published version of the specified policy.
  */
 export const createPolicySnapshot: API.OperationMethod<
-  CreatePolicySnapshotInput,
+  CreatePolicySnapshotInput & RegionInput,
   CreatePolicySnapshotOutput,
   CreatePolicySnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1327,7 +1328,7 @@ export type CreateRuleError =
  * Creates a rule. A rule defines a network security configuration to enforce, such as an AWS WAF rule group or configuration data. Use `isPublished` to create the rule in published (`ACTIVE`) or draft (`DRAFT`) state.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleInput,
+  CreateRuleInput & RegionInput,
   CreateRuleOutput,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1364,7 +1365,7 @@ export type CreateRuleSnapshotError =
  * Creates a snapshot of the current published version of the specified rule. A snapshot is an immutable, versioned copy that other resources can reference.
  */
 export const createRuleSnapshot: API.OperationMethod<
-  CreateRuleSnapshotInput,
+  CreateRuleSnapshotInput & RegionInput,
   CreateRuleSnapshotOutput,
   CreateRuleSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1401,7 +1402,7 @@ export type CreateScopeError =
  * Creates a scope. A scope selects the accounts and resources that a deployment applies to. Use `isPublished` to create the scope in published (`ACTIVE`) or draft (`DRAFT`) state.
  */
 export const createScope: API.OperationMethod<
-  CreateScopeInput,
+  CreateScopeInput & RegionInput,
   CreateScopeOutput,
   CreateScopeError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1439,7 @@ export type CreateScopeSnapshotError =
  * Creates a snapshot of the current published version of the specified scope.
  */
 export const createScopeSnapshot: API.OperationMethod<
-  CreateScopeSnapshotInput,
+  CreateScopeSnapshotInput & RegionInput,
   CreateScopeSnapshotOutput,
   CreateScopeSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1475,7 +1476,7 @@ export type CreateTemplateError =
  * Creates a template. A template groups one or more rules to simplify reuse across policies. You can also associate rules with a policy directly, without a template. Use `isPublished` to create the template in published (`ACTIVE`) or draft (`DRAFT`) state.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateInput,
+  CreateTemplateInput & RegionInput,
   CreateTemplateOutput,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1512,7 +1513,7 @@ export type CreateTemplateSnapshotError =
  * Creates a snapshot of the current published version of the specified template.
  */
 export const createTemplateSnapshot: API.OperationMethod<
-  CreateTemplateSnapshotInput,
+  CreateTemplateSnapshotInput & RegionInput,
   CreateTemplateSnapshotOutput,
   CreateTemplateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1545,7 +1546,7 @@ export type DeleteAdminAccountError =
  * Removes the specified AWS Network Security Manager administrator account.
  */
 export const deleteAdminAccount: API.OperationMethod<
-  DeleteAdminAccountRequest,
+  DeleteAdminAccountRequest & RegionInput,
   DeleteAdminAccountResponse,
   DeleteAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1576,7 +1577,7 @@ export type DeleteDeploymentError =
  * Deletes the specified deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentInput,
+  DeleteDeploymentInput & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1608,7 +1609,7 @@ export type DeletePolicyError =
  * Deletes the specified policy.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyInput,
+  DeletePolicyInput & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1640,7 +1641,7 @@ export type DeleteRuleError =
  * Deletes the specified rule.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleInput,
+  DeleteRuleInput & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -1672,7 +1673,7 @@ export type DeleteScopeError =
  * Deletes the specified scope.
  */
 export const deleteScope: API.OperationMethod<
-  DeleteScopeInput,
+  DeleteScopeInput & RegionInput,
   DeleteScopeResponse,
   DeleteScopeError,
   Credentials | HttpClient.HttpClient
@@ -1704,7 +1705,7 @@ export type DeleteTemplateError =
  * Deletes the specified template.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateInput,
+  DeleteTemplateInput & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1735,7 +1736,7 @@ export type GenerateRuleConfigurationError =
  * Generates a rule configuration from a natural-language description. Provide a prompt along with the rule's firewall type and rule type. The service returns a configuration that you can use when you create or update a rule. If you also provide an existing configuration, the service edits that configuration instead of generating a new one.
  */
 export const generateRuleConfiguration: API.OperationMethod<
-  GenerateRuleConfigurationRequest,
+  GenerateRuleConfigurationRequest & RegionInput,
   GenerateRuleConfigurationResponse,
   GenerateRuleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1766,7 +1767,7 @@ export type GetAdminAccountError =
  * Retrieves the details of the specified AWS Network Security Manager administrator account.
  */
 export const getAdminAccount: API.OperationMethod<
-  GetAdminAccountRequest,
+  GetAdminAccountRequest & RegionInput,
   GetAdminAccountResponse,
   GetAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1798,7 +1799,7 @@ export type GetDeploymentError =
  * Retrieves the details of the specified deployment, including coverage information and any warnings.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentInput,
+  GetDeploymentInput & RegionInput,
   GetDeploymentOutput,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1830,7 +1831,7 @@ export type GetPolicyError =
  * Retrieves the details of the specified policy.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyInput,
+  GetPolicyInput & RegionInput,
   GetPolicyOutput,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1862,7 +1863,7 @@ export type GetRuleError =
  * Retrieves the details of the specified rule.
  */
 export const getRule: API.OperationMethod<
-  GetRuleInput,
+  GetRuleInput & RegionInput,
   GetRuleOutput,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -1894,7 +1895,7 @@ export type GetScopeError =
  * Retrieves the details of the specified scope.
  */
 export const getScope: API.OperationMethod<
-  GetScopeInput,
+  GetScopeInput & RegionInput,
   GetScopeOutput,
   GetScopeError,
   Credentials | HttpClient.HttpClient
@@ -1926,7 +1927,7 @@ export type GetTemplateError =
  * Retrieves the details of the specified template.
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateInput,
+  GetTemplateInput & RegionInput,
   GetTemplateOutput,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1957,7 +1958,7 @@ export type ListAdminAccountsError =
  * Lists the AWS Network Security Manager administrator accounts in the organization.
  */
 export const listAdminAccounts: API.PaginatedOperationMethod<
-  ListAdminAccountsRequest,
+  ListAdminAccountsRequest & RegionInput,
   ListAdminAccountsResponse,
   ListAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1994,7 +1995,7 @@ export type ListAggregateResourceSynchronizationStatusesError =
  * Lists the aggregated synchronization statuses of resources across the deployments in your administrator account. You can filter the results by synchronization status and page through them.
  */
 export const listAggregateResourceSynchronizationStatuses: API.PaginatedOperationMethod<
-  ListAggregateResourceSynchronizationStatusesInput,
+  ListAggregateResourceSynchronizationStatusesInput & RegionInput,
   ListAggregateResourceSynchronizationStatusesOutput,
   ListAggregateResourceSynchronizationStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -2035,7 +2036,7 @@ export type ListDeploymentsError =
  * Lists the deployments in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsInput,
+  ListDeploymentsInput & RegionInput,
   ListDeploymentsOutput,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -2073,7 +2074,7 @@ export type ListDeploymentSnapshotsError =
  * Lists the snapshots of the specified deployment.
  */
 export const listDeploymentSnapshots: API.PaginatedOperationMethod<
-  ListDeploymentSnapshotsInput,
+  ListDeploymentSnapshotsInput & RegionInput,
   ListDeploymentSnapshotsOutput,
   ListDeploymentSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2111,7 +2112,7 @@ export type ListPoliciesError =
  * Lists the policies in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesInput,
+  ListPoliciesInput & RegionInput,
   ListPoliciesOutput,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2149,7 +2150,7 @@ export type ListPolicySnapshotsError =
  * Lists the snapshots of the specified policy.
  */
 export const listPolicySnapshots: API.PaginatedOperationMethod<
-  ListPolicySnapshotsInput,
+  ListPolicySnapshotsInput & RegionInput,
   ListPolicySnapshotsOutput,
   ListPolicySnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2187,7 +2188,7 @@ export type ListResourceAssociationsError =
  * Lists the resources associated with the specified resource.
  */
 export const listResourceAssociations: API.PaginatedOperationMethod<
-  ListResourceAssociationsInput,
+  ListResourceAssociationsInput & RegionInput,
   ListResourceAssociationsOutput,
   ListResourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2225,7 +2226,7 @@ export type ListResourceSynchronizationStatusesError =
  * Lists the synchronization statuses of the resources covered by the specified deployment. You can filter the results by synchronization status and page through them.
  */
 export const listResourceSynchronizationStatuses: API.PaginatedOperationMethod<
-  ListResourceSynchronizationStatusesInput,
+  ListResourceSynchronizationStatusesInput & RegionInput,
   ListResourceSynchronizationStatusesOutput,
   ListResourceSynchronizationStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -2263,7 +2264,7 @@ export type ListRulesError =
  * Lists the rules in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesInput,
+  ListRulesInput & RegionInput,
   ListRulesOutput,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2301,7 +2302,7 @@ export type ListRuleSnapshotsError =
  * Lists the snapshots of the specified rule.
  */
 export const listRuleSnapshots: API.PaginatedOperationMethod<
-  ListRuleSnapshotsInput,
+  ListRuleSnapshotsInput & RegionInput,
   ListRuleSnapshotsOutput,
   ListRuleSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2339,7 +2340,7 @@ export type ListScopesError =
  * Lists the scopes in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listScopes: API.PaginatedOperationMethod<
-  ListScopesInput,
+  ListScopesInput & RegionInput,
   ListScopesOutput,
   ListScopesError,
   Credentials | HttpClient.HttpClient,
@@ -2377,7 +2378,7 @@ export type ListScopeSnapshotsError =
  * Lists the snapshots of the specified scope.
  */
 export const listScopeSnapshots: API.PaginatedOperationMethod<
-  ListScopeSnapshotsInput,
+  ListScopeSnapshotsInput & RegionInput,
   ListScopeSnapshotsOutput,
   ListScopeSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2416,7 +2417,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2447,7 +2448,7 @@ export type ListTemplatesError =
  * Lists the templates in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListTemplatesInput,
+  ListTemplatesInput & RegionInput,
   ListTemplatesOutput,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2485,7 +2486,7 @@ export type ListTemplateSnapshotsError =
  * Lists the snapshots of the specified template.
  */
 export const listTemplateSnapshots: API.PaginatedOperationMethod<
-  ListTemplateSnapshotsInput,
+  ListTemplateSnapshotsInput & RegionInput,
   ListTemplateSnapshotsOutput,
   ListTemplateSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2528,7 +2529,7 @@ export type PutAdminAccountError =
  * You can't set an administrator account again immediately after you remove it, or while the service creates its service-linked role. Retry the request after a few minutes.
  */
 export const putAdminAccount: API.OperationMethod<
-  PutAdminAccountRequest,
+  PutAdminAccountRequest & RegionInput,
   PutAdminAccountResponse,
   PutAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2563,7 +2564,7 @@ export type TagResourceError =
  * Adds or overwrites the specified tags on the given resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2597,7 +2598,7 @@ export type UntagResourceError =
  * Removes the specified tags from the given resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2632,7 +2633,7 @@ export type UpdateDeploymentError =
  * Updates the specified deployment. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the deployment as a draft.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentInput,
+  UpdateDeploymentInput & RegionInput,
   UpdateDeploymentOutput,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2668,7 +2669,7 @@ export type UpdatePolicyError =
  * Updates the specified policy. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the policy as a draft.
  */
 export const updatePolicy: API.OperationMethod<
-  UpdatePolicyInput,
+  UpdatePolicyInput & RegionInput,
   UpdatePolicyOutput,
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2704,7 +2705,7 @@ export type UpdateRuleError =
  * Updates the specified rule. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the rule as a draft.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleInput,
+  UpdateRuleInput & RegionInput,
   UpdateRuleOutput,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -2740,7 +2741,7 @@ export type UpdateScopeError =
  * Updates the specified scope. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the scope as a draft.
  */
 export const updateScope: API.OperationMethod<
-  UpdateScopeInput,
+  UpdateScopeInput & RegionInput,
   UpdateScopeOutput,
   UpdateScopeError,
   Credentials | HttpClient.HttpClient
@@ -2776,7 +2777,7 @@ export type UpdateTemplateError =
  * Updates the specified template. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the template as a draft.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateInput,
+  UpdateTemplateInput & RegionInput,
   UpdateTemplateOutput,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient

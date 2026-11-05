@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1023,7 +1024,7 @@ export type AssociateExternalConnectionError =
  * A repository can have one or more upstream repositories, or an external connection.
  */
 export const associateExternalConnection: API.OperationMethod<
-  AssociateExternalConnectionRequest,
+  AssociateExternalConnectionRequest & RegionInput,
   AssociateExternalConnectionResult,
   AssociateExternalConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1061,7 +1062,7 @@ export type CopyPackageVersionsError =
  * You must specify `versions` or `versionRevisions`. You cannot specify both.
  */
 export const copyPackageVersions: API.OperationMethod<
-  CopyPackageVersionsRequest,
+  CopyPackageVersionsRequest & RegionInput,
   CopyPackageVersionsResult,
   CopyPackageVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1104,7 +1105,7 @@ export type CreateDomainError =
  * pre-production domain to test changes to the production domain configuration.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResult,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1140,7 +1141,7 @@ export type CreatePackageGroupError =
  * Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the *CodeArtifact User Guide*.
  */
 export const createPackageGroup: API.OperationMethod<
-  CreatePackageGroupRequest,
+  CreatePackageGroupRequest & RegionInput,
   CreatePackageGroupResult,
   CreatePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1176,7 +1177,7 @@ export type CreateRepositoryError =
  * Creates a repository.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryRequest,
+  CreateRepositoryRequest & RegionInput,
   CreateRepositoryResult,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1211,7 +1212,7 @@ export type DeleteDomainError =
  * with repositories, first delete its repositories.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResult,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -1244,7 +1245,7 @@ export type DeleteDomainPermissionsPolicyError =
  * Deletes the resource policy set on a domain.
  */
 export const deleteDomainPermissionsPolicy: API.OperationMethod<
-  DeleteDomainPermissionsPolicyRequest,
+  DeleteDomainPermissionsPolicyRequest & RegionInput,
   DeleteDomainPermissionsPolicyResult,
   DeleteDomainPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1279,7 +1280,7 @@ export type DeletePackageError =
  * DeletePackageVersions API.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResult,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -1318,7 +1319,7 @@ export type DeletePackageGroupError =
  * from the parent, those settings could change.
  */
 export const deletePackageGroup: API.OperationMethod<
-  DeletePackageGroupRequest,
+  DeletePackageGroupRequest & RegionInput,
   DeletePackageGroupResult,
   DeletePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1357,7 +1358,7 @@ export type DeletePackageVersionsError =
  * ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
  */
 export const deletePackageVersions: API.OperationMethod<
-  DeletePackageVersionsRequest,
+  DeletePackageVersionsRequest & RegionInput,
   DeletePackageVersionsResult,
   DeletePackageVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1391,7 +1392,7 @@ export type DeleteRepositoryError =
  * Deletes a repository.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryRequest,
+  DeleteRepositoryRequest & RegionInput,
   DeleteRepositoryResult,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1429,7 +1430,7 @@ export type DeleteRepositoryPermissionsPolicyError =
  * the repository actions granted by the deleted policy.
  */
 export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
-  DeleteRepositoryPermissionsPolicyRequest,
+  DeleteRepositoryPermissionsPolicyRequest & RegionInput,
   DeleteRepositoryPermissionsPolicyResult,
   DeleteRepositoryPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1464,7 +1465,7 @@ export type DescribeDomainError =
  * object that contains information about the requested domain.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResult,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -1498,7 +1499,7 @@ export type DescribePackageError =
  * object that contains information about the requested package.
  */
 export const describePackage: API.OperationMethod<
-  DescribePackageRequest,
+  DescribePackageRequest & RegionInput,
   DescribePackageResult,
   DescribePackageError,
   Credentials | HttpClient.HttpClient
@@ -1531,7 +1532,7 @@ export type DescribePackageGroupError =
  * contains information about the requested package group.
  */
 export const describePackageGroup: API.OperationMethod<
-  DescribePackageGroupRequest,
+  DescribePackageGroupRequest & RegionInput,
   DescribePackageGroupResult,
   DescribePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1567,7 @@ export type DescribePackageVersionError =
  * object that contains information about the requested package version.
  */
 export const describePackageVersion: API.OperationMethod<
-  DescribePackageVersionRequest,
+  DescribePackageVersionRequest & RegionInput,
   DescribePackageVersionResult,
   DescribePackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1601,7 @@ export type DescribeRepositoryError =
  * about the requested repository.
  */
 export const describeRepository: API.OperationMethod<
-  DescribeRepositoryRequest,
+  DescribeRepositoryRequest & RegionInput,
   DescribeRepositoryResult,
   DescribeRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1634,7 +1635,7 @@ export type DisassociateExternalConnectionError =
  * Removes an existing external connection from a repository.
  */
 export const disassociateExternalConnection: API.OperationMethod<
-  DisassociateExternalConnectionRequest,
+  DisassociateExternalConnectionRequest & RegionInput,
   DisassociateExternalConnectionResult,
   DisassociateExternalConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1676,7 +1677,7 @@ export type DisposePackageVersionsError =
  * To view information about a disposed package version, use DescribePackageVersion.
  */
 export const disposePackageVersions: API.OperationMethod<
-  DisposePackageVersionsRequest,
+  DisposePackageVersionsRequest & RegionInput,
   DisposePackageVersionsResult,
   DisposePackageVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1714,7 +1715,7 @@ export type GetAssociatedPackageGroupError =
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
 export const getAssociatedPackageGroup: API.OperationMethod<
-  GetAssociatedPackageGroupRequest,
+  GetAssociatedPackageGroupRequest & RegionInput,
   GetAssociatedPackageGroupResult,
   GetAssociatedPackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1764,7 +1765,7 @@ export type GetAuthorizationTokenError =
  * for more information on controlling session duration.
  */
 export const getAuthorizationToken: API.OperationMethod<
-  GetAuthorizationTokenRequest,
+  GetAuthorizationTokenRequest & RegionInput,
   GetAuthorizationTokenResult,
   GetAuthorizationTokenError,
   Credentials | HttpClient.HttpClient
@@ -1800,7 +1801,7 @@ export type GetDomainPermissionsPolicyError =
  * and resource-based policies in the *IAM User Guide*.
  */
 export const getDomainPermissionsPolicy: API.OperationMethod<
-  GetDomainPermissionsPolicyRequest,
+  GetDomainPermissionsPolicyRequest & RegionInput,
   GetDomainPermissionsPolicyResult,
   GetDomainPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1835,7 +1836,7 @@ export type GetPackageVersionAssetError =
  * or any other assets in the package version.
  */
 export const getPackageVersionAsset: API.OperationMethod<
-  GetPackageVersionAssetRequest,
+  GetPackageVersionAssetRequest & RegionInput,
   GetPackageVersionAssetResult,
   GetPackageVersionAssetError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1871,7 @@ export type GetPackageVersionReadmeError =
  * The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
  */
 export const getPackageVersionReadme: API.OperationMethod<
-  GetPackageVersionReadmeRequest,
+  GetPackageVersionReadmeRequest & RegionInput,
   GetPackageVersionReadmeResult,
   GetPackageVersionReadmeError,
   Credentials | HttpClient.HttpClient
@@ -1919,7 +1920,7 @@ export type GetRepositoryEndpointError =
  * - `swift`
  */
 export const getRepositoryEndpoint: API.OperationMethod<
-  GetRepositoryEndpointRequest,
+  GetRepositoryEndpointRequest & RegionInput,
   GetRepositoryEndpointResult,
   GetRepositoryEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1951,7 +1952,7 @@ export type GetRepositoryPermissionsPolicyError =
  * Returns the resource policy that is set on a repository.
  */
 export const getRepositoryPermissionsPolicy: API.OperationMethod<
-  GetRepositoryPermissionsPolicyRequest,
+  GetRepositoryPermissionsPolicyRequest & RegionInput,
   GetRepositoryPermissionsPolicyResult,
   GetRepositoryPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1985,7 +1986,7 @@ export type ListAllowedRepositoriesForGroupError =
  * and added repository lists, see Package group origin controls in the *CodeArtifact User Guide*.
  */
 export const listAllowedRepositoriesForGroup: API.PaginatedOperationMethod<
-  ListAllowedRepositoriesForGroupRequest,
+  ListAllowedRepositoriesForGroupRequest & RegionInput,
   ListAllowedRepositoriesForGroupResult,
   ListAllowedRepositoriesForGroupError,
   Credentials | HttpClient.HttpClient,
@@ -2026,7 +2027,7 @@ export type ListAssociatedPackagesError =
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
 export const listAssociatedPackages: API.PaginatedOperationMethod<
-  ListAssociatedPackagesRequest,
+  ListAssociatedPackagesRequest & RegionInput,
   ListAssociatedPackagesResult,
   ListAssociatedPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -2065,7 +2066,7 @@ export type ListDomainsError =
  * domain.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResult,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2103,7 +2104,7 @@ export type ListPackageGroupsError =
  * Returns a list of package groups in the requested domain.
  */
 export const listPackageGroups: API.PaginatedOperationMethod<
-  ListPackageGroupsRequest,
+  ListPackageGroupsRequest & RegionInput,
   ListPackageGroupsResult,
   ListPackageGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2144,7 +2145,7 @@ export type ListPackagesError =
  * objects for packages in a repository that match the request parameters.
  */
 export const listPackages: API.PaginatedOperationMethod<
-  ListPackagesRequest,
+  ListPackagesRequest & RegionInput,
   ListPackagesResult,
   ListPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -2185,7 +2186,7 @@ export type ListPackageVersionAssetsError =
  * objects for assets in a package version.
  */
 export const listPackageVersionAssets: API.PaginatedOperationMethod<
-  ListPackageVersionAssetsRequest,
+  ListPackageVersionAssetsRequest & RegionInput,
   ListPackageVersionAssetsResult,
   ListPackageVersionAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -2228,7 +2229,7 @@ export type ListPackageVersionDependenciesError =
  * for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
  */
 export const listPackageVersionDependencies: API.OperationMethod<
-  ListPackageVersionDependenciesRequest,
+  ListPackageVersionDependenciesRequest & RegionInput,
   ListPackageVersionDependenciesResult,
   ListPackageVersionDependenciesError,
   Credentials | HttpClient.HttpClient
@@ -2262,7 +2263,7 @@ export type ListPackageVersionsError =
  * objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling `list-package-versions` with no `--status` parameter.
  */
 export const listPackageVersions: API.PaginatedOperationMethod<
-  ListPackageVersionsRequest,
+  ListPackageVersionsRequest & RegionInput,
   ListPackageVersionsResult,
   ListPackageVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2303,7 +2304,7 @@ export type ListRepositoriesError =
  * parameters.
  */
 export const listRepositories: API.PaginatedOperationMethod<
-  ListRepositoriesRequest,
+  ListRepositoriesRequest & RegionInput,
   ListRepositoriesResult,
   ListRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2344,7 +2345,7 @@ export type ListRepositoriesInDomainError =
  * parameters.
  */
 export const listRepositoriesInDomain: API.PaginatedOperationMethod<
-  ListRepositoriesInDomainRequest,
+  ListRepositoriesInDomainRequest & RegionInput,
   ListRepositoriesInDomainResult,
   ListRepositoriesInDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2387,7 +2388,7 @@ export type ListSubPackageGroupsError =
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
 export const listSubPackageGroups: API.PaginatedOperationMethod<
-  ListSubPackageGroupsRequest,
+  ListSubPackageGroupsRequest & RegionInput,
   ListSubPackageGroupsResult,
   ListSubPackageGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2425,7 +2426,7 @@ export type ListTagsForResourceError =
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2467,7 +2468,7 @@ export type PublishPackageVersionError =
  * packages in the *CodeArtifact User Guide*.
  */
 export const publishPackageVersion: API.OperationMethod<
-  PublishPackageVersionRequest,
+  PublishPackageVersionRequest & RegionInput,
   PublishPackageVersionResult,
   PublishPackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -2507,7 +2508,7 @@ export type PutDomainPermissionsPolicyError =
  * able to update the resource policy.
  */
 export const putDomainPermissionsPolicy: API.OperationMethod<
-  PutDomainPermissionsPolicyRequest,
+  PutDomainPermissionsPolicyRequest & RegionInput,
   PutDomainPermissionsPolicyResult,
   PutDomainPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2550,7 +2551,7 @@ export type PutPackageOriginConfigurationError =
  * publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
  */
 export const putPackageOriginConfiguration: API.OperationMethod<
-  PutPackageOriginConfigurationRequest,
+  PutPackageOriginConfigurationRequest & RegionInput,
   PutPackageOriginConfigurationResult,
   PutPackageOriginConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2588,7 +2589,7 @@ export type PutRepositoryPermissionsPolicyError =
  * able to update the resource policy.
  */
 export const putRepositoryPermissionsPolicy: API.OperationMethod<
-  PutRepositoryPermissionsPolicyRequest,
+  PutRepositoryPermissionsPolicyRequest & RegionInput,
   PutRepositoryPermissionsPolicyResult,
   PutRepositoryPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2622,7 +2623,7 @@ export type TagResourceError =
  * Adds or updates tags for a resource in CodeArtifact.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2653,7 +2654,7 @@ export type UntagResourceError =
  * Removes tags from a resource in CodeArtifact.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2686,7 +2687,7 @@ export type UpdatePackageGroupError =
  * package group's origin configuration, use UpdatePackageGroupOriginConfiguration.
  */
 export const updatePackageGroup: API.OperationMethod<
-  UpdatePackageGroupRequest,
+  UpdatePackageGroupRequest & RegionInput,
   UpdatePackageGroupResult,
   UpdatePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -2726,7 +2727,7 @@ export type UpdatePackageGroupOriginConfigurationError =
  * in the *CodeArtifact User Guide*.
  */
 export const updatePackageGroupOriginConfiguration: API.OperationMethod<
-  UpdatePackageGroupOriginConfigurationRequest,
+  UpdatePackageGroupOriginConfigurationRequest & RegionInput,
   UpdatePackageGroupOriginConfigurationResult,
   UpdatePackageGroupOriginConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2763,7 +2764,7 @@ export type UpdatePackageVersionsStatusError =
  * DisposePackageVersions.
  */
 export const updatePackageVersionsStatus: API.OperationMethod<
-  UpdatePackageVersionsStatusRequest,
+  UpdatePackageVersionsStatusRequest & RegionInput,
   UpdatePackageVersionsStatusResult,
   UpdatePackageVersionsStatusError,
   Credentials | HttpClient.HttpClient
@@ -2798,7 +2799,7 @@ export type UpdateRepositoryError =
  * Update the properties of a repository.
  */
 export const updateRepository: API.OperationMethod<
-  UpdateRepositoryRequest,
+  UpdateRepositoryRequest & RegionInput,
   UpdateRepositoryResult,
   UpdateRepositoryError,
   Credentials | HttpClient.HttpClient

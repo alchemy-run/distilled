@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2396,7 +2397,7 @@ export type AbortMultipartReadSetUploadError =
  * Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the `ListMultipartReadSetUploads` API operation to view all active multipart read set uploads.
  */
 export const abortMultipartReadSetUpload: API.OperationMethod<
-  AbortMultipartReadSetUploadRequest,
+  AbortMultipartReadSetUploadRequest & RegionInput,
   AbortMultipartReadSetUploadResponse,
   AbortMultipartReadSetUploadError,
   Credentials | HttpClient.HttpClient
@@ -2434,7 +2435,7 @@ export type AcceptShareError =
  * Accept a resource share request.
  */
 export const acceptShare: API.OperationMethod<
-  AcceptShareRequest,
+  AcceptShareRequest & RegionInput,
   AcceptShareResponse,
   AcceptShareError,
   Credentials | HttpClient.HttpClient
@@ -2470,7 +2471,7 @@ export type BatchDeleteReadSetError =
  * Deletes one or more read sets. If the operation is successful, it returns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each `BatchDeleteReadSet` API call.
  */
 export const batchDeleteReadSet: API.OperationMethod<
-  BatchDeleteReadSetRequest,
+  BatchDeleteReadSetRequest & RegionInput,
   BatchDeleteReadSetResponse,
   BatchDeleteReadSetError,
   Credentials | HttpClient.HttpClient
@@ -2506,7 +2507,7 @@ export type CancelAnnotationImportJobError =
  * Cancels an annotation import job.
  */
 export const cancelAnnotationImportJob: API.OperationMethod<
-  CancelAnnotationImportRequest,
+  CancelAnnotationImportRequest & RegionInput,
   CancelAnnotationImportResponse,
   CancelAnnotationImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2542,7 +2543,7 @@ export type CancelRunError =
  * Cancels a run using its ID and returns a response with no body if the operation is successful. To confirm that the run has been cancelled, use the `ListRuns` API operation to check that it is no longer listed.
  */
 export const cancelRun: API.OperationMethod<
-  CancelRunRequest,
+  CancelRunRequest & RegionInput,
   CancelRunResponse,
   CancelRunError,
   Credentials | HttpClient.HttpClient
@@ -2583,7 +2584,7 @@ export type CancelRunBatchError =
  * Cancel is only allowed on batches in `PENDING`, `SUBMITTING`, or `INPROGRESS` state. Cancel operations are non-atomic and may be partially successful. Use `GetBatch` to review `successfulCancelSubmissionCount` and `failedCancelSubmissionCount` in the `submissionSummary`. Only one cancel or delete operation per batch is allowed at a time.
  */
 export const cancelRunBatch: API.OperationMethod<
-  CancelRunBatchRequest,
+  CancelRunBatchRequest & RegionInput,
   CancelRunBatchResponse,
   CancelRunBatchError,
   Credentials | HttpClient.HttpClient
@@ -2621,7 +2622,7 @@ export type CancelVariantImportJobError =
  * Cancels a variant import job.
  */
 export const cancelVariantImportJob: API.OperationMethod<
-  CancelVariantImportRequest,
+  CancelVariantImportRequest & RegionInput,
   CancelVariantImportResponse,
   CancelVariantImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2659,7 +2660,7 @@ export type CompleteMultipartReadSetUploadError =
  * For more information, see Direct upload to a sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const completeMultipartReadSetUpload: API.OperationMethod<
-  CompleteMultipartReadSetUploadRequest,
+  CompleteMultipartReadSetUploadRequest & RegionInput,
   CompleteMultipartReadSetUploadResponse,
   CompleteMultipartReadSetUploadError,
   Credentials | HttpClient.HttpClient
@@ -2699,7 +2700,7 @@ export type CreateAnnotationStoreError =
  * Creates an annotation store.
  */
 export const createAnnotationStore: API.OperationMethod<
-  CreateAnnotationStoreRequest,
+  CreateAnnotationStoreRequest & RegionInput,
   CreateAnnotationStoreResponse,
   CreateAnnotationStoreError,
   Credentials | HttpClient.HttpClient
@@ -2736,7 +2737,7 @@ export type CreateAnnotationStoreVersionError =
  * Creates a new version of an annotation store.
  */
 export const createAnnotationStoreVersion: API.OperationMethod<
-  CreateAnnotationStoreVersionRequest,
+  CreateAnnotationStoreVersionRequest & RegionInput,
   CreateAnnotationStoreVersionResponse,
   CreateAnnotationStoreVersionError,
   Credentials | HttpClient.HttpClient
@@ -2774,7 +2775,7 @@ export type CreateConfigurationError =
  * Create a new configuration.
  */
 export const createConfiguration: API.OperationMethod<
-  CreateConfigurationRequest,
+  CreateConfigurationRequest & RegionInput,
   CreateConfigurationResponse,
   CreateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2823,7 +2824,7 @@ export type CreateMultipartReadSetUploadError =
  * To learn more about creating parts and the `split` operation, see Direct upload to a sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const createMultipartReadSetUpload: API.OperationMethod<
-  CreateMultipartReadSetUploadRequest,
+  CreateMultipartReadSetUploadRequest & RegionInput,
   CreateMultipartReadSetUploadResponse,
   CreateMultipartReadSetUploadError,
   Credentials | HttpClient.HttpClient
@@ -2862,7 +2863,7 @@ export type CreateReferenceStoreError =
  * For more information, see Creating a HealthOmics reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const createReferenceStore: API.OperationMethod<
-  CreateReferenceStoreRequest,
+  CreateReferenceStoreRequest & RegionInput,
   CreateReferenceStoreResponse,
   CreateReferenceStoreError,
   Credentials | HttpClient.HttpClient
@@ -2901,7 +2902,7 @@ export type CreateRunCacheError =
  * For more information, see Call caching and Creating a run cache in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const createRunCache: API.OperationMethod<
-  CreateRunCacheRequest,
+  CreateRunCacheRequest & RegionInput,
   CreateRunCacheResponse,
   CreateRunCacheError,
   Credentials | HttpClient.HttpClient
@@ -2940,7 +2941,7 @@ export type CreateRunGroupError =
  * Creates a run group to limit the compute resources for the runs that are added to the group. Returns an ARN, ID, and tags for the run group.
  */
 export const createRunGroup: API.OperationMethod<
-  CreateRunGroupRequest,
+  CreateRunGroupRequest & RegionInput,
   CreateRunGroupResponse,
   CreateRunGroupError,
   Credentials | HttpClient.HttpClient
@@ -2991,7 +2992,7 @@ export type CreateSequenceStoreError =
  * For more information, see Creating a HealthOmics sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const createSequenceStore: API.OperationMethod<
-  CreateSequenceStoreRequest,
+  CreateSequenceStoreRequest & RegionInput,
   CreateSequenceStoreResponse,
   CreateSequenceStoreError,
   Credentials | HttpClient.HttpClient
@@ -3035,7 +3036,7 @@ export type CreateShareError =
  * - Private workflows
  */
 export const createShare: API.OperationMethod<
-  CreateShareRequest,
+  CreateShareRequest & RegionInput,
   CreateShareResponse,
   CreateShareError,
   Credentials | HttpClient.HttpClient
@@ -3074,7 +3075,7 @@ export type CreateVariantStoreError =
  * Creates a variant store.
  */
 export const createVariantStore: API.OperationMethod<
-  CreateVariantStoreRequest,
+  CreateVariantStoreRequest & RegionInput,
   CreateVariantStoreResponse,
   CreateVariantStoreError,
   Credentials | HttpClient.HttpClient
@@ -3124,7 +3125,7 @@ export type CreateWorkflowError =
  * For more information, see Creating or updating a private workflow in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateWorkflowRequest,
+  CreateWorkflowRequest & RegionInput,
   CreateWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3171,7 +3172,7 @@ export type CreateWorkflowVersionError =
  * For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const createWorkflowVersion: API.OperationMethod<
-  CreateWorkflowVersionRequest,
+  CreateWorkflowVersionRequest & RegionInput,
   CreateWorkflowVersionResponse,
   CreateWorkflowVersionError,
   Credentials | HttpClient.HttpClient
@@ -3210,7 +3211,7 @@ export type DeleteAnnotationStoreError =
  * Deletes an annotation store.
  */
 export const deleteAnnotationStore: API.OperationMethod<
-  DeleteAnnotationStoreRequest,
+  DeleteAnnotationStoreRequest & RegionInput,
   DeleteAnnotationStoreResponse,
   DeleteAnnotationStoreError,
   Credentials | HttpClient.HttpClient
@@ -3245,7 +3246,7 @@ export type DeleteAnnotationStoreVersionsError =
  * Deletes one or multiple versions of an annotation store.
  */
 export const deleteAnnotationStoreVersions: API.OperationMethod<
-  DeleteAnnotationStoreVersionsRequest,
+  DeleteAnnotationStoreVersionsRequest & RegionInput,
   DeleteAnnotationStoreVersionsResponse,
   DeleteAnnotationStoreVersionsError,
   Credentials | HttpClient.HttpClient
@@ -3284,7 +3285,7 @@ export type DeleteBatchError =
  * `DeleteBatch` requires the batch to be in a terminal state: `PROCESSED`, `FAILED`, `CANCELLED`, `RUNS_DELETE_FAILED`, or `RUNS_DELETED`. After `DeleteBatch` completes, the batch metadata is no longer accessible. You cannot call `GetBatch`, `ListRunsInBatch`, `DeleteRunBatch`, or `CancelRunBatch` on a deleted batch.
  */
 export const deleteBatch: API.OperationMethod<
-  DeleteBatchRequest,
+  DeleteBatchRequest & RegionInput,
   DeleteBatchResponse,
   DeleteBatchError,
   Credentials | HttpClient.HttpClient
@@ -3323,7 +3324,7 @@ export type DeleteConfigurationError =
  * Delete an existing configuration.
  */
 export const deleteConfiguration: API.OperationMethod<
-  DeleteConfigurationRequest,
+  DeleteConfigurationRequest & RegionInput,
   DeleteConfigurationResponse,
   DeleteConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3363,7 +3364,7 @@ export type DeleteReferenceError =
  * For more information, see Deleting HealthOmics reference and sequence stores in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const deleteReference: API.OperationMethod<
-  DeleteReferenceRequest,
+  DeleteReferenceRequest & RegionInput,
   DeleteReferenceResponse,
   DeleteReferenceError,
   Credentials | HttpClient.HttpClient
@@ -3402,7 +3403,7 @@ export type DeleteReferenceStoreError =
  * For more information about your workflow status, see Deleting HealthOmics reference and sequence stores in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const deleteReferenceStore: API.OperationMethod<
-  DeleteReferenceStoreRequest,
+  DeleteReferenceStoreRequest & RegionInput,
   DeleteReferenceStoreResponse,
   DeleteReferenceStoreError,
   Credentials | HttpClient.HttpClient
@@ -3446,7 +3447,7 @@ export type DeleteRunError =
  * - Use `GetRun` to verify the workflow cannot be found.
  */
 export const deleteRun: API.OperationMethod<
-  DeleteRunRequest,
+  DeleteRunRequest & RegionInput,
   DeleteRunResponse,
   DeleteRunError,
   Credentials | HttpClient.HttpClient
@@ -3487,7 +3488,7 @@ export type DeleteRunBatchError =
  * Delete is only allowed on batches in `PROCESSED` or `CANCELLED` state. Delete operations are non-atomic and may be partially successful. Use `GetBatch` to review `successfulDeleteSubmissionCount` and `failedDeleteSubmissionCount` in the `submissionSummary`. Only one cancel or delete operation per batch is allowed at a time.
  */
 export const deleteRunBatch: API.OperationMethod<
-  DeleteRunBatchRequest,
+  DeleteRunBatchRequest & RegionInput,
   DeleteRunBatchResponse,
   DeleteRunBatchError,
   Credentials | HttpClient.HttpClient
@@ -3528,7 +3529,7 @@ export type DeleteRunCacheError =
  * For more information, see Deleting a run cache in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const deleteRunCache: API.OperationMethod<
-  DeleteRunCacheRequest,
+  DeleteRunCacheRequest & RegionInput,
   DeleteRunCacheResponse,
   DeleteRunCacheError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3574,7 @@ export type DeleteRunGroupError =
  * - Use `GetRunGroup` to verify the workflow cannot be found.
  */
 export const deleteRunGroup: API.OperationMethod<
-  DeleteRunGroupRequest,
+  DeleteRunGroupRequest & RegionInput,
   DeleteRunGroupResponse,
   DeleteRunGroupError,
   Credentials | HttpClient.HttpClient
@@ -3611,7 +3612,7 @@ export type DeleteS3AccessPolicyError =
  * Deletes an access policy for the specified store.
  */
 export const deleteS3AccessPolicy: API.OperationMethod<
-  DeleteS3AccessPolicyRequest,
+  DeleteS3AccessPolicyRequest & RegionInput,
   DeleteS3AccessPolicyResponse,
   DeleteS3AccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3652,7 +3653,7 @@ export type DeleteSequenceStoreError =
  * For more information, see Deleting HealthOmics reference and sequence stores in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const deleteSequenceStore: API.OperationMethod<
-  DeleteSequenceStoreRequest,
+  DeleteSequenceStoreRequest & RegionInput,
   DeleteSequenceStoreResponse,
   DeleteSequenceStoreError,
   Credentials | HttpClient.HttpClient
@@ -3689,7 +3690,7 @@ export type DeleteShareError =
  * Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
  */
 export const deleteShare: API.OperationMethod<
-  DeleteShareRequest,
+  DeleteShareRequest & RegionInput,
   DeleteShareResponse,
   DeleteShareError,
   Credentials | HttpClient.HttpClient
@@ -3727,7 +3728,7 @@ export type DeleteVariantStoreError =
  * Deletes a variant store.
  */
 export const deleteVariantStore: API.OperationMethod<
-  DeleteVariantStoreRequest,
+  DeleteVariantStoreRequest & RegionInput,
   DeleteVariantStoreResponse,
   DeleteVariantStoreError,
   Credentials | HttpClient.HttpClient
@@ -3770,7 +3771,7 @@ export type DeleteWorkflowError =
  * - Use `GetWorkflow` to verify the workflow cannot be found.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3811,7 +3812,7 @@ export type DeleteWorkflowVersionError =
  * For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const deleteWorkflowVersion: API.OperationMethod<
-  DeleteWorkflowVersionRequest,
+  DeleteWorkflowVersionRequest & RegionInput,
   DeleteWorkflowVersionResponse,
   DeleteWorkflowVersionError,
   Credentials | HttpClient.HttpClient
@@ -3849,7 +3850,7 @@ export type GetAnnotationImportJobError =
  * Gets information about an annotation import job.
  */
 export const getAnnotationImportJob: API.OperationMethod<
-  GetAnnotationImportRequest,
+  GetAnnotationImportRequest & RegionInput,
   GetAnnotationImportResponse,
   GetAnnotationImportJobError,
   Credentials | HttpClient.HttpClient
@@ -3884,7 +3885,7 @@ export type GetAnnotationStoreError =
  * Gets information about an annotation store.
  */
 export const getAnnotationStore: API.OperationMethod<
-  GetAnnotationStoreRequest,
+  GetAnnotationStoreRequest & RegionInput,
   GetAnnotationStoreResponse,
   GetAnnotationStoreError,
   Credentials | HttpClient.HttpClient
@@ -3917,7 +3918,7 @@ export type GetAnnotationStoreVersionError =
  * Retrieves the metadata for an annotation store version.
  */
 export const getAnnotationStoreVersion: API.OperationMethod<
-  GetAnnotationStoreVersionRequest,
+  GetAnnotationStoreVersionRequest & RegionInput,
   GetAnnotationStoreVersionResponse,
   GetAnnotationStoreVersionError,
   Credentials | HttpClient.HttpClient
@@ -3951,7 +3952,7 @@ export type GetBatchError =
  * Retrieves details and current status for a specific run batch, including submission progress and run execution counts.
  */
 export const getBatch: API.OperationMethod<
-  GetBatchRequest,
+  GetBatchRequest & RegionInput,
   GetBatchResponse,
   GetBatchError,
   Credentials | HttpClient.HttpClient
@@ -3988,7 +3989,7 @@ export type GetConfigurationError =
  * Retrieve configuration details for specified name.
  */
 export const getConfiguration: API.OperationMethod<
-  GetConfigurationRequest,
+  GetConfigurationRequest & RegionInput,
   GetConfigurationResponse,
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4027,7 +4028,7 @@ export type GetReadSetError =
  * Retrieves detailed information from parts of a read set and returns the read set in the same format that it was uploaded. You must have read sets uploaded to your sequence store in order to run this operation.
  */
 export const getReadSet: API.OperationMethod<
-  GetReadSetRequest,
+  GetReadSetRequest & RegionInput,
   GetReadSetResponse,
   GetReadSetError,
   Credentials | HttpClient.HttpClient
@@ -4064,7 +4065,7 @@ export type GetReadSetActivationJobError =
  * Returns detailed information about the status of a read set activation job in JSON format.
  */
 export const getReadSetActivationJob: API.OperationMethod<
-  GetReadSetActivationJobRequest,
+  GetReadSetActivationJobRequest & RegionInput,
   GetReadSetActivationJobResponse,
   GetReadSetActivationJobError,
   Credentials | HttpClient.HttpClient
@@ -4099,7 +4100,7 @@ export type GetReadSetExportJobError =
  * Retrieves status information about a read set export job and returns the data in JSON format. Use this operation to actively monitor the progress of an export job.
  */
 export const getReadSetExportJob: API.OperationMethod<
-  GetReadSetExportJobRequest,
+  GetReadSetExportJobRequest & RegionInput,
   GetReadSetExportJobResponse,
   GetReadSetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -4134,7 +4135,7 @@ export type GetReadSetImportJobError =
  * Gets detailed and status information about a read set import job and returns the data in JSON format.
  */
 export const getReadSetImportJob: API.OperationMethod<
-  GetReadSetImportJobRequest,
+  GetReadSetImportJobRequest & RegionInput,
   GetReadSetImportJobResponse,
   GetReadSetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4169,7 +4170,7 @@ export type GetReadSetMetadataError =
  * Retrieves the metadata for a read set from a sequence store in JSON format. This operation does not return tags. To retrieve the list of tags for a read set, use the `ListTagsForResource` API operation.
  */
 export const getReadSetMetadata: API.OperationMethod<
-  GetReadSetMetadataRequest,
+  GetReadSetMetadataRequest & RegionInput,
   GetReadSetMetadataResponse,
   GetReadSetMetadataError,
   Credentials | HttpClient.HttpClient
@@ -4207,7 +4208,7 @@ export type GetReferenceError =
  * For more information, see Creating a HealthOmics reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const getReference: API.OperationMethod<
-  GetReferenceRequest,
+  GetReferenceRequest & RegionInput,
   GetReferenceResponse,
   GetReferenceError,
   Credentials | HttpClient.HttpClient
@@ -4243,7 +4244,7 @@ export type GetReferenceImportJobError =
  * Monitors the status of a reference import job. This operation can be called after calling the `StartReferenceImportJob` operation.
  */
 export const getReferenceImportJob: API.OperationMethod<
-  GetReferenceImportJobRequest,
+  GetReferenceImportJobRequest & RegionInput,
   GetReferenceImportJobResponse,
   GetReferenceImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4278,7 +4279,7 @@ export type GetReferenceMetadataError =
  * Retrieves metadata for a reference genome. This operation returns the number of parts, part size, and MD5 of an entire file. This operation does not return tags. To retrieve the list of tags for a read set, use the `ListTagsForResource` API operation.
  */
 export const getReferenceMetadata: API.OperationMethod<
-  GetReferenceMetadataRequest,
+  GetReferenceMetadataRequest & RegionInput,
   GetReferenceMetadataResponse,
   GetReferenceMetadataError,
   Credentials | HttpClient.HttpClient
@@ -4313,7 +4314,7 @@ export type GetReferenceStoreError =
  * Gets information about a reference store.
  */
 export const getReferenceStore: API.OperationMethod<
-  GetReferenceStoreRequest,
+  GetReferenceStoreRequest & RegionInput,
   GetReferenceStoreResponse,
   GetReferenceStoreError,
   Credentials | HttpClient.HttpClient
@@ -4352,7 +4353,7 @@ export type GetRunError =
  * Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If `GetRun` does not return the requested run, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const getRun: API.OperationMethod<
-  GetRunRequest,
+  GetRunRequest & RegionInput,
   GetRunResponse,
   GetRunError,
   Credentials | HttpClient.HttpClient
@@ -4393,7 +4394,7 @@ export type GetRunCacheError =
  * For more information, see Call caching for Amazon Web Services HealthOmics runs in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const getRunCache: API.OperationMethod<
-  GetRunCacheRequest,
+  GetRunCacheRequest & RegionInput,
   GetRunCacheResponse,
   GetRunCacheError,
   Credentials | HttpClient.HttpClient
@@ -4432,7 +4433,7 @@ export type GetRunGroupError =
  * Gets information about a run group and returns its metadata.
  */
 export const getRunGroup: API.OperationMethod<
-  GetRunGroupRequest,
+  GetRunGroupRequest & RegionInput,
   GetRunGroupResponse,
   GetRunGroupError,
   Credentials | HttpClient.HttpClient
@@ -4471,7 +4472,7 @@ export type GetRunTaskError =
  * Gets detailed information about a run task using its ID.
  */
 export const getRunTask: API.OperationMethod<
-  GetRunTaskRequest,
+  GetRunTaskRequest & RegionInput,
   GetRunTaskResponse,
   GetRunTaskError,
   Credentials | HttpClient.HttpClient
@@ -4510,7 +4511,7 @@ export type GetS3AccessPolicyError =
  * Retrieves details about an access policy on a given store.
  */
 export const getS3AccessPolicy: API.OperationMethod<
-  GetS3AccessPolicyRequest,
+  GetS3AccessPolicyRequest & RegionInput,
   GetS3AccessPolicyResponse,
   GetS3AccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4547,7 +4548,7 @@ export type GetSequenceStoreError =
  * Retrieves metadata for a sequence store using its ID and returns it in JSON format.
  */
 export const getSequenceStore: API.OperationMethod<
-  GetSequenceStoreRequest,
+  GetSequenceStoreRequest & RegionInput,
   GetSequenceStoreResponse,
   GetSequenceStoreError,
   Credentials | HttpClient.HttpClient
@@ -4583,7 +4584,7 @@ export type GetShareError =
  * Retrieves the metadata for the specified resource share.
  */
 export const getShare: API.OperationMethod<
-  GetShareRequest,
+  GetShareRequest & RegionInput,
   GetShareResponse,
   GetShareError,
   Credentials | HttpClient.HttpClient
@@ -4620,7 +4621,7 @@ export type GetVariantImportJobError =
  * Gets information about a variant import job.
  */
 export const getVariantImportJob: API.OperationMethod<
-  GetVariantImportRequest,
+  GetVariantImportRequest & RegionInput,
   GetVariantImportResponse,
   GetVariantImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4656,7 +4657,7 @@ export type GetVariantStoreError =
  * Gets information about a variant store.
  */
 export const getVariantStore: API.OperationMethod<
-  GetVariantStoreRequest,
+  GetVariantStoreRequest & RegionInput,
   GetVariantStoreResponse,
   GetVariantStoreError,
   Credentials | HttpClient.HttpClient
@@ -4697,7 +4698,7 @@ export type GetWorkflowError =
  * For more information about your workflow status, see Verify the workflow status in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -4736,7 +4737,7 @@ export type GetWorkflowVersionError =
  * Gets information about a workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const getWorkflowVersion: API.OperationMethod<
-  GetWorkflowVersionRequest,
+  GetWorkflowVersionRequest & RegionInput,
   GetWorkflowVersionResponse,
   GetWorkflowVersionError,
   Credentials | HttpClient.HttpClient
@@ -4774,7 +4775,7 @@ export type ListAnnotationImportJobsError =
  * Retrieves a list of annotation import jobs.
  */
 export const listAnnotationImportJobs: API.PaginatedOperationMethod<
-  ListAnnotationImportJobsRequest,
+  ListAnnotationImportJobsRequest & RegionInput,
   ListAnnotationImportJobsResponse,
   ListAnnotationImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4816,7 +4817,7 @@ export type ListAnnotationStoresError =
  * Retrieves a list of annotation stores.
  */
 export const listAnnotationStores: API.PaginatedOperationMethod<
-  ListAnnotationStoresRequest,
+  ListAnnotationStoresRequest & RegionInput,
   ListAnnotationStoresResponse,
   ListAnnotationStoresError,
   Credentials | HttpClient.HttpClient,
@@ -4856,7 +4857,7 @@ export type ListAnnotationStoreVersionsError =
  * Lists the versions of an annotation store.
  */
 export const listAnnotationStoreVersions: API.PaginatedOperationMethod<
-  ListAnnotationStoreVersionsRequest,
+  ListAnnotationStoreVersionsRequest & RegionInput,
   ListAnnotationStoreVersionsResponse,
   ListAnnotationStoreVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4896,7 +4897,7 @@ export type ListBatchError =
  * Returns a list of run batches in your account, with optional filtering by status, name, or run group. Results are paginated. Only one filter per call is supported.
  */
 export const listBatch: API.PaginatedOperationMethod<
-  ListBatchRequest,
+  ListBatchRequest & RegionInput,
   ListBatchResponse,
   ListBatchError,
   Credentials | HttpClient.HttpClient,
@@ -4939,7 +4940,7 @@ export type ListConfigurationsError =
  * List all configurations for the account.
  */
 export const listConfigurations: API.PaginatedOperationMethod<
-  ListConfigurationsRequest,
+  ListConfigurationsRequest & RegionInput,
   ListConfigurationsResponse,
   ListConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4985,7 +4986,7 @@ export type ListMultipartReadSetUploadsError =
  * Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the `CreateMultipartReadSetUploads` API operation. This operation returns a response with no body when the upload is complete.
  */
 export const listMultipartReadSetUploads: API.PaginatedOperationMethod<
-  ListMultipartReadSetUploadsRequest,
+  ListMultipartReadSetUploadsRequest & RegionInput,
   ListMultipartReadSetUploadsResponse,
   ListMultipartReadSetUploadsError,
   Credentials | HttpClient.HttpClient,
@@ -5029,7 +5030,7 @@ export type ListReadSetActivationJobsError =
  * Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activation job, use the `GetReadSetActivationJob` API operation.
  */
 export const listReadSetActivationJobs: API.PaginatedOperationMethod<
-  ListReadSetActivationJobsRequest,
+  ListReadSetActivationJobsRequest & RegionInput,
   ListReadSetActivationJobsResponse,
   ListReadSetActivationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5071,7 +5072,7 @@ export type ListReadSetExportJobsError =
  * Retrieves a list of read set export jobs in a JSON formatted response. This API operation is used to check the status of a read set export job initiated by the `StartReadSetExportJob` API operation.
  */
 export const listReadSetExportJobs: API.PaginatedOperationMethod<
-  ListReadSetExportJobsRequest,
+  ListReadSetExportJobsRequest & RegionInput,
   ListReadSetExportJobsResponse,
   ListReadSetExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5113,7 +5114,7 @@ export type ListReadSetImportJobsError =
  * Retrieves a list of read set import jobs and returns the data in JSON format.
  */
 export const listReadSetImportJobs: API.PaginatedOperationMethod<
-  ListReadSetImportJobsRequest,
+  ListReadSetImportJobsRequest & RegionInput,
   ListReadSetImportJobsResponse,
   ListReadSetImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5155,7 +5156,7 @@ export type ListReadSetsError =
  * Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format.
  */
 export const listReadSets: API.PaginatedOperationMethod<
-  ListReadSetsRequest,
+  ListReadSetsRequest & RegionInput,
   ListReadSetsResponse,
   ListReadSetsError,
   Credentials | HttpClient.HttpClient,
@@ -5199,7 +5200,7 @@ export type ListReadSetUploadPartsError =
  * Lists all parts in a multipart read set upload for a sequence store and returns the metadata in a JSON formatted output.
  */
 export const listReadSetUploadParts: API.PaginatedOperationMethod<
-  ListReadSetUploadPartsRequest,
+  ListReadSetUploadPartsRequest & RegionInput,
   ListReadSetUploadPartsResponse,
   ListReadSetUploadPartsError,
   Credentials | HttpClient.HttpClient,
@@ -5243,7 +5244,7 @@ export type ListReferenceImportJobsError =
  * Retrieves the metadata of one or more reference import jobs for a reference store.
  */
 export const listReferenceImportJobs: API.PaginatedOperationMethod<
-  ListReferenceImportJobsRequest,
+  ListReferenceImportJobsRequest & RegionInput,
   ListReferenceImportJobsResponse,
   ListReferenceImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5287,7 +5288,7 @@ export type ListReferencesError =
  * For more information, see Creating a reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const listReferences: API.PaginatedOperationMethod<
-  ListReferencesRequest,
+  ListReferencesRequest & RegionInput,
   ListReferencesResponse,
   ListReferencesError,
   Credentials | HttpClient.HttpClient,
@@ -5330,7 +5331,7 @@ export type ListReferenceStoresError =
  * For more information, see Creating a reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const listReferenceStores: API.PaginatedOperationMethod<
-  ListReferenceStoresRequest,
+  ListReferenceStoresRequest & RegionInput,
   ListReferenceStoresResponse,
   ListReferenceStoresError,
   Credentials | HttpClient.HttpClient,
@@ -5373,7 +5374,7 @@ export type ListRunCachesError =
  * Retrieves a list of your run caches and the metadata for each cache.
  */
 export const listRunCaches: API.PaginatedOperationMethod<
-  ListRunCachesRequest,
+  ListRunCachesRequest & RegionInput,
   ListRunCachesResponse,
   ListRunCachesError,
   Credentials | HttpClient.HttpClient,
@@ -5419,7 +5420,7 @@ export type ListRunGroupsError =
  * Retrieves a list of all run groups and returns the metadata for each run group.
  */
 export const listRunGroups: API.PaginatedOperationMethod<
-  ListRunGroupsRequest,
+  ListRunGroupsRequest & RegionInput,
   ListRunGroupsResponse,
   ListRunGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5467,7 +5468,7 @@ export type ListRunsError =
  * Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the `ListRuns` response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const listRuns: API.PaginatedOperationMethod<
-  ListRunsRequest,
+  ListRunsRequest & RegionInput,
   ListRunsResponse,
   ListRunsError,
   Credentials | HttpClient.HttpClient,
@@ -5513,7 +5514,7 @@ export type ListRunsInBatchError =
  * Returns a paginated list of individual workflow runs within a specific batch. Use this operation to map each `runSettingId` to its HealthOmics-generated `runId`, and to check the submission status of each run. Only one filter per call is supported.
  */
 export const listRunsInBatch: API.PaginatedOperationMethod<
-  ListRunsInBatchRequest,
+  ListRunsInBatchRequest & RegionInput,
   ListRunsInBatchResponse,
   ListRunsInBatchError,
   Credentials | HttpClient.HttpClient,
@@ -5559,7 +5560,7 @@ export type ListRunTasksError =
  * Returns a list of tasks and status information within their specified run. Use this operation to monitor runs and to identify which specific tasks have failed.
  */
 export const listRunTasks: API.PaginatedOperationMethod<
-  ListRunTasksRequest,
+  ListRunTasksRequest & RegionInput,
   ListRunTasksResponse,
   ListRunTasksError,
   Credentials | HttpClient.HttpClient,
@@ -5604,7 +5605,7 @@ export type ListSequenceStoresError =
  * For more information, see Creating a HealthOmics sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const listSequenceStores: API.PaginatedOperationMethod<
-  ListSequenceStoresRequest,
+  ListSequenceStoresRequest & RegionInput,
   ListSequenceStoresResponse,
   ListSequenceStoresError,
   Credentials | HttpClient.HttpClient,
@@ -5646,7 +5647,7 @@ export type ListSharesError =
  * Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares.
  */
 export const listShares: API.PaginatedOperationMethod<
-  ListSharesRequest,
+  ListSharesRequest & RegionInput,
   ListSharesResponse,
   ListSharesError,
   Credentials | HttpClient.HttpClient,
@@ -5691,7 +5692,7 @@ export type ListTagsForResourceError =
  * Retrieves a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5729,7 +5730,7 @@ export type ListVariantImportJobsError =
  * Retrieves a list of variant import jobs.
  */
 export const listVariantImportJobs: API.PaginatedOperationMethod<
-  ListVariantImportJobsRequest,
+  ListVariantImportJobsRequest & RegionInput,
   ListVariantImportJobsResponse,
   ListVariantImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5771,7 +5772,7 @@ export type ListVariantStoresError =
  * Retrieves a list of variant stores.
  */
 export const listVariantStores: API.PaginatedOperationMethod<
-  ListVariantStoresRequest,
+  ListVariantStoresRequest & RegionInput,
   ListVariantStoresResponse,
   ListVariantStoresError,
   Credentials | HttpClient.HttpClient,
@@ -5814,7 +5815,7 @@ export type ListWorkflowsError =
  * Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify `PRIVATE` to retrieve a list of private workflows or specify `READY2RUN` for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -5860,7 +5861,7 @@ export type ListWorkflowVersionsError =
  * Lists the workflow versions for the specified workflow. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const listWorkflowVersions: API.PaginatedOperationMethod<
-  ListWorkflowVersionsRequest,
+  ListWorkflowVersionsRequest & RegionInput,
   ListWorkflowVersionsResponse,
   ListWorkflowVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5905,7 +5906,7 @@ export type PutS3AccessPolicyError =
  * Adds an access policy to the specified store.
  */
 export const putS3AccessPolicy: API.OperationMethod<
-  PutS3AccessPolicyRequest,
+  PutS3AccessPolicyRequest & RegionInput,
   PutS3AccessPolicyResponse,
   PutS3AccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5943,7 +5944,7 @@ export type StartAnnotationImportJobError =
  * Starts an annotation import job.
  */
 export const startAnnotationImportJob: API.OperationMethod<
-  StartAnnotationImportRequest,
+  StartAnnotationImportRequest & RegionInput,
   StartAnnotationImportResponse,
   StartAnnotationImportJobError,
   Credentials | HttpClient.HttpClient
@@ -5981,7 +5982,7 @@ export type StartReadSetActivationJobError =
  * To learn more, see Activating read sets in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const startReadSetActivationJob: API.OperationMethod<
-  StartReadSetActivationJobRequest,
+  StartReadSetActivationJobRequest & RegionInput,
   StartReadSetActivationJobResponse,
   StartReadSetActivationJobError,
   Credentials | HttpClient.HttpClient
@@ -6020,7 +6021,7 @@ export type StartReadSetExportJobError =
  * To monitor the status of the export job, use the `ListReadSetExportJobs` API operation.
  */
 export const startReadSetExportJob: API.OperationMethod<
-  StartReadSetExportJobRequest,
+  StartReadSetExportJobRequest & RegionInput,
   StartReadSetExportJobResponse,
   StartReadSetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -6057,7 +6058,7 @@ export type StartReadSetImportJobError =
  * Imports a read set from the sequence store. Read set import jobs support a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the `GetReadSetImportJob` API operation.
  */
 export const startReadSetImportJob: API.OperationMethod<
-  StartReadSetImportJobRequest,
+  StartReadSetImportJobRequest & RegionInput,
   StartReadSetImportJobResponse,
   StartReadSetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -6094,7 +6095,7 @@ export type StartReferenceImportJobError =
  * Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the `GetReferenceImportJob` API operation.
  */
 export const startReferenceImportJob: API.OperationMethod<
-  StartReferenceImportJobRequest,
+  StartReferenceImportJobRequest & RegionInput,
   StartReferenceImportJobResponse,
   StartReferenceImportJobError,
   Credentials | HttpClient.HttpClient
@@ -6164,7 +6165,7 @@ export type StartRunError =
  * You can use Amazon Q CLI to analyze run logs and make performance optimization recommendations. To get started, see the Amazon Web Services HealthOmics MCP server on GitHub.
  */
 export const startRun: API.OperationMethod<
-  StartRunRequest,
+  StartRunRequest & RegionInput,
   StartRunResponse,
   StartRunError,
   Credentials | HttpClient.HttpClient
@@ -6205,7 +6206,7 @@ export type StartRunBatchError =
  * `StartRunBatch` validates common fields synchronously and returns immediately with a batch ID and status `CREATING`. The batch transitions to `PENDING` once initial setup completes. Runs are then submitted gradually and asynchronously at a rate governed by your `StartRun` throughput quota.
  */
 export const startRunBatch: API.OperationMethod<
-  StartRunBatchRequest,
+  StartRunBatchRequest & RegionInput,
   StartRunBatchResponse,
   StartRunBatchError,
   Credentials | HttpClient.HttpClient
@@ -6244,7 +6245,7 @@ export type StartVariantImportJobError =
  * Starts a variant import job.
  */
 export const startVariantImportJob: API.OperationMethod<
-  StartVariantImportRequest,
+  StartVariantImportRequest & RegionInput,
   StartVariantImportResponse,
   StartVariantImportJobError,
   Credentials | HttpClient.HttpClient
@@ -6281,7 +6282,7 @@ export type TagResourceError =
  * Tags a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6320,7 +6321,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6358,7 +6359,7 @@ export type UpdateAnnotationStoreError =
  * Updates an annotation store.
  */
 export const updateAnnotationStore: API.OperationMethod<
-  UpdateAnnotationStoreRequest,
+  UpdateAnnotationStoreRequest & RegionInput,
   UpdateAnnotationStoreResponse,
   UpdateAnnotationStoreError,
   Credentials | HttpClient.HttpClient
@@ -6391,7 +6392,7 @@ export type UpdateAnnotationStoreVersionError =
  * Updates the description of an annotation store version.
  */
 export const updateAnnotationStoreVersion: API.OperationMethod<
-  UpdateAnnotationStoreVersionRequest,
+  UpdateAnnotationStoreVersionRequest & RegionInput,
   UpdateAnnotationStoreVersionResponse,
   UpdateAnnotationStoreVersionError,
   Credentials | HttpClient.HttpClient
@@ -6429,7 +6430,7 @@ export type UpdateRunCacheError =
  * For more information, see How call caching works in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const updateRunCache: API.OperationMethod<
-  UpdateRunCacheRequest,
+  UpdateRunCacheRequest & RegionInput,
   UpdateRunCacheResponse,
   UpdateRunCacheError,
   Credentials | HttpClient.HttpClient
@@ -6482,7 +6483,7 @@ export type UpdateRunGroupError =
  * To confirm that the settings have been successfully updated, use the `ListRunGroups` or `GetRunGroup` API operations to verify that the desired changes have been made.
  */
 export const updateRunGroup: API.OperationMethod<
-  UpdateRunGroupRequest,
+  UpdateRunGroupRequest & RegionInput,
   UpdateRunGroupResponse,
   UpdateRunGroupError,
   Credentials | HttpClient.HttpClient
@@ -6520,7 +6521,7 @@ export type UpdateSequenceStoreError =
  * Update one or more parameters for the sequence store.
  */
 export const updateSequenceStore: API.OperationMethod<
-  UpdateSequenceStoreRequest,
+  UpdateSequenceStoreRequest & RegionInput,
   UpdateSequenceStoreResponse,
   UpdateSequenceStoreError,
   Credentials | HttpClient.HttpClient
@@ -6557,7 +6558,7 @@ export type UpdateVariantStoreError =
  * Updates a variant store.
  */
 export const updateVariantStore: API.OperationMethod<
-  UpdateVariantStoreRequest,
+  UpdateVariantStoreRequest & RegionInput,
   UpdateVariantStoreResponse,
   UpdateVariantStoreError,
   Credentials | HttpClient.HttpClient
@@ -6607,7 +6608,7 @@ export type UpdateWorkflowError =
  * For more information, see Update a private workflow in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const updateWorkflow: API.OperationMethod<
-  UpdateWorkflowRequest,
+  UpdateWorkflowRequest & RegionInput,
   UpdateWorkflowResponse,
   UpdateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -6646,7 +6647,7 @@ export type UpdateWorkflowVersionError =
  * Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const updateWorkflowVersion: API.OperationMethod<
-  UpdateWorkflowVersionRequest,
+  UpdateWorkflowVersionRequest & RegionInput,
   UpdateWorkflowVersionResponse,
   UpdateWorkflowVersionError,
   Credentials | HttpClient.HttpClient
@@ -6687,7 +6688,7 @@ export type UploadReadSetPartError =
  * For more information, see Direct upload to a sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
 export const uploadReadSetPart: API.OperationMethod<
-  UploadReadSetPartRequest,
+  UploadReadSetPartRequest & RegionInput,
   UploadReadSetPartResponse,
   UploadReadSetPartError,
   Credentials | HttpClient.HttpClient

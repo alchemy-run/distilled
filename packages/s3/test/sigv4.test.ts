@@ -9,7 +9,7 @@ import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import * as Credentials from "../src/credentials.browser.ts";
+import * as Credentials from "../src/credentials.ts";
 import * as Endpoint from "../src/endpoint.ts";
 import * as Presign from "../src/presign.ts";
 import * as Region from "../src/region.ts";
@@ -465,7 +465,12 @@ describe("Presign", () => {
         key: "dir/a b+%.txt",
         versionId: "version+/=",
         datetime,
-      }).pipe(Effect.provide(layer), Effect.provide(Endpoint.of("http://localhost:4566/s3/"))),
+      }).pipe(
+        Effect.provide(layer),
+        Effect.provide(
+          Layer.succeed(Endpoint.Endpoint, Effect.succeed("http://localhost:4566/s3/")),
+        ),
+      ),
     );
     const parsed = new URL(signed);
     expect(parsed.origin).toBe("http://localhost:4566");
@@ -501,7 +506,13 @@ describe("Presign", () => {
       const program = Presign.presignS3Url({ bucket, key, datetime }).pipe(Effect.provide(layer));
       const error = await Effect.runPromise(
         Effect.flip(
-          custom ? program.pipe(Effect.provide(Endpoint.of("http://localhost:4566"))) : program,
+          custom
+            ? program.pipe(
+                Effect.provide(
+                  Layer.succeed(Endpoint.Endpoint, Effect.succeed("http://localhost:4566")),
+                ),
+              )
+            : program,
         ),
       );
       expect(error, `${bucket} ${key}`).toBeInstanceOf(InvalidInput);
@@ -513,7 +524,7 @@ describe("Presign", () => {
     const signed = await Effect.runPromise(
       Presign.presignS3Url({ bucket: "a/b", key: "k", datetime }).pipe(
         Effect.provide(layer),
-        Effect.provide(Endpoint.of("http://localhost:4566")),
+        Effect.provide(Layer.succeed(Endpoint.Endpoint, Effect.succeed("http://localhost:4566"))),
       ),
     );
     expect(new URL(signed).pathname).toBe("/a%2Fb/k");

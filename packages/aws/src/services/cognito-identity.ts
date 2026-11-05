@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -481,7 +482,7 @@ export type CreateIdentityPoolError =
  * operation.
  */
 export const createIdentityPool: API.OperationMethod<
-  CreateIdentityPoolInput,
+  CreateIdentityPoolInput & RegionInput,
   IdentityPool,
   CreateIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -516,7 +517,7 @@ export type DeleteIdentitiesError =
  * operation.
  */
 export const deleteIdentities: API.OperationMethod<
-  DeleteIdentitiesInput,
+  DeleteIdentitiesInput & RegionInput,
   DeleteIdentitiesResponse,
   DeleteIdentitiesError,
   Creds | HttpClient.HttpClient
@@ -546,7 +547,7 @@ export type DeleteIdentityPoolError =
  * operation.
  */
 export const deleteIdentityPool: API.OperationMethod<
-  DeleteIdentityPoolInput,
+  DeleteIdentityPoolInput & RegionInput,
   DeleteIdentityPoolResponse,
   DeleteIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -582,7 +583,7 @@ export type DescribeIdentityError =
  * operation.
  */
 export const describeIdentity: API.OperationMethod<
-  DescribeIdentityInput,
+  DescribeIdentityInput & RegionInput,
   IdentityDescription,
   DescribeIdentityError,
   Creds | HttpClient.HttpClient
@@ -618,7 +619,7 @@ export type DescribeIdentityPoolError =
  * operation.
  */
 export const describeIdentityPool: API.OperationMethod<
-  DescribeIdentityPoolInput,
+  DescribeIdentityPoolInput & RegionInput,
   IdentityPool,
   DescribeIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -657,7 +658,7 @@ export type GetCredentialsForIdentityError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const getCredentialsForIdentity: API.OperationMethod<
-  GetCredentialsForIdentityInput,
+  GetCredentialsForIdentityInput & RegionInput,
   GetCredentialsForIdentityResponse,
   GetCredentialsForIdentityError,
   Creds | HttpClient.HttpClient
@@ -698,7 +699,7 @@ export type GetIdError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const getId: API.OperationMethod<
-  GetIdInput,
+  GetIdInput & RegionInput,
   GetIdResponse,
   GetIdError,
   Creds | HttpClient.HttpClient
@@ -737,7 +738,7 @@ export type GetIdentityPoolRolesError =
  * operation.
  */
 export const getIdentityPoolRoles: API.OperationMethod<
-  GetIdentityPoolRolesInput,
+  GetIdentityPoolRolesInput & RegionInput,
   GetIdentityPoolRolesResponse,
   GetIdentityPoolRolesError,
   Creds | HttpClient.HttpClient
@@ -778,7 +779,7 @@ export type GetOpenIdTokenError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const getOpenIdToken: API.OperationMethod<
-  GetOpenIdTokenInput,
+  GetOpenIdTokenInput & RegionInput,
   GetOpenIdTokenResponse,
   GetOpenIdTokenError,
   Creds | HttpClient.HttpClient
@@ -829,7 +830,7 @@ export type GetOpenIdTokenForDeveloperIdentityError =
  * operation.
  */
 export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
-  GetOpenIdTokenForDeveloperIdentityInput,
+  GetOpenIdTokenForDeveloperIdentityInput & RegionInput,
   GetOpenIdTokenForDeveloperIdentityResponse,
   GetOpenIdTokenForDeveloperIdentityError,
   Creds | HttpClient.HttpClient
@@ -864,7 +865,7 @@ export type GetPrincipalTagAttributeMapError =
  * `PrincipalTags` and user attributes.
  */
 export const getPrincipalTagAttributeMap: API.OperationMethod<
-  GetPrincipalTagAttributeMapInput,
+  GetPrincipalTagAttributeMapInput & RegionInput,
   GetPrincipalTagAttributeMapResponse,
   GetPrincipalTagAttributeMapError,
   Creds | HttpClient.HttpClient
@@ -899,7 +900,7 @@ export type ListIdentitiesError =
  * operation.
  */
 export const listIdentities: API.OperationMethod<
-  ListIdentitiesInput,
+  ListIdentitiesInput & RegionInput,
   ListIdentitiesResponse,
   ListIdentitiesError,
   Creds | HttpClient.HttpClient
@@ -934,7 +935,7 @@ export type ListIdentityPoolsError =
  * operation.
  */
 export const listIdentityPools: API.PaginatedOperationMethod<
-  ListIdentityPoolsInput,
+  ListIdentityPoolsInput & RegionInput,
   ListIdentityPoolsResponse,
   ListIdentityPoolsError,
   Creds | HttpClient.HttpClient,
@@ -978,7 +979,7 @@ export type ListTagsForResourceError =
  * You can use this action up to 10 times per second, per account.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -1029,7 +1030,7 @@ export type LookupDeveloperIdentityError =
  * operation.
  */
 export const lookupDeveloperIdentity: API.OperationMethod<
-  LookupDeveloperIdentityInput,
+  LookupDeveloperIdentityInput & RegionInput,
   LookupDeveloperIdentityResponse,
   LookupDeveloperIdentityError,
   Creds | HttpClient.HttpClient
@@ -1078,7 +1079,7 @@ export type MergeDeveloperIdentitiesError =
  * operation.
  */
 export const mergeDeveloperIdentities: API.OperationMethod<
-  MergeDeveloperIdentitiesInput,
+  MergeDeveloperIdentitiesInput & RegionInput,
   MergeDeveloperIdentitiesResponse,
   MergeDeveloperIdentitiesError,
   Creds | HttpClient.HttpClient
@@ -1116,7 +1117,7 @@ export type SetIdentityPoolRolesError =
  * operation.
  */
 export const setIdentityPoolRoles: API.OperationMethod<
-  SetIdentityPoolRolesInput,
+  SetIdentityPoolRolesInput & RegionInput,
   SetIdentityPoolRolesResponse,
   SetIdentityPoolRolesError,
   Creds | HttpClient.HttpClient
@@ -1151,7 +1152,7 @@ export type SetPrincipalTagAttributeMapError =
  * attribute mappings.
  */
 export const setPrincipalTagAttributeMap: API.OperationMethod<
-  SetPrincipalTagAttributeMapInput,
+  SetPrincipalTagAttributeMapInput & RegionInput,
   SetPrincipalTagAttributeMapResponse,
   SetPrincipalTagAttributeMapError,
   Creds | HttpClient.HttpClient
@@ -1200,7 +1201,7 @@ export type TagResourceError =
  * as many as 50 tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Creds | HttpClient.HttpClient
@@ -1239,7 +1240,7 @@ export type UnlinkDeveloperIdentityError =
  * operation.
  */
 export const unlinkDeveloperIdentity: API.OperationMethod<
-  UnlinkDeveloperIdentityInput,
+  UnlinkDeveloperIdentityInput & RegionInput,
   UnlinkDeveloperIdentityResponse,
   UnlinkDeveloperIdentityError,
   Creds | HttpClient.HttpClient
@@ -1278,7 +1279,7 @@ export type UnlinkIdentityError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const unlinkIdentity: API.OperationMethod<
-  UnlinkIdentityInput,
+  UnlinkIdentityInput & RegionInput,
   UnlinkIdentityResponse,
   UnlinkIdentityError,
   Creds | HttpClient.HttpClient
@@ -1313,7 +1314,7 @@ export type UntagResourceError =
  * this action up to 5 times per second, per account
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Creds | HttpClient.HttpClient
@@ -1353,7 +1354,7 @@ export type UpdateIdentityPoolError =
  * operation.
  */
 export const updateIdentityPool: API.OperationMethod<
-  IdentityPool,
+  IdentityPool & RegionInput,
   IdentityPool,
   UpdateIdentityPoolError,
   Creds | HttpClient.HttpClient

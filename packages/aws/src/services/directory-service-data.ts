@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -474,7 +475,7 @@ export type AddGroupMemberError =
  * Adds an existing user, group, or computer as a group member.
  */
 export const addGroupMember: API.OperationMethod<
-  AddGroupMemberRequest,
+  AddGroupMemberRequest & RegionInput,
   AddGroupMemberResult,
   AddGroupMemberError,
   Credentials | HttpClient.HttpClient
@@ -509,7 +510,7 @@ export type CreateGroupError =
  * Creates a new group.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResult,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -543,7 +544,7 @@ export type CreateUserError =
  * Creates a new user.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResult,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -578,7 +579,7 @@ export type DeleteGroupError =
  * Deletes a group.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResult,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -614,7 +615,7 @@ export type DeleteUserError =
  * Deletes a user.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResult,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -649,7 +650,7 @@ export type DescribeGroupError =
  * Returns information about a specific group.
  */
 export const describeGroup: API.OperationMethod<
-  DescribeGroupRequest,
+  DescribeGroupRequest & RegionInput,
   DescribeGroupResult,
   DescribeGroupError,
   Credentials | HttpClient.HttpClient
@@ -683,7 +684,7 @@ export type DescribeUserError =
  * Returns information about a specific user.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResult,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -720,7 +721,7 @@ export type DisableUserError =
  * in the *Directory Service API Reference*.
  */
 export const disableUser: API.OperationMethod<
-  DisableUserRequest,
+  DisableUserRequest & RegionInput,
   DisableUserResult,
   DisableUserError,
   Credentials | HttpClient.HttpClient
@@ -763,7 +764,7 @@ export type ListGroupMembersError =
  * parameter.
  */
 export const listGroupMembers: API.PaginatedOperationMethod<
-  ListGroupMembersRequest,
+  ListGroupMembersRequest & RegionInput,
   ListGroupMembersResult,
   ListGroupMembersError,
   Credentials | HttpClient.HttpClient,
@@ -811,7 +812,7 @@ export type ListGroupsError =
  * parameter.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResult,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -859,7 +860,7 @@ export type ListGroupsForMemberError =
  * parameter.
  */
 export const listGroupsForMember: API.PaginatedOperationMethod<
-  ListGroupsForMemberRequest,
+  ListGroupsForMemberRequest & RegionInput,
   ListGroupsForMemberResult,
   ListGroupsForMemberError,
   Credentials | HttpClient.HttpClient,
@@ -907,7 +908,7 @@ export type ListUsersError =
  * parameter.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResult,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -948,7 +949,7 @@ export type RemoveGroupMemberError =
  * Removes a member from a group.
  */
 export const removeGroupMember: API.OperationMethod<
-  RemoveGroupMemberRequest,
+  RemoveGroupMemberRequest & RegionInput,
   RemoveGroupMemberResult,
   RemoveGroupMemberError,
   Credentials | HttpClient.HttpClient
@@ -992,7 +993,7 @@ export type SearchGroupsError =
  * parameter.
  */
 export const searchGroups: API.PaginatedOperationMethod<
-  SearchGroupsRequest,
+  SearchGroupsRequest & RegionInput,
   SearchGroupsResult,
   SearchGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1041,7 +1042,7 @@ export type SearchUsersError =
  * parameter.
  */
 export const searchUsers: API.PaginatedOperationMethod<
-  SearchUsersRequest,
+  SearchUsersRequest & RegionInput,
   SearchUsersResult,
   SearchUsersError,
   Credentials | HttpClient.HttpClient,
@@ -1082,7 +1083,7 @@ export type UpdateGroupError =
  * Updates group information.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResult,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1118,7 +1119,7 @@ export type UpdateUserError =
  * Updates user information.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResult,
   UpdateUserError,
   Credentials | HttpClient.HttpClient

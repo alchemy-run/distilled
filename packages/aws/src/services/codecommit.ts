@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2341,7 +2342,7 @@ export type AssociateApprovalRuleTemplateWithRepositoryError =
  * that repository.
  */
 export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
-  AssociateApprovalRuleTemplateWithRepositoryInput,
+  AssociateApprovalRuleTemplateWithRepositoryInput & RegionInput,
   AssociateApprovalRuleTemplateWithRepositoryResponse,
   AssociateApprovalRuleTemplateWithRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2385,7 +2386,7 @@ export type BatchAssociateApprovalRuleTemplateWithRepositoriesError =
  * Creates an association between an approval rule template and one or more specified repositories.
  */
 export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMethod<
-  BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
+  BatchAssociateApprovalRuleTemplateWithRepositoriesInput & RegionInput,
   BatchAssociateApprovalRuleTemplateWithRepositoriesOutput,
   BatchAssociateApprovalRuleTemplateWithRepositoriesError,
   Credentials | HttpClient.HttpClient
@@ -2446,7 +2447,7 @@ export type BatchDescribeMergeConflictsError =
  * Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
  */
 export const batchDescribeMergeConflicts: API.OperationMethod<
-  BatchDescribeMergeConflictsInput,
+  BatchDescribeMergeConflictsInput & RegionInput,
   BatchDescribeMergeConflictsOutput,
   BatchDescribeMergeConflictsError,
   Credentials | HttpClient.HttpClient
@@ -2499,7 +2500,7 @@ export type BatchDisassociateApprovalRuleTemplateFromRepositoriesError =
  * Removes the association between an approval rule template and one or more specified repositories.
  */
 export const batchDisassociateApprovalRuleTemplateFromRepositories: API.OperationMethod<
-  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & RegionInput,
   BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput,
   BatchDisassociateApprovalRuleTemplateFromRepositoriesError,
   Credentials | HttpClient.HttpClient
@@ -2549,7 +2550,7 @@ export type BatchGetCommitsError =
  * Returns information about the contents of one or more commits in a repository.
  */
 export const batchGetCommits: API.OperationMethod<
-  BatchGetCommitsInput,
+  BatchGetCommitsInput & RegionInput,
   BatchGetCommitsOutput,
   BatchGetCommitsError,
   Credentials | HttpClient.HttpClient
@@ -2595,7 +2596,7 @@ export type BatchGetRepositoriesError =
  * the repository description on a webpage.
  */
 export const batchGetRepositories: API.OperationMethod<
-  BatchGetRepositoriesInput,
+  BatchGetRepositoriesInput & RegionInput,
   BatchGetRepositoriesOutput,
   BatchGetRepositoriesError,
   Credentials | HttpClient.HttpClient
@@ -2636,7 +2637,7 @@ export type CreateApprovalRuleTemplateError =
  * AssociateApprovalRuleTemplateWithRepository.
  */
 export const createApprovalRuleTemplate: API.OperationMethod<
-  CreateApprovalRuleTemplateInput,
+  CreateApprovalRuleTemplateInput & RegionInput,
   CreateApprovalRuleTemplateOutput,
   CreateApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2681,7 +2682,7 @@ export type CreateBranchError =
  * Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
  */
 export const createBranch: API.OperationMethod<
-  CreateBranchInput,
+  CreateBranchInput & RegionInput,
   CreateBranchResponse,
   CreateBranchError,
   Credentials | HttpClient.HttpClient
@@ -2755,7 +2756,7 @@ export type CreateCommitError =
  * Creates a commit for a repository on the tip of a specified branch.
  */
 export const createCommit: API.OperationMethod<
-  CreateCommitInput,
+  CreateCommitInput & RegionInput,
   CreateCommitOutput,
   CreateCommitError,
   Credentials | HttpClient.HttpClient
@@ -2840,7 +2841,7 @@ export type CreatePullRequestError =
  * Creates a pull request in the specified repository.
  */
 export const createPullRequest: API.OperationMethod<
-  CreatePullRequestInput,
+  CreatePullRequestInput & RegionInput,
   CreatePullRequestOutput,
   CreatePullRequestError,
   Credentials | HttpClient.HttpClient
@@ -2902,7 +2903,7 @@ export type CreatePullRequestApprovalRuleError =
  * Creates an approval rule for a pull request.
  */
 export const createPullRequestApprovalRule: API.OperationMethod<
-  CreatePullRequestApprovalRuleInput,
+  CreatePullRequestApprovalRuleInput & RegionInput,
   CreatePullRequestApprovalRuleOutput,
   CreatePullRequestApprovalRuleError,
   Credentials | HttpClient.HttpClient
@@ -2956,7 +2957,7 @@ export type CreateRepositoryError =
  * Creates a new, empty repository.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryInput,
+  CreateRepositoryInput & RegionInput,
   CreateRepositoryOutput,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -3037,7 +3038,7 @@ export type CreateUnreferencedMergeCommitError =
  * can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
  */
 export const createUnreferencedMergeCommit: API.OperationMethod<
-  CreateUnreferencedMergeCommitInput,
+  CreateUnreferencedMergeCommitInput & RegionInput,
   CreateUnreferencedMergeCommitOutput,
   CreateUnreferencedMergeCommitError,
   Credentials | HttpClient.HttpClient
@@ -3098,7 +3099,7 @@ export type DeleteApprovalRuleTemplateError =
  * Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
  */
 export const deleteApprovalRuleTemplate: API.OperationMethod<
-  DeleteApprovalRuleTemplateInput,
+  DeleteApprovalRuleTemplateInput & RegionInput,
   DeleteApprovalRuleTemplateOutput,
   DeleteApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3134,7 +3135,7 @@ export type DeleteBranchError =
  * Deletes a branch from a repository, unless that branch is the default branch for the repository.
  */
 export const deleteBranch: API.OperationMethod<
-  DeleteBranchInput,
+  DeleteBranchInput & RegionInput,
   DeleteBranchOutput,
   DeleteBranchError,
   Credentials | HttpClient.HttpClient
@@ -3171,7 +3172,7 @@ export type DeleteCommentContentError =
  * Deletes the content of a comment made on a change, file, or commit in a repository.
  */
 export const deleteCommentContent: API.OperationMethod<
-  DeleteCommentContentInput,
+  DeleteCommentContentInput & RegionInput,
   DeleteCommentContentOutput,
   DeleteCommentContentError,
   Credentials | HttpClient.HttpClient
@@ -3221,7 +3222,7 @@ export type DeleteFileError =
  * that contains the deletion.
  */
 export const deleteFile: API.OperationMethod<
-  DeleteFileInput,
+  DeleteFileInput & RegionInput,
   DeleteFileOutput,
   DeleteFileError,
   Credentials | HttpClient.HttpClient
@@ -3279,7 +3280,7 @@ export type DeletePullRequestApprovalRuleError =
  * pull request was created. You cannot delete an approval rule from a merged or closed pull request.
  */
 export const deletePullRequestApprovalRule: API.OperationMethod<
-  DeletePullRequestApprovalRuleInput,
+  DeletePullRequestApprovalRuleInput & RegionInput,
   DeletePullRequestApprovalRuleOutput,
   DeletePullRequestApprovalRuleError,
   Credentials | HttpClient.HttpClient
@@ -3324,7 +3325,7 @@ export type DeleteRepositoryError =
  * deleted, all future push calls to the deleted repository fail.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryInput,
+  DeleteRepositoryInput & RegionInput,
   DeleteRepositoryOutput,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -3378,7 +3379,7 @@ export type DescribeMergeConflictsError =
  * the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
  */
 export const describeMergeConflicts: API.PaginatedOperationMethod<
-  DescribeMergeConflictsInput,
+  DescribeMergeConflictsInput & RegionInput,
   DescribeMergeConflictsOutput,
   DescribeMergeConflictsError,
   Credentials | HttpClient.HttpClient,
@@ -3442,7 +3443,7 @@ export type DescribePullRequestEventsError =
  * Returns information about one or more pull request events.
  */
 export const describePullRequestEvents: API.PaginatedOperationMethod<
-  DescribePullRequestEventsInput,
+  DescribePullRequestEventsInput & RegionInput,
   DescribePullRequestEventsOutput,
   DescribePullRequestEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3497,7 +3498,7 @@ export type DisassociateApprovalRuleTemplateFromRepositoryError =
  * pull requests through the template association.
  */
 export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod<
-  DisassociateApprovalRuleTemplateFromRepositoryInput,
+  DisassociateApprovalRuleTemplateFromRepositoryInput & RegionInput,
   DisassociateApprovalRuleTemplateFromRepositoryResponse,
   DisassociateApprovalRuleTemplateFromRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -3545,7 +3546,7 @@ export type EvaluatePullRequestApprovalRulesError =
  * Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
  */
 export const evaluatePullRequestApprovalRules: API.OperationMethod<
-  EvaluatePullRequestApprovalRulesInput,
+  EvaluatePullRequestApprovalRulesInput & RegionInput,
   EvaluatePullRequestApprovalRulesOutput,
   EvaluatePullRequestApprovalRulesError,
   Credentials | HttpClient.HttpClient
@@ -3581,7 +3582,7 @@ export type GetApprovalRuleTemplateError =
  * Returns information about a specified approval rule template.
  */
 export const getApprovalRuleTemplate: API.OperationMethod<
-  GetApprovalRuleTemplateInput,
+  GetApprovalRuleTemplateInput & RegionInput,
   GetApprovalRuleTemplateOutput,
   GetApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3618,7 +3619,7 @@ export type GetBlobError =
  * Returns the base-64 encoded content of an individual blob in a repository.
  */
 export const getBlob: API.OperationMethod<
-  GetBlobInput,
+  GetBlobInput & RegionInput,
   GetBlobOutput,
   GetBlobError,
   Credentials | HttpClient.HttpClient
@@ -3674,7 +3675,7 @@ export type GetBlobDifferencesError =
  * For the typical usage workflow, see GetDifferences.
  */
 export const getBlobDifferences: API.PaginatedOperationMethod<
-  GetBlobDifferencesInput,
+  GetBlobDifferencesInput & RegionInput,
   GetBlobDifferencesOutput,
   GetBlobDifferencesError,
   Credentials | HttpClient.HttpClient,
@@ -3729,7 +3730,7 @@ export type GetBranchError =
  * Returns information about a repository branch, including its name and the last commit ID.
  */
 export const getBranch: API.OperationMethod<
-  GetBranchInput,
+  GetBranchInput & RegionInput,
   GetBranchOutput,
   GetBranchError,
   Credentials | HttpClient.HttpClient
@@ -3774,7 +3775,7 @@ export type GetCommentError =
  * reactions from active identities, use GetCommentReactions.
  */
 export const getComment: API.OperationMethod<
-  GetCommentInput,
+  GetCommentInput & RegionInput,
   GetCommentOutput,
   GetCommentError,
   Credentials | HttpClient.HttpClient
@@ -3812,7 +3813,7 @@ export type GetCommentReactionsError =
  * Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
  */
 export const getCommentReactions: API.PaginatedOperationMethod<
-  GetCommentReactionsInput,
+  GetCommentReactionsInput & RegionInput,
   GetCommentReactionsOutput,
   GetCommentReactionsError,
   Credentials | HttpClient.HttpClient,
@@ -3863,7 +3864,7 @@ export type GetCommentsForComparedCommitError =
  * reactions from active identities, use GetCommentReactions.
  */
 export const getCommentsForComparedCommit: API.PaginatedOperationMethod<
-  GetCommentsForComparedCommitInput,
+  GetCommentsForComparedCommitInput & RegionInput,
   GetCommentsForComparedCommitOutput,
   GetCommentsForComparedCommitError,
   Credentials | HttpClient.HttpClient,
@@ -3924,7 +3925,7 @@ export type GetCommentsForPullRequestError =
  * reactions from active identities, use GetCommentReactions.
  */
 export const getCommentsForPullRequest: API.PaginatedOperationMethod<
-  GetCommentsForPullRequestInput,
+  GetCommentsForPullRequestInput & RegionInput,
   GetCommentsForPullRequestOutput,
   GetCommentsForPullRequestError,
   Credentials | HttpClient.HttpClient,
@@ -3980,7 +3981,7 @@ export type GetCommitError =
  * Returns information about a commit, including commit message and committer information.
  */
 export const getCommit: API.OperationMethod<
-  GetCommitInput,
+  GetCommitInput & RegionInput,
   GetCommitOutput,
   GetCommitError,
   Credentials | HttpClient.HttpClient
@@ -4034,7 +4035,7 @@ export type GetDifferencesError =
  * `afterBlob.blobId` values from a `Difference` object to GetBlobDifferences.
  */
 export const getDifferences: API.PaginatedOperationMethod<
-  GetDifferencesInput,
+  GetDifferencesInput & RegionInput,
   GetDifferencesOutput,
   GetDifferencesError,
   Credentials | HttpClient.HttpClient,
@@ -4092,7 +4093,7 @@ export type GetFileError =
  * Returns the base-64 encoded contents of a specified file and its metadata.
  */
 export const getFile: API.OperationMethod<
-  GetFileInput,
+  GetFileInput & RegionInput,
   GetFileOutput,
   GetFileError,
   Credentials | HttpClient.HttpClient
@@ -4141,7 +4142,7 @@ export type GetFolderError =
  * Returns the contents of a specified folder in a repository.
  */
 export const getFolder: API.OperationMethod<
-  GetFolderInput,
+  GetFolderInput & RegionInput,
   GetFolderOutput,
   GetFolderError,
   Credentials | HttpClient.HttpClient
@@ -4189,7 +4190,7 @@ export type GetMergeCommitError =
  * Returns information about a specified merge commit.
  */
 export const getMergeCommit: API.OperationMethod<
-  GetMergeCommitInput,
+  GetMergeCommitInput & RegionInput,
   GetMergeCommitOutput,
   GetMergeCommitError,
   Credentials | HttpClient.HttpClient
@@ -4246,7 +4247,7 @@ export type GetMergeConflictsError =
  * Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
  */
 export const getMergeConflicts: API.PaginatedOperationMethod<
-  GetMergeConflictsInput,
+  GetMergeConflictsInput & RegionInput,
   GetMergeConflictsOutput,
   GetMergeConflictsError,
   Credentials | HttpClient.HttpClient,
@@ -4314,7 +4315,7 @@ export type GetMergeOptionsError =
  * or DescribeMergeConflicts.
  */
 export const getMergeOptions: API.OperationMethod<
-  GetMergeOptionsInput,
+  GetMergeOptionsInput & RegionInput,
   GetMergeOptionsOutput,
   GetMergeOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4360,7 +4361,7 @@ export type GetPullRequestError =
  * Gets information about a pull request in a specified repository.
  */
 export const getPullRequest: API.OperationMethod<
-  GetPullRequestInput,
+  GetPullRequestInput & RegionInput,
   GetPullRequestOutput,
   GetPullRequestError,
   Credentials | HttpClient.HttpClient
@@ -4401,7 +4402,7 @@ export type GetPullRequestApprovalStatesError =
  * approval rules applied to them.
  */
 export const getPullRequestApprovalStates: API.OperationMethod<
-  GetPullRequestApprovalStatesInput,
+  GetPullRequestApprovalStatesInput & RegionInput,
   GetPullRequestApprovalStatesOutput,
   GetPullRequestApprovalStatesError,
   Credentials | HttpClient.HttpClient
@@ -4444,7 +4445,7 @@ export type GetPullRequestOverrideStateError =
  * pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
  */
 export const getPullRequestOverrideState: API.OperationMethod<
-  GetPullRequestOverrideStateInput,
+  GetPullRequestOverrideStateInput & RegionInput,
   GetPullRequestOverrideStateOutput,
   GetPullRequestOverrideStateError,
   Credentials | HttpClient.HttpClient
@@ -4490,7 +4491,7 @@ export type GetRepositoryError =
  * the repository description on a webpage.
  */
 export const getRepository: API.OperationMethod<
-  GetRepositoryInput,
+  GetRepositoryInput & RegionInput,
   GetRepositoryOutput,
   GetRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -4528,7 +4529,7 @@ export type GetRepositoryTriggersError =
  * Gets information about triggers configured for a repository.
  */
 export const getRepositoryTriggers: API.OperationMethod<
-  GetRepositoryTriggersInput,
+  GetRepositoryTriggersInput & RegionInput,
   GetRepositoryTriggersOutput,
   GetRepositoryTriggersError,
   Credentials | HttpClient.HttpClient
@@ -4561,7 +4562,7 @@ export type ListApprovalRuleTemplatesError =
  * an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
  */
 export const listApprovalRuleTemplates: API.PaginatedOperationMethod<
-  ListApprovalRuleTemplatesInput,
+  ListApprovalRuleTemplatesInput & RegionInput,
   ListApprovalRuleTemplatesOutput,
   ListApprovalRuleTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4598,7 +4599,7 @@ export type ListAssociatedApprovalRuleTemplatesForRepositoryError =
  * Lists all approval rule templates that are associated with a specified repository.
  */
 export const listAssociatedApprovalRuleTemplatesForRepository: API.PaginatedOperationMethod<
-  ListAssociatedApprovalRuleTemplatesForRepositoryInput,
+  ListAssociatedApprovalRuleTemplatesForRepositoryInput & RegionInput,
   ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
   ListAssociatedApprovalRuleTemplatesForRepositoryError,
   Credentials | HttpClient.HttpClient,
@@ -4653,7 +4654,7 @@ export type ListBranchesError =
  * Gets information about one or more branches in a repository.
  */
 export const listBranches: API.PaginatedOperationMethod<
-  ListBranchesInput,
+  ListBranchesInput & RegionInput,
   ListBranchesOutput,
   ListBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -4700,7 +4701,7 @@ export type ListFileCommitHistoryError =
  * Retrieves a list of commits and changes to a specified file.
  */
 export const listFileCommitHistory: API.PaginatedOperationMethod<
-  ListFileCommitHistoryRequest,
+  ListFileCommitHistoryRequest & RegionInput,
   ListFileCommitHistoryResponse,
   ListFileCommitHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -4756,7 +4757,7 @@ export type ListPullRequestsError =
  * status or pull request author ARN.
  */
 export const listPullRequests: API.PaginatedOperationMethod<
-  ListPullRequestsInput,
+  ListPullRequestsInput & RegionInput,
   ListPullRequestsOutput,
   ListPullRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -4800,7 +4801,7 @@ export type ListRepositoriesError =
  * Gets information about one or more repositories.
  */
 export const listRepositories: API.PaginatedOperationMethod<
-  ListRepositoriesInput,
+  ListRepositoriesInput & RegionInput,
   ListRepositoriesOutput,
   ListRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -4833,7 +4834,7 @@ export type ListRepositoriesForApprovalRuleTemplateError =
  * Lists all repositories associated with the specified approval rule template.
  */
 export const listRepositoriesForApprovalRuleTemplate: API.PaginatedOperationMethod<
-  ListRepositoriesForApprovalRuleTemplateInput,
+  ListRepositoriesForApprovalRuleTemplateInput & RegionInput,
   ListRepositoriesForApprovalRuleTemplateOutput,
   ListRepositoriesForApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient,
@@ -4876,7 +4877,7 @@ export type ListTagsForResourceError =
  * Guide.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4921,7 +4922,7 @@ export type MergeBranchesByFastForwardError =
  * Merges two branches using the fast-forward merge strategy.
  */
 export const mergeBranchesByFastForward: API.OperationMethod<
-  MergeBranchesByFastForwardInput,
+  MergeBranchesByFastForwardInput & RegionInput,
   MergeBranchesByFastForwardOutput,
   MergeBranchesByFastForwardError,
   Credentials | HttpClient.HttpClient
@@ -5001,7 +5002,7 @@ export type MergeBranchesBySquashError =
  * Merges two branches using the squash merge strategy.
  */
 export const mergeBranchesBySquash: API.OperationMethod<
-  MergeBranchesBySquashInput,
+  MergeBranchesBySquashInput & RegionInput,
   MergeBranchesBySquashOutput,
   MergeBranchesBySquashError,
   Credentials | HttpClient.HttpClient
@@ -5101,7 +5102,7 @@ export type MergeBranchesByThreeWayError =
  * Merges two specified branches using the three-way merge strategy.
  */
 export const mergeBranchesByThreeWay: API.OperationMethod<
-  MergeBranchesByThreeWayInput,
+  MergeBranchesByThreeWayInput & RegionInput,
   MergeBranchesByThreeWayOutput,
   MergeBranchesByThreeWayError,
   Credentials | HttpClient.HttpClient
@@ -5182,7 +5183,7 @@ export type MergePullRequestByFastForwardError =
  * branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestByFastForward: API.OperationMethod<
-  MergePullRequestByFastForwardInput,
+  MergePullRequestByFastForwardInput & RegionInput,
   MergePullRequestByFastForwardOutput,
   MergePullRequestByFastForwardError,
   Credentials | HttpClient.HttpClient
@@ -5262,7 +5263,7 @@ export type MergePullRequestBySquashError =
  * branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestBySquash: API.OperationMethod<
-  MergePullRequestBySquashInput,
+  MergePullRequestBySquashInput & RegionInput,
   MergePullRequestBySquashOutput,
   MergePullRequestBySquashError,
   Credentials | HttpClient.HttpClient
@@ -5361,7 +5362,7 @@ export type MergePullRequestByThreeWayError =
  * branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestByThreeWay: API.OperationMethod<
-  MergePullRequestByThreeWayInput,
+  MergePullRequestByThreeWayInput & RegionInput,
   MergePullRequestByThreeWayOutput,
   MergePullRequestByThreeWayError,
   Credentials | HttpClient.HttpClient
@@ -5436,7 +5437,7 @@ export type OverridePullRequestApprovalRulesError =
  * Sets aside (overrides) all approval rule requirements for a specified pull request.
  */
 export const overridePullRequestApprovalRules: API.OperationMethod<
-  OverridePullRequestApprovalRulesInput,
+  OverridePullRequestApprovalRulesInput & RegionInput,
   OverridePullRequestApprovalRulesResponse,
   OverridePullRequestApprovalRulesError,
   Credentials | HttpClient.HttpClient
@@ -5496,7 +5497,7 @@ export type PostCommentForComparedCommitError =
  * Posts a comment on the comparison between two commits.
  */
 export const postCommentForComparedCommit: API.OperationMethod<
-  PostCommentForComparedCommitInput,
+  PostCommentForComparedCommitInput & RegionInput,
   PostCommentForComparedCommitOutput,
   PostCommentForComparedCommitError,
   Credentials | HttpClient.HttpClient
@@ -5568,7 +5569,7 @@ export type PostCommentForPullRequestError =
  * Posts a comment on a pull request.
  */
 export const postCommentForPullRequest: API.OperationMethod<
-  PostCommentForPullRequestInput,
+  PostCommentForPullRequestInput & RegionInput,
   PostCommentForPullRequestOutput,
   PostCommentForPullRequestError,
   Credentials | HttpClient.HttpClient
@@ -5625,7 +5626,7 @@ export type PostCommentReplyError =
  * Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
  */
 export const postCommentReply: API.OperationMethod<
-  PostCommentReplyInput,
+  PostCommentReplyInput & RegionInput,
   PostCommentReplyOutput,
   PostCommentReplyError,
   Credentials | HttpClient.HttpClient
@@ -5663,7 +5664,7 @@ export type PutCommentReactionError =
  * update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
  */
 export const putCommentReaction: API.OperationMethod<
-  PutCommentReactionInput,
+  PutCommentReactionInput & RegionInput,
   PutCommentReactionResponse,
   PutCommentReactionError,
   Credentials | HttpClient.HttpClient
@@ -5722,7 +5723,7 @@ export type PutFileError =
  * Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
  */
 export const putFile: API.OperationMethod<
-  PutFileInput,
+  PutFileInput & RegionInput,
   PutFileOutput,
   PutFileError,
   Credentials | HttpClient.HttpClient
@@ -5795,7 +5796,7 @@ export type PutRepositoryTriggersError =
  * Replaces all triggers for a repository. Used to create or delete triggers.
  */
 export const putRepositoryTriggers: API.OperationMethod<
-  PutRepositoryTriggersInput,
+  PutRepositoryTriggersInput & RegionInput,
   PutRepositoryTriggersOutput,
   PutRepositoryTriggersError,
   Credentials | HttpClient.HttpClient
@@ -5849,7 +5850,7 @@ export type TagResourceError =
  * Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5903,7 +5904,7 @@ export type TestRepositoryTriggersError =
  * commit. If no data is available, sample data is generated.
  */
 export const testRepositoryTriggers: API.OperationMethod<
-  TestRepositoryTriggersInput,
+  TestRepositoryTriggersInput & RegionInput,
   TestRepositoryTriggersOutput,
   TestRepositoryTriggersError,
   Credentials | HttpClient.HttpClient
@@ -5956,7 +5957,7 @@ export type UntagResourceError =
  * Guide.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5995,7 +5996,7 @@ export type UpdateApprovalRuleTemplateContentError =
  * defined.
  */
 export const updateApprovalRuleTemplateContent: API.OperationMethod<
-  UpdateApprovalRuleTemplateContentInput,
+  UpdateApprovalRuleTemplateContentInput & RegionInput,
   UpdateApprovalRuleTemplateContentOutput,
   UpdateApprovalRuleTemplateContentError,
   Credentials | HttpClient.HttpClient
@@ -6027,7 +6028,7 @@ export type UpdateApprovalRuleTemplateDescriptionError =
  * Updates the description for a specified approval rule template.
  */
 export const updateApprovalRuleTemplateDescription: API.OperationMethod<
-  UpdateApprovalRuleTemplateDescriptionInput,
+  UpdateApprovalRuleTemplateDescriptionInput & RegionInput,
   UpdateApprovalRuleTemplateDescriptionOutput,
   UpdateApprovalRuleTemplateDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -6057,7 +6058,7 @@ export type UpdateApprovalRuleTemplateNameError =
  * Updates the name of a specified approval rule template.
  */
 export const updateApprovalRuleTemplateName: API.OperationMethod<
-  UpdateApprovalRuleTemplateNameInput,
+  UpdateApprovalRuleTemplateNameInput & RegionInput,
   UpdateApprovalRuleTemplateNameOutput,
   UpdateApprovalRuleTemplateNameError,
   Credentials | HttpClient.HttpClient
@@ -6090,7 +6091,7 @@ export type UpdateCommentError =
  * Replaces the contents of a comment.
  */
 export const updateComment: API.OperationMethod<
-  UpdateCommentInput,
+  UpdateCommentInput & RegionInput,
   UpdateCommentOutput,
   UpdateCommentError,
   Credentials | HttpClient.HttpClient
@@ -6132,7 +6133,7 @@ export type UpdateDefaultBranchError =
  * If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
  */
 export const updateDefaultBranch: API.OperationMethod<
-  UpdateDefaultBranchInput,
+  UpdateDefaultBranchInput & RegionInput,
   UpdateDefaultBranchResponse,
   UpdateDefaultBranchError,
   Credentials | HttpClient.HttpClient
@@ -6182,7 +6183,7 @@ export type UpdatePullRequestApprovalRuleContentError =
  * the approval pool for approvers.
  */
 export const updatePullRequestApprovalRuleContent: API.OperationMethod<
-  UpdatePullRequestApprovalRuleContentInput,
+  UpdatePullRequestApprovalRuleContentInput & RegionInput,
   UpdatePullRequestApprovalRuleContentOutput,
   UpdatePullRequestApprovalRuleContentError,
   Credentials | HttpClient.HttpClient
@@ -6236,7 +6237,7 @@ export type UpdatePullRequestApprovalStateError =
  * Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
  */
 export const updatePullRequestApprovalState: API.OperationMethod<
-  UpdatePullRequestApprovalStateInput,
+  UpdatePullRequestApprovalStateInput & RegionInput,
   UpdatePullRequestApprovalStateResponse,
   UpdatePullRequestApprovalStateError,
   Credentials | HttpClient.HttpClient
@@ -6279,7 +6280,7 @@ export type UpdatePullRequestDescriptionError =
  * Replaces the contents of the description of a pull request.
  */
 export const updatePullRequestDescription: API.OperationMethod<
-  UpdatePullRequestDescriptionInput,
+  UpdatePullRequestDescriptionInput & RegionInput,
   UpdatePullRequestDescriptionOutput,
   UpdatePullRequestDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -6317,7 +6318,7 @@ export type UpdatePullRequestStatusError =
  * Updates the status of a pull request.
  */
 export const updatePullRequestStatus: API.OperationMethod<
-  UpdatePullRequestStatusInput,
+  UpdatePullRequestStatusInput & RegionInput,
   UpdatePullRequestStatusOutput,
   UpdatePullRequestStatusError,
   Credentials | HttpClient.HttpClient
@@ -6356,7 +6357,7 @@ export type UpdatePullRequestTitleError =
  * Replaces the title of a pull request.
  */
 export const updatePullRequestTitle: API.OperationMethod<
-  UpdatePullRequestTitleInput,
+  UpdatePullRequestTitleInput & RegionInput,
   UpdatePullRequestTitleOutput,
   UpdatePullRequestTitleError,
   Credentials | HttpClient.HttpClient
@@ -6399,7 +6400,7 @@ export type UpdateRepositoryDescriptionError =
  * the repository description on a webpage.
  */
 export const updateRepositoryDescription: API.OperationMethod<
-  UpdateRepositoryDescriptionInput,
+  UpdateRepositoryDescriptionInput & RegionInput,
   UpdateRepositoryDescriptionResponse,
   UpdateRepositoryDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -6441,7 +6442,7 @@ export type UpdateRepositoryEncryptionKeyError =
  * Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
  */
 export const updateRepositoryEncryptionKey: API.OperationMethod<
-  UpdateRepositoryEncryptionKeyInput,
+  UpdateRepositoryEncryptionKeyInput & RegionInput,
   UpdateRepositoryEncryptionKeyOutput,
   UpdateRepositoryEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -6482,7 +6483,7 @@ export type UpdateRepositoryNameError =
  * User Guide.
  */
 export const updateRepositoryName: API.OperationMethod<
-  UpdateRepositoryNameInput,
+  UpdateRepositoryNameInput & RegionInput,
   UpdateRepositoryNameResponse,
   UpdateRepositoryNameError,
   Credentials | HttpClient.HttpClient

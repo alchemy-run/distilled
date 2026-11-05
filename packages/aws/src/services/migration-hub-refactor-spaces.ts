@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -702,7 +703,7 @@ export type CreateApplicationError =
  * Create an application in the *Refactor Spaces User Guide*.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -748,7 +749,7 @@ export type CreateEnvironmentError =
  * with private URL endpoints.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   CreateEnvironmentResponse,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -851,7 +852,7 @@ export type CreateRouteError =
  * a route in the *Refactor Spaces User Guide*.
  */
 export const createRoute: API.OperationMethod<
-  CreateRouteRequest,
+  CreateRouteRequest & RegionInput,
   CreateRouteResponse,
   CreateRouteError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +896,7 @@ export type CreateServiceError =
  * cross-account constraints, apply your own security group.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -931,7 +932,7 @@ export type DeleteApplicationError =
  * delete any services or routes within the application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -966,7 +967,7 @@ export type DeleteEnvironmentError =
  * delete any applications and services within the environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -999,7 +1000,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy set for the environment.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1032,7 +1033,7 @@ export type DeleteRouteError =
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
  */
 export const deleteRoute: API.OperationMethod<
-  DeleteRouteRequest,
+  DeleteRouteRequest & RegionInput,
   DeleteRouteResponse,
   DeleteRouteError,
   Credentials | HttpClient.HttpClient
@@ -1066,7 +1067,7 @@ export type DeleteServiceError =
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -1099,7 +1100,7 @@ export type GetApplicationError =
  * Gets an Amazon Web Services Migration Hub Refactor Spaces application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1131,7 +1132,7 @@ export type GetEnvironmentError =
  * Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1163,7 +1164,7 @@ export type GetResourcePolicyError =
  * Gets the resource-based permission policy that is set for the given environment.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1195,7 +1196,7 @@ export type GetRouteError =
  * Gets an Amazon Web Services Migration Hub Refactor Spaces route.
  */
 export const getRoute: API.OperationMethod<
-  GetRouteRequest,
+  GetRouteRequest & RegionInput,
   GetRouteResponse,
   GetRouteError,
   Credentials | HttpClient.HttpClient
@@ -1227,7 +1228,7 @@ export type GetServiceError =
  * Gets an Amazon Web Services Migration Hub Refactor Spaces service.
  */
 export const getService: API.OperationMethod<
-  GetServiceRequest,
+  GetServiceRequest & RegionInput,
   GetServiceResponse,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -1261,7 +1262,7 @@ export type ListApplicationsError =
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1303,7 +1304,7 @@ export type ListEnvironmentsError =
  * account.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1343,7 +1344,7 @@ export type ListEnvironmentVpcsError =
  * environment.
  */
 export const listEnvironmentVpcs: API.PaginatedOperationMethod<
-  ListEnvironmentVpcsRequest,
+  ListEnvironmentVpcsRequest & RegionInput,
   ListEnvironmentVpcsResponse,
   ListEnvironmentVpcsError,
   Credentials | HttpClient.HttpClient,
@@ -1384,7 +1385,7 @@ export type ListRoutesError =
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application.
  */
 export const listRoutes: API.PaginatedOperationMethod<
-  ListRoutesRequest,
+  ListRoutesRequest & RegionInput,
   ListRoutesResponse,
   ListRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -1427,7 +1428,7 @@ export type ListServicesError =
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces services within an application.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1467,7 +1468,7 @@ export type ListTagsForResourceError =
  * `OwnerAccountId`. Listing tags in other accounts is not supported.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1497,7 +1498,7 @@ export type PutResourcePolicyError =
  * permission in Resource Access Manager. The policy must not contain new lines or blank lines.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1533,7 +1534,7 @@ export type TagResourceError =
  * environment's transit gateway.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1559,7 +1560,7 @@ export type UntagResourceError =
  * `OwnerAccountId`. Untagging resources across accounts is not supported.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1585,7 +1586,7 @@ export type UpdateRouteError =
  * Updates an Amazon Web Services Migration Hub Refactor Spaces route.
  */
 export const updateRoute: API.OperationMethod<
-  UpdateRouteRequest,
+  UpdateRouteRequest & RegionInput,
   UpdateRouteResponse,
   UpdateRouteError,
   Credentials | HttpClient.HttpClient

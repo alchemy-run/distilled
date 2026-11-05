@@ -30,6 +30,8 @@
       "path": "./packages/aws4signer/tsconfig.json"
     },
     { "path": "./packages/aws4signer/tsconfig.test.json" },
+    { "path": "./packages/s3/tsconfig.json" },
+    { "path": "./packages/s3/tsconfig.test.json" },
     {
       "path": "./packages/aws/tsconfig.json"
     },

@@ -1148,6 +1148,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
   // Import refs aliased only where a generated schema name conflicts.
   const credsRef = allSchemaNames.has("Credentials") ? "Creds" : "Credentials";
   const commonErrorsRef = allSchemaNames.has("CommonErrors") ? "CommonErr" : "CommonErrors";
+  const regionInputRef = allSchemaNames.has("RegionInput") ? "CallRegion" : "RegionInput";
 
   const errorShapeIds = collectErrorShapeIds(model);
 
@@ -2275,6 +2276,12 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
       // `Region` is NOT listed: it's an override resolved with
       // `Effect.serviceOption`, falling back to AWS_REGION (see region.ts).
       const depsType = `${credsRef} | HttpClient.HttpClient`;
+      // Every call takes an optional `region` (see region.ts), unless the
+      // input already models a member with that name.
+      const callInput =
+        shapes[opShape.__input]?.members?.region === undefined
+          ? `${input} & ${regionInputRef}`
+          : input;
       let typeAnnotation: string;
       if (paginatedTrait) {
         const itemType = resolvePaginatedItemType(
@@ -2287,9 +2294,9 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         // as a bare call function with no streaming methods (distilled#145).
         // The item type still has to be passed explicitly — makePaginated
         // resolves it from a runtime path string (distilled#404).
-        typeAnnotation = `API.PaginatedOperationMethod<${input}, ${output}, ${errorTypeName}, ${depsType}, ${itemType}>`;
+        typeAnnotation = `API.PaginatedOperationMethod<${callInput}, ${output}, ${errorTypeName}, ${depsType}, ${itemType}>`;
       } else {
-        typeAnnotation = `API.OperationMethod<${input}, ${output}, ${errorTypeName}, ${depsType}>`;
+        typeAnnotation = `API.OperationMethod<${callInput}, ${output}, ${errorTypeName}, ${depsType}>`;
       }
 
       const opConst = operationConst({
@@ -2332,6 +2339,9 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         'import * as T from "../traits.ts";',
         "__CATEGORY_IMPORT__",
         credentialsImport,
+        regionInputRef === "CallRegion"
+          ? 'import type { RegionInput as CallRegion } from "../region.ts";'
+          : 'import type { RegionInput } from "../region.ts";',
         commonErrorsImport,
         "__SENSITIVE_IMPORT__",
       ].join("\n");

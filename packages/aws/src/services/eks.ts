@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2187,7 +2188,7 @@ export type ActivateCertificateAuthorityError =
  * cluster certificate authority in the *Amazon EKS User Guide*.
  */
 export const activateCertificateAuthority: API.OperationMethod<
-  ActivateCertificateAuthorityRequest,
+  ActivateCertificateAuthorityRequest & RegionInput,
   ActivateCertificateAuthorityResponse,
   ActivateCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -2219,7 +2220,7 @@ export type AssociateAccessPolicyError =
  * access policies to and from access entries in the *Amazon EKS User Guide*.
  */
 export const associateAccessPolicy: API.OperationMethod<
-  AssociateAccessPolicyRequest,
+  AssociateAccessPolicyRequest & RegionInput,
   AssociateAccessPolicyResponse,
   AssociateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2256,7 +2257,7 @@ export type AssociateEncryptionConfigError =
  * without migrating applications to new Amazon EKS clusters.
  */
 export const associateEncryptionConfig: API.OperationMethod<
-  AssociateEncryptionConfigRequest,
+  AssociateEncryptionConfigRequest & RegionInput,
   AssociateEncryptionConfigResponse,
   AssociateEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2301,7 @@ export type AssociateIdentityProviderConfigError =
  * Authorization in the Kubernetes documentation.
  */
 export const associateIdentityProviderConfig: API.OperationMethod<
-  AssociateIdentityProviderConfigRequest,
+  AssociateIdentityProviderConfigRequest & RegionInput,
   AssociateIdentityProviderConfigResponse,
   AssociateIdentityProviderConfigError,
   Credentials | HttpClient.HttpClient
@@ -2344,7 +2345,7 @@ export type CancelUpdateError =
  * plane rollback has already begun, the cancellation request fails.
  */
 export const cancelUpdate: API.OperationMethod<
-  CancelUpdateRequest,
+  CancelUpdateRequest & RegionInput,
   CancelUpdateResponse,
   CancelUpdateError,
   Credentials | HttpClient.HttpClient
@@ -2394,7 +2395,7 @@ export type CreateAccessEntryError =
  * *Amazon EKS User Guide*.
  */
 export const createAccessEntry: API.OperationMethod<
-  CreateAccessEntryRequest,
+  CreateAccessEntryRequest & RegionInput,
   CreateAccessEntryResponse,
   CreateAccessEntryError,
   Credentials | HttpClient.HttpClient
@@ -2432,7 +2433,7 @@ export type CreateAddonError =
  * add-ons in the *Amazon EKS User Guide*.
  */
 export const createAddon: API.OperationMethod<
-  CreateAddonRequest,
+  CreateAddonRequest & RegionInput,
   CreateAddonResponse,
   CreateAddonError,
   Credentials | HttpClient.HttpClient
@@ -2473,7 +2474,7 @@ export type CreateCapabilityError =
  * For more information, see EKS Capabilities in the *Amazon EKS User Guide*.
  */
 export const createCapability: API.OperationMethod<
-  CreateCapabilityRequest,
+  CreateCapabilityRequest & RegionInput,
   CreateCapabilityResponse,
   CreateCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -2533,7 +2534,7 @@ export type CreateCertificateAuthorityError =
  * cluster certificate authority in the *Amazon EKS User Guide*.
  */
 export const createCertificateAuthority: API.OperationMethod<
-  CreateCertificateAuthorityRequest,
+  CreateCertificateAuthorityRequest & RegionInput,
   CreateCertificateAuthorityResponse,
   CreateCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -2611,7 +2612,7 @@ export type CreateClusterError =
  * nodes in the *Amazon EKS User Guide*.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -2648,7 +2649,7 @@ export type CreateEksAnywhereSubscriptionError =
  * granted access to EKS Anywhere Curated Packages.
  */
 export const createEksAnywhereSubscription: API.OperationMethod<
-  CreateEksAnywhereSubscriptionRequest,
+  CreateEksAnywhereSubscriptionRequest & RegionInput,
   CreateEksAnywhereSubscriptionResponse,
   CreateEksAnywhereSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2711,7 +2712,7 @@ export type CreateFargateProfileError =
  * For more information, see Fargate profile in the *Amazon EKS User Guide*.
  */
 export const createFargateProfile: API.OperationMethod<
-  CreateFargateProfileRequest,
+  CreateFargateProfileRequest & RegionInput,
   CreateFargateProfileResponse,
   CreateFargateProfileError,
   Credentials | HttpClient.HttpClient
@@ -2766,7 +2767,7 @@ export type CreateNodegroupError =
  * Windows on Amazon EKS.
  */
 export const createNodegroup: API.OperationMethod<
-  CreateNodegroupRequest,
+  CreateNodegroupRequest & RegionInput,
   CreateNodegroupResponse,
   CreateNodegroupError,
   Credentials | HttpClient.HttpClient
@@ -2828,7 +2829,7 @@ export type CreatePodIdentityAssociationError =
  * target role, allowing secure access to resources in another Amazon Web Services account.
  */
 export const createPodIdentityAssociation: API.OperationMethod<
-  CreatePodIdentityAssociationRequest,
+  CreatePodIdentityAssociationRequest & RegionInput,
   CreatePodIdentityAssociationResponse,
   CreatePodIdentityAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2863,7 +2864,7 @@ export type DeleteAccessEntryError =
  * it.
  */
 export const deleteAccessEntry: API.OperationMethod<
-  DeleteAccessEntryRequest,
+  DeleteAccessEntryRequest & RegionInput,
   DeleteAccessEntryResponse,
   DeleteAccessEntryError,
   Credentials | HttpClient.HttpClient
@@ -2892,7 +2893,7 @@ export type DeleteAddonError =
  * start an add-on on the cluster using the Kubernetes API.
  */
 export const deleteAddon: API.OperationMethod<
-  DeleteAddonRequest,
+  DeleteAddonRequest & RegionInput,
   DeleteAddonResponse,
   DeleteAddonError,
   Credentials | HttpClient.HttpClient
@@ -2926,7 +2927,7 @@ export type DeleteCapabilityError =
  * Before deleting a capability, you should delete all Kubernetes resources that were created by the capability. After the capability is deleted, these resources become difficult to manage because the controller that managed them is no longer available. To delete resources before removing the capability, use `kubectl delete` or remove them through your GitOps workflow.
  */
 export const deleteCapability: API.OperationMethod<
-  DeleteCapabilityRequest,
+  DeleteCapabilityRequest & RegionInput,
   DeleteCapabilityResponse,
   DeleteCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -2968,7 +2969,7 @@ export type DeleteCertificateAuthorityError =
  * an asynchronous operation that returns an `update` object.
  */
 export const deleteCertificateAuthority: API.OperationMethod<
-  DeleteCertificateAuthorityRequest,
+  DeleteCertificateAuthorityRequest & RegionInput,
   DeleteCertificateAuthorityResponse,
   DeleteCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -3011,7 +3012,7 @@ export type DeleteClusterError =
  * `DeleteFargateProfile`.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -3046,7 +3047,7 @@ export type DeleteEksAnywhereSubscriptionError =
  * the Amazon Web Services Support Center.
  */
 export const deleteEksAnywhereSubscription: API.OperationMethod<
-  DeleteEksAnywhereSubscriptionRequest,
+  DeleteEksAnywhereSubscriptionRequest & RegionInput,
   DeleteEksAnywhereSubscriptionResponse,
   DeleteEksAnywhereSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3082,7 +3083,7 @@ export type DeleteFargateProfileError =
  * any other profiles in that cluster.
  */
 export const deleteFargateProfile: API.OperationMethod<
-  DeleteFargateProfileRequest,
+  DeleteFargateProfileRequest & RegionInput,
   DeleteFargateProfileResponse,
   DeleteFargateProfileError,
   Credentials | HttpClient.HttpClient
@@ -3115,7 +3116,7 @@ export type DeleteNodegroupError =
  * Deletes a managed node group.
  */
 export const deleteNodegroup: API.OperationMethod<
-  DeleteNodegroupRequest,
+  DeleteNodegroupRequest & RegionInput,
   DeleteNodegroupResponse,
   DeleteNodegroupError,
   Credentials | HttpClient.HttpClient
@@ -3149,7 +3150,7 @@ export type DeletePodIdentityAssociationError =
  * The temporary Amazon Web Services credentials from the previous IAM role session might still be valid until the session expiry. If you need to immediately revoke the temporary session credentials, then go to the role in the IAM console.
  */
 export const deletePodIdentityAssociation: API.OperationMethod<
-  DeletePodIdentityAssociationRequest,
+  DeletePodIdentityAssociationRequest & RegionInput,
   DeletePodIdentityAssociationResponse,
   DeletePodIdentityAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3184,7 +3185,7 @@ export type DeregisterClusterError =
  * using the Amazon EKS Connector.
  */
 export const deregisterCluster: API.OperationMethod<
-  DeregisterClusterRequest,
+  DeregisterClusterRequest & RegionInput,
   DeregisterClusterResponse,
   DeregisterClusterError,
   Credentials | HttpClient.HttpClient
@@ -3215,7 +3216,7 @@ export type DescribeAccessEntryError =
  * Describes an access entry.
  */
 export const describeAccessEntry: API.OperationMethod<
-  DescribeAccessEntryRequest,
+  DescribeAccessEntryRequest & RegionInput,
   DescribeAccessEntryResponse,
   DescribeAccessEntryError,
   Credentials | HttpClient.HttpClient
@@ -3241,7 +3242,7 @@ export type DescribeAddonError =
  * Describes an Amazon EKS add-on.
  */
 export const describeAddon: API.OperationMethod<
-  DescribeAddonRequest,
+  DescribeAddonRequest & RegionInput,
   DescribeAddonResponse,
   DescribeAddonError,
   Credentials | HttpClient.HttpClient
@@ -3271,7 +3272,7 @@ export type DescribeAddonConfigurationError =
  * Returns configuration options.
  */
 export const describeAddonConfiguration: API.OperationMethod<
-  DescribeAddonConfigurationRequest,
+  DescribeAddonConfigurationRequest & RegionInput,
   DescribeAddonConfigurationResponse,
   DescribeAddonConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3299,7 +3300,7 @@ export type DescribeAddonVersionsError =
  * are returned.
  */
 export const describeAddonVersions: API.PaginatedOperationMethod<
-  DescribeAddonVersionsRequest,
+  DescribeAddonVersionsRequest & RegionInput,
   DescribeAddonVersionsResponse,
   DescribeAddonVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3331,7 +3332,7 @@ export type DescribeCapabilityError =
  * Returns detailed information about a specific managed capability in your Amazon EKS cluster, including its current status, configuration, health information, and any issues that may be affecting its operation.
  */
 export const describeCapability: API.OperationMethod<
-  DescribeCapabilityRequest,
+  DescribeCapabilityRequest & RegionInput,
   DescribeCapabilityResponse,
   DescribeCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -3362,7 +3363,7 @@ export type DescribeCertificateAuthorityError =
  * auto-activation events, and public certificate data.
  */
 export const describeCertificateAuthority: API.OperationMethod<
-  DescribeCertificateAuthorityRequest,
+  DescribeCertificateAuthorityRequest & RegionInput,
   DescribeCertificateAuthorityResponse,
   DescribeCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -3395,7 +3396,7 @@ export type DescribeClusterError =
  * cluster reaches the `ACTIVE` state.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
+  DescribeClusterRequest & RegionInput,
   DescribeClusterResponse,
   DescribeClusterError,
   Credentials | HttpClient.HttpClient
@@ -3424,7 +3425,7 @@ export type DescribeClusterVersionsError =
  * Lists available Kubernetes versions for Amazon EKS clusters.
  */
 export const describeClusterVersions: API.PaginatedOperationMethod<
-  DescribeClusterVersionsRequest,
+  DescribeClusterVersionsRequest & RegionInput,
   DescribeClusterVersionsResponse,
   DescribeClusterVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3456,7 +3457,7 @@ export type DescribeEksAnywhereSubscriptionError =
  * Returns descriptive information about a subscription.
  */
 export const describeEksAnywhereSubscription: API.OperationMethod<
-  DescribeEksAnywhereSubscriptionRequest,
+  DescribeEksAnywhereSubscriptionRequest & RegionInput,
   DescribeEksAnywhereSubscriptionResponse,
   DescribeEksAnywhereSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3486,7 +3487,7 @@ export type DescribeFargateProfileError =
  * Describes an Fargate profile.
  */
 export const describeFargateProfile: API.OperationMethod<
-  DescribeFargateProfileRequest,
+  DescribeFargateProfileRequest & RegionInput,
   DescribeFargateProfileResponse,
   DescribeFargateProfileError,
   Credentials | HttpClient.HttpClient
@@ -3512,7 +3513,7 @@ export type DescribeIdentityProviderConfigError =
  * Describes an identity provider configuration.
  */
 export const describeIdentityProviderConfig: API.OperationMethod<
-  DescribeIdentityProviderConfigRequest,
+  DescribeIdentityProviderConfigRequest & RegionInput,
   DescribeIdentityProviderConfigResponse,
   DescribeIdentityProviderConfigError,
   Credentials | HttpClient.HttpClient
@@ -3543,7 +3544,7 @@ export type DescribeInsightError =
  * Returns details about an insight that you specify using its ID.
  */
 export const describeInsight: API.OperationMethod<
-  DescribeInsightRequest,
+  DescribeInsightRequest & RegionInput,
   DescribeInsightResponse,
   DescribeInsightError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3574,7 @@ export type DescribeInsightsRefreshError =
  * Returns the status of the latest on-demand cluster insights refresh operation.
  */
 export const describeInsightsRefresh: API.OperationMethod<
-  DescribeInsightsRefreshRequest,
+  DescribeInsightsRefreshRequest & RegionInput,
   DescribeInsightsRefreshResponse,
   DescribeInsightsRefreshError,
   Credentials | HttpClient.HttpClient
@@ -3604,7 +3605,7 @@ export type DescribeNodegroupError =
  * Describes a managed node group.
  */
 export const describeNodegroup: API.OperationMethod<
-  DescribeNodegroupRequest,
+  DescribeNodegroupRequest & RegionInput,
   DescribeNodegroupResponse,
   DescribeNodegroupError,
   Credentials | HttpClient.HttpClient
@@ -3640,7 +3641,7 @@ export type DescribePodIdentityAssociationError =
  * list by namespace or service account.
  */
 export const describePodIdentityAssociation: API.OperationMethod<
-  DescribePodIdentityAssociationRequest,
+  DescribePodIdentityAssociationRequest & RegionInput,
   DescribePodIdentityAssociationResponse,
   DescribePodIdentityAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3674,7 +3675,7 @@ export type DescribeUpdateError =
  * reason for the failure.
  */
 export const describeUpdate: API.OperationMethod<
-  DescribeUpdateRequest,
+  DescribeUpdateRequest & RegionInput,
   DescribeUpdateResponse,
   DescribeUpdateError,
   Credentials | HttpClient.HttpClient
@@ -3698,7 +3699,7 @@ export type DisassociateAccessPolicyError =
  * Disassociates an access policy from an access entry.
  */
 export const disassociateAccessPolicy: API.OperationMethod<
-  DisassociateAccessPolicyRequest,
+  DisassociateAccessPolicyRequest & RegionInput,
   DisassociateAccessPolicyResponse,
   DisassociateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3730,7 +3731,7 @@ export type DisassociateIdentityProviderConfigError =
  * with IAM principals.
  */
 export const disassociateIdentityProviderConfig: API.OperationMethod<
-  DisassociateIdentityProviderConfigRequest,
+  DisassociateIdentityProviderConfigRequest & RegionInput,
   DisassociateIdentityProviderConfigResponse,
   DisassociateIdentityProviderConfigError,
   Credentials | HttpClient.HttpClient
@@ -3763,7 +3764,7 @@ export type ListAccessEntriesError =
  * Lists the access entries for your cluster.
  */
 export const listAccessEntries: API.PaginatedOperationMethod<
-  ListAccessEntriesRequest,
+  ListAccessEntriesRequest & RegionInput,
   ListAccessEntriesResponse,
   ListAccessEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -3795,7 +3796,7 @@ export type ListAccessPoliciesError = ServerException | CommonErrors;
  * Lists the available access policies.
  */
 export const listAccessPolicies: API.PaginatedOperationMethod<
-  ListAccessPoliciesRequest,
+  ListAccessPoliciesRequest & RegionInput,
   ListAccessPoliciesResponse,
   ListAccessPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3828,7 +3829,7 @@ export type ListAddonsError =
  * Lists the installed add-ons.
  */
 export const listAddons: API.PaginatedOperationMethod<
-  ListAddonsRequest,
+  ListAddonsRequest & RegionInput,
   ListAddonsResponse,
   ListAddonsError,
   Credentials | HttpClient.HttpClient,
@@ -3865,7 +3866,7 @@ export type ListAssociatedAccessPoliciesError =
  * Lists the access policies associated with an access entry.
  */
 export const listAssociatedAccessPolicies: API.PaginatedOperationMethod<
-  ListAssociatedAccessPoliciesRequest,
+  ListAssociatedAccessPoliciesRequest & RegionInput,
   ListAssociatedAccessPoliciesResponse,
   ListAssociatedAccessPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3892,7 +3893,7 @@ export type ListCapabilitiesError = InvalidParameterException | ServerException 
  * Lists all managed capabilities in your Amazon EKS cluster. You can use this operation to get an overview of all capabilities and their current status.
  */
 export const listCapabilities: API.PaginatedOperationMethod<
-  ListCapabilitiesRequest,
+  ListCapabilitiesRequest & RegionInput,
   ListCapabilitiesResponse,
   ListCapabilitiesError,
   Credentials | HttpClient.HttpClient,
@@ -3926,7 +3927,7 @@ export type ListCertificateAuthoritiesError =
  * one successor CA.
  */
 export const listCertificateAuthorities: API.PaginatedOperationMethod<
-  ListCertificateAuthoritiesRequest,
+  ListCertificateAuthoritiesRequest & RegionInput,
   ListCertificateAuthoritiesResponse,
   ListCertificateAuthoritiesError,
   Credentials | HttpClient.HttpClient,
@@ -3963,7 +3964,7 @@ export type ListClustersError =
  * Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -4000,7 +4001,7 @@ export type ListEksAnywhereSubscriptionsError =
  * Displays the full description of the subscription.
  */
 export const listEksAnywhereSubscriptions: API.PaginatedOperationMethod<
-  ListEksAnywhereSubscriptionsRequest,
+  ListEksAnywhereSubscriptionsRequest & RegionInput,
   ListEksAnywhereSubscriptionsResponse,
   ListEksAnywhereSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -4038,7 +4039,7 @@ export type ListFargateProfilesError =
  * account in the specified Amazon Web Services Region.
  */
 export const listFargateProfiles: API.PaginatedOperationMethod<
-  ListFargateProfilesRequest,
+  ListFargateProfilesRequest & RegionInput,
   ListFargateProfilesResponse,
   ListFargateProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -4071,7 +4072,7 @@ export type ListIdentityProviderConfigsError =
  * Lists the identity provider configurations for your cluster.
  */
 export const listIdentityProviderConfigs: API.PaginatedOperationMethod<
-  ListIdentityProviderConfigsRequest,
+  ListIdentityProviderConfigsRequest & RegionInput,
   ListIdentityProviderConfigsResponse,
   ListIdentityProviderConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -4120,7 +4121,7 @@ export type ListInsightsError =
  * workloads. These are called configuration insights.
  */
 export const listInsights: API.PaginatedOperationMethod<
-  ListInsightsRequest,
+  ListInsightsRequest & RegionInput,
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -4159,7 +4160,7 @@ export type ListNodegroupsError =
  * account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
  */
 export const listNodegroups: API.PaginatedOperationMethod<
-  ListNodegroupsRequest,
+  ListNodegroupsRequest & RegionInput,
   ListNodegroupsResponse,
   ListNodegroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4198,7 +4199,7 @@ export type ListPodIdentityAssociationsError =
  * association is in or the service account that the association uses.
  */
 export const listPodIdentityAssociations: API.PaginatedOperationMethod<
-  ListPodIdentityAssociationsRequest,
+  ListPodIdentityAssociationsRequest & RegionInput,
   ListPodIdentityAssociationsResponse,
   ListPodIdentityAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4230,7 +4231,7 @@ export type ListTagsForResourceError = BadRequestException | NotFoundException |
  * List the tags for an Amazon EKS resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4256,7 +4257,7 @@ export type ListUpdatesError =
  * specified Amazon Web Services Region.
  */
 export const listUpdates: API.PaginatedOperationMethod<
-  ListUpdatesRequest,
+  ListUpdatesRequest & RegionInput,
   ListUpdatesResponse,
   ListUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -4309,7 +4310,7 @@ export type RegisterClusterError =
  * `DeregisterCluster`.
  */
 export const registerCluster: API.OperationMethod<
-  RegisterClusterRequest,
+  RegisterClusterRequest & RegionInput,
   RegisterClusterResponse,
   RegisterClusterError,
   Credentials | HttpClient.HttpClient
@@ -4343,7 +4344,7 @@ export type StartInsightsRefreshError =
  * Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
  */
 export const startInsightsRefresh: API.OperationMethod<
-  StartInsightsRefreshRequest,
+  StartInsightsRefreshRequest & RegionInput,
   StartInsightsRefreshResponse,
   StartInsightsRefreshError,
   Credentials | HttpClient.HttpClient
@@ -4374,7 +4375,7 @@ export type TagResourceError = BadRequestException | NotFoundException | CommonE
  * nodes associated with the cluster.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4394,7 +4395,7 @@ export type UntagResourceError = BadRequestException | NotFoundException | Commo
  * Deletes specified tags from an Amazon EKS resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4419,7 +4420,7 @@ export type UpdateAccessEntryError =
  * Updates an access entry.
  */
 export const updateAccessEntry: API.OperationMethod<
-  UpdateAccessEntryRequest,
+  UpdateAccessEntryRequest & RegionInput,
   UpdateAccessEntryResponse,
   UpdateAccessEntryError,
   Credentials | HttpClient.HttpClient
@@ -4451,7 +4452,7 @@ export type UpdateAddonError =
  * Updates an Amazon EKS add-on.
  */
 export const updateAddon: API.OperationMethod<
-  UpdateAddonRequest,
+  UpdateAddonRequest & RegionInput,
   UpdateAddonResponse,
   UpdateAddonError,
   Credentials | HttpClient.HttpClient
@@ -4486,7 +4487,7 @@ export type UpdateCapabilityError =
  * When you update a capability, Amazon EKS applies the changes and may restart capability components as needed. The capability remains available during the update process, but some operations may be temporarily unavailable.
  */
 export const updateCapability: API.OperationMethod<
-  UpdateCapabilityRequest,
+  UpdateCapabilityRequest & RegionInput,
   UpdateCapabilityResponse,
   UpdateCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -4566,7 +4567,7 @@ export type UpdateClusterConfigError =
  * `Successful`), the cluster status moves to `Active`.
  */
 export const updateClusterConfig: API.OperationMethod<
-  UpdateClusterConfigRequest,
+  UpdateClusterConfigRequest & RegionInput,
   UpdateClusterConfigResponse,
   UpdateClusterConfigError,
   Credentials | HttpClient.HttpClient
@@ -4616,7 +4617,7 @@ export type UpdateClusterVersionError =
  * Kubernetes version.
  */
 export const updateClusterVersion: API.OperationMethod<
-  UpdateClusterVersionRequest,
+  UpdateClusterVersionRequest & RegionInput,
   UpdateClusterVersionResponse,
   UpdateClusterVersionError,
   Credentials | HttpClient.HttpClient
@@ -4652,7 +4653,7 @@ export type UpdateEksAnywhereSubscriptionError =
  * subscription creation.
  */
 export const updateEksAnywhereSubscription: API.OperationMethod<
-  UpdateEksAnywhereSubscriptionRequest,
+  UpdateEksAnywhereSubscriptionRequest & RegionInput,
   UpdateEksAnywhereSubscriptionResponse,
   UpdateEksAnywhereSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4690,7 +4691,7 @@ export type UpdateNodegroupConfigError =
  * and taints for a node group and the scaling and version update configuration.
  */
 export const updateNodegroupConfig: API.OperationMethod<
-  UpdateNodegroupConfigRequest,
+  UpdateNodegroupConfigRequest & RegionInput,
   UpdateNodegroupConfigResponse,
   UpdateNodegroupConfigError,
   Credentials | HttpClient.HttpClient
@@ -4750,7 +4751,7 @@ export type UpdateNodegroupVersionError =
  * budget issue.
  */
 export const updateNodegroupVersion: API.OperationMethod<
-  UpdateNodegroupVersionRequest,
+  UpdateNodegroupVersionRequest & RegionInput,
   UpdateNodegroupVersionResponse,
   UpdateNodegroupVersionError,
   Credentials | HttpClient.HttpClient
@@ -4800,7 +4801,7 @@ export type UpdatePodIdentityAssociationError =
  * target role, allowing secure access to resources in another Amazon Web Services account.
  */
 export const updatePodIdentityAssociation: API.OperationMethod<
-  UpdatePodIdentityAssociationRequest,
+  UpdatePodIdentityAssociationRequest & RegionInput,
   UpdatePodIdentityAssociationResponse,
   UpdatePodIdentityAssociationError,
   Credentials | HttpClient.HttpClient

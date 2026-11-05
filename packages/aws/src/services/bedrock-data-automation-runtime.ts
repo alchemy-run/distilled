@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -282,7 +283,7 @@ export type GetDataAutomationStatusError =
  * API used to get data automation status.
  */
 export const getDataAutomationStatus: API.OperationMethod<
-  GetDataAutomationStatusRequest,
+  GetDataAutomationStatusRequest & RegionInput,
   GetDataAutomationStatusResponse,
   GetDataAutomationStatusError,
   Credentials | HttpClient.HttpClient
@@ -314,7 +315,7 @@ export type InvokeDataAutomationError =
  * Sync API: Invoke data automation.
  */
 export const invokeDataAutomation: API.OperationMethod<
-  InvokeDataAutomationRequest,
+  InvokeDataAutomationRequest & RegionInput,
   InvokeDataAutomationResponse,
   InvokeDataAutomationError,
   Credentials | HttpClient.HttpClient
@@ -346,7 +347,7 @@ export type InvokeDataAutomationAsyncError =
  * Async API: Invoke data automation.
  */
 export const invokeDataAutomationAsync: API.OperationMethod<
-  InvokeDataAutomationAsyncRequest,
+  InvokeDataAutomationAsyncRequest & RegionInput,
   InvokeDataAutomationAsyncResponse,
   InvokeDataAutomationAsyncError,
   Credentials | HttpClient.HttpClient
@@ -378,7 +379,7 @@ export type ListTagsForResourceError =
  * List tags for an Amazon Bedrock Data Automation resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -411,7 +412,7 @@ export type TagResourceError =
  * Tag an Amazon Bedrock Data Automation resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -444,7 +445,7 @@ export type UntagResourceError =
  * Untag an Amazon Bedrock Data Automation resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1109,7 +1110,7 @@ export type DecryptDataError =
  * - ImportKey
  */
 export const decryptData: API.OperationMethod<
-  DecryptDataInput,
+  DecryptDataInput & RegionInput,
   DecryptDataOutput,
   DecryptDataError,
   Credentials | HttpClient.HttpClient
@@ -1167,7 +1168,7 @@ export type EncryptDataError =
  * - ReEncryptData
  */
 export const encryptData: API.OperationMethod<
-  EncryptDataInput,
+  EncryptDataInput & RegionInput,
   EncryptDataOutput,
   EncryptDataError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1210,7 @@ export type GenerateAs2805KekValidationError =
  * **Cross-account use**: This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies.
  */
 export const generateAs2805KekValidation: API.OperationMethod<
-  GenerateAs2805KekValidationInput,
+  GenerateAs2805KekValidationInput & RegionInput,
   GenerateAs2805KekValidationOutput,
   GenerateAs2805KekValidationError,
   Credentials | HttpClient.HttpClient
@@ -1253,7 +1254,7 @@ export type GenerateAuthRequestCryptogramError =
  * - VerifyAuthRequestCryptogram
  */
 export const generateAuthRequestCryptogram: API.OperationMethod<
-  GenerateAuthRequestCryptogramInput,
+  GenerateAuthRequestCryptogramInput & RegionInput,
   GenerateAuthRequestCryptogramOutput,
   GenerateAuthRequestCryptogramError,
   Credentials | HttpClient.HttpClient
@@ -1297,7 +1298,7 @@ export type GenerateCardValidationDataError =
  * - VerifyCardValidationData
  */
 export const generateCardValidationData: API.OperationMethod<
-  GenerateCardValidationDataInput,
+  GenerateCardValidationDataInput & RegionInput,
   GenerateCardValidationDataOutput,
   GenerateCardValidationDataError,
   Credentials | HttpClient.HttpClient
@@ -1341,7 +1342,7 @@ export type GenerateMacError =
  * - VerifyMac
  */
 export const generateMac: API.OperationMethod<
-  GenerateMacInput,
+  GenerateMacInput & RegionInput,
   GenerateMacOutput,
   GenerateMacError,
   Credentials | HttpClient.HttpClient
@@ -1391,7 +1392,7 @@ export type GenerateMacEmvPinChangeError =
  * - GenerateMac
  */
 export const generateMacEmvPinChange: API.OperationMethod<
-  GenerateMacEmvPinChangeInput,
+  GenerateMacEmvPinChangeInput & RegionInput,
   GenerateMacEmvPinChangeOutput,
   GenerateMacEmvPinChangeError,
   Credentials | HttpClient.HttpClient
@@ -1439,7 +1440,7 @@ export type GeneratePinDataError =
  * - VerifyPinData
  */
 export const generatePinData: API.OperationMethod<
-  GeneratePinDataInput,
+  GeneratePinDataInput & RegionInput,
   GeneratePinDataOutput,
   GeneratePinDataError,
   Credentials | HttpClient.HttpClient
@@ -1497,7 +1498,7 @@ export type ReEncryptDataError =
  * - ImportKey
  */
 export const reEncryptData: API.OperationMethod<
-  ReEncryptDataInput,
+  ReEncryptDataInput & RegionInput,
   ReEncryptDataOutput,
   ReEncryptDataError,
   Credentials | HttpClient.HttpClient
@@ -1545,7 +1546,7 @@ export type TranslateKeyMaterialError =
  * - ImportKey
  */
 export const translateKeyMaterial: API.OperationMethod<
-  TranslateKeyMaterialInput,
+  TranslateKeyMaterialInput & RegionInput,
   TranslateKeyMaterialOutput,
   TranslateKeyMaterialError,
   Credentials | HttpClient.HttpClient
@@ -1599,7 +1600,7 @@ export type TranslatePinDataError =
  * - VerifyPinData
  */
 export const translatePinData: API.OperationMethod<
-  TranslatePinDataInput,
+  TranslatePinDataInput & RegionInput,
   TranslatePinDataOutput,
   TranslatePinDataError,
   Credentials | HttpClient.HttpClient
@@ -1644,7 +1645,7 @@ export type VerifyAuthRequestCryptogramError =
  * - VerifyPinData
  */
 export const verifyAuthRequestCryptogram: API.OperationMethod<
-  VerifyAuthRequestCryptogramInput,
+  VerifyAuthRequestCryptogramInput & RegionInput,
   VerifyAuthRequestCryptogramOutput,
   VerifyAuthRequestCryptogramError,
   Credentials | HttpClient.HttpClient
@@ -1692,7 +1693,7 @@ export type VerifyCardValidationDataError =
  * - VerifyPinData
  */
 export const verifyCardValidationData: API.OperationMethod<
-  VerifyCardValidationDataInput,
+  VerifyCardValidationDataInput & RegionInput,
   VerifyCardValidationDataOutput,
   VerifyCardValidationDataError,
   Credentials | HttpClient.HttpClient
@@ -1736,7 +1737,7 @@ export type VerifyMacError =
  * - GenerateMac
  */
 export const verifyMac: API.OperationMethod<
-  VerifyMacInput,
+  VerifyMacInput & RegionInput,
   VerifyMacOutput,
   VerifyMacError,
   Credentials | HttpClient.HttpClient
@@ -1782,7 +1783,7 @@ export type VerifyPinDataError =
  * - TranslatePinData
  */
 export const verifyPinData: API.OperationMethod<
-  VerifyPinDataInput,
+  VerifyPinDataInput & RegionInput,
   VerifyPinDataOutput,
   VerifyPinDataError,
   Credentials | HttpClient.HttpClient

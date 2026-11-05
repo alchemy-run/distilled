@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -814,7 +815,7 @@ export type AssociateCustomDomainError =
  * domain validity in a certificate stored in AWS Certificate Manager (ACM).
  */
 export const associateCustomDomain: API.OperationMethod<
-  AssociateCustomDomainRequest,
+  AssociateCustomDomainRequest & RegionInput,
   AssociateCustomDomainResponse,
   AssociateCustomDomainError,
   Credentials | HttpClient.HttpClient
@@ -849,7 +850,7 @@ export type CreateAutoScalingConfigurationError =
  * Configure a lower `MaxSize` to control your cost. The tradeoff is lower responsiveness during peak demand.
  */
 export const createAutoScalingConfiguration: API.OperationMethod<
-  CreateAutoScalingConfigurationRequest,
+  CreateAutoScalingConfigurationRequest & RegionInput,
   CreateAutoScalingConfigurationResponse,
   CreateAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -878,7 +879,7 @@ export type CreateConnectionError =
  * connection.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   CreateConnectionResponse,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -912,7 +913,7 @@ export type CreateObservabilityConfigurationError =
  * parameter, App Runner doesn't enable the feature.
  */
 export const createObservabilityConfiguration: API.OperationMethod<
-  CreateObservabilityConfigurationRequest,
+  CreateObservabilityConfigurationRequest & RegionInput,
   CreateObservabilityConfigurationResponse,
   CreateObservabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -938,7 +939,7 @@ export type CreateServiceError =
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations call to track the operation's progress.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -963,7 +964,7 @@ export type CreateVpcConnectorError =
  * (Amazon VPC).
  */
 export const createVpcConnector: API.OperationMethod<
-  CreateVpcConnectorRequest,
+  CreateVpcConnectorRequest & RegionInput,
   CreateVpcConnectorResponse,
   CreateVpcConnectorError,
   Credentials | HttpClient.HttpClient
@@ -988,7 +989,7 @@ export type CreateVpcIngressConnectionError =
  * Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
  */
 export const createVpcIngressConnection: API.OperationMethod<
-  CreateVpcIngressConnectionRequest,
+  CreateVpcIngressConnectionRequest & RegionInput,
   CreateVpcIngressConnectionResponse,
   CreateVpcIngressConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1019,7 +1020,7 @@ export type DeleteAutoScalingConfigurationError =
  * more App Runner services.
  */
 export const deleteAutoScalingConfiguration: API.OperationMethod<
-  DeleteAutoScalingConfigurationRequest,
+  DeleteAutoScalingConfigurationRequest & RegionInput,
   DeleteAutoScalingConfigurationResponse,
   DeleteAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1044,7 +1045,7 @@ export type DeleteConnectionError =
  * `DeleteConnection` action fails.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1069,7 +1070,7 @@ export type DeleteObservabilityConfigurationError =
  * configuration that's used by one or more App Runner services.
  */
 export const deleteObservabilityConfiguration: API.OperationMethod<
-  DeleteObservabilityConfigurationRequest,
+  DeleteObservabilityConfigurationRequest & RegionInput,
   DeleteObservabilityConfigurationResponse,
   DeleteObservabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1099,7 +1100,7 @@ export type DeleteServiceError =
  * Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -1129,7 +1130,7 @@ export type DeleteVpcConnectorError =
  * connector that's used by one or more App Runner services.
  */
 export const deleteVpcConnector: API.OperationMethod<
-  DeleteVpcConnectorRequest,
+  DeleteVpcConnectorRequest & RegionInput,
   DeleteVpcConnectorResponse,
   DeleteVpcConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1162,7 +1163,7 @@ export type DeleteVpcIngressConnectionError =
  * - `FAILED_DELETION`
  */
 export const deleteVpcIngressConnection: API.OperationMethod<
-  DeleteVpcIngressConnectionRequest,
+  DeleteVpcIngressConnectionRequest & RegionInput,
   DeleteVpcIngressConnectionResponse,
   DeleteVpcIngressConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1191,7 +1192,7 @@ export type DescribeAutoScalingConfigurationError =
  * Return a full description of an App Runner automatic scaling configuration resource.
  */
 export const describeAutoScalingConfiguration: API.OperationMethod<
-  DescribeAutoScalingConfigurationRequest,
+  DescribeAutoScalingConfigurationRequest & RegionInput,
   DescribeAutoScalingConfigurationResponse,
   DescribeAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1215,7 +1216,7 @@ export type DescribeCustomDomainsError =
  * Return a description of custom domain names that are associated with an App Runner service.
  */
 export const describeCustomDomains: API.PaginatedOperationMethod<
-  DescribeCustomDomainsRequest,
+  DescribeCustomDomainsRequest & RegionInput,
   DescribeCustomDomainsResponse,
   DescribeCustomDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -1245,7 +1246,7 @@ export type DescribeObservabilityConfigurationError =
  * Return a full description of an App Runner observability configuration resource.
  */
 export const describeObservabilityConfiguration: API.OperationMethod<
-  DescribeObservabilityConfigurationRequest,
+  DescribeObservabilityConfigurationRequest & RegionInput,
   DescribeObservabilityConfigurationResponse,
   DescribeObservabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1269,7 +1270,7 @@ export type DescribeServiceError =
  * Return a full description of an App Runner service.
  */
 export const describeService: API.OperationMethod<
-  DescribeServiceRequest,
+  DescribeServiceRequest & RegionInput,
   DescribeServiceResponse,
   DescribeServiceError,
   Credentials | HttpClient.HttpClient
@@ -1293,7 +1294,7 @@ export type DescribeVpcConnectorError =
  * Return a description of an App Runner VPC connector resource.
  */
 export const describeVpcConnector: API.OperationMethod<
-  DescribeVpcConnectorRequest,
+  DescribeVpcConnectorRequest & RegionInput,
   DescribeVpcConnectorResponse,
   DescribeVpcConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1317,7 +1318,7 @@ export type DescribeVpcIngressConnectionError =
  * Return a full description of an App Runner VPC Ingress Connection resource.
  */
 export const describeVpcIngressConnection: API.OperationMethod<
-  DescribeVpcIngressConnectionRequest,
+  DescribeVpcIngressConnectionRequest & RegionInput,
   DescribeVpcIngressConnectionResponse,
   DescribeVpcIngressConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1346,7 +1347,7 @@ export type DisassociateCustomDomainError =
  * 30 days after a domain is disassociated from your service.
  */
 export const disassociateCustomDomain: API.OperationMethod<
-  DisassociateCustomDomainRequest,
+  DisassociateCustomDomainRequest & RegionInput,
   DisassociateCustomDomainResponse,
   DisassociateCustomDomainError,
   Credentials | HttpClient.HttpClient
@@ -1379,7 +1380,7 @@ export type ListAutoScalingConfigurationsError =
  * the ARNs returned by `ListAutoScalingConfigurations`.
  */
 export const listAutoScalingConfigurations: API.PaginatedOperationMethod<
-  ListAutoScalingConfigurationsRequest,
+  ListAutoScalingConfigurationsRequest & RegionInput,
   ListAutoScalingConfigurationsResponse,
   ListAutoScalingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1408,7 +1409,7 @@ export type ListConnectionsError =
  * Returns a list of App Runner connections that are associated with your Amazon Web Services account.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsRequest,
+  ListConnectionsRequest & RegionInput,
   ListConnectionsResponse,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1442,7 +1443,7 @@ export type ListObservabilityConfigurationsError =
  * of the ARNs returned by `ListObservabilityConfigurations`.
  */
 export const listObservabilityConfigurations: API.PaginatedOperationMethod<
-  ListObservabilityConfigurationsRequest,
+  ListObservabilityConfigurationsRequest & RegionInput,
   ListObservabilityConfigurationsResponse,
   ListObservabilityConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1475,7 +1476,7 @@ export type ListOperationsError =
  * last started operation.
  */
 export const listOperations: API.PaginatedOperationMethod<
-  ListOperationsRequest,
+  ListOperationsRequest & RegionInput,
   ListOperationsResponse,
   ListOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1504,7 +1505,7 @@ export type ListServicesError =
  * Returns a list of running App Runner services in your Amazon Web Services account.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1534,7 +1535,7 @@ export type ListServicesForAutoScalingConfigurationError =
  * Returns a list of the associated App Runner services using an auto scaling configuration.
  */
 export const listServicesForAutoScalingConfiguration: API.PaginatedOperationMethod<
-  ListServicesForAutoScalingConfigurationRequest,
+  ListServicesForAutoScalingConfigurationRequest & RegionInput,
   ListServicesForAutoScalingConfigurationResponse,
   ListServicesForAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -1565,7 +1566,7 @@ export type ListTagsForResourceError =
  * List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1593,7 +1594,7 @@ export type ListVpcConnectorsError =
  * Returns a list of App Runner VPC connectors in your Amazon Web Services account.
  */
 export const listVpcConnectors: API.PaginatedOperationMethod<
-  ListVpcConnectorsRequest,
+  ListVpcConnectorsRequest & RegionInput,
   ListVpcConnectorsResponse,
   ListVpcConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1622,7 +1623,7 @@ export type ListVpcIngressConnectionsError =
  * Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
  */
 export const listVpcIngressConnections: API.PaginatedOperationMethod<
-  ListVpcIngressConnectionsRequest,
+  ListVpcIngressConnectionsRequest & RegionInput,
   ListVpcIngressConnectionsResponse,
   ListVpcIngressConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1657,7 +1658,7 @@ export type PauseServiceError =
  * call to track the operation's progress.
  */
 export const pauseService: API.OperationMethod<
-  PauseServiceRequest,
+  PauseServiceRequest & RegionInput,
   PauseServiceResponse,
   PauseServiceError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type ResumeServiceError =
  * call to track the operation's progress.
  */
 export const resumeService: API.OperationMethod<
-  ResumeServiceRequest,
+  ResumeServiceRequest & RegionInput,
   ResumeServiceResponse,
   ResumeServiceError,
   Credentials | HttpClient.HttpClient
@@ -1726,7 +1727,7 @@ export type StartDeploymentError =
  * call to track the operation's progress.
  */
 export const startDeployment: API.OperationMethod<
-  StartDeploymentRequest,
+  StartDeploymentRequest & RegionInput,
   StartDeploymentResponse,
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1751,7 +1752,7 @@ export type TagResourceError =
  * Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1781,7 +1782,7 @@ export type UntagResourceError =
  * Remove tags from an App Runner resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1811,7 +1812,7 @@ export type UpdateDefaultAutoScalingConfigurationError =
  * automatically.
  */
 export const updateDefaultAutoScalingConfiguration: API.OperationMethod<
-  UpdateDefaultAutoScalingConfigurationRequest,
+  UpdateDefaultAutoScalingConfigurationRequest & RegionInput,
   UpdateDefaultAutoScalingConfigurationResponse,
   UpdateDefaultAutoScalingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1843,7 +1844,7 @@ export type UpdateServiceError =
  * call to track the operation's progress.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
+  UpdateServiceRequest & RegionInput,
   UpdateServiceResponse,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -1879,7 +1880,7 @@ export type UpdateVpcIngressConnectionError =
  * - FAILED_UPDATE
  */
 export const updateVpcIngressConnection: API.OperationMethod<
-  UpdateVpcIngressConnectionRequest,
+  UpdateVpcIngressConnectionRequest & RegionInput,
   UpdateVpcIngressConnectionResponse,
   UpdateVpcIngressConnectionError,
   Credentials | HttpClient.HttpClient

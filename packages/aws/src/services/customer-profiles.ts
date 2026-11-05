@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2951,7 +2952,7 @@ export type AddProfileKeyError =
  * be used to identify the profile that it belongs to.
  */
 export const addProfileKey: API.OperationMethod<
-  AddProfileKeyRequest,
+  AddProfileKeyRequest & RegionInput,
   AddProfileKeyResponse,
   AddProfileKeyError,
   Credentials | HttpClient.HttpClient
@@ -2985,7 +2986,7 @@ export type AssociateStreamForSegmentsError =
  * subscriptions within the domain. A domain can have only one associated stream at a time.
  */
 export const associateStreamForSegments: API.OperationMethod<
-  AssociateStreamForSegmentsRequest,
+  AssociateStreamForSegmentsRequest & RegionInput,
   AssociateStreamForSegmentsResponse,
   AssociateStreamForSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -3017,7 +3018,7 @@ export type BatchGetCalculatedAttributeForProfileError =
  * Fetch the possible attribute values given the attribute name.
  */
 export const batchGetCalculatedAttributeForProfile: API.OperationMethod<
-  BatchGetCalculatedAttributeForProfileRequest,
+  BatchGetCalculatedAttributeForProfileRequest & RegionInput,
   BatchGetCalculatedAttributeForProfileResponse,
   BatchGetCalculatedAttributeForProfileError,
   Credentials | HttpClient.HttpClient
@@ -3049,7 +3050,7 @@ export type BatchGetProfileError =
  * Get a batch of profiles.
  */
 export const batchGetProfile: API.OperationMethod<
-  BatchGetProfileRequest,
+  BatchGetProfileRequest & RegionInput,
   BatchGetProfileResponse,
   BatchGetProfileError,
   Credentials | HttpClient.HttpClient
@@ -3093,7 +3094,7 @@ export type BatchPutProfileObjectError =
  * PutProfileObjectType.
  */
 export const batchPutProfileObject: API.OperationMethod<
-  BatchPutProfileObjectRequest,
+  BatchPutProfileObjectRequest & RegionInput,
   BatchPutProfileObjectResponse,
   BatchPutProfileObjectError,
   Credentials | HttpClient.HttpClient
@@ -3130,7 +3131,7 @@ export type CreateCalculatedAttributeDefinitionError =
  * `ObjectType`.
  */
 export const createCalculatedAttributeDefinition: API.OperationMethod<
-  CreateCalculatedAttributeDefinitionRequest,
+  CreateCalculatedAttributeDefinitionRequest & RegionInput,
   CreateCalculatedAttributeDefinitionResponse,
   CreateCalculatedAttributeDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3181,7 +3182,7 @@ export type CreateDomainError =
  * can be associated with one domain.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -3214,7 +3215,7 @@ export type CreateDomainLayoutError =
  * the Amazon Connect admin website.
  */
 export const createDomainLayout: API.OperationMethod<
-  CreateDomainLayoutRequest,
+  CreateDomainLayoutRequest & RegionInput,
   CreateDomainLayoutResponse,
   CreateDomainLayoutError,
   Credentials | HttpClient.HttpClient
@@ -3250,7 +3251,7 @@ export type CreateEventStreamError =
  * same region and Amazon Web Services account as the customer profiles domain
  */
 export const createEventStream: API.OperationMethod<
-  CreateEventStreamRequest,
+  CreateEventStreamRequest & RegionInput,
   CreateEventStreamResponse,
   CreateEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -3286,7 +3287,7 @@ export type CreateEventTriggerError =
  * account as the event stream.
  */
 export const createEventTrigger: API.OperationMethod<
-  CreateEventTriggerRequest,
+  CreateEventTriggerRequest & RegionInput,
   CreateEventTriggerResponse,
   CreateEventTriggerError,
   Credentials | HttpClient.HttpClient
@@ -3319,7 +3320,7 @@ export type CreateIntegrationWorkflowError =
  * ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
  */
 export const createIntegrationWorkflow: API.OperationMethod<
-  CreateIntegrationWorkflowRequest,
+  CreateIntegrationWorkflowRequest & RegionInput,
   CreateIntegrationWorkflowResponse,
   CreateIntegrationWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3354,7 +3355,7 @@ export type CreateProfileError =
  * domain.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileRequest,
+  CreateProfileRequest & RegionInput,
   CreateProfileResponse,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -3386,7 +3387,7 @@ export type CreateRecommenderError =
  * Creates a recommender
  */
 export const createRecommender: API.OperationMethod<
-  CreateRecommenderRequest,
+  CreateRecommenderRequest & RegionInput,
   CreateRecommenderResponse,
   CreateRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -3418,7 +3419,7 @@ export type CreateRecommenderFilterError =
  * Creates a recommender filter. A recommender filter specifies which items to include or exclude from recommendations.
  */
 export const createRecommenderFilter: API.OperationMethod<
-  CreateRecommenderFilterRequest,
+  CreateRecommenderFilterRequest & RegionInput,
   CreateRecommenderFilterResponse,
   CreateRecommenderFilterError,
   Credentials | HttpClient.HttpClient
@@ -3450,7 +3451,7 @@ export type CreateRecommenderSchemaError =
  * Creates a recommender schema. A recommender schema defines the set of data columns available for training recommenders and filters under a domain.
  */
 export const createRecommenderSchema: API.OperationMethod<
-  CreateRecommenderSchemaRequest,
+  CreateRecommenderSchemaRequest & RegionInput,
   CreateRecommenderSchemaResponse,
   CreateRecommenderSchemaError,
   Credentials | HttpClient.HttpClient
@@ -3482,7 +3483,7 @@ export type CreateSegmentDefinitionError =
  * Creates a segment definition associated to the given domain.
  */
 export const createSegmentDefinition: API.OperationMethod<
-  CreateSegmentDefinitionRequest,
+  CreateSegmentDefinitionRequest & RegionInput,
   CreateSegmentDefinitionResponse,
   CreateSegmentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3514,7 +3515,7 @@ export type CreateSegmentEstimateError =
  * Creates a segment estimate query.
  */
 export const createSegmentEstimate: API.OperationMethod<
-  CreateSegmentEstimateRequest,
+  CreateSegmentEstimateRequest & RegionInput,
   CreateSegmentEstimateResponse,
   CreateSegmentEstimateError,
   Credentials | HttpClient.HttpClient
@@ -3546,7 +3547,7 @@ export type CreateSegmentSnapshotError =
  * Triggers a job to export a segment to a specified destination.
  */
 export const createSegmentSnapshot: API.OperationMethod<
-  CreateSegmentSnapshotRequest,
+  CreateSegmentSnapshotRequest & RegionInput,
   CreateSegmentSnapshotResponse,
   CreateSegmentSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3579,7 +3580,7 @@ export type CreateUploadJobError =
  * the job with the provided field mapping and unique key.
  */
 export const createUploadJob: API.OperationMethod<
-  CreateUploadJobRequest,
+  CreateUploadJobRequest & RegionInput,
   CreateUploadJobResponse,
   CreateUploadJobError,
   Credentials | HttpClient.HttpClient
@@ -3614,7 +3615,7 @@ export type DeleteCalculatedAttributeDefinitionError =
  * CreateCalculatedAttributeDefinition API if you want it back.
  */
 export const deleteCalculatedAttributeDefinition: API.OperationMethod<
-  DeleteCalculatedAttributeDefinitionRequest,
+  DeleteCalculatedAttributeDefinitionRequest & RegionInput,
   DeleteCalculatedAttributeDefinitionResponse,
   DeleteCalculatedAttributeDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3647,7 +3648,7 @@ export type DeleteDomainError =
  * attributes and their related objects.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -3680,7 +3681,7 @@ export type DeleteDomainLayoutError =
  * from the Amazon Connect admin website.
  */
 export const deleteDomainLayout: API.OperationMethod<
-  DeleteDomainLayoutRequest,
+  DeleteDomainLayoutRequest & RegionInput,
   DeleteDomainLayoutResponse,
   DeleteDomainLayoutError,
   Credentials | HttpClient.HttpClient
@@ -3712,7 +3713,7 @@ export type DeleteDomainObjectTypeError =
  * Delete a DomainObjectType for the given Domain and ObjectType name.
  */
 export const deleteDomainObjectType: API.OperationMethod<
-  DeleteDomainObjectTypeRequest,
+  DeleteDomainObjectTypeRequest & RegionInput,
   DeleteDomainObjectTypeResponse,
   DeleteDomainObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -3744,7 +3745,7 @@ export type DeleteEventStreamError =
  * Disables and deletes the specified event stream.
  */
 export const deleteEventStream: API.OperationMethod<
-  DeleteEventStreamRequest,
+  DeleteEventStreamRequest & RegionInput,
   DeleteEventStreamResponse,
   DeleteEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -3778,7 +3779,7 @@ export type DeleteEventTriggerError =
  * You cannot delete an Event Trigger with an active Integration associated.
  */
 export const deleteEventTrigger: API.OperationMethod<
-  DeleteEventTriggerRequest,
+  DeleteEventTriggerRequest & RegionInput,
   DeleteEventTriggerResponse,
   DeleteEventTriggerError,
   Credentials | HttpClient.HttpClient
@@ -3810,7 +3811,7 @@ export type DeleteIntegrationError =
  * Removes an integration from a specific domain.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3842,7 +3843,7 @@ export type DeleteProfileError =
  * Deletes the standard customer profile and all data pertaining to the profile.
  */
 export const deleteProfile: API.OperationMethod<
-  DeleteProfileRequest,
+  DeleteProfileRequest & RegionInput,
   DeleteProfileResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -3874,7 +3875,7 @@ export type DeleteProfileKeyError =
  * Removes a searchable key from a customer profile.
  */
 export const deleteProfileKey: API.OperationMethod<
-  DeleteProfileKeyRequest,
+  DeleteProfileKeyRequest & RegionInput,
   DeleteProfileKeyResponse,
   DeleteProfileKeyError,
   Credentials | HttpClient.HttpClient
@@ -3906,7 +3907,7 @@ export type DeleteProfileObjectError =
  * Removes an object associated with a profile of a given ProfileObjectType.
  */
 export const deleteProfileObject: API.OperationMethod<
-  DeleteProfileObjectRequest,
+  DeleteProfileObjectRequest & RegionInput,
   DeleteProfileObjectResponse,
   DeleteProfileObjectError,
   Credentials | HttpClient.HttpClient
@@ -3941,7 +3942,7 @@ export type DeleteProfileObjectTypeError =
  * were populated from this ProfileObjectType.
  */
 export const deleteProfileObjectType: API.OperationMethod<
-  DeleteProfileObjectTypeRequest,
+  DeleteProfileObjectTypeRequest & RegionInput,
   DeleteProfileObjectTypeResponse,
   DeleteProfileObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -3973,7 +3974,7 @@ export type DeleteRecommenderError =
  * Deletes a recommender.
  */
 export const deleteRecommender: API.OperationMethod<
-  DeleteRecommenderRequest,
+  DeleteRecommenderRequest & RegionInput,
   DeleteRecommenderResponse,
   DeleteRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -4005,7 +4006,7 @@ export type DeleteRecommenderFilterError =
  * Deletes a recommender filter from a domain.
  */
 export const deleteRecommenderFilter: API.OperationMethod<
-  DeleteRecommenderFilterRequest,
+  DeleteRecommenderFilterRequest & RegionInput,
   DeleteRecommenderFilterResponse,
   DeleteRecommenderFilterError,
   Credentials | HttpClient.HttpClient
@@ -4037,7 +4038,7 @@ export type DeleteRecommenderSchemaError =
  * Deletes a recommender schema from a domain.
  */
 export const deleteRecommenderSchema: API.OperationMethod<
-  DeleteRecommenderSchemaRequest,
+  DeleteRecommenderSchemaRequest & RegionInput,
   DeleteRecommenderSchemaResponse,
   DeleteRecommenderSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4069,7 +4070,7 @@ export type DeleteSegmentDefinitionError =
  * Deletes a segment definition from the domain.
  */
 export const deleteSegmentDefinition: API.OperationMethod<
-  DeleteSegmentDefinitionRequest,
+  DeleteSegmentDefinitionRequest & RegionInput,
   DeleteSegmentDefinitionResponse,
   DeleteSegmentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4102,7 +4103,7 @@ export type DeleteSegmentSubscriptionError =
  * this segment are stopped.
  */
 export const deleteSegmentSubscription: API.OperationMethod<
-  DeleteSegmentSubscriptionRequest,
+  DeleteSegmentSubscriptionRequest & RegionInput,
   DeleteSegmentSubscriptionResponse,
   DeleteSegmentSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4135,7 +4136,7 @@ export type DeleteWorkflowError =
  * process.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -4167,7 +4168,7 @@ export type DetectProfileObjectTypeError =
  * The process of detecting profile object type mapping by using given objects.
  */
 export const detectProfileObjectType: API.OperationMethod<
-  DetectProfileObjectTypeRequest,
+  DetectProfileObjectTypeRequest & RegionInput,
   DetectProfileObjectTypeResponse,
   DetectProfileObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -4200,7 +4201,7 @@ export type DisassociateStreamForSegmentsError =
  * active segment subscriptions delivering events to this stream are eventually stopped.
  */
 export const disassociateStreamForSegments: API.OperationMethod<
-  DisassociateStreamForSegmentsRequest,
+  DisassociateStreamForSegmentsRequest & RegionInput,
   DisassociateStreamForSegmentsResponse,
   DisassociateStreamForSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -4244,7 +4245,7 @@ export type GetAutoMergingPreviewError =
  * matches. This increases the chances of erroneous merges.
  */
 export const getAutoMergingPreview: API.OperationMethod<
-  GetAutoMergingPreviewRequest,
+  GetAutoMergingPreviewRequest & RegionInput,
   GetAutoMergingPreviewResponse,
   GetAutoMergingPreviewError,
   Credentials | HttpClient.HttpClient
@@ -4277,7 +4278,7 @@ export type GetCalculatedAttributeDefinitionError =
  * Profiles.
  */
 export const getCalculatedAttributeDefinition: API.OperationMethod<
-  GetCalculatedAttributeDefinitionRequest,
+  GetCalculatedAttributeDefinitionRequest & RegionInput,
   GetCalculatedAttributeDefinitionResponse,
   GetCalculatedAttributeDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4309,7 +4310,7 @@ export type GetCalculatedAttributeForProfileError =
  * Retrieve a calculated attribute for a customer profile.
  */
 export const getCalculatedAttributeForProfile: API.OperationMethod<
-  GetCalculatedAttributeForProfileRequest,
+  GetCalculatedAttributeForProfileRequest & RegionInput,
   GetCalculatedAttributeForProfileResponse,
   GetCalculatedAttributeForProfileError,
   Credentials | HttpClient.HttpClient
@@ -4341,7 +4342,7 @@ export type GetDomainError =
  * Returns information about a specific domain.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainRequest,
+  GetDomainRequest & RegionInput,
   GetDomainResponse,
   GetDomainError,
   Credentials | HttpClient.HttpClient
@@ -4374,7 +4375,7 @@ export type GetDomainLayoutError =
  * the Amazon Connect admin website.
  */
 export const getDomainLayout: API.OperationMethod<
-  GetDomainLayoutRequest,
+  GetDomainLayoutRequest & RegionInput,
   GetDomainLayoutResponse,
   GetDomainLayoutError,
   Credentials | HttpClient.HttpClient
@@ -4406,7 +4407,7 @@ export type GetDomainObjectTypeError =
  * Return a DomainObjectType for the input Domain and ObjectType names.
  */
 export const getDomainObjectType: API.OperationMethod<
-  GetDomainObjectTypeRequest,
+  GetDomainObjectTypeRequest & RegionInput,
   GetDomainObjectTypeResponse,
   GetDomainObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -4438,7 +4439,7 @@ export type GetEventStreamError =
  * Returns information about the specified event stream in a specific domain.
  */
 export const getEventStream: API.OperationMethod<
-  GetEventStreamRequest,
+  GetEventStreamRequest & RegionInput,
   GetEventStreamResponse,
   GetEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -4470,7 +4471,7 @@ export type GetEventTriggerError =
  * Get a specific Event Trigger from the domain.
  */
 export const getEventTrigger: API.OperationMethod<
-  GetEventTriggerRequest,
+  GetEventTriggerRequest & RegionInput,
   GetEventTriggerResponse,
   GetEventTriggerError,
   Credentials | HttpClient.HttpClient
@@ -4505,7 +4506,7 @@ export type GetIdentityResolutionJobError =
  * Identity Resolution to consolidate similar profiles.
  */
 export const getIdentityResolutionJob: API.OperationMethod<
-  GetIdentityResolutionJobRequest,
+  GetIdentityResolutionJobRequest & RegionInput,
   GetIdentityResolutionJobResponse,
   GetIdentityResolutionJobError,
   Credentials | HttpClient.HttpClient
@@ -4537,7 +4538,7 @@ export type GetIntegrationError =
  * Returns an integration for a domain.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationRequest,
+  GetIntegrationRequest & RegionInput,
   GetIntegrationResponse,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4606,7 +4607,7 @@ export type GetMatchesError =
  * formats such as **555-010-0000** and **+1-555-010-0000**--can be detected as belonging to the same customer **John Doe** and merged into a unified profile.
  */
 export const getMatches: API.OperationMethod<
-  GetMatchesRequest,
+  GetMatchesRequest & RegionInput,
   GetMatchesResponse,
   GetMatchesError,
   Credentials | HttpClient.HttpClient
@@ -4644,7 +4645,7 @@ export type GetObjectTypeAttributeStatisticsError =
  * For attributes that don't contain numeric values.
  */
 export const getObjectTypeAttributeStatistics: API.OperationMethod<
-  GetObjectTypeAttributeStatisticsRequest,
+  GetObjectTypeAttributeStatisticsRequest & RegionInput,
   GetObjectTypeAttributeStatisticsResponse,
   GetObjectTypeAttributeStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -4676,7 +4677,7 @@ export type GetProfileHistoryRecordError =
  * Returns a history record for a specific profile, for a specific domain.
  */
 export const getProfileHistoryRecord: API.OperationMethod<
-  GetProfileHistoryRecordRequest,
+  GetProfileHistoryRecordRequest & RegionInput,
   GetProfileHistoryRecordResponse,
   GetProfileHistoryRecordError,
   Credentials | HttpClient.HttpClient
@@ -4708,7 +4709,7 @@ export type GetProfileObjectTypeError =
  * Returns the object types for a specific domain.
  */
 export const getProfileObjectType: API.OperationMethod<
-  GetProfileObjectTypeRequest,
+  GetProfileObjectTypeRequest & RegionInput,
   GetProfileObjectTypeResponse,
   GetProfileObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -4745,7 +4746,7 @@ export type GetProfileObjectTypeTemplateError =
  * template.
  */
 export const getProfileObjectTypeTemplate: API.OperationMethod<
-  GetProfileObjectTypeTemplateRequest,
+  GetProfileObjectTypeTemplateRequest & RegionInput,
   GetProfileObjectTypeTemplateResponse,
   GetProfileObjectTypeTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4777,7 +4778,7 @@ export type GetProfileRecommendationsError =
  * Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations
  */
 export const getProfileRecommendations: API.OperationMethod<
-  GetProfileRecommendationsRequest,
+  GetProfileRecommendationsRequest & RegionInput,
   GetProfileRecommendationsResponse,
   GetProfileRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -4809,7 +4810,7 @@ export type GetRecommenderError =
  * Retrieves a recommender.
  */
 export const getRecommender: API.OperationMethod<
-  GetRecommenderRequest,
+  GetRecommenderRequest & RegionInput,
   GetRecommenderResponse,
   GetRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -4841,7 +4842,7 @@ export type GetRecommenderFilterError =
  * Retrieves information about a specific recommender filter in a domain.
  */
 export const getRecommenderFilter: API.OperationMethod<
-  GetRecommenderFilterRequest,
+  GetRecommenderFilterRequest & RegionInput,
   GetRecommenderFilterResponse,
   GetRecommenderFilterError,
   Credentials | HttpClient.HttpClient
@@ -4873,7 +4874,7 @@ export type GetRecommenderSchemaError =
  * Retrieves information about a specific recommender schema in a domain.
  */
 export const getRecommenderSchema: API.OperationMethod<
-  GetRecommenderSchemaRequest,
+  GetRecommenderSchemaRequest & RegionInput,
   GetRecommenderSchemaResponse,
   GetRecommenderSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4905,7 +4906,7 @@ export type GetSegmentDefinitionError =
  * Gets a segment definition from the domain.
  */
 export const getSegmentDefinition: API.OperationMethod<
-  GetSegmentDefinitionRequest,
+  GetSegmentDefinitionRequest & RegionInput,
   GetSegmentDefinitionResponse,
   GetSegmentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4937,7 +4938,7 @@ export type GetSegmentEstimateError =
  * Gets the result of a segment estimate query.
  */
 export const getSegmentEstimate: API.OperationMethod<
-  GetSegmentEstimateRequest,
+  GetSegmentEstimateRequest & RegionInput,
   GetSegmentEstimateResponse,
   GetSegmentEstimateError,
   Credentials | HttpClient.HttpClient
@@ -4969,7 +4970,7 @@ export type GetSegmentMembershipError =
  * Determines if the given profiles are within a segment.
  */
 export const getSegmentMembership: API.OperationMethod<
-  GetSegmentMembershipRequest,
+  GetSegmentMembershipRequest & RegionInput,
   GetSegmentMembershipResponse,
   GetSegmentMembershipError,
   Credentials | HttpClient.HttpClient
@@ -5001,7 +5002,7 @@ export type GetSegmentSnapshotError =
  * Retrieve the latest status of a segment snapshot.
  */
 export const getSegmentSnapshot: API.OperationMethod<
-  GetSegmentSnapshotRequest,
+  GetSegmentSnapshotRequest & RegionInput,
   GetSegmentSnapshotResponse,
   GetSegmentSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -5034,7 +5035,7 @@ export type GetSegmentSubscriptionError =
  * segment membership events.
  */
 export const getSegmentSubscription: API.OperationMethod<
-  GetSegmentSubscriptionRequest,
+  GetSegmentSubscriptionRequest & RegionInput,
   GetSegmentSubscriptionResponse,
   GetSegmentSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -5069,7 +5070,7 @@ export type GetSimilarProfilesError =
  * `RULE_BASED_MATCHING` or `ML_BASED_MATCHING`.
  */
 export const getSimilarProfiles: API.PaginatedOperationMethod<
-  GetSimilarProfilesRequest,
+  GetSimilarProfilesRequest & RegionInput,
   GetSimilarProfilesResponse,
   GetSimilarProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -5109,7 +5110,7 @@ export type GetStreamForSegmentsError =
  * domain, including the stream state and associated segments.
  */
 export const getStreamForSegments: API.OperationMethod<
-  GetStreamForSegmentsRequest,
+  GetStreamForSegmentsRequest & RegionInput,
   GetStreamForSegmentsResponse,
   GetStreamForSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -5141,7 +5142,7 @@ export type GetUploadJobError =
  * This API retrieves the details of a specific upload job.
  */
 export const getUploadJob: API.OperationMethod<
-  GetUploadJobRequest,
+  GetUploadJobRequest & RegionInput,
   GetUploadJobResponse,
   GetUploadJobError,
   Credentials | HttpClient.HttpClient
@@ -5174,7 +5175,7 @@ export type GetUploadJobPathError =
  * with the upload job.
  */
 export const getUploadJobPath: API.OperationMethod<
-  GetUploadJobPathRequest,
+  GetUploadJobPathRequest & RegionInput,
   GetUploadJobPathResponse,
   GetUploadJobPathError,
   Credentials | HttpClient.HttpClient
@@ -5206,7 +5207,7 @@ export type GetWorkflowError =
  * Get details of specified workflow.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -5238,7 +5239,7 @@ export type GetWorkflowStepsError =
  * Get granular list of steps in workflow.
  */
 export const getWorkflowSteps: API.OperationMethod<
-  GetWorkflowStepsRequest,
+  GetWorkflowStepsRequest & RegionInput,
   GetWorkflowStepsResponse,
   GetWorkflowStepsError,
   Credentials | HttpClient.HttpClient
@@ -5270,7 +5271,7 @@ export type ListAccountIntegrationsError =
  * Lists all of the integrations associated to a specific URI in the AWS account.
  */
 export const listAccountIntegrations: API.OperationMethod<
-  ListAccountIntegrationsRequest,
+  ListAccountIntegrationsRequest & RegionInput,
   ListAccountIntegrationsResponse,
   ListAccountIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -5302,7 +5303,7 @@ export type ListCalculatedAttributeDefinitionsError =
  * Lists calculated attribute definitions for Customer Profiles
  */
 export const listCalculatedAttributeDefinitions: API.OperationMethod<
-  ListCalculatedAttributeDefinitionsRequest,
+  ListCalculatedAttributeDefinitionsRequest & RegionInput,
   ListCalculatedAttributeDefinitionsResponse,
   ListCalculatedAttributeDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -5334,7 +5335,7 @@ export type ListCalculatedAttributesForProfileError =
  * Retrieve a list of calculated attributes for a customer profile.
  */
 export const listCalculatedAttributesForProfile: API.OperationMethod<
-  ListCalculatedAttributesForProfileRequest,
+  ListCalculatedAttributesForProfileRequest & RegionInput,
   ListCalculatedAttributesForProfileResponse,
   ListCalculatedAttributesForProfileError,
   Credentials | HttpClient.HttpClient
@@ -5367,7 +5368,7 @@ export type ListDomainLayoutsError =
  * can only be invoked from the Amazon Connect admin website.
  */
 export const listDomainLayouts: API.PaginatedOperationMethod<
-  ListDomainLayoutsRequest,
+  ListDomainLayoutsRequest & RegionInput,
   ListDomainLayoutsResponse,
   ListDomainLayoutsError,
   Credentials | HttpClient.HttpClient,
@@ -5406,7 +5407,7 @@ export type ListDomainObjectTypesError =
  * List all DomainObjectType(s) in a Customer Profiles domain.
  */
 export const listDomainObjectTypes: API.PaginatedOperationMethod<
-  ListDomainObjectTypesRequest,
+  ListDomainObjectTypesRequest & RegionInput,
   ListDomainObjectTypesResponse,
   ListDomainObjectTypesError,
   Credentials | HttpClient.HttpClient,
@@ -5445,7 +5446,7 @@ export type ListDomainsError =
  * Returns a list of all the domains for an AWS account that have been created.
  */
 export const listDomains: API.OperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient
@@ -5477,7 +5478,7 @@ export type ListEventStreamsError =
  * Returns a list of all the event streams in a specific domain.
  */
 export const listEventStreams: API.PaginatedOperationMethod<
-  ListEventStreamsRequest,
+  ListEventStreamsRequest & RegionInput,
   ListEventStreamsResponse,
   ListEventStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -5516,7 +5517,7 @@ export type ListEventTriggersError =
  * List all Event Triggers under a domain.
  */
 export const listEventTriggers: API.PaginatedOperationMethod<
-  ListEventTriggersRequest,
+  ListEventTriggersRequest & RegionInput,
   ListEventTriggersResponse,
   ListEventTriggersError,
   Credentials | HttpClient.HttpClient,
@@ -5556,7 +5557,7 @@ export type ListIdentityResolutionJobsError =
  * `JobStartTime`.
  */
 export const listIdentityResolutionJobs: API.OperationMethod<
-  ListIdentityResolutionJobsRequest,
+  ListIdentityResolutionJobsRequest & RegionInput,
   ListIdentityResolutionJobsResponse,
   ListIdentityResolutionJobsError,
   Credentials | HttpClient.HttpClient
@@ -5588,7 +5589,7 @@ export type ListIntegrationsError =
  * Lists all of the integrations in your domain.
  */
 export const listIntegrations: API.OperationMethod<
-  ListIntegrationsRequest,
+  ListIntegrationsRequest & RegionInput,
   ListIntegrationsResponse,
   ListIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -5620,7 +5621,7 @@ export type ListObjectTypeAttributesError =
  * Fetch the possible attribute values given the attribute name.
  */
 export const listObjectTypeAttributes: API.PaginatedOperationMethod<
-  ListObjectTypeAttributesRequest,
+  ListObjectTypeAttributesRequest & RegionInput,
   ListObjectTypeAttributesResponse,
   ListObjectTypeAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -5659,7 +5660,7 @@ export type ListObjectTypeAttributeValuesError =
  * The ListObjectTypeAttributeValues API provides access to the most recent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and standard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB.
  */
 export const listObjectTypeAttributeValues: API.OperationMethod<
-  ListObjectTypeAttributeValuesRequest,
+  ListObjectTypeAttributeValuesRequest & RegionInput,
   ListObjectTypeAttributeValuesResponse,
   ListObjectTypeAttributeValuesError,
   Credentials | HttpClient.HttpClient
@@ -5691,7 +5692,7 @@ export type ListProfileAttributeValuesError =
  * Fetch the possible attribute values given the attribute name.
  */
 export const listProfileAttributeValues: API.OperationMethod<
-  ProfileAttributeValuesRequest,
+  ProfileAttributeValuesRequest & RegionInput,
   ProfileAttributeValuesResponse,
   ListProfileAttributeValuesError,
   Credentials | HttpClient.HttpClient
@@ -5723,7 +5724,7 @@ export type ListProfileHistoryRecordsError =
  * Returns a list of history records for a specific profile, for a specific domain.
  */
 export const listProfileHistoryRecords: API.OperationMethod<
-  ListProfileHistoryRecordsRequest,
+  ListProfileHistoryRecordsRequest & RegionInput,
   ListProfileHistoryRecordsResponse,
   ListProfileHistoryRecordsError,
   Credentials | HttpClient.HttpClient
@@ -5755,7 +5756,7 @@ export type ListProfileObjectsError =
  * Returns a list of objects associated with a profile of a given ProfileObjectType.
  */
 export const listProfileObjects: API.OperationMethod<
-  ListProfileObjectsRequest,
+  ListProfileObjectsRequest & RegionInput,
   ListProfileObjectsResponse,
   ListProfileObjectsError,
   Credentials | HttpClient.HttpClient
@@ -5787,7 +5788,7 @@ export type ListProfileObjectTypesError =
  * Lists all of the templates available within the service.
  */
 export const listProfileObjectTypes: API.OperationMethod<
-  ListProfileObjectTypesRequest,
+  ListProfileObjectTypesRequest & RegionInput,
   ListProfileObjectTypesResponse,
   ListProfileObjectTypesError,
   Credentials | HttpClient.HttpClient
@@ -5819,7 +5820,7 @@ export type ListProfileObjectTypeTemplatesError =
  * Lists all of the template information for object types.
  */
 export const listProfileObjectTypeTemplates: API.OperationMethod<
-  ListProfileObjectTypeTemplatesRequest,
+  ListProfileObjectTypeTemplatesRequest & RegionInput,
   ListProfileObjectTypeTemplatesResponse,
   ListProfileObjectTypeTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -5851,7 +5852,7 @@ export type ListRecommenderFiltersError =
  * Returns a list of recommender filters in the specified domain.
  */
 export const listRecommenderFilters: API.PaginatedOperationMethod<
-  ListRecommenderFiltersRequest,
+  ListRecommenderFiltersRequest & RegionInput,
   ListRecommenderFiltersResponse,
   ListRecommenderFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -5889,7 +5890,7 @@ export type ListRecommenderRecipesError =
  * Returns a list of available recommender recipes that can be used to create recommenders.
  */
 export const listRecommenderRecipes: API.PaginatedOperationMethod<
-  ListRecommenderRecipesRequest,
+  ListRecommenderRecipesRequest & RegionInput,
   ListRecommenderRecipesResponse,
   ListRecommenderRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -5927,7 +5928,7 @@ export type ListRecommendersError =
  * Returns a list of recommenders in the specified domain.
  */
 export const listRecommenders: API.PaginatedOperationMethod<
-  ListRecommendersRequest,
+  ListRecommendersRequest & RegionInput,
   ListRecommendersResponse,
   ListRecommendersError,
   Credentials | HttpClient.HttpClient,
@@ -5966,7 +5967,7 @@ export type ListRecommenderSchemasError =
  * Returns a list of recommender schemas in the specified domain.
  */
 export const listRecommenderSchemas: API.PaginatedOperationMethod<
-  ListRecommenderSchemasRequest,
+  ListRecommenderSchemasRequest & RegionInput,
   ListRecommenderSchemasResponse,
   ListRecommenderSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -6005,7 +6006,7 @@ export type ListRuleBasedMatchesError =
  * Returns a set of `MatchIds` that belong to the given domain.
  */
 export const listRuleBasedMatches: API.PaginatedOperationMethod<
-  ListRuleBasedMatchesRequest,
+  ListRuleBasedMatchesRequest & RegionInput,
   ListRuleBasedMatchesResponse,
   ListRuleBasedMatchesError,
   Credentials | HttpClient.HttpClient,
@@ -6044,7 +6045,7 @@ export type ListSegmentDefinitionsError =
  * Lists all segment definitions under a domain.
  */
 export const listSegmentDefinitions: API.PaginatedOperationMethod<
-  ListSegmentDefinitionsRequest,
+  ListSegmentDefinitionsRequest & RegionInput,
   ListSegmentDefinitionsResponse,
   ListSegmentDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -6086,7 +6087,7 @@ export type ListSegmentSubscriptionEventsError =
  * This operation is paginated.
  */
 export const listSegmentSubscriptionEvents: API.PaginatedOperationMethod<
-  ListSegmentSubscriptionEventsRequest,
+  ListSegmentSubscriptionEventsRequest & RegionInput,
   ListSegmentSubscriptionEventsResponse,
   ListSegmentSubscriptionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -6124,7 +6125,7 @@ export type ListTagsForResourceError =
  * Customer Profiles, domains, profile object types, and integrations can be tagged.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -6150,7 +6151,7 @@ export type ListUploadJobsError =
  * This API retrieves a list of upload jobs for the specified domain.
  */
 export const listUploadJobs: API.PaginatedOperationMethod<
-  ListUploadJobsRequest,
+  ListUploadJobsRequest & RegionInput,
   ListUploadJobsResponse,
   ListUploadJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6189,7 +6190,7 @@ export type ListWorkflowsError =
  * Query to list all workflows.
  */
 export const listWorkflows: API.OperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient
@@ -6248,7 +6249,7 @@ export type MergeProfilesError =
  * system. After profiles have been merged, they cannot be separated (unmerged).
  */
 export const mergeProfiles: API.OperationMethod<
-  MergeProfilesRequest,
+  MergeProfilesRequest & RegionInput,
   MergeProfilesResponse,
   MergeProfilesError,
   Credentials | HttpClient.HttpClient
@@ -6279,7 +6280,7 @@ export type PutDomainObjectTypeError =
  * Create/Update a DomainObjectType in a Customer Profiles domain. To create a new DomainObjectType, Data Store needs to be enabled on the Domain.
  */
 export const putDomainObjectType: API.OperationMethod<
-  PutDomainObjectTypeRequest,
+  PutDomainObjectTypeRequest & RegionInput,
   PutDomainObjectTypeResponse,
   PutDomainObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -6318,7 +6319,7 @@ export type PutIntegrationError =
  * UntagResource.
  */
 export const putIntegration: API.OperationMethod<
-  PutIntegrationRequest,
+  PutIntegrationRequest & RegionInput,
   PutIntegrationResponse,
   PutIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -6362,7 +6363,7 @@ export type PutProfileObjectError =
  * PutProfileObjectType.
  */
 export const putProfileObject: API.OperationMethod<
-  PutProfileObjectRequest,
+  PutProfileObjectRequest & RegionInput,
   PutProfileObjectResponse,
   PutProfileObjectError,
   Credentials | HttpClient.HttpClient
@@ -6397,7 +6398,7 @@ export type PutProfileObjectTypeError =
  * TagResource/UntagResource.
  */
 export const putProfileObjectType: API.OperationMethod<
-  PutProfileObjectTypeRequest,
+  PutProfileObjectTypeRequest & RegionInput,
   PutProfileObjectTypeResponse,
   PutProfileObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -6442,7 +6443,7 @@ export type PutSegmentSubscriptionError =
  * events are generated only from the scheduled snapshots.
  */
 export const putSegmentSubscription: API.OperationMethod<
-  PutSegmentSubscriptionRequest,
+  PutSegmentSubscriptionRequest & RegionInput,
   PutSegmentSubscriptionResponse,
   PutSegmentSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -6480,7 +6481,7 @@ export type SearchProfilesError =
  * up to 5 key-value(s) pairs using either `AND` or `OR` logic.
  */
 export const searchProfiles: API.OperationMethod<
-  SearchProfilesRequest,
+  SearchProfilesRequest & RegionInput,
   SearchProfilesResponse,
   SearchProfilesError,
   Credentials | HttpClient.HttpClient
@@ -6520,7 +6521,7 @@ export type SearchRecommendationsError =
  * SearchProfiles API to review the matching profiles.
  */
 export const searchRecommendations: API.OperationMethod<
-  SearchRecommendationsRequest,
+  SearchRecommendationsRequest & RegionInput,
   SearchRecommendationsResponse,
   SearchRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -6552,7 +6553,7 @@ export type StartRecommenderError =
  * Starts a recommender that was previously stopped. Starting a recommender resumes its ability to generate recommendations.
  */
 export const startRecommender: API.OperationMethod<
-  StartRecommenderRequest,
+  StartRecommenderRequest & RegionInput,
   StartRecommenderResponse,
   StartRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -6584,7 +6585,7 @@ export type StartUploadJobError =
  * This API starts the processing of an upload job to ingest profile data.
  */
 export const startUploadJob: API.OperationMethod<
-  StartUploadJobRequest,
+  StartUploadJobRequest & RegionInput,
   StartUploadJobResponse,
   StartUploadJobError,
   Credentials | HttpClient.HttpClient
@@ -6616,7 +6617,7 @@ export type StopRecommenderError =
  * Stops a recommender, suspending its ability to generate recommendations. The recommender can be restarted later using StartRecommender.
  */
 export const stopRecommender: API.OperationMethod<
-  StopRecommenderRequest,
+  StopRecommenderRequest & RegionInput,
   StopRecommenderResponse,
   StopRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -6648,7 +6649,7 @@ export type StopUploadJobError =
  * This API stops the processing of an upload job.
  */
 export const stopUploadJob: API.OperationMethod<
-  StopUploadJobRequest,
+  StopUploadJobRequest & RegionInput,
   StopUploadJobResponse,
   StopUploadJobError,
   Credentials | HttpClient.HttpClient
@@ -6692,7 +6693,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6717,7 +6718,7 @@ export type UntagResourceError =
  * Customer Profiles, domains, profile object types, and integrations can be tagged.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6745,7 +6746,7 @@ export type UpdateCalculatedAttributeDefinitionError =
  * historical data greater than the current date range.
  */
 export const updateCalculatedAttributeDefinition: API.OperationMethod<
-  UpdateCalculatedAttributeDefinitionRequest,
+  UpdateCalculatedAttributeDefinitionRequest & RegionInput,
   UpdateCalculatedAttributeDefinitionResponse,
   UpdateCalculatedAttributeDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -6789,7 +6790,7 @@ export type UpdateDomainError =
  * To add or remove tags on an existing Domain, see TagResource/UntagResource.
  */
 export const updateDomain: API.OperationMethod<
-  UpdateDomainRequest,
+  UpdateDomainRequest & RegionInput,
   UpdateDomainResponse,
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
@@ -6822,7 +6823,7 @@ export type UpdateDomainLayoutError =
  * from the Amazon Connect admin website.
  */
 export const updateDomainLayout: API.OperationMethod<
-  UpdateDomainLayoutRequest,
+  UpdateDomainLayoutRequest & RegionInput,
   UpdateDomainLayoutResponse,
   UpdateDomainLayoutError,
   Credentials | HttpClient.HttpClient
@@ -6854,7 +6855,7 @@ export type UpdateEventTriggerError =
  * Update the properties of an Event Trigger.
  */
 export const updateEventTrigger: API.OperationMethod<
-  UpdateEventTriggerRequest,
+  UpdateEventTriggerRequest & RegionInput,
   UpdateEventTriggerResponse,
   UpdateEventTriggerError,
   Credentials | HttpClient.HttpClient
@@ -6891,7 +6892,7 @@ export type UpdateProfileError =
  * there will be kept.
  */
 export const updateProfile: API.OperationMethod<
-  UpdateProfileRequest,
+  UpdateProfileRequest & RegionInput,
   UpdateProfileResponse,
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
@@ -6923,7 +6924,7 @@ export type UpdateRecommenderError =
  * Updates the properties of an existing recommender, allowing you to modify its configuration and description.
  */
 export const updateRecommender: API.OperationMethod<
-  UpdateRecommenderRequest,
+  UpdateRecommenderRequest & RegionInput,
   UpdateRecommenderResponse,
   UpdateRecommenderError,
   Credentials | HttpClient.HttpClient

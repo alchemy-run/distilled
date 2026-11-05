@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1227,7 +1228,7 @@ export type AssociateAdminAccountError =
  * For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators in the *Firewall Manager Developer Guide*.
  */
 export const associateAdminAccount: API.OperationMethod<
-  AssociateAdminAccountRequest,
+  AssociateAdminAccountRequest & RegionInput,
   AssociateAdminAccountResponse,
   AssociateAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1258,7 +1259,7 @@ export type AssociateThirdPartyFirewallError =
  * Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
  */
 export const associateThirdPartyFirewall: API.OperationMethod<
-  AssociateThirdPartyFirewallRequest,
+  AssociateThirdPartyFirewallRequest & RegionInput,
   AssociateThirdPartyFirewallResponse,
   AssociateThirdPartyFirewallError,
   Credentials | HttpClient.HttpClient
@@ -1289,7 +1290,7 @@ export type BatchAssociateResourceError =
  * Associate resources to a Firewall Manager resource set.
  */
 export const batchAssociateResource: API.OperationMethod<
-  BatchAssociateResourceRequest,
+  BatchAssociateResourceRequest & RegionInput,
   BatchAssociateResourceResponse,
   BatchAssociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1320,7 +1321,7 @@ export type BatchDisassociateResourceError =
  * Disassociates resources from a Firewall Manager resource set.
  */
 export const batchDisassociateResource: API.OperationMethod<
-  BatchDisassociateResourceRequest,
+  BatchDisassociateResourceRequest & RegionInput,
   BatchDisassociateResourceResponse,
   BatchDisassociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1349,7 +1350,7 @@ export type DeleteAppsListError =
  * Permanently deletes an Firewall Manager applications list.
  */
 export const deleteAppsList: API.OperationMethod<
-  DeleteAppsListRequest,
+  DeleteAppsListRequest & RegionInput,
   DeleteAppsListResponse,
   DeleteAppsListError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type DeleteNotificationChannelError =
  * Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
  */
 export const deleteNotificationChannel: API.OperationMethod<
-  DeleteNotificationChannelRequest,
+  DeleteNotificationChannelRequest & RegionInput,
   DeleteNotificationChannelResponse,
   DeleteNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -1400,7 +1401,7 @@ export type DeletePolicyError =
  * Permanently deletes an Firewall Manager policy.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1430,7 +1431,7 @@ export type DeleteProtocolsListError =
  * Permanently deletes an Firewall Manager protocols list.
  */
 export const deleteProtocolsList: API.OperationMethod<
-  DeleteProtocolsListRequest,
+  DeleteProtocolsListRequest & RegionInput,
   DeleteProtocolsListResponse,
   DeleteProtocolsListError,
   Credentials | HttpClient.HttpClient
@@ -1455,7 +1456,7 @@ export type DeleteResourceSetError =
  * Deletes the specified ResourceSet.
  */
 export const deleteResourceSet: API.OperationMethod<
-  DeleteResourceSetRequest,
+  DeleteResourceSetRequest & RegionInput,
   DeleteResourceSetResponse,
   DeleteResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -1486,7 +1487,7 @@ export type DisassociateAdminAccountError =
  * Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
  */
 export const disassociateAdminAccount: API.OperationMethod<
-  DisassociateAdminAccountRequest,
+  DisassociateAdminAccountRequest & RegionInput,
   DisassociateAdminAccountResponse,
   DisassociateAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1511,7 +1512,7 @@ export type DisassociateThirdPartyFirewallError =
  * Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call `DisassociateThirdPartyFirewall`, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
  */
 export const disassociateThirdPartyFirewall: API.OperationMethod<
-  DisassociateThirdPartyFirewallRequest,
+  DisassociateThirdPartyFirewallRequest & RegionInput,
   DisassociateThirdPartyFirewallResponse,
   DisassociateThirdPartyFirewallError,
   Credentials | HttpClient.HttpClient
@@ -1541,7 +1542,7 @@ export type GetAdminAccountError =
  * as the Firewall Manager default administrator.
  */
 export const getAdminAccount: API.OperationMethod<
-  GetAdminAccountRequest,
+  GetAdminAccountRequest & RegionInput,
   GetAdminAccountResponse,
   GetAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1567,7 +1568,7 @@ export type GetAdminScopeError =
  * Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
  */
 export const getAdminScope: API.OperationMethod<
-  GetAdminScopeRequest,
+  GetAdminScopeRequest & RegionInput,
   GetAdminScopeResponse,
   GetAdminScopeError,
   Credentials | HttpClient.HttpClient
@@ -1597,7 +1598,7 @@ export type GetAppsListError =
  * Returns information about the specified Firewall Manager applications list.
  */
 export const getAppsList: API.OperationMethod<
-  GetAppsListRequest,
+  GetAppsListRequest & RegionInput,
   GetAppsListResponse,
   GetAppsListError,
   Credentials | HttpClient.HttpClient
@@ -1625,7 +1626,7 @@ export type GetComplianceDetailError =
  * The reasons for resources being considered compliant depend on the Firewall Manager policy type.
  */
 export const getComplianceDetail: API.OperationMethod<
-  GetComplianceDetailRequest,
+  GetComplianceDetailRequest & RegionInput,
   GetComplianceDetailResponse,
   GetComplianceDetailError,
   Credentials | HttpClient.HttpClient
@@ -1656,7 +1657,7 @@ export type GetNotificationChannelError =
  * record Firewall Manager SNS logs.
  */
 export const getNotificationChannel: API.OperationMethod<
-  GetNotificationChannelRequest,
+  GetNotificationChannelRequest & RegionInput,
   GetNotificationChannelResponse,
   GetNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -1681,7 +1682,7 @@ export type GetPolicyError =
  * Returns information about the specified Firewall Manager policy.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1712,7 @@ export type GetProtectionStatusError =
  * in the event of a potential DDoS attack. Other policy types are currently unsupported.
  */
 export const getProtectionStatus: API.OperationMethod<
-  GetProtectionStatusRequest,
+  GetProtectionStatusRequest & RegionInput,
   GetProtectionStatusResponse,
   GetProtectionStatusError,
   Credentials | HttpClient.HttpClient
@@ -1735,7 +1736,7 @@ export type GetProtocolsListError =
  * Returns information about the specified Firewall Manager protocols list.
  */
 export const getProtocolsList: API.OperationMethod<
-  GetProtocolsListRequest,
+  GetProtocolsListRequest & RegionInput,
   GetProtocolsListResponse,
   GetProtocolsListError,
   Credentials | HttpClient.HttpClient
@@ -1760,7 +1761,7 @@ export type GetResourceSetError =
  * Gets information about a specific resource set.
  */
 export const getResourceSet: API.OperationMethod<
-  GetResourceSetRequest,
+  GetResourceSetRequest & RegionInput,
   GetResourceSetResponse,
   GetResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -1790,7 +1791,7 @@ export type GetThirdPartyFirewallAssociationStatusError =
  * The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
  */
 export const getThirdPartyFirewallAssociationStatus: API.OperationMethod<
-  GetThirdPartyFirewallAssociationStatusRequest,
+  GetThirdPartyFirewallAssociationStatusRequest & RegionInput,
   GetThirdPartyFirewallAssociationStatusResponse,
   GetThirdPartyFirewallAssociationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1819,7 +1820,7 @@ export type GetViolationDetailsError =
  * Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account.
  */
 export const getViolationDetails: API.OperationMethod<
-  GetViolationDetailsRequest,
+  GetViolationDetailsRequest & RegionInput,
   GetViolationDetailsResponse,
   GetViolationDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1846,7 +1847,7 @@ export type ListAdminAccountsForOrganizationError =
  * This operation can be called only from the organization's management account.
  */
 export const listAdminAccountsForOrganization: API.PaginatedOperationMethod<
-  ListAdminAccountsForOrganizationRequest,
+  ListAdminAccountsForOrganizationRequest & RegionInput,
   ListAdminAccountsForOrganizationResponse,
   ListAdminAccountsForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -1882,7 +1883,7 @@ export type ListAdminsManagingAccountError =
  * Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their AdminScope.
  */
 export const listAdminsManagingAccount: API.PaginatedOperationMethod<
-  ListAdminsManagingAccountRequest,
+  ListAdminsManagingAccountRequest & RegionInput,
   ListAdminsManagingAccountResponse,
   ListAdminsManagingAccountError,
   Credentials | HttpClient.HttpClient,
@@ -1914,7 +1915,7 @@ export type ListAppsListsError =
  * Returns an array of `AppsListDataSummary` objects.
  */
 export const listAppsLists: API.PaginatedOperationMethod<
-  ListAppsListsRequest,
+  ListAppsListsRequest & RegionInput,
   ListAppsListsResponse,
   ListAppsListsError,
   Credentials | HttpClient.HttpClient,
@@ -1951,7 +1952,7 @@ export type ListComplianceStatusError =
  * by the specified policy.
  */
 export const listComplianceStatus: API.PaginatedOperationMethod<
-  ListComplianceStatusRequest,
+  ListComplianceStatusRequest & RegionInput,
   ListComplianceStatusResponse,
   ListComplianceStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1982,7 +1983,7 @@ export type ListDiscoveredResourcesError =
  * Returns an array of resources in the organization's accounts that are available to be associated with a resource set.
  */
 export const listDiscoveredResources: API.OperationMethod<
-  ListDiscoveredResourcesRequest,
+  ListDiscoveredResourcesRequest & RegionInput,
   ListDiscoveredResourcesResponse,
   ListDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2008,7 +2009,7 @@ export type ListMemberAccountsError =
  * Either an Firewall Manager administrator or the organization's management account can make this request.
  */
 export const listMemberAccounts: API.PaginatedOperationMethod<
-  ListMemberAccountsRequest,
+  ListMemberAccountsRequest & RegionInput,
   ListMemberAccountsResponse,
   ListMemberAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -2040,7 +2041,7 @@ export type ListPoliciesError =
  * Returns an array of `PolicySummary` objects.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2076,7 +2077,7 @@ export type ListProtocolsListsError =
  * Returns an array of `ProtocolsListDataSummary` objects.
  */
 export const listProtocolsLists: API.PaginatedOperationMethod<
-  ListProtocolsListsRequest,
+  ListProtocolsListsRequest & RegionInput,
   ListProtocolsListsResponse,
   ListProtocolsListsError,
   Credentials | HttpClient.HttpClient,
@@ -2108,7 +2109,7 @@ export type ListResourceSetResourcesError =
  * Returns an array of resources that are currently associated to a resource set.
  */
 export const listResourceSetResources: API.OperationMethod<
-  ListResourceSetResourcesRequest,
+  ListResourceSetResourcesRequest & RegionInput,
   ListResourceSetResourcesResponse,
   ListResourceSetResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2137,7 +2138,7 @@ export type ListResourceSetsError =
  * Returns an array of `ResourceSetSummary` objects.
  */
 export const listResourceSets: API.OperationMethod<
-  ListResourceSetsRequest,
+  ListResourceSetsRequest & RegionInput,
   ListResourceSetsResponse,
   ListResourceSetsError,
   Credentials | HttpClient.HttpClient
@@ -2162,7 +2163,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of tags for the specified Amazon Web Services resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2192,7 +2193,7 @@ export type ListThirdPartyFirewallFirewallPoliciesError =
  * Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
  */
 export const listThirdPartyFirewallFirewallPolicies: API.PaginatedOperationMethod<
-  ListThirdPartyFirewallFirewallPoliciesRequest,
+  ListThirdPartyFirewallFirewallPoliciesRequest & RegionInput,
   ListThirdPartyFirewallFirewallPoliciesResponse,
   ListThirdPartyFirewallFirewallPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2230,7 +2231,7 @@ export type PutAdminAccountError =
  * Managing the Amazon Web Services Accounts in Your Organization.
  */
 export const putAdminAccount: API.OperationMethod<
-  PutAdminAccountRequest,
+  PutAdminAccountRequest & RegionInput,
   PutAdminAccountResponse,
   PutAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2261,7 +2262,7 @@ export type PutAppsListError =
  * Creates an Firewall Manager applications list.
  */
 export const putAppsList: API.OperationMethod<
-  PutAppsListRequest,
+  PutAppsListRequest & RegionInput,
   PutAppsListResponse,
   PutAppsListError,
   Credentials | HttpClient.HttpClient
@@ -2295,7 +2296,7 @@ export type PutNotificationChannelError =
  * Service roles for Firewall Manager in the *Firewall Manager Developer Guide*.
  */
 export const putNotificationChannel: API.OperationMethod<
-  PutNotificationChannelRequest,
+  PutNotificationChannelRequest & RegionInput,
   PutNotificationChannelResponse,
   PutNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -2359,7 +2360,7 @@ export type PutPolicyError =
  * Fortigate Cloud Native Firewall (CNF) protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day threats and secures cloud infrastructures with industry-leading advanced threat prevention, smart web application firewalls (WAF), and API protection.
  */
 export const putPolicy: API.OperationMethod<
-  PutPolicyRequest,
+  PutPolicyRequest & RegionInput,
   PutPolicyResponse,
   PutPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2392,7 +2393,7 @@ export type PutProtocolsListError =
  * Creates an Firewall Manager protocols list.
  */
 export const putProtocolsList: API.OperationMethod<
-  PutProtocolsListRequest,
+  PutProtocolsListRequest & RegionInput,
   PutProtocolsListResponse,
   PutProtocolsListError,
   Credentials | HttpClient.HttpClient
@@ -2425,7 +2426,7 @@ export type PutResourceSetError =
  * An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service.
  */
 export const putResourceSet: API.OperationMethod<
-  PutResourceSetRequest,
+  PutResourceSetRequest & RegionInput,
   PutResourceSetResponse,
   PutResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -2456,7 +2457,7 @@ export type TagResourceError =
  * Adds one or more tags to an Amazon Web Services resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2487,7 +2488,7 @@ export type UntagResourceError =
  * Removes one or more tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

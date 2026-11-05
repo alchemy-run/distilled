@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -290,7 +291,7 @@ export type CreateInvestigationGroupError =
  * For more information about configuring CloudWatch alarms, see Using Amazon CloudWatch alarms
  */
 export const createInvestigationGroup: API.OperationMethod<
-  CreateInvestigationGroupInput,
+  CreateInvestigationGroupInput & RegionInput,
   CreateInvestigationGroupOutput,
   CreateInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -324,7 +325,7 @@ export type DeleteInvestigationGroupError =
  * Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
  */
 export const deleteInvestigationGroup: API.OperationMethod<
-  DeleteInvestigationGroupRequest,
+  DeleteInvestigationGroupRequest & RegionInput,
   DeleteInvestigationGroupResponse,
   DeleteInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -357,7 +358,7 @@ export type DeleteInvestigationGroupPolicyError =
  * Removes the IAM resource policy from being associated with the investigation group that you specify.
  */
 export const deleteInvestigationGroupPolicy: API.OperationMethod<
-  DeleteInvestigationGroupPolicyRequest,
+  DeleteInvestigationGroupPolicyRequest & RegionInput,
   DeleteInvestigationGroupPolicyOutput,
   DeleteInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -390,7 +391,7 @@ export type GetInvestigationGroupError =
  * Returns the configuration information for the specified investigation group.
  */
 export const getInvestigationGroup: API.OperationMethod<
-  GetInvestigationGroupRequest,
+  GetInvestigationGroupRequest & RegionInput,
   GetInvestigationGroupResponse,
   GetInvestigationGroupError,
   Credentials | HttpClient.HttpClient
@@ -423,7 +424,7 @@ export type GetInvestigationGroupPolicyError =
  * Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, `{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}`.
  */
 export const getInvestigationGroupPolicy: API.OperationMethod<
-  GetInvestigationGroupPolicyRequest,
+  GetInvestigationGroupPolicyRequest & RegionInput,
   GetInvestigationGroupPolicyResponse,
   GetInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -454,7 +455,7 @@ export type ListInvestigationGroupsError =
  * Returns the ARN and name of each investigation group in the account.
  */
 export const listInvestigationGroups: API.PaginatedOperationMethod<
-  ListInvestigationGroupsInput,
+  ListInvestigationGroupsInput & RegionInput,
   ListInvestigationGroupsOutput,
   ListInvestigationGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -488,7 +489,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -527,7 +528,7 @@ export type PutInvestigationGroupPolicyError =
  * ` { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent" ], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount": "account-id" }, "ArnLike": { "aws:SourceArn": "arn:aws:cloudwatch:region:account-id:alarm:*" } } } ] } `
  */
 export const putInvestigationGroupPolicy: API.OperationMethod<
-  PutInvestigationGroupPolicyRequest,
+  PutInvestigationGroupPolicyRequest & RegionInput,
   PutInvestigationGroupPolicyResponse,
   PutInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -568,7 +569,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -602,7 +603,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -637,7 +638,7 @@ export type UpdateInvestigationGroupError =
  * Updates the configuration of the specified investigation group.
  */
 export const updateInvestigationGroup: API.OperationMethod<
-  UpdateInvestigationGroupRequest,
+  UpdateInvestigationGroupRequest & RegionInput,
   UpdateInvestigationGroupOutput,
   UpdateInvestigationGroupError,
   Credentials | HttpClient.HttpClient

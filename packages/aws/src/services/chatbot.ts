@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -730,7 +731,7 @@ export type AssociateToConfigurationError =
  * Links a resource (for example, a custom action) to a channel configuration.
  */
 export const associateToConfiguration: API.OperationMethod<
-  AssociateToConfigurationRequest,
+  AssociateToConfigurationRequest & RegionInput,
   AssociateToConfigurationResult,
   AssociateToConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -761,7 +762,7 @@ export type CreateChimeWebhookConfigurationError =
  * Creates an AWS Chatbot configuration for Amazon Chime.
  */
 export const createChimeWebhookConfiguration: API.OperationMethod<
-  CreateChimeWebhookConfigurationRequest,
+  CreateChimeWebhookConfigurationRequest & RegionInput,
   CreateChimeWebhookConfigurationResult,
   CreateChimeWebhookConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -793,7 +794,7 @@ export type CreateCustomActionError =
  * Creates a custom action that can be invoked as an alias or as a button on a notification.
  */
 export const createCustomAction: API.OperationMethod<
-  CreateCustomActionRequest,
+  CreateCustomActionRequest & RegionInput,
   CreateCustomActionResult,
   CreateCustomActionError,
   Credentials | HttpClient.HttpClient
@@ -826,7 +827,7 @@ export type CreateMicrosoftTeamsChannelConfigurationError =
  * Creates an AWS Chatbot configuration for Microsoft Teams.
  */
 export const createMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  CreateTeamsChannelConfigurationRequest,
+  CreateTeamsChannelConfigurationRequest & RegionInput,
   CreateTeamsChannelConfigurationResult,
   CreateMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -860,7 +861,7 @@ export type CreateSlackChannelConfigurationError =
  * Creates an AWS Chatbot confugration for Slack.
  */
 export const createSlackChannelConfiguration: API.OperationMethod<
-  CreateSlackChannelConfigurationRequest,
+  CreateSlackChannelConfigurationRequest & RegionInput,
   CreateSlackChannelConfigurationResult,
   CreateSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -892,7 +893,7 @@ export type DeleteChimeWebhookConfigurationError =
  * Deletes a Amazon Chime webhook configuration for AWS Chatbot.
  */
 export const deleteChimeWebhookConfiguration: API.OperationMethod<
-  DeleteChimeWebhookConfigurationRequest,
+  DeleteChimeWebhookConfigurationRequest & RegionInput,
   DeleteChimeWebhookConfigurationResult,
   DeleteChimeWebhookConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -922,7 +923,7 @@ export type DeleteCustomActionError =
  * Deletes a custom action.
  */
 export const deleteCustomAction: API.OperationMethod<
-  DeleteCustomActionRequest,
+  DeleteCustomActionRequest & RegionInput,
   DeleteCustomActionResult,
   DeleteCustomActionError,
   Credentials | HttpClient.HttpClient
@@ -952,7 +953,7 @@ export type DeleteMicrosoftTeamsChannelConfigurationError =
  * Deletes a Microsoft Teams channel configuration for AWS Chatbot
  */
 export const deleteMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  DeleteTeamsChannelConfigurationRequest,
+  DeleteTeamsChannelConfigurationRequest & RegionInput,
   DeleteTeamsChannelConfigurationResult,
   DeleteMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -981,7 +982,7 @@ export type DeleteMicrosoftTeamsConfiguredTeamError =
  * Deletes the Microsoft Teams team authorization allowing for channels to be configured in that Microsoft Teams team. Note that the Microsoft Teams team must have no channels configured to remove it.
  */
 export const deleteMicrosoftTeamsConfiguredTeam: API.OperationMethod<
-  DeleteTeamsConfiguredTeamRequest,
+  DeleteTeamsConfiguredTeamRequest & RegionInput,
   DeleteTeamsConfiguredTeamResult,
   DeleteMicrosoftTeamsConfiguredTeamError,
   Credentials | HttpClient.HttpClient
@@ -1009,7 +1010,7 @@ export type DeleteMicrosoftTeamsUserIdentityError =
  * Identifes a user level permission for a channel configuration.
  */
 export const deleteMicrosoftTeamsUserIdentity: API.OperationMethod<
-  DeleteMicrosoftTeamsUserIdentityRequest,
+  DeleteMicrosoftTeamsUserIdentityRequest & RegionInput,
   DeleteMicrosoftTeamsUserIdentityResult,
   DeleteMicrosoftTeamsUserIdentityError,
   Credentials | HttpClient.HttpClient
@@ -1038,7 +1039,7 @@ export type DeleteSlackChannelConfigurationError =
  * Deletes a Slack channel configuration for AWS Chatbot
  */
 export const deleteSlackChannelConfiguration: API.OperationMethod<
-  DeleteSlackChannelConfigurationRequest,
+  DeleteSlackChannelConfigurationRequest & RegionInput,
   DeleteSlackChannelConfigurationResult,
   DeleteSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1067,7 +1068,7 @@ export type DeleteSlackUserIdentityError =
  * Deletes a user level permission for a Slack channel configuration.
  */
 export const deleteSlackUserIdentity: API.OperationMethod<
-  DeleteSlackUserIdentityRequest,
+  DeleteSlackUserIdentityRequest & RegionInput,
   DeleteSlackUserIdentityResult,
   DeleteSlackUserIdentityError,
   Credentials | HttpClient.HttpClient
@@ -1090,7 +1091,7 @@ export type DeleteSlackWorkspaceAuthorizationError =
  * Deletes the Slack workspace authorization that allows channels to be configured in that workspace. This requires all configured channels in the workspace to be deleted.
  */
 export const deleteSlackWorkspaceAuthorization: API.OperationMethod<
-  DeleteSlackWorkspaceAuthorizationRequest,
+  DeleteSlackWorkspaceAuthorizationRequest & RegionInput,
   DeleteSlackWorkspaceAuthorizationResult,
   DeleteSlackWorkspaceAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -1114,7 +1115,7 @@ export type DescribeChimeWebhookConfigurationsError =
  * Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
  */
 export const describeChimeWebhookConfigurations: API.PaginatedOperationMethod<
-  DescribeChimeWebhookConfigurationsRequest,
+  DescribeChimeWebhookConfigurationsRequest & RegionInput,
   DescribeChimeWebhookConfigurationsResult,
   DescribeChimeWebhookConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1149,7 +1150,7 @@ export type DescribeSlackChannelConfigurationsError =
  * Lists Slack channel configurations optionally filtered by ChatConfigurationArn
  */
 export const describeSlackChannelConfigurations: API.PaginatedOperationMethod<
-  DescribeSlackChannelConfigurationsRequest,
+  DescribeSlackChannelConfigurationsRequest & RegionInput,
   DescribeSlackChannelConfigurationsResult,
   DescribeSlackChannelConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1184,7 +1185,7 @@ export type DescribeSlackUserIdentitiesError =
  * Lists all Slack user identities with a mapped role.
  */
 export const describeSlackUserIdentities: API.PaginatedOperationMethod<
-  DescribeSlackUserIdentitiesRequest,
+  DescribeSlackUserIdentitiesRequest & RegionInput,
   DescribeSlackUserIdentitiesResult,
   DescribeSlackUserIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1219,7 +1220,7 @@ export type DescribeSlackWorkspacesError =
  * List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
  */
 export const describeSlackWorkspaces: API.PaginatedOperationMethod<
-  DescribeSlackWorkspacesRequest,
+  DescribeSlackWorkspacesRequest & RegionInput,
   DescribeSlackWorkspacesResult,
   DescribeSlackWorkspacesError,
   Credentials | HttpClient.HttpClient,
@@ -1251,7 +1252,7 @@ export type DisassociateFromConfigurationError =
  * Unlink a resource, for example a custom action, from a channel configuration.
  */
 export const disassociateFromConfiguration: API.OperationMethod<
-  DisassociateFromConfigurationRequest,
+  DisassociateFromConfigurationRequest & RegionInput,
   DisassociateFromConfigurationResult,
   DisassociateFromConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1279,7 +1280,7 @@ export type GetAccountPreferencesError =
  * Returns AWS Chatbot account preferences.
  */
 export const getAccountPreferences: API.OperationMethod<
-  GetAccountPreferencesRequest,
+  GetAccountPreferencesRequest & RegionInput,
   GetAccountPreferencesResult,
   GetAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1304,7 +1305,7 @@ export type GetCustomActionError =
  * Returns a custom action.
  */
 export const getCustomAction: API.OperationMethod<
-  GetCustomActionRequest,
+  GetCustomActionRequest & RegionInput,
   GetCustomActionResult,
   GetCustomActionError,
   Credentials | HttpClient.HttpClient
@@ -1334,7 +1335,7 @@ export type GetMicrosoftTeamsChannelConfigurationError =
  * Returns a Microsoft Teams channel configuration in an AWS account.
  */
 export const getMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  GetTeamsChannelConfigurationRequest,
+  GetTeamsChannelConfigurationRequest & RegionInput,
   GetTeamsChannelConfigurationResult,
   GetMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1359,7 +1360,7 @@ export type ListAssociationsError = InvalidRequestException | CommonErrors;
  * Lists resources associated with a channel configuration.
  */
 export const listAssociations: API.PaginatedOperationMethod<
-  ListAssociationsRequest,
+  ListAssociationsRequest & RegionInput,
   ListAssociationsResult,
   ListAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1390,7 +1391,7 @@ export type ListCustomActionsError =
  * Lists custom actions defined in this account.
  */
 export const listCustomActions: API.PaginatedOperationMethod<
-  ListCustomActionsRequest,
+  ListCustomActionsRequest & RegionInput,
   ListCustomActionsResult,
   ListCustomActionsError,
   Credentials | HttpClient.HttpClient,
@@ -1421,7 +1422,7 @@ export type ListMicrosoftTeamsChannelConfigurationsError =
  * Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
  */
 export const listMicrosoftTeamsChannelConfigurations: API.PaginatedOperationMethod<
-  ListTeamsChannelConfigurationsRequest,
+  ListTeamsChannelConfigurationsRequest & RegionInput,
   ListTeamsChannelConfigurationsResult,
   ListMicrosoftTeamsChannelConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1456,7 +1457,7 @@ export type ListMicrosoftTeamsConfiguredTeamsError =
  * Lists all authorized Microsoft Teams for an AWS Account
  */
 export const listMicrosoftTeamsConfiguredTeams: API.PaginatedOperationMethod<
-  ListMicrosoftTeamsConfiguredTeamsRequest,
+  ListMicrosoftTeamsConfiguredTeamsRequest & RegionInput,
   ListMicrosoftTeamsConfiguredTeamsResult,
   ListMicrosoftTeamsConfiguredTeamsError,
   Credentials | HttpClient.HttpClient,
@@ -1491,7 +1492,7 @@ export type ListMicrosoftTeamsUserIdentitiesError =
  * A list all Microsoft Teams user identities with a mapped role.
  */
 export const listMicrosoftTeamsUserIdentities: API.PaginatedOperationMethod<
-  ListMicrosoftTeamsUserIdentitiesRequest,
+  ListMicrosoftTeamsUserIdentitiesRequest & RegionInput,
   ListMicrosoftTeamsUserIdentitiesResult,
   ListMicrosoftTeamsUserIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1526,7 +1527,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1551,7 +1552,7 @@ export type TagResourceError =
  * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1580,7 +1581,7 @@ export type UntagResourceError =
  * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1604,7 +1605,7 @@ export type UpdateAccountPreferencesError =
  * Updates AWS Chatbot account preferences.
  */
 export const updateAccountPreferences: API.OperationMethod<
-  UpdateAccountPreferencesRequest,
+  UpdateAccountPreferencesRequest & RegionInput,
   UpdateAccountPreferencesResult,
   UpdateAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1629,7 +1630,7 @@ export type UpdateChimeWebhookConfigurationError =
  * Updates a Amazon Chime webhook configuration.
  */
 export const updateChimeWebhookConfiguration: API.OperationMethod<
-  UpdateChimeWebhookConfigurationRequest,
+  UpdateChimeWebhookConfigurationRequest & RegionInput,
   UpdateChimeWebhookConfigurationResult,
   UpdateChimeWebhookConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1659,7 +1660,7 @@ export type UpdateCustomActionError =
  * Updates a custom action.
  */
 export const updateCustomAction: API.OperationMethod<
-  UpdateCustomActionRequest,
+  UpdateCustomActionRequest & RegionInput,
   UpdateCustomActionResult,
   UpdateCustomActionError,
   Credentials | HttpClient.HttpClient
@@ -1689,7 +1690,7 @@ export type UpdateMicrosoftTeamsChannelConfigurationError =
  * Updates an Microsoft Teams channel configuration.
  */
 export const updateMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  UpdateTeamsChannelConfigurationRequest,
+  UpdateTeamsChannelConfigurationRequest & RegionInput,
   UpdateTeamsChannelConfigurationResult,
   UpdateMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1719,7 +1720,7 @@ export type UpdateSlackChannelConfigurationError =
  * Updates a Slack channel configuration.
  */
 export const updateSlackChannelConfiguration: API.OperationMethod<
-  UpdateSlackChannelConfigurationRequest,
+  UpdateSlackChannelConfigurationRequest & RegionInput,
   UpdateSlackChannelConfigurationResult,
   UpdateSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient

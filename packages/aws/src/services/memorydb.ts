@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1437,7 +1438,7 @@ export type BatchUpdateClusterError =
  * Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates.
  */
 export const batchUpdateCluster: API.OperationMethod<
-  BatchUpdateClusterRequest,
+  BatchUpdateClusterRequest & RegionInput,
   BatchUpdateClusterResponse,
   BatchUpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -1470,7 +1471,7 @@ export type CopySnapshotError =
  * Makes a copy of an existing snapshot.
  */
 export const copySnapshot: API.OperationMethod<
-  CopySnapshotRequest,
+  CopySnapshotRequest & RegionInput,
   CopySnapshotResponse,
   CopySnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1507,7 +1508,7 @@ export type CreateACLError =
  * Creates an Access Control List. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
 export const createACL: API.OperationMethod<
-  CreateACLRequest,
+  CreateACLRequest & RegionInput,
   CreateACLResponse,
   CreateACLError,
   Credentials | HttpClient.HttpClient
@@ -1554,7 +1555,7 @@ export type CreateClusterError =
  * Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1601,7 @@ export type CreateMultiRegionClusterError =
  * Creates a new multi-Region cluster.
  */
 export const createMultiRegionCluster: API.OperationMethod<
-  CreateMultiRegionClusterRequest,
+  CreateMultiRegionClusterRequest & RegionInput,
   CreateMultiRegionClusterResponse,
   CreateMultiRegionClusterError,
   Credentials | HttpClient.HttpClient
@@ -1636,7 +1637,7 @@ export type CreateParameterGroupError =
  * more information, see Configuring engine parameters using parameter groups.
  */
 export const createParameterGroup: API.OperationMethod<
-  CreateParameterGroupRequest,
+  CreateParameterGroupRequest & RegionInput,
   CreateParameterGroupResponse,
   CreateParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1673,7 +1674,7 @@ export type CreateSnapshotError =
  * Creates a copy of an entire cluster at a specific moment in time.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
+  CreateSnapshotRequest & RegionInput,
   CreateSnapshotResponse,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1713,7 +1714,7 @@ export type CreateSubnetGroupError =
  * For more information, see Subnets and subnet groups.
  */
 export const createSubnetGroup: API.OperationMethod<
-  CreateSubnetGroupRequest,
+  CreateSubnetGroupRequest & RegionInput,
   CreateSubnetGroupResponse,
   CreateSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1748,7 +1749,7 @@ export type CreateUserError =
  * Creates a MemoryDB user. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -1779,7 +1780,7 @@ export type DeleteACLError =
  * Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
 export const deleteACL: API.OperationMethod<
-  DeleteACLRequest,
+  DeleteACLRequest & RegionInput,
   DeleteACLResponse,
   DeleteACLError,
   Credentials | HttpClient.HttpClient
@@ -1809,7 +1810,7 @@ export type DeleteClusterError =
  * Without this permission, the API call will fail with an `Access Denied` exception.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -1840,7 +1841,7 @@ export type DeleteMultiRegionClusterError =
  * Deletes an existing multi-Region cluster.
  */
 export const deleteMultiRegionCluster: API.OperationMethod<
-  DeleteMultiRegionClusterRequest,
+  DeleteMultiRegionClusterRequest & RegionInput,
   DeleteMultiRegionClusterResponse,
   DeleteMultiRegionClusterError,
   Credentials | HttpClient.HttpClient
@@ -1871,7 +1872,7 @@ export type DeleteParameterGroupError =
  * You cannot delete the default parameter groups in your account.
  */
 export const deleteParameterGroup: API.OperationMethod<
-  DeleteParameterGroupRequest,
+  DeleteParameterGroupRequest & RegionInput,
   DeleteParameterGroupResponse,
   DeleteParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1903,7 +1904,7 @@ export type DeleteSnapshotError =
  * Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotRequest,
+  DeleteSnapshotRequest & RegionInput,
   DeleteSnapshotResponse,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1933,7 +1934,7 @@ export type DeleteSubnetGroupError =
  * Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
  */
 export const deleteSubnetGroup: API.OperationMethod<
-  DeleteSubnetGroupRequest,
+  DeleteSubnetGroupRequest & RegionInput,
   DeleteSubnetGroupResponse,
   DeleteSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1957,7 +1958,7 @@ export type DeleteUserError =
  * Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -1980,7 +1981,7 @@ export type DescribeACLsError =
  * Returns a list of ACLs.
  */
 export const describeACLs: API.PaginatedOperationMethod<
-  DescribeACLsRequest,
+  DescribeACLsRequest & RegionInput,
   DescribeACLsResponse,
   DescribeACLsError,
   Credentials | HttpClient.HttpClient,
@@ -2012,7 +2013,7 @@ export type DescribeClustersError =
  * Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
  */
 export const describeClusters: API.PaginatedOperationMethod<
-  DescribeClustersRequest,
+  DescribeClustersRequest & RegionInput,
   DescribeClustersResponse,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient,
@@ -2048,7 +2049,7 @@ export type DescribeEngineVersionsError =
  * Returns a list of the available Redis OSS engine versions.
  */
 export const describeEngineVersions: API.PaginatedOperationMethod<
-  DescribeEngineVersionsRequest,
+  DescribeEngineVersionsRequest & RegionInput,
   DescribeEngineVersionsResponse,
   DescribeEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2085,7 +2086,7 @@ export type DescribeEventsError =
  * By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsRequest,
+  DescribeEventsRequest & RegionInput,
   DescribeEventsResponse,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2121,7 +2122,7 @@ export type DescribeMultiRegionClustersError =
  * Returns details about one or more multi-Region clusters.
  */
 export const describeMultiRegionClusters: API.PaginatedOperationMethod<
-  DescribeMultiRegionClustersRequest,
+  DescribeMultiRegionClustersRequest & RegionInput,
   DescribeMultiRegionClustersResponse,
   DescribeMultiRegionClustersError,
   Credentials | HttpClient.HttpClient,
@@ -2158,7 +2159,7 @@ export type DescribeMultiRegionParameterGroupsError =
  * Returns a list of multi-region parameter groups.
  */
 export const describeMultiRegionParameterGroups: API.OperationMethod<
-  DescribeMultiRegionParameterGroupsRequest,
+  DescribeMultiRegionParameterGroupsRequest & RegionInput,
   DescribeMultiRegionParameterGroupsResponse,
   DescribeMultiRegionParameterGroupsError,
   Credentials | HttpClient.HttpClient
@@ -2188,7 +2189,7 @@ export type DescribeMultiRegionParametersError =
  * Returns the detailed parameter list for a particular multi-region parameter group.
  */
 export const describeMultiRegionParameters: API.OperationMethod<
-  DescribeMultiRegionParametersRequest,
+  DescribeMultiRegionParametersRequest & RegionInput,
   DescribeMultiRegionParametersResponse,
   DescribeMultiRegionParametersError,
   Credentials | HttpClient.HttpClient
@@ -2218,7 +2219,7 @@ export type DescribeParameterGroupsError =
  * Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
  */
 export const describeParameterGroups: API.PaginatedOperationMethod<
-  DescribeParameterGroupsRequest,
+  DescribeParameterGroupsRequest & RegionInput,
   DescribeParameterGroupsResponse,
   DescribeParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2255,7 +2256,7 @@ export type DescribeParametersError =
  * Returns the detailed parameter list for a particular parameter group.
  */
 export const describeParameters: API.PaginatedOperationMethod<
-  DescribeParametersRequest,
+  DescribeParametersRequest & RegionInput,
   DescribeParametersResponse,
   DescribeParametersError,
   Credentials | HttpClient.HttpClient,
@@ -2292,7 +2293,7 @@ export type DescribeReservedNodesError =
  * Returns information about reserved nodes for this account, or about a specified reserved node.
  */
 export const describeReservedNodes: API.PaginatedOperationMethod<
-  DescribeReservedNodesRequest,
+  DescribeReservedNodesRequest & RegionInput,
   DescribeReservedNodesResponse,
   DescribeReservedNodesError,
   Credentials | HttpClient.HttpClient,
@@ -2329,7 +2330,7 @@ export type DescribeReservedNodesOfferingsError =
  * Lists available reserved node offerings.
  */
 export const describeReservedNodesOfferings: API.PaginatedOperationMethod<
-  DescribeReservedNodesOfferingsRequest,
+  DescribeReservedNodesOfferingsRequest & RegionInput,
   DescribeReservedNodesOfferingsResponse,
   DescribeReservedNodesOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -2364,7 +2365,7 @@ export type DescribeServiceUpdatesError =
  * Returns details of the service updates.
  */
 export const describeServiceUpdates: API.PaginatedOperationMethod<
-  DescribeServiceUpdatesRequest,
+  DescribeServiceUpdatesRequest & RegionInput,
   DescribeServiceUpdatesResponse,
   DescribeServiceUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -2397,7 +2398,7 @@ export type DescribeSnapshotsError =
  * or just the snapshots associated with a particular cluster.
  */
 export const describeSnapshots: API.PaginatedOperationMethod<
-  DescribeSnapshotsRequest,
+  DescribeSnapshotsRequest & RegionInput,
   DescribeSnapshotsResponse,
   DescribeSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2432,7 +2433,7 @@ export type DescribeSubnetGroupsError =
  * Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
  */
 export const describeSubnetGroups: API.PaginatedOperationMethod<
-  DescribeSubnetGroupsRequest,
+  DescribeSubnetGroupsRequest & RegionInput,
   DescribeSubnetGroupsResponse,
   DescribeSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2462,7 +2463,7 @@ export type DescribeUsersError =
  * Returns a list of users.
  */
 export const describeUsers: API.PaginatedOperationMethod<
-  DescribeUsersRequest,
+  DescribeUsersRequest & RegionInput,
   DescribeUsersResponse,
   DescribeUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2499,7 +2500,7 @@ export type FailoverShardError =
  * a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
  */
 export const failoverShard: API.OperationMethod<
-  FailoverShardRequest,
+  FailoverShardRequest & RegionInput,
   FailoverShardResponse,
   FailoverShardError,
   Credentials | HttpClient.HttpClient
@@ -2532,7 +2533,7 @@ export type ListAllowedMultiRegionClusterUpdatesError =
  * Lists the allowed updates for a multi-Region cluster.
  */
 export const listAllowedMultiRegionClusterUpdates: API.OperationMethod<
-  ListAllowedMultiRegionClusterUpdatesRequest,
+  ListAllowedMultiRegionClusterUpdatesRequest & RegionInput,
   ListAllowedMultiRegionClusterUpdatesResponse,
   ListAllowedMultiRegionClusterUpdatesError,
   Credentials | HttpClient.HttpClient
@@ -2563,7 +2564,7 @@ export type ListAllowedNodeTypeUpdatesError =
  * When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
  */
 export const listAllowedNodeTypeUpdates: API.OperationMethod<
-  ListAllowedNodeTypeUpdatesRequest,
+  ListAllowedNodeTypeUpdatesRequest & RegionInput,
   ListAllowedNodeTypeUpdatesResponse,
   ListAllowedNodeTypeUpdatesError,
   Credentials | HttpClient.HttpClient
@@ -2602,7 +2603,7 @@ export type ListTagsError =
  * When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -2642,7 +2643,7 @@ export type PurchaseReservedNodesOfferingError =
  * Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
  */
 export const purchaseReservedNodesOffering: API.OperationMethod<
-  PurchaseReservedNodesOfferingRequest,
+  PurchaseReservedNodesOfferingRequest & RegionInput,
   PurchaseReservedNodesOfferingResponse,
   PurchaseReservedNodesOfferingError,
   Credentials | HttpClient.HttpClient
@@ -2676,7 +2677,7 @@ export type ResetParameterGroupError =
  * Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
  */
 export const resetParameterGroup: API.OperationMethod<
-  ResetParameterGroupRequest,
+  ResetParameterGroupRequest & RegionInput,
   ResetParameterGroupResponse,
   ResetParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2724,7 +2725,7 @@ export type TagResourceError =
  * For more information, see Using Cost Allocation Tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2780,7 +2781,7 @@ export type UntagResourceError =
  * For more information, see Using Cost Allocation Tags.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2822,7 +2823,7 @@ export type UpdateACLError =
  * Changes the list of users that belong to the Access Control List.
  */
 export const updateACL: API.OperationMethod<
-  UpdateACLRequest,
+  UpdateACLRequest & RegionInput,
   UpdateACLResponse,
   UpdateACLError,
   Credentials | HttpClient.HttpClient
@@ -2867,7 +2868,7 @@ export type UpdateClusterError =
  * Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -2910,7 +2911,7 @@ export type UpdateMultiRegionClusterError =
  * Updates the configuration of an existing multi-Region cluster.
  */
 export const updateMultiRegionCluster: API.OperationMethod<
-  UpdateMultiRegionClusterRequest,
+  UpdateMultiRegionClusterRequest & RegionInput,
   UpdateMultiRegionClusterResponse,
   UpdateMultiRegionClusterError,
   Credentials | HttpClient.HttpClient
@@ -2942,7 +2943,7 @@ export type UpdateParameterGroupError =
  * Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
  */
 export const updateParameterGroup: API.OperationMethod<
-  UpdateParameterGroupRequest,
+  UpdateParameterGroupRequest & RegionInput,
   UpdateParameterGroupResponse,
   UpdateParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2975,7 +2976,7 @@ export type UpdateSubnetGroupError =
  * Updates a subnet group. For more information, see Updating a subnet group
  */
 export const updateSubnetGroup: API.OperationMethod<
-  UpdateSubnetGroupRequest,
+  UpdateSubnetGroupRequest & RegionInput,
   UpdateSubnetGroupResponse,
   UpdateSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3007,7 +3008,7 @@ export type UpdateUserError =
  * Changes user password(s) and/or access string.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient

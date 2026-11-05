@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -14095,7 +14096,7 @@ export type BatchCreateTopicReviewedAnswerError =
  * Creates new reviewed answers for a Q Topic.
  */
 export const batchCreateTopicReviewedAnswer: API.OperationMethod<
-  BatchCreateTopicReviewedAnswerRequest,
+  BatchCreateTopicReviewedAnswerRequest & RegionInput,
   BatchCreateTopicReviewedAnswerResponse,
   BatchCreateTopicReviewedAnswerError,
   Credentials | HttpClient.HttpClient
@@ -14129,7 +14130,7 @@ export type BatchDeleteKnowledgeBaseError =
  * Deletes one or more knowledge bases.
  */
 export const batchDeleteKnowledgeBase: API.OperationMethod<
-  BatchDeleteKnowledgeBaseRequest,
+  BatchDeleteKnowledgeBaseRequest & RegionInput,
   BatchDeleteKnowledgeBaseResponse,
   BatchDeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -14164,7 +14165,7 @@ export type BatchDeleteTopicReviewedAnswerError =
  * Deletes reviewed answers for Q Topic.
  */
 export const batchDeleteTopicReviewedAnswer: API.OperationMethod<
-  BatchDeleteTopicReviewedAnswerRequest,
+  BatchDeleteTopicReviewedAnswerRequest & RegionInput,
   BatchDeleteTopicReviewedAnswerResponse,
   BatchDeleteTopicReviewedAnswerError,
   Credentials | HttpClient.HttpClient
@@ -14196,7 +14197,7 @@ export type BatchDescribeUserLimitsError =
  * Describes the effective resource limits for one or more Amazon Quick Sight users, including the limits that apply to each user based on their profile assignments.
  */
 export const batchDescribeUserLimits: API.OperationMethod<
-  BatchDescribeUserLimitsRequest,
+  BatchDescribeUserLimitsRequest & RegionInput,
   BatchDescribeUserLimitsResponse,
   BatchDescribeUserLimitsError,
   Credentials | HttpClient.HttpClient
@@ -14228,7 +14229,7 @@ export type CancelIngestionError =
  * Cancels an ongoing ingestion of data into SPICE.
  */
 export const cancelIngestion: API.OperationMethod<
-  CancelIngestionRequest,
+  CancelIngestionRequest & RegionInput,
   CancelIngestionResponse,
   CancelIngestionError,
   Credentials | HttpClient.HttpClient
@@ -14287,7 +14288,7 @@ export type CreateAccountCustomizationError =
  * API operation.
  */
 export const createAccountCustomization: API.OperationMethod<
-  CreateAccountCustomizationRequest,
+  CreateAccountCustomizationRequest & RegionInput,
   CreateAccountCustomizationResponse,
   CreateAccountCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -14352,7 +14353,7 @@ export type CreateAccountSubscriptionError =
  * User Guide.
  */
 export const createAccountSubscription: API.OperationMethod<
-  CreateAccountSubscriptionRequest,
+  CreateAccountSubscriptionRequest & RegionInput,
   CreateAccountSubscriptionResponse,
   CreateAccountSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -14391,7 +14392,7 @@ export type CreateActionConnectorError =
  * like Amazon S3, Salesforce, JIRA.
  */
 export const createActionConnector: API.OperationMethod<
-  CreateActionConnectorRequest,
+  CreateActionConnectorRequest & RegionInput,
   CreateActionConnectorResponse,
   CreateActionConnectorError,
   Credentials | HttpClient.HttpClient
@@ -14427,7 +14428,7 @@ export type CreateAgentError =
  * Creates an agent in Amazon QuickSight.
  */
 export const createAgent: API.OperationMethod<
-  CreateAgentRequest,
+  CreateAgentRequest & RegionInput,
   CreateAgentResponse,
   CreateAgentError,
   Credentials | HttpClient.HttpClient
@@ -14466,7 +14467,7 @@ export type CreateAnalysisError =
  * Creates an analysis in Amazon Quick Sight. Analyses can be created either from a template or from an `AnalysisDefinition`.
  */
 export const createAnalysis: API.OperationMethod<
-  CreateAnalysisRequest,
+  CreateAnalysisRequest & RegionInput,
   CreateAnalysisResponse,
   CreateAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -14504,7 +14505,7 @@ export type CreateApprovalPolicyError =
  * Creates an approval policy in Quick Sight.
  */
 export const createApprovalPolicy: API.OperationMethod<
-  CreateApprovalPolicyRequest,
+  CreateApprovalPolicyRequest & RegionInput,
   CreateApprovalPolicyResponse,
   CreateApprovalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -14539,7 +14540,7 @@ export type CreateBrandError =
  * Creates an Quick Sight brand.
  */
 export const createBrand: API.OperationMethod<
-  CreateBrandRequest,
+  CreateBrandRequest & RegionInput,
   CreateBrandResponse,
   CreateBrandError,
   Credentials | HttpClient.HttpClient
@@ -14577,7 +14578,7 @@ export type CreateCustomPermissionsError =
  * Creates a custom permissions profile.
  */
 export const createCustomPermissions: API.OperationMethod<
-  CreateCustomPermissionsRequest,
+  CreateCustomPermissionsRequest & RegionInput,
   CreateCustomPermissionsResponse,
   CreateCustomPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -14627,7 +14628,7 @@ export type CreateDashboardError =
  * different Amazon Web Services account.
  */
 export const createDashboard: API.OperationMethod<
-  CreateDashboardRequest,
+  CreateDashboardRequest & RegionInput,
   CreateDashboardResponse,
   CreateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -14669,7 +14670,7 @@ export type CreateDataSetError =
  * Creates a dataset.
  */
 export const createDataSet: API.OperationMethod<
-  CreateDataSetRequest,
+  CreateDataSetRequest & RegionInput,
   CreateDataSetResponse,
   CreateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -14712,7 +14713,7 @@ export type CreateDataSourceError =
  * Creates a data source.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -14751,7 +14752,7 @@ export type CreateDlpSettingError =
  * Creates a data loss prevention (DLP) setting configuration for an Amazon Web Services account. A DLP setting defines the DLP provider, the enforcement behavior, and the Quick capabilities that the setting applies to.
  */
 export const createDlpSetting: API.OperationMethod<
-  CreateDlpSettingRequest,
+  CreateDlpSettingRequest & RegionInput,
   CreateDlpSettingResponse,
   CreateDlpSettingError,
   Credentials | HttpClient.HttpClient
@@ -14790,7 +14791,7 @@ export type CreateFlowError =
  * This operation is idempotent. Supply a `ClientToken` to safely retry without creating duplicate resources.
  */
 export const createFlow: API.OperationMethod<
-  CreateFlowRequest,
+  CreateFlowRequest & RegionInput,
   CreateFlowResponse,
   CreateFlowError,
   Credentials | HttpClient.HttpClient
@@ -14829,7 +14830,7 @@ export type CreateFolderError =
  * Creates an empty shared folder.
  */
 export const createFolder: API.OperationMethod<
-  CreateFolderRequest,
+  CreateFolderRequest & RegionInput,
   CreateFolderResponse,
   CreateFolderError,
   Credentials | HttpClient.HttpClient
@@ -14868,7 +14869,7 @@ export type CreateFolderMembershipError =
  * Adds an asset, such as a dashboard, analysis, or dataset into a folder.
  */
 export const createFolderMembership: API.OperationMethod<
-  CreateFolderMembershipRequest,
+  CreateFolderMembershipRequest & RegionInput,
   CreateFolderMembershipResponse,
   CreateFolderMembershipError,
   Credentials | HttpClient.HttpClient
@@ -14913,7 +14914,7 @@ export type CreateGroupError =
  * The response is a group object.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -14951,7 +14952,7 @@ export type CreateGroupMembershipError =
  * Adds an Amazon Quick Sight user to an Amazon Quick Sight group.
  */
 export const createGroupMembership: API.OperationMethod<
-  CreateGroupMembershipRequest,
+  CreateGroupMembershipRequest & RegionInput,
   CreateGroupMembershipResponse,
   CreateGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -14991,7 +14992,7 @@ export type CreateIAMPolicyAssignmentError =
  * unique.
  */
 export const createIAMPolicyAssignment: API.OperationMethod<
-  CreateIAMPolicyAssignmentRequest,
+  CreateIAMPolicyAssignmentRequest & RegionInput,
   CreateIAMPolicyAssignmentResponse,
   CreateIAMPolicyAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -15034,7 +15035,7 @@ export type CreateIngestionError =
  * tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
  */
 export const createIngestion: API.OperationMethod<
-  CreateIngestionRequest,
+  CreateIngestionRequest & RegionInput,
   CreateIngestionResponse,
   CreateIngestionError,
   Credentials | HttpClient.HttpClient
@@ -15082,7 +15083,7 @@ export type CreateKnowledgeBaseError =
  * - `ONE_DRIVE` - Uses OneDrive as the data source. Supports two-legged OAuth only.
  */
 export const createKnowledgeBase: API.OperationMethod<
-  CreateKnowledgeBaseRequest,
+  CreateKnowledgeBaseRequest & RegionInput,
   CreateKnowledgeBaseResponse,
   CreateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -15119,7 +15120,7 @@ export type CreateLimitsProfileError =
  * Creates a limits profile that defines resource usage limits for Amazon Quick Sight users.
  */
 export const createLimitsProfile: API.OperationMethod<
-  CreateLimitsProfileRequest,
+  CreateLimitsProfileRequest & RegionInput,
   CreateLimitsProfileResponse,
   CreateLimitsProfileError,
   Credentials | HttpClient.HttpClient
@@ -15165,7 +15166,7 @@ export type CreateNamespaceError =
  * Amazon Web Services Support.
  */
 export const createNamespace: API.OperationMethod<
-  CreateNamespaceRequest,
+  CreateNamespaceRequest & RegionInput,
   CreateNamespaceResponse,
   CreateNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -15205,7 +15206,7 @@ export type CreateOAuthClientApplicationError =
  * Creates an OAuthClientApplication.
  */
 export const createOAuthClientApplication: API.OperationMethod<
-  CreateOAuthClientApplicationRequest,
+  CreateOAuthClientApplicationRequest & RegionInput,
   CreateOAuthClientApplicationResponse,
   CreateOAuthClientApplicationError,
   Credentials | HttpClient.HttpClient
@@ -15243,7 +15244,7 @@ export type CreateRefreshScheduleError =
  * Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
  */
 export const createRefreshSchedule: API.OperationMethod<
-  CreateRefreshScheduleRequest,
+  CreateRefreshScheduleRequest & RegionInput,
   CreateRefreshScheduleResponse,
   CreateRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -15280,7 +15281,7 @@ export type CreateRoleMembershipError =
  * Use `CreateRoleMembership` to add an existing Quick Sight group to an existing role.
  */
 export const createRoleMembership: API.OperationMethod<
-  CreateRoleMembershipRequest,
+  CreateRoleMembershipRequest & RegionInput,
   CreateRoleMembershipResponse,
   CreateRoleMembershipError,
   Credentials | HttpClient.HttpClient
@@ -15316,7 +15317,7 @@ export type CreateSpaceError =
  * Creates a new Amazon QuickSight space. A space is a collection of resources that can be used to organize and manage QuickSight assets.
  */
 export const createSpace: API.OperationMethod<
-  CreateSpaceRequest,
+  CreateSpaceRequest & RegionInput,
   CreateSpaceResponse,
   CreateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -15362,7 +15363,7 @@ export type CreateTemplateError =
  * and template.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -15400,7 +15401,7 @@ export type CreateTemplateAliasError =
  * Creates a template alias for a template.
  */
 export const createTemplateAlias: API.OperationMethod<
-  CreateTemplateAliasRequest,
+  CreateTemplateAliasRequest & RegionInput,
   CreateTemplateAliasResponse,
   CreateTemplateAliasError,
   Credentials | HttpClient.HttpClient
@@ -15441,7 +15442,7 @@ export type CreateThemeError =
  * Themes in Amazon Quick Sight in the *Amazon Quick Sight User Guide*.
  */
 export const createTheme: API.OperationMethod<
-  CreateThemeRequest,
+  CreateThemeRequest & RegionInput,
   CreateThemeResponse,
   CreateThemeError,
   Credentials | HttpClient.HttpClient
@@ -15479,7 +15480,7 @@ export type CreateThemeAliasError =
  * Creates a theme alias for a theme.
  */
 export const createThemeAlias: API.OperationMethod<
-  CreateThemeAliasRequest,
+  CreateThemeAliasRequest & RegionInput,
   CreateThemeAliasResponse,
   CreateThemeAliasError,
   Credentials | HttpClient.HttpClient
@@ -15517,7 +15518,7 @@ export type CreateTopicError =
  * Creates a new Q topic.
  */
 export const createTopic: API.OperationMethod<
-  CreateTopicRequest,
+  CreateTopicRequest & RegionInput,
   CreateTopicResponse,
   CreateTopicError,
   Credentials | HttpClient.HttpClient
@@ -15555,7 +15556,7 @@ export type CreateTopicRefreshScheduleError =
  * Creates a topic refresh schedule.
  */
 export const createTopicRefreshSchedule: API.OperationMethod<
-  CreateTopicRefreshScheduleRequest,
+  CreateTopicRefreshScheduleRequest & RegionInput,
   CreateTopicRefreshScheduleResponse,
   CreateTopicRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -15593,7 +15594,7 @@ export type CreateTopicV2Error =
  * Creates a new Q topic.
  */
 export const createTopicV2: API.OperationMethod<
-  CreateTopicV2Request,
+  CreateTopicV2Request & RegionInput,
   CreateTopicV2Response,
   CreateTopicV2Error,
   Credentials | HttpClient.HttpClient
@@ -15631,7 +15632,7 @@ export type CreateVPCConnectionError =
  * Creates a new VPC connection.
  */
 export const createVPCConnection: API.OperationMethod<
-  CreateVPCConnectionRequest,
+  CreateVPCConnectionRequest & RegionInput,
   CreateVPCConnectionResponse,
   CreateVPCConnectionError,
   Credentials | HttpClient.HttpClient
@@ -15680,7 +15681,7 @@ export type DeleteAccountCustomizationError =
  * Deletes all Amazon Quick Sight customizations for the specified Amazon Web Services account and Quick Sight namespace.
  */
 export const deleteAccountCustomization: API.OperationMethod<
-  DeleteAccountCustomizationRequest,
+  DeleteAccountCustomizationRequest & RegionInput,
   DeleteAccountCustomizationResponse,
   DeleteAccountCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -15716,7 +15717,7 @@ export type DeleteAccountCustomPermissionError =
  * Unapplies a custom permissions profile from an account.
  */
 export const deleteAccountCustomPermission: API.OperationMethod<
-  DeleteAccountCustomPermissionRequest,
+  DeleteAccountCustomPermissionRequest & RegionInput,
   DeleteAccountCustomPermissionResponse,
   DeleteAccountCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -15766,7 +15767,7 @@ export type DeleteAccountSubscriptionError =
  * Use the `DeleteAccountSubscription` operation to delete an Quick Sight account. This operation will result in an error message if you have configured your account termination protection settings to `True`. To change this setting and delete your account, call the `UpdateAccountSettings` API and set the value of the `TerminationProtectionEnabled` parameter to `False`, then make another call to the `DeleteAccountSubscription` API.
  */
 export const deleteAccountSubscription: API.OperationMethod<
-  DeleteAccountSubscriptionRequest,
+  DeleteAccountSubscriptionRequest & RegionInput,
   DeleteAccountSubscriptionResponse,
   DeleteAccountSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -15800,7 +15801,7 @@ export type DeleteActionConnectorError =
  * Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it.
  */
 export const deleteActionConnector: API.OperationMethod<
-  DeleteActionConnectorRequest,
+  DeleteActionConnectorRequest & RegionInput,
   DeleteActionConnectorResponse,
   DeleteActionConnectorError,
   Credentials | HttpClient.HttpClient
@@ -15833,7 +15834,7 @@ export type DeleteAgentError =
  * Deletes an agent.
  */
 export const deleteAgent: API.OperationMethod<
-  DeleteAgentRequest,
+  DeleteAgentRequest & RegionInput,
   DeleteAgentResponse,
   DeleteAgentError,
   Credentials | HttpClient.HttpClient
@@ -15880,7 +15881,7 @@ export type DeleteAnalysisError =
  * dashboards that you publish from it.
  */
 export const deleteAnalysis: API.OperationMethod<
-  DeleteAnalysisRequest,
+  DeleteAnalysisRequest & RegionInput,
   DeleteAnalysisResponse,
   DeleteAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -15913,7 +15914,7 @@ export type DeleteAppError =
  * Deletes an app.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResponse,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -15945,7 +15946,7 @@ export type DeleteApprovalPolicyError =
  * Deletes an approval policy in Quick Sight.
  */
 export const deleteApprovalPolicy: API.OperationMethod<
-  DeleteApprovalPolicyRequest,
+  DeleteApprovalPolicyRequest & RegionInput,
   DeleteApprovalPolicyResponse,
   DeleteApprovalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -15988,7 +15989,7 @@ export type DeleteBrandError =
  * Deletes an Quick Sight brand.
  */
 export const deleteBrand: API.OperationMethod<
-  DeleteBrandRequest,
+  DeleteBrandRequest & RegionInput,
   DeleteBrandResponse,
   DeleteBrandError,
   Credentials | HttpClient.HttpClient
@@ -16022,7 +16023,7 @@ export type DeleteBrandAssignmentError =
  * Deletes a brand assignment.
  */
 export const deleteBrandAssignment: API.OperationMethod<
-  DeleteBrandAssignmentRequest,
+  DeleteBrandAssignmentRequest & RegionInput,
   DeleteBrandAssignmentResponse,
   DeleteBrandAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -16059,7 +16060,7 @@ export type DeleteCustomPermissionsError =
  * Deletes a custom permissions profile.
  */
 export const deleteCustomPermissions: API.OperationMethod<
-  DeleteCustomPermissionsRequest,
+  DeleteCustomPermissionsRequest & RegionInput,
   DeleteCustomPermissionsResponse,
   DeleteCustomPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -16096,7 +16097,7 @@ export type DeleteDashboardError =
  * Deletes a dashboard.
  */
 export const deleteDashboard: API.OperationMethod<
-  DeleteDashboardRequest,
+  DeleteDashboardRequest & RegionInput,
   DeleteDashboardResponse,
   DeleteDashboardError,
   Credentials | HttpClient.HttpClient
@@ -16129,7 +16130,7 @@ export type DeleteDataSetError =
  * Deletes a dataset.
  */
 export const deleteDataSet: API.OperationMethod<
-  DeleteDataSetRequest,
+  DeleteDataSetRequest & RegionInput,
   DeleteDataSetResponse,
   DeleteDataSetError,
   Credentials | HttpClient.HttpClient
@@ -16163,7 +16164,7 @@ export type DeleteDataSetRefreshPropertiesError =
  * Deletes the dataset refresh properties of the dataset.
  */
 export const deleteDataSetRefreshProperties: API.OperationMethod<
-  DeleteDataSetRefreshPropertiesRequest,
+  DeleteDataSetRefreshPropertiesRequest & RegionInput,
   DeleteDataSetRefreshPropertiesResponse,
   DeleteDataSetRefreshPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -16198,7 +16199,7 @@ export type DeleteDataSourceError =
  * reference the deleted data source.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -16230,7 +16231,7 @@ export type DeleteDefaultQBusinessApplicationError =
  * Deletes a linked Amazon Q Business application from an Quick Sight account
  */
 export const deleteDefaultQBusinessApplication: API.OperationMethod<
-  DeleteDefaultQBusinessApplicationRequest,
+  DeleteDefaultQBusinessApplicationRequest & RegionInput,
   DeleteDefaultQBusinessApplicationResponse,
   DeleteDefaultQBusinessApplicationError,
   Credentials | HttpClient.HttpClient
@@ -16262,7 +16263,7 @@ export type DeleteDlpSettingError =
  * Deletes a DLP setting configuration from an Amazon Web Services account.
  */
 export const deleteDlpSetting: API.OperationMethod<
-  DeleteDlpSettingRequest,
+  DeleteDlpSettingRequest & RegionInput,
   DeleteDlpSettingResponse,
   DeleteDlpSettingError,
   Credentials | HttpClient.HttpClient
@@ -16295,7 +16296,7 @@ export type DeleteFlowError =
  * Permanently deletes a flow from the specified Amazon Web Services account. This operation cannot be undone.
  */
 export const deleteFlow: API.OperationMethod<
-  DeleteFlowRequest,
+  DeleteFlowRequest & RegionInput,
   DeleteFlowResponse,
   DeleteFlowError,
   Credentials | HttpClient.HttpClient
@@ -16331,7 +16332,7 @@ export type DeleteFolderError =
  * Deletes an empty folder.
  */
 export const deleteFolder: API.OperationMethod<
-  DeleteFolderRequest,
+  DeleteFolderRequest & RegionInput,
   DeleteFolderResponse,
   DeleteFolderError,
   Credentials | HttpClient.HttpClient
@@ -16367,7 +16368,7 @@ export type DeleteFolderMembershipError =
  * Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
  */
 export const deleteFolderMembership: API.OperationMethod<
-  DeleteFolderMembershipRequest,
+  DeleteFolderMembershipRequest & RegionInput,
   DeleteFolderMembershipResponse,
   DeleteFolderMembershipError,
   Credentials | HttpClient.HttpClient
@@ -16402,7 +16403,7 @@ export type DeleteGroupError =
  * Removes a user group from Amazon Quick Sight.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -16438,7 +16439,7 @@ export type DeleteGroupMembershipError =
  * Removes a user from a group so that the user is no longer a member of the group.
  */
 export const deleteGroupMembership: API.OperationMethod<
-  DeleteGroupMembershipRequest,
+  DeleteGroupMembershipRequest & RegionInput,
   DeleteGroupMembershipResponse,
   DeleteGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -16474,7 +16475,7 @@ export type DeleteIAMPolicyAssignmentError =
  * Deletes an existing IAM policy assignment.
  */
 export const deleteIAMPolicyAssignment: API.OperationMethod<
-  DeleteIAMPolicyAssignmentRequest,
+  DeleteIAMPolicyAssignmentRequest & RegionInput,
   DeleteIAMPolicyAssignmentResponse,
   DeleteIAMPolicyAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -16510,7 +16511,7 @@ export type DeleteIdentityPropagationConfigError =
  * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
  */
 export const deleteIdentityPropagationConfig: API.OperationMethod<
-  DeleteIdentityPropagationConfigRequest,
+  DeleteIdentityPropagationConfigRequest & RegionInput,
   DeleteIdentityPropagationConfigResponse,
   DeleteIdentityPropagationConfigError,
   Credentials | HttpClient.HttpClient
@@ -16546,7 +16547,7 @@ export type DeleteKnowledgeBaseError =
  * Deletes a knowledge base.
  */
 export const deleteKnowledgeBase: API.OperationMethod<
-  DeleteKnowledgeBaseRequest,
+  DeleteKnowledgeBaseRequest & RegionInput,
   DeleteKnowledgeBaseResponse,
   DeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -16583,7 +16584,7 @@ export type DeleteLimitsProfileError =
  * Deletes a limits profile.
  */
 export const deleteLimitsProfile: API.OperationMethod<
-  DeleteLimitsProfileRequest,
+  DeleteLimitsProfileRequest & RegionInput,
   DeleteLimitsProfileResponse,
   DeleteLimitsProfileError,
   Credentials | HttpClient.HttpClient
@@ -16620,7 +16621,7 @@ export type DeleteNamespaceError =
  * deleted. To delete these assets, you use the API operations for the relevant asset.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -16655,7 +16656,7 @@ export type DeleteOAuthClientApplicationError =
  * Deletes an OAuthClientApplication.
  */
 export const deleteOAuthClientApplication: API.OperationMethod<
-  DeleteOAuthClientApplicationRequest,
+  DeleteOAuthClientApplicationRequest & RegionInput,
   DeleteOAuthClientApplicationResponse,
   DeleteOAuthClientApplicationError,
   Credentials | HttpClient.HttpClient
@@ -16689,7 +16690,7 @@ export type DeleteRefreshScheduleError =
  * Deletes a refresh schedule from a dataset.
  */
 export const deleteRefreshSchedule: API.OperationMethod<
-  DeleteRefreshScheduleRequest,
+  DeleteRefreshScheduleRequest & RegionInput,
   DeleteRefreshScheduleResponse,
   DeleteRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -16724,7 +16725,7 @@ export type DeleteRoleCustomPermissionError =
  * Removes custom permissions from the role.
  */
 export const deleteRoleCustomPermission: API.OperationMethod<
-  DeleteRoleCustomPermissionRequest,
+  DeleteRoleCustomPermissionRequest & RegionInput,
   DeleteRoleCustomPermissionResponse,
   DeleteRoleCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -16760,7 +16761,7 @@ export type DeleteRoleMembershipError =
  * Removes a group from a role.
  */
 export const deleteRoleMembership: API.OperationMethod<
-  DeleteRoleMembershipRequest,
+  DeleteRoleMembershipRequest & RegionInput,
   DeleteRoleMembershipResponse,
   DeleteRoleMembershipError,
   Credentials | HttpClient.HttpClient
@@ -16794,7 +16795,7 @@ export type DeleteSpaceError =
  * Deletes an Amazon QuickSight space.
  */
 export const deleteSpace: API.OperationMethod<
-  DeleteSpaceRequest,
+  DeleteSpaceRequest & RegionInput,
   DeleteSpaceResponse,
   DeleteSpaceError,
   Credentials | HttpClient.HttpClient
@@ -16828,7 +16829,7 @@ export type DeleteTemplateError =
  * Deletes a template.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -16863,7 +16864,7 @@ export type DeleteTemplateAliasError =
  * alias, you delete the version of the template that the alias points to.
  */
 export const deleteTemplateAlias: API.OperationMethod<
-  DeleteTemplateAliasRequest,
+  DeleteTemplateAliasRequest & RegionInput,
   DeleteTemplateAliasResponse,
   DeleteTemplateAliasError,
   Credentials | HttpClient.HttpClient
@@ -16897,7 +16898,7 @@ export type DeleteThemeError =
  * Deletes a theme.
  */
 export const deleteTheme: API.OperationMethod<
-  DeleteThemeRequest,
+  DeleteThemeRequest & RegionInput,
   DeleteThemeResponse,
   DeleteThemeError,
   Credentials | HttpClient.HttpClient
@@ -16934,7 +16935,7 @@ export type DeleteThemeAliasError =
  * that the alias points to.
  */
 export const deleteThemeAlias: API.OperationMethod<
-  DeleteThemeAliasRequest,
+  DeleteThemeAliasRequest & RegionInput,
   DeleteThemeAliasResponse,
   DeleteThemeAliasError,
   Credentials | HttpClient.HttpClient
@@ -16968,7 +16969,7 @@ export type DeleteTopicError =
  * Deletes a topic.
  */
 export const deleteTopic: API.OperationMethod<
-  DeleteTopicRequest,
+  DeleteTopicRequest & RegionInput,
   DeleteTopicResponse,
   DeleteTopicError,
   Credentials | HttpClient.HttpClient
@@ -17004,7 +17005,7 @@ export type DeleteTopicRefreshScheduleError =
  * Deletes a topic refresh schedule.
  */
 export const deleteTopicRefreshSchedule: API.OperationMethod<
-  DeleteTopicRefreshScheduleRequest,
+  DeleteTopicRefreshScheduleRequest & RegionInput,
   DeleteTopicRefreshScheduleResponse,
   DeleteTopicRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -17040,7 +17041,7 @@ export type DeleteTopicV2Error =
  * Deletes a Q topic.
  */
 export const deleteTopicV2: API.OperationMethod<
-  DeleteTopicV2Request,
+  DeleteTopicV2Request & RegionInput,
   DeleteTopicV2Response,
   DeleteTopicV2Error,
   Credentials | HttpClient.HttpClient
@@ -17077,7 +17078,7 @@ export type DeleteUserError =
  * isn't deleted as a result of this call.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -17113,7 +17114,7 @@ export type DeleteUserByPrincipalIdError =
  * Deletes a user identified by its principal ID.
  */
 export const deleteUserByPrincipalId: API.OperationMethod<
-  DeleteUserByPrincipalIdRequest,
+  DeleteUserByPrincipalIdRequest & RegionInput,
   DeleteUserByPrincipalIdResponse,
   DeleteUserByPrincipalIdError,
   Credentials | HttpClient.HttpClient
@@ -17150,7 +17151,7 @@ export type DeleteUserCustomPermissionError =
  * Deletes a custom permissions profile from a user.
  */
 export const deleteUserCustomPermission: API.OperationMethod<
-  DeleteUserCustomPermissionRequest,
+  DeleteUserCustomPermissionRequest & RegionInput,
   DeleteUserCustomPermissionResponse,
   DeleteUserCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -17187,7 +17188,7 @@ export type DeleteVPCConnectionError =
  * Deletes a VPC connection.
  */
 export const deleteVPCConnection: API.OperationMethod<
-  DeleteVPCConnectionRequest,
+  DeleteVPCConnectionRequest & RegionInput,
   DeleteVPCConnectionResponse,
   DeleteVPCConnectionError,
   Credentials | HttpClient.HttpClient
@@ -17261,7 +17262,7 @@ export type DescribeAccountCustomizationError =
  * Amazon Web Services account.
  */
 export const describeAccountCustomization: API.OperationMethod<
-  DescribeAccountCustomizationRequest,
+  DescribeAccountCustomizationRequest & RegionInput,
   DescribeAccountCustomizationResponse,
   DescribeAccountCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -17294,7 +17295,7 @@ export type DescribeAccountCustomPermissionError =
  * Describes the custom permissions profile that is applied to an account.
  */
 export const describeAccountCustomPermission: API.OperationMethod<
-  DescribeAccountCustomPermissionRequest,
+  DescribeAccountCustomPermissionRequest & RegionInput,
   DescribeAccountCustomPermissionResponse,
   DescribeAccountCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -17328,7 +17329,7 @@ export type DescribeAccountSettingsError =
  * created in this Amazon Web Services account.
  */
 export const describeAccountSettings: API.OperationMethod<
-  DescribeAccountSettingsRequest,
+  DescribeAccountSettingsRequest & RegionInput,
   DescribeAccountSettingsResponse,
   DescribeAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -17362,7 +17363,7 @@ export type DescribeAccountSubscriptionError =
  * Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an `AccountInfo` object that includes an account's name, subscription status, authentication type, edition, and notification email address.
  */
 export const describeAccountSubscription: API.OperationMethod<
-  DescribeAccountSubscriptionRequest,
+  DescribeAccountSubscriptionRequest & RegionInput,
   DescribeAccountSubscriptionResponse,
   DescribeAccountSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -17395,7 +17396,7 @@ export type DescribeActionConnectorError =
  * Retrieves detailed information about an action connector, including its configuration, authentication settings, enabled actions, and current status.
  */
 export const describeActionConnector: API.OperationMethod<
-  DescribeActionConnectorRequest,
+  DescribeActionConnectorRequest & RegionInput,
   DescribeActionConnectorResponse,
   DescribeActionConnectorError,
   Credentials | HttpClient.HttpClient
@@ -17427,7 +17428,7 @@ export type DescribeActionConnectorPermissionsError =
  * Retrieves the permissions configuration for an action connector, showing which users, groups, and namespaces have access and what operations they can perform.
  */
 export const describeActionConnectorPermissions: API.OperationMethod<
-  DescribeActionConnectorPermissionsRequest,
+  DescribeActionConnectorPermissionsRequest & RegionInput,
   DescribeActionConnectorPermissionsResponse,
   DescribeActionConnectorPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17460,7 +17461,7 @@ export type DescribeAgentError =
  * Describes an agent.
  */
 export const describeAgent: API.OperationMethod<
-  DescribeAgentRequest,
+  DescribeAgentRequest & RegionInput,
   DescribeAgentResponse,
   DescribeAgentError,
   Credentials | HttpClient.HttpClient
@@ -17494,7 +17495,7 @@ export type DescribeAgentPermissionsError =
  * Describes the resource permissions for an agent.
  */
 export const describeAgentPermissions: API.OperationMethod<
-  DescribeAgentPermissionsRequest,
+  DescribeAgentPermissionsRequest & RegionInput,
   DescribeAgentPermissionsResponse,
   DescribeAgentPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17528,7 +17529,7 @@ export type DescribeAnalysisError =
  * Provides a summary of the metadata for an analysis.
  */
 export const describeAnalysis: API.OperationMethod<
-  DescribeAnalysisRequest,
+  DescribeAnalysisRequest & RegionInput,
   DescribeAnalysisResponse,
   DescribeAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -17570,7 +17571,7 @@ export type DescribeAnalysisDefinitionError =
  * instead.
  */
 export const describeAnalysisDefinition: API.OperationMethod<
-  DescribeAnalysisDefinitionRequest,
+  DescribeAnalysisDefinitionRequest & RegionInput,
   DescribeAnalysisDefinitionResponse,
   DescribeAnalysisDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -17605,7 +17606,7 @@ export type DescribeAnalysisPermissionsError =
  * Provides the read and write permissions for an analysis.
  */
 export const describeAnalysisPermissions: API.OperationMethod<
-  DescribeAnalysisPermissionsRequest,
+  DescribeAnalysisPermissionsRequest & RegionInput,
   DescribeAnalysisPermissionsResponse,
   DescribeAnalysisPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17637,7 +17638,7 @@ export type DescribeAppError =
  * Describes an app.
  */
 export const describeApp: API.OperationMethod<
-  DescribeAppRequest,
+  DescribeAppRequest & RegionInput,
   DescribeAppResponse,
   DescribeAppError,
   Credentials | HttpClient.HttpClient
@@ -17669,7 +17670,7 @@ export type DescribeAppPermissionsError =
  * Describes the resource permissions for an app.
  */
 export const describeAppPermissions: API.OperationMethod<
-  DescribeAppPermissionsRequest,
+  DescribeAppPermissionsRequest & RegionInput,
   DescribeAppPermissionsResponse,
   DescribeAppPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17701,7 +17702,7 @@ export type DescribeApprovalPolicyError =
  * Describes an approval policy in Quick Sight.
  */
 export const describeApprovalPolicy: API.OperationMethod<
-  DescribeApprovalPolicyRequest,
+  DescribeApprovalPolicyRequest & RegionInput,
   DescribeApprovalPolicyResponse,
   DescribeApprovalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -17738,7 +17739,7 @@ export type DescribeAssetBundleExportJobError =
  * Job descriptions are available for 14 days after the job starts.
  */
 export const describeAssetBundleExportJob: API.OperationMethod<
-  DescribeAssetBundleExportJobRequest,
+  DescribeAssetBundleExportJobRequest & RegionInput,
   DescribeAssetBundleExportJobResponse,
   DescribeAssetBundleExportJobError,
   Credentials | HttpClient.HttpClient
@@ -17765,7 +17766,7 @@ export type DescribeAssetBundleImportJobError =
  * descriptions are available for 14 days after job starts.
  */
 export const describeAssetBundleImportJob: API.OperationMethod<
-  DescribeAssetBundleImportJobRequest,
+  DescribeAssetBundleImportJobRequest & RegionInput,
   DescribeAssetBundleImportJobResponse,
   DescribeAssetBundleImportJobError,
   Credentials | HttpClient.HttpClient
@@ -17791,7 +17792,7 @@ export type DescribeAutomationJobError =
  * Retrieves the status and details of a specified automation job, including its status and outputs.
  */
 export const describeAutomationJob: API.OperationMethod<
-  DescribeAutomationJobRequest,
+  DescribeAutomationJobRequest & RegionInput,
   DescribeAutomationJobResponse,
   DescribeAutomationJobError,
   Credentials | HttpClient.HttpClient
@@ -17824,7 +17825,7 @@ export type DescribeBrandError =
  * Describes a brand.
  */
 export const describeBrand: API.OperationMethod<
-  DescribeBrandRequest,
+  DescribeBrandRequest & RegionInput,
   DescribeBrandResponse,
   DescribeBrandError,
   Credentials | HttpClient.HttpClient
@@ -17858,7 +17859,7 @@ export type DescribeBrandAssignmentError =
  * Describes a brand assignment.
  */
 export const describeBrandAssignment: API.OperationMethod<
-  DescribeBrandAssignmentRequest,
+  DescribeBrandAssignmentRequest & RegionInput,
   DescribeBrandAssignmentResponse,
   DescribeBrandAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -17892,7 +17893,7 @@ export type DescribeBrandPublishedVersionError =
  * Describes the published version of the brand.
  */
 export const describeBrandPublishedVersion: API.OperationMethod<
-  DescribeBrandPublishedVersionRequest,
+  DescribeBrandPublishedVersionRequest & RegionInput,
   DescribeBrandPublishedVersionResponse,
   DescribeBrandPublishedVersionError,
   Credentials | HttpClient.HttpClient
@@ -17927,7 +17928,7 @@ export type DescribeCustomPermissionsError =
  * Describes a custom permissions profile.
  */
 export const describeCustomPermissions: API.OperationMethod<
-  DescribeCustomPermissionsRequest,
+  DescribeCustomPermissionsRequest & RegionInput,
   DescribeCustomPermissionsResponse,
   DescribeCustomPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -17962,7 +17963,7 @@ export type DescribeDashboardError =
  * Provides a summary for a dashboard.
  */
 export const describeDashboard: API.OperationMethod<
-  DescribeDashboardRequest,
+  DescribeDashboardRequest & RegionInput,
   DescribeDashboardResponse,
   DescribeDashboardError,
   Credentials | HttpClient.HttpClient
@@ -18004,7 +18005,7 @@ export type DescribeDashboardDefinitionError =
  * instead.
  */
 export const describeDashboardDefinition: API.OperationMethod<
-  DescribeDashboardDefinitionRequest,
+  DescribeDashboardDefinitionRequest & RegionInput,
   DescribeDashboardDefinitionResponse,
   DescribeDashboardDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -18039,7 +18040,7 @@ export type DescribeDashboardPermissionsError =
  * Describes read and write permissions for a dashboard.
  */
 export const describeDashboardPermissions: API.OperationMethod<
-  DescribeDashboardPermissionsRequest,
+  DescribeDashboardPermissionsRequest & RegionInput,
   DescribeDashboardPermissionsResponse,
   DescribeDashboardPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -18087,7 +18088,7 @@ export type DescribeDashboardSnapshotJobError =
  * - Impersonated Quick Sight user doesn't have access to the specified dashboard in the job.
  */
 export const describeDashboardSnapshotJob: API.OperationMethod<
-  DescribeDashboardSnapshotJobRequest,
+  DescribeDashboardSnapshotJobRequest & RegionInput,
   DescribeDashboardSnapshotJobResponse,
   DescribeDashboardSnapshotJobError,
   Credentials | HttpClient.HttpClient
@@ -18155,7 +18156,7 @@ export type DescribeDashboardSnapshotJobResultError =
  * - `DATASET_DELETED` - The dataset has been deleted. Verify the dataset exists before re-running the job.
  */
 export const describeDashboardSnapshotJobResult: API.OperationMethod<
-  DescribeDashboardSnapshotJobResultRequest,
+  DescribeDashboardSnapshotJobResultRequest & RegionInput,
   DescribeDashboardSnapshotJobResultResponse,
   DescribeDashboardSnapshotJobResultError,
   Credentials | HttpClient.HttpClient
@@ -18190,7 +18191,7 @@ export type DescribeDashboardsQAConfigurationError =
  * Describes an existing dashboard QA configuration.
  */
 export const describeDashboardsQAConfiguration: API.OperationMethod<
-  DescribeDashboardsQAConfigurationRequest,
+  DescribeDashboardsQAConfigurationRequest & RegionInput,
   DescribeDashboardsQAConfigurationResponse,
   DescribeDashboardsQAConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -18223,7 +18224,7 @@ export type DescribeDataSetError =
  * Describes a dataset.
  */
 export const describeDataSet: API.OperationMethod<
-  DescribeDataSetRequest,
+  DescribeDataSetRequest & RegionInput,
   DescribeDataSetResponse,
   DescribeDataSetError,
   Credentials | HttpClient.HttpClient
@@ -18258,7 +18259,7 @@ export type DescribeDataSetPermissionsError =
  * `arn:aws:quicksight:region:aws-account-id:dataset/data-set-id`.
  */
 export const describeDataSetPermissions: API.OperationMethod<
-  DescribeDataSetPermissionsRequest,
+  DescribeDataSetPermissionsRequest & RegionInput,
   DescribeDataSetPermissionsResponse,
   DescribeDataSetPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -18292,7 +18293,7 @@ export type DescribeDataSetRefreshPropertiesError =
  * Describes the refresh properties of a dataset.
  */
 export const describeDataSetRefreshProperties: API.OperationMethod<
-  DescribeDataSetRefreshPropertiesRequest,
+  DescribeDataSetRefreshPropertiesRequest & RegionInput,
   DescribeDataSetRefreshPropertiesResponse,
   DescribeDataSetRefreshPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -18326,7 +18327,7 @@ export type DescribeDataSourceError =
  * Describes a data source.
  */
 export const describeDataSource: API.OperationMethod<
-  DescribeDataSourceRequest,
+  DescribeDataSourceRequest & RegionInput,
   DescribeDataSourceResponse,
   DescribeDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -18358,7 +18359,7 @@ export type DescribeDataSourcePermissionsError =
  * Describes the resource permissions for a data source.
  */
 export const describeDataSourcePermissions: API.OperationMethod<
-  DescribeDataSourcePermissionsRequest,
+  DescribeDataSourcePermissionsRequest & RegionInput,
   DescribeDataSourcePermissionsResponse,
   DescribeDataSourcePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -18390,7 +18391,7 @@ export type DescribeDefaultQBusinessApplicationError =
  * Describes a Amazon Q Business application that is linked to an Quick Sight account.
  */
 export const describeDefaultQBusinessApplication: API.OperationMethod<
-  DescribeDefaultQBusinessApplicationRequest,
+  DescribeDefaultQBusinessApplicationRequest & RegionInput,
   DescribeDefaultQBusinessApplicationResponse,
   DescribeDefaultQBusinessApplicationError,
   Credentials | HttpClient.HttpClient
@@ -18422,7 +18423,7 @@ export type DescribeDlpSettingError =
  * Describes the full configuration of a DLP setting in an Amazon Web Services account.
  */
 export const describeDlpSetting: API.OperationMethod<
-  DescribeDlpSettingRequest,
+  DescribeDlpSettingRequest & RegionInput,
   DescribeDlpSettingResponse,
   DescribeDlpSettingError,
   Credentials | HttpClient.HttpClient
@@ -18454,7 +18455,7 @@ export type DescribeFlowError =
  * Returns the full details of a flow for the latest version of the requested publish state.
  */
 export const describeFlow: API.OperationMethod<
-  DescribeFlowRequest,
+  DescribeFlowRequest & RegionInput,
   DescribeFlowResponse,
   DescribeFlowError,
   Credentials | HttpClient.HttpClient
@@ -18487,7 +18488,7 @@ export type DescribeFolderError =
  * Describes a folder.
  */
 export const describeFolder: API.OperationMethod<
-  DescribeFolderRequest,
+  DescribeFolderRequest & RegionInput,
   DescribeFolderResponse,
   DescribeFolderError,
   Credentials | HttpClient.HttpClient
@@ -18522,7 +18523,7 @@ export type DescribeFolderPermissionsError =
  * Describes permissions for a folder.
  */
 export const describeFolderPermissions: API.PaginatedOperationMethod<
-  DescribeFolderPermissionsRequest,
+  DescribeFolderPermissionsRequest & RegionInput,
   DescribeFolderPermissionsResponse,
   DescribeFolderPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -18565,7 +18566,7 @@ export type DescribeFolderResolvedPermissionsError =
  * Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
  */
 export const describeFolderResolvedPermissions: API.PaginatedOperationMethod<
-  DescribeFolderResolvedPermissionsRequest,
+  DescribeFolderResolvedPermissionsRequest & RegionInput,
   DescribeFolderResolvedPermissionsResponse,
   DescribeFolderResolvedPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -18608,7 +18609,7 @@ export type DescribeGroupError =
  * Returns an Amazon Quick Sight group's description and Amazon Resource Name (ARN).
  */
 export const describeGroup: API.OperationMethod<
-  DescribeGroupRequest,
+  DescribeGroupRequest & RegionInput,
   DescribeGroupResponse,
   DescribeGroupError,
   Credentials | HttpClient.HttpClient
@@ -18646,7 +18647,7 @@ export type DescribeGroupMembershipError =
  * group, an associated `GroupMember` object is returned.
  */
 export const describeGroupMembership: API.OperationMethod<
-  DescribeGroupMembershipRequest,
+  DescribeGroupMembershipRequest & RegionInput,
   DescribeGroupMembershipResponse,
   DescribeGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -18682,7 +18683,7 @@ export type DescribeIAMPolicyAssignmentError =
  * assignment name.
  */
 export const describeIAMPolicyAssignment: API.OperationMethod<
-  DescribeIAMPolicyAssignmentRequest,
+  DescribeIAMPolicyAssignmentRequest & RegionInput,
   DescribeIAMPolicyAssignmentResponse,
   DescribeIAMPolicyAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -18716,7 +18717,7 @@ export type DescribeIngestionError =
  * Describes a SPICE ingestion.
  */
 export const describeIngestion: API.OperationMethod<
-  DescribeIngestionRequest,
+  DescribeIngestionRequest & RegionInput,
   DescribeIngestionResponse,
   DescribeIngestionError,
   Credentials | HttpClient.HttpClient
@@ -18749,7 +18750,7 @@ export type DescribeIpRestrictionError =
  * Provides a summary and status of IP rules.
  */
 export const describeIpRestriction: API.OperationMethod<
-  DescribeIpRestrictionRequest,
+  DescribeIpRestrictionRequest & RegionInput,
   DescribeIpRestrictionResponse,
   DescribeIpRestrictionError,
   Credentials | HttpClient.HttpClient
@@ -18780,7 +18781,7 @@ export type DescribeKeyRegistrationError =
  * Describes all customer managed key registrations in a Quick Sight account.
  */
 export const describeKeyRegistration: API.OperationMethod<
-  DescribeKeyRegistrationRequest,
+  DescribeKeyRegistrationRequest & RegionInput,
   DescribeKeyRegistrationResponse,
   DescribeKeyRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -18814,7 +18815,7 @@ export type DescribeKnowledgeBaseError =
  * Describes a knowledge base.
  */
 export const describeKnowledgeBase: API.OperationMethod<
-  DescribeKnowledgeBaseRequest,
+  DescribeKnowledgeBaseRequest & RegionInput,
   DescribeKnowledgeBaseResponse,
   DescribeKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -18852,7 +18853,7 @@ export type DescribeKnowledgeBasePermissionsError =
  * Describes the resource permissions for a knowledge base.
  */
 export const describeKnowledgeBasePermissions: API.OperationMethod<
-  DescribeKnowledgeBasePermissionsRequest,
+  DescribeKnowledgeBasePermissionsRequest & RegionInput,
   DescribeKnowledgeBasePermissionsResponse,
   DescribeKnowledgeBasePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -18887,7 +18888,7 @@ export type DescribeLimitsProfileError =
  * Describes the properties of an existing limits profile.
  */
 export const describeLimitsProfile: API.OperationMethod<
-  DescribeLimitsProfileRequest,
+  DescribeLimitsProfileRequest & RegionInput,
   DescribeLimitsProfileResponse,
   DescribeLimitsProfileError,
   Credentials | HttpClient.HttpClient
@@ -18920,7 +18921,7 @@ export type DescribeNamespaceError =
  * Describes the current namespace.
  */
 export const describeNamespace: API.OperationMethod<
-  DescribeNamespaceRequest,
+  DescribeNamespaceRequest & RegionInput,
   DescribeNamespaceResponse,
   DescribeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -18953,7 +18954,7 @@ export type DescribeOAuthClientApplicationError =
  * Describes an OAuthClientApplication.
  */
 export const describeOAuthClientApplication: API.OperationMethod<
-  DescribeOAuthClientApplicationRequest,
+  DescribeOAuthClientApplicationRequest & RegionInput,
   DescribeOAuthClientApplicationResponse,
   DescribeOAuthClientApplicationError,
   Credentials | HttpClient.HttpClient
@@ -18986,7 +18987,7 @@ export type DescribeQPersonalizationConfigurationError =
  * Describes a personalization configuration.
  */
 export const describeQPersonalizationConfiguration: API.OperationMethod<
-  DescribeQPersonalizationConfigurationRequest,
+  DescribeQPersonalizationConfigurationRequest & RegionInput,
   DescribeQPersonalizationConfigurationResponse,
   DescribeQPersonalizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -19020,7 +19021,7 @@ export type DescribeQuickSightQSearchConfigurationError =
  * Describes the state of a Quick Sight Q Search configuration.
  */
 export const describeQuickSightQSearchConfiguration: API.OperationMethod<
-  DescribeQuickSightQSearchConfigurationRequest,
+  DescribeQuickSightQSearchConfigurationRequest & RegionInput,
   DescribeQuickSightQSearchConfigurationResponse,
   DescribeQuickSightQSearchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -19054,7 +19055,7 @@ export type DescribeRefreshScheduleError =
  * Provides a summary of a refresh schedule.
  */
 export const describeRefreshSchedule: API.OperationMethod<
-  DescribeRefreshScheduleRequest,
+  DescribeRefreshScheduleRequest & RegionInput,
   DescribeRefreshScheduleResponse,
   DescribeRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -19089,7 +19090,7 @@ export type DescribeRoleCustomPermissionError =
  * Describes all custom permissions that are mapped to a role.
  */
 export const describeRoleCustomPermission: API.OperationMethod<
-  DescribeRoleCustomPermissionRequest,
+  DescribeRoleCustomPermissionRequest & RegionInput,
   DescribeRoleCustomPermissionResponse,
   DescribeRoleCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -19126,7 +19127,7 @@ export type DescribeSelfUpgradeConfigurationError =
  * Describes the self-upgrade configuration for a Quick account.
  */
 export const describeSelfUpgradeConfiguration: API.OperationMethod<
-  DescribeSelfUpgradeConfigurationRequest,
+  DescribeSelfUpgradeConfigurationRequest & RegionInput,
   DescribeSelfUpgradeConfigurationResponse,
   DescribeSelfUpgradeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -19161,7 +19162,7 @@ export type DescribeSpaceError =
  * Describes an Amazon QuickSight space.
  */
 export const describeSpace: API.OperationMethod<
-  DescribeSpaceRequest,
+  DescribeSpaceRequest & RegionInput,
   DescribeSpaceResponse,
   DescribeSpaceError,
   Credentials | HttpClient.HttpClient
@@ -19193,7 +19194,7 @@ export type DescribeSpacePermissionsError =
  * Describes the permissions for an Amazon QuickSight space.
  */
 export const describeSpacePermissions: API.OperationMethod<
-  DescribeSpacePermissionsRequest,
+  DescribeSpacePermissionsRequest & RegionInput,
   DescribeSpacePermissionsResponse,
   DescribeSpacePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -19228,7 +19229,7 @@ export type DescribeTemplateError =
  * Describes a template's metadata.
  */
 export const describeTemplate: API.OperationMethod<
-  DescribeTemplateRequest,
+  DescribeTemplateRequest & RegionInput,
   DescribeTemplateResponse,
   DescribeTemplateError,
   Credentials | HttpClient.HttpClient
@@ -19262,7 +19263,7 @@ export type DescribeTemplateAliasError =
  * Describes the template alias for a template.
  */
 export const describeTemplateAlias: API.OperationMethod<
-  DescribeTemplateAliasRequest,
+  DescribeTemplateAliasRequest & RegionInput,
   DescribeTemplateAliasResponse,
   DescribeTemplateAliasError,
   Credentials | HttpClient.HttpClient
@@ -19302,7 +19303,7 @@ export type DescribeTemplateDefinitionError =
  * instead.
  */
 export const describeTemplateDefinition: API.OperationMethod<
-  DescribeTemplateDefinitionRequest,
+  DescribeTemplateDefinitionRequest & RegionInput,
   DescribeTemplateDefinitionResponse,
   DescribeTemplateDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -19338,7 +19339,7 @@ export type DescribeTemplatePermissionsError =
  * Describes read and write permissions on a template.
  */
 export const describeTemplatePermissions: API.OperationMethod<
-  DescribeTemplatePermissionsRequest,
+  DescribeTemplatePermissionsRequest & RegionInput,
   DescribeTemplatePermissionsResponse,
   DescribeTemplatePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -19373,7 +19374,7 @@ export type DescribeThemeError =
  * Describes a theme.
  */
 export const describeTheme: API.OperationMethod<
-  DescribeThemeRequest,
+  DescribeThemeRequest & RegionInput,
   DescribeThemeResponse,
   DescribeThemeError,
   Credentials | HttpClient.HttpClient
@@ -19408,7 +19409,7 @@ export type DescribeThemeAliasError =
  * Describes the alias for a theme.
  */
 export const describeThemeAlias: API.OperationMethod<
-  DescribeThemeAliasRequest,
+  DescribeThemeAliasRequest & RegionInput,
   DescribeThemeAliasResponse,
   DescribeThemeAliasError,
   Credentials | HttpClient.HttpClient
@@ -19442,7 +19443,7 @@ export type DescribeThemePermissionsError =
  * Describes the read and write permissions for a theme.
  */
 export const describeThemePermissions: API.OperationMethod<
-  DescribeThemePermissionsRequest,
+  DescribeThemePermissionsRequest & RegionInput,
   DescribeThemePermissionsResponse,
   DescribeThemePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -19475,7 +19476,7 @@ export type DescribeTopicError =
  * Describes a topic.
  */
 export const describeTopic: API.OperationMethod<
-  DescribeTopicRequest,
+  DescribeTopicRequest & RegionInput,
   DescribeTopicResponse,
   DescribeTopicError,
   Credentials | HttpClient.HttpClient
@@ -19507,7 +19508,7 @@ export type DescribeTopicPermissionsError =
  * Describes the permissions of a topic.
  */
 export const describeTopicPermissions: API.OperationMethod<
-  DescribeTopicPermissionsRequest,
+  DescribeTopicPermissionsRequest & RegionInput,
   DescribeTopicPermissionsResponse,
   DescribeTopicPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -19539,7 +19540,7 @@ export type DescribeTopicPermissionsV2Error =
  * Describes the permissions of a topic.
  */
 export const describeTopicPermissionsV2: API.OperationMethod<
-  DescribeTopicPermissionsV2Request,
+  DescribeTopicPermissionsV2Request & RegionInput,
   DescribeTopicPermissionsV2Response,
   DescribeTopicPermissionsV2Error,
   Credentials | HttpClient.HttpClient
@@ -19571,7 +19572,7 @@ export type DescribeTopicRefreshError =
  * Describes the status of a topic refresh.
  */
 export const describeTopicRefresh: API.OperationMethod<
-  DescribeTopicRefreshRequest,
+  DescribeTopicRefreshRequest & RegionInput,
   DescribeTopicRefreshResponse,
   DescribeTopicRefreshError,
   Credentials | HttpClient.HttpClient
@@ -19606,7 +19607,7 @@ export type DescribeTopicRefreshScheduleError =
  * Deletes a topic refresh schedule.
  */
 export const describeTopicRefreshSchedule: API.OperationMethod<
-  DescribeTopicRefreshScheduleRequest,
+  DescribeTopicRefreshScheduleRequest & RegionInput,
   DescribeTopicRefreshScheduleResponse,
   DescribeTopicRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -19641,7 +19642,7 @@ export type DescribeTopicV2Error =
  * Describes a Q topic.
  */
 export const describeTopicV2: API.OperationMethod<
-  DescribeTopicV2Request,
+  DescribeTopicV2Request & RegionInput,
   DescribeTopicV2Response,
   DescribeTopicV2Error,
   Credentials | HttpClient.HttpClient
@@ -19675,7 +19676,7 @@ export type DescribeUserError =
  * Returns information about a user, given the user name.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -19710,7 +19711,7 @@ export type DescribeVPCConnectionError =
  * Describes a VPC connection.
  */
 export const describeVPCConnection: API.OperationMethod<
-  DescribeVPCConnectionRequest,
+  DescribeVPCConnectionRequest & RegionInput,
   DescribeVPCConnectionResponse,
   DescribeVPCConnectionError,
   Credentials | HttpClient.HttpClient
@@ -19769,7 +19770,7 @@ export type GenerateEmbedUrlForAnonymousUserError =
  * Developer Portal.
  */
 export const generateEmbedUrlForAnonymousUser: API.OperationMethod<
-  GenerateEmbedUrlForAnonymousUserRequest,
+  GenerateEmbedUrlForAnonymousUserRequest & RegionInput,
   GenerateEmbedUrlForAnonymousUserResponse,
   GenerateEmbedUrlForAnonymousUserError,
   Credentials | HttpClient.HttpClient
@@ -19832,7 +19833,7 @@ export type GenerateEmbedUrlForRegisteredUserError =
  * Developer Portal.
  */
 export const generateEmbedUrlForRegisteredUser: API.OperationMethod<
-  GenerateEmbedUrlForRegisteredUserRequest,
+  GenerateEmbedUrlForRegisteredUserRequest & RegionInput,
   GenerateEmbedUrlForRegisteredUserResponse,
   GenerateEmbedUrlForRegisteredUserError,
   Credentials | HttpClient.HttpClient
@@ -19883,7 +19884,7 @@ export type GenerateEmbedUrlForRegisteredUserWithIdentityError =
  * you have configured the relevant Amazon Quick Sight resource and permissions.
  */
 export const generateEmbedUrlForRegisteredUserWithIdentity: API.OperationMethod<
-  GenerateEmbedUrlForRegisteredUserWithIdentityRequest,
+  GenerateEmbedUrlForRegisteredUserWithIdentityRequest & RegionInput,
   GenerateEmbedUrlForRegisteredUserWithIdentityResponse,
   GenerateEmbedUrlForRegisteredUserWithIdentityError,
   Credentials | HttpClient.HttpClient
@@ -19960,7 +19961,7 @@ export type GetDashboardEmbedUrlError =
  * Developer Portal.
  */
 export const getDashboardEmbedUrl: API.OperationMethod<
-  GetDashboardEmbedUrlRequest,
+  GetDashboardEmbedUrlRequest & RegionInput,
   GetDashboardEmbedUrlResponse,
   GetDashboardEmbedUrlError,
   Credentials | HttpClient.HttpClient
@@ -19998,7 +19999,7 @@ export type GetFlowMetadataError =
  * Retrieves the metadata of a flow, not including its definition specifying the steps.
  */
 export const getFlowMetadata: API.OperationMethod<
-  GetFlowMetadataInput,
+  GetFlowMetadataInput & RegionInput,
   GetFlowMetadataOutput,
   GetFlowMetadataError,
   Credentials | HttpClient.HttpClient
@@ -20028,7 +20029,7 @@ export type GetFlowPermissionsError =
  * Get permissions for a flow.
  */
 export const getFlowPermissions: API.OperationMethod<
-  GetFlowPermissionsInput,
+  GetFlowPermissionsInput & RegionInput,
   GetFlowPermissionsOutput,
   GetFlowPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -20098,7 +20099,7 @@ export type GetIdentityContextError =
  * The assumed role must allow the `sts:SetContext` action in addition to `sts:AssumeRole` in its trust relationship policy. The trust policy should include both actions for the principal that will be assuming the role.
  */
 export const getIdentityContext: API.OperationMethod<
-  GetIdentityContextRequest,
+  GetIdentityContextRequest & RegionInput,
   GetIdentityContextResponse,
   GetIdentityContextError,
   Credentials | HttpClient.HttpClient
@@ -20152,7 +20153,7 @@ export type GetSessionEmbedUrlError =
  * - Customizing Access to the Amazon Quick Console
  */
 export const getSessionEmbedUrl: API.OperationMethod<
-  GetSessionEmbedUrlRequest,
+  GetSessionEmbedUrlRequest & RegionInput,
   GetSessionEmbedUrlResponse,
   GetSessionEmbedUrlError,
   Credentials | HttpClient.HttpClient
@@ -20188,7 +20189,7 @@ export type ListActionConnectorsError =
  * Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status.
  */
 export const listActionConnectors: API.PaginatedOperationMethod<
-  ListActionConnectorsRequest,
+  ListActionConnectorsRequest & RegionInput,
   ListActionConnectorsResponse,
   ListActionConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -20229,7 +20230,7 @@ export type ListAgentsError =
  * Lists all agents in an Amazon QuickSight account.
  */
 export const listAgents: API.OperationMethod<
-  ListAgentsRequest,
+  ListAgentsRequest & RegionInput,
   ListAgentsResponse,
   ListAgentsError,
   Credentials | HttpClient.HttpClient
@@ -20262,7 +20263,7 @@ export type ListAnalysesError =
  * Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account.
  */
 export const listAnalyses: API.PaginatedOperationMethod<
-  ListAnalysesRequest,
+  ListAnalysesRequest & RegionInput,
   ListAnalysesResponse,
   ListAnalysesError,
   Credentials | HttpClient.HttpClient,
@@ -20302,7 +20303,7 @@ export type ListApprovalPoliciesError =
  * set of results.
  */
 export const listApprovalPolicies: API.PaginatedOperationMethod<
-  ListApprovalPoliciesRequest,
+  ListApprovalPoliciesRequest & RegionInput,
   ListApprovalPoliciesResponse,
   ListApprovalPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -20340,7 +20341,7 @@ export type ListAppsError =
  * Lists the apps in an Amazon Web Services account. Results are paginated; use the `NextToken` parameter to retrieve additional results.
  */
 export const listApps: API.PaginatedOperationMethod<
-  ListAppsRequest,
+  ListAppsRequest & RegionInput,
   ListAppsResponse,
   ListAppsError,
   Credentials | HttpClient.HttpClient,
@@ -20381,7 +20382,7 @@ export type ListAssetBundleExportJobsError =
  * most recent job that uses the repeated job ID.
  */
 export const listAssetBundleExportJobs: API.PaginatedOperationMethod<
-  ListAssetBundleExportJobsRequest,
+  ListAssetBundleExportJobsRequest & RegionInput,
   ListAssetBundleExportJobsResponse,
   ListAssetBundleExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -20423,7 +20424,7 @@ export type ListAssetBundleImportJobsError =
  * most recent job that uses the repeated job ID.
  */
 export const listAssetBundleImportJobs: API.PaginatedOperationMethod<
-  ListAssetBundleImportJobsRequest,
+  ListAssetBundleImportJobsRequest & RegionInput,
   ListAssetBundleImportJobsResponse,
   ListAssetBundleImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -20461,7 +20462,7 @@ export type ListBrandsError =
  * Lists all brands in an Quick Sight account.
  */
 export const listBrands: API.PaginatedOperationMethod<
-  ListBrandsRequest,
+  ListBrandsRequest & RegionInput,
   ListBrandsResponse,
   ListBrandsError,
   Credentials | HttpClient.HttpClient,
@@ -20501,7 +20502,7 @@ export type ListCustomPermissionsError =
  * Returns a list of all the custom permissions profiles.
  */
 export const listCustomPermissions: API.PaginatedOperationMethod<
-  ListCustomPermissionsRequest,
+  ListCustomPermissionsRequest & RegionInput,
   ListCustomPermissionsResponse,
   ListCustomPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -20541,7 +20542,7 @@ export type ListDashboardsError =
  * Lists dashboards in an Amazon Web Services account.
  */
 export const listDashboards: API.PaginatedOperationMethod<
-  ListDashboardsRequest,
+  ListDashboardsRequest & RegionInput,
   ListDashboardsResponse,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -20580,7 +20581,7 @@ export type ListDashboardVersionsError =
  * Lists all the versions of the dashboards in the Amazon Quick Sight subscription.
  */
 export const listDashboardVersions: API.PaginatedOperationMethod<
-  ListDashboardVersionsRequest,
+  ListDashboardVersionsRequest & RegionInput,
   ListDashboardVersionsResponse,
   ListDashboardVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -20624,7 +20625,7 @@ export type ListDataSetsError =
  * `arn:aws:quicksight:region:aws-account-id:dataset/*`.
  */
 export const listDataSets: API.PaginatedOperationMethod<
-  ListDataSetsRequest,
+  ListDataSetsRequest & RegionInput,
   ListDataSetsResponse,
   ListDataSetsError,
   Credentials | HttpClient.HttpClient,
@@ -20663,7 +20664,7 @@ export type ListDataSourcesError =
  * Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -20701,7 +20702,7 @@ export type ListDlpSettingsError =
  * Lists all DLP settings in an Amazon Web Services account.
  */
 export const listDlpSettings: API.PaginatedOperationMethod<
-  ListDlpSettingsRequest,
+  ListDlpSettingsRequest & RegionInput,
   ListDlpSettingsResponse,
   ListDlpSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -20738,7 +20739,7 @@ export type ListFlowsError =
  * Lists flows in an Amazon Web Services account.
  */
 export const listFlows: API.PaginatedOperationMethod<
-  ListFlowsInput,
+  ListFlowsInput & RegionInput,
   ListFlowsOutput,
   ListFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -20778,7 +20779,7 @@ export type ListFolderMembersError =
  * List all assets (`DASHBOARD`, `ANALYSIS`, and `DATASET`) in a folder.
  */
 export const listFolderMembers: API.PaginatedOperationMethod<
-  ListFolderMembersRequest,
+  ListFolderMembersRequest & RegionInput,
   ListFolderMembersResponse,
   ListFolderMembersError,
   Credentials | HttpClient.HttpClient,
@@ -20821,7 +20822,7 @@ export type ListFoldersError =
  * Lists all folders in an account.
  */
 export const listFolders: API.PaginatedOperationMethod<
-  ListFoldersRequest,
+  ListFoldersRequest & RegionInput,
   ListFoldersResponse,
   ListFoldersError,
   Credentials | HttpClient.HttpClient,
@@ -20864,7 +20865,7 @@ export type ListFoldersForResourceError =
  * List all folders that a resource is a member of.
  */
 export const listFoldersForResource: API.PaginatedOperationMethod<
-  ListFoldersForResourceRequest,
+  ListFoldersForResourceRequest & RegionInput,
   ListFoldersForResourceResponse,
   ListFoldersForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -20908,7 +20909,7 @@ export type ListGroupMembershipsError =
  * Lists member users in a group.
  */
 export const listGroupMemberships: API.PaginatedOperationMethod<
-  ListGroupMembershipsRequest,
+  ListGroupMembershipsRequest & RegionInput,
   ListGroupMembershipsResponse,
   ListGroupMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -20953,7 +20954,7 @@ export type ListGroupsError =
  * Lists all user groups in Amazon Quick Sight.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -20998,7 +20999,7 @@ export type ListIAMPolicyAssignmentsError =
  * account.
  */
 export const listIAMPolicyAssignments: API.PaginatedOperationMethod<
-  ListIAMPolicyAssignmentsRequest,
+  ListIAMPolicyAssignmentsRequest & RegionInput,
   ListIAMPolicyAssignmentsResponse,
   ListIAMPolicyAssignmentsError,
   Credentials | HttpClient.HttpClient,
@@ -21046,7 +21047,7 @@ export type ListIAMPolicyAssignmentsForUserError =
  * or groups that the user belongs to.
  */
 export const listIAMPolicyAssignmentsForUser: API.PaginatedOperationMethod<
-  ListIAMPolicyAssignmentsForUserRequest,
+  ListIAMPolicyAssignmentsForUserRequest & RegionInput,
   ListIAMPolicyAssignmentsForUserResponse,
   ListIAMPolicyAssignmentsForUserError,
   Credentials | HttpClient.HttpClient,
@@ -21089,7 +21090,7 @@ export type ListIdentityPropagationConfigsError =
  * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
  */
 export const listIdentityPropagationConfigs: API.OperationMethod<
-  ListIdentityPropagationConfigsRequest,
+  ListIdentityPropagationConfigsRequest & RegionInput,
   ListIdentityPropagationConfigsResponse,
   ListIdentityPropagationConfigsError,
   Credentials | HttpClient.HttpClient
@@ -21123,7 +21124,7 @@ export type ListIngestionsError =
  * Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
  */
 export const listIngestions: API.PaginatedOperationMethod<
-  ListIngestionsRequest,
+  ListIngestionsRequest & RegionInput,
   ListIngestionsResponse,
   ListIngestionsError,
   Credentials | HttpClient.HttpClient,
@@ -21165,7 +21166,7 @@ export type ListKnowledgeBasesError =
  * Lists all knowledge bases in an Amazon QuickSight account.
  */
 export const listKnowledgeBases: API.PaginatedOperationMethod<
-  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesRequest & RegionInput,
   ListKnowledgeBasesResponse,
   ListKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -21204,7 +21205,7 @@ export type ListLimitsProfilesError =
  * Lists all limits profiles in an Amazon Quick Sight account. Results are paginated. Use the `maxResults` parameter to limit the number of results returned in a single call, and use the `nextToken` parameter to retrieve the next page of results.
  */
 export const listLimitsProfiles: API.PaginatedOperationMethod<
-  ListLimitsProfilesRequest,
+  ListLimitsProfilesRequest & RegionInput,
   ListLimitsProfilesResponse,
   ListLimitsProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -21245,7 +21246,7 @@ export type ListNamespacesError =
  * Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
  */
 export const listNamespaces: API.PaginatedOperationMethod<
-  ListNamespacesRequest,
+  ListNamespacesRequest & RegionInput,
   ListNamespacesResponse,
   ListNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -21288,7 +21289,7 @@ export type ListOAuthClientApplicationsError =
  * Lists all OAuthClientApplications in the current Amazon Web Services Region that belong to this Amazon Web Services account.
  */
 export const listOAuthClientApplications: API.PaginatedOperationMethod<
-  ListOAuthClientApplicationsRequest,
+  ListOAuthClientApplicationsRequest & RegionInput,
   ListOAuthClientApplicationsResponse,
   ListOAuthClientApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -21329,7 +21330,7 @@ export type ListRefreshSchedulesError =
  * Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
  */
 export const listRefreshSchedules: API.OperationMethod<
-  ListRefreshSchedulesRequest,
+  ListRefreshSchedulesRequest & RegionInput,
   ListRefreshSchedulesResponse,
   ListRefreshSchedulesError,
   Credentials | HttpClient.HttpClient
@@ -21366,7 +21367,7 @@ export type ListRoleMembershipsError =
  * Lists all groups that are associated with a role.
  */
 export const listRoleMemberships: API.PaginatedOperationMethod<
-  ListRoleMembershipsRequest,
+  ListRoleMembershipsRequest & RegionInput,
   ListRoleMembershipsResponse,
   ListRoleMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -21413,7 +21414,7 @@ export type ListSelfUpgradesError =
  * Lists all self-upgrade requests for a Quick account.
  */
 export const listSelfUpgrades: API.OperationMethod<
-  ListSelfUpgradesRequest,
+  ListSelfUpgradesRequest & RegionInput,
   ListSelfUpgradesResponse,
   ListSelfUpgradesError,
   Credentials | HttpClient.HttpClient
@@ -21449,7 +21450,7 @@ export type ListSpaceResourcesError =
  * Lists the resources in an Amazon QuickSight space.
  */
 export const listSpaceResources: API.OperationMethod<
-  ListSpaceResourcesRequest,
+  ListSpaceResourcesRequest & RegionInput,
   ListSpaceResourcesResponse,
   ListSpaceResourcesError,
   Credentials | HttpClient.HttpClient
@@ -21481,7 +21482,7 @@ export type ListSpacesError =
  * Lists all Amazon QuickSight spaces in an Amazon Web Services account.
  */
 export const listSpaces: API.OperationMethod<
-  ListSpacesRequest,
+  ListSpacesRequest & RegionInput,
   ListSpacesResponse,
   ListSpacesError,
   Credentials | HttpClient.HttpClient
@@ -21513,7 +21514,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -21545,7 +21546,7 @@ export type ListTemplateAliasesError =
  * Lists all the aliases of a template.
  */
 export const listTemplateAliases: API.PaginatedOperationMethod<
-  ListTemplateAliasesRequest,
+  ListTemplateAliasesRequest & RegionInput,
   ListTemplateAliasesResponse,
   ListTemplateAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -21585,7 +21586,7 @@ export type ListTemplatesError =
  * Lists all the templates in the current Amazon Quick Sight account.
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -21626,7 +21627,7 @@ export type ListTemplateVersionsError =
  * Lists all the versions of the templates in the current Amazon Quick Sight account.
  */
 export const listTemplateVersions: API.PaginatedOperationMethod<
-  ListTemplateVersionsRequest,
+  ListTemplateVersionsRequest & RegionInput,
   ListTemplateVersionsResponse,
   ListTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -21668,7 +21669,7 @@ export type ListThemeAliasesError =
  * Lists all the aliases of a theme.
  */
 export const listThemeAliases: API.OperationMethod<
-  ListThemeAliasesRequest,
+  ListThemeAliasesRequest & RegionInput,
   ListThemeAliasesResponse,
   ListThemeAliasesError,
   Credentials | HttpClient.HttpClient
@@ -21704,7 +21705,7 @@ export type ListThemesError =
  * Lists all the themes in the current Amazon Web Services account.
  */
 export const listThemes: API.PaginatedOperationMethod<
-  ListThemesRequest,
+  ListThemesRequest & RegionInput,
   ListThemesResponse,
   ListThemesError,
   Credentials | HttpClient.HttpClient,
@@ -21747,7 +21748,7 @@ export type ListThemeVersionsError =
  * Lists all the versions of the themes in the current Amazon Web Services account.
  */
 export const listThemeVersions: API.PaginatedOperationMethod<
-  ListThemeVersionsRequest,
+  ListThemeVersionsRequest & RegionInput,
   ListThemeVersionsResponse,
   ListThemeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -21791,7 +21792,7 @@ export type ListTopicRefreshSchedulesError =
  * Lists all of the refresh schedules for a topic.
  */
 export const listTopicRefreshSchedules: API.OperationMethod<
-  ListTopicRefreshSchedulesRequest,
+  ListTopicRefreshSchedulesRequest & RegionInput,
   ListTopicRefreshSchedulesResponse,
   ListTopicRefreshSchedulesError,
   Credentials | HttpClient.HttpClient
@@ -21826,7 +21827,7 @@ export type ListTopicReviewedAnswersError =
  * Lists all reviewed answers for a Q Topic.
  */
 export const listTopicReviewedAnswers: API.OperationMethod<
-  ListTopicReviewedAnswersRequest,
+  ListTopicReviewedAnswersRequest & RegionInput,
   ListTopicReviewedAnswersResponse,
   ListTopicReviewedAnswersError,
   Credentials | HttpClient.HttpClient
@@ -21858,7 +21859,7 @@ export type ListTopicsError =
  * Lists all of the topics within an account.
  */
 export const listTopics: API.PaginatedOperationMethod<
-  ListTopicsRequest,
+  ListTopicsRequest & RegionInput,
   ListTopicsResponse,
   ListTopicsError,
   Credentials | HttpClient.HttpClient,
@@ -21896,7 +21897,7 @@ export type ListTopicsV2Error =
  * Lists all of the Q topics in the specified Amazon Web Services account in an Amazon Web Services Region.
  */
 export const listTopicsV2: API.PaginatedOperationMethod<
-  ListTopicsV2Request,
+  ListTopicsV2Request & RegionInput,
   ListTopicsV2Response,
   ListTopicsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -21937,7 +21938,7 @@ export type ListUserGroupsError =
  * Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
  */
 export const listUserGroups: API.PaginatedOperationMethod<
-  ListUserGroupsRequest,
+  ListUserGroupsRequest & RegionInput,
   ListUserGroupsResponse,
   ListUserGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -21981,7 +21982,7 @@ export type ListUsersError =
  * Returns a list of all of the Amazon Quick Sight users belonging to this account.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -22024,7 +22025,7 @@ export type ListUsersIndexCapacityError =
  * Lists per-user index capacity consumption for an account.
  */
 export const listUsersIndexCapacity: API.OperationMethod<
-  ListUsersIndexCapacityRequest,
+  ListUsersIndexCapacityRequest & RegionInput,
   ListUsersIndexCapacityResponse,
   ListUsersIndexCapacityError,
   Credentials | HttpClient.HttpClient
@@ -22059,7 +22060,7 @@ export type ListVPCConnectionsError =
  * Amazon Web Services account.
  */
 export const listVPCConnections: API.PaginatedOperationMethod<
-  ListVPCConnectionsRequest,
+  ListVPCConnectionsRequest & RegionInput,
   ListVPCConnectionsResponse,
   ListVPCConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -22101,7 +22102,7 @@ export type PredictQAResultsError =
  * We recommend enabling the `QSearchStatus` API to unlock the full potential of `PredictQnA`. When `QSearchStatus` is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, `PredictQnA` uses generative Q&A to provide an answer. To update the `QSearchStatus`, see UpdateQuickSightQSearchConfiguration.
  */
 export const predictQAResults: API.OperationMethod<
-  PredictQAResultsRequest,
+  PredictQAResultsRequest & RegionInput,
   PredictQAResultsResponse,
   PredictQAResultsError,
   Credentials | HttpClient.HttpClient
@@ -22135,7 +22136,7 @@ export type PutDataSetRefreshPropertiesError =
  * Creates or updates the dataset refresh properties for the dataset.
  */
 export const putDataSetRefreshProperties: API.OperationMethod<
-  PutDataSetRefreshPropertiesRequest,
+  PutDataSetRefreshPropertiesRequest & RegionInput,
   PutDataSetRefreshPropertiesResponse,
   PutDataSetRefreshPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -22174,7 +22175,7 @@ export type RegisterUserError =
  * Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Quick Sight console. For more information on registering a new user in the Quick Sight console, see Inviting users to access Quick Sight.
  */
 export const registerUser: API.OperationMethod<
-  RegisterUserRequest,
+  RegisterUserRequest & RegionInput,
   RegisterUserResponse,
   RegisterUserError,
   Credentials | HttpClient.HttpClient
@@ -22213,7 +22214,7 @@ export type RestoreAnalysisError =
  * Restores an analysis.
  */
 export const restoreAnalysis: API.OperationMethod<
-  RestoreAnalysisRequest,
+  RestoreAnalysisRequest & RegionInput,
   RestoreAnalysisResponse,
   RestoreAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -22247,7 +22248,7 @@ export type SearchActionConnectorsError =
  * Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions.
  */
 export const searchActionConnectors: API.PaginatedOperationMethod<
-  SearchActionConnectorsRequest,
+  SearchActionConnectorsRequest & RegionInput,
   SearchActionConnectorsResponse,
   SearchActionConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -22286,7 +22287,7 @@ export type SearchAgentsError =
  * Searches for agents based on specified filters.
  */
 export const searchAgents: API.OperationMethod<
-  SearchAgentsRequest,
+  SearchAgentsRequest & RegionInput,
   SearchAgentsResponse,
   SearchAgentsError,
   Credentials | HttpClient.HttpClient
@@ -22322,7 +22323,7 @@ export type SearchAnalysesError =
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const searchAnalyses: API.PaginatedOperationMethod<
-  SearchAnalysesRequest,
+  SearchAnalysesRequest & RegionInput,
   SearchAnalysesResponse,
   SearchAnalysesError,
   Credentials | HttpClient.HttpClient,
@@ -22361,7 +22362,7 @@ export type SearchAppsError =
  * Searches for apps in an Amazon Web Services account using the specified filters. This operation is eventually consistent; the results might not reflect very recent updates. Results are paginated; use the `NextToken` parameter to retrieve additional results.
  */
 export const searchApps: API.PaginatedOperationMethod<
-  SearchAppsRequest,
+  SearchAppsRequest & RegionInput,
   SearchAppsResponse,
   SearchAppsError,
   Credentials | HttpClient.HttpClient,
@@ -22403,7 +22404,7 @@ export type SearchDashboardsError =
  * reflect very recent updates and changes.
  */
 export const searchDashboards: API.PaginatedOperationMethod<
-  SearchDashboardsRequest,
+  SearchDashboardsRequest & RegionInput,
   SearchDashboardsResponse,
   SearchDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -22445,7 +22446,7 @@ export type SearchDataSetsError =
  * account.
  */
 export const searchDataSets: API.PaginatedOperationMethod<
-  SearchDataSetsRequest,
+  SearchDataSetsRequest & RegionInput,
   SearchDataSetsResponse,
   SearchDataSetsError,
   Credentials | HttpClient.HttpClient,
@@ -22487,7 +22488,7 @@ export type SearchDataSourcesError =
  * belong to an account.
  */
 export const searchDataSources: API.PaginatedOperationMethod<
-  SearchDataSourcesRequest,
+  SearchDataSourcesRequest & RegionInput,
   SearchDataSourcesResponse,
   SearchDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -22526,7 +22527,7 @@ export type SearchFlowsError =
  * Search for the flows in an Amazon Web Services account.
  */
 export const searchFlows: API.PaginatedOperationMethod<
-  SearchFlowsInput,
+  SearchFlowsInput & RegionInput,
   SearchFlowsOutput,
   SearchFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -22567,7 +22568,7 @@ export type SearchFoldersError =
  * Searches the subfolders in a folder.
  */
 export const searchFolders: API.PaginatedOperationMethod<
-  SearchFoldersRequest,
+  SearchFoldersRequest & RegionInput,
   SearchFoldersResponse,
   SearchFoldersError,
   Credentials | HttpClient.HttpClient,
@@ -22612,7 +22613,7 @@ export type SearchGroupsError =
  * Use the `SearchGroups` operation to search groups in a specified Quick Sight namespace using the supplied filters.
  */
 export const searchGroups: API.PaginatedOperationMethod<
-  SearchGroupsRequest,
+  SearchGroupsRequest & RegionInput,
   SearchGroupsResponse,
   SearchGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -22656,7 +22657,7 @@ export type SearchKnowledgeBasesError =
  * Searches for a subset of knowledge bases based on specified filters.
  */
 export const searchKnowledgeBases: API.PaginatedOperationMethod<
-  SearchKnowledgeBasesRequest,
+  SearchKnowledgeBasesRequest & RegionInput,
   SearchKnowledgeBasesResponse,
   SearchKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -22697,7 +22698,7 @@ export type SearchSpacesError =
  * Searches for Amazon QuickSight spaces that match the specified filters.
  */
 export const searchSpaces: API.OperationMethod<
-  SearchSpacesRequest,
+  SearchSpacesRequest & RegionInput,
   SearchSpacesResponse,
   SearchSpacesError,
   Credentials | HttpClient.HttpClient
@@ -22731,7 +22732,7 @@ export type SearchTopicsError =
  * Searches for any Q topic that exists in an Quick account.
  */
 export const searchTopics: API.PaginatedOperationMethod<
-  SearchTopicsRequest,
+  SearchTopicsRequest & RegionInput,
   SearchTopicsResponse,
   SearchTopicsError,
   Credentials | HttpClient.HttpClient,
@@ -22773,7 +22774,7 @@ export type SearchTopicsV2Error =
  * Searches for any Q topic that exists in an Amazon Web Services account.
  */
 export const searchTopicsV2: API.PaginatedOperationMethod<
-  SearchTopicsV2Request,
+  SearchTopicsV2Request & RegionInput,
   SearchTopicsV2Response,
   SearchTopicsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -22826,7 +22827,7 @@ export type StartAssetBundleExportJobError =
  * access each resource before the resources can be exported.
  */
 export const startAssetBundleExportJob: API.OperationMethod<
-  StartAssetBundleExportJobRequest,
+  StartAssetBundleExportJobRequest & RegionInput,
   StartAssetBundleExportJobResponse,
   StartAssetBundleExportJobError,
   Credentials | HttpClient.HttpClient
@@ -22873,7 +22874,7 @@ export type StartAssetBundleImportJobError =
  * imported.
  */
 export const startAssetBundleImportJob: API.OperationMethod<
-  StartAssetBundleImportJobRequest,
+  StartAssetBundleImportJobRequest & RegionInput,
   StartAssetBundleImportJobResponse,
   StartAssetBundleImportJobError,
   Credentials | HttpClient.HttpClient
@@ -22908,7 +22909,7 @@ export type StartAutomationJobError =
  * Starts a new job for a specified automation. The job runs the automation with the provided input payload.
  */
 export const startAutomationJob: API.OperationMethod<
-  StartAutomationJobRequest,
+  StartAutomationJobRequest & RegionInput,
   StartAutomationJobResponse,
   StartAutomationJobError,
   Credentials | HttpClient.HttpClient
@@ -23031,7 +23032,7 @@ export type StartDashboardSnapshotJobError =
  * - The impersonated Quick Sight user is restricted from exporting data in the selected formats. For more information about export restrictions, see Customizing access to Amazon Quick Sight capabilities.
  */
 export const startDashboardSnapshotJob: API.OperationMethod<
-  StartDashboardSnapshotJobRequest,
+  StartDashboardSnapshotJobRequest & RegionInput,
   StartDashboardSnapshotJobResponse,
   StartDashboardSnapshotJobError,
   Credentials | HttpClient.HttpClient
@@ -23073,7 +23074,7 @@ export type StartDashboardSnapshotJobScheduleError =
  * For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the *Amazon Quick Sight User Guide*.
  */
 export const startDashboardSnapshotJobSchedule: API.OperationMethod<
-  StartDashboardSnapshotJobScheduleRequest,
+  StartDashboardSnapshotJobScheduleRequest & RegionInput,
   StartDashboardSnapshotJobScheduleResponse,
   StartDashboardSnapshotJobScheduleError,
   Credentials | HttpClient.HttpClient
@@ -23128,7 +23129,7 @@ export type TagResourceError =
  * - Amazon Quick Sight doesn't currently support the tag editor for Resource Groups.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -23161,7 +23162,7 @@ export type UntagResourceError =
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -23200,7 +23201,7 @@ export type UpdateAccountCustomizationError =
  * the `DescribeAccountCustomization` API operation.
  */
 export const updateAccountCustomization: API.OperationMethod<
-  UpdateAccountCustomizationRequest,
+  UpdateAccountCustomizationRequest & RegionInput,
   UpdateAccountCustomizationResponse,
   UpdateAccountCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -23234,7 +23235,7 @@ export type UpdateAccountCustomPermissionError =
  * Applies a custom permissions profile to an account.
  */
 export const updateAccountCustomPermission: API.OperationMethod<
-  UpdateAccountCustomPermissionRequest,
+  UpdateAccountCustomPermissionRequest & RegionInput,
   UpdateAccountCustomPermissionResponse,
   UpdateAccountCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -23267,7 +23268,7 @@ export type UpdateAccountSettingsError =
  * Updates the Amazon Quick Sight settings in your Amazon Web Services account.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -23303,7 +23304,7 @@ export type UpdateActionConnectorError =
  * https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html.
  */
 export const updateActionConnector: API.OperationMethod<
-  UpdateActionConnectorRequest,
+  UpdateActionConnectorRequest & RegionInput,
   UpdateActionConnectorResponse,
   UpdateActionConnectorError,
   Credentials | HttpClient.HttpClient
@@ -23339,7 +23340,7 @@ export type UpdateActionConnectorPermissionsError =
  * Updates the permissions for an action connector by granting or revoking access for specific users and groups. You can control who can view, use, or manage the action connector.
  */
 export const updateActionConnectorPermissions: API.OperationMethod<
-  UpdateActionConnectorPermissionsRequest,
+  UpdateActionConnectorPermissionsRequest & RegionInput,
   UpdateActionConnectorPermissionsResponse,
   UpdateActionConnectorPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23377,7 +23378,7 @@ export type UpdateAgentError =
  * Updates an existing agent.
  */
 export const updateAgent: API.OperationMethod<
-  UpdateAgentRequest,
+  UpdateAgentRequest & RegionInput,
   UpdateAgentResponse,
   UpdateAgentError,
   Credentials | HttpClient.HttpClient
@@ -23416,7 +23417,7 @@ export type UpdateAgentPermissionsError =
  * Updates the resource permissions for an agent.
  */
 export const updateAgentPermissions: API.OperationMethod<
-  UpdateAgentPermissionsRequest,
+  UpdateAgentPermissionsRequest & RegionInput,
   UpdateAgentPermissionsResponse,
   UpdateAgentPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23454,7 +23455,7 @@ export type UpdateAnalysisError =
  * Updates an analysis in Amazon Quick Sight
  */
 export const updateAnalysis: API.OperationMethod<
-  UpdateAnalysisRequest,
+  UpdateAnalysisRequest & RegionInput,
   UpdateAnalysisResponse,
   UpdateAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -23490,7 +23491,7 @@ export type UpdateAnalysisPermissionsError =
  * Updates the read and write permissions for an analysis.
  */
 export const updateAnalysisPermissions: API.OperationMethod<
-  UpdateAnalysisPermissionsRequest,
+  UpdateAnalysisPermissionsRequest & RegionInput,
   UpdateAnalysisPermissionsResponse,
   UpdateAnalysisPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23526,7 +23527,7 @@ export type UpdateApplicationWithTokenExchangeGrantError =
  * Updates an Quick application with a token exchange grant. This operation only supports Quick applications that are registered with IAM Identity Center.
  */
 export const updateApplicationWithTokenExchangeGrant: API.OperationMethod<
-  UpdateApplicationWithTokenExchangeGrantRequest,
+  UpdateApplicationWithTokenExchangeGrantRequest & RegionInput,
   UpdateApplicationWithTokenExchangeGrantResponse,
   UpdateApplicationWithTokenExchangeGrantError,
   Credentials | HttpClient.HttpClient
@@ -23561,7 +23562,7 @@ export type UpdateAppPermissionsError =
  * Updates the resource permissions for an app. You can grant or revoke permissions and, optionally, change the app's visibility.
  */
 export const updateAppPermissions: API.OperationMethod<
-  UpdateAppPermissionsRequest,
+  UpdateAppPermissionsRequest & RegionInput,
   UpdateAppPermissionsResponse,
   UpdateAppPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23595,7 +23596,7 @@ export type UpdateApprovalPolicyError =
  * Updates an approval policy in Quick Sight.
  */
 export const updateApprovalPolicy: API.OperationMethod<
-  UpdateApprovalPolicyRequest,
+  UpdateApprovalPolicyRequest & RegionInput,
   UpdateApprovalPolicyResponse,
   UpdateApprovalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -23629,7 +23630,7 @@ export type UpdateBrandError =
  * Updates a brand.
  */
 export const updateBrand: API.OperationMethod<
-  UpdateBrandRequest,
+  UpdateBrandRequest & RegionInput,
   UpdateBrandResponse,
   UpdateBrandError,
   Credentials | HttpClient.HttpClient
@@ -23663,7 +23664,7 @@ export type UpdateBrandAssignmentError =
  * Updates a brand assignment.
  */
 export const updateBrandAssignment: API.OperationMethod<
-  UpdateBrandAssignmentRequest,
+  UpdateBrandAssignmentRequest & RegionInput,
   UpdateBrandAssignmentResponse,
   UpdateBrandAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -23697,7 +23698,7 @@ export type UpdateBrandPublishedVersionError =
  * Updates the published version of a brand.
  */
 export const updateBrandPublishedVersion: API.OperationMethod<
-  UpdateBrandPublishedVersionRequest,
+  UpdateBrandPublishedVersionRequest & RegionInput,
   UpdateBrandPublishedVersionResponse,
   UpdateBrandPublishedVersionError,
   Credentials | HttpClient.HttpClient
@@ -23733,7 +23734,7 @@ export type UpdateCustomPermissionsError =
  * Updates a custom permissions profile.
  */
 export const updateCustomPermissions: API.OperationMethod<
-  UpdateCustomPermissionsRequest,
+  UpdateCustomPermissionsRequest & RegionInput,
   UpdateCustomPermissionsResponse,
   UpdateCustomPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23776,7 +23777,7 @@ export type UpdateDashboardError =
  * API operation.
  */
 export const updateDashboard: API.OperationMethod<
-  UpdateDashboardRequest,
+  UpdateDashboardRequest & RegionInput,
   UpdateDashboardResponse,
   UpdateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -23812,7 +23813,7 @@ export type UpdateDashboardLinksError =
  * Updates the linked analyses on a dashboard.
  */
 export const updateDashboardLinks: API.OperationMethod<
-  UpdateDashboardLinksRequest,
+  UpdateDashboardLinksRequest & RegionInput,
   UpdateDashboardLinksResponse,
   UpdateDashboardLinksError,
   Credentials | HttpClient.HttpClient
@@ -23848,7 +23849,7 @@ export type UpdateDashboardPermissionsError =
  * Updates read and write permissions on a dashboard.
  */
 export const updateDashboardPermissions: API.OperationMethod<
-  UpdateDashboardPermissionsRequest,
+  UpdateDashboardPermissionsRequest & RegionInput,
   UpdateDashboardPermissionsResponse,
   UpdateDashboardPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -23883,7 +23884,7 @@ export type UpdateDashboardPublishedVersionError =
  * Updates the published version of a dashboard.
  */
 export const updateDashboardPublishedVersion: API.OperationMethod<
-  UpdateDashboardPublishedVersionRequest,
+  UpdateDashboardPublishedVersionRequest & RegionInput,
   UpdateDashboardPublishedVersionResponse,
   UpdateDashboardPublishedVersionError,
   Credentials | HttpClient.HttpClient
@@ -23917,7 +23918,7 @@ export type UpdateDashboardsQAConfigurationError =
  * Updates a Dashboard QA configuration.
  */
 export const updateDashboardsQAConfiguration: API.OperationMethod<
-  UpdateDashboardsQAConfigurationRequest,
+  UpdateDashboardsQAConfigurationRequest & RegionInput,
   UpdateDashboardsQAConfigurationResponse,
   UpdateDashboardsQAConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -23954,7 +23955,7 @@ export type UpdateDataSetError =
  * Updates a dataset. Partial updates are not supported by this operation.
  */
 export const updateDataSet: API.OperationMethod<
-  UpdateDataSetRequest,
+  UpdateDataSetRequest & RegionInput,
   UpdateDataSetResponse,
   UpdateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -23994,7 +23995,7 @@ export type UpdateDataSetPermissionsError =
  * `arn:aws:quicksight:region:aws-account-id:dataset/data-set-id`.
  */
 export const updateDataSetPermissions: API.OperationMethod<
-  UpdateDataSetPermissionsRequest,
+  UpdateDataSetPermissionsRequest & RegionInput,
   UpdateDataSetPermissionsResponse,
   UpdateDataSetPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24029,7 +24030,7 @@ export type UpdateDataSourceError =
  * Updates a data source.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -24064,7 +24065,7 @@ export type UpdateDataSourcePermissionsError =
  * Updates the permissions to a data source.
  */
 export const updateDataSourcePermissions: API.OperationMethod<
-  UpdateDataSourcePermissionsRequest,
+  UpdateDataSourcePermissionsRequest & RegionInput,
   UpdateDataSourcePermissionsResponse,
   UpdateDataSourcePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24098,7 +24099,7 @@ export type UpdateDefaultQBusinessApplicationError =
  * Updates a Amazon Q Business application that is linked to a Quick Sight account.
  */
 export const updateDefaultQBusinessApplication: API.OperationMethod<
-  UpdateDefaultQBusinessApplicationRequest,
+  UpdateDefaultQBusinessApplicationRequest & RegionInput,
   UpdateDefaultQBusinessApplicationResponse,
   UpdateDefaultQBusinessApplicationError,
   Credentials | HttpClient.HttpClient
@@ -24132,7 +24133,7 @@ export type UpdateDlpSettingError =
  * Updates an existing DLP setting configuration in an Amazon Web Services account. Fields that are omitted from the request retain their current values.
  */
 export const updateDlpSetting: API.OperationMethod<
-  UpdateDlpSettingRequest,
+  UpdateDlpSettingRequest & RegionInput,
   UpdateDlpSettingResponse,
   UpdateDlpSettingError,
   Credentials | HttpClient.HttpClient
@@ -24167,7 +24168,7 @@ export type UpdateFlowError =
  * Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When `FlowDefinition` is provided, all existing steps are replaced with the new definition.
  */
 export const updateFlow: API.OperationMethod<
-  UpdateFlowRequest,
+  UpdateFlowRequest & RegionInput,
   UpdateFlowResponse,
   UpdateFlowError,
   Credentials | HttpClient.HttpClient
@@ -24200,7 +24201,7 @@ export type UpdateFlowPermissionsError =
  * Updates permissions against principals on a flow.
  */
 export const updateFlowPermissions: API.OperationMethod<
-  UpdateFlowPermissionsInput,
+  UpdateFlowPermissionsInput & RegionInput,
   UpdateFlowPermissionsOutput,
   UpdateFlowPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24234,7 +24235,7 @@ export type UpdateFolderError =
  * Updates the name of a folder.
  */
 export const updateFolder: API.OperationMethod<
-  UpdateFolderRequest,
+  UpdateFolderRequest & RegionInput,
   UpdateFolderResponse,
   UpdateFolderError,
   Credentials | HttpClient.HttpClient
@@ -24271,7 +24272,7 @@ export type UpdateFolderPermissionsError =
  * Updates permissions of a folder.
  */
 export const updateFolderPermissions: API.OperationMethod<
-  UpdateFolderPermissionsRequest,
+  UpdateFolderPermissionsRequest & RegionInput,
   UpdateFolderPermissionsResponse,
   UpdateFolderPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24307,7 +24308,7 @@ export type UpdateGroupError =
  * Changes a group description.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -24345,7 +24346,7 @@ export type UpdateIAMPolicyAssignmentError =
  * all of the users included in `Identities`.
  */
 export const updateIAMPolicyAssignment: API.OperationMethod<
-  UpdateIAMPolicyAssignmentRequest,
+  UpdateIAMPolicyAssignmentRequest & RegionInput,
   UpdateIAMPolicyAssignmentResponse,
   UpdateIAMPolicyAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -24381,7 +24382,7 @@ export type UpdateIdentityPropagationConfigError =
  * This operation is only supported for Quick Sight accounts using IAM Identity Center
  */
 export const updateIdentityPropagationConfig: API.OperationMethod<
-  UpdateIdentityPropagationConfigRequest,
+  UpdateIdentityPropagationConfigRequest & RegionInput,
   UpdateIdentityPropagationConfigResponse,
   UpdateIdentityPropagationConfigError,
   Credentials | HttpClient.HttpClient
@@ -24414,7 +24415,7 @@ export type UpdateIpRestrictionError =
  * Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the `IpRestrictionRule`, `VpcIdRestrictionRule`, or `VpcEndpointIdRestrictionRule`. To use this operation, you must provide the entire map of rules. You can use the `DescribeIpRestriction` operation to get the current rule map.
  */
 export const updateIpRestriction: API.OperationMethod<
-  UpdateIpRestrictionRequest,
+  UpdateIpRestrictionRequest & RegionInput,
   UpdateIpRestrictionResponse,
   UpdateIpRestrictionError,
   Credentials | HttpClient.HttpClient
@@ -24446,7 +24447,7 @@ export type UpdateKeyRegistrationError =
  * Updates a customer managed key in a Quick Sight account.
  */
 export const updateKeyRegistration: API.OperationMethod<
-  UpdateKeyRegistrationRequest,
+  UpdateKeyRegistrationRequest & RegionInput,
   UpdateKeyRegistrationResponse,
   UpdateKeyRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -24481,7 +24482,7 @@ export type UpdateKnowledgeBaseError =
  * Updates the properties of an existing knowledge base.
  */
 export const updateKnowledgeBase: API.OperationMethod<
-  UpdateKnowledgeBaseRequest,
+  UpdateKnowledgeBaseRequest & RegionInput,
   UpdateKnowledgeBaseResponse,
   UpdateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -24521,7 +24522,7 @@ export type UpdateKnowledgeBasePermissionsError =
  * Updates the resource permissions for a knowledge base.
  */
 export const updateKnowledgeBasePermissions: API.OperationMethod<
-  UpdateKnowledgeBasePermissionsRequest,
+  UpdateKnowledgeBasePermissionsRequest & RegionInput,
   UpdateKnowledgeBasePermissionsResponse,
   UpdateKnowledgeBasePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24558,7 +24559,7 @@ export type UpdateLimitsProfileError =
  * Updates the properties of an existing limits profile.
  */
 export const updateLimitsProfile: API.OperationMethod<
-  UpdateLimitsProfileRequest,
+  UpdateLimitsProfileRequest & RegionInput,
   UpdateLimitsProfileResponse,
   UpdateLimitsProfileError,
   Credentials | HttpClient.HttpClient
@@ -24593,7 +24594,7 @@ export type UpdateOAuthClientApplicationError =
  * Updates an OAuthClientApplication.
  */
 export const updateOAuthClientApplication: API.OperationMethod<
-  UpdateOAuthClientApplicationRequest,
+  UpdateOAuthClientApplicationRequest & RegionInput,
   UpdateOAuthClientApplicationResponse,
   UpdateOAuthClientApplicationError,
   Credentials | HttpClient.HttpClient
@@ -24649,7 +24650,7 @@ export type UpdatePublicSharingSettingsError =
  * User Guide.
  */
 export const updatePublicSharingSettings: API.OperationMethod<
-  UpdatePublicSharingSettingsRequest,
+  UpdatePublicSharingSettingsRequest & RegionInput,
   UpdatePublicSharingSettingsResponse,
   UpdatePublicSharingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -24684,7 +24685,7 @@ export type UpdateQPersonalizationConfigurationError =
  * Updates a personalization configuration.
  */
 export const updateQPersonalizationConfiguration: API.OperationMethod<
-  UpdateQPersonalizationConfigurationRequest,
+  UpdateQPersonalizationConfigurationRequest & RegionInput,
   UpdateQPersonalizationConfigurationResponse,
   UpdateQPersonalizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -24719,7 +24720,7 @@ export type UpdateQuickSightQSearchConfigurationError =
  * Updates the state of a Quick Sight Q Search configuration.
  */
 export const updateQuickSightQSearchConfiguration: API.OperationMethod<
-  UpdateQuickSightQSearchConfigurationRequest,
+  UpdateQuickSightQSearchConfigurationRequest & RegionInput,
   UpdateQuickSightQSearchConfigurationResponse,
   UpdateQuickSightQSearchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -24754,7 +24755,7 @@ export type UpdateRefreshScheduleError =
  * Updates a refresh schedule for a dataset.
  */
 export const updateRefreshSchedule: API.OperationMethod<
-  UpdateRefreshScheduleRequest,
+  UpdateRefreshScheduleRequest & RegionInput,
   UpdateRefreshScheduleResponse,
   UpdateRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -24790,7 +24791,7 @@ export type UpdateRoleCustomPermissionError =
  * Updates the custom permissions that are associated with a role.
  */
 export const updateRoleCustomPermission: API.OperationMethod<
-  UpdateRoleCustomPermissionRequest,
+  UpdateRoleCustomPermissionRequest & RegionInput,
   UpdateRoleCustomPermissionResponse,
   UpdateRoleCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -24828,7 +24829,7 @@ export type UpdateSelfUpgradeError =
  * Updates a self-upgrade request for a Quick user by approving, denying, or verifying the request.
  */
 export const updateSelfUpgrade: API.OperationMethod<
-  UpdateSelfUpgradeRequest,
+  UpdateSelfUpgradeRequest & RegionInput,
   UpdateSelfUpgradeResponse,
   UpdateSelfUpgradeError,
   Credentials | HttpClient.HttpClient
@@ -24867,7 +24868,7 @@ export type UpdateSelfUpgradeConfigurationError =
  * Updates the self-upgrade configuration for a Quick account.
  */
 export const updateSelfUpgradeConfiguration: API.OperationMethod<
-  UpdateSelfUpgradeConfigurationRequest,
+  UpdateSelfUpgradeConfigurationRequest & RegionInput,
   UpdateSelfUpgradeConfigurationResponse,
   UpdateSelfUpgradeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -24903,7 +24904,7 @@ export type UpdateSpaceError =
  * Updates the metadata of an Amazon QuickSight space.
  */
 export const updateSpace: API.OperationMethod<
-  UpdateSpaceRequest,
+  UpdateSpaceRequest & RegionInput,
   UpdateSpaceResponse,
   UpdateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -24939,7 +24940,7 @@ export type UpdateSpacePermissionsError =
  * Updates the permissions for an Amazon QuickSight space.
  */
 export const updateSpacePermissions: API.OperationMethod<
-  UpdateSpacePermissionsRequest,
+  UpdateSpacePermissionsRequest & RegionInput,
   UpdateSpacePermissionsResponse,
   UpdateSpacePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -24977,7 +24978,7 @@ export type UpdateSpaceResourcesError =
  * Adds or removes resources from an Amazon QuickSight space.
  */
 export const updateSpaceResources: API.OperationMethod<
-  UpdateSpaceResourcesRequest,
+  UpdateSpaceResourcesRequest & RegionInput,
   UpdateSpaceResourcesResponse,
   UpdateSpaceResourcesError,
   Credentials | HttpClient.HttpClient
@@ -25012,7 +25013,7 @@ export type UpdateSPICECapacityConfigurationError =
  * Updates the SPICE capacity configuration for a Quick Sight account.
  */
 export const updateSPICECapacityConfiguration: API.OperationMethod<
-  UpdateSPICECapacityConfigurationRequest,
+  UpdateSPICECapacityConfigurationRequest & RegionInput,
   UpdateSPICECapacityConfigurationResponse,
   UpdateSPICECapacityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -25047,7 +25048,7 @@ export type UpdateTemplateError =
  * Updates a template from an existing Amazon Quick Sight analysis or another template.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -25082,7 +25083,7 @@ export type UpdateTemplateAliasError =
  * Updates the template alias of a template.
  */
 export const updateTemplateAlias: API.OperationMethod<
-  UpdateTemplateAliasRequest,
+  UpdateTemplateAliasRequest & RegionInput,
   UpdateTemplateAliasResponse,
   UpdateTemplateAliasError,
   Credentials | HttpClient.HttpClient
@@ -25116,7 +25117,7 @@ export type UpdateTemplatePermissionsError =
  * Updates the resource permissions for a template.
  */
 export const updateTemplatePermissions: API.OperationMethod<
-  UpdateTemplatePermissionsRequest,
+  UpdateTemplatePermissionsRequest & RegionInput,
   UpdateTemplatePermissionsResponse,
   UpdateTemplatePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -25153,7 +25154,7 @@ export type UpdateThemeError =
  * Updates a theme.
  */
 export const updateTheme: API.OperationMethod<
-  UpdateThemeRequest,
+  UpdateThemeRequest & RegionInput,
   UpdateThemeResponse,
   UpdateThemeError,
   Credentials | HttpClient.HttpClient
@@ -25190,7 +25191,7 @@ export type UpdateThemeAliasError =
  * Updates an alias of a theme.
  */
 export const updateThemeAlias: API.OperationMethod<
-  UpdateThemeAliasRequest,
+  UpdateThemeAliasRequest & RegionInput,
   UpdateThemeAliasResponse,
   UpdateThemeAliasError,
   Credentials | HttpClient.HttpClient
@@ -25266,7 +25267,7 @@ export type UpdateThemePermissionsError =
  * - To specify no permissions, omit the permissions list.
  */
 export const updateThemePermissions: API.OperationMethod<
-  UpdateThemePermissionsRequest,
+  UpdateThemePermissionsRequest & RegionInput,
   UpdateThemePermissionsResponse,
   UpdateThemePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -25303,7 +25304,7 @@ export type UpdateTopicError =
  * Updates a topic.
  */
 export const updateTopic: API.OperationMethod<
-  UpdateTopicRequest,
+  UpdateTopicRequest & RegionInput,
   UpdateTopicResponse,
   UpdateTopicError,
   Credentials | HttpClient.HttpClient
@@ -25341,7 +25342,7 @@ export type UpdateTopicPermissionsError =
  * Updates the permissions of a topic.
  */
 export const updateTopicPermissions: API.OperationMethod<
-  UpdateTopicPermissionsRequest,
+  UpdateTopicPermissionsRequest & RegionInput,
   UpdateTopicPermissionsResponse,
   UpdateTopicPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -25379,7 +25380,7 @@ export type UpdateTopicPermissionsV2Error =
  * Updates the permissions of a topic.
  */
 export const updateTopicPermissionsV2: API.OperationMethod<
-  UpdateTopicPermissionsV2Request,
+  UpdateTopicPermissionsV2Request & RegionInput,
   UpdateTopicPermissionsV2Response,
   UpdateTopicPermissionsV2Error,
   Credentials | HttpClient.HttpClient
@@ -25417,7 +25418,7 @@ export type UpdateTopicRefreshScheduleError =
  * Updates a topic refresh schedule.
  */
 export const updateTopicRefreshSchedule: API.OperationMethod<
-  UpdateTopicRefreshScheduleRequest,
+  UpdateTopicRefreshScheduleRequest & RegionInput,
   UpdateTopicRefreshScheduleResponse,
   UpdateTopicRefreshScheduleError,
   Credentials | HttpClient.HttpClient
@@ -25455,7 +25456,7 @@ export type UpdateTopicV2Error =
  * Updates the definition of a Q topic.
  */
 export const updateTopicV2: API.OperationMethod<
-  UpdateTopicV2Request,
+  UpdateTopicV2Request & RegionInput,
   UpdateTopicV2Response,
   UpdateTopicV2Error,
   Credentials | HttpClient.HttpClient
@@ -25492,7 +25493,7 @@ export type UpdateUserError =
  * Updates an Amazon Quick Sight user.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -25529,7 +25530,7 @@ export type UpdateUserCustomPermissionError =
  * Updates a custom permissions profile for a user.
  */
 export const updateUserCustomPermission: API.OperationMethod<
-  UpdateUserCustomPermissionRequest,
+  UpdateUserCustomPermissionRequest & RegionInput,
   UpdateUserCustomPermissionResponse,
   UpdateUserCustomPermissionError,
   Credentials | HttpClient.HttpClient
@@ -25567,7 +25568,7 @@ export type UpdateVPCConnectionError =
  * Updates a VPC connection.
  */
 export const updateVPCConnection: API.OperationMethod<
-  UpdateVPCConnectionRequest,
+  UpdateVPCConnectionRequest & RegionInput,
   UpdateVPCConnectionResponse,
   UpdateVPCConnectionError,
   Credentials | HttpClient.HttpClient

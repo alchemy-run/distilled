@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -657,7 +658,7 @@ export type AssociateResourceError =
  * You must run this operation in the Region where the canary exists.
  */
 export const associateResource: API.OperationMethod<
-  AssociateResourceRequest,
+  AssociateResourceRequest & RegionInput,
   AssociateResourceResponse,
   AssociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -703,7 +704,7 @@ export type CreateCanaryError =
  * Considerations for Synthetics Canaries.
  */
 export const createCanary: API.OperationMethod<
-  CreateCanaryRequest,
+  CreateCanaryRequest & RegionInput,
   CreateCanaryResponse,
   CreateCanaryError,
   Credentials | HttpClient.HttpClient
@@ -743,7 +744,7 @@ export type CreateGroupError =
  * can be a member of up to 10 groups.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -798,7 +799,7 @@ export type DeleteCanaryError =
  * after you delete the canary.
  */
 export const deleteCanary: API.OperationMethod<
-  DeleteCanaryRequest,
+  DeleteCanaryRequest & RegionInput,
   DeleteCanaryResponse,
   DeleteCanaryError,
   Credentials | HttpClient.HttpClient
@@ -832,7 +833,7 @@ export type DeleteGroupError =
  * must be made from its home Region. You can find the home Region of a group within its ARN.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -868,7 +869,7 @@ export type DescribeCanariesError = InternalServerException | ValidationExceptio
  * Limiting a user to viewing specific canaries.
  */
 export const describeCanaries: API.PaginatedOperationMethod<
-  DescribeCanariesRequest,
+  DescribeCanariesRequest & RegionInput,
   DescribeCanariesResponse,
   DescribeCanariesError,
   Credentials | HttpClient.HttpClient,
@@ -907,7 +908,7 @@ export type DescribeCanariesLastRunError =
  * Limiting a user to viewing specific canaries.
  */
 export const describeCanariesLastRun: API.PaginatedOperationMethod<
-  DescribeCanariesLastRunRequest,
+  DescribeCanariesLastRunRequest & RegionInput,
   DescribeCanariesLastRunResponse,
   DescribeCanariesLastRunError,
   Credentials | HttpClient.HttpClient,
@@ -938,7 +939,7 @@ export type DescribeRuntimeVersionsError =
  * Canary Runtime Versions.
  */
 export const describeRuntimeVersions: API.PaginatedOperationMethod<
-  DescribeRuntimeVersionsRequest,
+  DescribeRuntimeVersionsRequest & RegionInput,
   DescribeRuntimeVersionsResponse,
   DescribeRuntimeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -969,7 +970,7 @@ export type DisassociateResourceError =
  * Removes a canary from a group. You must run this operation in the Region where the canary exists.
  */
 export const disassociateResource: API.OperationMethod<
-  DisassociateResourceRequest,
+  DisassociateResourceRequest & RegionInput,
   DisassociateResourceResponse,
   DisassociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1000,7 +1001,7 @@ export type GetCanaryError =
  * and their names, use DescribeCanaries.
  */
 export const getCanary: API.OperationMethod<
-  GetCanaryRequest,
+  GetCanaryRequest & RegionInput,
   GetCanaryResponse,
   GetCanaryError,
   Credentials | HttpClient.HttpClient
@@ -1024,7 +1025,7 @@ export type GetCanaryRunsError =
  * Retrieves a list of runs for a specified canary.
  */
 export const getCanaryRuns: API.PaginatedOperationMethod<
-  GetCanaryRunsRequest,
+  GetCanaryRunsRequest & RegionInput,
   GetCanaryRunsResponse,
   GetCanaryRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1056,7 +1057,7 @@ export type GetGroupError =
  * any Region.
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1086,7 +1087,7 @@ export type ListAssociatedGroupsError =
  * that you specify must be in the current Region.
  */
 export const listAssociatedGroups: API.PaginatedOperationMethod<
-  ListAssociatedGroupsRequest,
+  ListAssociatedGroupsRequest & RegionInput,
   ListAssociatedGroupsResponse,
   ListAssociatedGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1117,7 +1118,7 @@ export type ListGroupResourcesError =
  * This operation returns a list of the ARNs of the canaries that are associated with the specified group.
  */
 export const listGroupResources: API.PaginatedOperationMethod<
-  ListGroupResourcesRequest,
+  ListGroupResourcesRequest & RegionInput,
   ListGroupResourcesResponse,
   ListGroupResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1149,7 +1150,7 @@ export type ListGroupsError = InternalServerException | ValidationException | Co
  * from all Regions are returned.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1181,7 +1182,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a canary or group.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1214,7 +1215,7 @@ export type StartCanaryError =
  * use GetCanary.
  */
 export const startCanary: API.OperationMethod<
-  StartCanaryRequest,
+  StartCanaryRequest & RegionInput,
   StartCanaryResponse,
   StartCanaryError,
   Credentials | HttpClient.HttpClient
@@ -1245,7 +1246,7 @@ export type StartCanaryDryRunError =
  * Use this operation to start a dry run for a canary that has already been created
  */
 export const startCanaryDryRun: API.OperationMethod<
-  StartCanaryDryRunRequest,
+  StartCanaryDryRunRequest & RegionInput,
   StartCanaryDryRunResponse,
   StartCanaryDryRunError,
   Credentials | HttpClient.HttpClient
@@ -1281,7 +1282,7 @@ export type StopCanaryError =
  * with the canary's current schedule at any point in the future.
  */
 export const stopCanary: API.OperationMethod<
-  StopCanaryRequest,
+  StopCanaryRequest & RegionInput,
   StopCanaryResponse,
   StopCanaryError,
   Credentials | HttpClient.HttpClient
@@ -1327,7 +1328,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a canary or group.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1359,7 +1360,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1403,7 +1404,7 @@ export type UpdateCanaryError =
  * When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
  */
 export const updateCanary: API.OperationMethod<
-  UpdateCanaryRequest,
+  UpdateCanaryRequest & RegionInput,
   UpdateCanaryResponse,
   UpdateCanaryError,
   Credentials | HttpClient.HttpClient

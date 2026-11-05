@@ -10,6 +10,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -835,7 +836,7 @@ export type AddPermissionError =
  * `SetTopicAttributes` actions in your IAM policy.
  */
 export const addPermission: API.OperationMethod<
-  AddPermissionInput,
+  AddPermissionInput & RegionInput,
   AddPermissionResponse,
   AddPermissionError,
   Credentials | HttpClient.HttpClient
@@ -880,7 +881,7 @@ export type CheckIfPhoneNumberIsOptedOutError =
  * `OptInPhoneNumber` action.
  */
 export const checkIfPhoneNumberIsOptedOut: API.OperationMethod<
-  CheckIfPhoneNumberIsOptedOutInput,
+  CheckIfPhoneNumberIsOptedOutInput & RegionInput,
   CheckIfPhoneNumberIsOptedOutResponse,
   CheckIfPhoneNumberIsOptedOutError,
   Credentials | HttpClient.HttpClient
@@ -917,7 +918,7 @@ export type ConfirmSubscriptionError =
  * set to "true".
  */
 export const confirmSubscription: API.OperationMethod<
-  ConfirmSubscriptionInput,
+  ConfirmSubscriptionInput & RegionInput,
   ConfirmSubscriptionResponse,
   ConfirmSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -994,7 +995,7 @@ export type CreatePlatformApplicationError =
  * `CreatePlatformEndpoint` action.
  */
 export const createPlatformApplication: API.OperationMethod<
-  CreatePlatformApplicationInput,
+  CreatePlatformApplicationInput & RegionInput,
   CreatePlatformApplicationResponse,
   CreatePlatformApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1035,7 +1036,7 @@ export type CreatePlatformEndpointError =
  * Baidu.
  */
 export const createPlatformEndpoint: API.OperationMethod<
-  CreatePlatformEndpointInput,
+  CreatePlatformEndpointInput & RegionInput,
   CreateEndpointResponse,
   CreatePlatformEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1079,7 +1080,7 @@ export type CreateSMSSandboxPhoneNumberError =
  * the *Amazon SNS Developer Guide*.
  */
 export const createSMSSandboxPhoneNumber: API.OperationMethod<
-  CreateSMSSandboxPhoneNumberInput,
+  CreateSMSSandboxPhoneNumberInput & RegionInput,
   CreateSMSSandboxPhoneNumberResult,
   CreateSMSSandboxPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1120,7 +1121,7 @@ export type CreateTopicError =
  * topic's ARN is returned without creating a new topic.
  */
 export const createTopic: API.OperationMethod<
-  CreateTopicInput,
+  CreateTopicInput & RegionInput,
   CreateTopicResponse,
   CreateTopicError,
   Credentials | HttpClient.HttpClient
@@ -1161,7 +1162,7 @@ export type DeleteEndpointError =
  * unsubscribe the endpoint from the topic.
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointInput,
+  DeleteEndpointInput & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1196,7 +1197,7 @@ export type DeletePlatformApplicationError =
  * Mobile Push Notifications.
  */
 export const deletePlatformApplication: API.OperationMethod<
-  DeletePlatformApplicationInput,
+  DeletePlatformApplicationInput & RegionInput,
   DeletePlatformApplicationResponse,
   DeletePlatformApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1239,7 +1240,7 @@ export type DeleteSMSSandboxPhoneNumberError =
  * the *Amazon SNS Developer Guide*.
  */
 export const deleteSMSSandboxPhoneNumber: API.OperationMethod<
-  DeleteSMSSandboxPhoneNumberInput,
+  DeleteSMSSandboxPhoneNumberInput & RegionInput,
   DeleteSMSSandboxPhoneNumberResult,
   DeleteSMSSandboxPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1280,7 +1281,7 @@ export type DeleteTopicError =
  * error.
  */
 export const deleteTopic: API.OperationMethod<
-  DeleteTopicInput,
+  DeleteTopicInput & RegionInput,
   DeleteTopicResponse,
   DeleteTopicError,
   Credentials | HttpClient.HttpClient
@@ -1334,7 +1335,7 @@ export type GetDataProtectionPolicyError =
  * stored in the specified Amazon SNS topic.
  */
 export const getDataProtectionPolicy: API.OperationMethod<
-  GetDataProtectionPolicyInput,
+  GetDataProtectionPolicyInput & RegionInput,
   GetDataProtectionPolicyResponse,
   GetDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1373,7 +1374,7 @@ export type GetEndpointAttributesError =
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
 export const getEndpointAttributes: API.OperationMethod<
-  GetEndpointAttributesInput,
+  GetEndpointAttributesInput & RegionInput,
   GetEndpointAttributesResponse,
   GetEndpointAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1409,7 +1410,7 @@ export type GetPlatformApplicationAttributesError =
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
 export const getPlatformApplicationAttributes: API.OperationMethod<
-  GetPlatformApplicationAttributesInput,
+  GetPlatformApplicationAttributesInput & RegionInput,
   GetPlatformApplicationAttributesResponse,
   GetPlatformApplicationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1443,7 +1444,7 @@ export type GetSMSAttributesError =
  * These settings are set with the `SetSMSAttributes` action.
  */
 export const getSMSAttributes: API.OperationMethod<
-  GetSMSAttributesInput,
+  GetSMSAttributesInput & RegionInput,
   GetSMSAttributesResponse,
   GetSMSAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1482,7 +1483,7 @@ export type GetSMSSandboxAccountStatusError =
  * the *Amazon SNS Developer Guide*.
  */
 export const getSMSSandboxAccountStatus: API.OperationMethod<
-  GetSMSSandboxAccountStatusInput,
+  GetSMSSandboxAccountStatusInput & RegionInput,
   GetSMSSandboxAccountStatusResult,
   GetSMSSandboxAccountStatusError,
   Credentials | HttpClient.HttpClient
@@ -1507,7 +1508,7 @@ export type GetSubscriptionAttributesError =
  * Returns all of the properties of a subscription.
  */
 export const getSubscriptionAttributes: API.OperationMethod<
-  GetSubscriptionAttributesInput,
+  GetSubscriptionAttributesInput & RegionInput,
   GetSubscriptionAttributesResponse,
   GetSubscriptionAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1541,7 +1542,7 @@ export type GetTopicAttributesError =
  * on the authorization of the user.
  */
 export const getTopicAttributes: API.OperationMethod<
-  GetTopicAttributesInput,
+  GetTopicAttributesInput & RegionInput,
   GetTopicAttributesResponse,
   GetTopicAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1594,7 +1595,7 @@ export type ListEndpointsByPlatformApplicationError =
  * This action is throttled at 30 transactions per second (TPS).
  */
 export const listEndpointsByPlatformApplication: API.PaginatedOperationMethod<
-  ListEndpointsByPlatformApplicationInput,
+  ListEndpointsByPlatformApplicationInput & RegionInput,
   ListEndpointsByPlatformApplicationResponse,
   ListEndpointsByPlatformApplicationError,
   Credentials | HttpClient.HttpClient,
@@ -1631,7 +1632,7 @@ export type ListOriginationNumbersError =
  * Guide.
  */
 export const listOriginationNumbers: API.PaginatedOperationMethod<
-  ListOriginationNumbersRequest,
+  ListOriginationNumbersRequest & RegionInput,
   ListOriginationNumbersResult,
   ListOriginationNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -1677,7 +1678,7 @@ export type ListPhoneNumbersOptedOutError =
  * more records to return, `NextToken` will be null.
  */
 export const listPhoneNumbersOptedOut: API.PaginatedOperationMethod<
-  ListPhoneNumbersOptedOutInput,
+  ListPhoneNumbersOptedOutInput & RegionInput,
   ListPhoneNumbersOptedOutResponse,
   ListPhoneNumbersOptedOutError,
   Credentials | HttpClient.HttpClient,
@@ -1718,7 +1719,7 @@ export type ListPlatformApplicationsError =
  * This action is throttled at 15 transactions per second (TPS).
  */
 export const listPlatformApplications: API.PaginatedOperationMethod<
-  ListPlatformApplicationsInput,
+  ListPlatformApplicationsInput & RegionInput,
   ListPlatformApplicationsResponse,
   ListPlatformApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1760,7 +1761,7 @@ export type ListSMSSandboxPhoneNumbersError =
  * the *Amazon SNS Developer Guide*.
  */
 export const listSMSSandboxPhoneNumbers: API.PaginatedOperationMethod<
-  ListSMSSandboxPhoneNumbersInput,
+  ListSMSSandboxPhoneNumbersInput & RegionInput,
   ListSMSSandboxPhoneNumbersResult,
   ListSMSSandboxPhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -1802,7 +1803,7 @@ export type ListSubscriptionsError =
  * This action is throttled at 30 transactions per second (TPS).
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsInput,
+  ListSubscriptionsInput & RegionInput,
   ListSubscriptionsResponse,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1840,7 +1841,7 @@ export type ListSubscriptionsByTopicError =
  * This action is throttled at 30 transactions per second (TPS).
  */
 export const listSubscriptionsByTopic: API.PaginatedOperationMethod<
-  ListSubscriptionsByTopicInput,
+  ListSubscriptionsByTopicInput & RegionInput,
   ListSubscriptionsByTopicResponse,
   ListSubscriptionsByTopicError,
   Credentials | HttpClient.HttpClient,
@@ -1890,7 +1891,7 @@ export type ListTagsForResourceError =
  * *Amazon Simple Notification Service Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1927,7 +1928,7 @@ export type ListTopicsError =
  * This action is throttled at 30 transactions per second (TPS).
  */
 export const listTopics: API.PaginatedOperationMethod<
-  ListTopicsInput,
+  ListTopicsInput & RegionInput,
   ListTopicsResponse,
   ListTopicsError,
   Credentials | HttpClient.HttpClient,
@@ -1957,7 +1958,7 @@ export type OptInPhoneNumberError =
  * You can opt in a phone number only once every 30 days.
  */
 export const optInPhoneNumber: API.OperationMethod<
-  OptInPhoneNumberInput,
+  OptInPhoneNumberInput & RegionInput,
   OptInPhoneNumberResponse,
   OptInPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -2020,7 +2021,7 @@ export type PublishError =
  * Amazon Web Services Region.
  */
 export const publish: API.OperationMethod<
-  PublishInput,
+  PublishInput & RegionInput,
   PublishResponse,
   PublishError,
   Credentials | HttpClient.HttpClient
@@ -2137,7 +2138,7 @@ export type PublishBatchError =
  * immediately delivers the message to subscribers.
  */
 export const publishBatch: API.OperationMethod<
-  PublishBatchInput,
+  PublishBatchInput & RegionInput,
   PublishBatchResponse,
   PublishBatchError,
   Credentials | HttpClient.HttpClient
@@ -2209,7 +2210,7 @@ export type PutDataProtectionPolicyError =
  * topic.
  */
 export const putDataProtectionPolicy: API.OperationMethod<
-  PutDataProtectionPolicyInput,
+  PutDataProtectionPolicyInput & RegionInput,
   PutDataProtectionPolicyResponse,
   PutDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2250,7 +2251,7 @@ export type RemovePermissionError =
  * `SetTopicAttributes` actions in your IAM policy.
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionInput,
+  RemovePermissionInput & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -2294,7 +2295,7 @@ export type SetEndpointAttributesError =
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
 export const setEndpointAttributes: API.OperationMethod<
-  SetEndpointAttributesInput,
+  SetEndpointAttributesInput & RegionInput,
   SetEndpointAttributesResponse,
   SetEndpointAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2332,7 +2333,7 @@ export type SetPlatformApplicationAttributesError =
  * Message Delivery Status.
  */
 export const setPlatformApplicationAttributes: API.OperationMethod<
-  SetPlatformApplicationAttributesInput,
+  SetPlatformApplicationAttributesInput & RegionInput,
   SetPlatformApplicationAttributesResponse,
   SetPlatformApplicationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2374,7 +2375,7 @@ export type SetSMSAttributesError =
  * `s3:ListBucket` action.
  */
 export const setSMSAttributes: API.OperationMethod<
-  SetSMSAttributesInput,
+  SetSMSAttributesInput & RegionInput,
   SetSMSAttributesResponse,
   SetSMSAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2407,7 +2408,7 @@ export type SetSubscriptionAttributesError =
  * value.
  */
 export const setSubscriptionAttributes: API.OperationMethod<
-  SetSubscriptionAttributesInput,
+  SetSubscriptionAttributesInput & RegionInput,
   SetSubscriptionAttributesResponse,
   SetSubscriptionAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2446,7 +2447,7 @@ export type SetTopicAttributesError =
  * `SetTopicAttributes` actions in your IAM policy.
  */
 export const setTopicAttributes: API.OperationMethod<
-  SetTopicAttributesInput,
+  SetTopicAttributesInput & RegionInput,
   SetTopicAttributesResponse,
   SetTopicAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2500,7 +2501,7 @@ export type SubscribeError =
  * This action is throttled at 100 transactions per second (TPS).
  */
 export const subscribe: API.OperationMethod<
-  SubscribeInput,
+  SubscribeInput & RegionInput,
   SubscribeResponse,
   SubscribeError,
   Credentials | HttpClient.HttpClient
@@ -2565,7 +2566,7 @@ export type TagResourceError =
  * your application requires a higher throughput, file a technical support request.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2608,7 +2609,7 @@ export type UnsubscribeError =
  * This action is throttled at 100 transactions per second (TPS).
  */
 export const unsubscribe: API.OperationMethod<
-  UnsubscribeInput,
+  UnsubscribeInput & RegionInput,
   UnsubscribeResponse,
   UnsubscribeError,
   Credentials | HttpClient.HttpClient
@@ -2645,7 +2646,7 @@ export type UntagResourceError =
  * *Amazon SNS Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2692,7 +2693,7 @@ export type VerifySMSSandboxPhoneNumberError =
  * the *Amazon SNS Developer Guide*.
  */
 export const verifySMSSandboxPhoneNumber: API.OperationMethod<
-  VerifySMSSandboxPhoneNumberInput,
+  VerifySMSSandboxPhoneNumberInput & RegionInput,
   VerifySMSSandboxPhoneNumberResult,
   VerifySMSSandboxPhoneNumberError,
   Credentials | HttpClient.HttpClient

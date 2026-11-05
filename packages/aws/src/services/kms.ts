@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1497,7 +1498,7 @@ export type CancelKeyDeletionError =
  * For more information, see KMS eventual consistency.
  */
 export const cancelKeyDeletion: API.OperationMethod<
-  CancelKeyDeletionRequest,
+  CancelKeyDeletionRequest & RegionInput,
   CancelKeyDeletionResponse,
   CancelKeyDeletionError,
   Credentials | HttpClient.HttpClient
@@ -1610,7 +1611,7 @@ export type ConnectCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const connectCustomKeyStore: API.OperationMethod<
-  ConnectCustomKeyStoreRequest,
+  ConnectCustomKeyStoreRequest & RegionInput,
   ConnectCustomKeyStoreResponse,
   ConnectCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -1688,7 +1689,7 @@ export type CreateAliasError =
  * For more information, see KMS eventual consistency.
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasRequest,
+  CreateAliasRequest & RegionInput,
   CreateAliasResponse,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -1806,7 +1807,7 @@ export type CreateCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const createCustomKeyStore: API.OperationMethod<
-  CreateCustomKeyStoreRequest,
+  CreateCustomKeyStoreRequest & RegionInput,
   CreateCustomKeyStoreResponse,
   CreateCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -1909,7 +1910,7 @@ export type CreateGrantError =
  * For more information, see KMS eventual consistency.
  */
 export const createGrant: API.OperationMethod<
-  CreateGrantRequest,
+  CreateGrantRequest & RegionInput,
   CreateGrantResponse,
   CreateGrantError,
   Credentials | HttpClient.HttpClient
@@ -2117,7 +2118,7 @@ export type CreateKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const createKey: API.OperationMethod<
-  CreateKeyRequest,
+  CreateKeyRequest & RegionInput,
   CreateKeyResponse,
   CreateKeyError,
   Credentials | HttpClient.HttpClient
@@ -2234,7 +2235,7 @@ export type DecryptError =
  * For more information, see KMS eventual consistency.
  */
 export const decrypt: API.OperationMethod<
-  DecryptRequest,
+  DecryptRequest & RegionInput,
   DecryptResponse,
   DecryptError,
   Credentials | HttpClient.HttpClient
@@ -2304,7 +2305,7 @@ export type DeleteAliasError =
  * For more information, see KMS eventual consistency.
  */
 export const deleteAlias: API.OperationMethod<
-  DeleteAliasRequest,
+  DeleteAliasRequest & RegionInput,
   DeleteAliasResponse,
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
@@ -2382,7 +2383,7 @@ export type DeleteCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const deleteCustomKeyStore: API.OperationMethod<
-  DeleteCustomKeyStoreRequest,
+  DeleteCustomKeyStoreRequest & RegionInput,
   DeleteCustomKeyStoreResponse,
   DeleteCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -2448,7 +2449,7 @@ export type DeleteImportedKeyMaterialError =
  * For more information, see KMS eventual consistency.
  */
 export const deleteImportedKeyMaterial: API.OperationMethod<
-  DeleteImportedKeyMaterialRequest,
+  DeleteImportedKeyMaterialRequest & RegionInput,
   DeleteImportedKeyMaterialResponse,
   DeleteImportedKeyMaterialError,
   Credentials | HttpClient.HttpClient
@@ -2558,7 +2559,7 @@ export type DeriveSharedSecretError =
  * For more information, see KMS eventual consistency.
  */
 export const deriveSharedSecret: API.OperationMethod<
-  DeriveSharedSecretRequest,
+  DeriveSharedSecretRequest & RegionInput,
   DeriveSharedSecretResponse,
   DeriveSharedSecretError,
   Credentials | HttpClient.HttpClient
@@ -2640,7 +2641,7 @@ export type DescribeCustomKeyStoresError =
  * For more information, see KMS eventual consistency.
  */
 export const describeCustomKeyStores: API.PaginatedOperationMethod<
-  DescribeCustomKeyStoresRequest,
+  DescribeCustomKeyStoresRequest & RegionInput,
   DescribeCustomKeyStoresResponse,
   DescribeCustomKeyStoresError,
   Credentials | HttpClient.HttpClient,
@@ -2728,7 +2729,7 @@ export type DescribeKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const describeKey: API.OperationMethod<
-  DescribeKeyRequest,
+  DescribeKeyRequest & RegionInput,
   DescribeKeyResponse,
   DescribeKeyError,
   Credentials | HttpClient.HttpClient
@@ -2775,7 +2776,7 @@ export type DisableKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const disableKey: API.OperationMethod<
-  DisableKeyRequest,
+  DisableKeyRequest & RegionInput,
   DisableKeyResponse,
   DisableKeyError,
   Credentials | HttpClient.HttpClient
@@ -2841,7 +2842,7 @@ export type DisableKeyRotationError =
  * For more information, see KMS eventual consistency.
  */
 export const disableKeyRotation: API.OperationMethod<
-  DisableKeyRotationRequest,
+  DisableKeyRotationRequest & RegionInput,
   DisableKeyRotationResponse,
   DisableKeyRotationError,
   Credentials | HttpClient.HttpClient
@@ -2912,7 +2913,7 @@ export type DisconnectCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const disconnectCustomKeyStore: API.OperationMethod<
-  DisconnectCustomKeyStoreRequest,
+  DisconnectCustomKeyStoreRequest & RegionInput,
   DisconnectCustomKeyStoreResponse,
   DisconnectCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -2956,7 +2957,7 @@ export type EnableKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const enableKey: API.OperationMethod<
-  EnableKeyRequest,
+  EnableKeyRequest & RegionInput,
   EnableKeyResponse,
   EnableKeyError,
   Credentials | HttpClient.HttpClient
@@ -3043,7 +3044,7 @@ export type EnableKeyRotationError =
  * For more information, see KMS eventual consistency.
  */
 export const enableKeyRotation: API.OperationMethod<
-  EnableKeyRotationRequest,
+  EnableKeyRotationRequest & RegionInput,
   EnableKeyRotationResponse,
   EnableKeyRotationError,
   Credentials | HttpClient.HttpClient
@@ -3149,7 +3150,7 @@ export type EncryptError =
  * For more information, see KMS eventual consistency.
  */
 export const encrypt: API.OperationMethod<
-  EncryptRequest,
+  EncryptRequest & RegionInput,
   EncryptResponse,
   EncryptError,
   Credentials | HttpClient.HttpClient
@@ -3275,7 +3276,7 @@ export type GenerateDataKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKey: API.OperationMethod<
-  GenerateDataKeyRequest,
+  GenerateDataKeyRequest & RegionInput,
   GenerateDataKeyResponse,
   GenerateDataKeyError,
   Credentials | HttpClient.HttpClient
@@ -3388,7 +3389,7 @@ export type GenerateDataKeyPairError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKeyPair: API.OperationMethod<
-  GenerateDataKeyPairRequest,
+  GenerateDataKeyPairRequest & RegionInput,
   GenerateDataKeyPairResponse,
   GenerateDataKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -3483,7 +3484,7 @@ export type GenerateDataKeyPairWithoutPlaintextError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
-  GenerateDataKeyPairWithoutPlaintextRequest,
+  GenerateDataKeyPairWithoutPlaintextRequest & RegionInput,
   GenerateDataKeyPairWithoutPlaintextResponse,
   GenerateDataKeyPairWithoutPlaintextError,
   Credentials | HttpClient.HttpClient
@@ -3590,7 +3591,7 @@ export type GenerateDataKeyWithoutPlaintextError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKeyWithoutPlaintext: API.OperationMethod<
-  GenerateDataKeyWithoutPlaintextRequest,
+  GenerateDataKeyWithoutPlaintextRequest & RegionInput,
   GenerateDataKeyWithoutPlaintextResponse,
   GenerateDataKeyWithoutPlaintextError,
   Credentials | HttpClient.HttpClient
@@ -3660,7 +3661,7 @@ export type GenerateMacError =
  * For more information, see KMS eventual consistency.
  */
 export const generateMac: API.OperationMethod<
-  GenerateMacRequest,
+  GenerateMacRequest & RegionInput,
   GenerateMacResponse,
   GenerateMacError,
   Credentials | HttpClient.HttpClient
@@ -3720,7 +3721,7 @@ export type GenerateRandomError =
  * For more information, see KMS eventual consistency.
  */
 export const generateRandom: API.OperationMethod<
-  GenerateRandomRequest,
+  GenerateRandomRequest & RegionInput,
   GenerateRandomResponse,
   GenerateRandomError,
   Credentials | HttpClient.HttpClient
@@ -3803,7 +3804,7 @@ export type GetKeyLastUsageError =
  * For more information, see KMS eventual consistency.
  */
 export const getKeyLastUsage: API.OperationMethod<
-  GetKeyLastUsageRequest,
+  GetKeyLastUsageRequest & RegionInput,
   GetKeyLastUsageResponse,
   GetKeyLastUsageError,
   Credentials | HttpClient.HttpClient
@@ -3843,7 +3844,7 @@ export type GetKeyPolicyError =
  * For more information, see KMS eventual consistency.
  */
 export const getKeyPolicy: API.OperationMethod<
-  GetKeyPolicyRequest,
+  GetKeyPolicyRequest & RegionInput,
   GetKeyPolicyResponse,
   GetKeyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3928,7 +3929,7 @@ export type GetKeyRotationStatusError =
  * For more information, see KMS eventual consistency.
  */
 export const getKeyRotationStatus: API.OperationMethod<
-  GetKeyRotationStatusRequest,
+  GetKeyRotationStatusRequest & RegionInput,
   GetKeyRotationStatusResponse,
   GetKeyRotationStatusError,
   Credentials | HttpClient.HttpClient
@@ -4026,7 +4027,7 @@ export type GetParametersForImportError =
  * For more information, see KMS eventual consistency.
  */
 export const getParametersForImport: API.OperationMethod<
-  GetParametersForImportRequest,
+  GetParametersForImportRequest & RegionInput,
   GetParametersForImportResponse,
   GetParametersForImportError,
   Credentials | HttpClient.HttpClient
@@ -4111,7 +4112,7 @@ export type GetPublicKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const getPublicKey: API.OperationMethod<
-  GetPublicKeyRequest,
+  GetPublicKeyRequest & RegionInput,
   GetPublicKeyResponse,
   GetPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -4266,7 +4267,7 @@ export type ImportKeyMaterialError =
  * For more information, see KMS eventual consistency.
  */
 export const importKeyMaterial: API.OperationMethod<
-  ImportKeyMaterialRequest,
+  ImportKeyMaterialRequest & RegionInput,
   ImportKeyMaterialResponse,
   ImportKeyMaterialError,
   Credentials | HttpClient.HttpClient
@@ -4337,7 +4338,7 @@ export type ListAliasesError =
  * For more information, see KMS eventual consistency.
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesRequest,
+  ListAliasesRequest & RegionInput,
   ListAliasesResponse,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -4414,7 +4415,7 @@ export type ListGrantsError =
  * For more information, see KMS eventual consistency.
  */
 export const listGrants: API.PaginatedOperationMethod<
-  ListGrantsRequest,
+  ListGrantsRequest & RegionInput,
   ListGrantsResponse,
   ListGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -4470,7 +4471,7 @@ export type ListKeyPoliciesError =
  * For more information, see KMS eventual consistency.
  */
 export const listKeyPolicies: API.PaginatedOperationMethod<
-  ListKeyPoliciesRequest,
+  ListKeyPoliciesRequest & RegionInput,
   ListKeyPoliciesResponse,
   ListKeyPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -4539,7 +4540,7 @@ export type ListKeyRotationsError =
  * For more information, see KMS eventual consistency.
  */
 export const listKeyRotations: API.PaginatedOperationMethod<
-  ListKeyRotationsRequest,
+  ListKeyRotationsRequest & RegionInput,
   ListKeyRotationsResponse,
   ListKeyRotationsError,
   Credentials | HttpClient.HttpClient,
@@ -4594,7 +4595,7 @@ export type ListKeysError =
  * For more information, see KMS eventual consistency.
  */
 export const listKeys: API.PaginatedOperationMethod<
-  ListKeysRequest,
+  ListKeysRequest & RegionInput,
   ListKeysResponse,
   ListKeysError,
   Credentials | HttpClient.HttpClient,
@@ -4648,7 +4649,7 @@ export type ListResourceTagsError =
  * For more information, see KMS eventual consistency.
  */
 export const listResourceTags: API.PaginatedOperationMethod<
-  ListResourceTagsRequest,
+  ListResourceTagsRequest & RegionInput,
   ListResourceTagsResponse,
   ListResourceTagsError,
   Credentials | HttpClient.HttpClient,
@@ -4725,7 +4726,7 @@ export type ListRetirableGrantsError =
  * For more information, see KMS eventual consistency.
  */
 export const listRetirableGrants: API.PaginatedOperationMethod<
-  ListRetirableGrantsRequest,
+  ListRetirableGrantsRequest & RegionInput,
   ListGrantsResponse,
   ListRetirableGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -4783,7 +4784,7 @@ export type PutKeyPolicyError =
  * For more information, see KMS eventual consistency.
  */
 export const putKeyPolicy: API.OperationMethod<
-  PutKeyPolicyRequest,
+  PutKeyPolicyRequest & RegionInput,
   PutKeyPolicyResponse,
   PutKeyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4903,7 +4904,7 @@ export type ReEncryptError =
  * For more information, see KMS eventual consistency.
  */
 export const reEncrypt: API.OperationMethod<
-  ReEncryptRequest,
+  ReEncryptRequest & RegionInput,
   ReEncryptResponse,
   ReEncryptError,
   Credentials | HttpClient.HttpClient
@@ -5016,7 +5017,7 @@ export type ReplicateKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const replicateKey: API.OperationMethod<
-  ReplicateKeyRequest,
+  ReplicateKeyRequest & RegionInput,
   ReplicateKeyResponse,
   ReplicateKeyError,
   Credentials | HttpClient.HttpClient
@@ -5090,7 +5091,7 @@ export type RetireGrantError =
  * For more information, see KMS eventual consistency.
  */
 export const retireGrant: API.OperationMethod<
-  RetireGrantRequest,
+  RetireGrantRequest & RegionInput,
   RetireGrantResponse,
   RetireGrantError,
   Credentials | HttpClient.HttpClient
@@ -5160,7 +5161,7 @@ export type RevokeGrantError =
  * For more information, see KMS eventual consistency.
  */
 export const revokeGrant: API.OperationMethod<
-  RevokeGrantRequest,
+  RevokeGrantRequest & RegionInput,
   RevokeGrantResponse,
   RevokeGrantError,
   Credentials | HttpClient.HttpClient
@@ -5252,7 +5253,7 @@ export type RotateKeyOnDemandError =
  * For more information, see KMS eventual consistency.
  */
 export const rotateKeyOnDemand: API.OperationMethod<
-  RotateKeyOnDemandRequest,
+  RotateKeyOnDemandRequest & RegionInput,
   RotateKeyOnDemandResponse,
   RotateKeyOnDemandError,
   Credentials | HttpClient.HttpClient
@@ -5341,7 +5342,7 @@ export type ScheduleKeyDeletionError =
  * For more information, see KMS eventual consistency.
  */
 export const scheduleKeyDeletion: API.OperationMethod<
-  ScheduleKeyDeletionRequest,
+  ScheduleKeyDeletionRequest & RegionInput,
   ScheduleKeyDeletionResponse,
   ScheduleKeyDeletionError,
   Credentials | HttpClient.HttpClient
@@ -5427,7 +5428,7 @@ export type SignError =
  * For more information, see KMS eventual consistency.
  */
 export const sign: API.OperationMethod<
-  SignRequest,
+  SignRequest & RegionInput,
   SignResponse,
   SignError,
   Credentials | HttpClient.HttpClient
@@ -5501,7 +5502,7 @@ export type TagResourceError =
  * For more information, see KMS eventual consistency.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5565,7 +5566,7 @@ export type UntagResourceError =
  * For more information, see KMS eventual consistency.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5645,7 +5646,7 @@ export type UpdateAliasError =
  * For more information, see KMS eventual consistency.
  */
 export const updateAlias: API.OperationMethod<
-  UpdateAliasRequest,
+  UpdateAliasRequest & RegionInput,
   UpdateAliasResponse,
   UpdateAliasError,
   Credentials | HttpClient.HttpClient
@@ -5773,7 +5774,7 @@ export type UpdateCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const updateCustomKeyStore: API.OperationMethod<
-  UpdateCustomKeyStoreRequest,
+  UpdateCustomKeyStoreRequest & RegionInput,
   UpdateCustomKeyStoreResponse,
   UpdateCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -5833,7 +5834,7 @@ export type UpdateKeyDescriptionError =
  * For more information, see KMS eventual consistency.
  */
 export const updateKeyDescription: API.OperationMethod<
-  UpdateKeyDescriptionRequest,
+  UpdateKeyDescriptionRequest & RegionInput,
   UpdateKeyDescriptionResponse,
   UpdateKeyDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -5926,7 +5927,7 @@ export type UpdatePrimaryRegionError =
  * For more information, see KMS eventual consistency.
  */
 export const updatePrimaryRegion: API.OperationMethod<
-  UpdatePrimaryRegionRequest,
+  UpdatePrimaryRegionRequest & RegionInput,
   UpdatePrimaryRegionResponse,
   UpdatePrimaryRegionError,
   Credentials | HttpClient.HttpClient
@@ -6005,7 +6006,7 @@ export type VerifyError =
  * For more information, see KMS eventual consistency.
  */
 export const verify: API.OperationMethod<
-  VerifyRequest,
+  VerifyRequest & RegionInput,
   VerifyResponse,
   VerifyError,
   Credentials | HttpClient.HttpClient
@@ -6071,7 +6072,7 @@ export type VerifyMacError =
  * For more information, see KMS eventual consistency.
  */
 export const verifyMac: API.OperationMethod<
-  VerifyMacRequest,
+  VerifyMacRequest & RegionInput,
   VerifyMacResponse,
   VerifyMacError,
   Credentials | HttpClient.HttpClient

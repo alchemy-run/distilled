@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -637,7 +638,7 @@ export type AssociateDRTLogBucketError =
  * To use the services of the SRT and make an `AssociateDRTLogBucket` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
  */
 export const associateDRTLogBucket: API.OperationMethod<
-  AssociateDRTLogBucketRequest,
+  AssociateDRTLogBucketRequest & RegionInput,
   AssociateDRTLogBucketResponse,
   AssociateDRTLogBucketError,
   Credentials | HttpClient.HttpClient
@@ -684,7 +685,7 @@ export type AssociateDRTRoleError =
  * To use the services of the SRT and make an `AssociateDRTRole` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
  */
 export const associateDRTRole: API.OperationMethod<
-  AssociateDRTRoleRequest,
+  AssociateDRTRoleRequest & RegionInput,
   AssociateDRTRoleResponse,
   AssociateDRTRoleError,
   Credentials | HttpClient.HttpClient
@@ -720,7 +721,7 @@ export type AssociateHealthCheckError =
  * You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
  */
 export const associateHealthCheck: API.OperationMethod<
-  AssociateHealthCheckRequest,
+  AssociateHealthCheckRequest & RegionInput,
   AssociateHealthCheckResponse,
   AssociateHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -759,7 +760,7 @@ export type AssociateProactiveEngagementDetailsError =
  * The contacts that you provide in the request replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using `DescribeEmergencyContactSettings` and then provide it to this call.
  */
 export const associateProactiveEngagementDetails: API.OperationMethod<
-  AssociateProactiveEngagementDetailsRequest,
+  AssociateProactiveEngagementDetailsRequest & RegionInput,
   AssociateProactiveEngagementDetailsResponse,
   AssociateProactiveEngagementDetailsError,
   Credentials | HttpClient.HttpClient
@@ -801,7 +802,7 @@ export type CreateProtectionError =
  * and Adding Shield Advanced protection to Amazon Web Services resources.
  */
 export const createProtection: API.OperationMethod<
-  CreateProtectionRequest,
+  CreateProtectionRequest & RegionInput,
   CreateProtectionResponse,
   CreateProtectionError,
   Credentials | HttpClient.HttpClient
@@ -839,7 +840,7 @@ export type CreateProtectionGroupError =
  * Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
  */
 export const createProtectionGroup: API.OperationMethod<
-  CreateProtectionGroupRequest,
+  CreateProtectionGroupRequest & RegionInput,
   CreateProtectionGroupResponse,
   CreateProtectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -875,7 +876,7 @@ export type CreateSubscriptionError =
  * When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an `UpdateSubscription` request.
  */
 export const createSubscription: API.OperationMethod<
-  CreateSubscriptionRequest,
+  CreateSubscriptionRequest & RegionInput,
   CreateSubscriptionResponse,
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -900,7 +901,7 @@ export type DeleteProtectionError =
  * Deletes an Shield Advanced Protection.
  */
 export const deleteProtection: API.OperationMethod<
-  DeleteProtectionRequest,
+  DeleteProtectionRequest & RegionInput,
   DeleteProtectionResponse,
   DeleteProtectionError,
   Credentials | HttpClient.HttpClient
@@ -930,7 +931,7 @@ export type DeleteProtectionGroupError =
  * Removes the specified protection group.
  */
 export const deleteProtectionGroup: API.OperationMethod<
-  DeleteProtectionGroupRequest,
+  DeleteProtectionGroupRequest & RegionInput,
   DeleteProtectionGroupResponse,
   DeleteProtectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -960,7 +961,7 @@ export type DeleteSubscriptionError =
  * Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
  */
 export const deleteSubscription: API.OperationMethod<
-  DeleteSubscriptionRequest,
+  DeleteSubscriptionRequest & RegionInput,
   DeleteSubscriptionResponse,
   DeleteSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +986,7 @@ export type DescribeAttackError = AccessDeniedException | InternalErrorException
  * Describes the details of a DDoS attack.
  */
 export const describeAttack: API.OperationMethod<
-  DescribeAttackRequest,
+  DescribeAttackRequest & RegionInput,
   DescribeAttackResponse,
   DescribeAttackError,
   Credentials | HttpClient.HttpClient
@@ -1009,7 +1010,7 @@ export type DescribeAttackStatisticsError = InternalErrorException | CommonError
  * The time range indicates the period covered by the attack statistics data items.
  */
 export const describeAttackStatistics: API.OperationMethod<
-  DescribeAttackStatisticsRequest,
+  DescribeAttackStatisticsRequest & RegionInput,
   DescribeAttackStatisticsResponse,
   DescribeAttackStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -1032,7 +1033,7 @@ export type DescribeDRTAccessError =
  * Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
  */
 export const describeDRTAccess: API.OperationMethod<
-  DescribeDRTAccessRequest,
+  DescribeDRTAccessRequest & RegionInput,
   DescribeDRTAccessResponse,
   DescribeDRTAccessError,
   Credentials | HttpClient.HttpClient
@@ -1055,7 +1056,7 @@ export type DescribeEmergencyContactSettingsError =
  * A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
 export const describeEmergencyContactSettings: API.OperationMethod<
-  DescribeEmergencyContactSettingsRequest,
+  DescribeEmergencyContactSettingsRequest & RegionInput,
   DescribeEmergencyContactSettingsResponse,
   DescribeEmergencyContactSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1080,7 +1081,7 @@ export type DescribeProtectionError =
  * Lists the details of a Protection object.
  */
 export const describeProtection: API.OperationMethod<
-  DescribeProtectionRequest,
+  DescribeProtectionRequest & RegionInput,
   DescribeProtectionResponse,
   DescribeProtectionError,
   Credentials | HttpClient.HttpClient
@@ -1109,7 +1110,7 @@ export type DescribeProtectionGroupError =
  * Returns the specification for the specified protection group.
  */
 export const describeProtectionGroup: API.OperationMethod<
-  DescribeProtectionGroupRequest,
+  DescribeProtectionGroupRequest & RegionInput,
   DescribeProtectionGroupResponse,
   DescribeProtectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -1133,7 +1134,7 @@ export type DescribeSubscriptionError =
  * Provides details about the Shield Advanced subscription for an account.
  */
 export const describeSubscription: API.OperationMethod<
-  DescribeSubscriptionRequest,
+  DescribeSubscriptionRequest & RegionInput,
   DescribeSubscriptionResponse,
   DescribeSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1160,7 +1161,7 @@ export type DisableApplicationLayerAutomaticResponseError =
  * stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
  */
 export const disableApplicationLayerAutomaticResponse: API.OperationMethod<
-  DisableApplicationLayerAutomaticResponseRequest,
+  DisableApplicationLayerAutomaticResponseRequest & RegionInput,
   DisableApplicationLayerAutomaticResponseResponse,
   DisableApplicationLayerAutomaticResponseError,
   Credentials | HttpClient.HttpClient
@@ -1192,7 +1193,7 @@ export type DisableProactiveEngagementError =
  * Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
 export const disableProactiveEngagement: API.OperationMethod<
-  DisableProactiveEngagementRequest,
+  DisableProactiveEngagementRequest & RegionInput,
   DisableProactiveEngagementResponse,
   DisableProactiveEngagementError,
   Credentials | HttpClient.HttpClient
@@ -1225,7 +1226,7 @@ export type DisassociateDRTLogBucketError =
  * Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
  */
 export const disassociateDRTLogBucket: API.OperationMethod<
-  DisassociateDRTLogBucketRequest,
+  DisassociateDRTLogBucketRequest & RegionInput,
   DisassociateDRTLogBucketResponse,
   DisassociateDRTLogBucketError,
   Credentials | HttpClient.HttpClient
@@ -1257,7 +1258,7 @@ export type DisassociateDRTRoleError =
  * Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
  */
 export const disassociateDRTRole: API.OperationMethod<
-  DisassociateDRTRoleRequest,
+  DisassociateDRTRoleRequest & RegionInput,
   DisassociateDRTRoleResponse,
   DisassociateDRTRoleError,
   Credentials | HttpClient.HttpClient
@@ -1290,7 +1291,7 @@ export type DisassociateHealthCheckError =
  * You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
  */
 export const disassociateHealthCheck: API.OperationMethod<
-  DisassociateHealthCheckRequest,
+  DisassociateHealthCheckRequest & RegionInput,
   DisassociateHealthCheckResponse,
   DisassociateHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -1337,7 +1338,7 @@ export type EnableApplicationLayerAutomaticResponseError =
  * WAF Developer Guide.
  */
 export const enableApplicationLayerAutomaticResponse: API.OperationMethod<
-  EnableApplicationLayerAutomaticResponseRequest,
+  EnableApplicationLayerAutomaticResponseRequest & RegionInput,
   EnableApplicationLayerAutomaticResponseResponse,
   EnableApplicationLayerAutomaticResponseError,
   Credentials | HttpClient.HttpClient
@@ -1370,7 +1371,7 @@ export type EnableProactiveEngagementError =
  * Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
 export const enableProactiveEngagement: API.OperationMethod<
-  EnableProactiveEngagementRequest,
+  EnableProactiveEngagementRequest & RegionInput,
   EnableProactiveEngagementResponse,
   EnableProactiveEngagementError,
   Credentials | HttpClient.HttpClient
@@ -1396,7 +1397,7 @@ export type GetSubscriptionStateError = InternalErrorException | CommonErrors;
  * Returns the `SubscriptionState`, either `Active` or `Inactive`.
  */
 export const getSubscriptionState: API.OperationMethod<
-  GetSubscriptionStateRequest,
+  GetSubscriptionStateRequest & RegionInput,
   GetSubscriptionStateResponse,
   GetSubscriptionStateError,
   Credentials | HttpClient.HttpClient
@@ -1421,7 +1422,7 @@ export type ListAttacksError =
  * period.
  */
 export const listAttacks: API.PaginatedOperationMethod<
-  ListAttacksRequest,
+  ListAttacksRequest & RegionInput,
   ListAttacksResponse,
   ListAttacksError,
   Credentials | HttpClient.HttpClient,
@@ -1454,7 +1455,7 @@ export type ListProtectionGroupsError =
  * filtering criteria and retrieve just the subset of protection groups that match the criteria.
  */
 export const listProtectionGroups: API.PaginatedOperationMethod<
-  ListProtectionGroupsRequest,
+  ListProtectionGroupsRequest & RegionInput,
   ListProtectionGroupsResponse,
   ListProtectionGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1491,7 +1492,7 @@ export type ListProtectionsError =
  * filtering criteria and retrieve just the subset of protections that match the criteria.
  */
 export const listProtections: API.PaginatedOperationMethod<
-  ListProtectionsRequest,
+  ListProtectionsRequest & RegionInput,
   ListProtectionsResponse,
   ListProtectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1527,7 +1528,7 @@ export type ListResourcesInProtectionGroupError =
  * Retrieves the resources that are included in the protection group.
  */
 export const listResourcesInProtectionGroup: API.PaginatedOperationMethod<
-  ListResourcesInProtectionGroupRequest,
+  ListResourcesInProtectionGroupRequest & RegionInput,
   ListResourcesInProtectionGroupResponse,
   ListResourcesInProtectionGroupError,
   Credentials | HttpClient.HttpClient,
@@ -1558,7 +1559,7 @@ export type ListTagsForResourceError =
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1590,7 @@ export type TagResourceError =
  * Adds or updates tags for a resource in Shield.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1621,7 +1622,7 @@ export type UntagResourceError =
  * Removes tags from a resource in Shield.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1653,7 +1654,7 @@ export type UpdateApplicationLayerAutomaticResponseError =
  * Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
  */
 export const updateApplicationLayerAutomaticResponse: API.OperationMethod<
-  UpdateApplicationLayerAutomaticResponseRequest,
+  UpdateApplicationLayerAutomaticResponseRequest & RegionInput,
   UpdateApplicationLayerAutomaticResponseResponse,
   UpdateApplicationLayerAutomaticResponseError,
   Credentials | HttpClient.HttpClient
@@ -1684,7 +1685,7 @@ export type UpdateEmergencyContactSettingsError =
  * Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
 export const updateEmergencyContactSettings: API.OperationMethod<
-  UpdateEmergencyContactSettingsRequest,
+  UpdateEmergencyContactSettingsRequest & RegionInput,
   UpdateEmergencyContactSettingsResponse,
   UpdateEmergencyContactSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1715,7 +1716,7 @@ export type UpdateProtectionGroupError =
  * Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
  */
 export const updateProtectionGroup: API.OperationMethod<
-  UpdateProtectionGroupRequest,
+  UpdateProtectionGroupRequest & RegionInput,
   UpdateProtectionGroupResponse,
   UpdateProtectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -1751,7 +1752,7 @@ export type UpdateSubscriptionError =
  * regardless of whether the payer account itself is subscribed.
  */
 export const updateSubscription: API.OperationMethod<
-  UpdateSubscriptionRequest,
+  UpdateSubscriptionRequest & RegionInput,
   UpdateSubscriptionResponse,
   UpdateSubscriptionError,
   Credentials | HttpClient.HttpClient

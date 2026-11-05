@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -785,7 +786,7 @@ export type AcceptPageError =
  * Used to acknowledge an engagement to a contact channel during an incident.
  */
 export const acceptPage: API.OperationMethod<
-  AcceptPageRequest,
+  AcceptPageRequest & RegionInput,
   AcceptPageResult,
   AcceptPageError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +821,7 @@ export type ActivateContactChannelError =
  * contact channel has been activated.
  */
 export const activateContactChannel: API.OperationMethod<
-  ActivateContactChannelRequest,
+  ActivateContactChannelRequest & RegionInput,
   ActivateContactChannelResult,
   ActivateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -858,7 +859,7 @@ export type CreateContactError =
  * incident.
  */
 export const createContact: API.OperationMethod<
-  CreateContactRequest,
+  CreateContactRequest & RegionInput,
   CreateContactResult,
   CreateContactError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +896,7 @@ export type CreateContactChannelError =
  * A contact channel is the method that Incident Manager uses to engage your contact.
  */
 export const createContactChannel: API.OperationMethod<
-  CreateContactChannelRequest,
+  CreateContactChannelRequest & RegionInput,
   CreateContactChannelResult,
   CreateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +933,7 @@ export type CreateRotationError =
  * Creates a rotation in an on-call schedule.
  */
 export const createRotation: API.OperationMethod<
-  CreateRotationRequest,
+  CreateRotationRequest & RegionInput,
   CreateRotationResult,
   CreateRotationError,
   Credentials | HttpClient.HttpClient
@@ -970,7 +971,7 @@ export type CreateRotationOverrideError =
  * Creates an override for a rotation in an on-call schedule.
  */
 export const createRotationOverride: API.OperationMethod<
-  CreateRotationOverrideRequest,
+  CreateRotationOverrideRequest & RegionInput,
   CreateRotationOverrideResult,
   CreateRotationOverrideError,
   Credentials | HttpClient.HttpClient
@@ -1007,7 +1008,7 @@ export type DeactivateContactChannelError =
  * the channel.
  */
 export const deactivateContactChannel: API.OperationMethod<
-  DeactivateContactChannelRequest,
+  DeactivateContactChannelRequest & RegionInput,
   DeactivateContactChannelResult,
   DeactivateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -1046,7 +1047,7 @@ export type DeleteContactError =
  * different existing contact.
  */
 export const deleteContact: API.OperationMethod<
-  DeleteContactRequest,
+  DeleteContactRequest & RegionInput,
   DeleteContactResult,
   DeleteContactError,
   Credentials | HttpClient.HttpClient
@@ -1085,7 +1086,7 @@ export type DeleteContactChannelError =
  * incident.
  */
 export const deleteContactChannel: API.OperationMethod<
-  DeleteContactChannelRequest,
+  DeleteContactChannelRequest & RegionInput,
   DeleteContactChannelResult,
   DeleteContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -1122,7 +1123,7 @@ export type DeleteRotationError =
  * schedule, this operation deletes it from all of them.
  */
 export const deleteRotation: API.OperationMethod<
-  DeleteRotationRequest,
+  DeleteRotationRequest & RegionInput,
   DeleteRotationResult,
   DeleteRotationError,
   Credentials | HttpClient.HttpClient
@@ -1159,7 +1160,7 @@ export type DeleteRotationOverrideError =
  * Deletes an existing override for an on-call rotation.
  */
 export const deleteRotationOverride: API.OperationMethod<
-  DeleteRotationOverrideRequest,
+  DeleteRotationOverrideRequest & RegionInput,
   DeleteRotationOverrideResult,
   DeleteRotationOverrideError,
   Credentials | HttpClient.HttpClient
@@ -1196,7 +1197,7 @@ export type DescribeEngagementError =
  * Use this command to describe the engagement that occurred during an incident.
  */
 export const describeEngagement: API.OperationMethod<
-  DescribeEngagementRequest,
+  DescribeEngagementRequest & RegionInput,
   DescribeEngagementResult,
   DescribeEngagementError,
   Credentials | HttpClient.HttpClient
@@ -1232,7 +1233,7 @@ export type DescribePageError =
  * Lists details of the engagement to a contact channel.
  */
 export const describePage: API.OperationMethod<
-  DescribePageRequest,
+  DescribePageRequest & RegionInput,
   DescribePageResult,
   DescribePageError,
   Credentials | HttpClient.HttpClient
@@ -1268,7 +1269,7 @@ export type GetContactError =
  * Retrieves information about the specified contact or escalation plan.
  */
 export const getContact: API.OperationMethod<
-  GetContactRequest,
+  GetContactRequest & RegionInput,
   GetContactResult,
   GetContactError,
   Credentials | HttpClient.HttpClient
@@ -1304,7 +1305,7 @@ export type GetContactChannelError =
  * List details about a specific contact channel.
  */
 export const getContactChannel: API.OperationMethod<
-  GetContactChannelRequest,
+  GetContactChannelRequest & RegionInput,
   GetContactChannelResult,
   GetContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -1340,7 +1341,7 @@ export type GetContactPolicyError =
  * plan.
  */
 export const getContactPolicy: API.OperationMethod<
-  GetContactPolicyRequest,
+  GetContactPolicyRequest & RegionInput,
   GetContactPolicyResult,
   GetContactPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1375,7 +1376,7 @@ export type GetRotationError =
  * Retrieves information about an on-call rotation.
  */
 export const getRotation: API.OperationMethod<
-  GetRotationRequest,
+  GetRotationRequest & RegionInput,
   GetRotationResult,
   GetRotationError,
   Credentials | HttpClient.HttpClient
@@ -1411,7 +1412,7 @@ export type GetRotationOverrideError =
  * Retrieves information about an override to an on-call rotation.
  */
 export const getRotationOverride: API.OperationMethod<
-  GetRotationOverrideRequest,
+  GetRotationOverrideRequest & RegionInput,
   GetRotationOverrideResult,
   GetRotationOverrideError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1448,7 @@ export type ListContactChannelsError =
  * Lists all contact channels for the specified contact.
  */
 export const listContactChannels: API.PaginatedOperationMethod<
-  ListContactChannelsRequest,
+  ListContactChannelsRequest & RegionInput,
   ListContactChannelsResult,
   ListContactChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1488,7 +1489,7 @@ export type ListContactsError =
  * Lists all contacts and escalation plans in Incident Manager.
  */
 export const listContacts: API.PaginatedOperationMethod<
-  ListContactsRequest,
+  ListContactsRequest & RegionInput,
   ListContactsResult,
   ListContactsError,
   Credentials | HttpClient.HttpClient,
@@ -1527,7 +1528,7 @@ export type ListEngagementsError =
  * Lists all engagements that have happened in an incident.
  */
 export const listEngagements: API.PaginatedOperationMethod<
-  ListEngagementsRequest,
+  ListEngagementsRequest & RegionInput,
   ListEngagementsResult,
   ListEngagementsError,
   Credentials | HttpClient.HttpClient,
@@ -1567,7 +1568,7 @@ export type ListPageReceiptsError =
  * Lists all of the engagements to contact channels that have been acknowledged.
  */
 export const listPageReceipts: API.PaginatedOperationMethod<
-  ListPageReceiptsRequest,
+  ListPageReceiptsRequest & RegionInput,
   ListPageReceiptsResult,
   ListPageReceiptsError,
   Credentials | HttpClient.HttpClient,
@@ -1612,7 +1613,7 @@ export type ListPageResolutionsError =
  * contact.
  */
 export const listPageResolutions: API.PaginatedOperationMethod<
-  ListPageResolutionsRequest,
+  ListPageResolutionsRequest & RegionInput,
   ListPageResolutionsResult,
   ListPageResolutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1652,7 +1653,7 @@ export type ListPagesByContactError =
  * Lists the engagements to a contact's contact channels.
  */
 export const listPagesByContact: API.PaginatedOperationMethod<
-  ListPagesByContactRequest,
+  ListPagesByContactRequest & RegionInput,
   ListPagesByContactResult,
   ListPagesByContactError,
   Credentials | HttpClient.HttpClient,
@@ -1693,7 +1694,7 @@ export type ListPagesByEngagementError =
  * Lists the engagements to contact channels that occurred by engaging a contact.
  */
 export const listPagesByEngagement: API.PaginatedOperationMethod<
-  ListPagesByEngagementRequest,
+  ListPagesByEngagementRequest & RegionInput,
   ListPagesByEngagementResult,
   ListPagesByEngagementError,
   Credentials | HttpClient.HttpClient,
@@ -1735,7 +1736,7 @@ export type ListPreviewRotationShiftsError =
  * The Incident Manager primarily uses this operation to populate the **Preview** calendar. It is not typically run by end users.
  */
 export const listPreviewRotationShifts: API.PaginatedOperationMethod<
-  ListPreviewRotationShiftsRequest,
+  ListPreviewRotationShiftsRequest & RegionInput,
   ListPreviewRotationShiftsResult,
   ListPreviewRotationShiftsError,
   Credentials | HttpClient.HttpClient,
@@ -1776,7 +1777,7 @@ export type ListRotationOverridesError =
  * Retrieves a list of overrides currently specified for an on-call rotation.
  */
 export const listRotationOverrides: API.PaginatedOperationMethod<
-  ListRotationOverridesRequest,
+  ListRotationOverridesRequest & RegionInput,
   ListRotationOverridesResult,
   ListRotationOverridesError,
   Credentials | HttpClient.HttpClient,
@@ -1818,7 +1819,7 @@ export type ListRotationsError =
  * Retrieves a list of on-call rotations.
  */
 export const listRotations: API.PaginatedOperationMethod<
-  ListRotationsRequest,
+  ListRotationsRequest & RegionInput,
   ListRotationsResult,
   ListRotationsError,
   Credentials | HttpClient.HttpClient,
@@ -1861,7 +1862,7 @@ export type ListRotationShiftsError =
  * Returns a list of shifts generated by an existing rotation in the system.
  */
 export const listRotationShifts: API.PaginatedOperationMethod<
-  ListRotationShiftsRequest,
+  ListRotationShiftsRequest & RegionInput,
   ListRotationShiftsResult,
   ListRotationShiftsError,
   Credentials | HttpClient.HttpClient,
@@ -1904,7 +1905,7 @@ export type ListTagsForResourceError =
  * Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type PutContactPolicyError =
  * cross-account functionality.
  */
 export const putContactPolicy: API.OperationMethod<
-  PutContactPolicyRequest,
+  PutContactPolicyRequest & RegionInput,
   PutContactPolicyResult,
   PutContactPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1980,7 +1981,7 @@ export type SendActivationCodeError =
  * Incident Manager can't engage a contact channel until it has been activated.
  */
 export const sendActivationCode: API.OperationMethod<
-  SendActivationCodeRequest,
+  SendActivationCodeRequest & RegionInput,
   SendActivationCodeResult,
   SendActivationCodeError,
   Credentials | HttpClient.HttpClient
@@ -2018,7 +2019,7 @@ export type StartEngagementError =
  * contact specified in the incident.
  */
 export const startEngagement: API.OperationMethod<
-  StartEngagementRequest,
+  StartEngagementRequest & RegionInput,
   StartEngagementResult,
   StartEngagementError,
   Credentials | HttpClient.HttpClient
@@ -2054,7 +2055,7 @@ export type StopEngagementError =
  * engagement plan. Further contacts aren't engaged.
  */
 export const stopEngagement: API.OperationMethod<
-  StopEngagementRequest,
+  StopEngagementRequest & RegionInput,
   StopEngagementResult,
   StopEngagementError,
   Credentials | HttpClient.HttpClient
@@ -2090,7 +2091,7 @@ export type TagResourceError =
  * first region of your replication set.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2125,7 +2126,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2161,7 +2162,7 @@ export type UpdateContactError =
  * Updates the contact or escalation plan specified.
  */
 export const updateContact: API.OperationMethod<
-  UpdateContactRequest,
+  UpdateContactRequest & RegionInput,
   UpdateContactResult,
   UpdateContactError,
   Credentials | HttpClient.HttpClient
@@ -2199,7 +2200,7 @@ export type UpdateContactChannelError =
  * Updates a contact's contact channel.
  */
 export const updateContactChannel: API.OperationMethod<
-  UpdateContactChannelRequest,
+  UpdateContactChannelRequest & RegionInput,
   UpdateContactChannelResult,
   UpdateContactChannelError,
   Credentials | HttpClient.HttpClient
@@ -2237,7 +2238,7 @@ export type UpdateRotationError =
  * Updates the information specified for an on-call rotation.
  */
 export const updateRotation: API.OperationMethod<
-  UpdateRotationRequest,
+  UpdateRotationRequest & RegionInput,
   UpdateRotationResult,
   UpdateRotationError,
   Credentials | HttpClient.HttpClient

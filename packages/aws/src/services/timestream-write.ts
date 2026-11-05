@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -578,7 +579,7 @@ export type CreateBatchLoadTaskError =
  * sample.
  */
 export const createBatchLoadTask: API.OperationMethod<
-  CreateBatchLoadTaskRequest,
+  CreateBatchLoadTaskRequest & RegionInput,
   CreateBatchLoadTaskResponse,
   CreateBatchLoadTaskError,
   Credentials | HttpClient.HttpClient
@@ -618,7 +619,7 @@ export type CreateDatabaseError =
  * details, see code sample.
  */
 export const createDatabase: API.OperationMethod<
-  CreateDatabaseRequest,
+  CreateDatabaseRequest & RegionInput,
   CreateDatabaseResponse,
   CreateDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -661,7 +662,7 @@ export type CreateTableError =
  * sample for details.
  */
 export const createTable: API.OperationMethod<
-  CreateTableRequest,
+  CreateTableRequest & RegionInput,
   CreateTableResponse,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -708,7 +709,7 @@ export type DeleteDatabaseError =
  * for details.
  */
 export const deleteDatabase: API.OperationMethod<
-  DeleteDatabaseRequest,
+  DeleteDatabaseRequest & RegionInput,
   DeleteDatabaseResponse,
   DeleteDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -750,7 +751,7 @@ export type DeleteTableError =
  * sample for details.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableRequest,
+  DeleteTableRequest & RegionInput,
   DeleteTableResponse,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -786,7 +787,7 @@ export type DescribeBatchLoadTaskError =
  * sample for details.
  */
 export const describeBatchLoadTask: API.OperationMethod<
-  DescribeBatchLoadTaskRequest,
+  DescribeBatchLoadTaskRequest & RegionInput,
   DescribeBatchLoadTaskResponse,
   DescribeBatchLoadTaskError,
   Credentials | HttpClient.HttpClient
@@ -822,7 +823,7 @@ export type DescribeDatabaseError =
  * for details.
  */
 export const describeDatabase: API.OperationMethod<
-  DescribeDatabaseRequest,
+  DescribeDatabaseRequest & RegionInput,
   DescribeDatabaseResponse,
   DescribeDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -870,7 +871,7 @@ export type DescribeEndpointsError =
  * Endpoint Discovery Pattern.
  */
 export const describeEndpoints: API.OperationMethod<
-  DescribeEndpointsRequest,
+  DescribeEndpointsRequest & RegionInput,
   DescribeEndpointsResponse,
   DescribeEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -905,7 +906,7 @@ export type DescribeTableError =
  * sample for details.
  */
 export const describeTable: API.OperationMethod<
-  DescribeTableRequest,
+  DescribeTableRequest & RegionInput,
   DescribeTableResponse,
   DescribeTableError,
   Credentials | HttpClient.HttpClient
@@ -940,7 +941,7 @@ export type ListBatchLoadTasksError =
  * sample for details.
  */
 export const listBatchLoadTasks: API.PaginatedOperationMethod<
-  ListBatchLoadTasksRequest,
+  ListBatchLoadTasksRequest & RegionInput,
   ListBatchLoadTasksResponse,
   ListBatchLoadTasksError,
   Credentials | HttpClient.HttpClient,
@@ -980,7 +981,7 @@ export type ListDatabasesError =
  * details.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesRequest,
+  ListDatabasesRequest & RegionInput,
   ListDatabasesResponse,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -1021,7 +1022,7 @@ export type ListTablesError =
  * for details.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -1059,7 +1060,7 @@ export type ListTagsForResourceError =
  * Lists all tags on a Timestream resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1091,7 +1092,7 @@ export type ResumeBatchLoadTaskError =
  *
  */
 export const resumeBatchLoadTask: API.OperationMethod<
-  ResumeBatchLoadTaskRequest,
+  ResumeBatchLoadTaskRequest & RegionInput,
   ResumeBatchLoadTaskResponse,
   ResumeBatchLoadTaskError,
   Credentials | HttpClient.HttpClient
@@ -1126,7 +1127,7 @@ export type TagResourceError =
  * cost allocation tracking.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1158,7 +1159,7 @@ export type UntagResourceError =
  * Removes the association of tags from a Timestream resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1197,7 +1198,7 @@ export type UpdateDatabaseError =
  * for details.
  */
 export const updateDatabase: API.OperationMethod<
-  UpdateDatabaseRequest,
+  UpdateDatabaseRequest & RegionInput,
   UpdateDatabaseResponse,
   UpdateDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -1238,7 +1239,7 @@ export type UpdateTableError =
  * sample for details.
  */
 export const updateTable: API.OperationMethod<
-  UpdateTableRequest,
+  UpdateTableRequest & RegionInput,
   UpdateTableResponse,
   UpdateTableError,
   Credentials | HttpClient.HttpClient
@@ -1315,7 +1316,7 @@ export type WriteRecordsError =
  * `RejectedRecordsException`.
  */
 export const writeRecords: API.OperationMethod<
-  WriteRecordsRequest,
+  WriteRecordsRequest & RegionInput,
   WriteRecordsResponse,
   WriteRecordsError,
   Credentials | HttpClient.HttpClient

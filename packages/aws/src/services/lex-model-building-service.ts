@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1039,7 +1040,7 @@ export type CreateBotVersionError =
  * `lex:CreateBotVersion` action.
  */
 export const createBotVersion: API.OperationMethod<
-  CreateBotVersionRequest,
+  CreateBotVersionRequest & RegionInput,
   CreateBotVersionResponse,
   CreateBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -1087,7 +1088,7 @@ export type CreateIntentVersionError =
  * `lex:CreateIntentVersion` action.
  */
 export const createIntentVersion: API.OperationMethod<
-  CreateIntentVersionRequest,
+  CreateIntentVersionRequest & RegionInput,
   CreateIntentVersionResponse,
   CreateIntentVersionError,
   Credentials | HttpClient.HttpClient
@@ -1135,7 +1136,7 @@ export type CreateSlotTypeVersionError =
  * `lex:CreateSlotTypeVersion` action.
  */
 export const createSlotTypeVersion: API.OperationMethod<
-  CreateSlotTypeVersionRequest,
+  CreateSlotTypeVersionRequest & RegionInput,
   CreateSlotTypeVersionResponse,
   CreateSlotTypeVersionError,
   Credentials | HttpClient.HttpClient
@@ -1187,7 +1188,7 @@ export type DeleteBotError =
  * `lex:DeleteBot` action.
  */
 export const deleteBot: API.OperationMethod<
-  DeleteBotRequest,
+  DeleteBotRequest & RegionInput,
   DeleteBotResponse,
   DeleteBotError,
   Credentials | HttpClient.HttpClient
@@ -1230,7 +1231,7 @@ export type DeleteBotAliasError =
  * `DeleteBotAlias` operation is successful.
  */
 export const deleteBotAlias: API.OperationMethod<
-  DeleteBotAliasRequest,
+  DeleteBotAliasRequest & RegionInput,
   DeleteBotAliasResponse,
   DeleteBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -1267,7 +1268,7 @@ export type DeleteBotChannelAssociationError =
  * `lex:DeleteBotChannelAssociation` action.
  */
 export const deleteBotChannelAssociation: API.OperationMethod<
-  DeleteBotChannelAssociationRequest,
+  DeleteBotChannelAssociationRequest & RegionInput,
   DeleteBotChannelAssociationResponse,
   DeleteBotChannelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1304,7 +1305,7 @@ export type DeleteBotVersionError =
  * `lex:DeleteBotVersion` action.
  */
 export const deleteBotVersion: API.OperationMethod<
-  DeleteBotVersionRequest,
+  DeleteBotVersionRequest & RegionInput,
   DeleteBotVersionResponse,
   DeleteBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -1355,7 +1356,7 @@ export type DeleteIntentError =
  * `lex:DeleteIntent` action.
  */
 export const deleteIntent: API.OperationMethod<
-  DeleteIntentRequest,
+  DeleteIntentRequest & RegionInput,
   DeleteIntentResponse,
   DeleteIntentError,
   Credentials | HttpClient.HttpClient
@@ -1393,7 +1394,7 @@ export type DeleteIntentVersionError =
  * `lex:DeleteIntentVersion` action.
  */
 export const deleteIntentVersion: API.OperationMethod<
-  DeleteIntentVersionRequest,
+  DeleteIntentVersionRequest & RegionInput,
   DeleteIntentVersionResponse,
   DeleteIntentVersionError,
   Credentials | HttpClient.HttpClient
@@ -1444,7 +1445,7 @@ export type DeleteSlotTypeError =
  * `lex:DeleteSlotType` action.
  */
 export const deleteSlotType: API.OperationMethod<
-  DeleteSlotTypeRequest,
+  DeleteSlotTypeRequest & RegionInput,
   DeleteSlotTypeResponse,
   DeleteSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -1482,7 +1483,7 @@ export type DeleteSlotTypeVersionError =
  * `lex:DeleteSlotTypeVersion` action.
  */
 export const deleteSlotTypeVersion: API.OperationMethod<
-  DeleteSlotTypeVersionRequest,
+  DeleteSlotTypeVersionRequest & RegionInput,
   DeleteSlotTypeVersionResponse,
   DeleteSlotTypeVersionError,
   Credentials | HttpClient.HttpClient
@@ -1528,7 +1529,7 @@ export type DeleteUtterancesError =
  * `lex:DeleteUtterances` action.
  */
 export const deleteUtterances: API.OperationMethod<
-  DeleteUtterancesRequest,
+  DeleteUtterancesRequest & RegionInput,
   DeleteUtterancesResponse,
   DeleteUtterancesError,
   Credentials | HttpClient.HttpClient
@@ -1562,7 +1563,7 @@ export type GetBotError =
  * `lex:GetBot` action.
  */
 export const getBot: API.OperationMethod<
-  GetBotRequest,
+  GetBotRequest & RegionInput,
   GetBotResponse,
   GetBotError,
   Credentials | HttpClient.HttpClient
@@ -1596,7 +1597,7 @@ export type GetBotAliasError =
  * `lex:GetBotAlias` action.
  */
 export const getBotAlias: API.OperationMethod<
-  GetBotAliasRequest,
+  GetBotAliasRequest & RegionInput,
   GetBotAliasResponse,
   GetBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -1628,7 +1629,7 @@ export type GetBotAliasesError =
  * `lex:GetBotAliases` action.
  */
 export const getBotAliases: API.PaginatedOperationMethod<
-  GetBotAliasesRequest,
+  GetBotAliasesRequest & RegionInput,
   GetBotAliasesResponse,
   GetBotAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -1663,7 +1664,7 @@ export type GetBotChannelAssociationError =
  * `lex:GetBotChannelAssociation` action.
  */
 export const getBotChannelAssociation: API.OperationMethod<
-  GetBotChannelAssociationRequest,
+  GetBotChannelAssociationRequest & RegionInput,
   GetBotChannelAssociationResponse,
   GetBotChannelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1697,7 +1698,7 @@ export type GetBotChannelAssociationsError =
  * action.
  */
 export const getBotChannelAssociations: API.PaginatedOperationMethod<
-  GetBotChannelAssociationsRequest,
+  GetBotChannelAssociationsRequest & RegionInput,
   GetBotChannelAssociationsResponse,
   GetBotChannelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1739,7 +1740,7 @@ export type GetBotsError =
  * action.
  */
 export const getBots: API.PaginatedOperationMethod<
-  GetBotsRequest,
+  GetBotsRequest & RegionInput,
   GetBotsResponse,
   GetBotsError,
   Credentials | HttpClient.HttpClient,
@@ -1788,7 +1789,7 @@ export type GetBotVersionsError =
  * `lex:GetBotVersions` action.
  */
 export const getBotVersions: API.PaginatedOperationMethod<
-  GetBotVersionsRequest,
+  GetBotVersionsRequest & RegionInput,
   GetBotVersionsResponse,
   GetBotVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1827,7 +1828,7 @@ export type GetBuiltinIntentError =
  * `lex:GetBuiltinIntent` action.
  */
 export const getBuiltinIntent: API.OperationMethod<
-  GetBuiltinIntentRequest,
+  GetBuiltinIntentRequest & RegionInput,
   GetBuiltinIntentResponse,
   GetBuiltinIntentError,
   Credentials | HttpClient.HttpClient
@@ -1860,7 +1861,7 @@ export type GetBuiltinIntentsError =
  * `lex:GetBuiltinIntents` action.
  */
 export const getBuiltinIntents: API.PaginatedOperationMethod<
-  GetBuiltinIntentsRequest,
+  GetBuiltinIntentsRequest & RegionInput,
   GetBuiltinIntentsResponse,
   GetBuiltinIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -1897,7 +1898,7 @@ export type GetBuiltinSlotTypesError =
  * `lex:GetBuiltInSlotTypes` action.
  */
 export const getBuiltinSlotTypes: API.PaginatedOperationMethod<
-  GetBuiltinSlotTypesRequest,
+  GetBuiltinSlotTypesRequest & RegionInput,
   GetBuiltinSlotTypesResponse,
   GetBuiltinSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1928,7 +1929,7 @@ export type GetExportError =
  * Exports the contents of a Amazon Lex resource in a specified format.
  */
 export const getExport: API.OperationMethod<
-  GetExportRequest,
+  GetExportRequest & RegionInput,
   GetExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
@@ -1959,7 +1960,7 @@ export type GetImportError =
  * `StartImport` operation.
  */
 export const getImport: API.OperationMethod<
-  GetImportRequest,
+  GetImportRequest & RegionInput,
   GetImportResponse,
   GetImportError,
   Credentials | HttpClient.HttpClient
@@ -1993,7 +1994,7 @@ export type GetIntentError =
  * `lex:GetIntent` action.
  */
 export const getIntent: API.OperationMethod<
-  GetIntentRequest,
+  GetIntentRequest & RegionInput,
   GetIntentResponse,
   GetIntentError,
   Credentials | HttpClient.HttpClient
@@ -2034,7 +2035,7 @@ export type GetIntentsError =
  * `lex:GetIntents` action.
  */
 export const getIntents: API.PaginatedOperationMethod<
-  GetIntentsRequest,
+  GetIntentsRequest & RegionInput,
   GetIntentsResponse,
   GetIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -2083,7 +2084,7 @@ export type GetIntentVersionsError =
  * `lex:GetIntentVersions` action.
  */
 export const getIntentVersions: API.PaginatedOperationMethod<
-  GetIntentVersionsRequest,
+  GetIntentVersionsRequest & RegionInput,
   GetIntentVersionsResponse,
   GetIntentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2121,7 +2122,7 @@ export type GetMigrationError =
  * alerts and warnings related to the migration.
  */
 export const getMigration: API.OperationMethod<
-  GetMigrationRequest,
+  GetMigrationRequest & RegionInput,
   GetMigrationResponse,
   GetMigrationError,
   Credentials | HttpClient.HttpClient
@@ -2150,7 +2151,7 @@ export type GetMigrationsError =
  * Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
  */
 export const getMigrations: API.PaginatedOperationMethod<
-  GetMigrationsRequest,
+  GetMigrationsRequest & RegionInput,
   GetMigrationsResponse,
   GetMigrationsError,
   Credentials | HttpClient.HttpClient,
@@ -2186,7 +2187,7 @@ export type GetSlotTypeError =
  * `lex:GetSlotType` action.
  */
 export const getSlotType: API.OperationMethod<
-  GetSlotTypeRequest,
+  GetSlotTypeRequest & RegionInput,
   GetSlotTypeResponse,
   GetSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -2227,7 +2228,7 @@ export type GetSlotTypesError =
  * `lex:GetSlotTypes` action.
  */
 export const getSlotTypes: API.PaginatedOperationMethod<
-  GetSlotTypesRequest,
+  GetSlotTypesRequest & RegionInput,
   GetSlotTypesResponse,
   GetSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2276,7 +2277,7 @@ export type GetSlotTypeVersionsError =
  * `lex:GetSlotTypeVersions` action.
  */
 export const getSlotTypeVersions: API.PaginatedOperationMethod<
-  GetSlotTypeVersionsRequest,
+  GetSlotTypeVersionsRequest & RegionInput,
   GetSlotTypeVersionsResponse,
   GetSlotTypeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2339,7 +2340,7 @@ export type GetUtterancesViewError =
  * `lex:GetUtterancesView` action.
  */
 export const getUtterancesView: API.OperationMethod<
-  GetUtterancesViewRequest,
+  GetUtterancesViewRequest & RegionInput,
   GetUtterancesViewResponse,
   GetUtterancesViewError,
   Credentials | HttpClient.HttpClient
@@ -2365,7 +2366,7 @@ export type ListTagsForResourceError =
  * bot aliases, and bot channels can have tags associated with them.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2414,7 +2415,7 @@ export type PutBotError =
  * action. For more information, see security-iam.
  */
 export const putBot: API.OperationMethod<
-  PutBotRequest,
+  PutBotRequest & RegionInput,
   PutBotResponse,
   PutBotError,
   Credentials | HttpClient.HttpClient
@@ -2452,7 +2453,7 @@ export type PutBotAliasError =
  * `lex:PutBotAlias` action.
  */
 export const putBotAlias: API.OperationMethod<
-  PutBotAliasRequest,
+  PutBotAliasRequest & RegionInput,
   PutBotAliasResponse,
   PutBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2536,7 @@ export type PutIntentError =
  * `lex:PutIntent` action.
  */
 export const putIntent: API.OperationMethod<
-  PutIntentRequest,
+  PutIntentRequest & RegionInput,
   PutIntentResponse,
   PutIntentError,
   Credentials | HttpClient.HttpClient
@@ -2584,7 +2585,7 @@ export type PutSlotTypeError =
  * `lex:PutSlotType` action.
  */
 export const putSlotType: API.OperationMethod<
-  PutSlotTypeRequest,
+  PutSlotTypeRequest & RegionInput,
   PutSlotTypeResponse,
   PutSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -2614,7 +2615,7 @@ export type StartImportError =
  * Starts a job to import a resource to Amazon Lex.
  */
 export const startImport: API.OperationMethod<
-  StartImportRequest,
+  StartImportRequest & RegionInput,
   StartImportResponse,
   StartImportError,
   Credentials | HttpClient.HttpClient
@@ -2644,7 +2645,7 @@ export type StartMigrationError =
  * developer guide.
  */
 export const startMigration: API.OperationMethod<
-  StartMigrationRequest,
+  StartMigrationRequest & RegionInput,
   StartMigrationResponse,
   StartMigrationError,
   Credentials | HttpClient.HttpClient
@@ -2677,7 +2678,7 @@ export type TagResourceError =
  * already exists, the existing value is replaced with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2709,7 +2710,7 @@ export type UntagResourceError =
  * Removes tags from a bot, bot alias or bot channel.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

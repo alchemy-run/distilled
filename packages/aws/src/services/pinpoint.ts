@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -5341,7 +5342,7 @@ export type CreateAppError =
  * Creates an application.
  */
 export const createApp: API.OperationMethod<
-  CreateAppRequest,
+  CreateAppRequest & RegionInput,
   CreateAppResponse,
   CreateAppError,
   Credentials | HttpClient.HttpClient
@@ -5377,7 +5378,7 @@ export type CreateCampaignError =
  * Creates a new campaign for an application or updates the settings of an existing campaign for an application.
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -5411,7 +5412,7 @@ export type CreateEmailTemplateError =
  * Creates a message template for messages that are sent through the email channel.
  */
 export const createEmailTemplate: API.OperationMethod<
-  CreateEmailTemplateRequest,
+  CreateEmailTemplateRequest & RegionInput,
   CreateEmailTemplateResponse,
   CreateEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5445,7 +5446,7 @@ export type CreateExportJobError =
  * Creates an export job for an application.
  */
 export const createExportJob: API.OperationMethod<
-  CreateExportJobRequest,
+  CreateExportJobRequest & RegionInput,
   CreateExportJobResponse,
   CreateExportJobError,
   Credentials | HttpClient.HttpClient
@@ -5481,7 +5482,7 @@ export type CreateImportJobError =
  * Creates an import job for an application.
  */
 export const createImportJob: API.OperationMethod<
-  CreateImportJobRequest,
+  CreateImportJobRequest & RegionInput,
   CreateImportJobResponse,
   CreateImportJobError,
   Credentials | HttpClient.HttpClient
@@ -5515,7 +5516,7 @@ export type CreateInAppTemplateError =
  * Creates a new message template for messages using the in-app message channel.
  */
 export const createInAppTemplate: API.OperationMethod<
-  CreateInAppTemplateRequest,
+  CreateInAppTemplateRequest & RegionInput,
   CreateInAppTemplateResponse,
   CreateInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5549,7 +5550,7 @@ export type CreateJourneyError =
  * Creates a journey for an application.
  */
 export const createJourney: API.OperationMethod<
-  CreateJourneyRequest,
+  CreateJourneyRequest & RegionInput,
   CreateJourneyResponse,
   CreateJourneyError,
   Credentials | HttpClient.HttpClient
@@ -5583,7 +5584,7 @@ export type CreatePushTemplateError =
  * Creates a message template for messages that are sent through a push notification channel.
  */
 export const createPushTemplate: API.OperationMethod<
-  CreatePushTemplateRequest,
+  CreatePushTemplateRequest & RegionInput,
   CreatePushTemplateResponse,
   CreatePushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5617,7 +5618,7 @@ export type CreateRecommenderConfigurationError =
  * Creates an Amazon Pinpoint configuration for a recommender model.
  */
 export const createRecommenderConfiguration: API.OperationMethod<
-  CreateRecommenderConfigurationRequest,
+  CreateRecommenderConfigurationRequest & RegionInput,
   CreateRecommenderConfigurationResponse,
   CreateRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5653,7 +5654,7 @@ export type CreateSegmentError =
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
 export const createSegment: API.OperationMethod<
-  CreateSegmentRequest,
+  CreateSegmentRequest & RegionInput,
   CreateSegmentResponse,
   CreateSegmentError,
   Credentials | HttpClient.HttpClient
@@ -5687,7 +5688,7 @@ export type CreateSmsTemplateError =
  * Creates a message template for messages that are sent through the SMS channel.
  */
 export const createSmsTemplate: API.OperationMethod<
-  CreateSmsTemplateRequest,
+  CreateSmsTemplateRequest & RegionInput,
   CreateSmsTemplateResponse,
   CreateSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5719,7 +5720,7 @@ export type CreateVoiceTemplateError =
  * Creates a message template for messages that are sent through the voice channel.
  */
 export const createVoiceTemplate: API.OperationMethod<
-  CreateVoiceTemplateRequest,
+  CreateVoiceTemplateRequest & RegionInput,
   CreateVoiceTemplateResponse,
   CreateVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5753,7 +5754,7 @@ export type DeleteAdmChannelError =
  * Disables the ADM channel for an application and deletes any existing settings for the channel.
  */
 export const deleteAdmChannel: API.OperationMethod<
-  DeleteAdmChannelRequest,
+  DeleteAdmChannelRequest & RegionInput,
   DeleteAdmChannelResponse,
   DeleteAdmChannelError,
   Credentials | HttpClient.HttpClient
@@ -5789,7 +5790,7 @@ export type DeleteApnsChannelError =
  * Disables the APNs channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsChannel: API.OperationMethod<
-  DeleteApnsChannelRequest,
+  DeleteApnsChannelRequest & RegionInput,
   DeleteApnsChannelResponse,
   DeleteApnsChannelError,
   Credentials | HttpClient.HttpClient
@@ -5825,7 +5826,7 @@ export type DeleteApnsSandboxChannelError =
  * Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsSandboxChannel: API.OperationMethod<
-  DeleteApnsSandboxChannelRequest,
+  DeleteApnsSandboxChannelRequest & RegionInput,
   DeleteApnsSandboxChannelResponse,
   DeleteApnsSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -5861,7 +5862,7 @@ export type DeleteApnsVoipChannelError =
  * Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsVoipChannel: API.OperationMethod<
-  DeleteApnsVoipChannelRequest,
+  DeleteApnsVoipChannelRequest & RegionInput,
   DeleteApnsVoipChannelResponse,
   DeleteApnsVoipChannelError,
   Credentials | HttpClient.HttpClient
@@ -5897,7 +5898,7 @@ export type DeleteApnsVoipSandboxChannelError =
  * Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
  */
 export const deleteApnsVoipSandboxChannel: API.OperationMethod<
-  DeleteApnsVoipSandboxChannelRequest,
+  DeleteApnsVoipSandboxChannelRequest & RegionInput,
   DeleteApnsVoipSandboxChannelResponse,
   DeleteApnsVoipSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -5933,7 +5934,7 @@ export type DeleteAppError =
  * Deletes an application.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResponse,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -5969,7 +5970,7 @@ export type DeleteBaiduChannelError =
  * Disables the Baidu channel for an application and deletes any existing settings for the channel.
  */
 export const deleteBaiduChannel: API.OperationMethod<
-  DeleteBaiduChannelRequest,
+  DeleteBaiduChannelRequest & RegionInput,
   DeleteBaiduChannelResponse,
   DeleteBaiduChannelError,
   Credentials | HttpClient.HttpClient
@@ -6005,7 +6006,7 @@ export type DeleteCampaignError =
  * Deletes a campaign from an application.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -6041,7 +6042,7 @@ export type DeleteEmailChannelError =
  * Disables the email channel for an application and deletes any existing settings for the channel.
  */
 export const deleteEmailChannel: API.OperationMethod<
-  DeleteEmailChannelRequest,
+  DeleteEmailChannelRequest & RegionInput,
   DeleteEmailChannelResponse,
   DeleteEmailChannelError,
   Credentials | HttpClient.HttpClient
@@ -6077,7 +6078,7 @@ export type DeleteEmailTemplateError =
  * Deletes a message template for messages that were sent through the email channel.
  */
 export const deleteEmailTemplate: API.OperationMethod<
-  DeleteEmailTemplateRequest,
+  DeleteEmailTemplateRequest & RegionInput,
   DeleteEmailTemplateResponse,
   DeleteEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6113,7 +6114,7 @@ export type DeleteEndpointError =
  * Deletes an endpoint from an application.
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -6149,7 +6150,7 @@ export type DeleteEventStreamError =
  * Deletes the event stream for an application.
  */
 export const deleteEventStream: API.OperationMethod<
-  DeleteEventStreamRequest,
+  DeleteEventStreamRequest & RegionInput,
   DeleteEventStreamResponse,
   DeleteEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -6185,7 +6186,7 @@ export type DeleteGcmChannelError =
  * Disables the GCM channel for an application and deletes any existing settings for the channel.
  */
 export const deleteGcmChannel: API.OperationMethod<
-  DeleteGcmChannelRequest,
+  DeleteGcmChannelRequest & RegionInput,
   DeleteGcmChannelResponse,
   DeleteGcmChannelError,
   Credentials | HttpClient.HttpClient
@@ -6221,7 +6222,7 @@ export type DeleteInAppTemplateError =
  * Deletes a message template for messages sent using the in-app message channel.
  */
 export const deleteInAppTemplate: API.OperationMethod<
-  DeleteInAppTemplateRequest,
+  DeleteInAppTemplateRequest & RegionInput,
   DeleteInAppTemplateResponse,
   DeleteInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6257,7 +6258,7 @@ export type DeleteJourneyError =
  * Deletes a journey from an application.
  */
 export const deleteJourney: API.OperationMethod<
-  DeleteJourneyRequest,
+  DeleteJourneyRequest & RegionInput,
   DeleteJourneyResponse,
   DeleteJourneyError,
   Credentials | HttpClient.HttpClient
@@ -6293,7 +6294,7 @@ export type DeletePushTemplateError =
  * Deletes a message template for messages that were sent through a push notification channel.
  */
 export const deletePushTemplate: API.OperationMethod<
-  DeletePushTemplateRequest,
+  DeletePushTemplateRequest & RegionInput,
   DeletePushTemplateResponse,
   DeletePushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6329,7 +6330,7 @@ export type DeleteRecommenderConfigurationError =
  * Deletes an Amazon Pinpoint configuration for a recommender model.
  */
 export const deleteRecommenderConfiguration: API.OperationMethod<
-  DeleteRecommenderConfigurationRequest,
+  DeleteRecommenderConfigurationRequest & RegionInput,
   DeleteRecommenderConfigurationResponse,
   DeleteRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6365,7 +6366,7 @@ export type DeleteSegmentError =
  * Deletes a segment from an application.
  */
 export const deleteSegment: API.OperationMethod<
-  DeleteSegmentRequest,
+  DeleteSegmentRequest & RegionInput,
   DeleteSegmentResponse,
   DeleteSegmentError,
   Credentials | HttpClient.HttpClient
@@ -6401,7 +6402,7 @@ export type DeleteSmsChannelError =
  * Disables the SMS channel for an application and deletes any existing settings for the channel.
  */
 export const deleteSmsChannel: API.OperationMethod<
-  DeleteSmsChannelRequest,
+  DeleteSmsChannelRequest & RegionInput,
   DeleteSmsChannelResponse,
   DeleteSmsChannelError,
   Credentials | HttpClient.HttpClient
@@ -6437,7 +6438,7 @@ export type DeleteSmsTemplateError =
  * Deletes a message template for messages that were sent through the SMS channel.
  */
 export const deleteSmsTemplate: API.OperationMethod<
-  DeleteSmsTemplateRequest,
+  DeleteSmsTemplateRequest & RegionInput,
   DeleteSmsTemplateResponse,
   DeleteSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6473,7 +6474,7 @@ export type DeleteUserEndpointsError =
  * Deletes all the endpoints that are associated with a specific user ID.
  */
 export const deleteUserEndpoints: API.OperationMethod<
-  DeleteUserEndpointsRequest,
+  DeleteUserEndpointsRequest & RegionInput,
   DeleteUserEndpointsResponse,
   DeleteUserEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -6509,7 +6510,7 @@ export type DeleteVoiceChannelError =
  * Disables the voice channel for an application and deletes any existing settings for the channel.
  */
 export const deleteVoiceChannel: API.OperationMethod<
-  DeleteVoiceChannelRequest,
+  DeleteVoiceChannelRequest & RegionInput,
   DeleteVoiceChannelResponse,
   DeleteVoiceChannelError,
   Credentials | HttpClient.HttpClient
@@ -6545,7 +6546,7 @@ export type DeleteVoiceTemplateError =
  * Deletes a message template for messages that were sent through the voice channel.
  */
 export const deleteVoiceTemplate: API.OperationMethod<
-  DeleteVoiceTemplateRequest,
+  DeleteVoiceTemplateRequest & RegionInput,
   DeleteVoiceTemplateResponse,
   DeleteVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6581,7 +6582,7 @@ export type GetAdmChannelError =
  * Retrieves information about the status and settings of the ADM channel for an application.
  */
 export const getAdmChannel: API.OperationMethod<
-  GetAdmChannelRequest,
+  GetAdmChannelRequest & RegionInput,
   GetAdmChannelResponse,
   GetAdmChannelError,
   Credentials | HttpClient.HttpClient
@@ -6617,7 +6618,7 @@ export type GetApnsChannelError =
  * Retrieves information about the status and settings of the APNs channel for an application.
  */
 export const getApnsChannel: API.OperationMethod<
-  GetApnsChannelRequest,
+  GetApnsChannelRequest & RegionInput,
   GetApnsChannelResponse,
   GetApnsChannelError,
   Credentials | HttpClient.HttpClient
@@ -6653,7 +6654,7 @@ export type GetApnsSandboxChannelError =
  * Retrieves information about the status and settings of the APNs sandbox channel for an application.
  */
 export const getApnsSandboxChannel: API.OperationMethod<
-  GetApnsSandboxChannelRequest,
+  GetApnsSandboxChannelRequest & RegionInput,
   GetApnsSandboxChannelResponse,
   GetApnsSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -6689,7 +6690,7 @@ export type GetApnsVoipChannelError =
  * Retrieves information about the status and settings of the APNs VoIP channel for an application.
  */
 export const getApnsVoipChannel: API.OperationMethod<
-  GetApnsVoipChannelRequest,
+  GetApnsVoipChannelRequest & RegionInput,
   GetApnsVoipChannelResponse,
   GetApnsVoipChannelError,
   Credentials | HttpClient.HttpClient
@@ -6725,7 +6726,7 @@ export type GetApnsVoipSandboxChannelError =
  * Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
  */
 export const getApnsVoipSandboxChannel: API.OperationMethod<
-  GetApnsVoipSandboxChannelRequest,
+  GetApnsVoipSandboxChannelRequest & RegionInput,
   GetApnsVoipSandboxChannelResponse,
   GetApnsVoipSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -6761,7 +6762,7 @@ export type GetAppError =
  * Retrieves information about an application.
  */
 export const getApp: API.OperationMethod<
-  GetAppRequest,
+  GetAppRequest & RegionInput,
   GetAppResponse,
   GetAppError,
   Credentials | HttpClient.HttpClient
@@ -6797,7 +6798,7 @@ export type GetApplicationDateRangeKpiError =
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
  */
 export const getApplicationDateRangeKpi: API.OperationMethod<
-  GetApplicationDateRangeKpiRequest,
+  GetApplicationDateRangeKpiRequest & RegionInput,
   GetApplicationDateRangeKpiResponse,
   GetApplicationDateRangeKpiError,
   Credentials | HttpClient.HttpClient
@@ -6833,7 +6834,7 @@ export type GetApplicationSettingsError =
  * Retrieves information about the settings for an application.
  */
 export const getApplicationSettings: API.OperationMethod<
-  GetApplicationSettingsRequest,
+  GetApplicationSettingsRequest & RegionInput,
   GetApplicationSettingsResponse,
   GetApplicationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -6869,7 +6870,7 @@ export type GetAppsError =
  * Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
  */
 export const getApps: API.OperationMethod<
-  GetAppsRequest,
+  GetAppsRequest & RegionInput,
   GetAppsResponse,
   GetAppsError,
   Credentials | HttpClient.HttpClient
@@ -6905,7 +6906,7 @@ export type GetBaiduChannelError =
  * Retrieves information about the status and settings of the Baidu channel for an application.
  */
 export const getBaiduChannel: API.OperationMethod<
-  GetBaiduChannelRequest,
+  GetBaiduChannelRequest & RegionInput,
   GetBaiduChannelResponse,
   GetBaiduChannelError,
   Credentials | HttpClient.HttpClient
@@ -6941,7 +6942,7 @@ export type GetCampaignError =
  * Retrieves information about the status, configuration, and other settings for a campaign.
  */
 export const getCampaign: API.OperationMethod<
-  GetCampaignRequest,
+  GetCampaignRequest & RegionInput,
   GetCampaignResponse,
   GetCampaignError,
   Credentials | HttpClient.HttpClient
@@ -6977,7 +6978,7 @@ export type GetCampaignActivitiesError =
  * Retrieves information about all the activities for a campaign.
  */
 export const getCampaignActivities: API.OperationMethod<
-  GetCampaignActivitiesRequest,
+  GetCampaignActivitiesRequest & RegionInput,
   GetCampaignActivitiesResponse,
   GetCampaignActivitiesError,
   Credentials | HttpClient.HttpClient
@@ -7013,7 +7014,7 @@ export type GetCampaignDateRangeKpiError =
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
  */
 export const getCampaignDateRangeKpi: API.OperationMethod<
-  GetCampaignDateRangeKpiRequest,
+  GetCampaignDateRangeKpiRequest & RegionInput,
   GetCampaignDateRangeKpiResponse,
   GetCampaignDateRangeKpiError,
   Credentials | HttpClient.HttpClient
@@ -7049,7 +7050,7 @@ export type GetCampaignsError =
  * Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
  */
 export const getCampaigns: API.OperationMethod<
-  GetCampaignsRequest,
+  GetCampaignsRequest & RegionInput,
   GetCampaignsResponse,
   GetCampaignsError,
   Credentials | HttpClient.HttpClient
@@ -7085,7 +7086,7 @@ export type GetCampaignVersionError =
  * Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
  */
 export const getCampaignVersion: API.OperationMethod<
-  GetCampaignVersionRequest,
+  GetCampaignVersionRequest & RegionInput,
   GetCampaignVersionResponse,
   GetCampaignVersionError,
   Credentials | HttpClient.HttpClient
@@ -7121,7 +7122,7 @@ export type GetCampaignVersionsError =
  * Retrieves information about the status, configuration, and other settings for all versions of a campaign.
  */
 export const getCampaignVersions: API.OperationMethod<
-  GetCampaignVersionsRequest,
+  GetCampaignVersionsRequest & RegionInput,
   GetCampaignVersionsResponse,
   GetCampaignVersionsError,
   Credentials | HttpClient.HttpClient
@@ -7157,7 +7158,7 @@ export type GetChannelsError =
  * Retrieves information about the history and status of each channel for an application.
  */
 export const getChannels: API.OperationMethod<
-  GetChannelsRequest,
+  GetChannelsRequest & RegionInput,
   GetChannelsResponse,
   GetChannelsError,
   Credentials | HttpClient.HttpClient
@@ -7193,7 +7194,7 @@ export type GetEmailChannelError =
  * Retrieves information about the status and settings of the email channel for an application.
  */
 export const getEmailChannel: API.OperationMethod<
-  GetEmailChannelRequest,
+  GetEmailChannelRequest & RegionInput,
   GetEmailChannelResponse,
   GetEmailChannelError,
   Credentials | HttpClient.HttpClient
@@ -7229,7 +7230,7 @@ export type GetEmailTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through the email channel.
  */
 export const getEmailTemplate: API.OperationMethod<
-  GetEmailTemplateRequest,
+  GetEmailTemplateRequest & RegionInput,
   GetEmailTemplateResponse,
   GetEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7265,7 +7266,7 @@ export type GetEndpointError =
  * Retrieves information about the settings and attributes of a specific endpoint for an application.
  */
 export const getEndpoint: API.OperationMethod<
-  GetEndpointRequest,
+  GetEndpointRequest & RegionInput,
   GetEndpointResponse,
   GetEndpointError,
   Credentials | HttpClient.HttpClient
@@ -7301,7 +7302,7 @@ export type GetEventStreamError =
  * Retrieves information about the event stream settings for an application.
  */
 export const getEventStream: API.OperationMethod<
-  GetEventStreamRequest,
+  GetEventStreamRequest & RegionInput,
   GetEventStreamResponse,
   GetEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -7337,7 +7338,7 @@ export type GetExportJobError =
  * Retrieves information about the status and settings of a specific export job for an application.
  */
 export const getExportJob: API.OperationMethod<
-  GetExportJobRequest,
+  GetExportJobRequest & RegionInput,
   GetExportJobResponse,
   GetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -7373,7 +7374,7 @@ export type GetExportJobsError =
  * Retrieves information about the status and settings of all the export jobs for an application.
  */
 export const getExportJobs: API.OperationMethod<
-  GetExportJobsRequest,
+  GetExportJobsRequest & RegionInput,
   GetExportJobsResponse,
   GetExportJobsError,
   Credentials | HttpClient.HttpClient
@@ -7409,7 +7410,7 @@ export type GetGcmChannelError =
  * Retrieves information about the status and settings of the GCM channel for an application.
  */
 export const getGcmChannel: API.OperationMethod<
-  GetGcmChannelRequest,
+  GetGcmChannelRequest & RegionInput,
   GetGcmChannelResponse,
   GetGcmChannelError,
   Credentials | HttpClient.HttpClient
@@ -7445,7 +7446,7 @@ export type GetImportJobError =
  * Retrieves information about the status and settings of a specific import job for an application.
  */
 export const getImportJob: API.OperationMethod<
-  GetImportJobRequest,
+  GetImportJobRequest & RegionInput,
   GetImportJobResponse,
   GetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -7481,7 +7482,7 @@ export type GetImportJobsError =
  * Retrieves information about the status and settings of all the import jobs for an application.
  */
 export const getImportJobs: API.OperationMethod<
-  GetImportJobsRequest,
+  GetImportJobsRequest & RegionInput,
   GetImportJobsResponse,
   GetImportJobsError,
   Credentials | HttpClient.HttpClient
@@ -7517,7 +7518,7 @@ export type GetInAppMessagesError =
  * Retrieves the in-app messages targeted for the provided endpoint ID.
  */
 export const getInAppMessages: API.OperationMethod<
-  GetInAppMessagesRequest,
+  GetInAppMessagesRequest & RegionInput,
   GetInAppMessagesResponse,
   GetInAppMessagesError,
   Credentials | HttpClient.HttpClient
@@ -7553,7 +7554,7 @@ export type GetInAppTemplateError =
  * Retrieves the content and settings of a message template for messages sent through the in-app channel.
  */
 export const getInAppTemplate: API.OperationMethod<
-  GetInAppTemplateRequest,
+  GetInAppTemplateRequest & RegionInput,
   GetInAppTemplateResponse,
   GetInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7589,7 +7590,7 @@ export type GetJourneyError =
  * Retrieves information about the status, configuration, and other settings for a journey.
  */
 export const getJourney: API.OperationMethod<
-  GetJourneyRequest,
+  GetJourneyRequest & RegionInput,
   GetJourneyResponse,
   GetJourneyError,
   Credentials | HttpClient.HttpClient
@@ -7625,7 +7626,7 @@ export type GetJourneyDateRangeKpiError =
  * Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
  */
 export const getJourneyDateRangeKpi: API.OperationMethod<
-  GetJourneyDateRangeKpiRequest,
+  GetJourneyDateRangeKpiRequest & RegionInput,
   GetJourneyDateRangeKpiResponse,
   GetJourneyDateRangeKpiError,
   Credentials | HttpClient.HttpClient
@@ -7661,7 +7662,7 @@ export type GetJourneyExecutionActivityMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
  */
 export const getJourneyExecutionActivityMetrics: API.OperationMethod<
-  GetJourneyExecutionActivityMetricsRequest,
+  GetJourneyExecutionActivityMetricsRequest & RegionInput,
   GetJourneyExecutionActivityMetricsResponse,
   GetJourneyExecutionActivityMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7697,7 +7698,7 @@ export type GetJourneyExecutionMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
  */
 export const getJourneyExecutionMetrics: API.OperationMethod<
-  GetJourneyExecutionMetricsRequest,
+  GetJourneyExecutionMetricsRequest & RegionInput,
   GetJourneyExecutionMetricsResponse,
   GetJourneyExecutionMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7733,7 +7734,7 @@ export type GetJourneyRunExecutionActivityMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
  */
 export const getJourneyRunExecutionActivityMetrics: API.OperationMethod<
-  GetJourneyRunExecutionActivityMetricsRequest,
+  GetJourneyRunExecutionActivityMetricsRequest & RegionInput,
   GetJourneyRunExecutionActivityMetricsResponse,
   GetJourneyRunExecutionActivityMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7769,7 +7770,7 @@ export type GetJourneyRunExecutionMetricsError =
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
  */
 export const getJourneyRunExecutionMetrics: API.OperationMethod<
-  GetJourneyRunExecutionMetricsRequest,
+  GetJourneyRunExecutionMetricsRequest & RegionInput,
   GetJourneyRunExecutionMetricsResponse,
   GetJourneyRunExecutionMetricsError,
   Credentials | HttpClient.HttpClient
@@ -7805,7 +7806,7 @@ export type GetJourneyRunsError =
  * Provides information about the runs of a journey.
  */
 export const getJourneyRuns: API.OperationMethod<
-  GetJourneyRunsRequest,
+  GetJourneyRunsRequest & RegionInput,
   GetJourneyRunsResponse,
   GetJourneyRunsError,
   Credentials | HttpClient.HttpClient
@@ -7841,7 +7842,7 @@ export type GetPushTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
  */
 export const getPushTemplate: API.OperationMethod<
-  GetPushTemplateRequest,
+  GetPushTemplateRequest & RegionInput,
   GetPushTemplateResponse,
   GetPushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7877,7 +7878,7 @@ export type GetRecommenderConfigurationError =
  * Retrieves information about an Amazon Pinpoint configuration for a recommender model.
  */
 export const getRecommenderConfiguration: API.OperationMethod<
-  GetRecommenderConfigurationRequest,
+  GetRecommenderConfigurationRequest & RegionInput,
   GetRecommenderConfigurationResponse,
   GetRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7913,7 +7914,7 @@ export type GetRecommenderConfigurationsError =
  * Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
  */
 export const getRecommenderConfigurations: API.OperationMethod<
-  GetRecommenderConfigurationsRequest,
+  GetRecommenderConfigurationsRequest & RegionInput,
   GetRecommenderConfigurationsResponse,
   GetRecommenderConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -7949,7 +7950,7 @@ export type GetSegmentError =
  * Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
  */
 export const getSegment: API.OperationMethod<
-  GetSegmentRequest,
+  GetSegmentRequest & RegionInput,
   GetSegmentResponse,
   GetSegmentError,
   Credentials | HttpClient.HttpClient
@@ -7985,7 +7986,7 @@ export type GetSegmentExportJobsError =
  * Retrieves information about the status and settings of the export jobs for a segment.
  */
 export const getSegmentExportJobs: API.OperationMethod<
-  GetSegmentExportJobsRequest,
+  GetSegmentExportJobsRequest & RegionInput,
   GetSegmentExportJobsResponse,
   GetSegmentExportJobsError,
   Credentials | HttpClient.HttpClient
@@ -8021,7 +8022,7 @@ export type GetSegmentImportJobsError =
  * Retrieves information about the status and settings of the import jobs for a segment.
  */
 export const getSegmentImportJobs: API.OperationMethod<
-  GetSegmentImportJobsRequest,
+  GetSegmentImportJobsRequest & RegionInput,
   GetSegmentImportJobsResponse,
   GetSegmentImportJobsError,
   Credentials | HttpClient.HttpClient
@@ -8057,7 +8058,7 @@ export type GetSegmentsError =
  * Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
  */
 export const getSegments: API.OperationMethod<
-  GetSegmentsRequest,
+  GetSegmentsRequest & RegionInput,
   GetSegmentsResponse,
   GetSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -8093,7 +8094,7 @@ export type GetSegmentVersionError =
  * Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
  */
 export const getSegmentVersion: API.OperationMethod<
-  GetSegmentVersionRequest,
+  GetSegmentVersionRequest & RegionInput,
   GetSegmentVersionResponse,
   GetSegmentVersionError,
   Credentials | HttpClient.HttpClient
@@ -8129,7 +8130,7 @@ export type GetSegmentVersionsError =
  * Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
  */
 export const getSegmentVersions: API.OperationMethod<
-  GetSegmentVersionsRequest,
+  GetSegmentVersionsRequest & RegionInput,
   GetSegmentVersionsResponse,
   GetSegmentVersionsError,
   Credentials | HttpClient.HttpClient
@@ -8165,7 +8166,7 @@ export type GetSmsChannelError =
  * Retrieves information about the status and settings of the SMS channel for an application.
  */
 export const getSmsChannel: API.OperationMethod<
-  GetSmsChannelRequest,
+  GetSmsChannelRequest & RegionInput,
   GetSmsChannelResponse,
   GetSmsChannelError,
   Credentials | HttpClient.HttpClient
@@ -8201,7 +8202,7 @@ export type GetSmsTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
  */
 export const getSmsTemplate: API.OperationMethod<
-  GetSmsTemplateRequest,
+  GetSmsTemplateRequest & RegionInput,
   GetSmsTemplateResponse,
   GetSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -8237,7 +8238,7 @@ export type GetUserEndpointsError =
  * Retrieves information about all the endpoints that are associated with a specific user ID.
  */
 export const getUserEndpoints: API.OperationMethod<
-  GetUserEndpointsRequest,
+  GetUserEndpointsRequest & RegionInput,
   GetUserEndpointsResponse,
   GetUserEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -8273,7 +8274,7 @@ export type GetVoiceChannelError =
  * Retrieves information about the status and settings of the voice channel for an application.
  */
 export const getVoiceChannel: API.OperationMethod<
-  GetVoiceChannelRequest,
+  GetVoiceChannelRequest & RegionInput,
   GetVoiceChannelResponse,
   GetVoiceChannelError,
   Credentials | HttpClient.HttpClient
@@ -8309,7 +8310,7 @@ export type GetVoiceTemplateError =
  * Retrieves the content and settings of a message template for messages that are sent through the voice channel.
  */
 export const getVoiceTemplate: API.OperationMethod<
-  GetVoiceTemplateRequest,
+  GetVoiceTemplateRequest & RegionInput,
   GetVoiceTemplateResponse,
   GetVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -8345,7 +8346,7 @@ export type ListJourneysError =
  * Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
  */
 export const listJourneys: API.OperationMethod<
-  ListJourneysRequest,
+  ListJourneysRequest & RegionInput,
   ListJourneysResponse,
   ListJourneysError,
   Credentials | HttpClient.HttpClient
@@ -8373,7 +8374,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -8399,7 +8400,7 @@ export type ListTemplatesError =
  * Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
  */
 export const listTemplates: API.OperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -8433,7 +8434,7 @@ export type ListTemplateVersionsError =
  * Retrieves information about all the versions of a specific message template.
  */
 export const listTemplateVersions: API.OperationMethod<
-  ListTemplateVersionsRequest,
+  ListTemplateVersionsRequest & RegionInput,
   ListTemplateVersionsResponse,
   ListTemplateVersionsError,
   Credentials | HttpClient.HttpClient
@@ -8469,7 +8470,7 @@ export type PhoneNumberValidateError =
  * Retrieves information about a phone number.
  */
 export const phoneNumberValidate: API.OperationMethod<
-  PhoneNumberValidateRequest,
+  PhoneNumberValidateRequest & RegionInput,
   PhoneNumberValidateResponse,
   PhoneNumberValidateError,
   Credentials | HttpClient.HttpClient
@@ -8505,7 +8506,7 @@ export type PutEventsError =
  * Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
  */
 export const putEvents: API.OperationMethod<
-  PutEventsRequest,
+  PutEventsRequest & RegionInput,
   PutEventsResponse,
   PutEventsError,
   Credentials | HttpClient.HttpClient
@@ -8541,7 +8542,7 @@ export type PutEventStreamError =
  * Creates a new event stream for an application or updates the settings of an existing event stream for an application.
  */
 export const putEventStream: API.OperationMethod<
-  PutEventStreamRequest,
+  PutEventStreamRequest & RegionInput,
   PutEventStreamResponse,
   PutEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -8577,7 +8578,7 @@ export type RemoveAttributesError =
  * Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
  */
 export const removeAttributes: API.OperationMethod<
-  RemoveAttributesRequest,
+  RemoveAttributesRequest & RegionInput,
   RemoveAttributesResponse,
   RemoveAttributesError,
   Credentials | HttpClient.HttpClient
@@ -8613,7 +8614,7 @@ export type SendMessagesError =
  * Creates and sends a direct message.
  */
 export const sendMessages: API.OperationMethod<
-  SendMessagesRequest,
+  SendMessagesRequest & RegionInput,
   SendMessagesResponse,
   SendMessagesError,
   Credentials | HttpClient.HttpClient
@@ -8649,7 +8650,7 @@ export type SendOTPMessageError =
  * Send an OTP message
  */
 export const sendOTPMessage: API.OperationMethod<
-  SendOTPMessageRequest,
+  SendOTPMessageRequest & RegionInput,
   SendOTPMessageResponse,
   SendOTPMessageError,
   Credentials | HttpClient.HttpClient
@@ -8685,7 +8686,7 @@ export type SendUsersMessagesError =
  * Creates and sends a message to a list of users.
  */
 export const sendUsersMessages: API.OperationMethod<
-  SendUsersMessagesRequest,
+  SendUsersMessagesRequest & RegionInput,
   SendUsersMessagesResponse,
   SendUsersMessagesError,
   Credentials | HttpClient.HttpClient
@@ -8713,7 +8714,7 @@ export type TagResourceError = CommonErrors;
  * Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8733,7 +8734,7 @@ export type UntagResourceError = CommonErrors;
  * Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8761,7 +8762,7 @@ export type UpdateAdmChannelError =
  * Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
  */
 export const updateAdmChannel: API.OperationMethod<
-  UpdateAdmChannelRequest,
+  UpdateAdmChannelRequest & RegionInput,
   UpdateAdmChannelResponse,
   UpdateAdmChannelError,
   Credentials | HttpClient.HttpClient
@@ -8797,7 +8798,7 @@ export type UpdateApnsChannelError =
  * Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
  */
 export const updateApnsChannel: API.OperationMethod<
-  UpdateApnsChannelRequest,
+  UpdateApnsChannelRequest & RegionInput,
   UpdateApnsChannelResponse,
   UpdateApnsChannelError,
   Credentials | HttpClient.HttpClient
@@ -8833,7 +8834,7 @@ export type UpdateApnsSandboxChannelError =
  * Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
  */
 export const updateApnsSandboxChannel: API.OperationMethod<
-  UpdateApnsSandboxChannelRequest,
+  UpdateApnsSandboxChannelRequest & RegionInput,
   UpdateApnsSandboxChannelResponse,
   UpdateApnsSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -8869,7 +8870,7 @@ export type UpdateApnsVoipChannelError =
  * Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
  */
 export const updateApnsVoipChannel: API.OperationMethod<
-  UpdateApnsVoipChannelRequest,
+  UpdateApnsVoipChannelRequest & RegionInput,
   UpdateApnsVoipChannelResponse,
   UpdateApnsVoipChannelError,
   Credentials | HttpClient.HttpClient
@@ -8905,7 +8906,7 @@ export type UpdateApnsVoipSandboxChannelError =
  * Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
  */
 export const updateApnsVoipSandboxChannel: API.OperationMethod<
-  UpdateApnsVoipSandboxChannelRequest,
+  UpdateApnsVoipSandboxChannelRequest & RegionInput,
   UpdateApnsVoipSandboxChannelResponse,
   UpdateApnsVoipSandboxChannelError,
   Credentials | HttpClient.HttpClient
@@ -8941,7 +8942,7 @@ export type UpdateApplicationSettingsError =
  * Updates the settings for an application.
  */
 export const updateApplicationSettings: API.OperationMethod<
-  UpdateApplicationSettingsRequest,
+  UpdateApplicationSettingsRequest & RegionInput,
   UpdateApplicationSettingsResponse,
   UpdateApplicationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -8977,7 +8978,7 @@ export type UpdateBaiduChannelError =
  * Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
  */
 export const updateBaiduChannel: API.OperationMethod<
-  UpdateBaiduChannelRequest,
+  UpdateBaiduChannelRequest & RegionInput,
   UpdateBaiduChannelResponse,
   UpdateBaiduChannelError,
   Credentials | HttpClient.HttpClient
@@ -9013,7 +9014,7 @@ export type UpdateCampaignError =
  * Updates the configuration and other settings for a campaign.
  */
 export const updateCampaign: API.OperationMethod<
-  UpdateCampaignRequest,
+  UpdateCampaignRequest & RegionInput,
   UpdateCampaignResponse,
   UpdateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -9049,7 +9050,7 @@ export type UpdateEmailChannelError =
  * Enables the email channel for an application or updates the status and settings of the email channel for an application.
  */
 export const updateEmailChannel: API.OperationMethod<
-  UpdateEmailChannelRequest,
+  UpdateEmailChannelRequest & RegionInput,
   UpdateEmailChannelResponse,
   UpdateEmailChannelError,
   Credentials | HttpClient.HttpClient
@@ -9085,7 +9086,7 @@ export type UpdateEmailTemplateError =
  * Updates an existing message template for messages that are sent through the email channel.
  */
 export const updateEmailTemplate: API.OperationMethod<
-  UpdateEmailTemplateRequest,
+  UpdateEmailTemplateRequest & RegionInput,
   UpdateEmailTemplateResponse,
   UpdateEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9121,7 +9122,7 @@ export type UpdateEndpointError =
  * Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
 export const updateEndpoint: API.OperationMethod<
-  UpdateEndpointRequest,
+  UpdateEndpointRequest & RegionInput,
   UpdateEndpointResponse,
   UpdateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -9157,7 +9158,7 @@ export type UpdateEndpointsBatchError =
  * Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
 export const updateEndpointsBatch: API.OperationMethod<
-  UpdateEndpointsBatchRequest,
+  UpdateEndpointsBatchRequest & RegionInput,
   UpdateEndpointsBatchResponse,
   UpdateEndpointsBatchError,
   Credentials | HttpClient.HttpClient
@@ -9193,7 +9194,7 @@ export type UpdateGcmChannelError =
  * Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
  */
 export const updateGcmChannel: API.OperationMethod<
-  UpdateGcmChannelRequest,
+  UpdateGcmChannelRequest & RegionInput,
   UpdateGcmChannelResponse,
   UpdateGcmChannelError,
   Credentials | HttpClient.HttpClient
@@ -9229,7 +9230,7 @@ export type UpdateInAppTemplateError =
  * Updates an existing message template for messages sent through the in-app message channel.
  */
 export const updateInAppTemplate: API.OperationMethod<
-  UpdateInAppTemplateRequest,
+  UpdateInAppTemplateRequest & RegionInput,
   UpdateInAppTemplateResponse,
   UpdateInAppTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9266,7 +9267,7 @@ export type UpdateJourneyError =
  * Updates the configuration and other settings for a journey.
  */
 export const updateJourney: API.OperationMethod<
-  UpdateJourneyRequest,
+  UpdateJourneyRequest & RegionInput,
   UpdateJourneyResponse,
   UpdateJourneyError,
   Credentials | HttpClient.HttpClient
@@ -9303,7 +9304,7 @@ export type UpdateJourneyStateError =
  * Cancels (stops) an active journey.
  */
 export const updateJourneyState: API.OperationMethod<
-  UpdateJourneyStateRequest,
+  UpdateJourneyStateRequest & RegionInput,
   UpdateJourneyStateResponse,
   UpdateJourneyStateError,
   Credentials | HttpClient.HttpClient
@@ -9339,7 +9340,7 @@ export type UpdatePushTemplateError =
  * Updates an existing message template for messages that are sent through a push notification channel.
  */
 export const updatePushTemplate: API.OperationMethod<
-  UpdatePushTemplateRequest,
+  UpdatePushTemplateRequest & RegionInput,
   UpdatePushTemplateResponse,
   UpdatePushTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9375,7 +9376,7 @@ export type UpdateRecommenderConfigurationError =
  * Updates an Amazon Pinpoint configuration for a recommender model.
  */
 export const updateRecommenderConfiguration: API.OperationMethod<
-  UpdateRecommenderConfigurationRequest,
+  UpdateRecommenderConfigurationRequest & RegionInput,
   UpdateRecommenderConfigurationResponse,
   UpdateRecommenderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9411,7 +9412,7 @@ export type UpdateSegmentError =
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
 export const updateSegment: API.OperationMethod<
-  UpdateSegmentRequest,
+  UpdateSegmentRequest & RegionInput,
   UpdateSegmentResponse,
   UpdateSegmentError,
   Credentials | HttpClient.HttpClient
@@ -9447,7 +9448,7 @@ export type UpdateSmsChannelError =
  * Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
  */
 export const updateSmsChannel: API.OperationMethod<
-  UpdateSmsChannelRequest,
+  UpdateSmsChannelRequest & RegionInput,
   UpdateSmsChannelResponse,
   UpdateSmsChannelError,
   Credentials | HttpClient.HttpClient
@@ -9483,7 +9484,7 @@ export type UpdateSmsTemplateError =
  * Updates an existing message template for messages that are sent through the SMS channel.
  */
 export const updateSmsTemplate: API.OperationMethod<
-  UpdateSmsTemplateRequest,
+  UpdateSmsTemplateRequest & RegionInput,
   UpdateSmsTemplateResponse,
   UpdateSmsTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9519,7 +9520,7 @@ export type UpdateTemplateActiveVersionError =
  * Changes the status of a specific version of a message template to *active*.
  */
 export const updateTemplateActiveVersion: API.OperationMethod<
-  UpdateTemplateActiveVersionRequest,
+  UpdateTemplateActiveVersionRequest & RegionInput,
   UpdateTemplateActiveVersionResponse,
   UpdateTemplateActiveVersionError,
   Credentials | HttpClient.HttpClient
@@ -9555,7 +9556,7 @@ export type UpdateVoiceChannelError =
  * Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
  */
 export const updateVoiceChannel: API.OperationMethod<
-  UpdateVoiceChannelRequest,
+  UpdateVoiceChannelRequest & RegionInput,
   UpdateVoiceChannelResponse,
   UpdateVoiceChannelError,
   Credentials | HttpClient.HttpClient
@@ -9591,7 +9592,7 @@ export type UpdateVoiceTemplateError =
  * Updates an existing message template for messages that are sent through the voice channel.
  */
 export const updateVoiceTemplate: API.OperationMethod<
-  UpdateVoiceTemplateRequest,
+  UpdateVoiceTemplateRequest & RegionInput,
   UpdateVoiceTemplateResponse,
   UpdateVoiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9627,7 +9628,7 @@ export type VerifyOTPMessageError =
  * Verify an OTP
  */
 export const verifyOTPMessage: API.OperationMethod<
-  VerifyOTPMessageRequest,
+  VerifyOTPMessageRequest & RegionInput,
   VerifyOTPMessageResponse,
   VerifyOTPMessageError,
   Credentials | HttpClient.HttpClient

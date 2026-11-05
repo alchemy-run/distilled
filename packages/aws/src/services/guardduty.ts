@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3383,7 +3384,7 @@ export type AcceptAdministratorInvitationError =
  * Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation.
  */
 export const acceptAdministratorInvitation: API.OperationMethod<
-  AcceptAdministratorInvitationRequest,
+  AcceptAdministratorInvitationRequest & RegionInput,
   AcceptAdministratorInvitationResponse,
   AcceptAdministratorInvitationError,
   Credentials | HttpClient.HttpClient
@@ -3406,7 +3407,7 @@ export type AcceptInvitationError =
  * Accepts the invitation to be monitored by a GuardDuty administrator account.
  */
 export const acceptInvitation: API.OperationMethod<
-  AcceptInvitationRequest,
+  AcceptInvitationRequest & RegionInput,
   AcceptInvitationResponse,
   AcceptInvitationError,
   Credentials | HttpClient.HttpClient
@@ -3431,7 +3432,7 @@ export type ArchiveFindingsError =
  * Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
  */
 export const archiveFindings: API.OperationMethod<
-  ArchiveFindingsRequest,
+  ArchiveFindingsRequest & RegionInput,
   ArchiveFindingsResponse,
   ArchiveFindingsError,
   Credentials | HttpClient.HttpClient
@@ -3457,7 +3458,7 @@ export type CreateCustomDetectionRuleAssociationError =
  * Enables a custom detection rule for your account by creating an association. You specify the rule and the mode in which it operates.
  */
 export const createCustomDetectionRuleAssociation: API.OperationMethod<
-  CreateCustomDetectionRuleAssociationRequest,
+  CreateCustomDetectionRuleAssociationRequest & RegionInput,
   CreateCustomDetectionRuleAssociationResponse,
   CreateCustomDetectionRuleAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3489,7 +3490,7 @@ export type CreateCustomDetectionRuleOrgConfigurationError =
  * Creates an organization-level configuration that enables a custom detection rule across your organization. This operation is available only to the delegated administrator account.
  */
 export const createCustomDetectionRuleOrgConfiguration: API.OperationMethod<
-  CreateCustomDetectionRuleOrgConfigurationRequest,
+  CreateCustomDetectionRuleOrgConfigurationRequest & RegionInput,
   CreateCustomDetectionRuleOrgConfigurationResponse,
   CreateCustomDetectionRuleOrgConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3523,7 +3524,7 @@ export type CreateDetectorError = BadRequestException | InternalServerErrorExcep
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const createDetector: API.OperationMethod<
-  CreateDetectorRequest,
+  CreateDetectorRequest & RegionInput,
   CreateDetectorResponse,
   CreateDetectorError,
   Credentials | HttpClient.HttpClient
@@ -3543,7 +3544,7 @@ export type CreateFilterError = BadRequestException | InternalServerErrorExcepti
  * Creates a filter using the specified finding criteria. The maximum number of saved filters per Amazon Web Services account per Region is 100. For more information, see Quotas for GuardDuty.
  */
 export const createFilter: API.OperationMethod<
-  CreateFilterRequest,
+  CreateFilterRequest & RegionInput,
   CreateFilterResponse,
   CreateFilterError,
   Credentials | HttpClient.HttpClient
@@ -3575,7 +3576,7 @@ export type CreateInvestigationError =
  * This feature uses Amazon Bedrock models that leverage Cross-Region Inference (CRIS), which automatically selects the optimal Amazon Web Services Region within your geography to process the investigation analysis and generate the investigation report. This maximizes available compute resources, model availability, and delivers the best customer experience. Your data remains stored only in the Region where the investigation request originates, however, investigation data and summary results may be processed outside that Region. All data is transmitted encrypted across Amazon's secure network. For more information, see GuardDuty Investigation.
  */
 export const createInvestigation: API.OperationMethod<
-  CreateInvestigationRequest,
+  CreateInvestigationRequest & RegionInput,
   CreateInvestigationResponse,
   CreateInvestigationError,
   Credentials | HttpClient.HttpClient
@@ -3599,7 +3600,7 @@ export type CreateIPSetError =
  * Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
  */
 export const createIPSet: API.OperationMethod<
-  CreateIPSetRequest,
+  CreateIPSetRequest & RegionInput,
   CreateIPSetResponse,
   CreateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -3626,7 +3627,7 @@ export type CreateMalwareProtectionPlanError =
  * When you create a Malware Protection plan, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
  */
 export const createMalwareProtectionPlan: API.OperationMethod<
-  CreateMalwareProtectionPlanRequest,
+  CreateMalwareProtectionPlanRequest & RegionInput,
   CreateMalwareProtectionPlanResponse,
   CreateMalwareProtectionPlanError,
   Credentials | HttpClient.HttpClient
@@ -3659,7 +3660,7 @@ export type CreateMembersError = BadRequestException | InternalServerErrorExcept
  * When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
  */
 export const createMembers: API.OperationMethod<
-  CreateMembersRequest,
+  CreateMembersRequest & RegionInput,
   CreateMembersResponse,
   CreateMembersError,
   Credentials | HttpClient.HttpClient
@@ -3682,7 +3683,7 @@ export type CreatePublishingDestinationError =
  * Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination resource must exist.
  */
 export const createPublishingDestination: API.OperationMethod<
-  CreatePublishingDestinationRequest,
+  CreatePublishingDestinationRequest & RegionInput,
   CreatePublishingDestinationResponse,
   CreatePublishingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3705,7 +3706,7 @@ export type CreateSampleFindingsError =
  * Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for `findingTypes`, the API generates sample findings of all supported finding types.
  */
 export const createSampleFindings: API.OperationMethod<
-  CreateSampleFindingsRequest,
+  CreateSampleFindingsRequest & RegionInput,
   CreateSampleFindingsResponse,
   CreateSampleFindingsError,
   Credentials | HttpClient.HttpClient
@@ -3728,7 +3729,7 @@ export type CreateThreatEntitySetError =
  * Creates a new threat entity set. In a threat entity set, you can provide known malicious threat entities for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts.
  */
 export const createThreatEntitySet: API.OperationMethod<
-  CreateThreatEntitySetRequest,
+  CreateThreatEntitySetRequest & RegionInput,
   CreateThreatEntitySetResponse,
   CreateThreatEntitySetError,
   Credentials | HttpClient.HttpClient
@@ -3752,7 +3753,7 @@ export type CreateThreatIntelSetError =
  * Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
  */
 export const createThreatIntelSet: API.OperationMethod<
-  CreateThreatIntelSetRequest,
+  CreateThreatIntelSetRequest & RegionInput,
   CreateThreatIntelSetResponse,
   CreateThreatIntelSetError,
   Credentials | HttpClient.HttpClient
@@ -3777,7 +3778,7 @@ export type CreateTrustedEntitySetError =
  * Only users of the administrator account can manage the entity sets, which automatically apply to member accounts.
  */
 export const createTrustedEntitySet: API.OperationMethod<
-  CreateTrustedEntitySetRequest,
+  CreateTrustedEntitySetRequest & RegionInput,
   CreateTrustedEntitySetResponse,
   CreateTrustedEntitySetError,
   Credentials | HttpClient.HttpClient
@@ -3800,7 +3801,7 @@ export type DeclineInvitationsError =
  * Declines invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
  */
 export const declineInvitations: API.OperationMethod<
-  DeclineInvitationsRequest,
+  DeclineInvitationsRequest & RegionInput,
   DeclineInvitationsResponse,
   DeclineInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -3825,7 +3826,7 @@ export type DeleteCustomDetectionRuleAssociationError =
  * Disables a custom detection rule by deleting its association. This operation is idempotent.
  */
 export const deleteCustomDetectionRuleAssociation: API.OperationMethod<
-  DeleteCustomDetectionRuleAssociationRequest,
+  DeleteCustomDetectionRuleAssociationRequest & RegionInput,
   DeleteCustomDetectionRuleAssociationResponse,
   DeleteCustomDetectionRuleAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3856,7 +3857,7 @@ export type DeleteCustomDetectionRuleOrgConfigurationError =
  * Deletes the organization-level configuration for a custom detection rule. This operation is available only to the delegated administrator account.
  */
 export const deleteCustomDetectionRuleOrgConfiguration: API.OperationMethod<
-  DeleteCustomDetectionRuleOrgConfigurationRequest,
+  DeleteCustomDetectionRuleOrgConfigurationRequest & RegionInput,
   DeleteCustomDetectionRuleOrgConfigurationResponse,
   DeleteCustomDetectionRuleOrgConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3882,7 +3883,7 @@ export type DeleteDetectorError = BadRequestException | InternalServerErrorExcep
  * Deletes an Amazon GuardDuty detector that is specified by the detector ID.
  */
 export const deleteDetector: API.OperationMethod<
-  DeleteDetectorRequest,
+  DeleteDetectorRequest & RegionInput,
   DeleteDetectorResponse,
   DeleteDetectorError,
   Credentials | HttpClient.HttpClient
@@ -3902,7 +3903,7 @@ export type DeleteFilterError = BadRequestException | InternalServerErrorExcepti
  * Deletes the filter specified by the filter name.
  */
 export const deleteFilter: API.OperationMethod<
-  DeleteFilterRequest,
+  DeleteFilterRequest & RegionInput,
   DeleteFilterResponse,
   DeleteFilterError,
   Credentials | HttpClient.HttpClient
@@ -3925,7 +3926,7 @@ export type DeleteInvitationsError =
  * Deletes invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
  */
 export const deleteInvitations: API.OperationMethod<
-  DeleteInvitationsRequest,
+  DeleteInvitationsRequest & RegionInput,
   DeleteInvitationsResponse,
   DeleteInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -3945,7 +3946,7 @@ export type DeleteIPSetError = BadRequestException | InternalServerErrorExceptio
  * Deletes the IPSet specified by the `ipSetId`. IPSets are called trusted IP lists in the console user interface.
  */
 export const deleteIPSet: API.OperationMethod<
-  DeleteIPSetRequest,
+  DeleteIPSetRequest & RegionInput,
   DeleteIPSetResponse,
   DeleteIPSetError,
   Credentials | HttpClient.HttpClient
@@ -3970,7 +3971,7 @@ export type DeleteMalwareProtectionPlanError =
  * Deletes the Malware Protection plan ID associated with the Malware Protection plan resource. Use this API only when you no longer want to protect the resource associated with this Malware Protection plan ID.
  */
 export const deleteMalwareProtectionPlan: API.OperationMethod<
-  DeleteMalwareProtectionPlanRequest,
+  DeleteMalwareProtectionPlanRequest & RegionInput,
   DeleteMalwareProtectionPlanResponse,
   DeleteMalwareProtectionPlanError,
   Credentials | HttpClient.HttpClient
@@ -3997,7 +3998,7 @@ export type DeleteMembersError = BadRequestException | InternalServerErrorExcept
  * With `autoEnableOrganizationMembers` configuration for your organization set to `ALL`, you'll receive an error if you attempt to disable GuardDuty for a member account in your organization.
  */
 export const deleteMembers: API.OperationMethod<
-  DeleteMembersRequest,
+  DeleteMembersRequest & RegionInput,
   DeleteMembersResponse,
   DeleteMembersError,
   Credentials | HttpClient.HttpClient
@@ -4020,7 +4021,7 @@ export type DeletePublishingDestinationError =
  * Deletes the publishing definition with the specified `destinationId`.
  */
 export const deletePublishingDestination: API.OperationMethod<
-  DeletePublishingDestinationRequest,
+  DeletePublishingDestinationRequest & RegionInput,
   DeletePublishingDestinationResponse,
   DeletePublishingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -4043,7 +4044,7 @@ export type DeleteThreatEntitySetError =
  * Deletes the threat entity set that is associated with the specified `threatEntitySetId`.
  */
 export const deleteThreatEntitySet: API.OperationMethod<
-  DeleteThreatEntitySetRequest,
+  DeleteThreatEntitySetRequest & RegionInput,
   DeleteThreatEntitySetResponse,
   DeleteThreatEntitySetError,
   Credentials | HttpClient.HttpClient
@@ -4066,7 +4067,7 @@ export type DeleteThreatIntelSetError =
  * Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
  */
 export const deleteThreatIntelSet: API.OperationMethod<
-  DeleteThreatIntelSetRequest,
+  DeleteThreatIntelSetRequest & RegionInput,
   DeleteThreatIntelSetResponse,
   DeleteThreatIntelSetError,
   Credentials | HttpClient.HttpClient
@@ -4089,7 +4090,7 @@ export type DeleteTrustedEntitySetError =
  * Deletes the trusted entity set that is associated with the specified `trustedEntitySetId`.
  */
 export const deleteTrustedEntitySet: API.OperationMethod<
-  DeleteTrustedEntitySetRequest,
+  DeleteTrustedEntitySetRequest & RegionInput,
   DeleteTrustedEntitySetResponse,
   DeleteTrustedEntitySetError,
   Credentials | HttpClient.HttpClient
@@ -4114,7 +4115,7 @@ export type DescribeMalwareScansError =
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const describeMalwareScans: API.PaginatedOperationMethod<
-  DescribeMalwareScansRequest,
+  DescribeMalwareScansRequest & RegionInput,
   DescribeMalwareScansResponse,
   DescribeMalwareScansError,
   Credentials | HttpClient.HttpClient,
@@ -4146,7 +4147,7 @@ export type DescribeOrganizationConfigurationError =
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const describeOrganizationConfiguration: API.PaginatedOperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -4175,7 +4176,7 @@ export type DescribePublishingDestinationError =
  * Returns information about the publishing destination specified by the provided `destinationId`.
  */
 export const describePublishingDestination: API.OperationMethod<
-  DescribePublishingDestinationRequest,
+  DescribePublishingDestinationRequest & RegionInput,
   DescribePublishingDestinationResponse,
   DescribePublishingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -4198,7 +4199,7 @@ export type DisableOrganizationAdminAccountError =
  * Removes the existing GuardDuty delegated administrator of the organization. Only the organization's management account can run this API operation.
  */
 export const disableOrganizationAdminAccount: API.OperationMethod<
-  DisableOrganizationAdminAccountRequest,
+  DisableOrganizationAdminAccountRequest & RegionInput,
   DisableOrganizationAdminAccountResponse,
   DisableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -4225,7 +4226,7 @@ export type DisassociateFromAdministratorAccountError =
  * With `autoEnableOrganizationMembers` configuration for your organization set to `ALL`, you'll receive an error if you attempt to disable GuardDuty in a member account.
  */
 export const disassociateFromAdministratorAccount: API.OperationMethod<
-  DisassociateFromAdministratorAccountRequest,
+  DisassociateFromAdministratorAccountRequest & RegionInput,
   DisassociateFromAdministratorAccountResponse,
   DisassociateFromAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -4250,7 +4251,7 @@ export type DisassociateFromMasterAccountError =
  * When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the DeleteMembers API.
  */
 export const disassociateFromMasterAccount: API.OperationMethod<
-  DisassociateFromMasterAccountRequest,
+  DisassociateFromMasterAccountRequest & RegionInput,
   DisassociateFromMasterAccountResponse,
   DisassociateFromMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -4281,7 +4282,7 @@ export type DisassociateMembersError =
  * When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
  */
 export const disassociateMembers: API.OperationMethod<
-  DisassociateMembersRequest,
+  DisassociateMembersRequest & RegionInput,
   DisassociateMembersResponse,
   DisassociateMembersError,
   Credentials | HttpClient.HttpClient
@@ -4304,7 +4305,7 @@ export type EnableOrganizationAdminAccountError =
  * Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's management account can run this API operation.
  */
 export const enableOrganizationAdminAccount: API.OperationMethod<
-  EnableOrganizationAdminAccountRequest,
+  EnableOrganizationAdminAccountRequest & RegionInput,
   EnableOrganizationAdminAccountResponse,
   EnableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -4335,7 +4336,7 @@ export type GetAdministratorAccountError =
  * - When an individual account (not associated with an organization) runs this API, it will return success (`HTTP 200`) but no content.
  */
 export const getAdministratorAccount: API.OperationMethod<
-  GetAdministratorAccountRequest,
+  GetAdministratorAccountRequest & RegionInput,
   GetAdministratorAccountResponse,
   GetAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -4358,7 +4359,7 @@ export type GetCoverageStatisticsError =
  * Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources.
  */
 export const getCoverageStatistics: API.OperationMethod<
-  GetCoverageStatisticsRequest,
+  GetCoverageStatisticsRequest & RegionInput,
   GetCoverageStatisticsResponse,
   GetCoverageStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -4383,7 +4384,7 @@ export type GetCustomDetectionRuleError =
  * Returns details for a custom detection rule in GuardDuty, including its detection logic.
  */
 export const getCustomDetectionRule: API.OperationMethod<
-  GetCustomDetectionRuleRequest,
+  GetCustomDetectionRuleRequest & RegionInput,
   GetCustomDetectionRuleResponse,
   GetCustomDetectionRuleError,
   Credentials | HttpClient.HttpClient
@@ -4413,7 +4414,7 @@ export type GetCustomDetectionRuleAssociationError =
  * Returns details for a custom detection rule association.
  */
 export const getCustomDetectionRuleAssociation: API.OperationMethod<
-  GetCustomDetectionRuleAssociationRequest,
+  GetCustomDetectionRuleAssociationRequest & RegionInput,
   GetCustomDetectionRuleAssociationResponse,
   GetCustomDetectionRuleAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4443,7 +4444,7 @@ export type GetCustomDetectionRuleOrgConfigurationError =
  * Returns the organization-level configuration for a custom detection rule.
  */
 export const getCustomDetectionRuleOrgConfiguration: API.OperationMethod<
-  GetCustomDetectionRuleOrgConfigurationRequest,
+  GetCustomDetectionRuleOrgConfigurationRequest & RegionInput,
   GetCustomDetectionRuleOrgConfigurationResponse,
   GetCustomDetectionRuleOrgConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4470,7 +4471,7 @@ export type GetDetectorError = BadRequestException | InternalServerErrorExceptio
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const getDetector: API.OperationMethod<
-  GetDetectorRequest,
+  GetDetectorRequest & RegionInput,
   GetDetectorResponse,
   GetDetectorError,
   Credentials | HttpClient.HttpClient
@@ -4490,7 +4491,7 @@ export type GetFilterError = BadRequestException | InternalServerErrorException 
  * Returns the details of the filter specified by the filter name.
  */
 export const getFilter: API.OperationMethod<
-  GetFilterRequest,
+  GetFilterRequest & RegionInput,
   GetFilterResponse,
   GetFilterError,
   Credentials | HttpClient.HttpClient
@@ -4510,7 +4511,7 @@ export type GetFindingsError = BadRequestException | InternalServerErrorExceptio
  * Describes Amazon GuardDuty findings specified by finding IDs.
  */
 export const getFindings: API.OperationMethod<
-  GetFindingsRequest,
+  GetFindingsRequest & RegionInput,
   GetFindingsResponse,
   GetFindingsError,
   Credentials | HttpClient.HttpClient
@@ -4537,7 +4538,7 @@ export type GetFindingsStatisticsError =
  * There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints.
  */
 export const getFindingsStatistics: API.OperationMethod<
-  GetFindingsStatisticsRequest,
+  GetFindingsStatisticsRequest & RegionInput,
   GetFindingsStatisticsResponse,
   GetFindingsStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -4566,7 +4567,7 @@ export type GetInvestigationError =
  * An administrator account can retrieve any investigation within the organization. Member accounts can only retrieve investigations that belong to them.
  */
 export const getInvestigation: API.OperationMethod<
-  GetInvestigationRequest,
+  GetInvestigationRequest & RegionInput,
   GetInvestigationResponse,
   GetInvestigationError,
   Credentials | HttpClient.HttpClient
@@ -4594,7 +4595,7 @@ export type GetInvitationsCountError =
  * Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
  */
 export const getInvitationsCount: API.OperationMethod<
-  GetInvitationsCountRequest,
+  GetInvitationsCountRequest & RegionInput,
   GetInvitationsCountResponse,
   GetInvitationsCountError,
   Credentials | HttpClient.HttpClient
@@ -4614,7 +4615,7 @@ export type GetIPSetError = BadRequestException | InternalServerErrorException |
  * Retrieves the IPSet specified by the `ipSetId`.
  */
 export const getIPSet: API.OperationMethod<
-  GetIPSetRequest,
+  GetIPSetRequest & RegionInput,
   GetIPSetResponse,
   GetIPSetError,
   Credentials | HttpClient.HttpClient
@@ -4639,7 +4640,7 @@ export type GetMalwareProtectionPlanError =
  * Retrieves the Malware Protection plan details associated with a Malware Protection plan ID.
  */
 export const getMalwareProtectionPlan: API.OperationMethod<
-  GetMalwareProtectionPlanRequest,
+  GetMalwareProtectionPlanRequest & RegionInput,
   GetMalwareProtectionPlanResponse,
   GetMalwareProtectionPlanError,
   Credentials | HttpClient.HttpClient
@@ -4670,7 +4671,7 @@ export type GetMalwareScanError =
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const getMalwareScan: API.OperationMethod<
-  GetMalwareScanRequest,
+  GetMalwareScanRequest & RegionInput,
   GetMalwareScanResponse,
   GetMalwareScanError,
   Credentials | HttpClient.HttpClient
@@ -4695,7 +4696,7 @@ export type GetMalwareScanSettingsError =
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const getMalwareScanSettings: API.OperationMethod<
-  GetMalwareScanSettingsRequest,
+  GetMalwareScanSettingsRequest & RegionInput,
   GetMalwareScanSettingsResponse,
   GetMalwareScanSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4718,7 +4719,7 @@ export type GetMasterAccountError =
  * Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
  */
 export const getMasterAccount: API.OperationMethod<
-  GetMasterAccountRequest,
+  GetMasterAccountRequest & RegionInput,
   GetMasterAccountResponse,
   GetMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -4743,7 +4744,7 @@ export type GetMemberDetectorsError =
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const getMemberDetectors: API.OperationMethod<
-  GetMemberDetectorsRequest,
+  GetMemberDetectorsRequest & RegionInput,
   GetMemberDetectorsResponse,
   GetMemberDetectorsError,
   Credentials | HttpClient.HttpClient
@@ -4763,7 +4764,7 @@ export type GetMembersError = BadRequestException | InternalServerErrorException
  * Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
  */
 export const getMembers: API.OperationMethod<
-  GetMembersRequest,
+  GetMembersRequest & RegionInput,
   GetMembersResponse,
   GetMembersError,
   Credentials | HttpClient.HttpClient
@@ -4788,7 +4789,7 @@ export type GetOrganizationStatisticsError =
  * When you create a new organization, it might take up to 24 hours to generate the statistics for the entire organization.
  */
 export const getOrganizationStatistics: API.OperationMethod<
-  GetOrganizationStatisticsRequest,
+  GetOrganizationStatisticsRequest & RegionInput,
   GetOrganizationStatisticsResponse,
   GetOrganizationStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -4811,7 +4812,7 @@ export type GetRemainingFreeTrialDaysError =
  * Provides the number of days left for each data source used in the free trial period.
  */
 export const getRemainingFreeTrialDays: API.OperationMethod<
-  GetRemainingFreeTrialDaysRequest,
+  GetRemainingFreeTrialDaysRequest & RegionInput,
   GetRemainingFreeTrialDaysResponse,
   GetRemainingFreeTrialDaysError,
   Credentials | HttpClient.HttpClient
@@ -4834,7 +4835,7 @@ export type GetThreatEntitySetError =
  * Retrieves the threat entity set associated with the specified `threatEntitySetId`.
  */
 export const getThreatEntitySet: API.OperationMethod<
-  GetThreatEntitySetRequest,
+  GetThreatEntitySetRequest & RegionInput,
   GetThreatEntitySetResponse,
   GetThreatEntitySetError,
   Credentials | HttpClient.HttpClient
@@ -4857,7 +4858,7 @@ export type GetThreatIntelSetError =
  * Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
  */
 export const getThreatIntelSet: API.OperationMethod<
-  GetThreatIntelSetRequest,
+  GetThreatIntelSetRequest & RegionInput,
   GetThreatIntelSetResponse,
   GetThreatIntelSetError,
   Credentials | HttpClient.HttpClient
@@ -4880,7 +4881,7 @@ export type GetTrustedEntitySetError =
  * Retrieves the trusted entity set associated with the specified `trustedEntitySetId`.
  */
 export const getTrustedEntitySet: API.OperationMethod<
-  GetTrustedEntitySetRequest,
+  GetTrustedEntitySetRequest & RegionInput,
   GetTrustedEntitySetResponse,
   GetTrustedEntitySetError,
   Credentials | HttpClient.HttpClient
@@ -4903,7 +4904,7 @@ export type GetUsageStatisticsError =
  * Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated.
  */
 export const getUsageStatistics: API.PaginatedOperationMethod<
-  GetUsageStatisticsRequest,
+  GetUsageStatisticsRequest & RegionInput,
   GetUsageStatisticsResponse,
   GetUsageStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -4937,7 +4938,7 @@ export type InviteMembersError = BadRequestException | InternalServerErrorExcept
  * When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
  */
 export const inviteMembers: API.OperationMethod<
-  InviteMembersRequest,
+  InviteMembersRequest & RegionInput,
   InviteMembersResponse,
   InviteMembersError,
   Credentials | HttpClient.HttpClient
@@ -4959,7 +4960,7 @@ export type ListCoverageError = BadRequestException | InternalServerErrorExcepti
  * Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources.
  */
 export const listCoverage: API.PaginatedOperationMethod<
-  ListCoverageRequest,
+  ListCoverageRequest & RegionInput,
   ListCoverageResponse,
   ListCoverageError,
   Credentials | HttpClient.HttpClient,
@@ -4990,7 +4991,7 @@ export type ListCustomDetectionRuleAssociationsError =
  * Returns all custom detection rule associations for your account. You can filter by rule ID and mode.
  */
 export const listCustomDetectionRuleAssociations: API.PaginatedOperationMethod<
-  ListCustomDetectionRuleAssociationsRequest,
+  ListCustomDetectionRuleAssociationsRequest & RegionInput,
   ListCustomDetectionRuleAssociationsResponse,
   ListCustomDetectionRuleAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5021,7 +5022,7 @@ export type ListCustomDetectionRuleOrgConfigurationsError =
  * Returns all organization-level configurations for custom detection rules. You can filter the results by status.
  */
 export const listCustomDetectionRuleOrgConfigurations: API.PaginatedOperationMethod<
-  ListCustomDetectionRuleOrgConfigurationsRequest,
+  ListCustomDetectionRuleOrgConfigurationsRequest & RegionInput,
   ListCustomDetectionRuleOrgConfigurationsResponse,
   ListCustomDetectionRuleOrgConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -5052,7 +5053,7 @@ export type ListCustomDetectionRulesError =
  * Returns all available custom detection rules in GuardDuty. You can filter the results by data source, severity, tactic, technique, and service.
  */
 export const listCustomDetectionRules: API.PaginatedOperationMethod<
-  ListCustomDetectionRulesRequest,
+  ListCustomDetectionRulesRequest & RegionInput,
   ListCustomDetectionRulesResponse,
   ListCustomDetectionRulesError,
   Credentials | HttpClient.HttpClient,
@@ -5079,7 +5080,7 @@ export type ListDetectorsError = BadRequestException | InternalServerErrorExcept
  * Lists detectorIds of all the existing Amazon GuardDuty detector resources.
  */
 export const listDetectors: API.PaginatedOperationMethod<
-  ListDetectorsRequest,
+  ListDetectorsRequest & RegionInput,
   ListDetectorsResponse,
   ListDetectorsError,
   Credentials | HttpClient.HttpClient,
@@ -5106,7 +5107,7 @@ export type ListFiltersError = BadRequestException | InternalServerErrorExceptio
  * Returns a paginated list of the current filters.
  */
 export const listFilters: API.PaginatedOperationMethod<
-  ListFiltersRequest,
+  ListFiltersRequest & RegionInput,
   ListFiltersResponse,
   ListFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -5135,7 +5136,7 @@ export type ListFindingsError = BadRequestException | InternalServerErrorExcepti
  * There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsRequest,
+  ListFindingsRequest & RegionInput,
   ListFindingsResponse,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -5170,7 +5171,7 @@ export type ListInvestigationsError =
  * An administrator account sees all investigations across the organization. Member accounts see only the investigations that belong to them.
  */
 export const listInvestigations: API.PaginatedOperationMethod<
-  ListInvestigationsRequest,
+  ListInvestigationsRequest & RegionInput,
   ListInvestigationsResponse,
   ListInvestigationsError,
   Credentials | HttpClient.HttpClient,
@@ -5200,7 +5201,7 @@ export type ListInvitationsError =
  * Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsRequest,
+  ListInvitationsRequest & RegionInput,
   ListInvitationsResponse,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -5227,7 +5228,7 @@ export type ListIPSetsError = BadRequestException | InternalServerErrorException
  * Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
  */
 export const listIPSets: API.PaginatedOperationMethod<
-  ListIPSetsRequest,
+  ListIPSetsRequest & RegionInput,
   ListIPSetsResponse,
   ListIPSetsError,
   Credentials | HttpClient.HttpClient,
@@ -5258,7 +5259,7 @@ export type ListMalwareProtectionPlansError =
  * Lists the Malware Protection plan IDs associated with the protected resources in your Amazon Web Services account.
  */
 export const listMalwareProtectionPlans: API.OperationMethod<
-  ListMalwareProtectionPlansRequest,
+  ListMalwareProtectionPlansRequest & RegionInput,
   ListMalwareProtectionPlansResponse,
   ListMalwareProtectionPlansError,
   Credentials | HttpClient.HttpClient
@@ -5281,7 +5282,7 @@ export type ListMalwareScansError =
  * Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all of its members' accounts.
  */
 export const listMalwareScans: API.PaginatedOperationMethod<
-  ListMalwareScansRequest,
+  ListMalwareScansRequest & RegionInput,
   ListMalwareScansResponse,
   ListMalwareScansError,
   Credentials | HttpClient.HttpClient,
@@ -5308,7 +5309,7 @@ export type ListMembersError = BadRequestException | InternalServerErrorExceptio
  * Lists details about all member accounts for the current GuardDuty administrator account.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -5338,7 +5339,7 @@ export type ListOrganizationAdminAccountsError =
  * Lists the accounts designated as GuardDuty delegated administrators. Only the organization's management account can run this API operation.
  */
 export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
-  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsRequest & RegionInput,
   ListOrganizationAdminAccountsResponse,
   ListOrganizationAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -5368,7 +5369,7 @@ export type ListPublishingDestinationsError =
  * Returns a list of publishing destinations associated with the specified `detectorId`.
  */
 export const listPublishingDestinations: API.PaginatedOperationMethod<
-  ListPublishingDestinationsRequest,
+  ListPublishingDestinationsRequest & RegionInput,
   ListPublishingDestinationsResponse,
   ListPublishingDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -5398,7 +5399,7 @@ export type ListTagsForResourceError =
  * Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5421,7 +5422,7 @@ export type ListThreatEntitySetsError =
  * Lists the threat entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the threat entity sets that are returned as a response, belong to the administrator account.
  */
 export const listThreatEntitySets: API.PaginatedOperationMethod<
-  ListThreatEntitySetsRequest,
+  ListThreatEntitySetsRequest & RegionInput,
   ListThreatEntitySetsResponse,
   ListThreatEntitySetsError,
   Credentials | HttpClient.HttpClient,
@@ -5451,7 +5452,7 @@ export type ListThreatIntelSetsError =
  * Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
  */
 export const listThreatIntelSets: API.PaginatedOperationMethod<
-  ListThreatIntelSetsRequest,
+  ListThreatIntelSetsRequest & RegionInput,
   ListThreatIntelSetsResponse,
   ListThreatIntelSetsError,
   Credentials | HttpClient.HttpClient,
@@ -5481,7 +5482,7 @@ export type ListTrustedEntitySetsError =
  * Lists the trusted entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the trusted entity sets that are returned as a response, belong to the administrator account.
  */
 export const listTrustedEntitySets: API.PaginatedOperationMethod<
-  ListTrustedEntitySetsRequest,
+  ListTrustedEntitySetsRequest & RegionInput,
   ListTrustedEntitySetsResponse,
   ListTrustedEntitySetsError,
   Credentials | HttpClient.HttpClient,
@@ -5514,7 +5515,7 @@ export type SendObjectMalwareScanError =
  * When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
  */
 export const sendObjectMalwareScan: API.OperationMethod<
-  SendObjectMalwareScanRequest,
+  SendObjectMalwareScanRequest & RegionInput,
   SendObjectMalwareScanResponse,
   SendObjectMalwareScanError,
   Credentials | HttpClient.HttpClient
@@ -5542,7 +5543,7 @@ export type StartMalwareScanError =
  * When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
  */
 export const startMalwareScan: API.OperationMethod<
-  StartMalwareScanRequest,
+  StartMalwareScanRequest & RegionInput,
   StartMalwareScanResponse,
   StartMalwareScanError,
   Credentials | HttpClient.HttpClient
@@ -5565,7 +5566,7 @@ export type StartMonitoringMembersError =
  * Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation.
  */
 export const startMonitoringMembers: API.OperationMethod<
-  StartMonitoringMembersRequest,
+  StartMonitoringMembersRequest & RegionInput,
   StartMonitoringMembersResponse,
   StartMonitoringMembersError,
   Credentials | HttpClient.HttpClient
@@ -5590,7 +5591,7 @@ export type StopMonitoringMembersError =
  * With `autoEnableOrganizationMembers` configuration for your organization set to `ALL`, you'll receive an error if you attempt to stop monitoring the member accounts in your organization.
  */
 export const stopMonitoringMembers: API.OperationMethod<
-  StopMonitoringMembersRequest,
+  StopMonitoringMembersRequest & RegionInput,
   StopMonitoringMembersResponse,
   StopMonitoringMembersError,
   Credentials | HttpClient.HttpClient
@@ -5614,7 +5615,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5637,7 +5638,7 @@ export type UnarchiveFindingsError =
  * Unarchives GuardDuty findings specified by the `findingIds`.
  */
 export const unarchiveFindings: API.OperationMethod<
-  UnarchiveFindingsRequest,
+  UnarchiveFindingsRequest & RegionInput,
   UnarchiveFindingsResponse,
   UnarchiveFindingsError,
   Credentials | HttpClient.HttpClient
@@ -5661,7 +5662,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5687,7 +5688,7 @@ export type UpdateCustomDetectionRuleAssociationError =
  * Updates the mode of an existing custom detection rule association.
  */
 export const updateCustomDetectionRuleAssociation: API.OperationMethod<
-  UpdateCustomDetectionRuleAssociationRequest,
+  UpdateCustomDetectionRuleAssociationRequest & RegionInput,
   UpdateCustomDetectionRuleAssociationResponse,
   UpdateCustomDetectionRuleAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5719,7 +5720,7 @@ export type UpdateCustomDetectionRuleOrgConfigurationError =
  * Updates the organization-level configuration for a custom detection rule, including the mode and include/exclude account lists.
  */
 export const updateCustomDetectionRuleOrgConfiguration: API.OperationMethod<
-  UpdateCustomDetectionRuleOrgConfigurationRequest,
+  UpdateCustomDetectionRuleOrgConfigurationRequest & RegionInput,
   UpdateCustomDetectionRuleOrgConfigurationResponse,
   UpdateCustomDetectionRuleOrgConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5749,7 +5750,7 @@ export type UpdateDetectorError = BadRequestException | InternalServerErrorExcep
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const updateDetector: API.OperationMethod<
-  UpdateDetectorRequest,
+  UpdateDetectorRequest & RegionInput,
   UpdateDetectorResponse,
   UpdateDetectorError,
   Credentials | HttpClient.HttpClient
@@ -5769,7 +5770,7 @@ export type UpdateFilterError = BadRequestException | InternalServerErrorExcepti
  * Updates the filter specified by the filter name.
  */
 export const updateFilter: API.OperationMethod<
-  UpdateFilterRequest,
+  UpdateFilterRequest & RegionInput,
   UpdateFilterResponse,
   UpdateFilterError,
   Credentials | HttpClient.HttpClient
@@ -5792,7 +5793,7 @@ export type UpdateFindingsFeedbackError =
  * Marks the specified GuardDuty findings as useful or not useful.
  */
 export const updateFindingsFeedback: API.OperationMethod<
-  UpdateFindingsFeedbackRequest,
+  UpdateFindingsFeedbackRequest & RegionInput,
   UpdateFindingsFeedbackResponse,
   UpdateFindingsFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -5816,7 +5817,7 @@ export type UpdateIPSetError =
  * Updates the IPSet specified by the IPSet ID.
  */
 export const updateIPSet: API.OperationMethod<
-  UpdateIPSetRequest,
+  UpdateIPSetRequest & RegionInput,
   UpdateIPSetResponse,
   UpdateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -5841,7 +5842,7 @@ export type UpdateMalwareProtectionPlanError =
  * Updates an existing Malware Protection plan resource.
  */
 export const updateMalwareProtectionPlan: API.OperationMethod<
-  UpdateMalwareProtectionPlanRequest,
+  UpdateMalwareProtectionPlanRequest & RegionInput,
   UpdateMalwareProtectionPlanResponse,
   UpdateMalwareProtectionPlanError,
   Credentials | HttpClient.HttpClient
@@ -5871,7 +5872,7 @@ export type UpdateMalwareScanSettingsError =
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const updateMalwareScanSettings: API.OperationMethod<
-  UpdateMalwareScanSettingsRequest,
+  UpdateMalwareScanSettingsRequest & RegionInput,
   UpdateMalwareScanSettingsResponse,
   UpdateMalwareScanSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5898,7 +5899,7 @@ export type UpdateMemberDetectorsError =
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const updateMemberDetectors: API.OperationMethod<
-  UpdateMemberDetectorsRequest,
+  UpdateMemberDetectorsRequest & RegionInput,
   UpdateMemberDetectorsResponse,
   UpdateMemberDetectorsError,
   Credentials | HttpClient.HttpClient
@@ -5925,7 +5926,7 @@ export type UpdateOrganizationConfigurationError =
  * There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5948,7 +5949,7 @@ export type UpdatePublishingDestinationError =
  * Updates information about the publishing destination specified by the `destinationId`.
  */
 export const updatePublishingDestination: API.OperationMethod<
-  UpdatePublishingDestinationRequest,
+  UpdatePublishingDestinationRequest & RegionInput,
   UpdatePublishingDestinationResponse,
   UpdatePublishingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -5971,7 +5972,7 @@ export type UpdateThreatEntitySetError =
  * Updates the threat entity set associated with the specified `threatEntitySetId`.
  */
 export const updateThreatEntitySet: API.OperationMethod<
-  UpdateThreatEntitySetRequest,
+  UpdateThreatEntitySetRequest & RegionInput,
   UpdateThreatEntitySetResponse,
   UpdateThreatEntitySetError,
   Credentials | HttpClient.HttpClient
@@ -5995,7 +5996,7 @@ export type UpdateThreatIntelSetError =
  * Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
  */
 export const updateThreatIntelSet: API.OperationMethod<
-  UpdateThreatIntelSetRequest,
+  UpdateThreatIntelSetRequest & RegionInput,
   UpdateThreatIntelSetResponse,
   UpdateThreatIntelSetError,
   Credentials | HttpClient.HttpClient
@@ -6018,7 +6019,7 @@ export type UpdateTrustedEntitySetError =
  * Updates the trusted entity set associated with the specified `trustedEntitySetId`.
  */
 export const updateTrustedEntitySet: API.OperationMethod<
-  UpdateTrustedEntitySetRequest,
+  UpdateTrustedEntitySetRequest & RegionInput,
   UpdateTrustedEntitySetResponse,
   UpdateTrustedEntitySetError,
   Credentials | HttpClient.HttpClient

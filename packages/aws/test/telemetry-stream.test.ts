@@ -7,6 +7,8 @@
  * events (issue #978).
  */
 import { TelemetryDebug } from "@distilled.cloud/core/telemetry-debug";
+import { encodeEvent } from "@distilled.cloud/s3/eventstream/codec";
+import { serializeInputEvent } from "@distilled.cloud/s3/eventstream/serializer";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
@@ -16,9 +18,7 @@ import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
 import { beforeAll, describe, expect, test } from "vitest";
-import * as Credentials from "../src/credentials.browser.ts";
-import { encodeEvent } from "../src/eventstream/codec.ts";
-import { serializeInputEvent } from "../src/eventstream/serializer.ts";
+import * as Credentials from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
 import * as Bedrock from "../src/services/bedrock-runtime.ts";
 import * as S3 from "../src/services/s3.ts";

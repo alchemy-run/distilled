@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1139,7 +1140,7 @@ export type BatchDeleteRecipeVersionError =
  * partial failure in the response.
  */
 export const batchDeleteRecipeVersion: API.OperationMethod<
-  BatchDeleteRecipeVersionRequest,
+  BatchDeleteRecipeVersionRequest & RegionInput,
   BatchDeleteRecipeVersionResponse,
   BatchDeleteRecipeVersionError,
   Credentials | HttpClient.HttpClient
@@ -1170,7 +1171,7 @@ export type CreateDatasetError =
  * Creates a new DataBrew dataset.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type CreateProfileJobError =
  * Creates a new job to analyze a dataset and create its data profile.
  */
 export const createProfileJob: API.OperationMethod<
-  CreateProfileJobRequest,
+  CreateProfileJobRequest & RegionInput,
   CreateProfileJobResponse,
   CreateProfileJobError,
   Credentials | HttpClient.HttpClient
@@ -1239,7 +1240,7 @@ export type CreateProjectError =
  * Creates a new DataBrew project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResponse,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1271,7 +1272,7 @@ export type CreateRecipeError =
  * Creates a new DataBrew recipe.
  */
 export const createRecipe: API.OperationMethod<
-  CreateRecipeRequest,
+  CreateRecipeRequest & RegionInput,
   CreateRecipeResponse,
   CreateRecipeError,
   Credentials | HttpClient.HttpClient
@@ -1304,7 +1305,7 @@ export type CreateRecipeJobError =
  * Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
  */
 export const createRecipeJob: API.OperationMethod<
-  CreateRecipeJobRequest,
+  CreateRecipeJobRequest & RegionInput,
   CreateRecipeJobResponse,
   CreateRecipeJobError,
   Credentials | HttpClient.HttpClient
@@ -1338,7 +1339,7 @@ export type CreateRulesetError =
  * the data quality of a dataset.
  */
 export const createRuleset: API.OperationMethod<
-  CreateRulesetRequest,
+  CreateRulesetRequest & RegionInput,
   CreateRulesetResponse,
   CreateRulesetError,
   Credentials | HttpClient.HttpClient
@@ -1369,7 +1370,7 @@ export type CreateScheduleError =
  * date and time, or at regular intervals.
  */
 export const createSchedule: API.OperationMethod<
-  CreateScheduleRequest,
+  CreateScheduleRequest & RegionInput,
   CreateScheduleResponse,
   CreateScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1399,7 +1400,7 @@ export type DeleteDatasetError =
  * Deletes a dataset from DataBrew.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1429,7 +1430,7 @@ export type DeleteJobError =
  * Deletes the specified DataBrew job.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -1459,7 +1460,7 @@ export type DeleteProjectError =
  * Deletes an existing DataBrew project.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResponse,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -1489,7 +1490,7 @@ export type DeleteRecipeVersionError =
  * Deletes a single version of a DataBrew recipe.
  */
 export const deleteRecipeVersion: API.OperationMethod<
-  DeleteRecipeVersionRequest,
+  DeleteRecipeVersionRequest & RegionInput,
   DeleteRecipeVersionResponse,
   DeleteRecipeVersionError,
   Credentials | HttpClient.HttpClient
@@ -1519,7 +1520,7 @@ export type DeleteRulesetError =
  * Deletes a ruleset.
  */
 export const deleteRuleset: API.OperationMethod<
-  DeleteRulesetRequest,
+  DeleteRulesetRequest & RegionInput,
   DeleteRulesetResponse,
   DeleteRulesetError,
   Credentials | HttpClient.HttpClient
@@ -1548,7 +1549,7 @@ export type DeleteScheduleError =
  * Deletes the specified DataBrew schedule.
  */
 export const deleteSchedule: API.OperationMethod<
-  DeleteScheduleRequest,
+  DeleteScheduleRequest & RegionInput,
   DeleteScheduleResponse,
   DeleteScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1572,7 +1573,7 @@ export type DescribeDatasetError =
  * Returns the definition of a specific DataBrew dataset.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1596,7 +1597,7 @@ export type DescribeJobError =
  * Returns the definition of a specific DataBrew job.
  */
 export const describeJob: API.OperationMethod<
-  DescribeJobRequest,
+  DescribeJobRequest & RegionInput,
   DescribeJobResponse,
   DescribeJobError,
   Credentials | HttpClient.HttpClient
@@ -1620,7 +1621,7 @@ export type DescribeJobRunError =
  * Represents one run of a DataBrew job.
  */
 export const describeJobRun: API.OperationMethod<
-  DescribeJobRunRequest,
+  DescribeJobRunRequest & RegionInput,
   DescribeJobRunResponse,
   DescribeJobRunError,
   Credentials | HttpClient.HttpClient
@@ -1644,7 +1645,7 @@ export type DescribeProjectError =
  * Returns the definition of a specific DataBrew project.
  */
 export const describeProject: API.OperationMethod<
-  DescribeProjectRequest,
+  DescribeProjectRequest & RegionInput,
   DescribeProjectResponse,
   DescribeProjectError,
   Credentials | HttpClient.HttpClient
@@ -1669,7 +1670,7 @@ export type DescribeRecipeError =
  * version.
  */
 export const describeRecipe: API.OperationMethod<
-  DescribeRecipeRequest,
+  DescribeRecipeRequest & RegionInput,
   DescribeRecipeResponse,
   DescribeRecipeError,
   Credentials | HttpClient.HttpClient
@@ -1693,7 +1694,7 @@ export type DescribeRulesetError =
  * Retrieves detailed information about the ruleset.
  */
 export const describeRuleset: API.OperationMethod<
-  DescribeRulesetRequest,
+  DescribeRulesetRequest & RegionInput,
   DescribeRulesetResponse,
   DescribeRulesetError,
   Credentials | HttpClient.HttpClient
@@ -1717,7 +1718,7 @@ export type DescribeScheduleError =
  * Returns the definition of a specific DataBrew schedule.
  */
 export const describeSchedule: API.OperationMethod<
-  DescribeScheduleRequest,
+  DescribeScheduleRequest & RegionInput,
   DescribeScheduleResponse,
   DescribeScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1737,7 +1738,7 @@ export type ListDatasetsError = ValidationException | TooManyRequestsException |
  * Lists all of the DataBrew datasets.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -1768,7 +1769,7 @@ export type ListJobRunsError =
  * Lists all of the previous runs of a particular DataBrew job.
  */
 export const listJobRuns: API.PaginatedOperationMethod<
-  ListJobRunsRequest,
+  ListJobRunsRequest & RegionInput,
   ListJobRunsResponse,
   ListJobRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1795,7 +1796,7 @@ export type ListJobsError = ValidationException | TooManyRequestsException | Com
  * Lists all of the DataBrew jobs that are defined.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1822,7 +1823,7 @@ export type ListProjectsError = ValidationException | TooManyRequestsException |
  * Lists all of the DataBrew projects that are defined.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsRequest,
+  ListProjectsRequest & RegionInput,
   ListProjectsResponse,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -1849,7 +1850,7 @@ export type ListRecipesError = ValidationException | TooManyRequestsException | 
  * Lists all of the DataBrew recipes that are defined.
  */
 export const listRecipes: API.PaginatedOperationMethod<
-  ListRecipesRequest,
+  ListRecipesRequest & RegionInput,
   ListRecipesResponse,
   ListRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -1881,7 +1882,7 @@ export type ListRecipeVersionsError =
  * `LATEST_WORKING`.
  */
 export const listRecipeVersions: API.PaginatedOperationMethod<
-  ListRecipeVersionsRequest,
+  ListRecipeVersionsRequest & RegionInput,
   ListRecipeVersionsResponse,
   ListRecipeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1913,7 +1914,7 @@ export type ListRulesetsError =
  * with a specific resource (dataset).
  */
 export const listRulesets: API.PaginatedOperationMethod<
-  ListRulesetsRequest,
+  ListRulesetsRequest & RegionInput,
   ListRulesetsResponse,
   ListRulesetsError,
   Credentials | HttpClient.HttpClient,
@@ -1940,7 +1941,7 @@ export type ListSchedulesError = ValidationException | TooManyRequestsException 
  * Lists the DataBrew schedules that are defined.
  */
 export const listSchedules: API.PaginatedOperationMethod<
-  ListSchedulesRequest,
+  ListSchedulesRequest & RegionInput,
   ListSchedulesResponse,
   ListSchedulesError,
   Credentials | HttpClient.HttpClient,
@@ -1972,7 +1973,7 @@ export type ListTagsForResourceError =
  * Lists all the tags for a DataBrew resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2002,7 +2003,7 @@ export type PublishRecipeError =
  * Publishes a new version of a DataBrew recipe.
  */
 export const publishRecipe: API.OperationMethod<
-  PublishRecipeRequest,
+  PublishRecipeRequest & RegionInput,
   PublishRecipeResponse,
   PublishRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2032,7 +2033,7 @@ export type SendProjectSessionActionError =
  * open.
  */
 export const sendProjectSessionAction: API.OperationMethod<
-  SendProjectSessionActionRequest,
+  SendProjectSessionActionRequest & RegionInput,
   SendProjectSessionActionResponse,
   SendProjectSessionActionError,
   Credentials | HttpClient.HttpClient
@@ -2058,7 +2059,7 @@ export type StartJobRunError =
  * Runs a DataBrew job.
  */
 export const startJobRun: API.OperationMethod<
-  StartJobRunRequest,
+  StartJobRunRequest & RegionInput,
   StartJobRunResponse,
   StartJobRunError,
   Credentials | HttpClient.HttpClient
@@ -2090,7 +2091,7 @@ export type StartProjectSessionError =
  * project.
  */
 export const startProjectSession: API.OperationMethod<
-  StartProjectSessionRequest,
+  StartProjectSessionRequest & RegionInput,
   StartProjectSessionResponse,
   StartProjectSessionError,
   Credentials | HttpClient.HttpClient
@@ -2119,7 +2120,7 @@ export type StopJobRunError =
  * Stops a particular run of a job.
  */
 export const stopJobRun: API.OperationMethod<
-  StopJobRunRequest,
+  StopJobRunRequest & RegionInput,
   StopJobRunResponse,
   StopJobRunError,
   Credentials | HttpClient.HttpClient
@@ -2145,7 +2146,7 @@ export type TagResourceError =
  * schedule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2175,7 +2176,7 @@ export type UntagResourceError =
  * Removes metadata tags from a DataBrew resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2205,7 +2206,7 @@ export type UpdateDatasetError =
  * Modifies the definition of an existing DataBrew dataset.
  */
 export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
+  UpdateDatasetRequest & RegionInput,
   UpdateDatasetResponse,
   UpdateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2236,7 +2237,7 @@ export type UpdateProfileJobError =
  * Modifies the definition of an existing profile job.
  */
 export const updateProfileJob: API.OperationMethod<
-  UpdateProfileJobRequest,
+  UpdateProfileJobRequest & RegionInput,
   UpdateProfileJobResponse,
   UpdateProfileJobError,
   Credentials | HttpClient.HttpClient
@@ -2267,7 +2268,7 @@ export type UpdateProjectError =
  * Modifies the definition of an existing DataBrew project.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectRequest,
+  UpdateProjectRequest & RegionInput,
   UpdateProjectResponse,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -2297,7 +2298,7 @@ export type UpdateRecipeError =
  * recipe.
  */
 export const updateRecipe: API.OperationMethod<
-  UpdateRecipeRequest,
+  UpdateRecipeRequest & RegionInput,
   UpdateRecipeResponse,
   UpdateRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2323,7 +2324,7 @@ export type UpdateRecipeJobError =
  * Modifies the definition of an existing DataBrew recipe job.
  */
 export const updateRecipeJob: API.OperationMethod<
-  UpdateRecipeJobRequest,
+  UpdateRecipeJobRequest & RegionInput,
   UpdateRecipeJobResponse,
   UpdateRecipeJobError,
   Credentials | HttpClient.HttpClient
@@ -2353,7 +2354,7 @@ export type UpdateRulesetError =
  * Updates specified ruleset.
  */
 export const updateRuleset: API.OperationMethod<
-  UpdateRulesetRequest,
+  UpdateRulesetRequest & RegionInput,
   UpdateRulesetResponse,
   UpdateRulesetError,
   Credentials | HttpClient.HttpClient
@@ -2378,7 +2379,7 @@ export type UpdateScheduleError =
  * Modifies the definition of an existing DataBrew schedule.
  */
 export const updateSchedule: API.OperationMethod<
-  UpdateScheduleRequest,
+  UpdateScheduleRequest & RegionInput,
   UpdateScheduleResponse,
   UpdateScheduleError,
   Credentials | HttpClient.HttpClient

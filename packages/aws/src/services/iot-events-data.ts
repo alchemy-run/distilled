@@ -6,6 +6,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -449,7 +450,7 @@ export type BatchAcknowledgeAlarmError =
  * after you acknowledge them.
  */
 export const batchAcknowledgeAlarm: API.OperationMethod<
-  BatchAcknowledgeAlarmRequest,
+  BatchAcknowledgeAlarmRequest & RegionInput,
   BatchAcknowledgeAlarmResponse,
   BatchAcknowledgeAlarmError,
   Credentials | HttpClient.HttpClient
@@ -477,7 +478,7 @@ export type BatchDeleteDetectorError =
  * Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the ListDetectors API call.
  */
 export const batchDeleteDetector: API.OperationMethod<
-  BatchDeleteDetectorRequest,
+  BatchDeleteDetectorRequest & RegionInput,
   BatchDeleteDetectorResponse,
   BatchDeleteDetectorError,
   Credentials | HttpClient.HttpClient
@@ -506,7 +507,7 @@ export type BatchDisableAlarmError =
  * you disable them.
  */
 export const batchDisableAlarm: API.OperationMethod<
-  BatchDisableAlarmRequest,
+  BatchDisableAlarmRequest & RegionInput,
   BatchDisableAlarmResponse,
   BatchDisableAlarmError,
   Credentials | HttpClient.HttpClient
@@ -535,7 +536,7 @@ export type BatchEnableAlarmError =
  * enable them.
  */
 export const batchEnableAlarm: API.OperationMethod<
-  BatchEnableAlarmRequest,
+  BatchEnableAlarmRequest & RegionInput,
   BatchEnableAlarmResponse,
   BatchEnableAlarmError,
   Credentials | HttpClient.HttpClient
@@ -567,7 +568,7 @@ export type BatchPutMessageError =
  * successful response.
  */
 export const batchPutMessage: API.OperationMethod<
-  BatchPutMessageRequest,
+  BatchPutMessageRequest & RegionInput,
   BatchPutMessageResponse,
   BatchPutMessageError,
   Credentials | HttpClient.HttpClient
@@ -596,7 +597,7 @@ export type BatchResetAlarmError =
  * reset them.
  */
 export const batchResetAlarm: API.OperationMethod<
-  BatchResetAlarmRequest,
+  BatchResetAlarmRequest & RegionInput,
   BatchResetAlarmResponse,
   BatchResetAlarmError,
   Credentials | HttpClient.HttpClient
@@ -625,7 +626,7 @@ export type BatchSnoozeAlarmError =
  * `SNOOZE_DISABLED` state after you set them to the snooze mode.
  */
 export const batchSnoozeAlarm: API.OperationMethod<
-  BatchSnoozeAlarmRequest,
+  BatchSnoozeAlarmRequest & RegionInput,
   BatchSnoozeAlarmResponse,
   BatchSnoozeAlarmError,
   Credentials | HttpClient.HttpClient
@@ -654,7 +655,7 @@ export type BatchUpdateDetectorError =
  * (instances) of a specified detector model.
  */
 export const batchUpdateDetector: API.OperationMethod<
-  BatchUpdateDetectorRequest,
+  BatchUpdateDetectorRequest & RegionInput,
   BatchUpdateDetectorResponse,
   BatchUpdateDetectorError,
   Credentials | HttpClient.HttpClient
@@ -683,7 +684,7 @@ export type DescribeAlarmError =
  * Retrieves information about an alarm.
  */
 export const describeAlarm: API.OperationMethod<
-  DescribeAlarmRequest,
+  DescribeAlarmRequest & RegionInput,
   DescribeAlarmResponse,
   DescribeAlarmError,
   Credentials | HttpClient.HttpClient
@@ -713,7 +714,7 @@ export type DescribeDetectorError =
  * Returns information about the specified detector (instance).
  */
 export const describeDetector: API.OperationMethod<
-  DescribeDetectorRequest,
+  DescribeDetectorRequest & RegionInput,
   DescribeDetectorResponse,
   DescribeDetectorError,
   Credentials | HttpClient.HttpClient
@@ -744,7 +745,7 @@ export type ListAlarmsError =
  * alarm.
  */
 export const listAlarms: API.OperationMethod<
-  ListAlarmsRequest,
+  ListAlarmsRequest & RegionInput,
   ListAlarmsResponse,
   ListAlarmsError,
   Credentials | HttpClient.HttpClient
@@ -774,7 +775,7 @@ export type ListDetectorsError =
  * Lists detectors (the instances of a detector model).
  */
 export const listDetectors: API.OperationMethod<
-  ListDetectorsRequest,
+  ListDetectorsRequest & RegionInput,
   ListDetectorsResponse,
   ListDetectorsError,
   Credentials | HttpClient.HttpClient
