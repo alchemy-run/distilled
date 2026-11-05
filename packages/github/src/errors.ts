@@ -12,6 +12,7 @@ export {
   Forbidden,
   GatewayTimeout,
   InternalServerError,
+  InvalidInput,
   Locked,
   NotFound,
   ServiceUnavailable,
