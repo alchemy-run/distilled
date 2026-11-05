@@ -20,6 +20,9 @@ import {
  */
 export type PresignError = Credentials.ProviderError | SigV4.SigningError | InvalidInput;
 
+// The signing errors in `PresignError`, so consumers can name them from here.
+export { CryptoError, InvalidSigningHeaders, InvalidSigningUrl } from "./sigv4.ts";
+
 /** `url` parsed, or the `InvalidSigningUrl` the signer would fail it with. */
 const parseUrl = (url: string): Effect.Effect<URL, SigV4.InvalidSigningUrl> =>
   Effect.try({
