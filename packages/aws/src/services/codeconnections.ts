@@ -621,11 +621,7 @@ export const createConnection: API.OperationMethod<
   retry: Retry,
   operationName: "CreateConnection",
   iam: {
-    actions: [
-      "codeconnections:CreateConnection",
-      "codestar-connections:CreateConnection",
-      "codeconnections:TagResource",
-    ],
+    actions: ["codeconnections:CreateConnection", "codeconnections:TagResource"],
     conditional: { "codeconnections:TagResource": "Tags" },
   },
   telemetry: TELEMETRY,
@@ -655,11 +651,7 @@ export const createHost: API.OperationMethod<
   retry: Retry,
   operationName: "CreateHost",
   iam: {
-    actions: [
-      "codeconnections:CreateHost",
-      "codestar-connections:CreateHost",
-      "codeconnections:TagResource",
-    ],
+    actions: ["codeconnections:CreateHost", "codeconnections:TagResource"],
     conditional: { "codeconnections:TagResource": "Tags" },
   },
   telemetry: TELEMETRY,
@@ -701,7 +693,6 @@ export const createRepositoryLink: API.OperationMethod<
   iam: {
     actions: [
       "codeconnections:CreateRepositoryLink",
-      "codestar-connections:CreateRepositoryLink",
       "codeconnections:PassConnection",
       "codeconnections:TagResource",
       "codeconnections:UseConnection",
@@ -709,9 +700,6 @@ export const createRepositoryLink: API.OperationMethod<
     resources: {
       "codeconnections:CreateRepositoryLink": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
-      ],
-      "codestar-connections:CreateRepositoryLink": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
       ],
       "codeconnections:PassConnection": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
@@ -763,16 +751,12 @@ export const createSyncConfiguration: API.OperationMethod<
   iam: {
     actions: [
       "codeconnections:CreateSyncConfiguration",
-      "codestar-connections:CreateSyncConfiguration",
       "codeconnections:PassRepository",
       "iam:PassRole",
     ],
     resources: {
       "codeconnections:CreateSyncConfiguration": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
-      ],
-      "codestar-connections:CreateSyncConfiguration": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
       ],
       "codeconnections:PassRepository": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
@@ -801,13 +785,10 @@ export const deleteConnection: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteConnection",
   iam: {
-    actions: ["codeconnections:DeleteConnection", "codestar-connections:DeleteConnection"],
+    actions: ["codeconnections:DeleteConnection"],
     resources: {
       "codeconnections:DeleteConnection": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
-      ],
-      "codestar-connections:DeleteConnection": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
       ],
     },
   },
@@ -837,13 +818,10 @@ export const deleteHost: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteHost",
   iam: {
-    actions: ["codeconnections:DeleteHost", "codestar-connections:DeleteHost"],
+    actions: ["codeconnections:DeleteHost"],
     resources: {
       "codeconnections:DeleteHost": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:host/${HostId}",
-      ],
-      "codestar-connections:DeleteHost": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:host/${HostId}",
       ],
     },
   },
@@ -886,13 +864,10 @@ export const deleteRepositoryLink: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRepositoryLink",
   iam: {
-    actions: ["codeconnections:DeleteRepositoryLink", "codestar-connections:DeleteRepositoryLink"],
+    actions: ["codeconnections:DeleteRepositoryLink"],
     resources: {
       "codeconnections:DeleteRepositoryLink": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
-      ],
-      "codestar-connections:DeleteRepositoryLink": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
       ],
     },
   },
@@ -930,12 +905,7 @@ export const deleteSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSyncConfiguration",
-  iam: {
-    actions: [
-      "codeconnections:DeleteSyncConfiguration",
-      "codestar-connections:DeleteSyncConfiguration",
-    ],
-  },
+  iam: { actions: ["codeconnections:DeleteSyncConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteSyncConfiguration",
 }));
@@ -960,13 +930,10 @@ export const getConnection: API.OperationMethod<
   retry: Retry,
   operationName: "GetConnection",
   iam: {
-    actions: ["codeconnections:GetConnection", "codestar-connections:GetConnection"],
+    actions: ["codeconnections:GetConnection"],
     resources: {
       "codeconnections:GetConnection": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
-      ],
-      "codestar-connections:GetConnection": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
       ],
     },
   },
@@ -992,13 +959,10 @@ export const getHost: API.OperationMethod<
   retry: Retry,
   operationName: "GetHost",
   iam: {
-    actions: ["codeconnections:GetHost", "codestar-connections:GetHost"],
+    actions: ["codeconnections:GetHost"],
     resources: {
       "codeconnections:GetHost": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:host/${HostId}",
-      ],
-      "codestar-connections:GetHost": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:host/${HostId}",
       ],
     },
   },
@@ -1038,13 +1002,10 @@ export const getRepositoryLink: API.OperationMethod<
   retry: Retry,
   operationName: "GetRepositoryLink",
   iam: {
-    actions: ["codeconnections:GetRepositoryLink", "codestar-connections:GetRepositoryLink"],
+    actions: ["codeconnections:GetRepositoryLink"],
     resources: {
       "codeconnections:GetRepositoryLink": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
-      ],
-      "codestar-connections:GetRepositoryLink": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
       ],
     },
   },
@@ -1082,16 +1043,10 @@ export const getRepositorySyncStatus: API.OperationMethod<
   retry: Retry,
   operationName: "GetRepositorySyncStatus",
   iam: {
-    actions: [
-      "codeconnections:GetRepositorySyncStatus",
-      "codestar-connections:GetRepositorySyncStatus",
-    ],
+    actions: ["codeconnections:GetRepositorySyncStatus"],
     resources: {
       "codeconnections:GetRepositorySyncStatus": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
-      ],
-      "codestar-connections:GetRepositorySyncStatus": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
       ],
     },
   },
@@ -1128,12 +1083,7 @@ export const getResourceSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSyncStatus",
-  iam: {
-    actions: [
-      "codeconnections:GetResourceSyncStatus",
-      "codestar-connections:GetResourceSyncStatus",
-    ],
-  },
+  iam: { actions: ["codeconnections:GetResourceSyncStatus"] },
   telemetry: TELEMETRY,
   span: "GetResourceSyncStatus",
 }));
@@ -1166,12 +1116,7 @@ export const getSyncBlockerSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncBlockerSummary",
-  iam: {
-    actions: [
-      "codeconnections:GetSyncBlockerSummary",
-      "codestar-connections:GetSyncBlockerSummary",
-    ],
-  },
+  iam: { actions: ["codeconnections:GetSyncBlockerSummary"] },
   telemetry: TELEMETRY,
   span: "GetSyncBlockerSummary",
 }));
@@ -1204,9 +1149,7 @@ export const getSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncConfiguration",
-  iam: {
-    actions: ["codeconnections:GetSyncConfiguration", "codestar-connections:GetSyncConfiguration"],
-  },
+  iam: { actions: ["codeconnections:GetSyncConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetSyncConfiguration",
 }));
@@ -1233,14 +1176,7 @@ export const listConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["codeconnections:ListConnections", "codestar-connections:ListConnections"],
-    resources: {
-      "codestar-connections:ListConnections": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
-      ],
-    },
-  },
+  iam: { actions: ["codeconnections:ListConnections"] },
   telemetry: TELEMETRY,
   span: "ListConnections",
 })) as any;
@@ -1267,7 +1203,7 @@ export const listHosts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["codeconnections:ListHosts", "codestar-connections:ListHosts"] },
+  iam: { actions: ["codeconnections:ListHosts"] },
   telemetry: TELEMETRY,
   span: "ListHosts",
 })) as any;
@@ -1308,9 +1244,7 @@ export const listRepositoryLinks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["codeconnections:ListRepositoryLinks", "codestar-connections:ListRepositoryLinks"],
-  },
+  iam: { actions: ["codeconnections:ListRepositoryLinks"] },
   telemetry: TELEMETRY,
   span: "ListRepositoryLinks",
 })) as any;
@@ -1343,12 +1277,7 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRepositorySyncDefinitions",
-  iam: {
-    actions: [
-      "codeconnections:ListRepositorySyncDefinitions",
-      "codestar-connections:ListRepositorySyncDefinitions",
-    ],
-  },
+  iam: { actions: ["codeconnections:ListRepositorySyncDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListRepositorySyncDefinitions",
 }));
@@ -1387,12 +1316,7 @@ export const listSyncConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: [
-      "codeconnections:ListSyncConfigurations",
-      "codestar-connections:ListSyncConfigurations",
-    ],
-  },
+  iam: { actions: ["codeconnections:ListSyncConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListSyncConfigurations",
 })) as any;
@@ -1413,9 +1337,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["codeconnections:ListTagsForResource", "codestar-connections:ListTagsForResource"],
-  },
+  iam: { actions: ["codeconnections:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1437,7 +1359,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["codeconnections:TagResource", "codestar-connections:TagResource"] },
+  iam: { actions: ["codeconnections:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1458,7 +1380,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["codeconnections:UntagResource", "codestar-connections:UntagResource"] },
+  iam: { actions: ["codeconnections:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1490,13 +1412,10 @@ export const updateHost: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateHost",
   iam: {
-    actions: ["codeconnections:UpdateHost", "codestar-connections:UpdateHost"],
+    actions: ["codeconnections:UpdateHost"],
     resources: {
       "codeconnections:UpdateHost": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:host/${HostId}",
-      ],
-      "codestar-connections:UpdateHost": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:host/${HostId}",
       ],
     },
   },
@@ -1542,7 +1461,6 @@ export const updateRepositoryLink: API.OperationMethod<
     actions: [
       "codeconnections:PassConnection",
       "codeconnections:UpdateRepositoryLink",
-      "codestar-connections:UpdateRepositoryLink",
       "codeconnections:UseConnection",
     ],
     resources: {
@@ -1551,9 +1469,6 @@ export const updateRepositoryLink: API.OperationMethod<
       ],
       "codeconnections:UpdateRepositoryLink": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
-      ],
-      "codestar-connections:UpdateRepositoryLink": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
       ],
       "codeconnections:UseConnection": [
         "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
@@ -1596,7 +1511,7 @@ export const updateSyncBlocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncBlocker",
-  iam: { actions: ["codeconnections:UpdateSyncBlocker", "codestar-connections:UpdateSyncBlocker"] },
+  iam: { actions: ["codeconnections:UpdateSyncBlocker"] },
   telemetry: TELEMETRY,
   span: "UpdateSyncBlocker",
 }));
@@ -1638,7 +1553,6 @@ export const updateSyncConfiguration: API.OperationMethod<
       "codeconnections:PassRepository",
       "iam:PassRole",
       "codeconnections:UpdateSyncConfiguration",
-      "codestar-connections:UpdateSyncConfiguration",
     ],
     resources: {
       "codeconnections:PassRepository": [
