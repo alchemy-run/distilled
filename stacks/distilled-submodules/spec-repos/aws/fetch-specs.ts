@@ -177,7 +177,13 @@ async function fetchIamReference() {
         if (type.endsWith("*")) current.add(type.slice(0, -1));
       }
     }
-    required.set(prefix, actions);
+    // Several pages can share a prefix (Greengrass v1 and v2, SES v1 and
+    // v2): merge them, never let the later page replace the earlier one.
+    const merged = required.get(prefix) ?? new Map<string, Set<string>>();
+    for (const [action, types] of actions) {
+      merged.set(action, new Set([...(merged.get(action) ?? []), ...types]));
+    }
+    required.set(prefix, merged);
   });
 
   const dest = `${SPECS_DIR}/iam`;

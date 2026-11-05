@@ -2440,7 +2440,15 @@ export const associateProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProtectConfiguration",
-  iam: { actions: ["sms-voice:AssociateProtectConfiguration"] },
+  iam: {
+    actions: ["sms-voice:AssociateProtectConfiguration"],
+    resources: {
+      "sms-voice:AssociateProtectConfiguration": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateProtectConfiguration",
 }));
@@ -2560,7 +2568,12 @@ export const createEventDestination: API.OperationMethod<
   operationName: "CreateEventDestination",
   iam: {
     actions: ["sms-voice:CreateEventDestination", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    resources: {
+      "sms-voice:CreateEventDestination": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
     conditional: { "iam:PassRole": "CloudWatchLogsDestination.IamRoleArn" },
   },
   telemetry: TELEMETRY,
@@ -2918,7 +2931,14 @@ export const createRegistrationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistrationVersion",
-  iam: { actions: ["sms-voice:CreateRegistrationVersion"] },
+  iam: {
+    actions: ["sms-voice:CreateRegistrationVersion"],
+    resources: {
+      "sms-voice:CreateRegistrationVersion": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration/${RegistrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRegistrationVersion",
 }));
@@ -3026,7 +3046,14 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
-  iam: { actions: ["sms-voice:DeleteConfigurationSet"] },
+  iam: {
+    actions: ["sms-voice:DeleteConfigurationSet"],
+    resources: {
+      "sms-voice:DeleteConfigurationSet": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSet",
 }));
@@ -3061,7 +3088,14 @@ export const deleteDefaultMessageType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDefaultMessageType",
-  iam: { actions: ["sms-voice:DeleteDefaultMessageType"] },
+  iam: {
+    actions: ["sms-voice:DeleteDefaultMessageType"],
+    resources: {
+      "sms-voice:DeleteDefaultMessageType": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDefaultMessageType",
 }));
@@ -3096,7 +3130,14 @@ export const deleteDefaultSenderId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDefaultSenderId",
-  iam: { actions: ["sms-voice:DeleteDefaultSenderId"] },
+  iam: {
+    actions: ["sms-voice:DeleteDefaultSenderId"],
+    resources: {
+      "sms-voice:DeleteDefaultSenderId": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDefaultSenderId",
 }));
@@ -3131,7 +3172,14 @@ export const deleteEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventDestination",
-  iam: { actions: ["sms-voice:DeleteEventDestination"] },
+  iam: {
+    actions: ["sms-voice:DeleteEventDestination"],
+    resources: {
+      "sms-voice:DeleteEventDestination": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEventDestination",
 }));
@@ -3238,7 +3286,14 @@ export const deleteNotifyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotifyConfiguration",
-  iam: { actions: ["sms-voice:DeleteNotifyConfiguration"] },
+  iam: {
+    actions: ["sms-voice:DeleteNotifyConfiguration"],
+    resources: {
+      "sms-voice:DeleteNotifyConfiguration": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:notify-configuration/${NotifyConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNotifyConfiguration",
 }));
@@ -3308,7 +3363,14 @@ export const deleteOptedOutNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOptedOutNumber",
-  iam: { actions: ["sms-voice:DeleteOptedOutNumber"] },
+  iam: {
+    actions: ["sms-voice:DeleteOptedOutNumber"],
+    resources: {
+      "sms-voice:DeleteOptedOutNumber": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:opt-out-list/${OptOutListName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOptedOutNumber",
 }));
@@ -3345,7 +3407,14 @@ export const deleteOptOutList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOptOutList",
-  iam: { actions: ["sms-voice:DeleteOptOutList"] },
+  iam: {
+    actions: ["sms-voice:DeleteOptOutList"],
+    resources: {
+      "sms-voice:DeleteOptOutList": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:opt-out-list/${OptOutListName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOptOutList",
 }));
@@ -3384,7 +3453,12 @@ export const deletePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePool",
-  iam: { actions: ["sms-voice:DeletePool"] },
+  iam: {
+    actions: ["sms-voice:DeletePool"],
+    resources: {
+      "sms-voice:DeletePool": ["arn:${Partition}:sms-voice:${Region}:${Account}:pool/${PoolId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePool",
 }));
@@ -3419,7 +3493,14 @@ export const deleteProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtectConfiguration",
-  iam: { actions: ["sms-voice:DeleteProtectConfiguration"] },
+  iam: {
+    actions: ["sms-voice:DeleteProtectConfiguration"],
+    resources: {
+      "sms-voice:DeleteProtectConfiguration": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProtectConfiguration",
 }));
@@ -3460,7 +3541,14 @@ export const deleteProtectConfigurationRuleSetNumberOverride: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtectConfigurationRuleSetNumberOverride",
-  iam: { actions: ["sms-voice:DeleteProtectConfigurationRuleSetNumberOverride"] },
+  iam: {
+    actions: ["sms-voice:DeleteProtectConfigurationRuleSetNumberOverride"],
+    resources: {
+      "sms-voice:DeleteProtectConfigurationRuleSetNumberOverride": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProtectConfigurationRuleSetNumberOverride",
 }));
@@ -3495,7 +3583,14 @@ export const deleteRcsAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRcsAgent",
-  iam: { actions: ["sms-voice:DeleteRcsAgent"] },
+  iam: {
+    actions: ["sms-voice:DeleteRcsAgent"],
+    resources: {
+      "sms-voice:DeleteRcsAgent": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:rcs-agent/${RcsAgentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRcsAgent",
 }));
@@ -3561,7 +3656,14 @@ export const deleteRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistration",
-  iam: { actions: ["sms-voice:DeleteRegistration"] },
+  iam: {
+    actions: ["sms-voice:DeleteRegistration"],
+    resources: {
+      "sms-voice:DeleteRegistration": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration/${RegistrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegistration",
 }));
@@ -3596,7 +3698,14 @@ export const deleteRegistrationAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistrationAttachment",
-  iam: { actions: ["sms-voice:DeleteRegistrationAttachment"] },
+  iam: {
+    actions: ["sms-voice:DeleteRegistrationAttachment"],
+    resources: {
+      "sms-voice:DeleteRegistrationAttachment": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration-attachment/${RegistrationAttachmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegistrationAttachment",
 }));
@@ -3631,7 +3740,14 @@ export const deleteRegistrationFieldValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistrationFieldValue",
-  iam: { actions: ["sms-voice:DeleteRegistrationFieldValue"] },
+  iam: {
+    actions: ["sms-voice:DeleteRegistrationFieldValue"],
+    resources: {
+      "sms-voice:DeleteRegistrationFieldValue": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration/${RegistrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegistrationFieldValue",
 }));
@@ -3730,7 +3846,14 @@ export const deleteVerifiedDestinationNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedDestinationNumber",
-  iam: { actions: ["sms-voice:DeleteVerifiedDestinationNumber"] },
+  iam: {
+    actions: ["sms-voice:DeleteVerifiedDestinationNumber"],
+    resources: {
+      "sms-voice:DeleteVerifiedDestinationNumber": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:verified-destination-number/${VerifiedDestinationNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVerifiedDestinationNumber",
 }));
@@ -4061,7 +4184,14 @@ export const describeOptedOutNumbers: API.PaginatedOperationMethod<
     items: "OptedOutNumbers",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sms-voice:DescribeOptedOutNumbers"] },
+  iam: {
+    actions: ["sms-voice:DescribeOptedOutNumbers"],
+    resources: {
+      "sms-voice:DescribeOptedOutNumbers": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:opt-out-list/${OptOutListName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeOptedOutNumbers",
 })) as any;
@@ -4275,7 +4405,14 @@ export const describeRcsAgentCountryLaunchStatus: API.PaginatedOperationMethod<
     items: "CountryLaunchStatus",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sms-voice:DescribeRcsAgentCountryLaunchStatus"] },
+  iam: {
+    actions: ["sms-voice:DescribeRcsAgentCountryLaunchStatus"],
+    resources: {
+      "sms-voice:DescribeRcsAgentCountryLaunchStatus": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:rcs-agent/${RcsAgentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRcsAgentCountryLaunchStatus",
 })) as any;
@@ -4435,7 +4572,14 @@ export const describeRegistrationFieldValues: API.PaginatedOperationMethod<
     items: "RegistrationFieldValues",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sms-voice:DescribeRegistrationFieldValues"] },
+  iam: {
+    actions: ["sms-voice:DescribeRegistrationFieldValues"],
+    resources: {
+      "sms-voice:DescribeRegistrationFieldValues": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration/${RegistrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRegistrationFieldValues",
 })) as any;
@@ -4591,7 +4735,14 @@ export const describeRegistrationVersions: API.PaginatedOperationMethod<
     items: "RegistrationVersions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sms-voice:DescribeRegistrationVersions"] },
+  iam: {
+    actions: ["sms-voice:DescribeRegistrationVersions"],
+    resources: {
+      "sms-voice:DescribeRegistrationVersions": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration/${RegistrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRegistrationVersions",
 })) as any;
@@ -4787,7 +4938,15 @@ export const disassociateProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProtectConfiguration",
-  iam: { actions: ["sms-voice:DisassociateProtectConfiguration"] },
+  iam: {
+    actions: ["sms-voice:DisassociateProtectConfiguration"],
+    resources: {
+      "sms-voice:DisassociateProtectConfiguration": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateProtectConfiguration",
 }));
@@ -4822,7 +4981,14 @@ export const discardRegistrationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DiscardRegistrationVersion",
-  iam: { actions: ["sms-voice:DiscardRegistrationVersion"] },
+  iam: {
+    actions: ["sms-voice:DiscardRegistrationVersion"],
+    resources: {
+      "sms-voice:DiscardRegistrationVersion": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration/${RegistrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DiscardRegistrationVersion",
 }));
@@ -4855,7 +5021,14 @@ export const getProtectConfigurationCountryRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectConfigurationCountryRuleSet",
-  iam: { actions: ["sms-voice:GetProtectConfigurationCountryRuleSet"] },
+  iam: {
+    actions: ["sms-voice:GetProtectConfigurationCountryRuleSet"],
+    resources: {
+      "sms-voice:GetProtectConfigurationCountryRuleSet": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProtectConfigurationCountryRuleSet",
 }));
@@ -5012,7 +5185,14 @@ export const listPoolOriginationIdentities: API.PaginatedOperationMethod<
     items: "OriginationIdentities",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sms-voice:ListPoolOriginationIdentities"] },
+  iam: {
+    actions: ["sms-voice:ListPoolOriginationIdentities"],
+    resources: {
+      "sms-voice:ListPoolOriginationIdentities": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:pool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPoolOriginationIdentities",
 })) as any;
@@ -5060,7 +5240,14 @@ export const listProtectConfigurationRuleSetNumberOverrides: API.PaginatedOperat
     items: "RuleSetNumberOverrides",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sms-voice:ListProtectConfigurationRuleSetNumberOverrides"] },
+  iam: {
+    actions: ["sms-voice:ListProtectConfigurationRuleSetNumberOverrides"],
+    resources: {
+      "sms-voice:ListProtectConfigurationRuleSetNumberOverrides": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProtectConfigurationRuleSetNumberOverrides",
 })) as any;
@@ -5100,7 +5287,14 @@ export const listRegistrationAssociations: API.PaginatedOperationMethod<
     items: "RegistrationAssociations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sms-voice:ListRegistrationAssociations"] },
+  iam: {
+    actions: ["sms-voice:ListRegistrationAssociations"],
+    resources: {
+      "sms-voice:ListRegistrationAssociations": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration/${RegistrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRegistrationAssociations",
 })) as any;
@@ -5209,7 +5403,14 @@ export const putMessageFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMessageFeedback",
-  iam: { actions: ["sms-voice:PutMessageFeedback"] },
+  iam: {
+    actions: ["sms-voice:PutMessageFeedback"],
+    resources: {
+      "sms-voice:PutMessageFeedback": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:message/${MessageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutMessageFeedback",
 }));
@@ -5244,7 +5445,14 @@ export const putOptedOutNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOptedOutNumber",
-  iam: { actions: ["sms-voice:PutOptedOutNumber"] },
+  iam: {
+    actions: ["sms-voice:PutOptedOutNumber"],
+    resources: {
+      "sms-voice:PutOptedOutNumber": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:opt-out-list/${OptOutListName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutOptedOutNumber",
 }));
@@ -5289,7 +5497,14 @@ export const putProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProtectConfigurationRuleSetNumberOverride",
-  iam: { actions: ["sms-voice:PutProtectConfigurationRuleSetNumberOverride"] },
+  iam: {
+    actions: ["sms-voice:PutProtectConfigurationRuleSetNumberOverride"],
+    resources: {
+      "sms-voice:PutProtectConfigurationRuleSetNumberOverride": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutProtectConfigurationRuleSetNumberOverride",
 }));
@@ -5324,7 +5539,14 @@ export const putRegistrationFieldValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRegistrationFieldValue",
-  iam: { actions: ["sms-voice:PutRegistrationFieldValue"] },
+  iam: {
+    actions: ["sms-voice:PutRegistrationFieldValue"],
+    resources: {
+      "sms-voice:PutRegistrationFieldValue": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration/${RegistrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRegistrationFieldValue",
 }));
@@ -5394,7 +5616,14 @@ export const releasePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleasePhoneNumber",
-  iam: { actions: ["sms-voice:ReleasePhoneNumber"] },
+  iam: {
+    actions: ["sms-voice:ReleasePhoneNumber"],
+    resources: {
+      "sms-voice:ReleasePhoneNumber": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:phone-number/${PhoneNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReleasePhoneNumber",
 }));
@@ -5429,7 +5658,14 @@ export const releaseSenderId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleaseSenderId",
-  iam: { actions: ["sms-voice:ReleaseSenderId"] },
+  iam: {
+    actions: ["sms-voice:ReleaseSenderId"],
+    resources: {
+      "sms-voice:ReleaseSenderId": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:sender-id/${SenderId}/${IsoCountryCode}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReleaseSenderId",
 }));
@@ -5811,7 +6047,14 @@ export const setAccountDefaultProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetAccountDefaultProtectConfiguration",
-  iam: { actions: ["sms-voice:SetAccountDefaultProtectConfiguration"] },
+  iam: {
+    actions: ["sms-voice:SetAccountDefaultProtectConfiguration"],
+    resources: {
+      "sms-voice:SetAccountDefaultProtectConfiguration": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetAccountDefaultProtectConfiguration",
 }));
@@ -5844,7 +6087,14 @@ export const setDefaultMessageFeedbackEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultMessageFeedbackEnabled",
-  iam: { actions: ["sms-voice:SetDefaultMessageFeedbackEnabled"] },
+  iam: {
+    actions: ["sms-voice:SetDefaultMessageFeedbackEnabled"],
+    resources: {
+      "sms-voice:SetDefaultMessageFeedbackEnabled": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetDefaultMessageFeedbackEnabled",
 }));
@@ -5879,7 +6129,14 @@ export const setDefaultMessageType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultMessageType",
-  iam: { actions: ["sms-voice:SetDefaultMessageType"] },
+  iam: {
+    actions: ["sms-voice:SetDefaultMessageType"],
+    resources: {
+      "sms-voice:SetDefaultMessageType": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetDefaultMessageType",
 }));
@@ -5914,7 +6171,14 @@ export const setDefaultSenderId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultSenderId",
-  iam: { actions: ["sms-voice:SetDefaultSenderId"] },
+  iam: {
+    actions: ["sms-voice:SetDefaultSenderId"],
+    resources: {
+      "sms-voice:SetDefaultSenderId": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetDefaultSenderId",
 }));
@@ -6104,7 +6368,14 @@ export const submitRegistrationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitRegistrationVersion",
-  iam: { actions: ["sms-voice:SubmitRegistrationVersion"] },
+  iam: {
+    actions: ["sms-voice:SubmitRegistrationVersion"],
+    resources: {
+      "sms-voice:SubmitRegistrationVersion": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:registration/${RegistrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SubmitRegistrationVersion",
 }));
@@ -6211,7 +6482,12 @@ export const updateEventDestination: API.OperationMethod<
   operationName: "UpdateEventDestination",
   iam: {
     actions: ["iam:PassRole", "sms-voice:UpdateEventDestination"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "sms-voice:UpdateEventDestination": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
     conditional: { "iam:PassRole": "CloudWatchLogsDestination.IamRoleArn" },
   },
   telemetry: TELEMETRY,
@@ -6248,7 +6524,14 @@ export const updateNotifyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotifyConfiguration",
-  iam: { actions: ["sms-voice:UpdateNotifyConfiguration"] },
+  iam: {
+    actions: ["sms-voice:UpdateNotifyConfiguration"],
+    resources: {
+      "sms-voice:UpdateNotifyConfiguration": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:notify-configuration/${NotifyConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNotifyConfiguration",
 }));
@@ -6361,7 +6644,14 @@ export const updateProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectConfiguration",
-  iam: { actions: ["sms-voice:UpdateProtectConfiguration"] },
+  iam: {
+    actions: ["sms-voice:UpdateProtectConfiguration"],
+    resources: {
+      "sms-voice:UpdateProtectConfiguration": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProtectConfiguration",
 }));
@@ -6394,7 +6684,14 @@ export const updateProtectConfigurationCountryRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectConfigurationCountryRuleSet",
-  iam: { actions: ["sms-voice:UpdateProtectConfigurationCountryRuleSet"] },
+  iam: {
+    actions: ["sms-voice:UpdateProtectConfigurationCountryRuleSet"],
+    resources: {
+      "sms-voice:UpdateProtectConfigurationCountryRuleSet": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:protect-configuration/${ProtectConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProtectConfigurationCountryRuleSet",
 }));
@@ -6431,7 +6728,12 @@ export const updateRcsAgent: API.OperationMethod<
   operationName: "UpdateRcsAgent",
   iam: {
     actions: ["iam:PassRole", "sms-voice:UpdateRcsAgent"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "sms-voice:UpdateRcsAgent": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:rcs-agent/${RcsAgentId}",
+      ],
+    },
     conditional: { "iam:PassRole": "TwoWayChannelRole" },
   },
   telemetry: TELEMETRY,
@@ -6466,7 +6768,14 @@ export const updateSenderId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSenderId",
-  iam: { actions: ["sms-voice:UpdateSenderId"] },
+  iam: {
+    actions: ["sms-voice:UpdateSenderId"],
+    resources: {
+      "sms-voice:UpdateSenderId": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:sender-id/${SenderId}/${IsoCountryCode}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSenderId",
 }));
@@ -6501,7 +6810,14 @@ export const verifyDestinationNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDestinationNumber",
-  iam: { actions: ["sms-voice:VerifyDestinationNumber"] },
+  iam: {
+    actions: ["sms-voice:VerifyDestinationNumber"],
+    resources: {
+      "sms-voice:VerifyDestinationNumber": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:verified-destination-number/${VerifiedDestinationNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "VerifyDestinationNumber",
 }));

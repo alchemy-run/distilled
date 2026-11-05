@@ -800,7 +800,12 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   operationName: "CreateConfigurationSetEventDestination",
   iam: {
     actions: ["ses:CreateConfigurationSetEventDestination", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    resources: {
+      "ses:CreateConfigurationSetEventDestination": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
     conditional: { "iam:PassRole": "a role the request names" },
   },
   telemetry: TELEMETRY,
@@ -840,6 +845,11 @@ export const createDedicatedIpPool: API.OperationMethod<
   operationName: "CreateDedicatedIpPool",
   iam: {
     actions: ["ses:CreateDedicatedIpPool", "ses:TagResource"],
+    resources: {
+      "ses:CreateDedicatedIpPool": [
+        "arn:${Partition}:ses:${Region}:${Account}:dedicated-ip-pool/${DedicatedIPPool}",
+      ],
+    },
     conditional: { "ses:TagResource": "Tags" },
   },
   telemetry: TELEMETRY,
@@ -890,6 +900,11 @@ export const createDeliverabilityTestReport: API.OperationMethod<
   operationName: "CreateDeliverabilityTestReport",
   iam: {
     actions: ["ses:CreateDeliverabilityTestReport", "ses:TagResource"],
+    resources: {
+      "ses:CreateDeliverabilityTestReport": [
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
     conditional: { "ses:TagResource": "Tags" },
   },
   telemetry: TELEMETRY,
@@ -937,6 +952,11 @@ export const createEmailIdentity: API.OperationMethod<
   operationName: "CreateEmailIdentity",
   iam: {
     actions: ["ses:CreateEmailIdentity", "ses:TagResource"],
+    resources: {
+      "ses:CreateEmailIdentity": [
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
     conditional: { "ses:TagResource": "Tags" },
   },
   telemetry: TELEMETRY,
@@ -975,7 +995,14 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
-  iam: { actions: ["ses:DeleteConfigurationSet"] },
+  iam: {
+    actions: ["ses:DeleteConfigurationSet"],
+    resources: {
+      "ses:DeleteConfigurationSet": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSet",
 }));
@@ -1006,7 +1033,14 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
-  iam: { actions: ["ses:DeleteConfigurationSetEventDestination"] },
+  iam: {
+    actions: ["ses:DeleteConfigurationSetEventDestination"],
+    resources: {
+      "ses:DeleteConfigurationSetEventDestination": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSetEventDestination",
 }));
@@ -1037,7 +1071,14 @@ export const deleteDedicatedIpPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDedicatedIpPool",
-  iam: { actions: ["ses:DeleteDedicatedIpPool"] },
+  iam: {
+    actions: ["ses:DeleteDedicatedIpPool"],
+    resources: {
+      "ses:DeleteDedicatedIpPool": [
+        "arn:${Partition}:ses:${Region}:${Account}:dedicated-ip-pool/${DedicatedIPPool}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDedicatedIpPool",
 }));
@@ -1069,7 +1110,14 @@ export const deleteEmailIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailIdentity",
-  iam: { actions: ["ses:DeleteEmailIdentity"] },
+  iam: {
+    actions: ["ses:DeleteEmailIdentity"],
+    resources: {
+      "ses:DeleteEmailIdentity": [
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEmailIdentity",
 }));
@@ -1149,7 +1197,14 @@ export const getConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationSet",
-  iam: { actions: ["ses:GetConfigurationSet"] },
+  iam: {
+    actions: ["ses:GetConfigurationSet"],
+    resources: {
+      "ses:GetConfigurationSet": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfigurationSet",
 }));
@@ -1181,7 +1236,14 @@ export const getConfigurationSetEventDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationSetEventDestinations",
-  iam: { actions: ["ses:GetConfigurationSetEventDestinations"] },
+  iam: {
+    actions: ["ses:GetConfigurationSetEventDestinations"],
+    resources: {
+      "ses:GetConfigurationSetEventDestinations": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfigurationSetEventDestinations",
 }));
@@ -1236,7 +1298,14 @@ export const getDedicatedIps: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetDedicatedIps",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
-  iam: { actions: ["ses:GetDedicatedIps"] },
+  iam: {
+    actions: ["ses:GetDedicatedIps"],
+    resources: {
+      "ses:GetDedicatedIps": [
+        "arn:${Partition}:ses:${Region}:${Account}:dedicated-ip-pool/${DedicatedIPPool}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDedicatedIps",
 })) as any;
@@ -1293,7 +1362,14 @@ export const getDeliverabilityTestReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeliverabilityTestReport",
-  iam: { actions: ["ses:GetDeliverabilityTestReport"] },
+  iam: {
+    actions: ["ses:GetDeliverabilityTestReport"],
+    resources: {
+      "ses:GetDeliverabilityTestReport": [
+        "arn:${Partition}:ses:${Region}:${Account}:deliverability-test-report/${ReportId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeliverabilityTestReport",
 }));
@@ -1347,7 +1423,14 @@ export const getDomainStatisticsReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainStatisticsReport",
-  iam: { actions: ["ses:GetDomainStatisticsReport"] },
+  iam: {
+    actions: ["ses:GetDomainStatisticsReport"],
+    resources: {
+      "ses:GetDomainStatisticsReport": [
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDomainStatisticsReport",
 }));
@@ -1374,7 +1457,14 @@ export const getEmailIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailIdentity",
-  iam: { actions: ["ses:GetEmailIdentity"] },
+  iam: {
+    actions: ["ses:GetEmailIdentity"],
+    resources: {
+      "ses:GetEmailIdentity": [
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEmailIdentity",
 }));
@@ -1651,7 +1741,14 @@ export const putConfigurationSetReputationOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetReputationOptions",
-  iam: { actions: ["ses:PutConfigurationSetReputationOptions"] },
+  iam: {
+    actions: ["ses:PutConfigurationSetReputationOptions"],
+    resources: {
+      "ses:PutConfigurationSetReputationOptions": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutConfigurationSetReputationOptions",
 }));
@@ -1677,7 +1774,14 @@ export const putConfigurationSetSendingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetSendingOptions",
-  iam: { actions: ["ses:PutConfigurationSetSendingOptions"] },
+  iam: {
+    actions: ["ses:PutConfigurationSetSendingOptions"],
+    resources: {
+      "ses:PutConfigurationSetSendingOptions": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutConfigurationSetSendingOptions",
 }));
@@ -1703,7 +1807,14 @@ export const putConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetTrackingOptions",
-  iam: { actions: ["ses:PutConfigurationSetTrackingOptions"] },
+  iam: {
+    actions: ["ses:PutConfigurationSetTrackingOptions"],
+    resources: {
+      "ses:PutConfigurationSetTrackingOptions": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutConfigurationSetTrackingOptions",
 }));
@@ -1734,7 +1845,14 @@ export const putDedicatedIpInPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDedicatedIpInPool",
-  iam: { actions: ["ses:PutDedicatedIpInPool"] },
+  iam: {
+    actions: ["ses:PutDedicatedIpInPool"],
+    resources: {
+      "ses:PutDedicatedIpInPool": [
+        "arn:${Partition}:ses:${Region}:${Account}:dedicated-ip-pool/${DedicatedIPPool}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDedicatedIpInPool",
 }));
@@ -1824,7 +1942,14 @@ export const putEmailIdentityDkimAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEmailIdentityDkimAttributes",
-  iam: { actions: ["ses:PutEmailIdentityDkimAttributes"] },
+  iam: {
+    actions: ["ses:PutEmailIdentityDkimAttributes"],
+    resources: {
+      "ses:PutEmailIdentityDkimAttributes": [
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutEmailIdentityDkimAttributes",
 }));
@@ -1861,7 +1986,14 @@ export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEmailIdentityFeedbackAttributes",
-  iam: { actions: ["ses:PutEmailIdentityFeedbackAttributes"] },
+  iam: {
+    actions: ["ses:PutEmailIdentityFeedbackAttributes"],
+    resources: {
+      "ses:PutEmailIdentityFeedbackAttributes": [
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutEmailIdentityFeedbackAttributes",
 }));
@@ -1887,7 +2019,14 @@ export const putEmailIdentityMailFromAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEmailIdentityMailFromAttributes",
-  iam: { actions: ["ses:PutEmailIdentityMailFromAttributes"] },
+  iam: {
+    actions: ["ses:PutEmailIdentityMailFromAttributes"],
+    resources: {
+      "ses:PutEmailIdentityMailFromAttributes": [
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutEmailIdentityMailFromAttributes",
 }));
@@ -2041,7 +2180,12 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   operationName: "UpdateConfigurationSetEventDestination",
   iam: {
     actions: ["iam:PassRole", "ses:UpdateConfigurationSetEventDestination"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ses:UpdateConfigurationSetEventDestination": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
     conditional: { "iam:PassRole": "a role the request names" },
   },
   telemetry: TELEMETRY,

@@ -901,7 +901,14 @@ export const checkIfPhoneNumberIsOptedOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckIfPhoneNumberIsOptedOut",
-  iam: { actions: ["sns:CheckIfPhoneNumberIsOptedOut", "sms-voice:DescribeOptedOutNumbers"] },
+  iam: {
+    actions: ["sns:CheckIfPhoneNumberIsOptedOut", "sms-voice:DescribeOptedOutNumbers"],
+    resources: {
+      "sms-voice:DescribeOptedOutNumbers": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:opt-out-list/${OptOutListName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CheckIfPhoneNumberIsOptedOut",
 }));
@@ -1296,6 +1303,11 @@ export const deleteSMSSandboxPhoneNumber: API.OperationMethod<
   operationName: "DeleteSMSSandboxPhoneNumber",
   iam: {
     actions: ["sns:DeleteSMSSandboxPhoneNumber", "sms-voice:DeleteVerifiedDestinationNumber"],
+    resources: {
+      "sms-voice:DeleteVerifiedDestinationNumber": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:verified-destination-number/${VerifiedDestinationNumberId}",
+      ],
+    },
   },
   telemetry: TELEMETRY,
   span: "DeleteSMSSandboxPhoneNumber",
@@ -1758,7 +1770,14 @@ export const listPhoneNumbersOptedOut: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListPhoneNumbersOptedOut",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "phoneNumbers" } as const,
-  iam: { actions: ["sns:ListPhoneNumbersOptedOut", "sms-voice:DescribeOptedOutNumbers"] },
+  iam: {
+    actions: ["sns:ListPhoneNumbersOptedOut", "sms-voice:DescribeOptedOutNumbers"],
+    resources: {
+      "sms-voice:DescribeOptedOutNumbers": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:opt-out-list/${OptOutListName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPhoneNumbersOptedOut",
 })) as any;
@@ -2050,7 +2069,14 @@ export const optInPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptInPhoneNumber",
-  iam: { actions: ["sns:OptInPhoneNumber", "sms-voice:DeleteOptedOutNumber"] },
+  iam: {
+    actions: ["sns:OptInPhoneNumber", "sms-voice:DeleteOptedOutNumber"],
+    resources: {
+      "sms-voice:DeleteOptedOutNumber": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:opt-out-list/${OptOutListName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "OptInPhoneNumber",
 }));
@@ -2849,7 +2875,14 @@ export const verifySMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySMSSandboxPhoneNumber",
-  iam: { actions: ["sns:VerifySMSSandboxPhoneNumber", "sms-voice:VerifyDestinationNumber"] },
+  iam: {
+    actions: ["sns:VerifySMSSandboxPhoneNumber", "sms-voice:VerifyDestinationNumber"],
+    resources: {
+      "sms-voice:VerifyDestinationNumber": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:verified-destination-number/${VerifiedDestinationNumberId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "VerifySMSSandboxPhoneNumber",
 }));

@@ -2424,7 +2424,17 @@ export const createPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortal",
-  iam: { actions: ["apigateway:CreatePortal", "apigateway:GetPortalProduct", "apigateway:POST"] },
+  iam: {
+    actions: ["apigateway:CreatePortal", "apigateway:GetPortalProduct", "apigateway:POST"],
+    resources: {
+      "apigateway:CreatePortal": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portals/${PortalId}",
+      ],
+      "apigateway:GetPortalProduct": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePortal",
 }));
@@ -2449,7 +2459,14 @@ export const createPortalProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortalProduct",
-  iam: { actions: ["apigateway:CreatePortalProduct", "apigateway:POST"] },
+  iam: {
+    actions: ["apigateway:CreatePortalProduct", "apigateway:POST"],
+    resources: {
+      "apigateway:CreatePortalProduct": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePortalProduct",
 }));
@@ -2475,7 +2492,14 @@ export const createProductPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProductPage",
-  iam: { actions: ["apigateway:CreateProductPage"] },
+  iam: {
+    actions: ["apigateway:CreateProductPage"],
+    resources: {
+      "apigateway:CreateProductPage": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}/productpages/${ProductPageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateProductPage",
 }));
@@ -2501,7 +2525,14 @@ export const createProductRestEndpointPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProductRestEndpointPage",
-  iam: { actions: ["apigateway:CreateProductRestEndpointPage"] },
+  iam: {
+    actions: ["apigateway:CreateProductRestEndpointPage"],
+    resources: {
+      "apigateway:CreateProductRestEndpointPage": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}/productrestendpointpages/${ProductRestEndpointPageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateProductRestEndpointPage",
 }));
@@ -2579,7 +2610,14 @@ export const createRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoutingRule",
-  iam: { actions: ["apigateway:CreateRoutingRule"] },
+  iam: {
+    actions: ["apigateway:CreateRoutingRule"],
+    resources: {
+      "apigateway:CreateRoutingRule": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/domainnames/${DomainName}/routingrules/${RoutingRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRoutingRule",
 }));
@@ -2874,7 +2912,14 @@ export const deletePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortal",
-  iam: { actions: ["apigateway:DeletePortal"] },
+  iam: {
+    actions: ["apigateway:DeletePortal"],
+    resources: {
+      "apigateway:DeletePortal": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portals/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePortal",
 }));
@@ -2900,7 +2945,14 @@ export const deletePortalProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortalProduct",
-  iam: { actions: ["apigateway:DeletePortalProduct"] },
+  iam: {
+    actions: ["apigateway:DeletePortalProduct"],
+    resources: {
+      "apigateway:DeletePortalProduct": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePortalProduct",
 }));
@@ -2926,7 +2978,14 @@ export const deletePortalProductSharingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortalProductSharingPolicy",
-  iam: { actions: ["apigateway:DeletePortalProductSharingPolicy"] },
+  iam: {
+    actions: ["apigateway:DeletePortalProductSharingPolicy"],
+    resources: {
+      "apigateway:DeletePortalProductSharingPolicy": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePortalProductSharingPolicy",
 }));
@@ -2952,7 +3011,14 @@ export const deleteProductPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProductPage",
-  iam: { actions: ["apigateway:DeleteProductPage"] },
+  iam: {
+    actions: ["apigateway:DeleteProductPage"],
+    resources: {
+      "apigateway:DeleteProductPage": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}/productpages/${ProductPageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProductPage",
 }));
@@ -2978,7 +3044,15 @@ export const deleteProductRestEndpointPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProductRestEndpointPage",
-  iam: { actions: ["apigateway:DeleteProductRestEndpointPage"] },
+  iam: {
+    actions: ["apigateway:DeleteProductRestEndpointPage"],
+    resources: {
+      "apigateway:DeleteProductRestEndpointPage": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}/productrestendpointpages/${ProductRestEndpointPageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProductRestEndpointPage",
 }));
@@ -3090,7 +3164,14 @@ export const deleteRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoutingRule",
-  iam: { actions: ["apigateway:DeleteRoutingRule"] },
+  iam: {
+    actions: ["apigateway:DeleteRoutingRule"],
+    resources: {
+      "apigateway:DeleteRoutingRule": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/domainnames/${DomainName}/routingrules/${RoutingRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRoutingRule",
 }));
@@ -3165,7 +3246,14 @@ export const disablePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisablePortal",
-  iam: { actions: ["apigateway:DisablePortal"] },
+  iam: {
+    actions: ["apigateway:DisablePortal"],
+    resources: {
+      "apigateway:DisablePortal": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portals/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisablePortal",
 }));
@@ -3612,7 +3700,14 @@ export const getPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortal",
-  iam: { actions: ["apigateway:GetPortal"] },
+  iam: {
+    actions: ["apigateway:GetPortal"],
+    resources: {
+      "apigateway:GetPortal": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portals/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPortal",
 }));
@@ -3638,7 +3733,14 @@ export const getPortalProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortalProduct",
-  iam: { actions: ["apigateway:GetPortalProduct"] },
+  iam: {
+    actions: ["apigateway:GetPortalProduct"],
+    resources: {
+      "apigateway:GetPortalProduct": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPortalProduct",
 }));
@@ -3664,7 +3766,14 @@ export const getPortalProductSharingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortalProductSharingPolicy",
-  iam: { actions: ["apigateway:GetPortalProductSharingPolicy"] },
+  iam: {
+    actions: ["apigateway:GetPortalProductSharingPolicy"],
+    resources: {
+      "apigateway:GetPortalProductSharingPolicy": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPortalProductSharingPolicy",
 }));
@@ -3833,7 +3942,14 @@ export const getRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoutingRule",
-  iam: { actions: ["apigateway:GetRoutingRule"] },
+  iam: {
+    actions: ["apigateway:GetRoutingRule"],
+    resources: {
+      "apigateway:GetRoutingRule": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/domainnames/${DomainName}/routingrules/${RoutingRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRoutingRule",
 }));
@@ -4002,7 +4118,14 @@ export const listPortalProducts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPortalProducts",
-  iam: { actions: ["apigateway:ListPortalProducts"] },
+  iam: {
+    actions: ["apigateway:ListPortalProducts"],
+    resources: {
+      "apigateway:ListPortalProducts": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPortalProducts",
 }));
@@ -4027,7 +4150,14 @@ export const listPortals: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPortals",
-  iam: { actions: ["apigateway:ListPortals"] },
+  iam: {
+    actions: ["apigateway:ListPortals"],
+    resources: {
+      "apigateway:ListPortals": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portals/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPortals",
 }));
@@ -4111,7 +4241,14 @@ export const listRoutingRules: API.PaginatedOperationMethod<
     items: "RoutingRules",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["apigateway:ListRoutingRules"] },
+  iam: {
+    actions: ["apigateway:ListRoutingRules"],
+    resources: {
+      "apigateway:ListRoutingRules": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/domainnames/${DomainName}/routingrules/${RoutingRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoutingRules",
 })) as any;
@@ -4144,7 +4281,17 @@ export const previewPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PreviewPortal",
-  iam: { actions: ["apigateway:GetPortalProduct", "apigateway:PreviewPortal"] },
+  iam: {
+    actions: ["apigateway:GetPortalProduct", "apigateway:PreviewPortal"],
+    resources: {
+      "apigateway:GetPortalProduct": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+      "apigateway:PreviewPortal": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portals/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PreviewPortal",
 }));
@@ -4177,7 +4324,17 @@ export const publishPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishPortal",
-  iam: { actions: ["apigateway:GetPortalProduct", "apigateway:PublishPortal"] },
+  iam: {
+    actions: ["apigateway:GetPortalProduct", "apigateway:PublishPortal"],
+    resources: {
+      "apigateway:GetPortalProduct": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+      "apigateway:PublishPortal": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portals/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PublishPortal",
 }));
@@ -4203,7 +4360,14 @@ export const putPortalProductSharingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPortalProductSharingPolicy",
-  iam: { actions: ["apigateway:PutPortalProductSharingPolicy"] },
+  iam: {
+    actions: ["apigateway:PutPortalProductSharingPolicy"],
+    resources: {
+      "apigateway:PutPortalProductSharingPolicy": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutPortalProductSharingPolicy",
 }));
@@ -4229,7 +4393,14 @@ export const putRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRoutingRule",
-  iam: { actions: ["apigateway:UpdateRoutingRule"] },
+  iam: {
+    actions: ["apigateway:UpdateRoutingRule"],
+    resources: {
+      "apigateway:UpdateRoutingRule": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/domainnames/${DomainName}/routingrules/${RoutingRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRoutingRule",
 }));
@@ -4596,7 +4767,17 @@ export const updatePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortal",
-  iam: { actions: ["apigateway:GetPortalProduct", "apigateway:UpdatePortal"] },
+  iam: {
+    actions: ["apigateway:GetPortalProduct", "apigateway:UpdatePortal"],
+    resources: {
+      "apigateway:GetPortalProduct": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+      "apigateway:UpdatePortal": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portals/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePortal",
 }));
@@ -4622,7 +4803,14 @@ export const updatePortalProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortalProduct",
-  iam: { actions: ["apigateway:UpdatePortalProduct"] },
+  iam: {
+    actions: ["apigateway:UpdatePortalProduct"],
+    resources: {
+      "apigateway:UpdatePortalProduct": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePortalProduct",
 }));
@@ -4648,7 +4836,14 @@ export const updateProductPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProductPage",
-  iam: { actions: ["apigateway:UpdateProductPage"] },
+  iam: {
+    actions: ["apigateway:UpdateProductPage"],
+    resources: {
+      "apigateway:UpdateProductPage": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}/productpages/${ProductPageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProductPage",
 }));
@@ -4674,7 +4869,14 @@ export const updateProductRestEndpointPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProductRestEndpointPage",
-  iam: { actions: ["apigateway:UpdateProductRestEndpointPage"] },
+  iam: {
+    actions: ["apigateway:UpdateProductRestEndpointPage"],
+    resources: {
+      "apigateway:UpdateProductRestEndpointPage": [
+        "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}/productrestendpointpages/${ProductRestEndpointPageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProductRestEndpointPage",
 }));

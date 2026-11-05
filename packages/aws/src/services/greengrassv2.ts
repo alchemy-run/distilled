@@ -906,7 +906,14 @@ export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateClientDeviceWithCoreDevice",
-  iam: { actions: ["greengrass:BatchAssociateClientDeviceWithCoreDevice"] },
+  iam: {
+    actions: ["greengrass:BatchAssociateClientDeviceWithCoreDevice"],
+    resources: {
+      "greengrass:BatchAssociateClientDeviceWithCoreDevice": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:coreDevices:${CoreDeviceThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchAssociateClientDeviceWithCoreDevice",
 }));
@@ -945,7 +952,14 @@ export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateClientDeviceFromCoreDevice",
-  iam: { actions: ["greengrass:BatchDisassociateClientDeviceFromCoreDevice"] },
+  iam: {
+    actions: ["greengrass:BatchDisassociateClientDeviceFromCoreDevice"],
+    resources: {
+      "greengrass:BatchDisassociateClientDeviceFromCoreDevice": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:coreDevices:${CoreDeviceThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateClientDeviceFromCoreDevice",
 }));
@@ -982,7 +996,15 @@ export const cancelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDeployment",
-  iam: { actions: ["greengrass:CancelDeployment"] },
+  iam: {
+    actions: ["greengrass:CancelDeployment"],
+    resources: {
+      "greengrass:CancelDeployment": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}/deployments/${DeploymentId}",
+        "arn:${Partition}:greengrass:${Region}:${Account}:deployments:${DeploymentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelDeployment",
 }));
@@ -1050,6 +1072,11 @@ export const createComponentVersion: API.OperationMethod<
   operationName: "CreateComponentVersion",
   iam: {
     actions: ["greengrass:CreateComponentVersion", "greengrass:TagResource"],
+    resources: {
+      "greengrass:CreateComponentVersion": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:components:${ComponentName}",
+      ],
+    },
     conditional: { "greengrass:TagResource": "tags" },
   },
   telemetry: TELEMETRY,
@@ -1149,7 +1176,14 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
-  iam: { actions: ["greengrass:DeleteComponent"] },
+  iam: {
+    actions: ["greengrass:DeleteComponent"],
+    resources: {
+      "greengrass:DeleteComponent": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:components:${ComponentName}:versions:${ComponentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteComponent",
 }));
@@ -1187,7 +1221,14 @@ export const deleteCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreDevice",
-  iam: { actions: ["greengrass:DeleteCoreDevice", "iot:DescribeJobExecution"] },
+  iam: {
+    actions: ["greengrass:DeleteCoreDevice", "iot:DescribeJobExecution"],
+    resources: {
+      "greengrass:DeleteCoreDevice": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:coreDevices:${CoreDeviceThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCoreDevice",
 }));
@@ -1227,7 +1268,15 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
-  iam: { actions: ["greengrass:DeleteDeployment"] },
+  iam: {
+    actions: ["greengrass:DeleteDeployment"],
+    resources: {
+      "greengrass:DeleteDeployment": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}/deployments/${DeploymentId}",
+        "arn:${Partition}:greengrass:${Region}:${Account}:deployments:${DeploymentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeployment",
 }));
@@ -1260,7 +1309,14 @@ export const describeComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponent",
-  iam: { actions: ["greengrass:DescribeComponent"] },
+  iam: {
+    actions: ["greengrass:DescribeComponent"],
+    resources: {
+      "greengrass:DescribeComponent": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:components:${ComponentName}:versions:${ComponentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeComponent",
 }));
@@ -1317,7 +1373,14 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
-  iam: { actions: ["greengrass:GetComponent"] },
+  iam: {
+    actions: ["greengrass:GetComponent"],
+    resources: {
+      "greengrass:GetComponent": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:components:${ComponentName}:versions:${ComponentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetComponent",
 }));
@@ -1352,7 +1415,14 @@ export const getComponentVersionArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponentVersionArtifact",
-  iam: { actions: ["greengrass:GetComponentVersionArtifact"] },
+  iam: {
+    actions: ["greengrass:GetComponentVersionArtifact"],
+    resources: {
+      "greengrass:GetComponentVersionArtifact": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:components:${ComponentName}:versions:${ComponentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetComponentVersionArtifact",
 }));
@@ -1443,6 +1513,9 @@ export const getCoreDevice: API.OperationMethod<
   iam: {
     actions: ["greengrass:GetCoreDevice", "iot:DescribeThing"],
     resources: {
+      "greengrass:GetCoreDevice": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:coreDevices:${CoreDeviceThingName}",
+      ],
       "iot:DescribeThing": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
     },
   },
@@ -1478,7 +1551,15 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
-  iam: { actions: ["greengrass:GetDeployment"] },
+  iam: {
+    actions: ["greengrass:GetDeployment"],
+    resources: {
+      "greengrass:GetDeployment": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}/deployments/${DeploymentId}",
+        "arn:${Partition}:greengrass:${Region}:${Account}:deployments:${DeploymentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
@@ -1543,7 +1624,14 @@ export const listClientDevicesAssociatedWithCoreDevice: API.PaginatedOperationMe
     items: "associatedClientDevices",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["greengrass:ListClientDevicesAssociatedWithCoreDevice"] },
+  iam: {
+    actions: ["greengrass:ListClientDevicesAssociatedWithCoreDevice"],
+    resources: {
+      "greengrass:ListClientDevicesAssociatedWithCoreDevice": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:coreDevices:${CoreDeviceThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListClientDevicesAssociatedWithCoreDevice",
 })) as any;
@@ -1625,7 +1713,14 @@ export const listComponentVersions: API.PaginatedOperationMethod<
     items: "componentVersions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["greengrass:ListComponentVersions"] },
+  iam: {
+    actions: ["greengrass:ListComponentVersions"],
+    resources: {
+      "greengrass:ListComponentVersions": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:components:${ComponentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListComponentVersions",
 })) as any;
@@ -1794,6 +1889,9 @@ export const listEffectiveDeployments: API.PaginatedOperationMethod<
       "iot:GetThingShadow",
     ],
     resources: {
+      "greengrass:ListEffectiveDeployments": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:coreDevices:${CoreDeviceThingName}",
+      ],
       "iot:DescribeJob": ["arn:${Partition}:iot:${Region}:${Account}:job/${JobId}"],
       "iot:DescribeThing": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
       "iot:DescribeThingGroup": [
@@ -1863,7 +1961,14 @@ export const listInstalledComponents: API.PaginatedOperationMethod<
     items: "installedComponents",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["greengrass:ListInstalledComponents"] },
+  iam: {
+    actions: ["greengrass:ListInstalledComponents"],
+    resources: {
+      "greengrass:ListInstalledComponents": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:coreDevices:${CoreDeviceThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInstalledComponents",
 })) as any;
@@ -1938,7 +2043,14 @@ export const resolveComponentCandidates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveComponentCandidates",
-  iam: { actions: ["greengrass:ResolveComponentCandidates"] },
+  iam: {
+    actions: ["greengrass:ResolveComponentCandidates"],
+    resources: {
+      "greengrass:ResolveComponentCandidates": [
+        "arn:${Partition}:greengrass:${Region}:${Account}:components:${ComponentName}:versions:${ComponentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResolveComponentCandidates",
 }));
