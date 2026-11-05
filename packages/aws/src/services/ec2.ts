@@ -30639,6 +30639,7 @@ export const describeAccountVpcEncryptionControl: API.OperationMethod<
 export type DescribeAddressesError =
   | RequestLimitExceeded
   | InvalidAllocationIDNotFound
+  | InvalidAddressNotFound
   | UnauthorizedOperation
   | CommonErrors;
 /**
@@ -30652,7 +30653,12 @@ export const describeAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18049, __c564, 1) as any as S.Schema<DescribeAddressesRequest>,
   output: __S(18052, __c564, 4) as any as S.Schema<DescribeAddressesResult>,
-  errors: [RequestLimitExceeded, InvalidAllocationIDNotFound, UnauthorizedOperation],
+  errors: [
+    RequestLimitExceeded,
+    InvalidAllocationIDNotFound,
+    InvalidAddressNotFound,
+    UnauthorizedOperation,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddresses",
