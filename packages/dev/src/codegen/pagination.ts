@@ -58,7 +58,8 @@ export const validatePaginated = (o: ValidatePaginatedOptions): ValidatedPaginat
   const itemsRoot = String(o.trait.items ?? o.itemsFallback ?? "").split(".")[0];
   const tokenOk =
     o.trait.mode === "single" ||
-    (typeof o.trait.inputToken === "string" && o.inputNames.has(o.trait.inputToken));
+    // A dotted token (`pagination.createdBefore`) lives in a nested input member.
+    (typeof o.trait.inputToken === "string" && o.inputNames.has(o.trait.inputToken.split(".")[0]!));
   const itemsOk = o.outputNames.has(itemsRoot) || (o.syntheticOutputs?.has(itemsRoot) ?? false);
   return { ok: tokenOk && itemsOk, itemsRoot };
 };
