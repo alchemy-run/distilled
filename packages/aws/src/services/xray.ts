@@ -1016,8 +1016,13 @@ export interface UpdateSamplingRuleRequest {
 export interface UpdateSamplingRuleResult {
   SamplingRuleRecord?: SamplingRuleRecord;
 }
+export type KmsKeyId = string;
+export interface CloudWatchLogsConfiguration {
+  SpansLogGroupKmsKeyId?: string;
+}
 export interface UpdateTraceSegmentDestinationRequest {
   Destination?: TraceSegmentDestination;
+  CloudWatchLogsConfiguration?: CloudWatchLogsConfiguration;
 }
 export interface UpdateTraceSegmentDestinationResult {
   Destination?: TraceSegmentDestination;
@@ -2049,7 +2054,7 @@ export const updateTraceSegmentDestination: API.OperationMethod<
   UpdateTraceSegmentDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<UpdateTraceSegmentDestinationRequest>,
+  input: __S(1793, __c56, 1) as any as S.Schema<UpdateTraceSegmentDestinationRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<UpdateTraceSegmentDestinationResult>,
   errors: [InvalidRequestException, ThrottledException],
   protocol: AwsProtocol,
@@ -3472,8 +3477,15 @@ function __c55(j: number): any {
 function __c56(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ SpansLogGroupKmsKeyId: S.optional(S.String) })).annotate({
+        identifier: "CloudWatchLogsConfiguration",
+      });
+    case 1:
       return S.suspend(() =>
-        S.Struct({ Destination: S.optional(S.String) }).pipe(
+        S.Struct({
+          Destination: S.optional(S.String),
+          CloudWatchLogsConfiguration: S.optional(__S(1792, __c56, 0)),
+        }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateTraceSegmentDestination" }),
             svc,

@@ -448,7 +448,7 @@ export interface SlotResolutionImprovementSpecification {
   enabled: boolean;
   bedrockModelSpecification?: BedrockModelSpecification;
 }
-export type AssistedNluMode = "Primary" | "Fallback" | (string & {});
+export type AssistedNluMode = "Primary" | "Fallback" | "DialogManager" | (string & {});
 export type MaxDisambiguationIntents = number;
 export type CustomDisambiguationMessage = string;
 export interface IntentDisambiguationSettings {
@@ -809,7 +809,7 @@ export interface ElicitationCodeHookInvocationSetting {
   invocationLabel?: string;
 }
 export interface IntentConfirmationSetting {
-  promptSpecification: PromptSpecification;
+  promptSpecification?: PromptSpecification;
   declinationResponse?: ResponseSpecification;
   active?: boolean;
   confirmationResponse?: ResponseSpecification;
@@ -1002,8 +1002,8 @@ export interface StillWaitingResponseSpecification {
   allowInterrupt?: boolean;
 }
 export interface WaitAndContinueSpecification {
-  waitingResponse: ResponseSpecification;
-  continueResponse: ResponseSpecification;
+  waitingResponse?: ResponseSpecification;
+  continueResponse?: ResponseSpecification;
   stillWaitingResponse?: StillWaitingResponseSpecification;
   active?: boolean;
 }
@@ -8811,7 +8811,7 @@ function __c39(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          promptSpecification: __S(1195, __c37, 11),
+          promptSpecification: S.optional(__S(1195, __c37, 11)),
           declinationResponse: S.optional(__S(1120, __c35, 0)),
           active: S.optional(S.Boolean),
           confirmationResponse: S.optional(__S(1120, __c35, 0)),
@@ -9062,8 +9062,8 @@ function __c46(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          waitingResponse: __S(1120, __c35, 0),
-          continueResponse: __S(1120, __c35, 0),
+          waitingResponse: S.optional(__S(1120, __c35, 0)),
+          continueResponse: S.optional(__S(1120, __c35, 0)),
           stillWaitingResponse: S.optional(__S(1475, __c46, 3)),
           active: S.optional(S.Boolean),
         }),

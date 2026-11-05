@@ -716,6 +716,14 @@ export const cancelSolNetworkOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSolNetworkOperation",
+  iam: {
+    actions: ["tnb:CancelSolNetworkOperation"],
+    resources: {
+      "tnb:CancelSolNetworkOperation": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-operation/${NetworkOperationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelSolNetworkOperation",
 }));
@@ -755,6 +763,14 @@ export const createSolFunctionPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolFunctionPackage",
+  iam: {
+    actions: ["tnb:CreateSolFunctionPackage"],
+    resources: {
+      "tnb:CreateSolFunctionPackage": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-package/${FunctionPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSolFunctionPackage",
 }));
@@ -796,6 +812,15 @@ export const createSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolNetworkInstance",
+  iam: {
+    actions: ["tnb:CreateSolNetworkInstance"],
+    resources: {
+      "tnb:CreateSolNetworkInstance": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-instance/${NetworkInstanceId}",
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSolNetworkInstance",
 }));
@@ -839,6 +864,14 @@ export const createSolNetworkPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolNetworkPackage",
+  iam: {
+    actions: ["tnb:CreateSolNetworkPackage"],
+    resources: {
+      "tnb:CreateSolNetworkPackage": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSolNetworkPackage",
 }));
@@ -876,6 +909,14 @@ export const deleteSolFunctionPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolFunctionPackage",
+  iam: {
+    actions: ["tnb:DeleteSolFunctionPackage"],
+    resources: {
+      "tnb:DeleteSolFunctionPackage": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-package/${FunctionPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSolFunctionPackage",
 }));
@@ -913,6 +954,14 @@ export const deleteSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolNetworkInstance",
+  iam: {
+    actions: ["tnb:DeleteSolNetworkInstance"],
+    resources: {
+      "tnb:DeleteSolNetworkInstance": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-instance/${NetworkInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSolNetworkInstance",
 }));
@@ -950,6 +999,14 @@ export const deleteSolNetworkPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolNetworkPackage",
+  iam: {
+    actions: ["tnb:DeleteSolNetworkPackage"],
+    resources: {
+      "tnb:DeleteSolNetworkPackage": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSolNetworkPackage",
 }));
@@ -985,6 +1042,14 @@ export const getSolFunctionInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolFunctionInstance",
+  iam: {
+    actions: ["tnb:GetSolFunctionInstance"],
+    resources: {
+      "tnb:GetSolFunctionInstance": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-instance/${FunctionInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSolFunctionInstance",
 }));
@@ -1020,6 +1085,14 @@ export const getSolFunctionPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolFunctionPackage",
+  iam: {
+    actions: ["tnb:GetSolFunctionPackage"],
+    resources: {
+      "tnb:GetSolFunctionPackage": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-package/${FunctionPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSolFunctionPackage",
 }));
@@ -1054,6 +1127,14 @@ export const getSolFunctionPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolFunctionPackageContent",
+  iam: {
+    actions: ["tnb:GetSolFunctionPackageContent"],
+    resources: {
+      "tnb:GetSolFunctionPackageContent": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-package/${FunctionPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSolFunctionPackageContent",
 }));
@@ -1090,6 +1171,14 @@ export const getSolFunctionPackageDescriptor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolFunctionPackageDescriptor",
+  iam: {
+    actions: ["tnb:GetSolFunctionPackageDescriptor"],
+    resources: {
+      "tnb:GetSolFunctionPackageDescriptor": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-package/${FunctionPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSolFunctionPackageDescriptor",
 }));
@@ -1124,6 +1213,14 @@ export const getSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkInstance",
+  iam: {
+    actions: ["tnb:GetSolNetworkInstance"],
+    resources: {
+      "tnb:GetSolNetworkInstance": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-instance/${NetworkInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSolNetworkInstance",
 }));
@@ -1159,6 +1256,14 @@ export const getSolNetworkOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkOperation",
+  iam: {
+    actions: ["tnb:GetSolNetworkOperation"],
+    resources: {
+      "tnb:GetSolNetworkOperation": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-operation/${NetworkOperationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSolNetworkOperation",
 }));
@@ -1193,6 +1298,14 @@ export const getSolNetworkPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkPackage",
+  iam: {
+    actions: ["tnb:GetSolNetworkPackage"],
+    resources: {
+      "tnb:GetSolNetworkPackage": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSolNetworkPackage",
 }));
@@ -1227,6 +1340,14 @@ export const getSolNetworkPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkPackageContent",
+  iam: {
+    actions: ["tnb:GetSolNetworkPackageContent"],
+    resources: {
+      "tnb:GetSolNetworkPackageContent": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSolNetworkPackageContent",
 }));
@@ -1261,6 +1382,14 @@ export const getSolNetworkPackageDescriptor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkPackageDescriptor",
+  iam: {
+    actions: ["tnb:GetSolNetworkPackageDescriptor"],
+    resources: {
+      "tnb:GetSolNetworkPackageDescriptor": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSolNetworkPackageDescriptor",
 }));
@@ -1300,6 +1429,14 @@ export const instantiateSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InstantiateSolNetworkInstance",
+  iam: {
+    actions: ["tnb:InstantiateSolNetworkInstance"],
+    resources: {
+      "tnb:InstantiateSolNetworkInstance": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-instance/${NetworkInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InstantiateSolNetworkInstance",
 }));
@@ -1339,6 +1476,14 @@ export const listSolFunctionInstances: API.PaginatedOperationMethod<
     items: "functionInstances",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["tnb:ListSolFunctionInstances"],
+    resources: {
+      "tnb:ListSolFunctionInstances": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-instance/${FunctionInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSolFunctionInstances",
 })) as any;
@@ -1378,6 +1523,14 @@ export const listSolFunctionPackages: API.PaginatedOperationMethod<
     items: "functionPackages",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["tnb:ListSolFunctionPackages"],
+    resources: {
+      "tnb:ListSolFunctionPackages": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-package/${FunctionPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSolFunctionPackages",
 })) as any;
@@ -1417,6 +1570,14 @@ export const listSolNetworkInstances: API.PaginatedOperationMethod<
     items: "networkInstances",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["tnb:ListSolNetworkInstances"],
+    resources: {
+      "tnb:ListSolNetworkInstances": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-instance/${NetworkInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSolNetworkInstances",
 })) as any;
@@ -1457,6 +1618,14 @@ export const listSolNetworkOperations: API.PaginatedOperationMethod<
     items: "networkOperations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["tnb:ListSolNetworkOperations"],
+    resources: {
+      "tnb:ListSolNetworkOperations": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-operation/${NetworkOperationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSolNetworkOperations",
 })) as any;
@@ -1496,6 +1665,14 @@ export const listSolNetworkPackages: API.PaginatedOperationMethod<
     items: "networkPackages",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["tnb:ListSolNetworkPackages"],
+    resources: {
+      "tnb:ListSolNetworkPackages": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSolNetworkPackages",
 })) as any;
@@ -1528,6 +1705,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["tnb:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1562,6 +1740,14 @@ export const putSolFunctionPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSolFunctionPackageContent",
+  iam: {
+    actions: ["tnb:PutSolFunctionPackageContent"],
+    resources: {
+      "tnb:PutSolFunctionPackageContent": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-package/${FunctionPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSolFunctionPackageContent",
 }));
@@ -1596,6 +1782,14 @@ export const putSolNetworkPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSolNetworkPackageContent",
+  iam: {
+    actions: ["tnb:PutSolNetworkPackageContent"],
+    resources: {
+      "tnb:PutSolNetworkPackageContent": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSolNetworkPackageContent",
 }));
@@ -1630,6 +1824,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["tnb:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1668,6 +1863,14 @@ export const terminateSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSolNetworkInstance",
+  iam: {
+    actions: ["tnb:TerminateSolNetworkInstance"],
+    resources: {
+      "tnb:TerminateSolNetworkInstance": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-instance/${NetworkInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateSolNetworkInstance",
 }));
@@ -1702,6 +1905,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["tnb:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1736,6 +1940,14 @@ export const updateSolFunctionPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSolFunctionPackage",
+  iam: {
+    actions: ["tnb:UpdateSolFunctionPackage"],
+    resources: {
+      "tnb:UpdateSolFunctionPackage": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-package/${FunctionPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSolFunctionPackage",
 }));
@@ -1774,6 +1986,15 @@ export const updateSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSolNetworkInstance",
+  iam: {
+    actions: ["tnb:UpdateSolNetworkInstance"],
+    resources: {
+      "tnb:UpdateSolNetworkInstance": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-instance/${FunctionInstanceId}",
+        "arn:${Partition}:tnb:${Region}:${Account}:network-instance/${NetworkInstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSolNetworkInstance",
 }));
@@ -1810,6 +2031,14 @@ export const updateSolNetworkPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSolNetworkPackage",
+  iam: {
+    actions: ["tnb:UpdateSolNetworkPackage"],
+    resources: {
+      "tnb:UpdateSolNetworkPackage": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSolNetworkPackage",
 }));
@@ -1845,6 +2074,14 @@ export const validateSolFunctionPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateSolFunctionPackageContent",
+  iam: {
+    actions: ["tnb:ValidateSolFunctionPackageContent"],
+    resources: {
+      "tnb:ValidateSolFunctionPackageContent": [
+        "arn:${Partition}:tnb:${Region}:${Account}:function-package/${FunctionPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ValidateSolFunctionPackageContent",
 }));
@@ -1880,6 +2117,14 @@ export const validateSolNetworkPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateSolNetworkPackageContent",
+  iam: {
+    actions: ["tnb:ValidateSolNetworkPackageContent"],
+    resources: {
+      "tnb:ValidateSolNetworkPackageContent": [
+        "arn:${Partition}:tnb:${Region}:${Account}:network-package/${NetworkPackageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ValidateSolNetworkPackageContent",
 }));

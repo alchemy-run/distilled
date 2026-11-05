@@ -253,7 +253,7 @@ export interface CreateLocationFsxLustreRequest {
 export interface CreateLocationFsxLustreResponse {
   LocationArn?: string;
 }
-export type NfsVersion = "AUTOMATIC" | "NFS3" | "NFS4_0" | "NFS4_1" | (string & {});
+export type NfsVersion = "AUTOMATIC" | "NFS3" | "NFS4_0" | "NFS4_1" | "NFS4_2" | (string & {});
 export interface NfsMountOptions {
   Version?: NfsVersion;
 }
@@ -485,6 +485,7 @@ export type SmbSecurityDescriptorCopyFlags =
   | "OWNER_DACL_SACL"
   | (string & {});
 export type ObjectTags = "PRESERVE" | "NONE" | (string & {});
+export type ObjectMetadata = "PRESERVE" | "NONE" | (string & {});
 export interface Options {
   VerifyMode?: VerifyMode;
   OverwriteMode?: OverwriteMode;
@@ -501,6 +502,7 @@ export interface Options {
   TransferMode?: TransferMode;
   SecurityDescriptorCopyFlags?: SmbSecurityDescriptorCopyFlags;
   ObjectTags?: ObjectTags;
+  ObjectMetadata?: ObjectMetadata;
 }
 export type FilterType = "SIMPLE_PATTERN" | (string & {});
 export type FilterValue = string;
@@ -2914,6 +2916,7 @@ function __c18(j: number): any {
           TransferMode: S.optional(S.String),
           SecurityDescriptorCopyFlags: S.optional(S.String),
           ObjectTags: S.optional(S.String),
+          ObjectMetadata: S.optional(S.String),
         }),
       ).annotate({ identifier: "Options" });
   }

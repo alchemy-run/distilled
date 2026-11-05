@@ -292,9 +292,11 @@ export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
 export type SubnetId = string;
 export type SubnetIds = string[];
+export type AwsAccountId = string;
 export interface VpcConfig {
   securityGroupIds?: string[];
   subnetIds?: string[];
+  vpcOwnerAccountId?: string;
 }
 export interface RunConfigurations {
   vpcConfig?: VpcConfig;
@@ -314,6 +316,7 @@ export interface VpcConfigResponse {
   securityGroupIds?: string[];
   subnetIds?: string[];
   vpcId?: string;
+  vpcOwnerAccountId?: string;
 }
 export interface RunConfigurationsResponse {
   vpcConfig?: VpcConfigResponse;
@@ -386,7 +389,6 @@ export type S3UriForBucketOrObject = string;
 export type UserCustomDescription = string;
 export type UserCustomName = string;
 export type RunCacheRequestId = string;
-export type AwsAccountId = string;
 export interface CreateRunCacheRequest {
   cacheBehavior?: string;
   cacheS3Location: string;
@@ -510,11 +512,13 @@ export type StorageType = string;
 export type Uri = string;
 export type EcrRepositoryPrefix = string;
 export type UpstreamRepositoryPrefix = string;
+export type SecretArn = string;
 export interface RegistryMapping {
   upstreamRegistryUrl?: string;
   ecrRepositoryPrefix?: string;
   upstreamRepositoryPrefix?: string;
   ecrAccountId?: string;
+  credentialArn?: string;
 }
 export type RegistryMappingsList = RegistryMapping[];
 export interface ImageMapping {
@@ -1146,6 +1150,7 @@ export interface ConfigurationDetails {
   arn?: string;
   uuid?: string;
 }
+export type RunOutputUriPrefixMode = string;
 export interface GetRunResponse {
   arn?: string;
   id?: string;
@@ -1190,6 +1195,7 @@ export interface GetRunResponse {
   vpcConfig?: VpcConfigResponse;
   engineSettings?: any;
   sessionPolicy?: string;
+  outputUriPrefixMode?: string;
 }
 export interface GetRunCacheRequest {
   id: string;
@@ -1394,7 +1400,12 @@ export interface GetWorkflowResponse {
   accelerators?: string;
   storageType?: string;
   uuid?: string;
-  containerRegistryMap?: ContainerRegistryMap;
+  containerRegistryMap?: ContainerRegistryMap & {
+    registryMappings: (RegistryMapping & {
+      upstreamRegistryUrl: Uri;
+      ecrRepositoryPrefix: EcrRepositoryPrefix;
+    })[];
+  };
   readme?: string;
   definitionRepositoryDetails?: DefinitionRepositoryDetails;
   readmePath?: string;
@@ -1431,7 +1442,12 @@ export interface GetWorkflowVersionResponse {
   tags?: { [key: string]: string | undefined };
   uuid?: string;
   workflowBucketOwnerId?: string;
-  containerRegistryMap?: ContainerRegistryMap;
+  containerRegistryMap?: ContainerRegistryMap & {
+    registryMappings: (RegistryMapping & {
+      upstreamRegistryUrl: Uri;
+      ecrRepositoryPrefix: EcrRepositoryPrefix;
+    })[];
+  };
   readme?: string;
   definitionRepositoryDetails?: DefinitionRepositoryDetails;
   readmePath?: string;
@@ -2206,6 +2222,7 @@ export interface StartRunRequest {
   configurationName?: string;
   sessionPolicy?: string;
   engineSettings?: any;
+  outputUriPrefixMode?: string;
 }
 export interface StartRunResponse {
   arn?: string;
@@ -6903,6 +6920,7 @@ function __c5(j: number): any {
           configurationName: S.optional(S.String),
           sessionPolicy: S.optional(S.String),
           engineSettings: S.optional(S.Any),
+          outputUriPrefixMode: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/run" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartRunRequest" });
     case 1:
@@ -7566,6 +7584,7 @@ function __c39(j: number): any {
         S.Struct({
           securityGroupIds: S.optional(__S(192, __c24, 0)),
           subnetIds: S.optional(__S(192, __c24, 0)),
+          vpcOwnerAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcConfig" });
     case 1:
@@ -7615,6 +7634,7 @@ function __c41(j: number): any {
           securityGroupIds: S.optional(__S(192, __c24, 0)),
           subnetIds: S.optional(__S(192, __c24, 0)),
           vpcId: S.optional(S.String),
+          vpcOwnerAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcConfigResponse" });
   }
@@ -7913,6 +7933,7 @@ function __c54(j: number): any {
           ecrRepositoryPrefix: S.optional(S.String),
           upstreamRepositoryPrefix: S.optional(S.String),
           ecrAccountId: S.optional(S.String),
+          credentialArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryMapping" });
     case 3:
@@ -8966,6 +8987,7 @@ function __c93(j: number): any {
           vpcConfig: S.optional(__S(328, __c41, 0)),
           engineSettings: S.optional(S.Any),
           sessionPolicy: S.optional(S.String),
+          outputUriPrefixMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRunResponse" });
   }

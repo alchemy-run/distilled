@@ -5364,6 +5364,10 @@ export interface Capabilities {
   CreateAndUpdateBeeAction?: CapabilityState;
   ShareBeeAction?: CapabilityState;
   UseBeeAction?: CapabilityState;
+  GongAction?: CapabilityState;
+  CreateAndUpdateGongAction?: CapabilityState;
+  ShareGongAction?: CapabilityState;
+  UseGongAction?: CapabilityState;
   Topic?: CapabilityState;
   EditVisualWithQ?: CapabilityState;
   BuildCalculatedFieldWithQ?: CapabilityState;
@@ -5390,6 +5394,186 @@ export interface Capabilities {
   ScheduleTrigger?: CapabilityState;
   InboundEmailTrigger?: CapabilityState;
   QuickEventTrigger?: CapabilityState;
+  FileDataSource?: CapabilityState;
+  CreateFileDataSource?: CapabilityState;
+  UpdateFileDataSource?: CapabilityState;
+  ShareFileDataSource?: CapabilityState;
+  S3DataSource?: CapabilityState;
+  CreateS3DataSource?: CapabilityState;
+  UpdateS3DataSource?: CapabilityState;
+  ShareS3DataSource?: CapabilityState;
+  S3AnalyticsDataSource?: CapabilityState;
+  CreateS3AnalyticsDataSource?: CapabilityState;
+  UpdateS3AnalyticsDataSource?: CapabilityState;
+  ShareS3AnalyticsDataSource?: CapabilityState;
+  S3TablesDataSource?: CapabilityState;
+  CreateS3TablesDataSource?: CapabilityState;
+  UpdateS3TablesDataSource?: CapabilityState;
+  ShareS3TablesDataSource?: CapabilityState;
+  AthenaDataSource?: CapabilityState;
+  CreateAthenaDataSource?: CapabilityState;
+  UpdateAthenaDataSource?: CapabilityState;
+  ShareAthenaDataSource?: CapabilityState;
+  RdsDataSource?: CapabilityState;
+  CreateRdsDataSource?: CapabilityState;
+  UpdateRdsDataSource?: CapabilityState;
+  ShareRdsDataSource?: CapabilityState;
+  RedshiftAutoDiscoveredDataSource?: CapabilityState;
+  CreateRedshiftAutoDiscoveredDataSource?: CapabilityState;
+  UpdateRedshiftAutoDiscoveredDataSource?: CapabilityState;
+  ShareRedshiftAutoDiscoveredDataSource?: CapabilityState;
+  RedshiftManualDataSource?: CapabilityState;
+  CreateRedshiftManualDataSource?: CapabilityState;
+  UpdateRedshiftManualDataSource?: CapabilityState;
+  ShareRedshiftManualDataSource?: CapabilityState;
+  OpenSearchDataSource?: CapabilityState;
+  CreateOpenSearchDataSource?: CapabilityState;
+  UpdateOpenSearchDataSource?: CapabilityState;
+  ShareOpenSearchDataSource?: CapabilityState;
+  TimestreamDataSource?: CapabilityState;
+  CreateTimestreamDataSource?: CapabilityState;
+  UpdateTimestreamDataSource?: CapabilityState;
+  ShareTimestreamDataSource?: CapabilityState;
+  AuroraDataSource?: CapabilityState;
+  CreateAuroraDataSource?: CapabilityState;
+  UpdateAuroraDataSource?: CapabilityState;
+  ShareAuroraDataSource?: CapabilityState;
+  MySqlDataSource?: CapabilityState;
+  CreateMySqlDataSource?: CapabilityState;
+  UpdateMySqlDataSource?: CapabilityState;
+  ShareMySqlDataSource?: CapabilityState;
+  PostgreSqlDataSource?: CapabilityState;
+  CreatePostgreSqlDataSource?: CapabilityState;
+  UpdatePostgreSqlDataSource?: CapabilityState;
+  SharePostgreSqlDataSource?: CapabilityState;
+  OracleDataSource?: CapabilityState;
+  CreateOracleDataSource?: CapabilityState;
+  UpdateOracleDataSource?: CapabilityState;
+  ShareOracleDataSource?: CapabilityState;
+  SqlServerDataSource?: CapabilityState;
+  CreateSqlServerDataSource?: CapabilityState;
+  UpdateSqlServerDataSource?: CapabilityState;
+  ShareSqlServerDataSource?: CapabilityState;
+  MariaDbDataSource?: CapabilityState;
+  CreateMariaDbDataSource?: CapabilityState;
+  UpdateMariaDbDataSource?: CapabilityState;
+  ShareMariaDbDataSource?: CapabilityState;
+  SnowflakeDataSource?: CapabilityState;
+  CreateSnowflakeDataSource?: CapabilityState;
+  UpdateSnowflakeDataSource?: CapabilityState;
+  ShareSnowflakeDataSource?: CapabilityState;
+  GoogleBigQueryDataSource?: CapabilityState;
+  CreateGoogleBigQueryDataSource?: CapabilityState;
+  UpdateGoogleBigQueryDataSource?: CapabilityState;
+  ShareGoogleBigQueryDataSource?: CapabilityState;
+  DatabricksDataSource?: CapabilityState;
+  CreateDatabricksDataSource?: CapabilityState;
+  UpdateDatabricksDataSource?: CapabilityState;
+  ShareDatabricksDataSource?: CapabilityState;
+  StarburstDataSource?: CapabilityState;
+  CreateStarburstDataSource?: CapabilityState;
+  UpdateStarburstDataSource?: CapabilityState;
+  ShareStarburstDataSource?: CapabilityState;
+  TrinoDataSource?: CapabilityState;
+  CreateTrinoDataSource?: CapabilityState;
+  UpdateTrinoDataSource?: CapabilityState;
+  ShareTrinoDataSource?: CapabilityState;
+  ImpalaDataSource?: CapabilityState;
+  CreateImpalaDataSource?: CapabilityState;
+  UpdateImpalaDataSource?: CapabilityState;
+  ShareImpalaDataSource?: CapabilityState;
+  TeradataDataSource?: CapabilityState;
+  CreateTeradataDataSource?: CapabilityState;
+  UpdateTeradataDataSource?: CapabilityState;
+  ShareTeradataDataSource?: CapabilityState;
+  PrestoDataSource?: CapabilityState;
+  CreatePrestoDataSource?: CapabilityState;
+  UpdatePrestoDataSource?: CapabilityState;
+  SharePrestoDataSource?: CapabilityState;
+  SparkDataSource?: CapabilityState;
+  CreateSparkDataSource?: CapabilityState;
+  UpdateSparkDataSource?: CapabilityState;
+  ShareSparkDataSource?: CapabilityState;
+  ExasolDataSource?: CapabilityState;
+  CreateExasolDataSource?: CapabilityState;
+  UpdateExasolDataSource?: CapabilityState;
+  ShareExasolDataSource?: CapabilityState;
+  Db2DataSource?: CapabilityState;
+  CreateDb2DataSource?: CapabilityState;
+  UpdateDb2DataSource?: CapabilityState;
+  ShareDb2DataSource?: CapabilityState;
+  SapHanaDataSource?: CapabilityState;
+  CreateSapHanaDataSource?: CapabilityState;
+  UpdateSapHanaDataSource?: CapabilityState;
+  ShareSapHanaDataSource?: CapabilityState;
+  DenodoDataSource?: CapabilityState;
+  CreateDenodoDataSource?: CapabilityState;
+  UpdateDenodoDataSource?: CapabilityState;
+  ShareDenodoDataSource?: CapabilityState;
+  DremioDataSource?: CapabilityState;
+  CreateDremioDataSource?: CapabilityState;
+  UpdateDremioDataSource?: CapabilityState;
+  ShareDremioDataSource?: CapabilityState;
+  SalesforceDataSource?: CapabilityState;
+  CreateSalesforceDataSource?: CapabilityState;
+  UpdateSalesforceDataSource?: CapabilityState;
+  ShareSalesforceDataSource?: CapabilityState;
+  RadiantDataSource?: CapabilityState;
+  CreateRadiantDataSource?: CapabilityState;
+  UpdateRadiantDataSource?: CapabilityState;
+  ShareRadiantDataSource?: CapabilityState;
+  PayPalDataSource?: CapabilityState;
+  CreatePayPalDataSource?: CapabilityState;
+  UpdatePayPalDataSource?: CapabilityState;
+  SharePayPalDataSource?: CapabilityState;
+  SquareDataSource?: CapabilityState;
+  CreateSquareDataSource?: CapabilityState;
+  UpdateSquareDataSource?: CapabilityState;
+  ShareSquareDataSource?: CapabilityState;
+  GitHubDataSource?: CapabilityState;
+  CreateGitHubDataSource?: CapabilityState;
+  UpdateGitHubDataSource?: CapabilityState;
+  ShareGitHubDataSource?: CapabilityState;
+  TwitterDataSource?: CapabilityState;
+  CreateTwitterDataSource?: CapabilityState;
+  UpdateTwitterDataSource?: CapabilityState;
+  ShareTwitterDataSource?: CapabilityState;
+  JiraDataSource?: CapabilityState;
+  CreateJiraDataSource?: CapabilityState;
+  UpdateJiraDataSource?: CapabilityState;
+  ShareJiraDataSource?: CapabilityState;
+  ServiceNowDataSource?: CapabilityState;
+  CreateServiceNowDataSource?: CapabilityState;
+  UpdateServiceNowDataSource?: CapabilityState;
+  ShareServiceNowDataSource?: CapabilityState;
+  AdobeAnalyticsDataSource?: CapabilityState;
+  CreateAdobeAnalyticsDataSource?: CapabilityState;
+  UpdateAdobeAnalyticsDataSource?: CapabilityState;
+  ShareAdobeAnalyticsDataSource?: CapabilityState;
+  GoogleAnalyticsDataSource?: CapabilityState;
+  CreateGoogleAnalyticsDataSource?: CapabilityState;
+  UpdateGoogleAnalyticsDataSource?: CapabilityState;
+  ShareGoogleAnalyticsDataSource?: CapabilityState;
+  GoogleSheetsDataSource?: CapabilityState;
+  CreateGoogleSheetsDataSource?: CapabilityState;
+  UpdateGoogleSheetsDataSource?: CapabilityState;
+  ShareGoogleSheetsDataSource?: CapabilityState;
+  DocumentDbDataSource?: CapabilityState;
+  CreateDocumentDbDataSource?: CapabilityState;
+  UpdateDocumentDbDataSource?: CapabilityState;
+  ShareDocumentDbDataSource?: CapabilityState;
+  MongoDbDataSource?: CapabilityState;
+  CreateMongoDbDataSource?: CapabilityState;
+  UpdateMongoDbDataSource?: CapabilityState;
+  ShareMongoDbDataSource?: CapabilityState;
+  MongoAtlasDataSource?: CapabilityState;
+  CreateMongoAtlasDataSource?: CapabilityState;
+  UpdateMongoAtlasDataSource?: CapabilityState;
+  ShareMongoAtlasDataSource?: CapabilityState;
+  DynamoDbDataSource?: CapabilityState;
+  CreateDynamoDbDataSource?: CapabilityState;
+  UpdateDynamoDbDataSource?: CapabilityState;
+  ShareDynamoDbDataSource?: CapabilityState;
 }
 export type GovernanceCategoryName = string;
 export type DefaultCategoryEffect = "DENY_BY_DEFAULT" | (string & {});
@@ -8049,6 +8233,23 @@ export interface OAuthClientCredentials {
   ClientSecret?: string | redacted.Redacted<string>;
   Username?: string | redacted.Redacted<string>;
 }
+export type AdminAccountEmail = string;
+export type ClientEmail = string;
+export interface ServiceAccountCredentials {
+  AdminAccountEmail: string;
+  ServiceAccountPrivateKey: string | redacted.Redacted<string>;
+  ClientEmail: string;
+}
+export type DataSourceKmsKeyArn = string | redacted.Redacted<string>;
+export type DataSourceCertThumbprint = string | redacted.Redacted<string>;
+export interface SharePointClientCredentials {
+  KmsKeyArn: string | redacted.Redacted<string>;
+  CertThumbprint: string | redacted.Redacted<string>;
+}
+export interface OneDriveClientCredentials {
+  KmsKeyArn: string | redacted.Redacted<string>;
+  CertThumbprint: string | redacted.Redacted<string>;
+}
 export interface DataSourceCredentials {
   CredentialPair?: CredentialPair;
   CopySourceArn?: string;
@@ -8056,6 +8257,9 @@ export interface DataSourceCredentials {
   KeyPairCredentials?: KeyPairCredentials;
   WebProxyCredentials?: WebProxyCredentials;
   OAuthClientCredentials?: OAuthClientCredentials;
+  ServiceAccountCredentials?: ServiceAccountCredentials;
+  SharePointClientCredentials?: SharePointClientCredentials;
+  OneDriveClientCredentials?: OneDriveClientCredentials;
 }
 export interface SslProperties {
   DisableSsl?: boolean;
@@ -33428,7 +33632,7 @@ function __c248(j: number): any {
           DataSourceId: S.String.pipe(T.HttpLabel("DataSourceId")),
           Name: S.String,
           DataSourceParameters: S.optional(__S(11263, __c351, 31)),
-          Credentials: S.optional(__S(11332, __c354, 4)),
+          Credentials: S.optional(__S(11334, __c354, 6)),
           VpcConnectionProperties: S.optional(__S(11360, __c355, 0)),
           SslProperties: S.optional(__S(11264, __c352, 0)),
         }).pipe(
@@ -40096,6 +40300,10 @@ function __c337(j: number): any {
           CreateAndUpdateBeeAction: S.optional(S.String),
           ShareBeeAction: S.optional(S.String),
           UseBeeAction: S.optional(S.String),
+          GongAction: S.optional(S.String),
+          CreateAndUpdateGongAction: S.optional(S.String),
+          ShareGongAction: S.optional(S.String),
+          UseGongAction: S.optional(S.String),
           Topic: S.optional(S.String),
           EditVisualWithQ: S.optional(S.String),
           BuildCalculatedFieldWithQ: S.optional(S.String),
@@ -40122,6 +40330,186 @@ function __c337(j: number): any {
           ScheduleTrigger: S.optional(S.String),
           InboundEmailTrigger: S.optional(S.String),
           QuickEventTrigger: S.optional(S.String),
+          FileDataSource: S.optional(S.String),
+          CreateFileDataSource: S.optional(S.String),
+          UpdateFileDataSource: S.optional(S.String),
+          ShareFileDataSource: S.optional(S.String),
+          S3DataSource: S.optional(S.String),
+          CreateS3DataSource: S.optional(S.String),
+          UpdateS3DataSource: S.optional(S.String),
+          ShareS3DataSource: S.optional(S.String),
+          S3AnalyticsDataSource: S.optional(S.String),
+          CreateS3AnalyticsDataSource: S.optional(S.String),
+          UpdateS3AnalyticsDataSource: S.optional(S.String),
+          ShareS3AnalyticsDataSource: S.optional(S.String),
+          S3TablesDataSource: S.optional(S.String),
+          CreateS3TablesDataSource: S.optional(S.String),
+          UpdateS3TablesDataSource: S.optional(S.String),
+          ShareS3TablesDataSource: S.optional(S.String),
+          AthenaDataSource: S.optional(S.String),
+          CreateAthenaDataSource: S.optional(S.String),
+          UpdateAthenaDataSource: S.optional(S.String),
+          ShareAthenaDataSource: S.optional(S.String),
+          RdsDataSource: S.optional(S.String),
+          CreateRdsDataSource: S.optional(S.String),
+          UpdateRdsDataSource: S.optional(S.String),
+          ShareRdsDataSource: S.optional(S.String),
+          RedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          CreateRedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          UpdateRedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          ShareRedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          RedshiftManualDataSource: S.optional(S.String),
+          CreateRedshiftManualDataSource: S.optional(S.String),
+          UpdateRedshiftManualDataSource: S.optional(S.String),
+          ShareRedshiftManualDataSource: S.optional(S.String),
+          OpenSearchDataSource: S.optional(S.String),
+          CreateOpenSearchDataSource: S.optional(S.String),
+          UpdateOpenSearchDataSource: S.optional(S.String),
+          ShareOpenSearchDataSource: S.optional(S.String),
+          TimestreamDataSource: S.optional(S.String),
+          CreateTimestreamDataSource: S.optional(S.String),
+          UpdateTimestreamDataSource: S.optional(S.String),
+          ShareTimestreamDataSource: S.optional(S.String),
+          AuroraDataSource: S.optional(S.String),
+          CreateAuroraDataSource: S.optional(S.String),
+          UpdateAuroraDataSource: S.optional(S.String),
+          ShareAuroraDataSource: S.optional(S.String),
+          MySqlDataSource: S.optional(S.String),
+          CreateMySqlDataSource: S.optional(S.String),
+          UpdateMySqlDataSource: S.optional(S.String),
+          ShareMySqlDataSource: S.optional(S.String),
+          PostgreSqlDataSource: S.optional(S.String),
+          CreatePostgreSqlDataSource: S.optional(S.String),
+          UpdatePostgreSqlDataSource: S.optional(S.String),
+          SharePostgreSqlDataSource: S.optional(S.String),
+          OracleDataSource: S.optional(S.String),
+          CreateOracleDataSource: S.optional(S.String),
+          UpdateOracleDataSource: S.optional(S.String),
+          ShareOracleDataSource: S.optional(S.String),
+          SqlServerDataSource: S.optional(S.String),
+          CreateSqlServerDataSource: S.optional(S.String),
+          UpdateSqlServerDataSource: S.optional(S.String),
+          ShareSqlServerDataSource: S.optional(S.String),
+          MariaDbDataSource: S.optional(S.String),
+          CreateMariaDbDataSource: S.optional(S.String),
+          UpdateMariaDbDataSource: S.optional(S.String),
+          ShareMariaDbDataSource: S.optional(S.String),
+          SnowflakeDataSource: S.optional(S.String),
+          CreateSnowflakeDataSource: S.optional(S.String),
+          UpdateSnowflakeDataSource: S.optional(S.String),
+          ShareSnowflakeDataSource: S.optional(S.String),
+          GoogleBigQueryDataSource: S.optional(S.String),
+          CreateGoogleBigQueryDataSource: S.optional(S.String),
+          UpdateGoogleBigQueryDataSource: S.optional(S.String),
+          ShareGoogleBigQueryDataSource: S.optional(S.String),
+          DatabricksDataSource: S.optional(S.String),
+          CreateDatabricksDataSource: S.optional(S.String),
+          UpdateDatabricksDataSource: S.optional(S.String),
+          ShareDatabricksDataSource: S.optional(S.String),
+          StarburstDataSource: S.optional(S.String),
+          CreateStarburstDataSource: S.optional(S.String),
+          UpdateStarburstDataSource: S.optional(S.String),
+          ShareStarburstDataSource: S.optional(S.String),
+          TrinoDataSource: S.optional(S.String),
+          CreateTrinoDataSource: S.optional(S.String),
+          UpdateTrinoDataSource: S.optional(S.String),
+          ShareTrinoDataSource: S.optional(S.String),
+          ImpalaDataSource: S.optional(S.String),
+          CreateImpalaDataSource: S.optional(S.String),
+          UpdateImpalaDataSource: S.optional(S.String),
+          ShareImpalaDataSource: S.optional(S.String),
+          TeradataDataSource: S.optional(S.String),
+          CreateTeradataDataSource: S.optional(S.String),
+          UpdateTeradataDataSource: S.optional(S.String),
+          ShareTeradataDataSource: S.optional(S.String),
+          PrestoDataSource: S.optional(S.String),
+          CreatePrestoDataSource: S.optional(S.String),
+          UpdatePrestoDataSource: S.optional(S.String),
+          SharePrestoDataSource: S.optional(S.String),
+          SparkDataSource: S.optional(S.String),
+          CreateSparkDataSource: S.optional(S.String),
+          UpdateSparkDataSource: S.optional(S.String),
+          ShareSparkDataSource: S.optional(S.String),
+          ExasolDataSource: S.optional(S.String),
+          CreateExasolDataSource: S.optional(S.String),
+          UpdateExasolDataSource: S.optional(S.String),
+          ShareExasolDataSource: S.optional(S.String),
+          Db2DataSource: S.optional(S.String),
+          CreateDb2DataSource: S.optional(S.String),
+          UpdateDb2DataSource: S.optional(S.String),
+          ShareDb2DataSource: S.optional(S.String),
+          SapHanaDataSource: S.optional(S.String),
+          CreateSapHanaDataSource: S.optional(S.String),
+          UpdateSapHanaDataSource: S.optional(S.String),
+          ShareSapHanaDataSource: S.optional(S.String),
+          DenodoDataSource: S.optional(S.String),
+          CreateDenodoDataSource: S.optional(S.String),
+          UpdateDenodoDataSource: S.optional(S.String),
+          ShareDenodoDataSource: S.optional(S.String),
+          DremioDataSource: S.optional(S.String),
+          CreateDremioDataSource: S.optional(S.String),
+          UpdateDremioDataSource: S.optional(S.String),
+          ShareDremioDataSource: S.optional(S.String),
+          SalesforceDataSource: S.optional(S.String),
+          CreateSalesforceDataSource: S.optional(S.String),
+          UpdateSalesforceDataSource: S.optional(S.String),
+          ShareSalesforceDataSource: S.optional(S.String),
+          RadiantDataSource: S.optional(S.String),
+          CreateRadiantDataSource: S.optional(S.String),
+          UpdateRadiantDataSource: S.optional(S.String),
+          ShareRadiantDataSource: S.optional(S.String),
+          PayPalDataSource: S.optional(S.String),
+          CreatePayPalDataSource: S.optional(S.String),
+          UpdatePayPalDataSource: S.optional(S.String),
+          SharePayPalDataSource: S.optional(S.String),
+          SquareDataSource: S.optional(S.String),
+          CreateSquareDataSource: S.optional(S.String),
+          UpdateSquareDataSource: S.optional(S.String),
+          ShareSquareDataSource: S.optional(S.String),
+          GitHubDataSource: S.optional(S.String),
+          CreateGitHubDataSource: S.optional(S.String),
+          UpdateGitHubDataSource: S.optional(S.String),
+          ShareGitHubDataSource: S.optional(S.String),
+          TwitterDataSource: S.optional(S.String),
+          CreateTwitterDataSource: S.optional(S.String),
+          UpdateTwitterDataSource: S.optional(S.String),
+          ShareTwitterDataSource: S.optional(S.String),
+          JiraDataSource: S.optional(S.String),
+          CreateJiraDataSource: S.optional(S.String),
+          UpdateJiraDataSource: S.optional(S.String),
+          ShareJiraDataSource: S.optional(S.String),
+          ServiceNowDataSource: S.optional(S.String),
+          CreateServiceNowDataSource: S.optional(S.String),
+          UpdateServiceNowDataSource: S.optional(S.String),
+          ShareServiceNowDataSource: S.optional(S.String),
+          AdobeAnalyticsDataSource: S.optional(S.String),
+          CreateAdobeAnalyticsDataSource: S.optional(S.String),
+          UpdateAdobeAnalyticsDataSource: S.optional(S.String),
+          ShareAdobeAnalyticsDataSource: S.optional(S.String),
+          GoogleAnalyticsDataSource: S.optional(S.String),
+          CreateGoogleAnalyticsDataSource: S.optional(S.String),
+          UpdateGoogleAnalyticsDataSource: S.optional(S.String),
+          ShareGoogleAnalyticsDataSource: S.optional(S.String),
+          GoogleSheetsDataSource: S.optional(S.String),
+          CreateGoogleSheetsDataSource: S.optional(S.String),
+          UpdateGoogleSheetsDataSource: S.optional(S.String),
+          ShareGoogleSheetsDataSource: S.optional(S.String),
+          DocumentDbDataSource: S.optional(S.String),
+          CreateDocumentDbDataSource: S.optional(S.String),
+          UpdateDocumentDbDataSource: S.optional(S.String),
+          ShareDocumentDbDataSource: S.optional(S.String),
+          MongoDbDataSource: S.optional(S.String),
+          CreateMongoDbDataSource: S.optional(S.String),
+          UpdateMongoDbDataSource: S.optional(S.String),
+          ShareMongoDbDataSource: S.optional(S.String),
+          MongoAtlasDataSource: S.optional(S.String),
+          CreateMongoAtlasDataSource: S.optional(S.String),
+          UpdateMongoAtlasDataSource: S.optional(S.String),
+          ShareMongoAtlasDataSource: S.optional(S.String),
+          DynamoDbDataSource: S.optional(S.String),
+          CreateDynamoDbDataSource: S.optional(S.String),
+          UpdateDynamoDbDataSource: S.optional(S.String),
+          ShareDynamoDbDataSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "Capabilities" });
     case 1:
@@ -41042,7 +41430,7 @@ function __c350(j: number): any {
           Name: S.String,
           Type: S.String,
           DataSourceParameters: S.optional(__S(11263, __c351, 31)),
-          Credentials: S.optional(__S(11332, __c354, 4)),
+          Credentials: S.optional(__S(11334, __c354, 6)),
           Permissions: S.optional(__S(9089, __c284, 1)),
           VpcConnectionProperties: S.optional(__S(11360, __c355, 0)),
           SslProperties: S.optional(__S(11264, __c352, 0)),
@@ -41365,12 +41753,27 @@ function __c354(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          AdminAccountEmail: S.String,
+          ServiceAccountPrivateKey: SensitiveString,
+          ClientEmail: S.String,
+        }),
+      ).annotate({ identifier: "ServiceAccountCredentials" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ KmsKeyArn: SensitiveString, CertThumbprint: SensitiveString }),
+      ).annotate({ identifier: "SharePointClientCredentials" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           CredentialPair: S.optional(__S(11328, __c354, 0)),
           CopySourceArn: S.optional(S.String),
           SecretArn: S.optional(S.String),
           KeyPairCredentials: S.optional(__S(11329, __c354, 1)),
           WebProxyCredentials: S.optional(__S(11330, __c354, 2)),
           OAuthClientCredentials: S.optional(__S(11331, __c354, 3)),
+          ServiceAccountCredentials: S.optional(__S(11332, __c354, 4)),
+          SharePointClientCredentials: S.optional(__S(11333, __c354, 5)),
+          OneDriveClientCredentials: S.optional(__S(11333, __c354, 5)),
         }),
       ).annotate({ identifier: "DataSourceCredentials" });
   }

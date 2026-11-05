@@ -450,6 +450,7 @@ export interface GetResourceDashboardRequest {
   applicationId: string;
   resourceId: string;
   resourceType: string;
+  accessSystemProfileLogs?: boolean;
 }
 export interface GetResourceDashboardResponse {
   url?: string;
@@ -1414,6 +1415,9 @@ function __c3(j: number): any {
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
           resourceId: S.String.pipe(T.HttpQuery("resourceId")),
           resourceType: S.String.pipe(T.HttpQuery("resourceType")),
+          accessSystemProfileLogs: S.optional(S.Boolean).pipe(
+            T.HttpQuery("accessSystemProfileLogs"),
+          ),
         }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/applications/{applicationId}/dashboard" }),

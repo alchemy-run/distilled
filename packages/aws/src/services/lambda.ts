@@ -791,9 +791,11 @@ export interface CallbackOptions {
   HeartbeatTimeoutSeconds?: number;
 }
 export type TenantId = string;
+export type XAmznTraceId = string;
 export interface ChainedInvokeOptions {
   FunctionName: string;
   TenantId?: string;
+  XAmznTraceId?: string;
 }
 export interface OperationUpdate {
   Id: string;
@@ -1127,9 +1129,11 @@ export interface AmazonManagedKafkaEventSourceConfig {
   ConsumerGroupId?: string;
   SchemaRegistryConfig?: KafkaSchemaRegistryConfig;
 }
+export type KafkaEventSourceMappingConsumptionMode = "Stream" | "Queue" | (string & {});
 export interface SelfManagedKafkaEventSourceConfig {
   ConsumerGroupId?: string;
   SchemaRegistryConfig?: KafkaSchemaRegistryConfig;
+  ConsumptionMode?: KafkaEventSourceMappingConsumptionMode;
 }
 export type DatabaseName = string;
 export type CollectionName = string;
@@ -1737,7 +1741,6 @@ export type ExecutionStatus =
   | "TIMED_OUT"
   | "STOPPED"
   | (string & {});
-export type XAmznTraceId = string;
 export interface TraceHeader {
   XAmznTraceId?: string;
 }
@@ -2949,7 +2952,7 @@ export const createEventSourceMapping: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<CreateEventSourceMappingRequest>,
-  output: __S(2449, __c76, 17) as any as S.Schema<EventSourceMappingConfiguration>,
+  output: __S(2450, __c76, 18) as any as S.Schema<EventSourceMappingConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3196,7 +3199,7 @@ export const deleteEventSourceMapping: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<DeleteEventSourceMappingRequest>,
-  output: __S(2449, __c76, 17) as any as S.Schema<EventSourceMappingConfiguration>,
+  output: __S(2450, __c76, 18) as any as S.Schema<EventSourceMappingConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3295,7 +3298,7 @@ export type DeleteFunctionConcurrencyError =
   | ParseError
   | CommonErrors;
 /**
- * Removes a concurrent execution limit from a function.
+ * Removes a concurrent execution limit from a Lambda Event Function.
  */
 export const deleteFunctionConcurrency: API.OperationMethod<
   DeleteFunctionConcurrencyRequest & RegionInput,
@@ -3766,7 +3769,7 @@ export const getEventSourceMapping: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<GetEventSourceMappingRequest>,
-  output: __S(2449, __c76, 17) as any as S.Schema<EventSourceMappingConfiguration>,
+  output: __S(2450, __c76, 18) as any as S.Schema<EventSourceMappingConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -3787,7 +3790,7 @@ export type GetFunctionError =
   | TooManyRequestsException
   | CommonErrors;
 /**
- * Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
+ * Returns information about a Lambda Event Function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
  */
 export const getFunction: API.OperationMethod<
   GetFunctionRequest & RegionInput,
@@ -4795,7 +4798,7 @@ export type ListFunctionEventInvokeConfigsError =
   | ParseError
   | CommonErrors;
 /**
- * Retrieves a list of configurations for asynchronous invocation for a function.
+ * Retrieves a list of configurations for asynchronous invocation for a Lambda Event Function. To retrieve more configurations, use the `Marker` parameter.
  *
  * To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
  */
@@ -5129,7 +5132,7 @@ export type ListVersionsByFunctionError =
   | TooManyRequestsException
   | CommonErrors;
 /**
- * Returns a list of versions, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
+ * Returns a list of versions of a Lambda Event Function, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
  */
 export const listVersionsByFunction: API.PaginatedOperationMethod<
   ListVersionsByFunctionRequest & RegionInput,
@@ -5210,7 +5213,7 @@ export type PublishVersionError =
   | ParseError
   | CommonErrors;
 /**
- * Creates a version from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change.
+ * Creates a version from the current code and configuration of a Lambda Event Function. Use versions to create a snapshot of your function code and configuration that doesn't change.
  *
  * Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use UpdateFunctionCode or UpdateFunctionConfiguration to update the function before publishing a version.
  *
@@ -5294,7 +5297,7 @@ export type PutFunctionConcurrencyError =
   | ParseError
   | CommonErrors;
 /**
- * Sets the maximum number of simultaneous executions for a function, and reserves capacity for that concurrency level.
+ * Sets the maximum number of simultaneous executions for a Lambda Event Function, and reserves capacity for that concurrency level.
  *
  * Concurrency settings apply to the function as a whole, including all published versions and the unpublished version. Reserving concurrency both ensures that your function has capacity to process the specified number of events simultaneously, and prevents it from scaling beyond that level. Use GetFunction to see the current setting for a function.
  *
@@ -5379,7 +5382,7 @@ export type PutFunctionRecursionConfigError =
   | ParseError
   | CommonErrors;
 /**
- * Sets your function's recursive loop detection configuration.
+ * Sets the recursive loop detection configuration for a Lambda Event Function.
  *
  * When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again.
  *
@@ -6016,7 +6019,7 @@ export const updateEventSourceMapping: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<UpdateEventSourceMappingRequest>,
-  output: __S(2449, __c76, 17) as any as S.Schema<EventSourceMappingConfiguration>,
+  output: __S(2450, __c76, 18) as any as S.Schema<EventSourceMappingConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -6210,7 +6213,7 @@ export type UpdateFunctionUrlConfigError =
   | ParseError
   | CommonErrors;
 /**
- * Updates the configuration for a Lambda function URL.
+ * Updates the configuration for a function URL of a Lambda Event Function.
  */
 export const updateFunctionUrlConfig: API.OperationMethod<
   UpdateFunctionUrlConfigRequest & RegionInput,
@@ -6798,7 +6801,7 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListEventSourceMappingsRequest" });
     case 1:
-      return S.Array(__S(2449, __c76, 17));
+      return S.Array(__S(2450, __c76, 18));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7696,9 +7699,9 @@ function __c54(j: number): any {
           SourceAccessConfigurations: S.optional(__S(2439, __c76, 7)),
           FunctionResponseTypes: S.optional(__S(2208, __c69, 0)),
           AmazonManagedKafkaEventSourceConfig: S.optional(__S(2445, __c76, 13)),
-          SelfManagedKafkaEventSourceConfig: S.optional(__S(2445, __c76, 13)),
-          DocumentDBEventSourceConfig: S.optional(__S(2446, __c76, 14)),
-          ProvisionedPollerConfig: S.optional(__S(2447, __c76, 15)),
+          SelfManagedKafkaEventSourceConfig: S.optional(__S(2446, __c76, 14)),
+          DocumentDBEventSourceConfig: S.optional(__S(2447, __c76, 15)),
+          ProvisionedPollerConfig: S.optional(__S(2448, __c76, 16)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/2015-03-31/event-source-mappings/{UUID}" }),
@@ -7920,7 +7923,11 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CallbackOptions" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ FunctionName: S.String, TenantId: S.optional(S.String) }),
+        S.Struct({
+          FunctionName: S.String,
+          TenantId: S.optional(S.String),
+          XAmznTraceId: S.optional(S.String),
+        }),
       ).annotate({ identifier: "ChainedInvokeOptions" });
     case 5:
       return S.suspend(() =>
@@ -8293,9 +8300,9 @@ function __c75(j: number): any {
           SelfManagedEventSource: S.optional(__S(2441, __c76, 9)),
           FunctionResponseTypes: S.optional(__S(2208, __c69, 0)),
           AmazonManagedKafkaEventSourceConfig: S.optional(__S(2445, __c76, 13)),
-          SelfManagedKafkaEventSourceConfig: S.optional(__S(2445, __c76, 13)),
-          DocumentDBEventSourceConfig: S.optional(__S(2446, __c76, 14)),
-          ProvisionedPollerConfig: S.optional(__S(2447, __c76, 15)),
+          SelfManagedKafkaEventSourceConfig: S.optional(__S(2446, __c76, 14)),
+          DocumentDBEventSourceConfig: S.optional(__S(2447, __c76, 15)),
+          ProvisionedPollerConfig: S.optional(__S(2448, __c76, 16)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2015-03-31/event-source-mappings" }),
@@ -8370,12 +8377,20 @@ function __c76(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
+          ConsumerGroupId: S.optional(S.String),
+          SchemaRegistryConfig: S.optional(__S(2444, __c76, 12)),
+          ConsumptionMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SelfManagedKafkaEventSourceConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
           DatabaseName: S.optional(S.String),
           CollectionName: S.optional(S.String),
           FullDocument: S.optional(S.String),
         }),
       ).annotate({ identifier: "DocumentDBEventSourceConfig" });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           MinimumPollers: S.optional(S.Number),
@@ -8383,11 +8398,11 @@ function __c76(j: number): any {
           PollerGroupName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProvisionedPollerConfig" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(S.String) }),
       ).annotate({ identifier: "FilterCriteriaError" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           UUID: S.optional(S.String),
@@ -8398,7 +8413,7 @@ function __c76(j: number): any {
           ParallelizationFactor: S.optional(S.Number),
           EventSourceArn: S.optional(S.String),
           FilterCriteria: S.optional(__S(2434, __c76, 2)),
-          FilterCriteriaError: S.optional(__S(2448, __c76, 16)),
+          FilterCriteriaError: S.optional(__S(2449, __c76, 17)),
           KMSKeyArn: S.optional(S.String),
           MetricsConfig: S.optional(__S(2435, __c76, 3)),
           LoggingConfig: S.optional(__S(2436, __c76, 4)),
@@ -8419,10 +8434,10 @@ function __c76(j: number): any {
           TumblingWindowInSeconds: S.optional(S.Number),
           FunctionResponseTypes: S.optional(__S(2208, __c69, 0)),
           AmazonManagedKafkaEventSourceConfig: S.optional(__S(2445, __c76, 13)),
-          SelfManagedKafkaEventSourceConfig: S.optional(__S(2445, __c76, 13)),
-          DocumentDBEventSourceConfig: S.optional(__S(2446, __c76, 14)),
+          SelfManagedKafkaEventSourceConfig: S.optional(__S(2446, __c76, 14)),
+          DocumentDBEventSourceConfig: S.optional(__S(2447, __c76, 15)),
           EventSourceMappingArn: S.optional(S.String),
-          ProvisionedPollerConfig: S.optional(__S(2447, __c76, 15)),
+          ProvisionedPollerConfig: S.optional(__S(2448, __c76, 16)),
         }),
       ).annotate({ identifier: "EventSourceMappingConfiguration" });
   }
