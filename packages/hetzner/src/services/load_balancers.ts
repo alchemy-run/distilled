@@ -25,6 +25,16 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The project has no remaining Primary IP quota for the Load Balancer's public IPs (Hetzner `resource_limit_exceeded`, HTTP 403). Servers and Load Balancers share it; it frees up as they are deleted. */
+export class PrimaryIpLimitExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PrimaryIpLimitExceeded>()("PrimaryIpLimitExceeded", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 403, message: { includes: "IP limit" } }],
+  ) {}
+
 /** Type of the algorithm. */
 export type CreateLoadBalancerRequestAlgorithmType = "round_robin" | "least_connections";
 /** Algorithm of the Load Balancer. */
@@ -1052,7 +1062,7 @@ export interface UpdateLoadBalancerResponseLoadBalancer {
 export interface UpdateLoadBalancerResponse {
   load_balancer: UpdateLoadBalancerResponseLoadBalancer;
 }
-export type CreateLoadBalancerError = HetznerOpError;
+export type CreateLoadBalancerError = PrimaryIpLimitExceeded | HetznerOpError;
 /** Create a Load Balancer Creates a Load Balancer. #### Operation specific errors */
 export const createLoadBalancer: API.OperationMethod<
   CreateLoadBalancerRequest,
@@ -1062,7 +1072,7 @@ export const createLoadBalancer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c0, 6) as any as S.Schema<CreateLoadBalancerRequest>,
   output: __S(14, __c0, 14) as any as S.Schema<CreateLoadBalancerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [PrimaryIpLimitExceeded, UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
