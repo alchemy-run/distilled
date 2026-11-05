@@ -1,28 +1,27 @@
 /**
- * The R2 jurisdiction is a layer (`@distilled.cloud/cloudflare/Jurisdiction`),
- * as AWS's region is, so no operation input carries it. Each input member
- * sent as the `cf-r2-jurisdiction` header is removed, and its operation is
- * marked `com.cloudflare.protocols#jurisdiction`; the generator emits that
- * as `T.Jurisdiction()` and the protocol sets the header from the layer.
- *
- * Runs after the patches, which still name these members.
+ * The R2 jurisdiction comes from the call's `jurisdiction` member or, when
+ * the call leaves it out, from the `Jurisdiction` layer
+ * (`@distilled.cloud/cloudflare/Jurisdiction`), as AWS's region does. Each
+ * operation whose input sends the `cf-r2-jurisdiction` header is marked
+ * `com.cloudflare.protocols#jurisdiction`; the generator emits that as
+ * `T.Jurisdiction()` and the protocol sets the header from the layer.
  */
 export const JURISDICTION_TRAIT = "com.cloudflare.protocols#jurisdiction";
 const HEADER = "cf-r2-jurisdiction";
 
-/** Remove the header members and mark their operations; returns how many. */
-export const jurisdictionToLayer = (model: { shapes: Record<string, any> }): number => {
-  let moved = 0;
+/** Mark the operations whose input has the header; returns how many. */
+export const markJurisdictionOperations = (model: { shapes: Record<string, any> }): number => {
+  let marked = 0;
   for (const shape of Object.values(model.shapes)) {
     if (shape.type !== "operation" || !shape.input?.target) continue;
     const input = model.shapes[shape.input.target];
     if (input?.type !== "structure") continue;
-    for (const [name, member] of Object.entries<any>(input.members ?? {})) {
-      if (String(member.traits?.["smithy.api#httpHeader"]).toLowerCase() !== HEADER) continue;
-      delete input.members[name];
-      shape.traits = { ...shape.traits, [JURISDICTION_TRAIT]: {} };
-      moved++;
-    }
+    const takesHeader = Object.values<any>(input.members ?? {}).some(
+      (member) => String(member.traits?.["smithy.api#httpHeader"]).toLowerCase() === HEADER,
+    );
+    if (!takesHeader) continue;
+    shape.traits = { ...shape.traits, [JURISDICTION_TRAIT]: {} };
+    marked++;
   }
-  return moved;
+  return marked;
 };

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -552,7 +553,7 @@ export type CreateDiscovererError =
  * Creates a discoverer.
  */
 export const createDiscoverer: API.OperationMethod<
-  CreateDiscovererRequest,
+  CreateDiscovererRequest & RegionInput,
   CreateDiscovererResponse,
   CreateDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -586,7 +587,7 @@ export type CreateRegistryError =
  * Creates a registry.
  */
 export const createRegistry: API.OperationMethod<
-  CreateRegistryRequest,
+  CreateRegistryRequest & RegionInput,
   CreateRegistryResponse,
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -620,7 +621,7 @@ export type CreateSchemaError =
  * Inactive schemas will be deleted after two years.
  */
 export const createSchema: API.OperationMethod<
-  CreateSchemaRequest,
+  CreateSchemaRequest & RegionInput,
   CreateSchemaResponse,
   CreateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -652,7 +653,7 @@ export type DeleteDiscovererError =
  * Deletes a discoverer.
  */
 export const deleteDiscoverer: API.OperationMethod<
-  DeleteDiscovererRequest,
+  DeleteDiscovererRequest & RegionInput,
   DeleteDiscovererResponse,
   DeleteDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type DeleteRegistryError =
  * Deletes a Registry.
  */
 export const deleteRegistry: API.OperationMethod<
-  DeleteRegistryRequest,
+  DeleteRegistryRequest & RegionInput,
   DeleteRegistryResponse,
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
@@ -720,7 +721,7 @@ export type DeleteResourcePolicyError =
  * Delete the resource-based policy attached to the specified registry.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -754,7 +755,7 @@ export type DeleteSchemaError =
  * Delete a schema definition.
  */
 export const deleteSchema: API.OperationMethod<
-  DeleteSchemaRequest,
+  DeleteSchemaRequest & RegionInput,
   DeleteSchemaResponse,
   DeleteSchemaError,
   Credentials | HttpClient.HttpClient
@@ -788,7 +789,7 @@ export type DeleteSchemaVersionError =
  * Delete the schema version definition
  */
 export const deleteSchemaVersion: API.OperationMethod<
-  DeleteSchemaVersionRequest,
+  DeleteSchemaVersionRequest & RegionInput,
   DeleteSchemaVersionResponse,
   DeleteSchemaVersionError,
   Credentials | HttpClient.HttpClient
@@ -822,7 +823,7 @@ export type DescribeCodeBindingError =
  * Describe the code binding URI.
  */
 export const describeCodeBinding: API.OperationMethod<
-  DescribeCodeBindingRequest,
+  DescribeCodeBindingRequest & RegionInput,
   DescribeCodeBindingResponse,
   DescribeCodeBindingError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type DescribeDiscovererError =
  * Describes the discoverer.
  */
 export const describeDiscoverer: API.OperationMethod<
-  DescribeDiscovererRequest,
+  DescribeDiscovererRequest & RegionInput,
   DescribeDiscovererResponse,
   DescribeDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -890,7 +891,7 @@ export type DescribeRegistryError =
  * Describes the registry.
  */
 export const describeRegistry: API.OperationMethod<
-  DescribeRegistryRequest,
+  DescribeRegistryRequest & RegionInput,
   DescribeRegistryResponse,
   DescribeRegistryError,
   Credentials | HttpClient.HttpClient
@@ -924,7 +925,7 @@ export type DescribeSchemaError =
  * Retrieve the schema definition.
  */
 export const describeSchema: API.OperationMethod<
-  DescribeSchemaRequest,
+  DescribeSchemaRequest & RegionInput,
   DescribeSchemaResponse,
   DescribeSchemaError,
   Credentials | HttpClient.HttpClient
@@ -959,7 +960,7 @@ export type ExportSchemaError =
  *
  */
 export const exportSchema: API.OperationMethod<
-  ExportSchemaRequest,
+  ExportSchemaRequest & RegionInput,
   ExportSchemaResponse,
   ExportSchemaError,
   Credentials | HttpClient.HttpClient
@@ -994,7 +995,7 @@ export type GetCodeBindingSourceError =
  * Get the code binding source URI.
  */
 export const getCodeBindingSource: API.OperationMethod<
-  GetCodeBindingSourceRequest,
+  GetCodeBindingSourceRequest & RegionInput,
   GetCodeBindingSourceResponse,
   GetCodeBindingSourceError,
   Credentials | HttpClient.HttpClient
@@ -1027,7 +1028,7 @@ export type GetDiscoveredSchemaError =
  * Get the discovered schema that was generated based on sampled events.
  */
 export const getDiscoveredSchema: API.OperationMethod<
-  GetDiscoveredSchemaRequest,
+  GetDiscoveredSchemaRequest & RegionInput,
   GetDiscoveredSchemaResponse,
   GetDiscoveredSchemaError,
   Credentials | HttpClient.HttpClient
@@ -1060,7 +1061,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to a given registry.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1093,7 +1094,7 @@ export type ListDiscoverersError =
  * List the discoverers.
  */
 export const listDiscoverers: API.PaginatedOperationMethod<
-  ListDiscoverersRequest,
+  ListDiscoverersRequest & RegionInput,
   ListDiscoverersResponse,
   ListDiscoverersError,
   Credentials | HttpClient.HttpClient,
@@ -1132,7 +1133,7 @@ export type ListRegistriesError =
  * List the registries.
  */
 export const listRegistries: API.PaginatedOperationMethod<
-  ListRegistriesRequest,
+  ListRegistriesRequest & RegionInput,
   ListRegistriesResponse,
   ListRegistriesError,
   Credentials | HttpClient.HttpClient,
@@ -1171,7 +1172,7 @@ export type ListSchemasError =
  * List the schemas.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasRequest,
+  ListSchemasRequest & RegionInput,
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -1211,7 +1212,7 @@ export type ListSchemaVersionsError =
  * Provides a list of the schema versions and related information.
  */
 export const listSchemaVersions: API.PaginatedOperationMethod<
-  ListSchemaVersionsRequest,
+  ListSchemaVersionsRequest & RegionInput,
   ListSchemaVersionsResponse,
   ListSchemaVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1250,7 +1251,7 @@ export type ListTagsForResourceError =
  * Get tags for resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1284,7 +1285,7 @@ export type PutCodeBindingError =
  * Put code binding URI
  */
 export const putCodeBinding: API.OperationMethod<
-  PutCodeBindingRequest,
+  PutCodeBindingRequest & RegionInput,
   PutCodeBindingResponse,
   PutCodeBindingError,
   Credentials | HttpClient.HttpClient
@@ -1321,7 +1322,7 @@ export type PutResourcePolicyError =
  * The name of the policy.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1355,7 +1356,7 @@ export type SearchSchemasError =
  * Search the schemas
  */
 export const searchSchemas: API.PaginatedOperationMethod<
-  SearchSchemasRequest,
+  SearchSchemasRequest & RegionInput,
   SearchSchemasResponse,
   SearchSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -1395,7 +1396,7 @@ export type StartDiscovererError =
  * Starts the discoverer
  */
 export const startDiscoverer: API.OperationMethod<
-  StartDiscovererRequest,
+  StartDiscovererRequest & RegionInput,
   StartDiscovererResponse,
   StartDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -1429,7 +1430,7 @@ export type StopDiscovererError =
  * Stops the discoverer
  */
 export const stopDiscoverer: API.OperationMethod<
-  StopDiscovererRequest,
+  StopDiscovererRequest & RegionInput,
   StopDiscovererResponse,
   StopDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -1461,7 +1462,7 @@ export type TagResourceError =
  * Add tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1491,7 +1492,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1523,7 +1524,7 @@ export type UpdateDiscovererError =
  * Updates the discoverer
  */
 export const updateDiscoverer: API.OperationMethod<
-  UpdateDiscovererRequest,
+  UpdateDiscovererRequest & RegionInput,
   UpdateDiscovererResponse,
   UpdateDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -1557,7 +1558,7 @@ export type UpdateRegistryError =
  * Updates a registry.
  */
 export const updateRegistry: API.OperationMethod<
-  UpdateRegistryRequest,
+  UpdateRegistryRequest & RegionInput,
   UpdateRegistryResponse,
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -1592,7 +1593,7 @@ export type UpdateSchemaError =
  * Inactive schemas will be deleted after two years.
  */
 export const updateSchema: API.OperationMethod<
-  UpdateSchemaRequest,
+  UpdateSchemaRequest & RegionInput,
   UpdateSchemaResponse,
   UpdateSchemaError,
   Credentials | HttpClient.HttpClient

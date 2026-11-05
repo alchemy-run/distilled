@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -182,7 +183,7 @@ export type GetRequestAuthorizationDetailsError =
  * To use this operation, you must have the `iam:GetRequestAuthorizationDetails` permission.
  */
 export const getRequestAuthorizationDetails: API.PaginatedOperationMethod<
-  GetRequestAuthorizationDetailsInput,
+  GetRequestAuthorizationDetailsInput & RegionInput,
   GetRequestAuthorizationDetailsOutput,
   GetRequestAuthorizationDetailsError,
   Credentials | HttpClient.HttpClient,

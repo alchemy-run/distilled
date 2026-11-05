@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -596,7 +597,7 @@ export type CreateAppInstanceError =
  * identity
  */
 export const createAppInstance: API.OperationMethod<
-  CreateAppInstanceRequest,
+  CreateAppInstanceRequest & RegionInput,
   CreateAppInstanceResponse,
   CreateAppInstanceError,
   Credentials | HttpClient.HttpClient
@@ -644,7 +645,7 @@ export type CreateAppInstanceAdminError =
  * role.
  */
 export const createAppInstanceAdmin: API.OperationMethod<
-  CreateAppInstanceAdminRequest,
+  CreateAppInstanceAdminRequest & RegionInput,
   CreateAppInstanceAdminResponse,
   CreateAppInstanceAdminError,
   Credentials | HttpClient.HttpClient
@@ -683,7 +684,7 @@ export type CreateAppInstanceBotError =
  * unique `Configuration` and `Name` for that bot.
  */
 export const createAppInstanceBot: API.OperationMethod<
-  CreateAppInstanceBotRequest,
+  CreateAppInstanceBotRequest & RegionInput,
   CreateAppInstanceBotResponse,
   CreateAppInstanceBotError,
   Credentials | HttpClient.HttpClient
@@ -722,7 +723,7 @@ export type CreateAppInstanceUserError =
  * unique `appInstanceUserId` and `Name` for that user.
  */
 export const createAppInstanceUser: API.OperationMethod<
-  CreateAppInstanceUserRequest,
+  CreateAppInstanceUserRequest & RegionInput,
   CreateAppInstanceUserResponse,
   CreateAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -759,7 +760,7 @@ export type DeleteAppInstanceError =
  * Deletes an `AppInstance` and all associated data asynchronously.
  */
 export const deleteAppInstance: API.OperationMethod<
-  DeleteAppInstanceRequest,
+  DeleteAppInstanceRequest & RegionInput,
   DeleteAppInstanceResponse,
   DeleteAppInstanceError,
   Credentials | HttpClient.HttpClient
@@ -798,7 +799,7 @@ export type DeleteAppInstanceAdminError =
  * does not delete the user.
  */
 export const deleteAppInstanceAdmin: API.OperationMethod<
-  DeleteAppInstanceAdminRequest,
+  DeleteAppInstanceAdminRequest & RegionInput,
   DeleteAppInstanceAdminResponse,
   DeleteAppInstanceAdminError,
   Credentials | HttpClient.HttpClient
@@ -836,7 +837,7 @@ export type DeleteAppInstanceBotError =
  * Deletes an `AppInstanceBot`.
  */
 export const deleteAppInstanceBot: API.OperationMethod<
-  DeleteAppInstanceBotRequest,
+  DeleteAppInstanceBotRequest & RegionInput,
   DeleteAppInstanceBotResponse,
   DeleteAppInstanceBotError,
   Credentials | HttpClient.HttpClient
@@ -874,7 +875,7 @@ export type DeleteAppInstanceUserError =
  * Deletes an `AppInstanceUser`.
  */
 export const deleteAppInstanceUser: API.OperationMethod<
-  DeleteAppInstanceUserRequest,
+  DeleteAppInstanceUserRequest & RegionInput,
   DeleteAppInstanceUserResponse,
   DeleteAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -910,7 +911,7 @@ export type DeregisterAppInstanceUserEndpointError =
  * Deregisters an `AppInstanceUserEndpoint`.
  */
 export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
-  DeregisterAppInstanceUserEndpointRequest,
+  DeregisterAppInstanceUserEndpointRequest & RegionInput,
   DeregisterAppInstanceUserEndpointResponse,
   DeregisterAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
@@ -944,7 +945,7 @@ export type DescribeAppInstanceError =
  * Returns the full details of an `AppInstance`.
  */
 export const describeAppInstance: API.OperationMethod<
-  DescribeAppInstanceRequest,
+  DescribeAppInstanceRequest & RegionInput,
   DescribeAppInstanceResponse,
   DescribeAppInstanceError,
   Credentials | HttpClient.HttpClient
@@ -978,7 +979,7 @@ export type DescribeAppInstanceAdminError =
  * Returns the full details of an `AppInstanceAdmin`.
  */
 export const describeAppInstanceAdmin: API.OperationMethod<
-  DescribeAppInstanceAdminRequest,
+  DescribeAppInstanceAdminRequest & RegionInput,
   DescribeAppInstanceAdminResponse,
   DescribeAppInstanceAdminError,
   Credentials | HttpClient.HttpClient
@@ -1013,7 +1014,7 @@ export type DescribeAppInstanceBotError =
  * The `AppInstanceBot's` information.
  */
 export const describeAppInstanceBot: API.OperationMethod<
-  DescribeAppInstanceBotRequest,
+  DescribeAppInstanceBotRequest & RegionInput,
   DescribeAppInstanceBotResponse,
   DescribeAppInstanceBotError,
   Credentials | HttpClient.HttpClient
@@ -1048,7 +1049,7 @@ export type DescribeAppInstanceUserError =
  * Returns the full details of an `AppInstanceUser`.
  */
 export const describeAppInstanceUser: API.OperationMethod<
-  DescribeAppInstanceUserRequest,
+  DescribeAppInstanceUserRequest & RegionInput,
   DescribeAppInstanceUserResponse,
   DescribeAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1082,7 +1083,7 @@ export type DescribeAppInstanceUserEndpointError =
  * Returns the full details of an `AppInstanceUserEndpoint`.
  */
 export const describeAppInstanceUserEndpoint: API.OperationMethod<
-  DescribeAppInstanceUserEndpointRequest,
+  DescribeAppInstanceUserEndpointRequest & RegionInput,
   DescribeAppInstanceUserEndpointResponse,
   DescribeAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1116,7 +1117,7 @@ export type GetAppInstanceRetentionSettingsError =
  * Gets the retention settings for an `AppInstance`.
  */
 export const getAppInstanceRetentionSettings: API.OperationMethod<
-  GetAppInstanceRetentionSettingsRequest,
+  GetAppInstanceRetentionSettingsRequest & RegionInput,
   GetAppInstanceRetentionSettingsResponse,
   GetAppInstanceRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1151,7 +1152,7 @@ export type ListAppInstanceAdminsError =
  * Returns a list of the administrators in the `AppInstance`.
  */
 export const listAppInstanceAdmins: API.PaginatedOperationMethod<
-  ListAppInstanceAdminsRequest,
+  ListAppInstanceAdminsRequest & RegionInput,
   ListAppInstanceAdminsResponse,
   ListAppInstanceAdminsError,
   Credentials | HttpClient.HttpClient,
@@ -1193,7 +1194,7 @@ export type ListAppInstanceBotsError =
  * Lists all `AppInstanceBots` created under a single `AppInstance`.
  */
 export const listAppInstanceBots: API.PaginatedOperationMethod<
-  ListAppInstanceBotsRequest,
+  ListAppInstanceBotsRequest & RegionInput,
   ListAppInstanceBotsResponse,
   ListAppInstanceBotsError,
   Credentials | HttpClient.HttpClient,
@@ -1235,7 +1236,7 @@ export type ListAppInstancesError =
  * account.
  */
 export const listAppInstances: API.PaginatedOperationMethod<
-  ListAppInstancesRequest,
+  ListAppInstancesRequest & RegionInput,
   ListAppInstancesResponse,
   ListAppInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1275,7 +1276,7 @@ export type ListAppInstanceUserEndpointsError =
  * Lists all the `AppInstanceUserEndpoints` created under a single `AppInstanceUser`.
  */
 export const listAppInstanceUserEndpoints: API.PaginatedOperationMethod<
-  ListAppInstanceUserEndpointsRequest,
+  ListAppInstanceUserEndpointsRequest & RegionInput,
   ListAppInstanceUserEndpointsResponse,
   ListAppInstanceUserEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1316,7 +1317,7 @@ export type ListAppInstanceUsersError =
  * `AppInstance`.
  */
 export const listAppInstanceUsers: API.PaginatedOperationMethod<
-  ListAppInstanceUsersRequest,
+  ListAppInstanceUsersRequest & RegionInput,
   ListAppInstanceUsersResponse,
   ListAppInstanceUsersError,
   Credentials | HttpClient.HttpClient,
@@ -1356,7 +1357,7 @@ export type ListTagsForResourceError =
  * Lists the tags applied to an Amazon Chime SDK identity resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1391,7 +1392,7 @@ export type PutAppInstanceRetentionSettingsError =
  * data.
  */
 export const putAppInstanceRetentionSettings: API.OperationMethod<
-  PutAppInstanceRetentionSettingsRequest,
+  PutAppInstanceRetentionSettingsRequest & RegionInput,
   PutAppInstanceRetentionSettingsResponse,
   PutAppInstanceRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1432,7 +1433,7 @@ export type PutAppInstanceUserExpirationSettingsError =
  * their expiration settings. The system honors the new settings.
  */
 export const putAppInstanceUserExpirationSettings: API.OperationMethod<
-  PutAppInstanceUserExpirationSettingsRequest,
+  PutAppInstanceUserExpirationSettingsRequest & RegionInput,
   PutAppInstanceUserExpirationSettingsResponse,
   PutAppInstanceUserExpirationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1469,7 +1470,7 @@ export type RegisterAppInstanceUserEndpointError =
  * Registers an endpoint under an Amazon Chime `AppInstanceUser`. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
  */
 export const registerAppInstanceUserEndpoint: API.OperationMethod<
-  RegisterAppInstanceUserEndpointRequest,
+  RegisterAppInstanceUserEndpointRequest & RegionInput,
   RegisterAppInstanceUserEndpointResponse,
   RegisterAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1506,7 +1507,7 @@ export type TagResourceError =
  * Applies the specified tags to the specified Amazon Chime SDK identity resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1541,7 +1542,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified Amazon Chime SDK identity resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1576,7 +1577,7 @@ export type UpdateAppInstanceError =
  * Updates `AppInstance` metadata.
  */
 export const updateAppInstance: API.OperationMethod<
-  UpdateAppInstanceRequest,
+  UpdateAppInstanceRequest & RegionInput,
   UpdateAppInstanceResponse,
   UpdateAppInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1613,7 +1614,7 @@ export type UpdateAppInstanceBotError =
  * Updates the name and metadata of an `AppInstanceBot`.
  */
 export const updateAppInstanceBot: API.OperationMethod<
-  UpdateAppInstanceBotRequest,
+  UpdateAppInstanceBotRequest & RegionInput,
   UpdateAppInstanceBotResponse,
   UpdateAppInstanceBotError,
   Credentials | HttpClient.HttpClient
@@ -1652,7 +1653,7 @@ export type UpdateAppInstanceUserError =
  * metadata.
  */
 export const updateAppInstanceUser: API.OperationMethod<
-  UpdateAppInstanceUserRequest,
+  UpdateAppInstanceUserRequest & RegionInput,
   UpdateAppInstanceUserResponse,
   UpdateAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1689,7 +1690,7 @@ export type UpdateAppInstanceUserEndpointError =
  * Updates the details of an `AppInstanceUserEndpoint`. You can update the name and `AllowMessage` values.
  */
 export const updateAppInstanceUserEndpoint: API.OperationMethod<
-  UpdateAppInstanceUserEndpointRequest,
+  UpdateAppInstanceUserEndpointRequest & RegionInput,
   UpdateAppInstanceUserEndpointResponse,
   UpdateAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient

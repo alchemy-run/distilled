@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1401,7 +1402,7 @@ export type GetPreferencesError =
  * Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented--estimated savings after discounts or estimated savings before discounts, for example.
  */
 export const getPreferences: API.OperationMethod<
-  GetPreferencesRequest,
+  GetPreferencesRequest & RegionInput,
   GetPreferencesResponse,
   GetPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1434,7 +1435,7 @@ export type GetRecommendationError =
  * The `recommendationId` is only valid for up to a maximum of 24 hours as recommendations are refreshed daily. To retrieve the `recommendationId`, use the `ListRecommendations` API.
  */
 export const getRecommendation: API.OperationMethod<
-  GetRecommendationRequest,
+  GetRecommendationRequest & RegionInput,
   GetRecommendationResponse,
   GetRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -1467,7 +1468,7 @@ export type ListEfficiencyMetricsError =
  * The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost optimization performance over the specified time period.
  */
 export const listEfficiencyMetrics: API.PaginatedOperationMethod<
-  ListEfficiencyMetricsRequest,
+  ListEfficiencyMetricsRequest & RegionInput,
   ListEfficiencyMetricsResponse,
   ListEfficiencyMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -1504,7 +1505,7 @@ export type ListEnrollmentStatusesError =
  * Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
  */
 export const listEnrollmentStatuses: API.PaginatedOperationMethod<
-  ListEnrollmentStatusesRequest,
+  ListEnrollmentStatusesRequest & RegionInput,
   ListEnrollmentStatusesResponse,
   ListEnrollmentStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -1541,7 +1542,7 @@ export type ListRecommendationsError =
  * Returns a list of recommendations.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -1580,7 +1581,7 @@ export type ListRecommendationSummariesError =
  * The following filters are not supported for this API: `recommendationIds`, `resourceArns`, and `resourceIds`.
  */
 export const listRecommendationSummaries: API.PaginatedOperationMethod<
-  ListRecommendationSummariesRequest,
+  ListRecommendationSummariesRequest & RegionInput,
   ListRecommendationSummariesResponse,
   ListRecommendationSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1621,7 +1622,7 @@ export type UpdateEnrollmentStatusError =
  * You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
  */
 export const updateEnrollmentStatus: API.OperationMethod<
-  UpdateEnrollmentStatusRequest,
+  UpdateEnrollmentStatusRequest & RegionInput,
   UpdateEnrollmentStatusResponse,
   UpdateEnrollmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -1651,7 +1652,7 @@ export type UpdatePreferencesError =
  * Updates a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented.
  */
 export const updatePreferences: API.OperationMethod<
-  UpdatePreferencesRequest,
+  UpdatePreferencesRequest & RegionInput,
   UpdatePreferencesResponse,
   UpdatePreferencesError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1605,7 +1606,7 @@ export type AddTagsToOnPremisesInstancesError =
  * Adds tags to on-premises instances.
  */
 export const addTagsToOnPremisesInstances: API.OperationMethod<
-  AddTagsToOnPremisesInstancesInput,
+  AddTagsToOnPremisesInstancesInput & RegionInput,
   AddTagsToOnPremisesInstancesResponse,
   AddTagsToOnPremisesInstancesError,
   Credentials | HttpClient.HttpClient
@@ -1641,7 +1642,7 @@ export type BatchGetApplicationRevisionsError =
  * application revisions that can be returned is 25.
  */
 export const batchGetApplicationRevisions: API.OperationMethod<
-  BatchGetApplicationRevisionsInput,
+  BatchGetApplicationRevisionsInput & RegionInput,
   BatchGetApplicationRevisionsOutput,
   BatchGetApplicationRevisionsError,
   Credentials | HttpClient.HttpClient
@@ -1674,7 +1675,7 @@ export type BatchGetApplicationsError =
  * that can be returned is 100.
  */
 export const batchGetApplications: API.OperationMethod<
-  BatchGetApplicationsInput,
+  BatchGetApplicationsInput & RegionInput,
   BatchGetApplicationsOutput,
   BatchGetApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -1707,7 +1708,7 @@ export type BatchGetDeploymentGroupsError =
  * Gets information about one or more deployment groups.
  */
 export const batchGetDeploymentGroups: API.OperationMethod<
-  BatchGetDeploymentGroupsInput,
+  BatchGetDeploymentGroupsInput & RegionInput,
   BatchGetDeploymentGroupsOutput,
   BatchGetDeploymentGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1749,7 +1750,7 @@ export type BatchGetDeploymentInstancesError =
  * number of instances that can be returned is 25.
  */
 export const batchGetDeploymentInstances: API.OperationMethod<
-  BatchGetDeploymentInstancesInput,
+  BatchGetDeploymentInstancesInput & RegionInput,
   BatchGetDeploymentInstancesOutput,
   BatchGetDeploymentInstancesError,
   Credentials | HttpClient.HttpClient
@@ -1782,7 +1783,7 @@ export type BatchGetDeploymentsError =
  * can be returned is 25.
  */
 export const batchGetDeployments: API.OperationMethod<
-  BatchGetDeploymentsInput,
+  BatchGetDeploymentsInput & RegionInput,
   BatchGetDeploymentsOutput,
   BatchGetDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -1833,7 +1834,7 @@ export type BatchGetDeploymentTargetsError =
  * update.
  */
 export const batchGetDeploymentTargets: API.OperationMethod<
-  BatchGetDeploymentTargetsInput,
+  BatchGetDeploymentTargetsInput & RegionInput,
   BatchGetDeploymentTargetsOutput,
   BatchGetDeploymentTargetsError,
   Credentials | HttpClient.HttpClient
@@ -1868,7 +1869,7 @@ export type BatchGetOnPremisesInstancesError =
  * on-premises instances that can be returned is 25.
  */
 export const batchGetOnPremisesInstances: API.OperationMethod<
-  BatchGetOnPremisesInstancesInput,
+  BatchGetOnPremisesInstancesInput & RegionInput,
   BatchGetOnPremisesInstancesOutput,
   BatchGetOnPremisesInstancesError,
   Credentials | HttpClient.HttpClient
@@ -1905,7 +1906,7 @@ export type ContinueDeploymentError =
  * all instances have a status of Ready.)
  */
 export const continueDeployment: API.OperationMethod<
-  ContinueDeploymentInput,
+  ContinueDeploymentInput & RegionInput,
   ContinueDeploymentResponse,
   ContinueDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1942,7 +1943,7 @@ export type CreateApplicationError =
  * Creates an application.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationInput,
+  CreateApplicationInput & RegionInput,
   CreateApplicationOutput,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2000,7 +2001,7 @@ export type CreateDeploymentError =
  * Deploys an application revision through the specified deployment group.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentInput,
+  CreateDeploymentInput & RegionInput,
   CreateDeploymentOutput,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2059,7 +2060,7 @@ export type CreateDeploymentConfigError =
  * Creates a deployment configuration.
  */
 export const createDeploymentConfig: API.OperationMethod<
-  CreateDeploymentConfigInput,
+  CreateDeploymentConfigInput & RegionInput,
   CreateDeploymentConfigOutput,
   CreateDeploymentConfigError,
   Credentials | HttpClient.HttpClient
@@ -2122,7 +2123,7 @@ export type CreateDeploymentGroupError =
  * Creates a deployment group to which application revisions are deployed.
  */
 export const createDeploymentGroup: API.OperationMethod<
-  CreateDeploymentGroupInput,
+  CreateDeploymentGroupInput & RegionInput,
   CreateDeploymentGroupOutput,
   CreateDeploymentGroupError,
   Credentials | HttpClient.HttpClient
@@ -2180,7 +2181,7 @@ export type DeleteApplicationError =
  * Deletes an application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationInput,
+  DeleteApplicationInput & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2208,7 +2209,7 @@ export type DeleteDeploymentConfigError =
  * configurations cannot be deleted.
  */
 export const deleteDeploymentConfig: API.OperationMethod<
-  DeleteDeploymentConfigInput,
+  DeleteDeploymentConfigInput & RegionInput,
   DeleteDeploymentConfigResponse,
   DeleteDeploymentConfigError,
   Credentials | HttpClient.HttpClient
@@ -2239,7 +2240,7 @@ export type DeleteDeploymentGroupError =
  * Deletes a deployment group.
  */
 export const deleteDeploymentGroup: API.OperationMethod<
-  DeleteDeploymentGroupInput,
+  DeleteDeploymentGroupInput & RegionInput,
   DeleteDeploymentGroupOutput,
   DeleteDeploymentGroupError,
   Credentials | HttpClient.HttpClient
@@ -2271,7 +2272,7 @@ export type DeleteGitHubAccountTokenError =
  * Deletes a GitHub account connection.
  */
 export const deleteGitHubAccountToken: API.OperationMethod<
-  DeleteGitHubAccountTokenInput,
+  DeleteGitHubAccountTokenInput & RegionInput,
   DeleteGitHubAccountTokenOutput,
   DeleteGitHubAccountTokenError,
   Credentials | HttpClient.HttpClient
@@ -2303,7 +2304,7 @@ export type DeleteResourcesByExternalIdError = CommonErrors;
  * Regulation (GDPR) requirements.
  */
 export const deleteResourcesByExternalId: API.OperationMethod<
-  DeleteResourcesByExternalIdInput,
+  DeleteResourcesByExternalIdInput & RegionInput,
   DeleteResourcesByExternalIdOutput,
   DeleteResourcesByExternalIdError,
   Credentials | HttpClient.HttpClient
@@ -2326,7 +2327,7 @@ export type DeregisterOnPremisesInstanceError =
  * Deregisters an on-premises instance.
  */
 export const deregisterOnPremisesInstance: API.OperationMethod<
-  DeregisterOnPremisesInstanceInput,
+  DeregisterOnPremisesInstanceInput & RegionInput,
   DeregisterOnPremisesInstanceResponse,
   DeregisterOnPremisesInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2350,7 +2351,7 @@ export type GetApplicationError =
  * Gets information about an application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationInput,
+  GetApplicationInput & RegionInput,
   GetApplicationOutput,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2381,7 +2382,7 @@ export type GetApplicationRevisionError =
  * Gets information about an application revision.
  */
 export const getApplicationRevision: API.OperationMethod<
-  GetApplicationRevisionInput,
+  GetApplicationRevisionInput & RegionInput,
   GetApplicationRevisionOutput,
   GetApplicationRevisionError,
   Credentials | HttpClient.HttpClient
@@ -2417,7 +2418,7 @@ export type GetDeploymentError =
  * to get the content of the deployment's AppSpec file.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentInput,
+  GetDeploymentInput & RegionInput,
   GetDeploymentOutput,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2446,7 +2447,7 @@ export type GetDeploymentConfigError =
  * Gets information about a deployment configuration.
  */
 export const getDeploymentConfig: API.OperationMethod<
-  GetDeploymentConfigInput,
+  GetDeploymentConfigInput & RegionInput,
   GetDeploymentConfigOutput,
   GetDeploymentConfigError,
   Credentials | HttpClient.HttpClient
@@ -2479,7 +2480,7 @@ export type GetDeploymentGroupError =
  * Gets information about a deployment group.
  */
 export const getDeploymentGroup: API.OperationMethod<
-  GetDeploymentGroupInput,
+  GetDeploymentGroupInput & RegionInput,
   GetDeploymentGroupOutput,
   GetDeploymentGroupError,
   Credentials | HttpClient.HttpClient
@@ -2515,7 +2516,7 @@ export type GetDeploymentInstanceError =
  * Gets information about an instance as part of a deployment.
  */
 export const getDeploymentInstance: API.OperationMethod<
-  GetDeploymentInstanceInput,
+  GetDeploymentInstanceInput & RegionInput,
   GetDeploymentInstanceOutput,
   GetDeploymentInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2552,7 +2553,7 @@ export type GetDeploymentTargetError =
  * Returns information about a deployment target.
  */
 export const getDeploymentTarget: API.OperationMethod<
-  GetDeploymentTargetInput,
+  GetDeploymentTargetInput & RegionInput,
   GetDeploymentTargetOutput,
   GetDeploymentTargetError,
   Credentials | HttpClient.HttpClient
@@ -2585,7 +2586,7 @@ export type GetOnPremisesInstanceError =
  * Gets information about an on-premises instance.
  */
 export const getOnPremisesInstance: API.OperationMethod<
-  GetOnPremisesInstanceInput,
+  GetOnPremisesInstanceInput & RegionInput,
   GetOnPremisesInstanceOutput,
   GetOnPremisesInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2620,7 +2621,7 @@ export type ListApplicationRevisionsError =
  * Lists information about revisions for an application.
  */
 export const listApplicationRevisions: API.PaginatedOperationMethod<
-  ListApplicationRevisionsInput,
+  ListApplicationRevisionsInput & RegionInput,
   ListApplicationRevisionsOutput,
   ListApplicationRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -2653,7 +2654,7 @@ export type ListApplicationsError = InvalidNextTokenException | CommonErrors;
  * Lists the applications registered with the user or Amazon Web Services account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsInput,
+  ListApplicationsInput & RegionInput,
   ListApplicationsOutput,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -2675,7 +2676,7 @@ export type ListDeploymentConfigsError = InvalidNextTokenException | CommonError
  * Lists the deployment configurations with the user or Amazon Web Services account.
  */
 export const listDeploymentConfigs: API.PaginatedOperationMethod<
-  ListDeploymentConfigsInput,
+  ListDeploymentConfigsInput & RegionInput,
   ListDeploymentConfigsOutput,
   ListDeploymentConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -2707,7 +2708,7 @@ export type ListDeploymentGroupsError =
  * user or Amazon Web Services account.
  */
 export const listDeploymentGroups: API.PaginatedOperationMethod<
-  ListDeploymentGroupsInput,
+  ListDeploymentGroupsInput & RegionInput,
   ListDeploymentGroupsOutput,
   ListDeploymentGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2756,7 +2757,7 @@ export type ListDeploymentInstancesError =
  * Lists the instance for a deployment associated with the user or Amazon Web Services account.
  */
 export const listDeploymentInstances: API.PaginatedOperationMethod<
-  ListDeploymentInstancesInput,
+  ListDeploymentInstancesInput & RegionInput,
   ListDeploymentInstancesOutput,
   ListDeploymentInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2808,7 +2809,7 @@ export type ListDeploymentsError =
  * user or Amazon Web Services account.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsInput,
+  ListDeploymentsInput & RegionInput,
   ListDeploymentsOutput,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -2854,7 +2855,7 @@ export type ListDeploymentTargetsError =
  * Returns an array of target IDs that are associated a deployment.
  */
 export const listDeploymentTargets: API.OperationMethod<
-  ListDeploymentTargetsInput,
+  ListDeploymentTargetsInput & RegionInput,
   ListDeploymentTargetsOutput,
   ListDeploymentTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2890,7 +2891,7 @@ export type ListGitHubAccountTokenNamesError =
  * Lists the names of stored connections to GitHub accounts.
  */
 export const listGitHubAccountTokenNames: API.OperationMethod<
-  ListGitHubAccountTokenNamesInput,
+  ListGitHubAccountTokenNamesInput & RegionInput,
   ListGitHubAccountTokenNamesOutput,
   ListGitHubAccountTokenNamesError,
   Credentials | HttpClient.HttpClient
@@ -2918,7 +2919,7 @@ export type ListOnPremisesInstancesError =
  * use the registration status parameter.
  */
 export const listOnPremisesInstances: API.OperationMethod<
-  ListOnPremisesInstancesInput,
+  ListOnPremisesInstancesInput & RegionInput,
   ListOnPremisesInstancesOutput,
   ListOnPremisesInstancesError,
   Credentials | HttpClient.HttpClient
@@ -2947,7 +2948,7 @@ export type ListTagsForResourceError =
  * Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2983,7 +2984,7 @@ export type PutLifecycleEventHookExecutionStatusError =
  * AppSpec 'hooks' Section for an Amazon ECS Deployment.
  */
 export const putLifecycleEventHookExecutionStatus: API.OperationMethod<
-  PutLifecycleEventHookExecutionStatusInput,
+  PutLifecycleEventHookExecutionStatusInput & RegionInput,
   PutLifecycleEventHookExecutionStatusOutput,
   PutLifecycleEventHookExecutionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3018,7 +3019,7 @@ export type RegisterApplicationRevisionError =
  * Registers with CodeDeploy a revision for the specified application.
  */
 export const registerApplicationRevision: API.OperationMethod<
-  RegisterApplicationRevisionInput,
+  RegisterApplicationRevisionInput & RegionInput,
   RegisterApplicationRevisionResponse,
   RegisterApplicationRevisionError,
   Credentials | HttpClient.HttpClient
@@ -3058,7 +3059,7 @@ export type RegisterOnPremisesInstanceError =
  * Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
  */
 export const registerOnPremisesInstance: API.OperationMethod<
-  RegisterOnPremisesInstanceInput,
+  RegisterOnPremisesInstanceInput & RegionInput,
   RegisterOnPremisesInstanceResponse,
   RegisterOnPremisesInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3097,7 +3098,7 @@ export type RemoveTagsFromOnPremisesInstancesError =
  * Removes one or more tags from one or more on-premises instances.
  */
 export const removeTagsFromOnPremisesInstances: API.OperationMethod<
-  RemoveTagsFromOnPremisesInstancesInput,
+  RemoveTagsFromOnPremisesInstancesInput & RegionInput,
   RemoveTagsFromOnPremisesInstancesResponse,
   RemoveTagsFromOnPremisesInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3133,7 +3134,7 @@ export type SkipWaitTimeForInstanceTerminationError =
  * instances immediately after the traffic routing is complete.
  */
 export const skipWaitTimeForInstanceTermination: API.OperationMethod<
-  SkipWaitTimeForInstanceTerminationInput,
+  SkipWaitTimeForInstanceTerminationInput & RegionInput,
   SkipWaitTimeForInstanceTerminationResponse,
   SkipWaitTimeForInstanceTerminationError,
   Credentials | HttpClient.HttpClient
@@ -3167,7 +3168,7 @@ export type StopDeploymentError =
  * Attempts to stop an ongoing deployment.
  */
 export const stopDeployment: API.OperationMethod<
-  StopDeploymentInput,
+  StopDeploymentInput & RegionInput,
   StopDeploymentOutput,
   StopDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -3204,7 +3205,7 @@ export type TagResourceError =
  * resource identified by the `ResourceArn` input parameter.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3244,7 +3245,7 @@ export type UntagResourceError =
  * keys in the `TagKeys` input parameter.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3278,7 +3279,7 @@ export type UpdateApplicationError =
  * Changes the name of an application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationInput,
+  UpdateApplicationInput & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3335,7 +3336,7 @@ export type UpdateDeploymentGroupError =
  * Changes information about a deployment group.
  */
 export const updateDeploymentGroup: API.OperationMethod<
-  UpdateDeploymentGroupInput,
+  UpdateDeploymentGroupInput & RegionInput,
   UpdateDeploymentGroupOutput,
   UpdateDeploymentGroupError,
   Credentials | HttpClient.HttpClient

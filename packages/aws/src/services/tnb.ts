@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -698,7 +699,7 @@ export type CancelSolNetworkOperationError =
  * A network operation is any operation that is done to your network, such as network instance instantiation or termination.
  */
 export const cancelSolNetworkOperation: API.OperationMethod<
-  CancelSolNetworkOperationInput,
+  CancelSolNetworkOperationInput & RegionInput,
   CancelSolNetworkOperationResponse,
   CancelSolNetworkOperationError,
   Credentials | HttpClient.HttpClient
@@ -737,7 +738,7 @@ export type CreateSolFunctionPackageError =
  * zip file into that empty container. To upload function package content, see PutSolFunctionPackageContent.
  */
 export const createSolFunctionPackage: API.OperationMethod<
-  CreateSolFunctionPackageInput,
+  CreateSolFunctionPackageInput & RegionInput,
   CreateSolFunctionPackageOutput,
   CreateSolFunctionPackageError,
   Credentials | HttpClient.HttpClient
@@ -777,7 +778,7 @@ export type CreateSolNetworkInstanceError =
  * see InstantiateSolNetworkInstance.
  */
 export const createSolNetworkInstance: API.OperationMethod<
-  CreateSolNetworkInstanceInput,
+  CreateSolNetworkInstanceInput & RegionInput,
   CreateSolNetworkInstanceOutput,
   CreateSolNetworkInstanceError,
   Credentials | HttpClient.HttpClient
@@ -821,7 +822,7 @@ export type CreateSolNetworkPackageError =
  * network package, you can upload the network package content using PutSolNetworkPackageContent.
  */
 export const createSolNetworkPackage: API.OperationMethod<
-  CreateSolNetworkPackageInput,
+  CreateSolNetworkPackageInput & RegionInput,
   CreateSolNetworkPackageOutput,
   CreateSolNetworkPackageError,
   Credentials | HttpClient.HttpClient
@@ -858,7 +859,7 @@ export type DeleteSolFunctionPackageError =
  * function package, see UpdateSolFunctionPackage.
  */
 export const deleteSolFunctionPackage: API.OperationMethod<
-  DeleteSolFunctionPackageInput,
+  DeleteSolFunctionPackageInput & RegionInput,
   DeleteSolFunctionPackageResponse,
   DeleteSolFunctionPackageError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +896,7 @@ export type DeleteSolNetworkInstanceError =
  * terminate a network instance, see TerminateSolNetworkInstance.
  */
 export const deleteSolNetworkInstance: API.OperationMethod<
-  DeleteSolNetworkInstanceInput,
+  DeleteSolNetworkInstanceInput & RegionInput,
   DeleteSolNetworkInstanceResponse,
   DeleteSolNetworkInstanceError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +933,7 @@ export type DeleteSolNetworkPackageError =
  * network package, see UpdateSolNetworkPackage.
  */
 export const deleteSolNetworkPackage: API.OperationMethod<
-  DeleteSolNetworkPackageInput,
+  DeleteSolNetworkPackageInput & RegionInput,
   DeleteSolNetworkPackageResponse,
   DeleteSolNetworkPackageError,
   Credentials | HttpClient.HttpClient
@@ -967,7 +968,7 @@ export type GetSolFunctionInstanceError =
  * A network function instance is a function in a function package .
  */
 export const getSolFunctionInstance: API.OperationMethod<
-  GetSolFunctionInstanceInput,
+  GetSolFunctionInstanceInput & RegionInput,
   GetSolFunctionInstanceOutput,
   GetSolFunctionInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1002,7 +1003,7 @@ export type GetSolFunctionPackageError =
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network..
  */
 export const getSolFunctionPackage: API.OperationMethod<
-  GetSolFunctionPackageInput,
+  GetSolFunctionPackageInput & RegionInput,
   GetSolFunctionPackageOutput,
   GetSolFunctionPackageError,
   Credentials | HttpClient.HttpClient
@@ -1036,7 +1037,7 @@ export type GetSolFunctionPackageContentError =
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
 export const getSolFunctionPackageContent: API.OperationMethod<
-  GetSolFunctionPackageContentInput,
+  GetSolFunctionPackageContentInput & RegionInput,
   GetSolFunctionPackageContentOutput,
   GetSolFunctionPackageContentError,
   Credentials | HttpClient.HttpClient
@@ -1072,7 +1073,7 @@ export type GetSolFunctionPackageDescriptorError =
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
 export const getSolFunctionPackageDescriptor: API.OperationMethod<
-  GetSolFunctionPackageDescriptorInput,
+  GetSolFunctionPackageDescriptorInput & RegionInput,
   GetSolFunctionPackageDescriptorOutput,
   GetSolFunctionPackageDescriptorError,
   Credentials | HttpClient.HttpClient
@@ -1106,7 +1107,7 @@ export type GetSolNetworkInstanceError =
  * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
  */
 export const getSolNetworkInstance: API.OperationMethod<
-  GetSolNetworkInstanceInput,
+  GetSolNetworkInstanceInput & RegionInput,
   GetSolNetworkInstanceOutput,
   GetSolNetworkInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1141,7 +1142,7 @@ export type GetSolNetworkOperationError =
  * A network operation is any operation that is done to your network, such as network instance instantiation or termination.
  */
 export const getSolNetworkOperation: API.OperationMethod<
-  GetSolNetworkOperationInput,
+  GetSolNetworkOperationInput & RegionInput,
   GetSolNetworkOperationOutput,
   GetSolNetworkOperationError,
   Credentials | HttpClient.HttpClient
@@ -1175,7 +1176,7 @@ export type GetSolNetworkPackageError =
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
 export const getSolNetworkPackage: API.OperationMethod<
-  GetSolNetworkPackageInput,
+  GetSolNetworkPackageInput & RegionInput,
   GetSolNetworkPackageOutput,
   GetSolNetworkPackageError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1210,7 @@ export type GetSolNetworkPackageContentError =
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
 export const getSolNetworkPackageContent: API.OperationMethod<
-  GetSolNetworkPackageContentInput,
+  GetSolNetworkPackageContentInput & RegionInput,
   GetSolNetworkPackageContentOutput,
   GetSolNetworkPackageContentError,
   Credentials | HttpClient.HttpClient
@@ -1243,7 +1244,7 @@ export type GetSolNetworkPackageDescriptorError =
  * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
  */
 export const getSolNetworkPackageDescriptor: API.OperationMethod<
-  GetSolNetworkPackageDescriptorInput,
+  GetSolNetworkPackageDescriptorInput & RegionInput,
   GetSolNetworkPackageDescriptorOutput,
   GetSolNetworkPackageDescriptorError,
   Credentials | HttpClient.HttpClient
@@ -1281,7 +1282,7 @@ export type InstantiateSolNetworkInstanceError =
  * For more information, see CreateSolNetworkInstance.
  */
 export const instantiateSolNetworkInstance: API.OperationMethod<
-  InstantiateSolNetworkInstanceInput,
+  InstantiateSolNetworkInstanceInput & RegionInput,
   InstantiateSolNetworkInstanceOutput,
   InstantiateSolNetworkInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1315,7 +1316,7 @@ export type ListSolFunctionInstancesError =
  * A network function instance is a function in a function package .
  */
 export const listSolFunctionInstances: API.PaginatedOperationMethod<
-  ListSolFunctionInstancesInput,
+  ListSolFunctionInstancesInput & RegionInput,
   ListSolFunctionInstancesOutput,
   ListSolFunctionInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1354,7 +1355,7 @@ export type ListSolFunctionPackagesError =
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
 export const listSolFunctionPackages: API.PaginatedOperationMethod<
-  ListSolFunctionPackagesInput,
+  ListSolFunctionPackagesInput & RegionInput,
   ListSolFunctionPackagesOutput,
   ListSolFunctionPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -1393,7 +1394,7 @@ export type ListSolNetworkInstancesError =
  * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
  */
 export const listSolNetworkInstances: API.PaginatedOperationMethod<
-  ListSolNetworkInstancesInput,
+  ListSolNetworkInstancesInput & RegionInput,
   ListSolNetworkInstancesOutput,
   ListSolNetworkInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1433,7 +1434,7 @@ export type ListSolNetworkOperationsError =
  * A network operation is any operation that is done to your network, such as network instance instantiation or termination.
  */
 export const listSolNetworkOperations: API.PaginatedOperationMethod<
-  ListSolNetworkOperationsInput,
+  ListSolNetworkOperationsInput & RegionInput,
   ListSolNetworkOperationsOutput,
   ListSolNetworkOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1472,7 +1473,7 @@ export type ListSolNetworkPackagesError =
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
 export const listSolNetworkPackages: API.PaginatedOperationMethod<
-  ListSolNetworkPackagesInput,
+  ListSolNetworkPackagesInput & RegionInput,
   ListSolNetworkPackagesOutput,
   ListSolNetworkPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -1510,7 +1511,7 @@ export type ListTagsForResourceError =
  * Lists tags for AWS TNB resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1544,7 +1545,7 @@ export type PutSolFunctionPackageContentError =
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
 export const putSolFunctionPackageContent: API.OperationMethod<
-  PutSolFunctionPackageContentInput,
+  PutSolFunctionPackageContentInput & RegionInput,
   PutSolFunctionPackageContentOutput,
   PutSolFunctionPackageContentError,
   Credentials | HttpClient.HttpClient
@@ -1578,7 +1579,7 @@ export type PutSolNetworkPackageContentError =
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
 export const putSolNetworkPackageContent: API.OperationMethod<
-  PutSolNetworkPackageContentInput,
+  PutSolNetworkPackageContentInput & RegionInput,
   PutSolNetworkPackageContentOutput,
   PutSolNetworkPackageContentError,
   Credentials | HttpClient.HttpClient
@@ -1612,7 +1613,7 @@ export type TagResourceError =
  * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1649,7 +1650,7 @@ export type TerminateSolNetworkInstanceError =
  * You must terminate a network instance before you can delete it.
  */
 export const terminateSolNetworkInstance: API.OperationMethod<
-  TerminateSolNetworkInstanceInput,
+  TerminateSolNetworkInstanceInput & RegionInput,
   TerminateSolNetworkInstanceOutput,
   TerminateSolNetworkInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1684,7 +1685,7 @@ export type UntagResourceError =
  * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1718,7 +1719,7 @@ export type UpdateSolFunctionPackageError =
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
 export const updateSolFunctionPackage: API.OperationMethod<
-  UpdateSolFunctionPackageInput,
+  UpdateSolFunctionPackageInput & RegionInput,
   UpdateSolFunctionPackageOutput,
   UpdateSolFunctionPackageError,
   Credentials | HttpClient.HttpClient
@@ -1755,7 +1756,7 @@ export type UpdateSolNetworkInstanceError =
  * Choose the *updateType* parameter to target the necessary update of the network instance.
  */
 export const updateSolNetworkInstance: API.OperationMethod<
-  UpdateSolNetworkInstanceInput,
+  UpdateSolNetworkInstanceInput & RegionInput,
   UpdateSolNetworkInstanceOutput,
   UpdateSolNetworkInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1792,7 +1793,7 @@ export type UpdateSolNetworkPackageError =
  * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
  */
 export const updateSolNetworkPackage: API.OperationMethod<
-  UpdateSolNetworkPackageInput,
+  UpdateSolNetworkPackageInput & RegionInput,
   UpdateSolNetworkPackageOutput,
   UpdateSolNetworkPackageError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type ValidateSolFunctionPackageContentError =
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
 export const validateSolFunctionPackageContent: API.OperationMethod<
-  ValidateSolFunctionPackageContentInput,
+  ValidateSolFunctionPackageContentInput & RegionInput,
   ValidateSolFunctionPackageContentOutput,
   ValidateSolFunctionPackageContentError,
   Credentials | HttpClient.HttpClient
@@ -1862,7 +1863,7 @@ export type ValidateSolNetworkPackageContentError =
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
 export const validateSolNetworkPackageContent: API.OperationMethod<
-  ValidateSolNetworkPackageContentInput,
+  ValidateSolNetworkPackageContentInput & RegionInput,
   ValidateSolNetworkPackageContentOutput,
   ValidateSolNetworkPackageContentError,
   Credentials | HttpClient.HttpClient

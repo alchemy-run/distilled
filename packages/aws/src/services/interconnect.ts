@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -295,7 +296,7 @@ export type AcceptConnectionProposalError = CommonErrors;
  * Upon accepting the proposal a connection will be made between the AWS network as accessed via the selected Attach Point and the network previously selected network on the partner's portal.
  */
 export const acceptConnectionProposal: API.OperationMethod<
-  AcceptConnectionProposalRequest,
+  AcceptConnectionProposalRequest & RegionInput,
   AcceptConnectionProposalResponse,
   AcceptConnectionProposalError,
   Credentials | HttpClient.HttpClient
@@ -321,7 +322,7 @@ export type CreateConnectionError = CommonErrors;
  * After a successful call to this method, the resulting Connection will return an Activation Key which will need to be brought to the specific partner's portal to confirm the Connection on both sides. (See Environment$activationPageUrl for a direct link to the partner portal).
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   CreateConnectionResponse,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -343,7 +344,7 @@ export type DeleteConnectionError = CommonErrors;
  * This operation will also inform the remote partner of your intention to delete your connection. Note, the partner may still require you to delete to fully clean up resources, but the network connectivity provided by the Connection will cease to exist.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -363,7 +364,7 @@ export type DescribeConnectionProposalError = CommonErrors;
  * Describes the details of a connection proposal generated at a partner's portal.
  */
 export const describeConnectionProposal: API.OperationMethod<
-  DescribeConnectionProposalRequest,
+  DescribeConnectionProposalRequest & RegionInput,
   DescribeConnectionProposalResponse,
   DescribeConnectionProposalError,
   Credentials | HttpClient.HttpClient
@@ -383,7 +384,7 @@ export type GetConnectionError = CommonErrors;
  * Describes the current state of a Connection resource as specified by the identifier.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -403,7 +404,7 @@ export type GetEnvironmentError = CommonErrors;
  * Describes a specific Environment
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -423,7 +424,7 @@ export type ListAttachPointsError = CommonErrors;
  * Lists all Attach Points the caller has access to that are valid for the specified Environment.
  */
 export const listAttachPoints: API.PaginatedOperationMethod<
-  ListAttachPointsRequest,
+  ListAttachPointsRequest & RegionInput,
   ListAttachPointsResponse,
   ListAttachPointsError,
   Credentials | HttpClient.HttpClient,
@@ -462,7 +463,7 @@ export type ListConnectionsError = CommonErrors;
  * Only Connection objects matching all filters will be returned.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsRequest,
+  ListConnectionsRequest & RegionInput,
   ListConnectionsResponse,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -489,7 +490,7 @@ export type ListEnvironmentsError = CommonErrors;
  * Lists all of the environments that can produce connections that will land in the called AWS region.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -516,7 +517,7 @@ export type ListTagsForResourceError = CommonErrors;
  * List all current tags on the specified resource. Currently this supports Connection resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -536,7 +537,7 @@ export type TagResourceError = CommonErrors;
  * Add new tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -556,7 +557,7 @@ export type UntagResourceError = CommonErrors;
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -576,7 +577,7 @@ export type UpdateConnectionError = CommonErrors;
  * Modifies an existing connection. Currently we support modifications to the connection's description and/or bandwidth.
  */
 export const updateConnection: API.OperationMethod<
-  UpdateConnectionRequest,
+  UpdateConnectionRequest & RegionInput,
   UpdateConnectionResponse,
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient

@@ -311,7 +311,8 @@ const requestFor = (
   inputAst: AST.AST,
 ): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
   const headers = formatHeaders(creds);
-  // The `Jurisdiction` layer, for operations marked `T.Jurisdiction()`.
+  // The `Jurisdiction` layer, for operations marked `T.Jurisdiction()`. A
+  // `jurisdiction` member set on the call is a header too, and wins.
   const jurisdiction = Context.getOrUndefined(context, Jurisdiction);
   if (jurisdiction !== undefined && takesJurisdiction(inputAst))
     headers[JURISDICTION_HEADER] = jurisdiction;

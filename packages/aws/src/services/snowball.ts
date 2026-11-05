@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -691,7 +692,7 @@ export type CancelClusterError =
  * job to cancel it.
  */
 export const cancelCluster: API.OperationMethod<
-  CancelClusterRequest,
+  CancelClusterRequest & RegionInput,
   CancelClusterResult,
   CancelClusterError,
   Credentials | HttpClient.HttpClient
@@ -718,7 +719,7 @@ export type CancelJobError =
  * response element data returned.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResult,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -744,7 +745,7 @@ export type CreateAddressError =
  * exception is thrown. If providing an address as a JSON file through the `cli-input-json` option, include the full file path. For example, `--cli-input-json file://create-address.json`.
  */
 export const createAddress: API.OperationMethod<
-  CreateAddressRequest,
+  CreateAddressRequest & RegionInput,
   CreateAddressResult,
   CreateAddressError,
   Credentials | HttpClient.HttpClient
@@ -770,7 +771,7 @@ export type CreateClusterError =
  * cluster does not ship until these five node jobs have been created.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResult,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -880,7 +881,7 @@ export type CreateJobError =
  * - Description: Snowball Edge Storage Optimized 210TB
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResult,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -907,7 +908,7 @@ export type CreateLongTermPricingError = InvalidResourceException | CommonErrors
  * 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing.
  */
 export const createLongTermPricing: API.OperationMethod<
-  CreateLongTermPricingRequest,
+  CreateLongTermPricingRequest & RegionInput,
   CreateLongTermPricingResult,
   CreateLongTermPricingError,
   Credentials | HttpClient.HttpClient
@@ -933,7 +934,7 @@ export type CreateReturnShippingLabelError =
  * Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
  */
 export const createReturnShippingLabel: API.OperationMethod<
-  CreateReturnShippingLabelRequest,
+  CreateReturnShippingLabelRequest & RegionInput,
   CreateReturnShippingLabelResult,
   CreateReturnShippingLabelError,
   Credentials | HttpClient.HttpClient
@@ -960,7 +961,7 @@ export type DescribeAddressError = InvalidResourceException | CommonErrors;
  * form of an `Address` object.
  */
 export const describeAddress: API.OperationMethod<
-  DescribeAddressRequest,
+  DescribeAddressRequest & RegionInput,
   DescribeAddressResult,
   DescribeAddressError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +986,7 @@ export type DescribeAddressesError =
  * account in all US regions.
  */
 export const describeAddresses: API.PaginatedOperationMethod<
-  DescribeAddressesRequest,
+  DescribeAddressesRequest & RegionInput,
   DescribeAddressesResult,
   DescribeAddressesError,
   Credentials | HttpClient.HttpClient,
@@ -1013,7 +1014,7 @@ export type DescribeClusterError = InvalidResourceException | CommonErrors;
  * status, and other important metadata.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
+  DescribeClusterRequest & RegionInput,
   DescribeClusterResult,
   DescribeClusterError,
   Credentials | HttpClient.HttpClient
@@ -1034,7 +1035,7 @@ export type DescribeJobError = InvalidResourceException | CommonErrors;
  * and other important metadata.
  */
 export const describeJob: API.OperationMethod<
-  DescribeJobRequest,
+  DescribeJobRequest & RegionInput,
   DescribeJobResult,
   DescribeJobError,
   Credentials | HttpClient.HttpClient
@@ -1058,7 +1059,7 @@ export type DescribeReturnShippingLabelError =
  * Information on the shipping label of a Snow device that is being returned to Amazon Web Services.
  */
 export const describeReturnShippingLabel: API.OperationMethod<
-  DescribeReturnShippingLabelRequest,
+  DescribeReturnShippingLabelRequest & RegionInput,
   DescribeReturnShippingLabelResult,
   DescribeReturnShippingLabelError,
   Credentials | HttpClient.HttpClient
@@ -1099,7 +1100,7 @@ export type GetJobManifestError =
  * days after the job is created.
  */
 export const getJobManifest: API.OperationMethod<
-  GetJobManifestRequest,
+  GetJobManifestRequest & RegionInput,
   GetJobManifestResult,
   GetJobManifestError,
   Credentials | HttpClient.HttpClient
@@ -1136,7 +1137,7 @@ export type GetJobUnlockCodeError =
  * associated with that job.
  */
 export const getJobUnlockCode: API.OperationMethod<
-  GetJobUnlockCodeRequest,
+  GetJobUnlockCodeRequest & RegionInput,
   GetJobUnlockCodeResult,
   GetJobUnlockCodeError,
   Credentials | HttpClient.HttpClient
@@ -1160,7 +1161,7 @@ export type GetSnowballUsageError = CommonErrors;
  * is 1. If you want to increase your service limit, contact Amazon Web Services Support.
  */
 export const getSnowballUsage: API.OperationMethod<
-  GetSnowballUsageRequest,
+  GetSnowballUsageRequest & RegionInput,
   GetSnowballUsageResult,
   GetSnowballUsageError,
   Credentials | HttpClient.HttpClient
@@ -1184,7 +1185,7 @@ export type GetSoftwareUpdatesError =
  * `JobId`.
  */
 export const getSoftwareUpdates: API.OperationMethod<
-  GetSoftwareUpdatesRequest,
+  GetSoftwareUpdatesRequest & RegionInput,
   GetSoftwareUpdatesResult,
   GetSoftwareUpdatesError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1210,7 @@ export type ListClusterJobsError =
  * state, a job's ID, and other information.
  */
 export const listClusterJobs: API.PaginatedOperationMethod<
-  ListClusterJobsRequest,
+  ListClusterJobsRequest & RegionInput,
   ListClusterJobsResult,
   ListClusterJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1238,7 +1239,7 @@ export type ListClustersError = InvalidNextTokenException | CommonErrors;
  * important status information.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResult,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -1271,7 +1272,7 @@ export type ListCompatibleImagesError =
  * Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
  */
 export const listCompatibleImages: API.PaginatedOperationMethod<
-  ListCompatibleImagesRequest,
+  ListCompatibleImagesRequest & RegionInput,
   ListCompatibleImagesResult,
   ListCompatibleImagesError,
   Credentials | HttpClient.HttpClient,
@@ -1302,7 +1303,7 @@ export type ListJobsError = InvalidNextTokenException | CommonErrors;
  * account in all US regions.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1332,7 +1333,7 @@ export type ListLongTermPricingError =
  * Lists all long-term pricing types.
  */
 export const listLongTermPricing: API.PaginatedOperationMethod<
-  ListLongTermPricingRequest,
+  ListLongTermPricingRequest & RegionInput,
   ListLongTermPricingResult,
   ListLongTermPricingError,
   Credentials | HttpClient.HttpClient,
@@ -1359,7 +1360,7 @@ export type ListPickupLocationsError = InvalidResourceException | CommonErrors;
  * A list of locations from which the customer can choose to pickup a device.
  */
 export const listPickupLocations: API.PaginatedOperationMethod<
-  ListPickupLocationsRequest,
+  ListPickupLocationsRequest & RegionInput,
   ListPickupLocationsResult,
   ListPickupLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -1389,7 +1390,7 @@ export type ListServiceVersionsError =
  * array of `ServiceVersion` object containing the supported versions for a particular service.
  */
 export const listServiceVersions: API.OperationMethod<
-  ListServiceVersionsRequest,
+  ListServiceVersionsRequest & RegionInput,
   ListServiceVersionsResult,
   ListServiceVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1418,7 +1419,7 @@ export type UpdateClusterError =
  * action is no longer available.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResult,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -1453,7 +1454,7 @@ export type UpdateJobError =
  * within 60 minutes of the job being created, this action is no longer available.
  */
 export const updateJob: API.OperationMethod<
-  UpdateJobRequest,
+  UpdateJobRequest & RegionInput,
   UpdateJobResult,
   UpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1484,7 @@ export type UpdateJobShipmentStateError =
  * Updates the state when a shipment state changes to a different state.
  */
 export const updateJobShipmentState: API.OperationMethod<
-  UpdateJobShipmentStateRequest,
+  UpdateJobShipmentStateRequest & RegionInput,
   UpdateJobShipmentStateResult,
   UpdateJobShipmentStateError,
   Credentials | HttpClient.HttpClient
@@ -1503,7 +1504,7 @@ export type UpdateLongTermPricingError = InvalidResourceException | CommonErrors
  * Updates the long-term pricing type.
  */
 export const updateLongTermPricing: API.OperationMethod<
-  UpdateLongTermPricingRequest,
+  UpdateLongTermPricingRequest & RegionInput,
   UpdateLongTermPricingResult,
   UpdateLongTermPricingError,
   Credentials | HttpClient.HttpClient

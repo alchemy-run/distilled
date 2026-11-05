@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1268,7 +1269,7 @@ export type CreateGatewayRouteError =
  * For more information about gateway routes, see Gateway routes.
  */
 export const createGatewayRoute: API.OperationMethod<
-  CreateGatewayRouteInput,
+  CreateGatewayRouteInput & RegionInput,
   CreateGatewayRouteOutput,
   CreateGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -1313,7 +1314,7 @@ export type CreateMeshError =
  * For more information about service meshes, see Service meshes.
  */
 export const createMesh: API.OperationMethod<
-  CreateMeshInput,
+  CreateMeshInput & RegionInput,
   CreateMeshOutput,
   CreateMeshError,
   Credentials | HttpClient.HttpClient
@@ -1356,7 +1357,7 @@ export type CreateRouteError =
  * For more information about routes, see Routes.
  */
 export const createRoute: API.OperationMethod<
-  CreateRouteInput,
+  CreateRouteInput & RegionInput,
   CreateRouteOutput,
   CreateRouteError,
   Credentials | HttpClient.HttpClient
@@ -1401,7 +1402,7 @@ export type CreateVirtualGatewayError =
  * For more information about virtual gateways, see Virtual gateways.
  */
 export const createVirtualGateway: API.OperationMethod<
-  CreateVirtualGatewayInput,
+  CreateVirtualGatewayInput & RegionInput,
   CreateVirtualGatewayOutput,
   CreateVirtualGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1465,7 +1466,7 @@ export type CreateVirtualNodeError =
  * image in the App Mesh User Guide.
  */
 export const createVirtualNode: API.OperationMethod<
-  CreateVirtualNodeInput,
+  CreateVirtualNodeInput & RegionInput,
   CreateVirtualNodeOutput,
   CreateVirtualNodeError,
   Credentials | HttpClient.HttpClient
@@ -1511,7 +1512,7 @@ export type CreateVirtualRouterError =
  * For more information about virtual routers, see Virtual routers.
  */
 export const createVirtualRouter: API.OperationMethod<
-  CreateVirtualRouterInput,
+  CreateVirtualRouterInput & RegionInput,
   CreateVirtualRouterOutput,
   CreateVirtualRouterError,
   Credentials | HttpClient.HttpClient
@@ -1557,7 +1558,7 @@ export type CreateVirtualServiceError =
  * For more information about virtual services, see Virtual services.
  */
 export const createVirtualService: API.OperationMethod<
-  CreateVirtualServiceInput,
+  CreateVirtualServiceInput & RegionInput,
   CreateVirtualServiceOutput,
   CreateVirtualServiceError,
   Credentials | HttpClient.HttpClient
@@ -1594,7 +1595,7 @@ export type DeleteGatewayRouteError =
  * Deletes an existing gateway route.
  */
 export const deleteGatewayRoute: API.OperationMethod<
-  DeleteGatewayRouteInput,
+  DeleteGatewayRouteInput & RegionInput,
   DeleteGatewayRouteOutput,
   DeleteGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -1633,7 +1634,7 @@ export type DeleteMeshError =
  * nodes) in the service mesh before you can delete the mesh itself.
  */
 export const deleteMesh: API.OperationMethod<
-  DeleteMeshInput,
+  DeleteMeshInput & RegionInput,
   DeleteMeshOutput,
   DeleteMeshError,
   Credentials | HttpClient.HttpClient
@@ -1669,7 +1670,7 @@ export type DeleteRouteError =
  * Deletes an existing route.
  */
 export const deleteRoute: API.OperationMethod<
-  DeleteRouteInput,
+  DeleteRouteInput & RegionInput,
   DeleteRouteOutput,
   DeleteRouteError,
   Credentials | HttpClient.HttpClient
@@ -1706,7 +1707,7 @@ export type DeleteVirtualGatewayError =
  * routes are associated to it.
  */
 export const deleteVirtualGateway: API.OperationMethod<
-  DeleteVirtualGatewayInput,
+  DeleteVirtualGatewayInput & RegionInput,
   DeleteVirtualGatewayOutput,
   DeleteVirtualGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1745,7 +1746,7 @@ export type DeleteVirtualNodeError =
  * before you can delete the virtual node itself.
  */
 export const deleteVirtualNode: API.OperationMethod<
-  DeleteVirtualNodeInput,
+  DeleteVirtualNodeInput & RegionInput,
   DeleteVirtualNodeOutput,
   DeleteVirtualNodeError,
   Credentials | HttpClient.HttpClient
@@ -1784,7 +1785,7 @@ export type DeleteVirtualRouterError =
  * router itself.
  */
 export const deleteVirtualRouter: API.OperationMethod<
-  DeleteVirtualRouterInput,
+  DeleteVirtualRouterInput & RegionInput,
   DeleteVirtualRouterOutput,
   DeleteVirtualRouterError,
   Credentials | HttpClient.HttpClient
@@ -1820,7 +1821,7 @@ export type DeleteVirtualServiceError =
  * Deletes an existing virtual service.
  */
 export const deleteVirtualService: API.OperationMethod<
-  DeleteVirtualServiceInput,
+  DeleteVirtualServiceInput & RegionInput,
   DeleteVirtualServiceOutput,
   DeleteVirtualServiceError,
   Credentials | HttpClient.HttpClient
@@ -1855,7 +1856,7 @@ export type DescribeGatewayRouteError =
  * Describes an existing gateway route.
  */
 export const describeGatewayRoute: API.OperationMethod<
-  DescribeGatewayRouteInput,
+  DescribeGatewayRouteInput & RegionInput,
   DescribeGatewayRouteOutput,
   DescribeGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -1889,7 +1890,7 @@ export type DescribeMeshError =
  * Describes an existing service mesh.
  */
 export const describeMesh: API.OperationMethod<
-  DescribeMeshInput,
+  DescribeMeshInput & RegionInput,
   DescribeMeshOutput,
   DescribeMeshError,
   Credentials | HttpClient.HttpClient
@@ -1923,7 +1924,7 @@ export type DescribeRouteError =
  * Describes an existing route.
  */
 export const describeRoute: API.OperationMethod<
-  DescribeRouteInput,
+  DescribeRouteInput & RegionInput,
   DescribeRouteOutput,
   DescribeRouteError,
   Credentials | HttpClient.HttpClient
@@ -1957,7 +1958,7 @@ export type DescribeVirtualGatewayError =
  * Describes an existing virtual gateway.
  */
 export const describeVirtualGateway: API.OperationMethod<
-  DescribeVirtualGatewayInput,
+  DescribeVirtualGatewayInput & RegionInput,
   DescribeVirtualGatewayOutput,
   DescribeVirtualGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1991,7 +1992,7 @@ export type DescribeVirtualNodeError =
  * Describes an existing virtual node.
  */
 export const describeVirtualNode: API.OperationMethod<
-  DescribeVirtualNodeInput,
+  DescribeVirtualNodeInput & RegionInput,
   DescribeVirtualNodeOutput,
   DescribeVirtualNodeError,
   Credentials | HttpClient.HttpClient
@@ -2025,7 +2026,7 @@ export type DescribeVirtualRouterError =
  * Describes an existing virtual router.
  */
 export const describeVirtualRouter: API.OperationMethod<
-  DescribeVirtualRouterInput,
+  DescribeVirtualRouterInput & RegionInput,
   DescribeVirtualRouterOutput,
   DescribeVirtualRouterError,
   Credentials | HttpClient.HttpClient
@@ -2059,7 +2060,7 @@ export type DescribeVirtualServiceError =
  * Describes an existing virtual service.
  */
 export const describeVirtualService: API.OperationMethod<
-  DescribeVirtualServiceInput,
+  DescribeVirtualServiceInput & RegionInput,
   DescribeVirtualServiceOutput,
   DescribeVirtualServiceError,
   Credentials | HttpClient.HttpClient
@@ -2094,7 +2095,7 @@ export type ListGatewayRoutesError =
  * gateway.
  */
 export const listGatewayRoutes: API.PaginatedOperationMethod<
-  ListGatewayRoutesInput,
+  ListGatewayRoutesInput & RegionInput,
   ListGatewayRoutesOutput,
   ListGatewayRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -2135,7 +2136,7 @@ export type ListMeshesError =
  * Returns a list of existing service meshes.
  */
 export const listMeshes: API.PaginatedOperationMethod<
-  ListMeshesInput,
+  ListMeshesInput & RegionInput,
   ListMeshesOutput,
   ListMeshesError,
   Credentials | HttpClient.HttpClient,
@@ -2176,7 +2177,7 @@ export type ListRoutesError =
  * Returns a list of existing routes in a service mesh.
  */
 export const listRoutes: API.PaginatedOperationMethod<
-  ListRoutesInput,
+  ListRoutesInput & RegionInput,
   ListRoutesOutput,
   ListRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -2217,7 +2218,7 @@ export type ListTagsForResourceError =
  * List the tags for an App Mesh resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2258,7 +2259,7 @@ export type ListVirtualGatewaysError =
  * Returns a list of existing virtual gateways in a service mesh.
  */
 export const listVirtualGateways: API.PaginatedOperationMethod<
-  ListVirtualGatewaysInput,
+  ListVirtualGatewaysInput & RegionInput,
   ListVirtualGatewaysOutput,
   ListVirtualGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -2299,7 +2300,7 @@ export type ListVirtualNodesError =
  * Returns a list of existing virtual nodes.
  */
 export const listVirtualNodes: API.PaginatedOperationMethod<
-  ListVirtualNodesInput,
+  ListVirtualNodesInput & RegionInput,
   ListVirtualNodesOutput,
   ListVirtualNodesError,
   Credentials | HttpClient.HttpClient,
@@ -2340,7 +2341,7 @@ export type ListVirtualRoutersError =
  * Returns a list of existing virtual routers in a service mesh.
  */
 export const listVirtualRouters: API.PaginatedOperationMethod<
-  ListVirtualRoutersInput,
+  ListVirtualRoutersInput & RegionInput,
   ListVirtualRoutersOutput,
   ListVirtualRoutersError,
   Credentials | HttpClient.HttpClient,
@@ -2381,7 +2382,7 @@ export type ListVirtualServicesError =
  * Returns a list of existing virtual services in a service mesh.
  */
 export const listVirtualServices: API.PaginatedOperationMethod<
-  ListVirtualServicesInput,
+  ListVirtualServicesInput & RegionInput,
   ListVirtualServicesOutput,
   ListVirtualServicesError,
   Credentials | HttpClient.HttpClient,
@@ -2426,7 +2427,7 @@ export type TagResourceError =
  * deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2461,7 +2462,7 @@ export type UntagResourceError =
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2498,7 +2499,7 @@ export type UpdateGatewayRouteError =
  * service mesh.
  */
 export const updateGatewayRoute: API.OperationMethod<
-  UpdateGatewayRouteInput,
+  UpdateGatewayRouteInput & RegionInput,
   UpdateGatewayRouteOutput,
   UpdateGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2536,7 @@ export type UpdateMeshError =
  * Updates an existing service mesh.
  */
 export const updateMesh: API.OperationMethod<
-  UpdateMeshInput,
+  UpdateMeshInput & RegionInput,
   UpdateMeshOutput,
   UpdateMeshError,
   Credentials | HttpClient.HttpClient
@@ -2572,7 +2573,7 @@ export type UpdateRouteError =
  * Updates an existing route for a specified service mesh and virtual router.
  */
 export const updateRoute: API.OperationMethod<
-  UpdateRouteInput,
+  UpdateRouteInput & RegionInput,
   UpdateRouteOutput,
   UpdateRouteError,
   Credentials | HttpClient.HttpClient
@@ -2610,7 +2611,7 @@ export type UpdateVirtualGatewayError =
  * Updates an existing virtual gateway in a specified service mesh.
  */
 export const updateVirtualGateway: API.OperationMethod<
-  UpdateVirtualGatewayInput,
+  UpdateVirtualGatewayInput & RegionInput,
   UpdateVirtualGatewayOutput,
   UpdateVirtualGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2648,7 +2649,7 @@ export type UpdateVirtualNodeError =
  * Updates an existing virtual node in a specified service mesh.
  */
 export const updateVirtualNode: API.OperationMethod<
-  UpdateVirtualNodeInput,
+  UpdateVirtualNodeInput & RegionInput,
   UpdateVirtualNodeOutput,
   UpdateVirtualNodeError,
   Credentials | HttpClient.HttpClient
@@ -2686,7 +2687,7 @@ export type UpdateVirtualRouterError =
  * Updates an existing virtual router in a specified service mesh.
  */
 export const updateVirtualRouter: API.OperationMethod<
-  UpdateVirtualRouterInput,
+  UpdateVirtualRouterInput & RegionInput,
   UpdateVirtualRouterOutput,
   UpdateVirtualRouterError,
   Credentials | HttpClient.HttpClient
@@ -2724,7 +2725,7 @@ export type UpdateVirtualServiceError =
  * Updates an existing virtual service in a specified service mesh.
  */
 export const updateVirtualService: API.OperationMethod<
-  UpdateVirtualServiceInput,
+  UpdateVirtualServiceInput & RegionInput,
   UpdateVirtualServiceOutput,
   UpdateVirtualServiceError,
   Credentials | HttpClient.HttpClient

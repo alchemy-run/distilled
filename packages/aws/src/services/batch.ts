@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2218,7 +2219,7 @@ export type CancelJobError = ClientException | ServerException | CommonErrors;
  * TerminateJobs operation.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -2264,7 +2265,7 @@ export type CancelJobsError = ClientException | ServerException | CommonErrors;
  * CancelJob and bulk `CancelJobs` operations.
  */
 export const cancelJobs: API.OperationMethod<
-  CancelJobsRequest,
+  CancelJobsRequest & RegionInput,
   CancelJobsResponse,
   CancelJobsError,
   Credentials | HttpClient.HttpClient
@@ -2309,7 +2310,7 @@ export type CreateComputeEnvironmentError = ClientException | ServerException | 
  * created. For more information on how to update a compute environment's AMI, see Updating compute environments in the *Batch User Guide*.
  */
 export const createComputeEnvironment: API.OperationMethod<
-  CreateComputeEnvironmentRequest,
+  CreateComputeEnvironmentRequest & RegionInput,
   CreateComputeEnvironmentResponse,
   CreateComputeEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2329,7 +2330,7 @@ export type CreateConsumableResourceError = ClientException | ServerException | 
  * Creates an Batch consumable resource.
  */
 export const createConsumableResource: API.OperationMethod<
-  CreateConsumableResourceRequest,
+  CreateConsumableResourceRequest & RegionInput,
   CreateConsumableResourceResponse,
   CreateConsumableResourceError,
   Credentials | HttpClient.HttpClient
@@ -2361,7 +2362,7 @@ export type CreateJobQueueError =
  * is given preference for scheduling jobs to that compute environment.
  */
 export const createJobQueue: API.OperationMethod<
-  CreateJobQueueRequest,
+  CreateJobQueueRequest & RegionInput,
   CreateJobQueueResponse,
   CreateJobQueueError,
   Credentials | HttpClient.HttpClient
@@ -2381,7 +2382,7 @@ export type CreateQuotaShareError = ClientException | ServerException | CommonEr
  * Creates an Batch quota share. Each quota share operates as a virtual queue with a configured compute capacity, resource sharing strategy, and borrow limits.
  */
 export const createQuotaShare: API.OperationMethod<
-  CreateQuotaShareRequest,
+  CreateQuotaShareRequest & RegionInput,
   CreateQuotaShareResponse,
   CreateQuotaShareError,
   Credentials | HttpClient.HttpClient
@@ -2401,7 +2402,7 @@ export type CreateSchedulingPolicyError = ClientException | ServerException | Co
  * Creates an Batch scheduling policy.
  */
 export const createSchedulingPolicy: API.OperationMethod<
-  CreateSchedulingPolicyRequest,
+  CreateSchedulingPolicyRequest & RegionInput,
   CreateSchedulingPolicyResponse,
   CreateSchedulingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2421,7 +2422,7 @@ export type CreateServiceEnvironmentError = ClientException | ServerException | 
  * Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs.
  */
 export const createServiceEnvironment: API.OperationMethod<
-  CreateServiceEnvironmentRequest,
+  CreateServiceEnvironmentRequest & RegionInput,
   CreateServiceEnvironmentResponse,
   CreateServiceEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2454,7 +2455,7 @@ export type DeleteComputeEnvironmentError =
  * environment enters an invalid state.
  */
 export const deleteComputeEnvironment: API.OperationMethod<
-  DeleteComputeEnvironmentRequest,
+  DeleteComputeEnvironmentRequest & RegionInput,
   DeleteComputeEnvironmentResponse,
   DeleteComputeEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2480,7 +2481,7 @@ export type DeleteConsumableResourceError = ClientException | ServerException | 
  * Deletes the specified consumable resource.
  */
 export const deleteConsumableResource: API.OperationMethod<
-  DeleteConsumableResourceRequest,
+  DeleteConsumableResourceRequest & RegionInput,
   DeleteConsumableResourceResponse,
   DeleteConsumableResourceError,
   Credentials | HttpClient.HttpClient
@@ -2510,7 +2511,7 @@ export type DeleteJobQueueError =
  * `DeleteJobQueue` request.
  */
 export const deleteJobQueue: API.OperationMethod<
-  DeleteJobQueueRequest,
+  DeleteJobQueueRequest & RegionInput,
   DeleteJobQueueResponse,
   DeleteJobQueueError,
   Credentials | HttpClient.HttpClient
@@ -2532,7 +2533,7 @@ export type DeleteQuotaShareError = ClientException | ServerException | CommonEr
  * All jobs in the share are eventually terminated when you delete a quota share.
  */
 export const deleteQuotaShare: API.OperationMethod<
-  DeleteQuotaShareRequest,
+  DeleteQuotaShareRequest & RegionInput,
   DeleteQuotaShareResponse,
   DeleteQuotaShareError,
   Credentials | HttpClient.HttpClient
@@ -2554,7 +2555,7 @@ export type DeleteSchedulingPolicyError = ClientException | ServerException | Co
  * You can't delete a scheduling policy that's used in any job queues.
  */
 export const deleteSchedulingPolicy: API.OperationMethod<
-  DeleteSchedulingPolicyRequest,
+  DeleteSchedulingPolicyRequest & RegionInput,
   DeleteSchedulingPolicyResponse,
   DeleteSchedulingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2574,7 +2575,7 @@ export type DeleteServiceEnvironmentError = ClientException | ServerException | 
  * Deletes a Service environment. Before you can delete a service environment, you must first set its state to `DISABLED` with the `UpdateServiceEnvironment` API operation and disassociate it from any job queues with the `UpdateJobQueue` API operation.
  */
 export const deleteServiceEnvironment: API.OperationMethod<
-  DeleteServiceEnvironmentRequest,
+  DeleteServiceEnvironmentRequest & RegionInput,
   DeleteServiceEnvironmentResponse,
   DeleteServiceEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2595,7 +2596,7 @@ export type DeregisterJobDefinitionError = ClientException | ServerException | C
  * days.
  */
 export const deregisterJobDefinition: API.OperationMethod<
-  DeregisterJobDefinitionRequest,
+  DeregisterJobDefinitionRequest & RegionInput,
   DeregisterJobDefinitionResponse,
   DeregisterJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2619,7 +2620,7 @@ export type DescribeComputeEnvironmentsError = ClientException | ServerException
  * `ecsClusterArn` that you launch your Amazon ECS container instances into.
  */
 export const describeComputeEnvironments: API.PaginatedOperationMethod<
-  DescribeComputeEnvironmentsRequest,
+  DescribeComputeEnvironmentsRequest & RegionInput,
   DescribeComputeEnvironmentsResponse,
   DescribeComputeEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2646,7 +2647,7 @@ export type DescribeConsumableResourceError = ClientException | ServerException 
  * Returns a description of the specified consumable resource.
  */
 export const describeConsumableResource: API.OperationMethod<
-  DescribeConsumableResourceRequest,
+  DescribeConsumableResourceRequest & RegionInput,
   DescribeConsumableResourceResponse,
   DescribeConsumableResourceError,
   Credentials | HttpClient.HttpClient
@@ -2667,7 +2668,7 @@ export type DescribeJobDefinitionsError = ClientException | ServerException | Co
  * `ACTIVE`) to only return job definitions that match that status.
  */
 export const describeJobDefinitions: API.PaginatedOperationMethod<
-  DescribeJobDefinitionsRequest,
+  DescribeJobDefinitionsRequest & RegionInput,
   DescribeJobDefinitionsResponse,
   DescribeJobDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -2694,7 +2695,7 @@ export type DescribeJobQueuesError = ClientException | ServerException | CommonE
  * Describes one or more of your job queues.
  */
 export const describeJobQueues: API.PaginatedOperationMethod<
-  DescribeJobQueuesRequest,
+  DescribeJobQueuesRequest & RegionInput,
   DescribeJobQueuesResponse,
   DescribeJobQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -2721,7 +2722,7 @@ export type DescribeJobsError = ClientException | ServerException | CommonErrors
  * Describes a list of Batch jobs.
  */
 export const describeJobs: API.OperationMethod<
-  DescribeJobsRequest,
+  DescribeJobsRequest & RegionInput,
   DescribeJobsResponse,
   DescribeJobsError,
   Credentials | HttpClient.HttpClient
@@ -2741,7 +2742,7 @@ export type DescribeQuotaShareError = ClientException | ServerException | Common
  * Returns a description of the specified quota share.
  */
 export const describeQuotaShare: API.OperationMethod<
-  DescribeQuotaShareRequest,
+  DescribeQuotaShareRequest & RegionInput,
   DescribeQuotaShareResponse,
   DescribeQuotaShareError,
   Credentials | HttpClient.HttpClient
@@ -2761,7 +2762,7 @@ export type DescribeSchedulingPoliciesError = ClientException | ServerException 
  * Describes one or more of your scheduling policies.
  */
 export const describeSchedulingPolicies: API.OperationMethod<
-  DescribeSchedulingPoliciesRequest,
+  DescribeSchedulingPoliciesRequest & RegionInput,
   DescribeSchedulingPoliciesResponse,
   DescribeSchedulingPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -2781,7 +2782,7 @@ export type DescribeServiceEnvironmentsError = ClientException | ServerException
  * Describes one or more of your service environments.
  */
 export const describeServiceEnvironments: API.PaginatedOperationMethod<
-  DescribeServiceEnvironmentsRequest,
+  DescribeServiceEnvironmentsRequest & RegionInput,
   DescribeServiceEnvironmentsResponse,
   DescribeServiceEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2808,7 +2809,7 @@ export type DescribeServiceJobError = ClientException | ServerException | Common
  * The details of a service job.
  */
 export const describeServiceJob: API.OperationMethod<
-  DescribeServiceJobRequest,
+  DescribeServiceJobRequest & RegionInput,
   DescribeServiceJobResponse,
   DescribeServiceJobError,
   Credentials | HttpClient.HttpClient
@@ -2831,7 +2832,7 @@ export type GetJobQueueSnapshotError = ClientException | ServerException | Commo
  * break downs by share for job queues with attached fair-share or quota-share scheduling policies.
  */
 export const getJobQueueSnapshot: API.OperationMethod<
-  GetJobQueueSnapshotRequest,
+  GetJobQueueSnapshotRequest & RegionInput,
   GetJobQueueSnapshotResponse,
   GetJobQueueSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2851,7 +2852,7 @@ export type ListConsumableResourcesError = ClientException | ServerException | C
  * Returns a list of Batch consumable resources.
  */
 export const listConsumableResources: API.PaginatedOperationMethod<
-  ListConsumableResourcesRequest,
+  ListConsumableResourcesRequest & RegionInput,
   ListConsumableResourcesResponse,
   ListConsumableResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2886,7 +2887,7 @@ export type ListJobsError = ClientException | ServerException | CommonErrors;
  * - An array job ID to return a list of the children for that job
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2913,7 +2914,7 @@ export type ListJobsByConsumableResourceError = ClientException | ServerExceptio
  * Returns a list of Batch jobs that require a specific consumable resource.
  */
 export const listJobsByConsumableResource: API.PaginatedOperationMethod<
-  ListJobsByConsumableResourceRequest,
+  ListJobsByConsumableResourceRequest & RegionInput,
   ListJobsByConsumableResourceResponse,
   ListJobsByConsumableResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2940,7 +2941,7 @@ export type ListQuotaSharesError = ClientException | ServerException | CommonErr
  * Returns a list of Batch quota shares associated with a job queue.
  */
 export const listQuotaShares: API.PaginatedOperationMethod<
-  ListQuotaSharesRequest,
+  ListQuotaSharesRequest & RegionInput,
   ListQuotaSharesResponse,
   ListQuotaSharesError,
   Credentials | HttpClient.HttpClient,
@@ -2967,7 +2968,7 @@ export type ListSchedulingPoliciesError = ClientException | ServerException | Co
  * Returns a list of Batch scheduling policies.
  */
 export const listSchedulingPolicies: API.PaginatedOperationMethod<
-  ListSchedulingPoliciesRequest,
+  ListSchedulingPoliciesRequest & RegionInput,
   ListSchedulingPoliciesResponse,
   ListSchedulingPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2994,7 +2995,7 @@ export type ListServiceJobsError = ClientException | ServerException | CommonErr
  * Returns a list of service jobs for a specified job queue.
  */
 export const listServiceJobs: API.PaginatedOperationMethod<
-  ListServiceJobsRequest,
+  ListServiceJobsRequest & RegionInput,
   ListServiceJobsResponse,
   ListServiceJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3022,7 +3023,7 @@ export type ListTagsForResourceError = ClientException | ServerException | Commo
  * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3042,7 +3043,7 @@ export type RegisterJobDefinitionError = ClientException | ServerException | Com
  * Registers an Batch job definition.
  */
 export const registerJobDefinition: API.OperationMethod<
-  RegisterJobDefinitionRequest,
+  RegisterJobDefinitionRequest & RegionInput,
   RegisterJobDefinitionResponse,
   RegisterJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3074,7 +3075,7 @@ export type SubmitJobError = ClientException | ServerException | CommonErrors;
  * terminated.
  */
 export const submitJob: API.OperationMethod<
-  SubmitJobRequest,
+  SubmitJobRequest & RegionInput,
   SubmitJobResponse,
   SubmitJobError,
   Credentials | HttpClient.HttpClient
@@ -3094,7 +3095,7 @@ export type SubmitServiceJobError = ClientException | ServerException | CommonEr
  * Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI.
  */
 export const submitServiceJob: API.OperationMethod<
-  SubmitServiceJobRequest,
+  SubmitServiceJobRequest & RegionInput,
   SubmitServiceJobResponse,
   SubmitServiceJobError,
   Credentials | HttpClient.HttpClient
@@ -3118,7 +3119,7 @@ export type TagResourceError = ClientException | ServerException | CommonErrors;
  * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3141,7 +3142,7 @@ export type TerminateJobError = ClientException | ServerException | CommonErrors
  * cancelled.
  */
 export const terminateJob: API.OperationMethod<
-  TerminateJobRequest,
+  TerminateJobRequest & RegionInput,
   TerminateJobResponse,
   TerminateJobError,
   Credentials | HttpClient.HttpClient
@@ -3176,7 +3177,7 @@ export type TerminateJobsError = ClientException | ServerException | CommonError
  * TerminateJob and bulk `TerminateJobs` operations.
  */
 export const terminateJobs: API.OperationMethod<
-  TerminateJobsRequest,
+  TerminateJobsRequest & RegionInput,
   TerminateJobsResponse,
   TerminateJobsError,
   Credentials | HttpClient.HttpClient
@@ -3196,7 +3197,7 @@ export type TerminateServiceJobError = ClientException | ServerException | Commo
  * Terminates a service job in a job queue.
  */
 export const terminateServiceJob: API.OperationMethod<
-  TerminateServiceJobRequest,
+  TerminateServiceJobRequest & RegionInput,
   TerminateServiceJobResponse,
   TerminateServiceJobError,
   Credentials | HttpClient.HttpClient
@@ -3223,7 +3224,7 @@ export type TerminateServiceJobsError = ClientException | ServerException | Comm
  * `TerminateServiceJob` and bulk `TerminateServiceJobs` operations.
  */
 export const terminateServiceJobs: API.OperationMethod<
-  TerminateServiceJobsRequest,
+  TerminateServiceJobsRequest & RegionInput,
   TerminateServiceJobsResponse,
   TerminateServiceJobsError,
   Credentials | HttpClient.HttpClient
@@ -3243,7 +3244,7 @@ export type UntagResourceError = ClientException | ServerException | CommonError
  * Deletes specified tags from an Batch resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3268,7 +3269,7 @@ export type UpdateComputeEnvironmentError =
  * Updates an Batch compute environment.
  */
 export const updateComputeEnvironment: API.OperationMethod<
-  UpdateComputeEnvironmentRequest,
+  UpdateComputeEnvironmentRequest & RegionInput,
   UpdateComputeEnvironmentResponse,
   UpdateComputeEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -3293,7 +3294,7 @@ export type UpdateConsumableResourceError = ClientException | ServerException | 
  * Updates a consumable resource.
  */
 export const updateConsumableResource: API.OperationMethod<
-  UpdateConsumableResourceRequest,
+  UpdateConsumableResourceRequest & RegionInput,
   UpdateConsumableResourceResponse,
   UpdateConsumableResourceError,
   Credentials | HttpClient.HttpClient
@@ -3318,7 +3319,7 @@ export type UpdateJobQueueError =
  * Updates a job queue.
  */
 export const updateJobQueue: API.OperationMethod<
-  UpdateJobQueueRequest,
+  UpdateJobQueueRequest & RegionInput,
   UpdateJobQueueResponse,
   UpdateJobQueueError,
   Credentials | HttpClient.HttpClient
@@ -3338,7 +3339,7 @@ export type UpdateQuotaShareError = ClientException | ServerException | CommonEr
  * Updates a quota share.
  */
 export const updateQuotaShare: API.OperationMethod<
-  UpdateQuotaShareRequest,
+  UpdateQuotaShareRequest & RegionInput,
   UpdateQuotaShareResponse,
   UpdateQuotaShareError,
   Credentials | HttpClient.HttpClient
@@ -3358,7 +3359,7 @@ export type UpdateSchedulingPolicyError = ClientException | ServerException | Co
  * Updates a scheduling policy.
  */
 export const updateSchedulingPolicy: API.OperationMethod<
-  UpdateSchedulingPolicyRequest,
+  UpdateSchedulingPolicyRequest & RegionInput,
   UpdateSchedulingPolicyResponse,
   UpdateSchedulingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3378,7 +3379,7 @@ export type UpdateServiceEnvironmentError = ClientException | ServerException | 
  * Updates a service environment. You can update the state of a service environment from `ENABLED` to `DISABLED` to prevent new service jobs from being placed in the service environment.
  */
 export const updateServiceEnvironment: API.OperationMethod<
-  UpdateServiceEnvironmentRequest,
+  UpdateServiceEnvironmentRequest & RegionInput,
   UpdateServiceEnvironmentResponse,
   UpdateServiceEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -3398,7 +3399,7 @@ export type UpdateServiceJobError = ClientException | ServerException | CommonEr
  * Updates the priority of a specified service job in an Batch job queue.
  */
 export const updateServiceJob: API.OperationMethod<
-  UpdateServiceJobRequest,
+  UpdateServiceJobRequest & RegionInput,
   UpdateServiceJobResponse,
   UpdateServiceJobError,
   Credentials | HttpClient.HttpClient

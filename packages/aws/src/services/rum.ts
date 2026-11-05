@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -531,7 +532,7 @@ export type BatchCreateRumMetricDefinitionsError =
  * If some metric definitions specified in a `BatchCreateRumMetricDefinitions` operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
  */
 export const batchCreateRumMetricDefinitions: API.OperationMethod<
-  BatchCreateRumMetricDefinitionsRequest,
+  BatchCreateRumMetricDefinitionsRequest & RegionInput,
   BatchCreateRumMetricDefinitionsResponse,
   BatchCreateRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -570,7 +571,7 @@ export type BatchDeleteRumMetricDefinitionsError =
  * The maximum number of metric definitions that you can specify in one `BatchDeleteRumMetricDefinitions` operation is 200.
  */
 export const batchDeleteRumMetricDefinitions: API.OperationMethod<
-  BatchDeleteRumMetricDefinitionsRequest,
+  BatchDeleteRumMetricDefinitionsRequest & RegionInput,
   BatchDeleteRumMetricDefinitionsResponse,
   BatchDeleteRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -602,7 +603,7 @@ export type BatchGetRumMetricDefinitionsError =
  * Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
  */
 export const batchGetRumMetricDefinitions: API.PaginatedOperationMethod<
-  BatchGetRumMetricDefinitionsRequest,
+  BatchGetRumMetricDefinitionsRequest & RegionInput,
   BatchGetRumMetricDefinitionsResponse,
   BatchGetRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -646,7 +647,7 @@ export type CreateAppMonitorError =
  * After you create an app monitor, sign in to the CloudWatch RUM console to get the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
 export const createAppMonitor: API.OperationMethod<
-  CreateAppMonitorRequest,
+  CreateAppMonitorRequest & RegionInput,
   CreateAppMonitorResponse,
   CreateAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -681,7 +682,7 @@ export type DeleteAppMonitorError =
  * Deletes an existing app monitor. This immediately stops the collection of data.
  */
 export const deleteAppMonitor: API.OperationMethod<
-  DeleteAppMonitorRequest,
+  DeleteAppMonitorRequest & RegionInput,
   DeleteAppMonitorResponse,
   DeleteAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -717,7 +718,7 @@ export type DeleteResourcePolicyError =
  * Removes the association of a resource-based policy from an app monitor.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -753,7 +754,7 @@ export type DeleteRumMetricsDestinationError =
  * Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
  */
 export const deleteRumMetricsDestination: API.OperationMethod<
-  DeleteRumMetricsDestinationRequest,
+  DeleteRumMetricsDestinationRequest & RegionInput,
   DeleteRumMetricsDestinationResponse,
   DeleteRumMetricsDestinationError,
   Credentials | HttpClient.HttpClient
@@ -786,7 +787,7 @@ export type GetAppMonitorError =
  * Retrieves the complete configuration information for one app monitor.
  */
 export const getAppMonitor: API.OperationMethod<
-  GetAppMonitorRequest,
+  GetAppMonitorRequest & RegionInput,
   GetAppMonitorResponse,
   GetAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -818,7 +819,7 @@ export type GetAppMonitorDataError =
  * Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
  */
 export const getAppMonitorData: API.PaginatedOperationMethod<
-  GetAppMonitorDataRequest,
+  GetAppMonitorDataRequest & RegionInput,
   GetAppMonitorDataResponse,
   GetAppMonitorDataError,
   Credentials | HttpClient.HttpClient,
@@ -859,7 +860,7 @@ export type GetResourcePolicyError =
  * Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -892,7 +893,7 @@ export type ListAppMonitorsError =
  * Returns a list of the Amazon CloudWatch RUM app monitors in the account.
  */
 export const listAppMonitors: API.PaginatedOperationMethod<
-  ListAppMonitorsRequest,
+  ListAppMonitorsRequest & RegionInput,
   ListAppMonitorsResponse,
   ListAppMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -931,7 +932,7 @@ export type ListRumMetricsDestinationsError =
  * For more information about extended metrics, see AddRumMetrics.
  */
 export const listRumMetricsDestinations: API.PaginatedOperationMethod<
-  ListRumMetricsDestinationsRequest,
+  ListRumMetricsDestinationsRequest & RegionInput,
   ListRumMetricsDestinationsResponse,
   ListRumMetricsDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -967,7 +968,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a CloudWatch RUM resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -997,7 +998,7 @@ export type PutResourcePolicyError =
  * Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1035,7 +1036,7 @@ export type PutRumEventsError =
  * Each `PutRumEvents` operation can send a batch of events from one user session.
  */
 export const putRumEvents: API.OperationMethod<
-  PutRumEventsRequest,
+  PutRumEventsRequest & RegionInput,
   PutRumEventsResponse,
   PutRumEventsError,
   Credentials | HttpClient.HttpClient
@@ -1071,7 +1072,7 @@ export type PutRumMetricsDestinationError =
  * For more information about extended metrics, see BatchCreateRumMetricDefinitions.
  */
 export const putRumMetricsDestination: API.OperationMethod<
-  PutRumMetricsDestinationRequest,
+  PutRumMetricsDestinationRequest & RegionInput,
   PutRumMetricsDestinationResponse,
   PutRumMetricsDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1112,7 +1113,7 @@ export type TagResourceError =
  * For more information, see Tagging Amazon Web Services resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1136,7 +1137,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1169,7 +1170,7 @@ export type UpdateAppMonitorError =
  * After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
 export const updateAppMonitor: API.OperationMethod<
-  UpdateAppMonitorRequest,
+  UpdateAppMonitorRequest & RegionInput,
   UpdateAppMonitorResponse,
   UpdateAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type UpdateRumMetricDefinitionError =
  * Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
  */
 export const updateRumMetricDefinition: API.OperationMethod<
-  UpdateRumMetricDefinitionRequest,
+  UpdateRumMetricDefinitionRequest & RegionInput,
   UpdateRumMetricDefinitionResponse,
   UpdateRumMetricDefinitionError,
   Credentials | HttpClient.HttpClient

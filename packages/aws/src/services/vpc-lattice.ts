@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1518,7 +1519,7 @@ export type BatchUpdateRuleError =
  * For more information, see How Amazon VPC Lattice works with IAM in the *Amazon VPC Lattice User Guide*.
  */
 export const batchUpdateRule: API.OperationMethod<
-  BatchUpdateRuleRequest,
+  BatchUpdateRuleRequest & RegionInput,
   BatchUpdateRuleResponse,
   BatchUpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1552,7 +1553,7 @@ export type CreateAccessLogSubscriptionError =
  * Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner can only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see Access logs in the *Amazon VPC Lattice User Guide*.
  */
 export const createAccessLogSubscription: API.OperationMethod<
-  CreateAccessLogSubscriptionRequest,
+  CreateAccessLogSubscriptionRequest & RegionInput,
   CreateAccessLogSubscriptionResponse,
   CreateAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1587,7 +1588,7 @@ export type CreateListenerError =
  * Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see Listeners in the *Amazon VPC Lattice User Guide*.
  */
 export const createListener: API.OperationMethod<
-  CreateListenerRequest,
+  CreateListenerRequest & RegionInput,
   CreateListenerResponse,
   CreateListenerError,
   Credentials | HttpClient.HttpClient
@@ -1623,7 +1624,7 @@ export type CreateResourceConfigurationError =
  * Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
  */
 export const createResourceConfiguration: API.OperationMethod<
-  CreateResourceConfigurationRequest,
+  CreateResourceConfigurationRequest & RegionInput,
   CreateResourceConfigurationResponse,
   CreateResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1659,7 +1660,7 @@ export type CreateResourceGatewayError =
  * A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
  */
 export const createResourceGateway: API.OperationMethod<
-  CreateResourceGatewayRequest,
+  CreateResourceGatewayRequest & RegionInput,
   CreateResourceGatewayResponse,
   CreateResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1695,7 +1696,7 @@ export type CreateRuleError =
  * Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1733,7 +1734,7 @@ export type CreateServiceError =
  * For more information, see Services in the *Amazon VPC Lattice User Guide*.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -1771,7 +1772,7 @@ export type CreateServiceNetworkError =
  * For more information, see Service networks in the *Amazon VPC Lattice User Guide*.
  */
 export const createServiceNetwork: API.OperationMethod<
-  CreateServiceNetworkRequest,
+  CreateServiceNetworkRequest & RegionInput,
   CreateServiceNetworkResponse,
   CreateServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1807,7 +1808,7 @@ export type CreateServiceNetworkResourceAssociationError =
  * Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
  */
 export const createServiceNetworkResourceAssociation: API.OperationMethod<
-  CreateServiceNetworkResourceAssociationRequest,
+  CreateServiceNetworkResourceAssociationRequest & RegionInput,
   CreateServiceNetworkResourceAssociationResponse,
   CreateServiceNetworkResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1849,7 +1850,7 @@ export type CreateServiceNetworkServiceAssociationError =
  * As a result of this operation, the association is created in the service network account and the association owner account.
  */
 export const createServiceNetworkServiceAssociation: API.OperationMethod<
-  CreateServiceNetworkServiceAssociationRequest,
+  CreateServiceNetworkServiceAssociationRequest & RegionInput,
   CreateServiceNetworkServiceAssociationResponse,
   CreateServiceNetworkServiceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1891,7 +1892,7 @@ export type CreateServiceNetworkVpcAssociationError =
  * If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
  */
 export const createServiceNetworkVpcAssociation: API.OperationMethod<
-  CreateServiceNetworkVpcAssociationRequest,
+  CreateServiceNetworkVpcAssociationRequest & RegionInput,
   CreateServiceNetworkVpcAssociationResponse,
   CreateServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1929,7 +1930,7 @@ export type CreateTargetGroupError =
  * For more information, see Target groups in the *Amazon VPC Lattice User Guide*.
  */
 export const createTargetGroup: API.OperationMethod<
-  CreateTargetGroupRequest,
+  CreateTargetGroupRequest & RegionInput,
   CreateTargetGroupResponse,
   CreateTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1963,7 +1964,7 @@ export type DeleteAccessLogSubscriptionError =
  * Deletes the specified access log subscription.
  */
 export const deleteAccessLogSubscription: API.OperationMethod<
-  DeleteAccessLogSubscriptionRequest,
+  DeleteAccessLogSubscriptionRequest & RegionInput,
   DeleteAccessLogSubscriptionResponse,
   DeleteAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1995,7 +1996,7 @@ export type DeleteAuthPolicyError =
  * Deletes the specified auth policy. If an auth is set to `AWS_IAM` and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to `NONE`. If auth is enabled on the resource, but no auth policy is set, all requests are denied.
  */
 export const deleteAuthPolicy: API.OperationMethod<
-  DeleteAuthPolicyRequest,
+  DeleteAuthPolicyRequest & RegionInput,
   DeleteAuthPolicyResponse,
   DeleteAuthPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2027,7 +2028,7 @@ export type DeleteDomainVerificationError =
  * Deletes the specified domain verification.
  */
 export const deleteDomainVerification: API.OperationMethod<
-  DeleteDomainVerificationRequest,
+  DeleteDomainVerificationRequest & RegionInput,
   DeleteDomainVerificationResponse,
   DeleteDomainVerificationError,
   Credentials | HttpClient.HttpClient
@@ -2060,7 +2061,7 @@ export type DeleteListenerError =
  * Deletes the specified listener.
  */
 export const deleteListener: API.OperationMethod<
-  DeleteListenerRequest,
+  DeleteListenerRequest & RegionInput,
   DeleteListenerResponse,
   DeleteListenerError,
   Credentials | HttpClient.HttpClient
@@ -2094,7 +2095,7 @@ export type DeleteResourceConfigurationError =
  * Deletes the specified resource configuration.
  */
 export const deleteResourceConfiguration: API.OperationMethod<
-  DeleteResourceConfigurationRequest,
+  DeleteResourceConfigurationRequest & RegionInput,
   DeleteResourceConfigurationResponse,
   DeleteResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2127,7 +2128,7 @@ export type DeleteResourceEndpointAssociationError =
  * Disassociates the resource configuration from the resource VPC endpoint.
  */
 export const deleteResourceEndpointAssociation: API.OperationMethod<
-  DeleteResourceEndpointAssociationRequest,
+  DeleteResourceEndpointAssociationRequest & RegionInput,
   DeleteResourceEndpointAssociationResponse,
   DeleteResourceEndpointAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2160,7 +2161,7 @@ export type DeleteResourceGatewayError =
  * Deletes the specified resource gateway.
  */
 export const deleteResourceGateway: API.OperationMethod<
-  DeleteResourceGatewayRequest,
+  DeleteResourceGatewayRequest & RegionInput,
   DeleteResourceGatewayResponse,
   DeleteResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2193,7 +2194,7 @@ export type DeleteResourcePolicyError =
  * Deletes the specified resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2228,7 +2229,7 @@ export type DeleteRuleError =
  * For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2262,7 +2263,7 @@ export type DeleteServiceError =
  * Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see Delete a service in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -2296,7 +2297,7 @@ export type DeleteServiceNetworkError =
  * Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteServiceNetwork: API.OperationMethod<
-  DeleteServiceNetworkRequest,
+  DeleteServiceNetworkRequest & RegionInput,
   DeleteServiceNetworkResponse,
   DeleteServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2330,7 +2331,7 @@ export type DeleteServiceNetworkResourceAssociationError =
  * Deletes the association between a service network and a resource configuration.
  */
 export const deleteServiceNetworkResourceAssociation: API.OperationMethod<
-  DeleteServiceNetworkResourceAssociationRequest,
+  DeleteServiceNetworkResourceAssociationRequest & RegionInput,
   DeleteServiceNetworkResourceAssociationResponse,
   DeleteServiceNetworkResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2364,7 +2365,7 @@ export type DeleteServiceNetworkServiceAssociationError =
  * Deletes the association between a service and a service network. This operation fails if an association is still in progress.
  */
 export const deleteServiceNetworkServiceAssociation: API.OperationMethod<
-  DeleteServiceNetworkServiceAssociationRequest,
+  DeleteServiceNetworkServiceAssociationRequest & RegionInput,
   DeleteServiceNetworkServiceAssociationResponse,
   DeleteServiceNetworkServiceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2398,7 +2399,7 @@ export type DeleteServiceNetworkVpcAssociationError =
  * Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
  */
 export const deleteServiceNetworkVpcAssociation: API.OperationMethod<
-  DeleteServiceNetworkVpcAssociationRequest,
+  DeleteServiceNetworkVpcAssociationRequest & RegionInput,
   DeleteServiceNetworkVpcAssociationResponse,
   DeleteServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2431,7 +2432,7 @@ export type DeleteTargetGroupError =
  * Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
  */
 export const deleteTargetGroup: API.OperationMethod<
-  DeleteTargetGroupRequest,
+  DeleteTargetGroupRequest & RegionInput,
   DeleteTargetGroupResponse,
   DeleteTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2464,7 +2465,7 @@ export type DeregisterTargetsError =
  * Deregisters the specified targets from the specified target group.
  */
 export const deregisterTargets: API.OperationMethod<
-  DeregisterTargetsRequest,
+  DeregisterTargetsRequest & RegionInput,
   DeregisterTargetsResponse,
   DeregisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2497,7 +2498,7 @@ export type GetAccessLogSubscriptionError =
  * Retrieves information about the specified access log subscription.
  */
 export const getAccessLogSubscription: API.OperationMethod<
-  GetAccessLogSubscriptionRequest,
+  GetAccessLogSubscriptionRequest & RegionInput,
   GetAccessLogSubscriptionResponse,
   GetAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2529,7 +2530,7 @@ export type GetAuthPolicyError =
  * Retrieves information about the auth policy for the specified service or service network.
  */
 export const getAuthPolicy: API.OperationMethod<
-  GetAuthPolicyRequest,
+  GetAuthPolicyRequest & RegionInput,
   GetAuthPolicyResponse,
   GetAuthPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2561,7 +2562,7 @@ export type GetDomainVerificationError =
  * Retrieves information about a domain verification.ß
  */
 export const getDomainVerification: API.OperationMethod<
-  GetDomainVerificationRequest,
+  GetDomainVerificationRequest & RegionInput,
   GetDomainVerificationResponse,
   GetDomainVerificationError,
   Credentials | HttpClient.HttpClient
@@ -2593,7 +2594,7 @@ export type GetListenerError =
  * Retrieves information about the specified listener for the specified service.
  */
 export const getListener: API.OperationMethod<
-  GetListenerRequest,
+  GetListenerRequest & RegionInput,
   GetListenerResponse,
   GetListenerError,
   Credentials | HttpClient.HttpClient
@@ -2625,7 +2626,7 @@ export type GetResourceConfigurationError =
  * Retrieves information about the specified resource configuration.
  */
 export const getResourceConfiguration: API.OperationMethod<
-  GetResourceConfigurationRequest,
+  GetResourceConfigurationRequest & RegionInput,
   GetResourceConfigurationResponse,
   GetResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2657,7 +2658,7 @@ export type GetResourceGatewayError =
  * Retrieves information about the specified resource gateway.
  */
 export const getResourceGateway: API.OperationMethod<
-  GetResourceGatewayRequest,
+  GetResourceGatewayRequest & RegionInput,
   GetResourceGatewayResponse,
   GetResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2689,7 +2690,7 @@ export type GetResourcePolicyError =
  * Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2721,7 +2722,7 @@ export type GetRuleError =
  * Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
 export const getRule: API.OperationMethod<
-  GetRuleRequest,
+  GetRuleRequest & RegionInput,
   GetRuleResponse,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -2753,7 +2754,7 @@ export type GetServiceError =
  * Retrieves information about the specified service.
  */
 export const getService: API.OperationMethod<
-  GetServiceRequest,
+  GetServiceRequest & RegionInput,
   GetServiceResponse,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -2785,7 +2786,7 @@ export type GetServiceNetworkError =
  * Retrieves information about the specified service network.
  */
 export const getServiceNetwork: API.OperationMethod<
-  GetServiceNetworkRequest,
+  GetServiceNetworkRequest & RegionInput,
   GetServiceNetworkResponse,
   GetServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2817,7 +2818,7 @@ export type GetServiceNetworkResourceAssociationError =
  * Retrieves information about the specified association between a service network and a resource configuration.
  */
 export const getServiceNetworkResourceAssociation: API.OperationMethod<
-  GetServiceNetworkResourceAssociationRequest,
+  GetServiceNetworkResourceAssociationRequest & RegionInput,
   GetServiceNetworkResourceAssociationResponse,
   GetServiceNetworkResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2849,7 +2850,7 @@ export type GetServiceNetworkServiceAssociationError =
  * Retrieves information about the specified association between a service network and a service.
  */
 export const getServiceNetworkServiceAssociation: API.OperationMethod<
-  GetServiceNetworkServiceAssociationRequest,
+  GetServiceNetworkServiceAssociationRequest & RegionInput,
   GetServiceNetworkServiceAssociationResponse,
   GetServiceNetworkServiceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2881,7 +2882,7 @@ export type GetServiceNetworkVpcAssociationError =
  * Retrieves information about the specified association between a service network and a VPC.
  */
 export const getServiceNetworkVpcAssociation: API.OperationMethod<
-  GetServiceNetworkVpcAssociationRequest,
+  GetServiceNetworkVpcAssociationRequest & RegionInput,
   GetServiceNetworkVpcAssociationResponse,
   GetServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2913,7 +2914,7 @@ export type GetTargetGroupError =
  * Retrieves information about the specified target group.
  */
 export const getTargetGroup: API.OperationMethod<
-  GetTargetGroupRequest,
+  GetTargetGroupRequest & RegionInput,
   GetTargetGroupResponse,
   GetTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2945,7 +2946,7 @@ export type ListAccessLogSubscriptionsError =
  * Lists the access log subscriptions for the specified service network or service.
  */
 export const listAccessLogSubscriptions: API.PaginatedOperationMethod<
-  ListAccessLogSubscriptionsRequest,
+  ListAccessLogSubscriptionsRequest & RegionInput,
   ListAccessLogSubscriptionsResponse,
   ListAccessLogSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2984,7 +2985,7 @@ export type ListDomainVerificationsError =
  * Lists the domain verifications.
  */
 export const listDomainVerifications: API.PaginatedOperationMethod<
-  ListDomainVerificationsRequest,
+  ListDomainVerificationsRequest & RegionInput,
   ListDomainVerificationsResponse,
   ListDomainVerificationsError,
   Credentials | HttpClient.HttpClient,
@@ -3023,7 +3024,7 @@ export type ListListenersError =
  * Lists the listeners for the specified service.
  */
 export const listListeners: API.PaginatedOperationMethod<
-  ListListenersRequest,
+  ListListenersRequest & RegionInput,
   ListListenersResponse,
   ListListenersError,
   Credentials | HttpClient.HttpClient,
@@ -3061,7 +3062,7 @@ export type ListResourceConfigurationsError =
  * Lists the resource configurations owned by or shared with this account.
  */
 export const listResourceConfigurations: API.PaginatedOperationMethod<
-  ListResourceConfigurationsRequest,
+  ListResourceConfigurationsRequest & RegionInput,
   ListResourceConfigurationsResponse,
   ListResourceConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3098,7 +3099,7 @@ export type ListResourceEndpointAssociationsError =
  * Lists the associations for the specified VPC endpoint.
  */
 export const listResourceEndpointAssociations: API.PaginatedOperationMethod<
-  ListResourceEndpointAssociationsRequest,
+  ListResourceEndpointAssociationsRequest & RegionInput,
   ListResourceEndpointAssociationsResponse,
   ListResourceEndpointAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3135,7 +3136,7 @@ export type ListResourceGatewaysError =
  * Lists the resource gateways that you own or that were shared with you.
  */
 export const listResourceGateways: API.PaginatedOperationMethod<
-  ListResourceGatewaysRequest,
+  ListResourceGatewaysRequest & RegionInput,
   ListResourceGatewaysResponse,
   ListResourceGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -3173,7 +3174,7 @@ export type ListRulesError =
  * Lists the rules for the specified listener.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3211,7 +3212,7 @@ export type ListServiceNetworkResourceAssociationsError =
  * Lists the associations between a service network and a resource configuration.
  */
 export const listServiceNetworkResourceAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkResourceAssociationsRequest,
+  ListServiceNetworkResourceAssociationsRequest & RegionInput,
   ListServiceNetworkResourceAssociationsResponse,
   ListServiceNetworkResourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3248,7 +3249,7 @@ export type ListServiceNetworksError =
  * Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
  */
 export const listServiceNetworks: API.PaginatedOperationMethod<
-  ListServiceNetworksRequest,
+  ListServiceNetworksRequest & RegionInput,
   ListServiceNetworksResponse,
   ListServiceNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -3287,7 +3288,7 @@ export type ListServiceNetworkServiceAssociationsError =
  * Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
  */
 export const listServiceNetworkServiceAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkServiceAssociationsRequest,
+  ListServiceNetworkServiceAssociationsRequest & RegionInput,
   ListServiceNetworkServiceAssociationsResponse,
   ListServiceNetworkServiceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3324,7 +3325,7 @@ export type ListServiceNetworkVpcAssociationsError =
  * Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
  */
 export const listServiceNetworkVpcAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkVpcAssociationsRequest,
+  ListServiceNetworkVpcAssociationsRequest & RegionInput,
   ListServiceNetworkVpcAssociationsResponse,
   ListServiceNetworkVpcAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3361,7 +3362,7 @@ export type ListServiceNetworkVpcEndpointAssociationsError =
  * Lists the associations between a service network and a VPC endpoint.
  */
 export const listServiceNetworkVpcEndpointAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkVpcEndpointAssociationsRequest,
+  ListServiceNetworkVpcEndpointAssociationsRequest & RegionInput,
   ListServiceNetworkVpcEndpointAssociationsResponse,
   ListServiceNetworkVpcEndpointAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3398,7 +3399,7 @@ export type ListServicesError =
  * Lists the services owned by the caller account or shared with the caller account.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -3435,7 +3436,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3465,7 +3466,7 @@ export type ListTargetGroupsError =
  * Lists your target groups. You can narrow your search by using the filters below in your request.
  */
 export const listTargetGroups: API.PaginatedOperationMethod<
-  ListTargetGroupsRequest,
+  ListTargetGroupsRequest & RegionInput,
   ListTargetGroupsResponse,
   ListTargetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3503,7 +3504,7 @@ export type ListTargetsError =
  * Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also U+FB01lter the results by target.
  */
 export const listTargets: API.PaginatedOperationMethod<
-  ListTargetsRequest,
+  ListTargetsRequest & RegionInput,
   ListTargetsResponse,
   ListTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -3544,7 +3545,7 @@ export type PutAuthPolicyError =
  * For more information, see Auth policies in the *Amazon VPC Lattice User Guide*.
  */
 export const putAuthPolicy: API.OperationMethod<
-  PutAuthPolicyRequest,
+  PutAuthPolicyRequest & RegionInput,
   PutAuthPolicyResponse,
   PutAuthPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3576,7 +3577,7 @@ export type PutResourcePolicyError =
  * Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3610,7 +3611,7 @@ export type RegisterTargetsError =
  * Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
  */
 export const registerTargets: API.OperationMethod<
-  RegisterTargetsRequest,
+  RegisterTargetsRequest & RegionInput,
   RegisterTargetsResponse,
   RegisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -3645,7 +3646,7 @@ export type StartDomainVerificationError =
  * Starts the domain verification process for a custom domain name.
  */
 export const startDomainVerification: API.OperationMethod<
-  StartDomainVerificationRequest,
+  StartDomainVerificationRequest & RegionInput,
   StartDomainVerificationResponse,
   StartDomainVerificationError,
   Credentials | HttpClient.HttpClient
@@ -3678,7 +3679,7 @@ export type TagResourceError =
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3709,7 +3710,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3741,7 +3742,7 @@ export type UpdateAccessLogSubscriptionError =
  * Updates the specified access log subscription.
  */
 export const updateAccessLogSubscription: API.OperationMethod<
-  UpdateAccessLogSubscriptionRequest,
+  UpdateAccessLogSubscriptionRequest & RegionInput,
   UpdateAccessLogSubscriptionResponse,
   UpdateAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3776,7 +3777,7 @@ export type UpdateListenerError =
  * Updates the specified listener for the specified service.
  */
 export const updateListener: API.OperationMethod<
-  UpdateListenerRequest,
+  UpdateListenerRequest & RegionInput,
   UpdateListenerResponse,
   UpdateListenerError,
   Credentials | HttpClient.HttpClient
@@ -3811,7 +3812,7 @@ export type UpdateResourceConfigurationError =
  * Updates the specified resource configuration.
  */
 export const updateResourceConfiguration: API.OperationMethod<
-  UpdateResourceConfigurationRequest,
+  UpdateResourceConfigurationRequest & RegionInput,
   UpdateResourceConfigurationResponse,
   UpdateResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3845,7 +3846,7 @@ export type UpdateResourceGatewayError =
  * Updates the specified resource gateway.
  */
 export const updateResourceGateway: API.OperationMethod<
-  UpdateResourceGatewayRequest,
+  UpdateResourceGatewayRequest & RegionInput,
   UpdateResourceGatewayResponse,
   UpdateResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3880,7 +3881,7 @@ export type UpdateRuleError =
  * Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use `UpdateListener`.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -3916,7 +3917,7 @@ export type UpdateServiceError =
  * Updates the specified service.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
+  UpdateServiceRequest & RegionInput,
   UpdateServiceResponse,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -3951,7 +3952,7 @@ export type UpdateServiceNetworkError =
  * Updates the specified service network.
  */
 export const updateServiceNetwork: API.OperationMethod<
-  UpdateServiceNetworkRequest,
+  UpdateServiceNetworkRequest & RegionInput,
   UpdateServiceNetworkResponse,
   UpdateServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3985,7 +3986,7 @@ export type UpdateServiceNetworkVpcAssociationError =
  * Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
  */
 export const updateServiceNetworkVpcAssociation: API.OperationMethod<
-  UpdateServiceNetworkVpcAssociationRequest,
+  UpdateServiceNetworkVpcAssociationRequest & RegionInput,
   UpdateServiceNetworkVpcAssociationResponse,
   UpdateServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4020,7 +4021,7 @@ export type UpdateTargetGroupError =
  * Updates the specified target group.
  */
 export const updateTargetGroup: API.OperationMethod<
-  UpdateTargetGroupRequest,
+  UpdateTargetGroupRequest & RegionInput,
   UpdateTargetGroupResponse,
   UpdateTargetGroupError,
   Credentials | HttpClient.HttpClient

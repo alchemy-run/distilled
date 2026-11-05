@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -189,7 +190,7 @@ export type GetLatestConfigurationError =
  * Pricing.
  */
 export const getLatestConfiguration: API.OperationMethod<
-  GetLatestConfigurationRequest,
+  GetLatestConfigurationRequest & RegionInput,
   GetLatestConfigurationResponse,
   GetLatestConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -222,7 +223,7 @@ export type StartConfigurationSessionError =
  * configuration in the *AppConfig User Guide*.
  */
 export const startConfigurationSession: API.OperationMethod<
-  StartConfigurationSessionRequest,
+  StartConfigurationSessionRequest & RegionInput,
   StartConfigurationSessionResponse,
   StartConfigurationSessionError,
   Credentials | HttpClient.HttpClient

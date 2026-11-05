@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -619,7 +620,7 @@ export type CancelSessionError =
  * Cancels an approval session. For more information, see Session in the *Multi-party approval User Guide*.
  */
 export const cancelSession: API.OperationMethod<
-  CancelSessionRequest,
+  CancelSessionRequest & RegionInput,
   CancelSessionResponse,
   CancelSessionError,
   Credentials | HttpClient.HttpClient
@@ -653,7 +654,7 @@ export type CreateApprovalTeamError =
  * Creates a new approval team. For more information, see Approval team in the *Multi-party approval User Guide*.
  */
 export const createApprovalTeam: API.OperationMethod<
-  CreateApprovalTeamRequest,
+  CreateApprovalTeamRequest & RegionInput,
   CreateApprovalTeamResponse,
   CreateApprovalTeamError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type CreateIdentitySourceError =
  * Creates a new identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const createIdentitySource: API.OperationMethod<
-  CreateIdentitySourceRequest,
+  CreateIdentitySourceRequest & RegionInput,
   CreateIdentitySourceResponse,
   CreateIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -718,7 +719,7 @@ export type DeleteIdentitySourceError =
  * Deletes an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const deleteIdentitySource: API.OperationMethod<
-  DeleteIdentitySourceRequest,
+  DeleteIdentitySourceRequest & RegionInput,
   DeleteIdentitySourceResponse,
   DeleteIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -753,7 +754,7 @@ export type DeleteInactiveApprovalTeamVersionError =
  * You can also use this operation to delete a team draft. For more information, see Interacting with drafts in the *Multi-party approval User Guide*.
  */
 export const deleteInactiveApprovalTeamVersion: API.OperationMethod<
-  DeleteInactiveApprovalTeamVersionRequest,
+  DeleteInactiveApprovalTeamVersionRequest & RegionInput,
   DeleteInactiveApprovalTeamVersionResponse,
   DeleteInactiveApprovalTeamVersionError,
   Credentials | HttpClient.HttpClient
@@ -786,7 +787,7 @@ export type GetApprovalTeamError =
  * Returns details for an approval team.
  */
 export const getApprovalTeam: API.OperationMethod<
-  GetApprovalTeamRequest,
+  GetApprovalTeamRequest & RegionInput,
   GetApprovalTeamResponse,
   GetApprovalTeamError,
   Credentials | HttpClient.HttpClient
@@ -818,7 +819,7 @@ export type GetIdentitySourceError =
  * Returns details for an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const getIdentitySource: API.OperationMethod<
-  GetIdentitySourceRequest,
+  GetIdentitySourceRequest & RegionInput,
   GetIdentitySourceResponse,
   GetIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -850,7 +851,7 @@ export type GetPolicyVersionError =
  * Returns details for the version of a policy. Policies define the permissions for team resources.
  */
 export const getPolicyVersion: API.OperationMethod<
-  GetPolicyVersionRequest,
+  GetPolicyVersionRequest & RegionInput,
   GetPolicyVersionResponse,
   GetPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -882,7 +883,7 @@ export type GetResourcePolicyError =
  * Returns details about a policy for a resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -914,7 +915,7 @@ export type GetSessionError =
  * Returns details for an approval session. For more information, see Session in the *Multi-party approval User Guide*.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -945,7 +946,7 @@ export type ListApprovalTeamsError =
  * Returns a list of approval teams.
  */
 export const listApprovalTeams: API.PaginatedOperationMethod<
-  ListApprovalTeamsRequest,
+  ListApprovalTeamsRequest & RegionInput,
   ListApprovalTeamsResponse,
   ListApprovalTeamsError,
   Credentials | HttpClient.HttpClient,
@@ -982,7 +983,7 @@ export type ListIdentitySourcesError =
  * Returns a list of identity sources. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const listIdentitySources: API.PaginatedOperationMethod<
-  ListIdentitySourcesRequest,
+  ListIdentitySourcesRequest & RegionInput,
   ListIdentitySourcesResponse,
   ListIdentitySourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1019,7 +1020,7 @@ export type ListPoliciesError =
  * Returns a list of policies. Policies define the permissions for team resources.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1057,7 +1058,7 @@ export type ListPolicyVersionsError =
  * Returns a list of the versions for policies. Policies define the permissions for team resources.
  */
 export const listPolicyVersions: API.PaginatedOperationMethod<
-  ListPolicyVersionsRequest,
+  ListPolicyVersionsRequest & RegionInput,
   ListPolicyVersionsResponse,
   ListPolicyVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1096,7 +1097,7 @@ export type ListResourcePoliciesError =
  * Returns a list of policies for a resource.
  */
 export const listResourcePolicies: API.PaginatedOperationMethod<
-  ListResourcePoliciesRequest,
+  ListResourcePoliciesRequest & RegionInput,
   ListResourcePoliciesResponse,
   ListResourcePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1135,7 +1136,7 @@ export type ListSessionsError =
  * Returns a list of approval sessions. For more information, see Session in the *Multi-party approval User Guide*.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1174,7 +1175,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1211,7 +1212,7 @@ export type StartActiveApprovalTeamDeletionError =
  * Requests to delete an active team must be approved by the team.
  */
 export const startActiveApprovalTeamDeletion: API.OperationMethod<
-  StartActiveApprovalTeamDeletionRequest,
+  StartActiveApprovalTeamDeletionRequest & RegionInput,
   StartActiveApprovalTeamDeletionResponse,
   StartActiveApprovalTeamDeletionError,
   Credentials | HttpClient.HttpClient
@@ -1244,7 +1245,7 @@ export type StartApprovalTeamBaselineError =
  * Starts a baseline session for specified approvers on an `ACTIVE` approval team.
  */
 export const startApprovalTeamBaseline: API.OperationMethod<
-  StartApprovalTeamBaselineRequest,
+  StartApprovalTeamBaselineRequest & RegionInput,
   StartApprovalTeamBaselineResponse,
   StartApprovalTeamBaselineError,
   Credentials | HttpClient.HttpClient
@@ -1277,7 +1278,7 @@ export type TagResourceError =
  * Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1310,7 +1311,7 @@ export type UntagResourceError =
  * Removes a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1348,7 +1349,7 @@ export type UpdateApprovalTeamError =
  * Updates to an active team must be approved by the team.
  */
 export const updateApprovalTeam: API.OperationMethod<
-  UpdateApprovalTeamRequest,
+  UpdateApprovalTeamRequest & RegionInput,
   UpdateApprovalTeamResponse,
   UpdateApprovalTeamError,
   Credentials | HttpClient.HttpClient

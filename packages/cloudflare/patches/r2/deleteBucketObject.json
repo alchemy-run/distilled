@@ -47,6 +47,11 @@
           "target": "com.cloudflare.r2#NoSuchKey"
         }
       ]
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.r2#DeleteBucketObjectRequest/members/cf_r2_jurisdiction",
+      "path": "/shapes/com.cloudflare.r2#DeleteBucketObjectRequest/members/jurisdiction"
     }
   ]
 }

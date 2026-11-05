@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1106,7 +1107,7 @@ export type BatchGetChannelError =
  * Performs GetChannel on multiple ARNs simultaneously.
  */
 export const batchGetChannel: API.OperationMethod<
-  BatchGetChannelRequest,
+  BatchGetChannelRequest & RegionInput,
   BatchGetChannelResponse,
   BatchGetChannelError,
   Credentials | HttpClient.HttpClient
@@ -1130,7 +1131,7 @@ export type BatchGetStreamKeyError =
  * Performs GetStreamKey on multiple ARNs simultaneously.
  */
 export const batchGetStreamKey: API.OperationMethod<
-  BatchGetStreamKeyRequest,
+  BatchGetStreamKeyRequest & RegionInput,
   BatchGetStreamKeyResponse,
   BatchGetStreamKeyError,
   Credentials | HttpClient.HttpClient
@@ -1155,7 +1156,7 @@ export type BatchStartViewerSessionRevocationError =
  * Performs StartViewerSessionRevocation on multiple channel ARN and viewer ID pairs simultaneously.
  */
 export const batchStartViewerSessionRevocation: API.OperationMethod<
-  BatchStartViewerSessionRevocationRequest,
+  BatchStartViewerSessionRevocationRequest & RegionInput,
   BatchStartViewerSessionRevocationResponse,
   BatchStartViewerSessionRevocationError,
   Credentials | HttpClient.HttpClient
@@ -1184,7 +1185,7 @@ export type CreateAdConfigurationError =
  * Creates a new ad configuration to be used for server-side ad insertion.
  */
 export const createAdConfiguration: API.OperationMethod<
-  CreateAdConfigurationRequest,
+  CreateAdConfigurationRequest & RegionInput,
   CreateAdConfigurationResponse,
   CreateAdConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1220,7 +1221,7 @@ export type CreateChannelError =
  * Creates a new channel and an associated stream key to start streaming.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1253,7 +1254,7 @@ export type CreatePlaybackRestrictionPolicyError =
  * Creates a new playback restriction policy, for constraining playback by countries and/or origins.
  */
 export const createPlaybackRestrictionPolicy: API.OperationMethod<
-  CreatePlaybackRestrictionPolicyRequest,
+  CreatePlaybackRestrictionPolicyRequest & RegionInput,
   CreatePlaybackRestrictionPolicyResponse,
   CreatePlaybackRestrictionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1291,7 +1292,7 @@ export type CreateRecordingConfigurationError =
  * **Workaround:** Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
  */
 export const createRecordingConfiguration: API.OperationMethod<
-  CreateRecordingConfigurationRequest,
+  CreateRecordingConfigurationRequest & RegionInput,
   CreateRecordingConfigurationResponse,
   CreateRecordingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1328,7 +1329,7 @@ export type CreateStreamKeyError =
  * Note that CreateChannel creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use DeleteStreamKey and then CreateStreamKey.
  */
 export const createStreamKey: API.OperationMethod<
-  CreateStreamKeyRequest,
+  CreateStreamKeyRequest & RegionInput,
   CreateStreamKeyResponse,
   CreateStreamKeyError,
   Credentials | HttpClient.HttpClient
@@ -1362,7 +1363,7 @@ export type DeleteAdConfigurationError =
  * Deletes the specified ad configuration.
  */
 export const deleteAdConfiguration: API.OperationMethod<
-  DeleteAdConfigurationRequest,
+  DeleteAdConfigurationRequest & RegionInput,
   DeleteAdConfigurationResponse,
   DeleteAdConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1398,7 +1399,7 @@ export type DeleteChannelError =
  * If you try to delete a live channel, you will get an error (409 ConflictException). To delete a channel that is live, call StopStream, wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See Using EventBridge with Amazon IVS.)
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1432,7 +1433,7 @@ export type DeletePlaybackKeyPairError =
  * Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair's `privateKey`. For more information, see Setting Up Private Channels in the *Amazon IVS User Guide*.
  */
 export const deletePlaybackKeyPair: API.OperationMethod<
-  DeletePlaybackKeyPairRequest,
+  DeletePlaybackKeyPairRequest & RegionInput,
   DeletePlaybackKeyPairResponse,
   DeletePlaybackKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -1466,7 +1467,7 @@ export type DeletePlaybackRestrictionPolicyError =
  * Deletes the specified playback restriction policy.
  */
 export const deletePlaybackRestrictionPolicy: API.OperationMethod<
-  DeletePlaybackRestrictionPolicyRequest,
+  DeletePlaybackRestrictionPolicyRequest & RegionInput,
   DeletePlaybackRestrictionPolicyResponse,
   DeletePlaybackRestrictionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1502,7 +1503,7 @@ export type DeleteRecordingConfigurationError =
  * If you try to delete a recording configuration that is associated with a channel, you will get an error (409 ConflictException). To avoid this, for all channels that reference the recording configuration, first use UpdateChannel to set the `recordingConfigurationArn` field to an empty string, then use DeleteRecordingConfiguration.
  */
 export const deleteRecordingConfiguration: API.OperationMethod<
-  DeleteRecordingConfigurationRequest,
+  DeleteRecordingConfigurationRequest & RegionInput,
   DeleteRecordingConfigurationResponse,
   DeleteRecordingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1535,7 +1536,7 @@ export type DeleteStreamKeyError =
  * Deletes the stream key for the specified ARN, so it can no longer be used to stream.
  */
 export const deleteStreamKey: API.OperationMethod<
-  DeleteStreamKeyRequest,
+  DeleteStreamKeyRequest & RegionInput,
   DeleteStreamKeyResponse,
   DeleteStreamKeyError,
   Credentials | HttpClient.HttpClient
@@ -1567,7 +1568,7 @@ export type GetAdConfigurationError =
  * Gets the ad configuration represented by the specified ARN.
  */
 export const getAdConfiguration: API.OperationMethod<
-  GetAdConfigurationRequest,
+  GetAdConfigurationRequest & RegionInput,
   GetAdConfigurationResponse,
   GetAdConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1598,7 +1599,7 @@ export type GetChannelError =
  * Gets the channel configuration for the specified channel ARN. See also BatchGetChannel.
  */
 export const getChannel: API.OperationMethod<
-  GetChannelRequest,
+  GetChannelRequest & RegionInput,
   GetChannelResponse,
   GetChannelError,
   Credentials | HttpClient.HttpClient
@@ -1628,7 +1629,7 @@ export type GetPlaybackKeyPairError =
  * Gets a specified playback authorization key pair and returns the `arn` and `fingerprint`. The `privateKey` held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the *Amazon IVS User Guide*.
  */
 export const getPlaybackKeyPair: API.OperationMethod<
-  GetPlaybackKeyPairRequest,
+  GetPlaybackKeyPairRequest & RegionInput,
   GetPlaybackKeyPairResponse,
   GetPlaybackKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -1659,7 +1660,7 @@ export type GetPlaybackRestrictionPolicyError =
  * Gets the specified playback restriction policy.
  */
 export const getPlaybackRestrictionPolicy: API.OperationMethod<
-  GetPlaybackRestrictionPolicyRequest,
+  GetPlaybackRestrictionPolicyRequest & RegionInput,
   GetPlaybackRestrictionPolicyResponse,
   GetPlaybackRestrictionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1691,7 +1692,7 @@ export type GetRecordingConfigurationError =
  * Gets the recording configuration for the specified ARN.
  */
 export const getRecordingConfiguration: API.OperationMethod<
-  GetRecordingConfigurationRequest,
+  GetRecordingConfigurationRequest & RegionInput,
   GetRecordingConfigurationResponse,
   GetRecordingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1723,7 +1724,7 @@ export type GetStreamError =
  * Gets information about the active (live) stream on a specified channel.
  */
 export const getStream: API.OperationMethod<
-  GetStreamRequest,
+  GetStreamRequest & RegionInput,
   GetStreamResponse,
   GetStreamError,
   Credentials | HttpClient.HttpClient
@@ -1754,7 +1755,7 @@ export type GetStreamKeyError =
  * Gets stream-key information for a specified ARN.
  */
 export const getStreamKey: API.OperationMethod<
-  GetStreamKeyRequest,
+  GetStreamKeyRequest & RegionInput,
   GetStreamKeyResponse,
   GetStreamKeyError,
   Credentials | HttpClient.HttpClient
@@ -1784,7 +1785,7 @@ export type GetStreamSessionError =
  * Gets metadata on a specified stream.
  */
 export const getStreamSession: API.OperationMethod<
-  GetStreamSessionRequest,
+  GetStreamSessionRequest & RegionInput,
   GetStreamSessionResponse,
   GetStreamSessionError,
   Credentials | HttpClient.HttpClient
@@ -1816,7 +1817,7 @@ export type ImportPlaybackKeyPairError =
  * Imports the public portion of a new key pair and returns its `arn` and `fingerprint`. The `privateKey` can then be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the *Amazon IVS User Guide*.
  */
 export const importPlaybackKeyPair: API.OperationMethod<
-  ImportPlaybackKeyPairRequest,
+  ImportPlaybackKeyPairRequest & RegionInput,
   ImportPlaybackKeyPairResponse,
   ImportPlaybackKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -1853,7 +1854,7 @@ export type InsertAdBreakError =
  * **Note:** AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the success or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the *AWS Elemental MediaTailor User Guide* for details on available metrics.
  */
 export const insertAdBreak: API.OperationMethod<
-  InsertAdBreakRequest,
+  InsertAdBreakRequest & RegionInput,
   InsertAdBreakResponse,
   InsertAdBreakError,
   Credentials | HttpClient.HttpClient
@@ -1886,7 +1887,7 @@ export type ListAdConfigurationsError =
  * Gets summary information about all ad configurations in your account, in the AWS region where the API request is processed.
  */
 export const listAdConfigurations: API.PaginatedOperationMethod<
-  ListAdConfigurationsRequest,
+  ListAdConfigurationsRequest & RegionInput,
   ListAdConfigurationsResponse,
   ListAdConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1923,7 +1924,7 @@ export type ListChannelsError =
  * Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1953,7 +1954,7 @@ export type ListPlaybackKeyPairsError =
  * Gets summary information about playback key pairs. For more information, see Setting Up Private Channels in the *Amazon IVS User Guide*.
  */
 export const listPlaybackKeyPairs: API.PaginatedOperationMethod<
-  ListPlaybackKeyPairsRequest,
+  ListPlaybackKeyPairsRequest & RegionInput,
   ListPlaybackKeyPairsResponse,
   ListPlaybackKeyPairsError,
   Credentials | HttpClient.HttpClient,
@@ -1985,7 +1986,7 @@ export type ListPlaybackRestrictionPoliciesError =
  * Gets summary information about playback restriction policies.
  */
 export const listPlaybackRestrictionPolicies: API.PaginatedOperationMethod<
-  ListPlaybackRestrictionPoliciesRequest,
+  ListPlaybackRestrictionPoliciesRequest & RegionInput,
   ListPlaybackRestrictionPoliciesResponse,
   ListPlaybackRestrictionPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2022,7 +2023,7 @@ export type ListRecordingConfigurationsError =
  * Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
  */
 export const listRecordingConfigurations: API.PaginatedOperationMethod<
-  ListRecordingConfigurationsRequest,
+  ListRecordingConfigurationsRequest & RegionInput,
   ListRecordingConfigurationsResponse,
   ListRecordingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -2058,7 +2059,7 @@ export type ListStreamKeysError =
  * Gets summary information about stream keys for the specified channel.
  */
 export const listStreamKeys: API.PaginatedOperationMethod<
-  ListStreamKeysRequest,
+  ListStreamKeysRequest & RegionInput,
   ListStreamKeysResponse,
   ListStreamKeysError,
   Credentials | HttpClient.HttpClient,
@@ -2093,7 +2094,7 @@ export type ListStreamsError =
  * Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsRequest,
+  ListStreamsRequest & RegionInput,
   ListStreamsResponse,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -2124,7 +2125,7 @@ export type ListStreamSessionsError =
  * Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
  */
 export const listStreamSessions: API.PaginatedOperationMethod<
-  ListStreamSessionsRequest,
+  ListStreamSessionsRequest & RegionInput,
   ListStreamSessionsResponse,
   ListStreamSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -2160,7 +2161,7 @@ export type ListTagsForResourceError =
  * Gets information about Amazon Web Services tags for the specified ARN.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2191,7 +2192,7 @@ export type PutMetadataError =
  * Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the *Amazon IVS User Guide*.
  */
 export const putMetadata: API.OperationMethod<
-  PutMetadataRequest,
+  PutMetadataRequest & RegionInput,
   PutMetadataResponse,
   PutMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2224,7 +2225,7 @@ export type StartViewerSessionRevocationError =
  * Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels.
  */
 export const startViewerSessionRevocation: API.OperationMethod<
-  StartViewerSessionRevocationRequest,
+  StartViewerSessionRevocationRequest & RegionInput,
   StartViewerSessionRevocationResponse,
   StartViewerSessionRevocationError,
   Credentials | HttpClient.HttpClient
@@ -2260,7 +2261,7 @@ export type StopStreamError =
  * Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the `streamKey` attached to the channel.
  */
 export const stopStream: API.OperationMethod<
-  StopStreamRequest,
+  StopStreamRequest & RegionInput,
   StopStreamResponse,
   StopStreamError,
   Credentials | HttpClient.HttpClient
@@ -2292,7 +2293,7 @@ export type TagResourceError =
  * Adds or updates tags for the Amazon Web Services resource with the specified ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2323,7 @@ export type UntagResourceError =
  * Removes tags from the resource with the specified ARN.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2356,7 +2357,7 @@ export type UpdateAdConfigurationError =
  * Updates a specified ad configuration.
  */
 export const updateAdConfiguration: API.OperationMethod<
-  UpdateAdConfigurationRequest,
+  UpdateAdConfigurationRequest & RegionInput,
   UpdateAdConfigurationResponse,
   UpdateAdConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2392,7 +2393,7 @@ export type UpdateChannelError =
  * Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -2425,7 +2426,7 @@ export type UpdatePlaybackRestrictionPolicyError =
  * Updates a specified playback restriction policy.
  */
 export const updatePlaybackRestrictionPolicy: API.OperationMethod<
-  UpdatePlaybackRestrictionPolicyRequest,
+  UpdatePlaybackRestrictionPolicyRequest & RegionInput,
   UpdatePlaybackRestrictionPolicyResponse,
   UpdatePlaybackRestrictionPolicyError,
   Credentials | HttpClient.HttpClient

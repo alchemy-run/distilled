@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -543,7 +544,7 @@ export type CreateKeyspaceError =
  * For more information, see Create a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
 export const createKeyspace: API.OperationMethod<
-  CreateKeyspaceRequest,
+  CreateKeyspaceRequest & RegionInput,
   CreateKeyspaceResponse,
   CreateKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -580,7 +581,7 @@ export type CreateTableError =
  * For more information, see Create a table in the *Amazon Keyspaces Developer Guide*.
  */
 export const createTable: API.OperationMethod<
-  CreateTableRequest,
+  CreateTableRequest & RegionInput,
   CreateTableResponse,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -618,7 +619,7 @@ export type CreateTypeError =
  * For more information, see User-defined types (UDTs) in the *Amazon Keyspaces Developer Guide*.
  */
 export const createType: API.OperationMethod<
-  CreateTypeRequest,
+  CreateTypeRequest & RegionInput,
   CreateTypeResponse,
   CreateTypeError,
   Credentials | HttpClient.HttpClient
@@ -652,7 +653,7 @@ export type DeleteKeyspaceError =
  * The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
  */
 export const deleteKeyspace: API.OperationMethod<
-  DeleteKeyspaceRequest,
+  DeleteKeyspaceRequest & RegionInput,
   DeleteKeyspaceResponse,
   DeleteKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type DeleteTableError =
  * The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable` request is received, the specified table is in the `DELETING` state until Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is returned.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableRequest,
+  DeleteTableRequest & RegionInput,
   DeleteTableResponse,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -722,7 +723,7 @@ export type DeleteTypeError =
  * To configure the required permissions, see Permissions to delete a UDT in the *Amazon Keyspaces Developer Guide*.
  */
 export const deleteType: API.OperationMethod<
-  DeleteTypeRequest,
+  DeleteTypeRequest & RegionInput,
   DeleteTypeResponse,
   DeleteTypeError,
   Credentials | HttpClient.HttpClient
@@ -755,7 +756,7 @@ export type GetKeyspaceError =
  * Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an `UpdateKeyspace` operation.
  */
 export const getKeyspace: API.OperationMethod<
-  GetKeyspaceRequest,
+  GetKeyspaceRequest & RegionInput,
   GetKeyspaceResponse,
   GetKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -789,7 +790,7 @@ export type GetTableError =
  * To read table metadata using `GetTable`, the IAM principal needs `Select` action permissions for the table and the system keyspace.
  */
 export const getTable: API.OperationMethod<
-  GetTableRequest,
+  GetTableRequest & RegionInput,
   GetTableResponse,
   GetTableError,
   Credentials | HttpClient.HttpClient
@@ -831,7 +832,7 @@ export type GetTableAutoScalingSettingsError =
  * - `application-autoscaling:DescribeScalingPolicies`
  */
 export const getTableAutoScalingSettings: API.OperationMethod<
-  GetTableAutoScalingSettingsRequest,
+  GetTableAutoScalingSettingsRequest & RegionInput,
   GetTableAutoScalingSettingsResponse,
   GetTableAutoScalingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -865,7 +866,7 @@ export type GetTypeError =
  * To read keyspace metadata using `GetType`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
 export const getType: API.OperationMethod<
-  GetTypeRequest,
+  GetTypeRequest & RegionInput,
   GetTypeResponse,
   GetTypeError,
   Credentials | HttpClient.HttpClient
@@ -897,7 +898,7 @@ export type ListKeyspacesError =
  * The `ListKeyspaces` operation returns a list of keyspaces.
  */
 export const listKeyspaces: API.PaginatedOperationMethod<
-  ListKeyspacesRequest,
+  ListKeyspacesRequest & RegionInput,
   ListKeyspacesResponse,
   ListKeyspacesError,
   Credentials | HttpClient.HttpClient,
@@ -938,7 +939,7 @@ export type ListTablesError =
  * To read keyspace metadata using `ListTables`, the IAM principal needs `Select` action permissions for the system keyspace.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -979,7 +980,7 @@ export type ListTagsForResourceError =
  * To read keyspace metadata using `ListTagsForResource`, the IAM principal needs `Select` action permissions for the specified resource and the system keyspace.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1020,7 +1021,7 @@ export type ListTypesError =
  * To read keyspace metadata using `ListTypes`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
 export const listTypes: API.PaginatedOperationMethod<
-  ListTypesRequest,
+  ListTypesRequest & RegionInput,
   ListTypesResponse,
   ListTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1086,7 +1087,7 @@ export type RestoreTableError =
  * - Amazon CloudWatch metrics and alarms
  */
 export const restoreTable: API.OperationMethod<
-  RestoreTableRequest,
+  RestoreTableRequest & RegionInput,
   RestoreTableResponse,
   RestoreTableError,
   Credentials | HttpClient.HttpClient
@@ -1122,7 +1123,7 @@ export type TagResourceError =
  * For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the *Amazon Keyspaces Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1156,7 +1157,7 @@ export type UntagResourceError =
  * Removes the association of tags from a Amazon Keyspaces resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1230,7 +1231,7 @@ export type UpdateKeyspaceError =
  * For more information, see Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
 export const updateKeyspace: API.OperationMethod<
-  UpdateKeyspaceRequest,
+  UpdateKeyspaceRequest & RegionInput,
   UpdateKeyspaceResponse,
   UpdateKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -1264,7 +1265,7 @@ export type UpdateTableError =
  * Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
  */
 export const updateTable: API.OperationMethod<
-  UpdateTableRequest,
+  UpdateTableRequest & RegionInput,
   UpdateTableResponse,
   UpdateTableError,
   Credentials | HttpClient.HttpClient

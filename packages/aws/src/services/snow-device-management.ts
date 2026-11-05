@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -383,7 +384,7 @@ export type CancelTaskError =
  * `CancelTask` operation changes the task's state.
  */
 export const cancelTask: API.OperationMethod<
-  CancelTaskInput,
+  CancelTaskInput & RegionInput,
   CancelTaskOutput,
   CancelTaskError,
   Credentials | HttpClient.HttpClient
@@ -416,7 +417,7 @@ export type CreateTaskError =
  * Instructs one or more devices to start a task, such as unlocking or rebooting.
  */
 export const createTask: API.OperationMethod<
-  CreateTaskInput,
+  CreateTaskInput & RegionInput,
   CreateTaskOutput,
   CreateTaskError,
   Credentials | HttpClient.HttpClient
@@ -450,7 +451,7 @@ export type DescribeDeviceError =
  * addresses, and lock status.
  */
 export const describeDevice: API.OperationMethod<
-  DescribeDeviceInput,
+  DescribeDeviceInput & RegionInput,
   DescribeDeviceOutput,
   DescribeDeviceError,
   Credentials | HttpClient.HttpClient
@@ -484,7 +485,7 @@ export type DescribeDeviceEc2InstancesError =
  * Amazon Web Services Cloud and include a subset of the available fields.
  */
 export const describeDeviceEc2Instances: API.OperationMethod<
-  DescribeDeviceEc2Input,
+  DescribeDeviceEc2Input & RegionInput,
   DescribeDeviceEc2Output,
   DescribeDeviceEc2InstancesError,
   Credentials | HttpClient.HttpClient
@@ -516,7 +517,7 @@ export type DescribeExecutionError =
  * Checks the status of a remote task running on one or more target devices.
  */
 export const describeExecution: API.OperationMethod<
-  DescribeExecutionInput,
+  DescribeExecutionInput & RegionInput,
   DescribeExecutionOutput,
   DescribeExecutionError,
   Credentials | HttpClient.HttpClient
@@ -548,7 +549,7 @@ export type DescribeTaskError =
  * Checks the metadata for a given task on a device.
  */
 export const describeTask: API.OperationMethod<
-  DescribeTaskInput,
+  DescribeTaskInput & RegionInput,
   DescribeTaskOutput,
   DescribeTaskError,
   Credentials | HttpClient.HttpClient
@@ -580,7 +581,7 @@ export type ListDeviceResourcesError =
  * Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
  */
 export const listDeviceResources: API.PaginatedOperationMethod<
-  ListDeviceResourcesInput,
+  ListDeviceResourcesInput & RegionInput,
   ListDeviceResourcesOutput,
   ListDeviceResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -619,7 +620,7 @@ export type ListDevicesError =
  * enabled in the Amazon Web Services Region where the command is run.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesInput,
+  ListDevicesInput & RegionInput,
   ListDevicesOutput,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -657,7 +658,7 @@ export type ListExecutionsError =
  * Returns the status of tasks for one or more target devices.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsInput,
+  ListExecutionsInput & RegionInput,
   ListExecutionsOutput,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -694,7 +695,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a managed device or task.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -719,7 +720,7 @@ export type ListTasksError =
  * Returns a list of tasks that can be filtered by state.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksInput,
+  ListTasksInput & RegionInput,
   ListTasksOutput,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -755,7 +756,7 @@ export type TagResourceError =
  * Adds or replaces tags on a device or task.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -779,7 +780,7 @@ export type UntagResourceError =
  * Removes a tag from a device or task.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

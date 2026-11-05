@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -246,7 +247,7 @@ export type CreateConfigurationSetError =
  * Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
  */
 export const createConfigurationSet: API.OperationMethod<
-  CreateConfigurationSetRequest,
+  CreateConfigurationSetRequest & RegionInput,
   CreateConfigurationSetResponse,
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -279,7 +280,7 @@ export type CreateConfigurationSetEventDestinationError =
  * Create a new event destination in a configuration set.
  */
 export const createConfigurationSetEventDestination: API.OperationMethod<
-  CreateConfigurationSetEventDestinationRequest,
+  CreateConfigurationSetEventDestinationRequest & RegionInput,
   CreateConfigurationSetEventDestinationResponse,
   CreateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -311,7 +312,7 @@ export type DeleteConfigurationSetError =
  * Deletes an existing configuration set.
  */
 export const deleteConfigurationSet: API.OperationMethod<
-  DeleteConfigurationSetRequest,
+  DeleteConfigurationSetRequest & RegionInput,
   DeleteConfigurationSetResponse,
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -341,7 +342,7 @@ export type DeleteConfigurationSetEventDestinationError =
  * Deletes an event destination in a configuration set.
  */
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
-  DeleteConfigurationSetEventDestinationRequest,
+  DeleteConfigurationSetEventDestinationRequest & RegionInput,
   DeleteConfigurationSetEventDestinationResponse,
   DeleteConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -371,7 +372,7 @@ export type GetConfigurationSetEventDestinationsError =
  * Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
  */
 export const getConfigurationSetEventDestinations: API.OperationMethod<
-  GetConfigurationSetEventDestinationsRequest,
+  GetConfigurationSetEventDestinationsRequest & RegionInput,
   GetConfigurationSetEventDestinationsResponse,
   GetConfigurationSetEventDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -400,7 +401,7 @@ export type ListConfigurationSetsError =
  * List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
  */
 export const listConfigurationSets: API.OperationMethod<
-  ListConfigurationSetsRequest,
+  ListConfigurationSetsRequest & RegionInput,
   ListConfigurationSetsResponse,
   ListConfigurationSetsError,
   Credentials | HttpClient.HttpClient
@@ -424,7 +425,7 @@ export type SendVoiceMessageError =
  * Create a new voice message and send it to a recipient's phone number.
  */
 export const sendVoiceMessage: API.OperationMethod<
-  SendVoiceMessageRequest,
+  SendVoiceMessageRequest & RegionInput,
   SendVoiceMessageResponse,
   SendVoiceMessageError,
   Credentials | HttpClient.HttpClient
@@ -449,7 +450,7 @@ export type UpdateConfigurationSetEventDestinationError =
  * Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
  */
 export const updateConfigurationSetEventDestination: API.OperationMethod<
-  UpdateConfigurationSetEventDestinationRequest,
+  UpdateConfigurationSetEventDestinationRequest & RegionInput,
   UpdateConfigurationSetEventDestinationResponse,
   UpdateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient

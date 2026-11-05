@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -819,7 +820,7 @@ export type CreateDataTransformationProfileError =
  * Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile content, or a sample data file as the source.
  */
 export const createDataTransformationProfile: API.OperationMethod<
-  CreateDataTransformationProfileRequest,
+  CreateDataTransformationProfileRequest & RegionInput,
   CreateDataTransformationProfileResponse,
   CreateDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type CreateFHIRDatastoreError =
  * Create a FHIR-enabled data store.
  */
 export const createFHIRDatastore: API.OperationMethod<
-  CreateFHIRDatastoreRequest,
+  CreateFHIRDatastoreRequest & RegionInput,
   CreateFHIRDatastoreResponse,
   CreateFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -887,7 +888,7 @@ export type DeleteDataTransformationProfileError =
  * Deletes a data transformation profile and all its versions, including the DRAFT and all published versions.
  */
 export const deleteDataTransformationProfile: API.OperationMethod<
-  DeleteDataTransformationProfileRequest,
+  DeleteDataTransformationProfileRequest & RegionInput,
   DeleteDataTransformationProfileResponse,
   DeleteDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -924,7 +925,7 @@ export type DeleteFHIRDatastoreError =
  * Delete a FHIR-enabled data store.
  */
 export const deleteFHIRDatastore: API.OperationMethod<
-  DeleteFHIRDatastoreRequest,
+  DeleteFHIRDatastoreRequest & RegionInput,
   DeleteFHIRDatastoreResponse,
   DeleteFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -957,7 +958,7 @@ export type DescribeDataTransformationJobError =
  * Describes a data transformation job, including its current status, configuration, and progress information.
  */
 export const describeDataTransformationJob: API.OperationMethod<
-  DescribeDataTransformationJobRequest,
+  DescribeDataTransformationJobRequest & RegionInput,
   DescribeDataTransformationJobResponse,
   DescribeDataTransformationJobError,
   Credentials | HttpClient.HttpClient
@@ -992,7 +993,7 @@ export type DescribeFHIRDatastoreError =
  * Get properties for a FHIR-enabled data store.
  */
 export const describeFHIRDatastore: API.OperationMethod<
-  DescribeFHIRDatastoreRequest,
+  DescribeFHIRDatastoreRequest & RegionInput,
   DescribeFHIRDatastoreResponse,
   DescribeFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -1022,7 +1023,7 @@ export type DescribeFHIRExportJobError =
  * Get FHIR export job properties.
  */
 export const describeFHIRExportJob: API.OperationMethod<
-  DescribeFHIRExportJobRequest,
+  DescribeFHIRExportJobRequest & RegionInput,
   DescribeFHIRExportJobResponse,
   DescribeFHIRExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1052,7 +1053,7 @@ export type DescribeFHIRImportJobError =
  * Get the import job properties to learn more about the job or job progress.
  */
 export const describeFHIRImportJob: API.OperationMethod<
-  DescribeFHIRImportJobRequest,
+  DescribeFHIRImportJobRequest & RegionInput,
   DescribeFHIRImportJobResponse,
   DescribeFHIRImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1083,7 +1084,7 @@ export type GetDataTransformationProfileError =
  * Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a version number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version.
  */
 export const getDataTransformationProfile: API.OperationMethod<
-  GetDataTransformationProfileRequest,
+  GetDataTransformationProfileRequest & RegionInput,
   GetDataTransformationProfileResponse,
   GetDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1118,7 +1119,7 @@ export type ListDataTransformationJobsError =
  * Lists data transformation jobs for your Amazon Web Services account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataTransformationJobs: API.PaginatedOperationMethod<
-  ListDataTransformationJobsRequest,
+  ListDataTransformationJobsRequest & RegionInput,
   ListDataTransformationJobsResponse,
   ListDataTransformationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1159,7 +1160,7 @@ export type ListDataTransformationProfilesError =
  * Lists all data transformation profiles in your account, returning the latest version summary for each. Use `GetDataTransformationProfile` to retrieve profile content. Results are paginated. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataTransformationProfiles: API.PaginatedOperationMethod<
-  ListDataTransformationProfilesRequest,
+  ListDataTransformationProfilesRequest & RegionInput,
   ListDataTransformationProfilesResponse,
   ListDataTransformationProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1201,7 +1202,7 @@ export type ListDataTransformationProfileVersionsError =
  * Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use `GetDataTransformationProfile` to retrieve profile content. Results are paginated. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataTransformationProfileVersions: API.PaginatedOperationMethod<
-  ListDataTransformationProfileVersionsRequest,
+  ListDataTransformationProfileVersionsRequest & RegionInput,
   ListDataTransformationProfileVersionsResponse,
   ListDataTransformationProfileVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1242,7 +1243,7 @@ export type ListFHIRDatastoresError =
  * List all FHIR-enabled data stores in a user's account, regardless of data store status.
  */
 export const listFHIRDatastores: API.PaginatedOperationMethod<
-  ListFHIRDatastoresRequest,
+  ListFHIRDatastoresRequest & RegionInput,
   ListFHIRDatastoresResponse,
   ListFHIRDatastoresError,
   Credentials | HttpClient.HttpClient,
@@ -1274,7 +1275,7 @@ export type ListFHIRExportJobsError =
  * Lists all FHIR export jobs associated with an account and their statuses.
  */
 export const listFHIRExportJobs: API.PaginatedOperationMethod<
-  ListFHIRExportJobsRequest,
+  ListFHIRExportJobsRequest & RegionInput,
   ListFHIRExportJobsResponse,
   ListFHIRExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1312,7 +1313,7 @@ export type ListFHIRImportJobsError =
  * List all FHIR import jobs associated with an account and their statuses.
  */
 export const listFHIRImportJobs: API.PaginatedOperationMethod<
-  ListFHIRImportJobsRequest,
+  ListFHIRImportJobsRequest & RegionInput,
   ListFHIRImportJobsResponse,
   ListFHIRImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1347,7 +1348,7 @@ export type ListTagsForResourceError =
  * Returns a list of all existing tags associated with a data store.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type PublishDataTransformationProfileError =
  * Promotes the current DRAFT version of a data transformation profile to a new immutable published version. Also supports rollback by publishing from a previously published version.
  */
 export const publishDataTransformationProfile: API.OperationMethod<
-  PublishDataTransformationProfileRequest,
+  PublishDataTransformationProfileRequest & RegionInput,
   PublishDataTransformationProfileResponse,
   PublishDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1412,7 +1413,7 @@ export type RestoreFHIRDatastoreError =
  * Restore a backup-enabled data store to a point in time. Creates a new data store from the backup.
  */
 export const restoreFHIRDatastore: API.OperationMethod<
-  RestoreFHIRDatastoreRequest,
+  RestoreFHIRDatastoreRequest & RegionInput,
   RestoreFHIRDatastoreResponse,
   RestoreFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -1445,7 +1446,7 @@ export type StartDataTransformationJobError =
  * Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or HealthLake.
  */
 export const startDataTransformationJob: API.OperationMethod<
-  StartDataTransformationJobRequest,
+  StartDataTransformationJobRequest & RegionInput,
   StartDataTransformationJobResponse,
   StartDataTransformationJobError,
   Credentials | HttpClient.HttpClient
@@ -1482,7 +1483,7 @@ export type StartFHIRExportJobError =
  * Start a FHIR export job.
  */
 export const startFHIRExportJob: API.OperationMethod<
-  StartFHIRExportJobRequest,
+  StartFHIRExportJobRequest & RegionInput,
   StartFHIRExportJobResponse,
   StartFHIRExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1516,7 +1517,7 @@ export type StartFHIRImportJobError =
  * Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data found in the `InputDataConfig` object and stores processing results in the `JobOutputDataConfig` object.
  */
 export const startFHIRImportJob: API.OperationMethod<
-  StartFHIRImportJobRequest,
+  StartFHIRImportJobRequest & RegionInput,
   StartFHIRImportJobResponse,
   StartFHIRImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1543,7 +1544,7 @@ export type TagResourceError = ResourceNotFoundException | ValidationException |
  * Add a user-specifed key and value tag to a data store.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1563,7 +1564,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Remove a user-specifed key and value tag from a data store.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1590,7 @@ export type UpdateDataTransformationProfileError =
  * Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT content.
  */
 export const updateDataTransformationProfile: API.OperationMethod<
-  UpdateDataTransformationProfileRequest,
+  UpdateDataTransformationProfileRequest & RegionInput,
   UpdateDataTransformationProfileResponse,
   UpdateDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1626,7 +1627,7 @@ export type UpdateFHIRDatastoreError =
  * Update the properties of a FHIR-enabled data store.
  */
 export const updateFHIRDatastore: API.OperationMethod<
-  UpdateFHIRDatastoreRequest,
+  UpdateFHIRDatastoreRequest & RegionInput,
   UpdateFHIRDatastoreResponse,
   UpdateFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -1664,7 +1665,7 @@ export type UpdateProfileWithAgentError =
  * Updates a data transformation profile using chat-based interaction with an agent. Supports multi-turn conversations for iteratively customizing profiles.
  */
 export const updateProfileWithAgent: API.OperationMethod<
-  UpdateProfileWithAgentRequest,
+  UpdateProfileWithAgentRequest & RegionInput,
   UpdateProfileWithAgentResponse,
   UpdateProfileWithAgentError,
   Credentials | HttpClient.HttpClient

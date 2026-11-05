@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -402,7 +403,7 @@ export type AcceptPrimaryEmailUpdateError =
  * Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email address) for the specified account.
  */
 export const acceptPrimaryEmailUpdate: API.OperationMethod<
-  AcceptPrimaryEmailUpdateRequest,
+  AcceptPrimaryEmailUpdateRequest & RegionInput,
   AcceptPrimaryEmailUpdateResponse,
   AcceptPrimaryEmailUpdateError,
   Credentials | HttpClient.HttpClient
@@ -439,7 +440,7 @@ export type DeleteAlternateContactError =
  * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
 export const deleteAlternateContact: API.OperationMethod<
-  DeleteAlternateContactRequest,
+  DeleteAlternateContactRequest & RegionInput,
   DeleteAlternateContactResponse,
   DeleteAlternateContactError,
   Credentials | HttpClient.HttpClient
@@ -473,7 +474,7 @@ export type DisableRegionError =
  * The act of disabling a Region will remove all IAM access to any resources that reside in that Region.
  */
 export const disableRegion: API.OperationMethod<
-  DisableRegionRequest,
+  DisableRegionRequest & RegionInput,
   DisableRegionResponse,
   DisableRegionError,
   Credentials | HttpClient.HttpClient
@@ -505,7 +506,7 @@ export type EnableRegionError =
  * Enables (opts-in) a particular Region for an account.
  */
 export const enableRegion: API.OperationMethod<
-  EnableRegionRequest,
+  EnableRegionRequest & RegionInput,
   EnableRegionResponse,
   EnableRegionError,
   Credentials | HttpClient.HttpClient
@@ -536,7 +537,7 @@ export type GetAccountInformationError =
  * Retrieves information about the specified account including its account name, account ID, account creation date and time, and account state. To use this API, an IAM user or role must have the `account:GetAccountInformation` IAM permission.
  */
 export const getAccountInformation: API.OperationMethod<
-  GetAccountInformationRequest,
+  GetAccountInformationRequest & RegionInput,
   GetAccountInformationResponse,
   GetAccountInformationError,
   Credentials | HttpClient.HttpClient
@@ -571,7 +572,7 @@ export type GetAlternateContactError =
  * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
 export const getAlternateContact: API.OperationMethod<
-  GetAlternateContactRequest,
+  GetAlternateContactRequest & RegionInput,
   GetAlternateContactResponse,
   GetAlternateContactError,
   Credentials | HttpClient.HttpClient
@@ -605,7 +606,7 @@ export type GetContactInformationError =
  * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
  */
 export const getContactInformation: API.OperationMethod<
-  GetContactInformationRequest,
+  GetContactInformationRequest & RegionInput,
   GetContactInformationResponse,
   GetContactInformationError,
   Credentials | HttpClient.HttpClient
@@ -638,7 +639,7 @@ export type GetGovCloudAccountInformationError =
  * Retrieves information about the GovCloud account linked to the specified standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the `account:GetGovCloudAccountInformation` IAM permission.
  */
 export const getGovCloudAccountInformation: API.OperationMethod<
-  GetGovCloudAccountInformationRequest,
+  GetGovCloudAccountInformationRequest & RegionInput,
   GetGovCloudAccountInformationResponse,
   GetGovCloudAccountInformationError,
   Credentials | HttpClient.HttpClient
@@ -671,7 +672,7 @@ export type GetPrimaryEmailError =
  * Retrieves the primary email address for the specified account.
  */
 export const getPrimaryEmail: API.OperationMethod<
-  GetPrimaryEmailRequest,
+  GetPrimaryEmailRequest & RegionInput,
   GetPrimaryEmailResponse,
   GetPrimaryEmailError,
   Credentials | HttpClient.HttpClient
@@ -703,7 +704,7 @@ export type GetPrimaryEmailUpdateStatusError =
  * Retrieves the status of the most recent primary email update for the specified account. For complete details about how to update the primary email address, see Update the primary email address for your AWS account.
  */
 export const getPrimaryEmailUpdateStatus: API.OperationMethod<
-  GetPrimaryEmailUpdateStatusRequest,
+  GetPrimaryEmailUpdateStatusRequest & RegionInput,
   GetPrimaryEmailUpdateStatusResponse,
   GetPrimaryEmailUpdateStatusError,
   Credentials | HttpClient.HttpClient
@@ -734,7 +735,7 @@ export type GetRegionOptStatusError =
  * Retrieves the opt-in status of a particular Region.
  */
 export const getRegionOptStatus: API.OperationMethod<
-  GetRegionOptStatusRequest,
+  GetRegionOptStatusRequest & RegionInput,
   GetRegionOptStatusResponse,
   GetRegionOptStatusError,
   Credentials | HttpClient.HttpClient
@@ -764,7 +765,7 @@ export type ListRegionsError =
  * Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the `region-opt-status-contains` parameter.
  */
 export const listRegions: API.PaginatedOperationMethod<
-  ListRegionsRequest,
+  ListRegionsRequest & RegionInput,
   ListRegionsResponse,
   ListRegionsError,
   Credentials | HttpClient.HttpClient,
@@ -801,7 +802,7 @@ export type PutAccountNameError =
  * Updates the account name of the specified account. To use this API, IAM principals must have the `account:PutAccountName` IAM permission.
  */
 export const putAccountName: API.OperationMethod<
-  PutAccountNameRequest,
+  PutAccountNameRequest & RegionInput,
   PutAccountNameResponse,
   PutAccountNameError,
   Credentials | HttpClient.HttpClient
@@ -835,7 +836,7 @@ export type PutAlternateContactError =
  * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
 export const putAlternateContact: API.OperationMethod<
-  PutAlternateContactRequest,
+  PutAlternateContactRequest & RegionInput,
   PutAlternateContactResponse,
   PutAlternateContactError,
   Credentials | HttpClient.HttpClient
@@ -867,7 +868,7 @@ export type PutContactInformationError =
  * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
  */
 export const putContactInformation: API.OperationMethod<
-  PutContactInformationRequest,
+  PutContactInformationRequest & RegionInput,
   PutContactInformationResponse,
   PutContactInformationError,
   Credentials | HttpClient.HttpClient
@@ -901,7 +902,7 @@ export type SendPhoneNumberVerificationError =
  * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
  */
 export const sendPhoneNumberVerification: API.OperationMethod<
-  SendPhoneNumberVerificationRequest,
+  SendPhoneNumberVerificationRequest & RegionInput,
   SendPhoneNumberVerificationResponse,
   SendPhoneNumberVerificationError,
   Credentials | HttpClient.HttpClient
@@ -935,7 +936,7 @@ export type StartPrimaryEmailUpdateError =
  * Starts the process to update the primary email address for the specified account.
  */
 export const startPrimaryEmailUpdate: API.OperationMethod<
-  StartPrimaryEmailUpdateRequest,
+  StartPrimaryEmailUpdateRequest & RegionInput,
   StartPrimaryEmailUpdateResponse,
   StartPrimaryEmailUpdateError,
   Credentials | HttpClient.HttpClient
@@ -971,7 +972,7 @@ export type VerifyPhoneNumberError =
  * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
  */
 export const verifyPhoneNumber: API.OperationMethod<
-  VerifyPhoneNumberRequest,
+  VerifyPhoneNumberRequest & RegionInput,
   VerifyPhoneNumberResponse,
   VerifyPhoneNumberError,
   Credentials | HttpClient.HttpClient

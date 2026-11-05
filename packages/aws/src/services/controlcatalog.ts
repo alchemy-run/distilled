@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -352,7 +353,7 @@ export type GetControlError =
  * In the API response, controls that have the value `GLOBAL` in the `Scope` field do not show the `DeployableRegions` field, because it does not apply. Controls that have the value `REGIONAL` in the `Scope` field return a value for the `DeployableRegions` field, as shown in the example.
  */
 export const getControl: API.OperationMethod<
-  GetControlRequest,
+  GetControlRequest & RegionInput,
   GetControlResponse,
   GetControlError,
   Credentials | HttpClient.HttpClient
@@ -385,7 +386,7 @@ export type ListCommonControlsError =
  * You can apply an optional filter to see common controls that have a specific objective. If you don't provide a filter, the operation returns all common controls.
  */
 export const listCommonControls: API.PaginatedOperationMethod<
-  ListCommonControlsRequest,
+  ListCommonControlsRequest & RegionInput,
   ListCommonControlsResponse,
   ListCommonControlsError,
   Credentials | HttpClient.HttpClient,
@@ -422,7 +423,7 @@ export type ListControlMappingsError =
  * Returns a paginated list of control mappings from the Control Catalog. Control mappings show relationships between controls and other entities, such as common controls or compliance frameworks.
  */
 export const listControlMappings: API.PaginatedOperationMethod<
-  ListControlMappingsRequest,
+  ListControlMappingsRequest & RegionInput,
   ListControlMappingsResponse,
   ListControlMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -459,7 +460,7 @@ export type ListControlsError =
  * Returns a paginated list of all available controls in the Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type *controlSummary*. The ARN is returned in the global *controlcatalog* format, as shown in the examples.
  */
 export const listControls: API.PaginatedOperationMethod<
-  ListControlsRequest,
+  ListControlsRequest & RegionInput,
   ListControlsResponse,
   ListControlsError,
   Credentials | HttpClient.HttpClient,
@@ -496,7 +497,7 @@ export type ListDomainsError =
  * Returns a paginated list of domains from the Control Catalog.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -535,7 +536,7 @@ export type ListObjectivesError =
  * You can apply an optional filter to see the objectives that belong to a specific domain. If you don't provide a filter, the operation returns all objectives.
  */
 export const listObjectives: API.PaginatedOperationMethod<
-  ListObjectivesRequest,
+  ListObjectivesRequest & RegionInput,
   ListObjectivesResponse,
   ListObjectivesError,
   Credentials | HttpClient.HttpClient,

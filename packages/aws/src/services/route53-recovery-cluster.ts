@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -276,7 +277,7 @@ export type GetRoutingControlStateError =
  * routing controls in Route 53 ARC
  */
 export const getRoutingControlState: API.OperationMethod<
-  GetRoutingControlStateRequest,
+  GetRoutingControlStateRequest & RegionInput,
   GetRoutingControlStateResponse,
   GetRoutingControlStateError,
   Credentials | HttpClient.HttpClient
@@ -335,7 +336,7 @@ export type ListRoutingControlsError =
  * routing controls in Route 53 ARC
  */
 export const listRoutingControls: API.PaginatedOperationMethod<
-  ListRoutingControlsRequest,
+  ListRoutingControlsRequest & RegionInput,
   ListRoutingControlsResponse,
   ListRoutingControlsError,
   Credentials | HttpClient.HttpClient,
@@ -404,7 +405,7 @@ export type UpdateRoutingControlStateError =
  * - Working with routing controls overall
  */
 export const updateRoutingControlState: API.OperationMethod<
-  UpdateRoutingControlStateRequest,
+  UpdateRoutingControlStateRequest & RegionInput,
   UpdateRoutingControlStateResponse,
   UpdateRoutingControlStateError,
   Credentials | HttpClient.HttpClient
@@ -468,7 +469,7 @@ export type UpdateRoutingControlStatesError =
  * - Working with routing controls overall
  */
 export const updateRoutingControlStates: API.OperationMethod<
-  UpdateRoutingControlStatesRequest,
+  UpdateRoutingControlStatesRequest & RegionInput,
   UpdateRoutingControlStatesResponse,
   UpdateRoutingControlStatesError,
   Credentials | HttpClient.HttpClient

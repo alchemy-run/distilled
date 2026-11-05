@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -585,7 +586,7 @@ export type ActivateSubscriptionError =
  * Activates a Subscription to enable billing for a user.
  */
 export const activateSubscription: API.OperationMethod<
-  ActivateSubscriptionInput,
+  ActivateSubscriptionInput & RegionInput,
   ActivateSubscriptionOutput,
   ActivateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -610,7 +611,7 @@ export type CreateDomainError = ServiceQuotaExceededException | CommonErrors;
  * Creates a new Domain for managing HealthAgent resources.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainInput,
+  CreateDomainInput & RegionInput,
   CreateDomainOutput,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -636,7 +637,7 @@ export type CreateSubscriptionError =
  * Creates a new Subscription within a Domain for billing and user management.
  */
 export const createSubscription: API.OperationMethod<
-  CreateSubscriptionInput,
+  CreateSubscriptionInput & RegionInput,
   CreateSubscriptionOutput,
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -667,7 +668,7 @@ export type DeactivateSubscriptionError =
  * Deactivates a Subscription to stop billing for a user.
  */
 export const deactivateSubscription: API.OperationMethod<
-  DeactivateSubscriptionInput,
+  DeactivateSubscriptionInput & RegionInput,
   DeactivateSubscriptionOutput,
   DeactivateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -692,7 +693,7 @@ export type DeleteDomainError = ResourceNotFoundException | CommonErrors;
  * Deletes a Domain and all associated resources.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainInput,
+  DeleteDomainInput & RegionInput,
   DeleteDomainOutput,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -712,7 +713,7 @@ export type GetDomainError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a Domain.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainInput,
+  GetDomainInput & RegionInput,
   GetDomainOutput,
   GetDomainError,
   Credentials | HttpClient.HttpClient
@@ -738,7 +739,7 @@ export type GetMedicalScribeListeningSessionError =
  * Retrieves details about an existing Medical Scribe listening session
  */
 export const getMedicalScribeListeningSession: API.OperationMethod<
-  GetMedicalScribeListeningSessionInput,
+  GetMedicalScribeListeningSessionInput & RegionInput,
   GetMedicalScribeListeningSessionOutput,
   GetMedicalScribeListeningSessionError,
   Credentials | HttpClient.HttpClient
@@ -771,7 +772,7 @@ export type GetPatientInsightsJobError =
  * Get details of a started patient insights job.
  */
 export const getPatientInsightsJob: API.OperationMethod<
-  GetPatientInsightsJobRequest,
+  GetPatientInsightsJobRequest & RegionInput,
   GetPatientInsightsJobResponse,
   GetPatientInsightsJobError,
   Credentials | HttpClient.HttpClient
@@ -803,7 +804,7 @@ export type GetSubscriptionError =
  * Retrieves information about a Subscription.
  */
 export const getSubscription: API.OperationMethod<
-  GetSubscriptionInput,
+  GetSubscriptionInput & RegionInput,
   GetSubscriptionOutput,
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -828,7 +829,7 @@ export type ListDomainsError = CommonErrors;
  * Lists Domains for a given account.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsInput,
+  ListDomainsInput & RegionInput,
   ListDomainsOutput,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -860,7 +861,7 @@ export type ListSubscriptionsError =
  * Lists all Subscriptions within a Domain.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsInput,
+  ListSubscriptionsInput & RegionInput,
   ListSubscriptionsOutput,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -892,7 +893,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Lists the tags associated with the specified resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -919,7 +920,7 @@ export type StartMedicalScribeListeningSessionError =
  * Starts a new Medical Scribe listening session for real-time audio transcription
  */
 export const startMedicalScribeListeningSession: API.OperationMethod<
-  StartMedicalScribeListeningSessionInput,
+  StartMedicalScribeListeningSessionInput & RegionInput,
   StartMedicalScribeListeningSessionOutput,
   StartMedicalScribeListeningSessionError,
   Credentials | HttpClient.HttpClient
@@ -954,7 +955,7 @@ export type StartPatientInsightsJobError =
  * Starts a new patient insights job.
  */
 export const startPatientInsightsJob: API.OperationMethod<
-  StartPatientInsightsJobRequest,
+  StartPatientInsightsJobRequest & RegionInput,
   StartPatientInsightsJobResponse,
   StartPatientInsightsJobError,
   Credentials | HttpClient.HttpClient
@@ -982,7 +983,7 @@ export type TagResourceError = CommonErrors;
  * Associates the specified tags with the specified resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1002,7 +1003,7 @@ export type UntagResourceError = CommonErrors;
  * Removes the specified tags from the specified resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

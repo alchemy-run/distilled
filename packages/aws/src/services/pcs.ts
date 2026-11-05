@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -699,7 +700,7 @@ export type CreateClusterError =
  * It takes time for PCS to create the cluster. The cluster is in a `Creating` state until it is ready to use. There can only be 1 cluster in a `Creating` state per Amazon Web Services Region per Amazon Web Services account. `CreateCluster` fails with a `ServiceQuotaExceededException` if there is already a cluster in a `Creating` state.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -734,7 +735,7 @@ export type CreateComputeNodeGroupError =
  * Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
  */
 export const createComputeNodeGroup: API.OperationMethod<
-  CreateComputeNodeGroupRequest,
+  CreateComputeNodeGroupRequest & RegionInput,
   CreateComputeNodeGroupResponse,
   CreateComputeNodeGroupError,
   Credentials | HttpClient.HttpClient
@@ -770,7 +771,7 @@ export type CreateQueueError =
  * Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResponse,
   CreateQueueError,
   Credentials | HttpClient.HttpClient
@@ -805,7 +806,7 @@ export type DeleteClusterError =
  * Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -839,7 +840,7 @@ export type DeleteComputeNodeGroupError =
  * Deletes a compute node group. You must delete all queues associated with the compute node group first.
  */
 export const deleteComputeNodeGroup: API.OperationMethod<
-  DeleteComputeNodeGroupRequest,
+  DeleteComputeNodeGroupRequest & RegionInput,
   DeleteComputeNodeGroupResponse,
   DeleteComputeNodeGroupError,
   Credentials | HttpClient.HttpClient
@@ -873,7 +874,7 @@ export type DeleteQueueError =
  * Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
@@ -907,7 +908,7 @@ export type GetClusterError =
  * Returns detailed information about a running cluster in your account. This API action provides networking information, endpoint information for communication with the scheduler, and provisioning status.
  */
 export const getCluster: API.OperationMethod<
-  GetClusterRequest,
+  GetClusterRequest & RegionInput,
   GetClusterResponse,
   GetClusterError,
   Credentials | HttpClient.HttpClient
@@ -941,7 +942,7 @@ export type GetComputeNodeGroupError =
  * Returns detailed information about a compute node group. This API action provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration.
  */
 export const getComputeNodeGroup: API.OperationMethod<
-  GetComputeNodeGroupRequest,
+  GetComputeNodeGroupRequest & RegionInput,
   GetComputeNodeGroupResponse,
   GetComputeNodeGroupError,
   Credentials | HttpClient.HttpClient
@@ -975,7 +976,7 @@ export type GetQueueError =
  * Returns detailed information about a queue. The information includes the compute node groups that the queue uses to schedule jobs.
  */
 export const getQueue: API.OperationMethod<
-  GetQueueRequest,
+  GetQueueRequest & RegionInput,
   GetQueueResponse,
   GetQueueError,
   Credentials | HttpClient.HttpClient
@@ -1009,7 +1010,7 @@ export type ListClustersError =
  * Returns a list of running clusters in your account.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -1050,7 +1051,7 @@ export type ListComputeNodeGroupsError =
  * Returns a list of all compute node groups associated with a cluster.
  */
 export const listComputeNodeGroups: API.PaginatedOperationMethod<
-  ListComputeNodeGroupsRequest,
+  ListComputeNodeGroupsRequest & RegionInput,
   ListComputeNodeGroupsResponse,
   ListComputeNodeGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1091,7 +1092,7 @@ export type ListQueuesError =
  * Returns a list of all queues associated with a cluster.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResponse,
   ListQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -1125,7 +1126,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Returns a list of all tags on an PCS resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1150,7 +1151,7 @@ export type RegisterComputeNodeGroupInstanceError =
  * PCS uses this API action to register the compute nodes it launches in your account.
  */
 export const registerComputeNodeGroupInstance: API.OperationMethod<
-  RegisterComputeNodeGroupInstanceRequest,
+  RegisterComputeNodeGroupInstanceRequest & RegionInput,
   RegisterComputeNodeGroupInstanceResponse,
   RegisterComputeNodeGroupInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1173,7 +1174,7 @@ export type TagResourceError =
  * Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1193,7 +1194,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1222,7 +1223,7 @@ export type UpdateClusterError =
  * You can only update clusters that are in `ACTIVE`, `UPDATE_FAILED`, or `SUSPENDED` state. All associated resources (queues and compute node groups) must be in `ACTIVE` state before you can update the cluster.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -1257,7 +1258,7 @@ export type UpdateComputeNodeGroupError =
  * Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
  */
 export const updateComputeNodeGroup: API.OperationMethod<
-  UpdateComputeNodeGroupRequest,
+  UpdateComputeNodeGroupRequest & RegionInput,
   UpdateComputeNodeGroupResponse,
   UpdateComputeNodeGroupError,
   Credentials | HttpClient.HttpClient
@@ -1293,7 +1294,7 @@ export type UpdateQueueError =
  * Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to.
  */
 export const updateQueue: API.OperationMethod<
-  UpdateQueueRequest,
+  UpdateQueueRequest & RegionInput,
   UpdateQueueResponse,
   UpdateQueueError,
   Credentials | HttpClient.HttpClient

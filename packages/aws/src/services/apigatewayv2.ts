@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2179,7 +2180,7 @@ export type CreateApiError =
  * Creates an Api resource.
  */
 export const createApi: API.OperationMethod<
-  CreateApiRequest,
+  CreateApiRequest & RegionInput,
   CreateApiResponse,
   CreateApiError,
   Credentials | HttpClient.HttpClient
@@ -2204,7 +2205,7 @@ export type CreateApiMappingError =
  * Creates an API mapping.
  */
 export const createApiMapping: API.OperationMethod<
-  CreateApiMappingRequest,
+  CreateApiMappingRequest & RegionInput,
   CreateApiMappingResponse,
   CreateApiMappingError,
   Credentials | HttpClient.HttpClient
@@ -2229,7 +2230,7 @@ export type CreateAuthorizerError =
  * Creates an Authorizer for an API.
  */
 export const createAuthorizer: API.OperationMethod<
-  CreateAuthorizerRequest,
+  CreateAuthorizerRequest & RegionInput,
   CreateAuthorizerResponse,
   CreateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2254,7 +2255,7 @@ export type CreateDeploymentError =
  * Creates a Deployment for an API.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResponse,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2280,7 +2281,7 @@ export type CreateDomainNameError =
  * Creates a domain name.
  */
 export const createDomainName: API.OperationMethod<
-  CreateDomainNameRequest,
+  CreateDomainNameRequest & RegionInput,
   CreateDomainNameResponse,
   CreateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2311,7 +2312,7 @@ export type CreateIntegrationError =
  * Creates an Integration.
  */
 export const createIntegration: API.OperationMethod<
-  CreateIntegrationRequest,
+  CreateIntegrationRequest & RegionInput,
   CreateIntegrationResult,
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2336,7 +2337,7 @@ export type CreateIntegrationResponseError =
  * Creates an IntegrationResponses.
  */
 export const createIntegrationResponse: API.OperationMethod<
-  CreateIntegrationResponseRequest,
+  CreateIntegrationResponseRequest & RegionInput,
   CreateIntegrationResponseResponse,
   CreateIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -2361,7 +2362,7 @@ export type CreateModelError =
  * Creates a Model for an API.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   CreateModelResponse,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -2385,7 +2386,7 @@ export type CreatePortalError =
  * Creates a portal.
  */
 export const createPortal: API.OperationMethod<
-  CreatePortalRequest,
+  CreatePortalRequest & RegionInput,
   CreatePortalResponse,
   CreatePortalError,
   Credentials | HttpClient.HttpClient
@@ -2409,7 +2410,7 @@ export type CreatePortalProductError =
  * Creates a new portal product.
  */
 export const createPortalProduct: API.OperationMethod<
-  CreatePortalProductRequest,
+  CreatePortalProductRequest & RegionInput,
   CreatePortalProductResponse,
   CreatePortalProductError,
   Credentials | HttpClient.HttpClient
@@ -2434,7 +2435,7 @@ export type CreateProductPageError =
  * Creates a new product page for a portal product.
  */
 export const createProductPage: API.OperationMethod<
-  CreateProductPageRequest,
+  CreateProductPageRequest & RegionInput,
   CreateProductPageResponse,
   CreateProductPageError,
   Credentials | HttpClient.HttpClient
@@ -2459,7 +2460,7 @@ export type CreateProductRestEndpointPageError =
  * Creates a product REST endpoint page for a portal product.
  */
 export const createProductRestEndpointPage: API.OperationMethod<
-  CreateProductRestEndpointPageRequest,
+  CreateProductRestEndpointPageRequest & RegionInput,
   CreateProductRestEndpointPageResponse,
   CreateProductRestEndpointPageError,
   Credentials | HttpClient.HttpClient
@@ -2484,7 +2485,7 @@ export type CreateRouteError =
  * Creates a Route for an API.
  */
 export const createRoute: API.OperationMethod<
-  CreateRouteRequest,
+  CreateRouteRequest & RegionInput,
   CreateRouteResult,
   CreateRouteError,
   Credentials | HttpClient.HttpClient
@@ -2509,7 +2510,7 @@ export type CreateRouteResponseError =
  * Creates a RouteResponse for a Route.
  */
 export const createRouteResponse: API.OperationMethod<
-  CreateRouteResponseRequest,
+  CreateRouteResponseRequest & RegionInput,
   CreateRouteResponseResponse,
   CreateRouteResponseError,
   Credentials | HttpClient.HttpClient
@@ -2534,7 +2535,7 @@ export type CreateRoutingRuleError =
  * Creates a RoutingRule.
  */
 export const createRoutingRule: API.OperationMethod<
-  CreateRoutingRuleRequest,
+  CreateRoutingRuleRequest & RegionInput,
   CreateRoutingRuleResponse,
   CreateRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -2559,7 +2560,7 @@ export type CreateStageError =
  * Creates a Stage for an API.
  */
 export const createStage: API.OperationMethod<
-  CreateStageRequest,
+  CreateStageRequest & RegionInput,
   CreateStageResponse,
   CreateStageError,
   Credentials | HttpClient.HttpClient
@@ -2579,7 +2580,7 @@ export type CreateVpcLinkError = BadRequestException | TooManyRequestsException 
  * Creates a VPC link.
  */
 export const createVpcLink: API.OperationMethod<
-  CreateVpcLinkRequest,
+  CreateVpcLinkRequest & RegionInput,
   CreateVpcLinkResponse,
   CreateVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -2602,7 +2603,7 @@ export type DeleteAccessLogSettingsError =
  * Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
  */
 export const deleteAccessLogSettings: API.OperationMethod<
-  DeleteAccessLogSettingsRequest,
+  DeleteAccessLogSettingsRequest & RegionInput,
   DeleteAccessLogSettingsResponse,
   DeleteAccessLogSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2622,7 +2623,7 @@ export type DeleteApiError = NotFoundException | TooManyRequestsException | Comm
  * Deletes an Api resource.
  */
 export const deleteApi: API.OperationMethod<
-  DeleteApiRequest,
+  DeleteApiRequest & RegionInput,
   DeleteApiResponse,
   DeleteApiError,
   Credentials | HttpClient.HttpClient
@@ -2646,7 +2647,7 @@ export type DeleteApiMappingError =
  * Deletes an API mapping.
  */
 export const deleteApiMapping: API.OperationMethod<
-  DeleteApiMappingRequest,
+  DeleteApiMappingRequest & RegionInput,
   DeleteApiMappingResponse,
   DeleteApiMappingError,
   Credentials | HttpClient.HttpClient
@@ -2666,7 +2667,7 @@ export type DeleteAuthorizerError = NotFoundException | TooManyRequestsException
  * Deletes an Authorizer.
  */
 export const deleteAuthorizer: API.OperationMethod<
-  DeleteAuthorizerRequest,
+  DeleteAuthorizerRequest & RegionInput,
   DeleteAuthorizerResponse,
   DeleteAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2689,7 +2690,7 @@ export type DeleteCorsConfigurationError =
  * Deletes a CORS configuration.
  */
 export const deleteCorsConfiguration: API.OperationMethod<
-  DeleteCorsConfigurationRequest,
+  DeleteCorsConfigurationRequest & RegionInput,
   DeleteCorsConfigurationResponse,
   DeleteCorsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2709,7 +2710,7 @@ export type DeleteDeploymentError = NotFoundException | TooManyRequestsException
  * Deletes a Deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
+  DeleteDeploymentRequest & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2729,7 +2730,7 @@ export type DeleteDomainNameError = NotFoundException | TooManyRequestsException
  * Deletes a domain name.
  */
 export const deleteDomainName: API.OperationMethod<
-  DeleteDomainNameRequest,
+  DeleteDomainNameRequest & RegionInput,
   DeleteDomainNameResponse,
   DeleteDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2749,7 +2750,7 @@ export type DeleteIntegrationError = NotFoundException | TooManyRequestsExceptio
  * Deletes an Integration.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2772,7 +2773,7 @@ export type DeleteIntegrationResponseError =
  * Deletes an IntegrationResponses.
  */
 export const deleteIntegrationResponse: API.OperationMethod<
-  DeleteIntegrationResponseRequest,
+  DeleteIntegrationResponseRequest & RegionInput,
   DeleteIntegrationResponseResponse,
   DeleteIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -2792,7 +2793,7 @@ export type DeleteModelError = NotFoundException | TooManyRequestsException | Co
  * Deletes a Model.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResponse,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -2816,7 +2817,7 @@ export type DeletePortalError =
  * Deletes a portal.
  */
 export const deletePortal: API.OperationMethod<
-  DeletePortalRequest,
+  DeletePortalRequest & RegionInput,
   DeletePortalResponse,
   DeletePortalError,
   Credentials | HttpClient.HttpClient
@@ -2841,7 +2842,7 @@ export type DeletePortalProductError =
  * Deletes a portal product.
  */
 export const deletePortalProduct: API.OperationMethod<
-  DeletePortalProductRequest,
+  DeletePortalProductRequest & RegionInput,
   DeletePortalProductResponse,
   DeletePortalProductError,
   Credentials | HttpClient.HttpClient
@@ -2866,7 +2867,7 @@ export type DeletePortalProductSharingPolicyError =
  * Deletes the sharing policy for a portal product.
  */
 export const deletePortalProductSharingPolicy: API.OperationMethod<
-  DeletePortalProductSharingPolicyRequest,
+  DeletePortalProductSharingPolicyRequest & RegionInput,
   DeletePortalProductSharingPolicyResponse,
   DeletePortalProductSharingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2891,7 +2892,7 @@ export type DeleteProductPageError =
  * Deletes a product page of a portal product.
  */
 export const deleteProductPage: API.OperationMethod<
-  DeleteProductPageRequest,
+  DeleteProductPageRequest & RegionInput,
   DeleteProductPageResponse,
   DeleteProductPageError,
   Credentials | HttpClient.HttpClient
@@ -2916,7 +2917,7 @@ export type DeleteProductRestEndpointPageError =
  * Deletes a product REST endpoint page.
  */
 export const deleteProductRestEndpointPage: API.OperationMethod<
-  DeleteProductRestEndpointPageRequest,
+  DeleteProductRestEndpointPageRequest & RegionInput,
   DeleteProductRestEndpointPageResponse,
   DeleteProductRestEndpointPageError,
   Credentials | HttpClient.HttpClient
@@ -2936,7 +2937,7 @@ export type DeleteRouteError = NotFoundException | TooManyRequestsException | Co
  * Deletes a Route.
  */
 export const deleteRoute: API.OperationMethod<
-  DeleteRouteRequest,
+  DeleteRouteRequest & RegionInput,
   DeleteRouteResponse,
   DeleteRouteError,
   Credentials | HttpClient.HttpClient
@@ -2959,7 +2960,7 @@ export type DeleteRouteRequestParameterError =
  * Deletes a route request parameter. Supported only for WebSocket APIs.
  */
 export const deleteRouteRequestParameter: API.OperationMethod<
-  DeleteRouteRequestParameterRequest,
+  DeleteRouteRequestParameterRequest & RegionInput,
   DeleteRouteRequestParameterResponse,
   DeleteRouteRequestParameterError,
   Credentials | HttpClient.HttpClient
@@ -2979,7 +2980,7 @@ export type DeleteRouteResponseError = NotFoundException | TooManyRequestsExcept
  * Deletes a RouteResponse.
  */
 export const deleteRouteResponse: API.OperationMethod<
-  DeleteRouteResponseRequest,
+  DeleteRouteResponseRequest & RegionInput,
   DeleteRouteResponseResponse,
   DeleteRouteResponseError,
   Credentials | HttpClient.HttpClient
@@ -2999,7 +3000,7 @@ export type DeleteRouteSettingsError = NotFoundException | TooManyRequestsExcept
  * Deletes the RouteSettings for a stage.
  */
 export const deleteRouteSettings: API.OperationMethod<
-  DeleteRouteSettingsRequest,
+  DeleteRouteSettingsRequest & RegionInput,
   DeleteRouteSettingsResponse,
   DeleteRouteSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3023,7 +3024,7 @@ export type DeleteRoutingRuleError =
  * Deletes a routing rule.
  */
 export const deleteRoutingRule: API.OperationMethod<
-  DeleteRoutingRuleRequest,
+  DeleteRoutingRuleRequest & RegionInput,
   DeleteRoutingRuleResponse,
   DeleteRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -3043,7 +3044,7 @@ export type DeleteStageError = NotFoundException | TooManyRequestsException | Co
  * Deletes a Stage.
  */
 export const deleteStage: API.OperationMethod<
-  DeleteStageRequest,
+  DeleteStageRequest & RegionInput,
   DeleteStageResponse,
   DeleteStageError,
   Credentials | HttpClient.HttpClient
@@ -3063,7 +3064,7 @@ export type DeleteVpcLinkError = NotFoundException | TooManyRequestsException | 
  * Deletes a VPC link.
  */
 export const deleteVpcLink: API.OperationMethod<
-  DeleteVpcLinkRequest,
+  DeleteVpcLinkRequest & RegionInput,
   DeleteVpcLinkResponse,
   DeleteVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -3089,7 +3090,7 @@ export type DisablePortalError =
  * Deletes the publication of a portal portal.
  */
 export const disablePortal: API.OperationMethod<
-  DisablePortalRequest,
+  DisablePortalRequest & RegionInput,
   DisablePortalResponse,
   DisablePortalError,
   Credentials | HttpClient.HttpClient
@@ -3119,7 +3120,7 @@ export type ExportApiError =
  *
  */
 export const exportApi: API.OperationMethod<
-  ExportApiRequest,
+  ExportApiRequest & RegionInput,
   ExportApiResponse,
   ExportApiError,
   Credentials | HttpClient.HttpClient
@@ -3139,7 +3140,7 @@ export type GetApiError = NotFoundException | TooManyRequestsException | CommonE
  * Gets an Api resource.
  */
 export const getApi: API.OperationMethod<
-  GetApiRequest,
+  GetApiRequest & RegionInput,
   GetApiResponse,
   GetApiError,
   Credentials | HttpClient.HttpClient
@@ -3163,7 +3164,7 @@ export type GetApiMappingError =
  * Gets an API mapping.
  */
 export const getApiMapping: API.OperationMethod<
-  GetApiMappingRequest,
+  GetApiMappingRequest & RegionInput,
   GetApiMappingResponse,
   GetApiMappingError,
   Credentials | HttpClient.HttpClient
@@ -3187,7 +3188,7 @@ export type GetApiMappingsError =
  * Gets API mappings.
  */
 export const getApiMappings: API.OperationMethod<
-  GetApiMappingsRequest,
+  GetApiMappingsRequest & RegionInput,
   GetApiMappingsResponse,
   GetApiMappingsError,
   Credentials | HttpClient.HttpClient
@@ -3211,7 +3212,7 @@ export type GetApisError =
  * Gets a collection of Api resources.
  */
 export const getApis: API.OperationMethod<
-  GetApisRequest,
+  GetApisRequest & RegionInput,
   GetApisResponse,
   GetApisError,
   Credentials | HttpClient.HttpClient
@@ -3231,7 +3232,7 @@ export type GetAuthorizerError = NotFoundException | TooManyRequestsException | 
  * Gets an Authorizer.
  */
 export const getAuthorizer: API.OperationMethod<
-  GetAuthorizerRequest,
+  GetAuthorizerRequest & RegionInput,
   GetAuthorizerResponse,
   GetAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -3255,7 +3256,7 @@ export type GetAuthorizersError =
  * Gets the Authorizers for an API.
  */
 export const getAuthorizers: API.OperationMethod<
-  GetAuthorizersRequest,
+  GetAuthorizersRequest & RegionInput,
   GetAuthorizersResponse,
   GetAuthorizersError,
   Credentials | HttpClient.HttpClient
@@ -3275,7 +3276,7 @@ export type GetDeploymentError = NotFoundException | TooManyRequestsException | 
  * Gets a Deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   GetDeploymentResponse,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -3299,7 +3300,7 @@ export type GetDeploymentsError =
  * Gets the Deployments for an API.
  */
 export const getDeployments: API.OperationMethod<
-  GetDeploymentsRequest,
+  GetDeploymentsRequest & RegionInput,
   GetDeploymentsResponse,
   GetDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -3319,7 +3320,7 @@ export type GetDomainNameError = NotFoundException | TooManyRequestsException | 
  * Gets a domain name.
  */
 export const getDomainName: API.OperationMethod<
-  GetDomainNameRequest,
+  GetDomainNameRequest & RegionInput,
   GetDomainNameResponse,
   GetDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -3343,7 +3344,7 @@ export type GetDomainNamesError =
  * Gets the domain names for an AWS account.
  */
 export const getDomainNames: API.OperationMethod<
-  GetDomainNamesRequest,
+  GetDomainNamesRequest & RegionInput,
   GetDomainNamesResponse,
   GetDomainNamesError,
   Credentials | HttpClient.HttpClient
@@ -3363,7 +3364,7 @@ export type GetIntegrationError = NotFoundException | TooManyRequestsException |
  * Gets an Integration.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationRequest,
+  GetIntegrationRequest & RegionInput,
   GetIntegrationResult,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3386,7 +3387,7 @@ export type GetIntegrationResponseError =
  * Gets an IntegrationResponses.
  */
 export const getIntegrationResponse: API.OperationMethod<
-  GetIntegrationResponseRequest,
+  GetIntegrationResponseRequest & RegionInput,
   GetIntegrationResponseResponse,
   GetIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -3410,7 +3411,7 @@ export type GetIntegrationResponsesError =
  * Gets the IntegrationResponses for an Integration.
  */
 export const getIntegrationResponses: API.OperationMethod<
-  GetIntegrationResponsesRequest,
+  GetIntegrationResponsesRequest & RegionInput,
   GetIntegrationResponsesResponse,
   GetIntegrationResponsesError,
   Credentials | HttpClient.HttpClient
@@ -3434,7 +3435,7 @@ export type GetIntegrationsError =
  * Gets the Integrations for an API.
  */
 export const getIntegrations: API.OperationMethod<
-  GetIntegrationsRequest,
+  GetIntegrationsRequest & RegionInput,
   GetIntegrationsResponse,
   GetIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -3454,7 +3455,7 @@ export type GetModelError = NotFoundException | TooManyRequestsException | Commo
  * Gets a Model.
  */
 export const getModel: API.OperationMethod<
-  GetModelRequest,
+  GetModelRequest & RegionInput,
   GetModelResponse,
   GetModelError,
   Credentials | HttpClient.HttpClient
@@ -3478,7 +3479,7 @@ export type GetModelsError =
  * Gets the Models for an API.
  */
 export const getModels: API.OperationMethod<
-  GetModelsRequest,
+  GetModelsRequest & RegionInput,
   GetModelsResponse,
   GetModelsError,
   Credentials | HttpClient.HttpClient
@@ -3498,7 +3499,7 @@ export type GetModelTemplateError = NotFoundException | TooManyRequestsException
  * Gets a model template.
  */
 export const getModelTemplate: API.OperationMethod<
-  GetModelTemplateRequest,
+  GetModelTemplateRequest & RegionInput,
   GetModelTemplateResponse,
   GetModelTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3523,7 +3524,7 @@ export type GetPortalError =
  * Gets a portal.
  */
 export const getPortal: API.OperationMethod<
-  GetPortalRequest,
+  GetPortalRequest & RegionInput,
   GetPortalResponse,
   GetPortalError,
   Credentials | HttpClient.HttpClient
@@ -3548,7 +3549,7 @@ export type GetPortalProductError =
  * Gets a portal product.
  */
 export const getPortalProduct: API.OperationMethod<
-  GetPortalProductRequest,
+  GetPortalProductRequest & RegionInput,
   GetPortalProductResponse,
   GetPortalProductError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3574,7 @@ export type GetPortalProductSharingPolicyError =
  * Gets the sharing policy for a portal product.
  */
 export const getPortalProductSharingPolicy: API.OperationMethod<
-  GetPortalProductSharingPolicyRequest,
+  GetPortalProductSharingPolicyRequest & RegionInput,
   GetPortalProductSharingPolicyResponse,
   GetPortalProductSharingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3598,7 +3599,7 @@ export type GetProductPageError =
  * Gets a product page of a portal product.
  */
 export const getProductPage: API.OperationMethod<
-  GetProductPageRequest,
+  GetProductPageRequest & RegionInput,
   GetProductPageResponse,
   GetProductPageError,
   Credentials | HttpClient.HttpClient
@@ -3623,7 +3624,7 @@ export type GetProductRestEndpointPageError =
  * Gets a product REST endpoint page.
  */
 export const getProductRestEndpointPage: API.OperationMethod<
-  GetProductRestEndpointPageRequest,
+  GetProductRestEndpointPageRequest & RegionInput,
   GetProductRestEndpointPageResponse,
   GetProductRestEndpointPageError,
   Credentials | HttpClient.HttpClient
@@ -3643,7 +3644,7 @@ export type GetRouteError = NotFoundException | TooManyRequestsException | Commo
  * Gets a Route.
  */
 export const getRoute: API.OperationMethod<
-  GetRouteRequest,
+  GetRouteRequest & RegionInput,
   GetRouteResult,
   GetRouteError,
   Credentials | HttpClient.HttpClient
@@ -3663,7 +3664,7 @@ export type GetRouteResponseError = NotFoundException | TooManyRequestsException
  * Gets a RouteResponse.
  */
 export const getRouteResponse: API.OperationMethod<
-  GetRouteResponseRequest,
+  GetRouteResponseRequest & RegionInput,
   GetRouteResponseResponse,
   GetRouteResponseError,
   Credentials | HttpClient.HttpClient
@@ -3687,7 +3688,7 @@ export type GetRouteResponsesError =
  * Gets the RouteResponses for a Route.
  */
 export const getRouteResponses: API.OperationMethod<
-  GetRouteResponsesRequest,
+  GetRouteResponsesRequest & RegionInput,
   GetRouteResponsesResponse,
   GetRouteResponsesError,
   Credentials | HttpClient.HttpClient
@@ -3711,7 +3712,7 @@ export type GetRoutesError =
  * Gets the Routes for an API.
  */
 export const getRoutes: API.OperationMethod<
-  GetRoutesRequest,
+  GetRoutesRequest & RegionInput,
   GetRoutesResponse,
   GetRoutesError,
   Credentials | HttpClient.HttpClient
@@ -3735,7 +3736,7 @@ export type GetRoutingRuleError =
  * Gets a routing rule.
  */
 export const getRoutingRule: API.OperationMethod<
-  GetRoutingRuleRequest,
+  GetRoutingRuleRequest & RegionInput,
   GetRoutingRuleResponse,
   GetRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -3755,7 +3756,7 @@ export type GetStageError = NotFoundException | TooManyRequestsException | Commo
  * Gets a Stage.
  */
 export const getStage: API.OperationMethod<
-  GetStageRequest,
+  GetStageRequest & RegionInput,
   GetStageResponse,
   GetStageError,
   Credentials | HttpClient.HttpClient
@@ -3779,7 +3780,7 @@ export type GetStagesError =
  * Gets the Stages for an API.
  */
 export const getStages: API.OperationMethod<
-  GetStagesRequest,
+  GetStagesRequest & RegionInput,
   GetStagesResponse,
   GetStagesError,
   Credentials | HttpClient.HttpClient
@@ -3804,7 +3805,7 @@ export type GetTagsError =
  * Gets a collection of Tag resources.
  */
 export const getTags: API.OperationMethod<
-  GetTagsRequest,
+  GetTagsRequest & RegionInput,
   GetTagsResponse,
   GetTagsError,
   Credentials | HttpClient.HttpClient
@@ -3824,7 +3825,7 @@ export type GetVpcLinkError = NotFoundException | TooManyRequestsException | Com
  * Gets a VPC link.
  */
 export const getVpcLink: API.OperationMethod<
-  GetVpcLinkRequest,
+  GetVpcLinkRequest & RegionInput,
   GetVpcLinkResponse,
   GetVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -3844,7 +3845,7 @@ export type GetVpcLinksError = BadRequestException | TooManyRequestsException | 
  * Gets a collection of VPC links.
  */
 export const getVpcLinks: API.OperationMethod<
-  GetVpcLinksRequest,
+  GetVpcLinksRequest & RegionInput,
   GetVpcLinksResponse,
   GetVpcLinksError,
   Credentials | HttpClient.HttpClient
@@ -3869,7 +3870,7 @@ export type ImportApiError =
  * Imports an API.
  */
 export const importApi: API.OperationMethod<
-  ImportApiRequest,
+  ImportApiRequest & RegionInput,
   ImportApiResponse,
   ImportApiError,
   Credentials | HttpClient.HttpClient
@@ -3893,7 +3894,7 @@ export type ListPortalProductsError =
  * Lists portal products.
  */
 export const listPortalProducts: API.OperationMethod<
-  ListPortalProductsRequest,
+  ListPortalProductsRequest & RegionInput,
   ListPortalProductsResponse,
   ListPortalProductsError,
   Credentials | HttpClient.HttpClient
@@ -3917,7 +3918,7 @@ export type ListPortalsError =
  * Lists portals.
  */
 export const listPortals: API.OperationMethod<
-  ListPortalsRequest,
+  ListPortalsRequest & RegionInput,
   ListPortalsResponse,
   ListPortalsError,
   Credentials | HttpClient.HttpClient
@@ -3942,7 +3943,7 @@ export type ListProductPagesError =
  * Lists the product pages for a portal product.
  */
 export const listProductPages: API.OperationMethod<
-  ListProductPagesRequest,
+  ListProductPagesRequest & RegionInput,
   ListProductPagesResponse,
   ListProductPagesError,
   Credentials | HttpClient.HttpClient
@@ -3967,7 +3968,7 @@ export type ListProductRestEndpointPagesError =
  * Lists the product REST endpoint pages of a portal product.
  */
 export const listProductRestEndpointPages: API.OperationMethod<
-  ListProductRestEndpointPagesRequest,
+  ListProductRestEndpointPagesRequest & RegionInput,
   ListProductRestEndpointPagesResponse,
   ListProductRestEndpointPagesError,
   Credentials | HttpClient.HttpClient
@@ -3991,7 +3992,7 @@ export type ListRoutingRulesError =
  * Lists routing rules.
  */
 export const listRoutingRules: API.PaginatedOperationMethod<
-  ListRoutingRulesRequest,
+  ListRoutingRulesRequest & RegionInput,
   ListRoutingRulesResponse,
   ListRoutingRulesError,
   Credentials | HttpClient.HttpClient,
@@ -4024,7 +4025,7 @@ export type PreviewPortalError =
  * Creates a portal preview.
  */
 export const previewPortal: API.OperationMethod<
-  PreviewPortalRequest,
+  PreviewPortalRequest & RegionInput,
   PreviewPortalResponse,
   PreviewPortalError,
   Credentials | HttpClient.HttpClient
@@ -4056,7 +4057,7 @@ export type PublishPortalError =
  * Publishes a portal.
  */
 export const publishPortal: API.OperationMethod<
-  PublishPortalRequest,
+  PublishPortalRequest & RegionInput,
   PublishPortalResponse,
   PublishPortalError,
   Credentials | HttpClient.HttpClient
@@ -4087,7 +4088,7 @@ export type PutPortalProductSharingPolicyError =
  * Updates the sharing policy for a portal product.
  */
 export const putPortalProductSharingPolicy: API.OperationMethod<
-  PutPortalProductSharingPolicyRequest,
+  PutPortalProductSharingPolicyRequest & RegionInput,
   PutPortalProductSharingPolicyResponse,
   PutPortalProductSharingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4112,7 +4113,7 @@ export type PutRoutingRuleError =
  * Updates a routing rule.
  */
 export const putRoutingRule: API.OperationMethod<
-  PutRoutingRuleRequest,
+  PutRoutingRuleRequest & RegionInput,
   PutRoutingRuleResponse,
   PutRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -4137,7 +4138,7 @@ export type ReimportApiError =
  * Puts an Api resource.
  */
 export const reimportApi: API.OperationMethod<
-  ReimportApiRequest,
+  ReimportApiRequest & RegionInput,
   ReimportApiResponse,
   ReimportApiError,
   Credentials | HttpClient.HttpClient
@@ -4160,7 +4161,7 @@ export type ResetAuthorizersCacheError =
  * Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
  */
 export const resetAuthorizersCache: API.OperationMethod<
-  ResetAuthorizersCacheRequest,
+  ResetAuthorizersCacheRequest & RegionInput,
   ResetAuthorizersCacheResponse,
   ResetAuthorizersCacheError,
   Credentials | HttpClient.HttpClient
@@ -4185,7 +4186,7 @@ export type TagResourceError =
  * Creates a new Tag resource to represent a tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4210,7 +4211,7 @@ export type UntagResourceError =
  * Deletes a Tag.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4235,7 +4236,7 @@ export type UpdateApiError =
  * Updates an Api resource.
  */
 export const updateApi: API.OperationMethod<
-  UpdateApiRequest,
+  UpdateApiRequest & RegionInput,
   UpdateApiResponse,
   UpdateApiError,
   Credentials | HttpClient.HttpClient
@@ -4260,7 +4261,7 @@ export type UpdateApiMappingError =
  * The API mapping.
  */
 export const updateApiMapping: API.OperationMethod<
-  UpdateApiMappingRequest,
+  UpdateApiMappingRequest & RegionInput,
   UpdateApiMappingResponse,
   UpdateApiMappingError,
   Credentials | HttpClient.HttpClient
@@ -4285,7 +4286,7 @@ export type UpdateAuthorizerError =
  * Updates an Authorizer.
  */
 export const updateAuthorizer: API.OperationMethod<
-  UpdateAuthorizerRequest,
+  UpdateAuthorizerRequest & RegionInput,
   UpdateAuthorizerResponse,
   UpdateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -4310,7 +4311,7 @@ export type UpdateDeploymentError =
  * Updates a Deployment.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentRequest,
+  UpdateDeploymentRequest & RegionInput,
   UpdateDeploymentResponse,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4335,7 +4336,7 @@ export type UpdateDomainNameError =
  * Updates a domain name.
  */
 export const updateDomainName: API.OperationMethod<
-  UpdateDomainNameRequest,
+  UpdateDomainNameRequest & RegionInput,
   UpdateDomainNameResponse,
   UpdateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -4360,7 +4361,7 @@ export type UpdateIntegrationError =
  * Updates an Integration.
  */
 export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationRequest,
+  UpdateIntegrationRequest & RegionInput,
   UpdateIntegrationResult,
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4385,7 +4386,7 @@ export type UpdateIntegrationResponseError =
  * Updates an IntegrationResponses.
  */
 export const updateIntegrationResponse: API.OperationMethod<
-  UpdateIntegrationResponseRequest,
+  UpdateIntegrationResponseRequest & RegionInput,
   UpdateIntegrationResponseResponse,
   UpdateIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -4410,7 +4411,7 @@ export type UpdateModelError =
  * Updates a Model.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   UpdateModelResponse,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -4436,7 +4437,7 @@ export type UpdatePortalError =
  * Updates a portal.
  */
 export const updatePortal: API.OperationMethod<
-  UpdatePortalRequest,
+  UpdatePortalRequest & RegionInput,
   UpdatePortalResponse,
   UpdatePortalError,
   Credentials | HttpClient.HttpClient
@@ -4467,7 +4468,7 @@ export type UpdatePortalProductError =
  * Updates the portal product.
  */
 export const updatePortalProduct: API.OperationMethod<
-  UpdatePortalProductRequest,
+  UpdatePortalProductRequest & RegionInput,
   UpdatePortalProductResponse,
   UpdatePortalProductError,
   Credentials | HttpClient.HttpClient
@@ -4492,7 +4493,7 @@ export type UpdateProductPageError =
  * Updates a product page of a portal product.
  */
 export const updateProductPage: API.OperationMethod<
-  UpdateProductPageRequest,
+  UpdateProductPageRequest & RegionInput,
   UpdateProductPageResponse,
   UpdateProductPageError,
   Credentials | HttpClient.HttpClient
@@ -4517,7 +4518,7 @@ export type UpdateProductRestEndpointPageError =
  * Updates a product REST endpoint page.
  */
 export const updateProductRestEndpointPage: API.OperationMethod<
-  UpdateProductRestEndpointPageRequest,
+  UpdateProductRestEndpointPageRequest & RegionInput,
   UpdateProductRestEndpointPageResponse,
   UpdateProductRestEndpointPageError,
   Credentials | HttpClient.HttpClient
@@ -4542,7 +4543,7 @@ export type UpdateRouteError =
  * Updates a Route.
  */
 export const updateRoute: API.OperationMethod<
-  UpdateRouteRequest,
+  UpdateRouteRequest & RegionInput,
   UpdateRouteResult,
   UpdateRouteError,
   Credentials | HttpClient.HttpClient
@@ -4567,7 +4568,7 @@ export type UpdateRouteResponseError =
  * Updates a RouteResponse.
  */
 export const updateRouteResponse: API.OperationMethod<
-  UpdateRouteResponseRequest,
+  UpdateRouteResponseRequest & RegionInput,
   UpdateRouteResponseResponse,
   UpdateRouteResponseError,
   Credentials | HttpClient.HttpClient
@@ -4592,7 +4593,7 @@ export type UpdateStageError =
  * Updates a Stage.
  */
 export const updateStage: API.OperationMethod<
-  UpdateStageRequest,
+  UpdateStageRequest & RegionInput,
   UpdateStageResponse,
   UpdateStageError,
   Credentials | HttpClient.HttpClient
@@ -4616,7 +4617,7 @@ export type UpdateVpcLinkError =
  * Updates a VPC link.
  */
 export const updateVpcLink: API.OperationMethod<
-  UpdateVpcLinkRequest,
+  UpdateVpcLinkRequest & RegionInput,
   UpdateVpcLinkResponse,
   UpdateVpcLinkError,
   Credentials | HttpClient.HttpClient

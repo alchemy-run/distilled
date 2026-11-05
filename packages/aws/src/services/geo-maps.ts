@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -371,7 +372,7 @@ export type GetGlyphsError = CommonErrors;
  * For more information, see Style labels with glyphs in the *Amazon Location Service Developer Guide*.
  */
 export const getGlyphs: API.OperationMethod<
-  GetGlyphsRequest,
+  GetGlyphsRequest & RegionInput,
   GetGlyphsResponse,
   GetGlyphsError,
   Credentials | HttpClient.HttpClient
@@ -393,7 +394,7 @@ export type GetSpritesError = CommonErrors;
  * For more information, see Style iconography with sprites in the *Amazon Location Service Developer Guide*.
  */
 export const getSprites: API.OperationMethod<
-  GetSpritesRequest,
+  GetSpritesRequest & RegionInput,
   GetSpritesResponse,
   GetSpritesError,
   Credentials | HttpClient.HttpClient
@@ -426,7 +427,7 @@ export type GetStaticMapError =
  * - Overlay on the static map
  */
 export const getStaticMap: API.OperationMethod<
-  GetStaticMapRequest,
+  GetStaticMapRequest & RegionInput,
   GetStaticMapResponse,
   GetStaticMapError,
   Credentials | HttpClient.HttpClient
@@ -453,7 +454,7 @@ export type GetStyleDescriptorError = CommonErrors;
  * For more information, see Style dynamic maps in the *Amazon Location Service Developer Guide*.
  */
 export const getStyleDescriptor: API.OperationMethod<
-  GetStyleDescriptorRequest,
+  GetStyleDescriptorRequest & RegionInput,
   GetStyleDescriptorResponse,
   GetStyleDescriptorError,
   Credentials | HttpClient.HttpClient
@@ -481,7 +482,7 @@ export type GetTileError =
  * For more information, see Tiles in the *Amazon Location Service Developer Guide*.
  */
 export const getTile: API.OperationMethod<
-  GetTileRequest,
+  GetTileRequest & RegionInput,
   GetTileResponse,
   GetTileError,
   Credentials | HttpClient.HttpClient

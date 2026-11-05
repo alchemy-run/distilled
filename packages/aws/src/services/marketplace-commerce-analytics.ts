@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -176,7 +177,7 @@ export type GenerateDataSetError = MarketplaceCommerceAnalyticsException | Commo
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
 export const generateDataSet: API.OperationMethod<
-  GenerateDataSetRequest,
+  GenerateDataSetRequest & RegionInput,
   GenerateDataSetResult,
   GenerateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -203,7 +204,7 @@ export type StartSupportDataExportError = MarketplaceCommerceAnalyticsException 
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
 export const startSupportDataExport: API.OperationMethod<
-  StartSupportDataExportRequest,
+  StartSupportDataExportRequest & RegionInput,
   StartSupportDataExportResult,
   StartSupportDataExportError,
   Credentials | HttpClient.HttpClient

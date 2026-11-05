@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -188,7 +189,7 @@ export type GetRoleCredentialsError =
  * user.
  */
 export const getRoleCredentials: API.OperationMethod<
-  GetRoleCredentialsRequest,
+  GetRoleCredentialsRequest & RegionInput,
   GetRoleCredentialsResponse,
   GetRoleCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -218,7 +219,7 @@ export type ListAccountRolesError =
  * Lists all roles that are assigned to the user for a given AWS account.
  */
 export const listAccountRoles: API.PaginatedOperationMethod<
-  ListAccountRolesRequest,
+  ListAccountRolesRequest & RegionInput,
   ListAccountRolesResponse,
   ListAccountRolesError,
   Credentials | HttpClient.HttpClient,
@@ -257,7 +258,7 @@ export type ListAccountsError =
  * returns a paginated response.
  */
 export const listAccounts: API.PaginatedOperationMethod<
-  ListAccountsRequest,
+  ListAccountsRequest & RegionInput,
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -306,7 +307,7 @@ export type LogoutError =
  * Guide.
  */
 export const logout: API.OperationMethod<
-  LogoutRequest,
+  LogoutRequest & RegionInput,
   LogoutResponse,
   LogoutError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2453,7 +2454,7 @@ export type CreateAssertionError =
  * Creates a resilience assertion for a service.
  */
 export const createAssertion: API.OperationMethod<
-  CreateAssertionRequest,
+  CreateAssertionRequest & RegionInput,
   CreateAssertionResponse,
   CreateAssertionError,
   Credentials | HttpClient.HttpClient
@@ -2487,7 +2488,7 @@ export type CreateInputSourceError =
  * Creates an input source for a service.
  */
 export const createInputSource: API.OperationMethod<
-  CreateInputSourceRequest,
+  CreateInputSourceRequest & RegionInput,
   CreateInputSourceResponse,
   CreateInputSourceError,
   Credentials | HttpClient.HttpClient
@@ -2521,7 +2522,7 @@ export type CreatePolicyError =
  * Creates a resilience policy that defines availability and disaster recovery requirements.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyRequest,
+  CreatePolicyRequest & RegionInput,
   CreatePolicyResponse,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2555,7 +2556,7 @@ export type CreateReportError =
  * On-demand report creation. Idempotent -- duplicate requests with same clientToken return existing result.
  */
 export const createReport: API.OperationMethod<
-  CreateReportRequest,
+  CreateReportRequest & RegionInput,
   CreateReportResponse,
   CreateReportError,
   Credentials | HttpClient.HttpClient
@@ -2589,7 +2590,7 @@ export type CreateServiceError =
  * Creates a service.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -2623,7 +2624,7 @@ export type CreateServiceFunctionError =
  * Creates a service function within a service.
  */
 export const createServiceFunction: API.OperationMethod<
-  CreateServiceFunctionRequest,
+  CreateServiceFunctionRequest & RegionInput,
   CreateServiceFunctionResponse,
   CreateServiceFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2656,7 +2657,7 @@ export type CreateServiceFunctionResourcesError =
  * Associates resources with a service function.
  */
 export const createServiceFunctionResources: API.OperationMethod<
-  CreateServiceFunctionResourcesRequest,
+  CreateServiceFunctionResourcesRequest & RegionInput,
   CreateServiceFunctionResourcesResponse,
   CreateServiceFunctionResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2689,7 +2690,7 @@ export type CreateSystemError =
  * Creates a system that represents a logical grouping of services.
  */
 export const createSystem: API.OperationMethod<
-  CreateSystemRequest,
+  CreateSystemRequest & RegionInput,
   CreateSystemResponse,
   CreateSystemError,
   Credentials | HttpClient.HttpClient
@@ -2722,7 +2723,7 @@ export type CreateTestError =
  * Creates a test for a service by configuring a test template. Each service has one test per template.
  */
 export const createTest: API.OperationMethod<
-  CreateTestRequest,
+  CreateTestRequest & RegionInput,
   CreateTestResponse,
   CreateTestError,
   Credentials | HttpClient.HttpClient
@@ -2755,7 +2756,7 @@ export type CreateUserJourneyError =
  * Creates a user journey within a system.
  */
 export const createUserJourney: API.OperationMethod<
-  CreateUserJourneyRequest,
+  CreateUserJourneyRequest & RegionInput,
   CreateUserJourneyResponse,
   CreateUserJourneyError,
   Credentials | HttpClient.HttpClient
@@ -2787,7 +2788,7 @@ export type DeleteAssertionError =
  * Deletes a resilience assertion from a service.
  */
 export const deleteAssertion: API.OperationMethod<
-  DeleteAssertionRequest,
+  DeleteAssertionRequest & RegionInput,
   DeleteAssertionResponse,
   DeleteAssertionError,
   Credentials | HttpClient.HttpClient
@@ -2817,7 +2818,7 @@ export type DeleteInputSourceError =
  * Deletes an input source.
  */
 export const deleteInputSource: API.OperationMethod<
-  DeleteInputSourceRequest,
+  DeleteInputSourceRequest & RegionInput,
   DeleteInputSourceResponse,
   DeleteInputSourceError,
   Credentials | HttpClient.HttpClient
@@ -2848,7 +2849,7 @@ export type DeletePolicyError =
  * Deletes a resilience policy.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2880,7 +2881,7 @@ export type DeleteServiceError =
  * Deletes a service.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -2912,7 +2913,7 @@ export type DeleteServiceFunctionError =
  * Deletes a service function.
  */
 export const deleteServiceFunction: API.OperationMethod<
-  DeleteServiceFunctionRequest,
+  DeleteServiceFunctionRequest & RegionInput,
   DeleteServiceFunctionResponse,
   DeleteServiceFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2944,7 +2945,7 @@ export type DeleteServiceFunctionResourcesError =
  * Removes resources from a service function.
  */
 export const deleteServiceFunctionResources: API.OperationMethod<
-  DeleteServiceFunctionResourcesRequest,
+  DeleteServiceFunctionResourcesRequest & RegionInput,
   DeleteServiceFunctionResourcesResponse,
   DeleteServiceFunctionResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2976,7 +2977,7 @@ export type DeleteSystemError =
  * Deletes a system.
  */
 export const deleteSystem: API.OperationMethod<
-  DeleteSystemRequest,
+  DeleteSystemRequest & RegionInput,
   DeleteSystemResponse,
   DeleteSystemError,
   Credentials | HttpClient.HttpClient
@@ -3008,7 +3009,7 @@ export type DeleteTestError =
  * Deletes a test.
  */
 export const deleteTest: API.OperationMethod<
-  DeleteTestRequest,
+  DeleteTestRequest & RegionInput,
   DeleteTestResponse,
   DeleteTestError,
   Credentials | HttpClient.HttpClient
@@ -3040,7 +3041,7 @@ export type DeleteTestSourcesError =
  * Removes monitoring sources from a test. The operation is transactional and idempotent -- removing a source that is not attached is a no-op.
  */
 export const deleteTestSources: API.OperationMethod<
-  DeleteTestSourcesRequest,
+  DeleteTestSourcesRequest & RegionInput,
   DeleteTestSourcesResponse,
   DeleteTestSourcesError,
   Credentials | HttpClient.HttpClient
@@ -3072,7 +3073,7 @@ export type DeleteUserJourneyError =
  * Deletes a user journey.
  */
 export const deleteUserJourney: API.OperationMethod<
-  DeleteUserJourneyRequest,
+  DeleteUserJourneyRequest & RegionInput,
   DeleteUserJourneyResponse,
   DeleteUserJourneyError,
   Credentials | HttpClient.HttpClient
@@ -3104,7 +3105,7 @@ export type GetDependencyInsightsError =
  * Retrieves the dependency insights generated for a service. The response reports the current generation status; insights are populated once generation has completed. If generation failed, the response includes an error code, whose possible values are listed under the response's errorCode field, and a message describing the cause. To use this operation, you must have the `resiliencehub:GetDependencyInsights` permission on the service.
  */
 export const getDependencyInsights: API.OperationMethod<
-  GetDependencyInsightsRequest,
+  GetDependencyInsightsRequest & RegionInput,
   GetDependencyInsightsResponse,
   GetDependencyInsightsError,
   Credentials | HttpClient.HttpClient
@@ -3135,7 +3136,7 @@ export type GetFailureModeFindingError =
  * Retrieves a finding by findingId.
  */
 export const getFailureModeFinding: API.OperationMethod<
-  GetFailureModeFindingRequest,
+  GetFailureModeFindingRequest & RegionInput,
   GetFailureModeFindingResponse,
   GetFailureModeFindingError,
   Credentials | HttpClient.HttpClient
@@ -3165,7 +3166,7 @@ export type GetPolicyError =
  * Retrieves a resilience policy by ARN.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3195,7 +3196,7 @@ export type GetServiceError =
  * Retrieves a service by ARN.
  */
 export const getService: API.OperationMethod<
-  GetServiceRequest,
+  GetServiceRequest & RegionInput,
   GetServiceResponse,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -3225,7 +3226,7 @@ export type GetSystemError =
  * Retrieves a system by ARN.
  */
 export const getSystem: API.OperationMethod<
-  GetSystemRequest,
+  GetSystemRequest & RegionInput,
   GetSystemResponse,
   GetSystemError,
   Credentials | HttpClient.HttpClient
@@ -3255,7 +3256,7 @@ export type GetTestError =
  * Retrieves a test by ID.
  */
 export const getTest: API.OperationMethod<
-  GetTestRequest,
+  GetTestRequest & RegionInput,
   GetTestResponse,
   GetTestError,
   Credentials | HttpClient.HttpClient
@@ -3285,7 +3286,7 @@ export type GetTestRunError =
  * Retrieves a test run by ID, including its status, results, and the configuration snapshotted when the run started.
  */
 export const getTestRun: API.OperationMethod<
-  GetTestRunRequest,
+  GetTestRunRequest & RegionInput,
   GetTestRunResponse,
   GetTestRunError,
   Credentials | HttpClient.HttpClient
@@ -3315,7 +3316,7 @@ export type GetTestTemplateError =
  * Retrieves a resilience test template by ARN, including the parameters it accepts and the fault actions it runs.
  */
 export const getTestTemplate: API.OperationMethod<
-  GetTestTemplateRequest,
+  GetTestTemplateRequest & RegionInput,
   GetTestTemplateResponse,
   GetTestTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3345,7 +3346,7 @@ export type GetUserJourneyError =
  * Retrieves a user journey.
  */
 export const getUserJourney: API.OperationMethod<
-  GetUserJourneyRequest,
+  GetUserJourneyRequest & RegionInput,
   GetUserJourneyResponse,
   GetUserJourneyError,
   Credentials | HttpClient.HttpClient
@@ -3376,7 +3377,7 @@ export type ImportAppError =
  * Imports a V1 app into the V2 resource model, creating a service with the same name.
  */
 export const importApp: API.OperationMethod<
-  ImportAppRequest,
+  ImportAppRequest & RegionInput,
   ImportAppResponse,
   ImportAppError,
   Credentials | HttpClient.HttpClient
@@ -3408,7 +3409,7 @@ export type ImportPolicyError =
  * Imports a V1 policy into V2, mapping RTO/RPO values from V1 scenarios.
  */
 export const importPolicy: API.OperationMethod<
-  ImportPolicyRequest,
+  ImportPolicyRequest & RegionInput,
   ImportPolicyResponse,
   ImportPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3439,7 +3440,7 @@ export type ListAssertionsError =
  * Lists resilience assertions for a service.
  */
 export const listAssertions: API.PaginatedOperationMethod<
-  ListAssertionsRequest,
+  ListAssertionsRequest & RegionInput,
   ListAssertionsResponse,
   ListAssertionsError,
   Credentials | HttpClient.HttpClient,
@@ -3476,7 +3477,7 @@ export type ListDependenciesError =
  * Lists dependencies discovered for services.
  */
 export const listDependencies: API.PaginatedOperationMethod<
-  ListDependenciesRequest,
+  ListDependenciesRequest & RegionInput,
   ListDependenciesResponse,
   ListDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -3513,7 +3514,7 @@ export type ListFailureModeAssessmentsError =
  * Lists failure mode assessments.
  */
 export const listFailureModeAssessments: API.PaginatedOperationMethod<
-  ListFailureModeAssessmentsRequest,
+  ListFailureModeAssessmentsRequest & RegionInput,
   ListFailureModeAssessmentsResponse,
   ListFailureModeAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3550,7 +3551,7 @@ export type ListFailureModeFindingsError =
  * List findings.
  */
 export const listFailureModeFindings: API.PaginatedOperationMethod<
-  ListFailureModeFindingsRequest,
+  ListFailureModeFindingsRequest & RegionInput,
   ListFailureModeFindingsResponse,
   ListFailureModeFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -3587,7 +3588,7 @@ export type ListInputSourcesError =
  * Lists input sources for a service.
  */
 export const listInputSources: API.PaginatedOperationMethod<
-  ListInputSourcesRequest,
+  ListInputSourcesRequest & RegionInput,
   ListInputSourcesResponse,
   ListInputSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3623,7 +3624,7 @@ export type ListPoliciesError =
  * Lists resilience policies.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3655,7 +3656,7 @@ export type ListPolicyEventsError =
  * Lists events for a resilience policy, including services that started or stopped using it, changes to cross-account sharing, and deletion of the policy.
  */
 export const listPolicyEvents: API.PaginatedOperationMethod<
-  ListPolicyEventsRequest,
+  ListPolicyEventsRequest & RegionInput,
   ListPolicyEventsResponse,
   ListPolicyEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3693,7 +3694,7 @@ export type ListReportsError =
  * List reports for a service, or all reports owned by the account if serviceArn is not provided.
  */
 export const listReports: API.PaginatedOperationMethod<
-  ListReportsRequest,
+  ListReportsRequest & RegionInput,
   ListReportsResponse,
   ListReportsError,
   Credentials | HttpClient.HttpClient,
@@ -3731,7 +3732,7 @@ export type ListResolvedTestRunTargetResourcesError =
  * Lists the AWS resources that AWS Fault Injection Service (AWS FIS) resolved as targets for a test run.
  */
 export const listResolvedTestRunTargetResources: API.PaginatedOperationMethod<
-  ListResolvedTestRunTargetResourcesRequest,
+  ListResolvedTestRunTargetResourcesRequest & RegionInput,
   ListResolvedTestRunTargetResourcesResponse,
   ListResolvedTestRunTargetResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3768,7 +3769,7 @@ export type ListResourcesError =
  * List resources.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesRequest,
+  ListResourcesRequest & RegionInput,
   ListResourcesResponse,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3805,7 +3806,7 @@ export type ListServiceEventsError =
  * Lists events for a service.
  */
 export const listServiceEvents: API.PaginatedOperationMethod<
-  ListServiceEventsRequest,
+  ListServiceEventsRequest & RegionInput,
   ListServiceEventsResponse,
   ListServiceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3842,7 +3843,7 @@ export type ListServiceFunctionsError =
  * Lists service functions for a service.
  */
 export const listServiceFunctions: API.PaginatedOperationMethod<
-  ListServiceFunctionsRequest,
+  ListServiceFunctionsRequest & RegionInput,
   ListServiceFunctionsResponse,
   ListServiceFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -3878,7 +3879,7 @@ export type ListServicesError =
  * Lists services.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -3909,7 +3910,7 @@ export type ListServiceTopologyEdgesError =
  * Lists topology edges for a service.
  */
 export const listServiceTopologyEdges: API.PaginatedOperationMethod<
-  ListServiceTopologyEdgesRequest,
+  ListServiceTopologyEdgesRequest & RegionInput,
   ListServiceTopologyEdgesResponse,
   ListServiceTopologyEdgesError,
   Credentials | HttpClient.HttpClient,
@@ -3941,7 +3942,7 @@ export type ListSystemEventsError =
  * Lists events for a system.
  */
 export const listSystemEvents: API.PaginatedOperationMethod<
-  ListSystemEventsRequest,
+  ListSystemEventsRequest & RegionInput,
   ListSystemEventsResponse,
   ListSystemEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3977,7 +3978,7 @@ export type ListSystemsError =
  * Lists systems.
  */
 export const listSystems: API.PaginatedOperationMethod<
-  ListSystemsRequest,
+  ListSystemsRequest & RegionInput,
   ListSystemsResponse,
   ListSystemsError,
   Credentials | HttpClient.HttpClient,
@@ -4010,7 +4011,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4041,7 +4042,7 @@ export type ListTestRunDependenciesError =
  * Lists the dependencies that a test run blocked. Each dependency reflects the discovered classification captured when the run started, so results do not change if a dependency is reclassified after the run.
  */
 export const listTestRunDependencies: API.PaginatedOperationMethod<
-  ListTestRunDependenciesRequest,
+  ListTestRunDependenciesRequest & RegionInput,
   ListTestRunDependenciesResponse,
   ListTestRunDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -4078,7 +4079,7 @@ export type ListTestRunEventsError =
  * Lists the events in a test run's timeline.
  */
 export const listTestRunEvents: API.PaginatedOperationMethod<
-  ListTestRunEventsRequest,
+  ListTestRunEventsRequest & RegionInput,
   ListTestRunEventsResponse,
   ListTestRunEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4115,7 +4116,7 @@ export type ListTestRunsError =
  * Lists the runs of a test, or all test runs for a service.
  */
 export const listTestRuns: API.PaginatedOperationMethod<
-  ListTestRunsRequest,
+  ListTestRunsRequest & RegionInput,
   ListTestRunsResponse,
   ListTestRunsError,
   Credentials | HttpClient.HttpClient,
@@ -4152,7 +4153,7 @@ export type ListTestRunSourceEventsError =
  * Lists the state-change events observed for a test run monitoring source. Events are returned for one source per call, in chronological order.
  */
 export const listTestRunSourceEvents: API.PaginatedOperationMethod<
-  ListTestRunSourceEventsRequest,
+  ListTestRunSourceEventsRequest & RegionInput,
   ListTestRunSourceEventsResponse,
   ListTestRunSourceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4189,7 +4190,7 @@ export type ListTestRunSourcesError =
  * Lists the monitoring source snapshots captured for a test run, optionally filtered by type.
  */
 export const listTestRunSources: API.PaginatedOperationMethod<
-  ListTestRunSourcesRequest,
+  ListTestRunSourcesRequest & RegionInput,
   ListTestRunSourcesResponse,
   ListTestRunSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4226,7 +4227,7 @@ export type ListTestsError =
  * Lists the tests configured for a service.
  */
 export const listTests: API.PaginatedOperationMethod<
-  ListTestsRequest,
+  ListTestsRequest & RegionInput,
   ListTestsResponse,
   ListTestsError,
   Credentials | HttpClient.HttpClient,
@@ -4263,7 +4264,7 @@ export type ListTestSourcesError =
  * Lists the monitoring sources attached to a test, optionally filtered by type.
  */
 export const listTestSources: API.PaginatedOperationMethod<
-  ListTestSourcesRequest,
+  ListTestSourcesRequest & RegionInput,
   ListTestSourcesResponse,
   ListTestSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4299,7 +4300,7 @@ export type ListTestTemplatesError =
  * Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate.
  */
 export const listTestTemplates: API.OperationMethod<
-  ListTestTemplatesRequest,
+  ListTestTemplatesRequest & RegionInput,
   ListTestTemplatesResponse,
   ListTestTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -4324,7 +4325,7 @@ export type ListUserJourneysError =
  * Lists user journeys for a system.
  */
 export const listUserJourneys: API.PaginatedOperationMethod<
-  ListUserJourneysRequest,
+  ListUserJourneysRequest & RegionInput,
   ListUserJourneysResponse,
   ListUserJourneysError,
   Credentials | HttpClient.HttpClient,
@@ -4363,7 +4364,7 @@ export type PutTestSourcesError =
  * Adds or updates the monitoring sources on a test. The operation is transactional -- either every source is written or the call fails and nothing is written.
  */
 export const putTestSources: API.OperationMethod<
-  PutTestSourcesRequest,
+  PutTestSourcesRequest & RegionInput,
   PutTestSourcesResponse,
   PutTestSourcesError,
   Credentials | HttpClient.HttpClient
@@ -4397,7 +4398,7 @@ export type StartDependencyInsightsError =
  * Starts generating dependency insights for a service. Generation runs asynchronously; the response returns the initial status, and you retrieve the results with GetDependencyInsights. To use this operation, you must have the `resiliencehub:StartDependencyInsights` permission on the service.
  */
 export const startDependencyInsights: API.OperationMethod<
-  StartDependencyInsightsRequest,
+  StartDependencyInsightsRequest & RegionInput,
   StartDependencyInsightsResponse,
   StartDependencyInsightsError,
   Credentials | HttpClient.HttpClient
@@ -4431,7 +4432,7 @@ export type StartFailureModeAssessmentError =
  * Starts a failure mode assessment.
  */
 export const startFailureModeAssessment: API.OperationMethod<
-  StartFailureModeAssessmentRequest,
+  StartFailureModeAssessmentRequest & RegionInput,
   StartFailureModeAssessmentResponse,
   StartFailureModeAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -4464,7 +4465,7 @@ export type StartTestRunError =
  * Starts a run of a test. Each run scopes to the current resources in the service and produces a pass or fail outcome.
  */
 export const startTestRun: API.OperationMethod<
-  StartTestRunRequest,
+  StartTestRunRequest & RegionInput,
   StartTestRunResponse,
   StartTestRunError,
   Credentials | HttpClient.HttpClient
@@ -4496,7 +4497,7 @@ export type StopTestRunError =
  * Stops an in-progress test run.
  */
 export const stopTestRun: API.OperationMethod<
-  StopTestRunRequest,
+  StopTestRunRequest & RegionInput,
   StopTestRunResponse,
   StopTestRunError,
   Credentials | HttpClient.HttpClient
@@ -4528,7 +4529,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4560,7 +4561,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4592,7 +4593,7 @@ export type UpdateAssertionError =
  * Updates a resilience assertion.
  */
 export const updateAssertion: API.OperationMethod<
-  UpdateAssertionRequest,
+  UpdateAssertionRequest & RegionInput,
   UpdateAssertionResponse,
   UpdateAssertionError,
   Credentials | HttpClient.HttpClient
@@ -4624,7 +4625,7 @@ export type UpdateDependencyError =
  * Updates a dependency classification.
  */
 export const updateDependency: API.OperationMethod<
-  UpdateDependencyRequest,
+  UpdateDependencyRequest & RegionInput,
   UpdateDependencyResponse,
   UpdateDependencyError,
   Credentials | HttpClient.HttpClient
@@ -4656,7 +4657,7 @@ export type UpdateFailureModeFindingError =
  * Updates an existing finding.
  */
 export const updateFailureModeFinding: API.OperationMethod<
-  UpdateFailureModeFindingRequest,
+  UpdateFailureModeFindingRequest & RegionInput,
   UpdateFailureModeFindingResponse,
   UpdateFailureModeFindingError,
   Credentials | HttpClient.HttpClient
@@ -4688,7 +4689,7 @@ export type UpdatePolicyError =
  * Updates an existing resilience policy.
  */
 export const updatePolicy: API.OperationMethod<
-  UpdatePolicyRequest,
+  UpdatePolicyRequest & RegionInput,
   UpdatePolicyResponse,
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4721,7 +4722,7 @@ export type UpdateServiceError =
  * Updates an existing service.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
+  UpdateServiceRequest & RegionInput,
   UpdateServiceResponse,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -4754,7 +4755,7 @@ export type UpdateServiceFunctionError =
  * Updates a service function.
  */
 export const updateServiceFunction: API.OperationMethod<
-  UpdateServiceFunctionRequest,
+  UpdateServiceFunctionRequest & RegionInput,
   UpdateServiceFunctionResponse,
   UpdateServiceFunctionError,
   Credentials | HttpClient.HttpClient
@@ -4786,7 +4787,7 @@ export type UpdateSystemError =
  * Updates an existing system.
  */
 export const updateSystem: API.OperationMethod<
-  UpdateSystemRequest,
+  UpdateSystemRequest & RegionInput,
   UpdateSystemResponse,
   UpdateSystemError,
   Credentials | HttpClient.HttpClient
@@ -4818,7 +4819,7 @@ export type UpdateTestError =
  * Updates the configuration of an existing test.
  */
 export const updateTest: API.OperationMethod<
-  UpdateTestRequest,
+  UpdateTestRequest & RegionInput,
   UpdateTestResponse,
   UpdateTestError,
   Credentials | HttpClient.HttpClient
@@ -4850,7 +4851,7 @@ export type UpdateUserJourneyError =
  * Updates an existing user journey.
  */
 export const updateUserJourney: API.OperationMethod<
-  UpdateUserJourneyRequest,
+  UpdateUserJourneyRequest & RegionInput,
   UpdateUserJourneyResponse,
   UpdateUserJourneyError,
   Credentials | HttpClient.HttpClient

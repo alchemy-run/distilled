@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -294,7 +295,7 @@ export type BatchGetRecordError =
  * Retrieves a batch of `Records` from a `FeatureGroup`.
  */
 export const batchGetRecord: API.OperationMethod<
-  BatchGetRecordRequest,
+  BatchGetRecordRequest & RegionInput,
   BatchGetRecordResponse,
   BatchGetRecordError,
   Credentials | HttpClient.HttpClient
@@ -327,7 +328,7 @@ export type BatchWriteRecordError =
  * `TtlDuration`.
  */
 export const batchWriteRecord: API.OperationMethod<
-  BatchWriteRecordRequest,
+  BatchWriteRecordRequest & RegionInput,
   BatchWriteRecordResponse,
   BatchWriteRecordError,
   Credentials | HttpClient.HttpClient
@@ -383,7 +384,7 @@ export type DeleteRecordError =
  * enabled, see Delete records from the offline store.
  */
 export const deleteRecord: API.OperationMethod<
-  DeleteRecordRequest,
+  DeleteRecordRequest & RegionInput,
   DeleteRecordResponse,
   DeleteRecordError,
   Credentials | HttpClient.HttpClient
@@ -418,7 +419,7 @@ export type GetRecordError =
  * `RecordIdentifierValue` is found, then an empty result is returned.
  */
 export const getRecord: API.OperationMethod<
-  GetRecordRequest,
+  GetRecordRequest & RegionInput,
   GetRecordResponse,
   GetRecordError,
   Credentials | HttpClient.HttpClient
@@ -453,7 +454,7 @@ export type ListRecordsError =
  * records exist without retrieving the full record data.
  */
 export const listRecords: API.PaginatedOperationMethod<
-  ListRecordsRequest,
+  ListRecordsRequest & RegionInput,
   ListRecordsResponse,
   ListRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -504,7 +505,7 @@ export type PutRecordError =
  * the group level `TtlDuration`.
  */
 export const putRecord: API.OperationMethod<
-  PutRecordRequest,
+  PutRecordRequest & RegionInput,
   PutRecordResponse,
   PutRecordError,
   Credentials | HttpClient.HttpClient
@@ -557,7 +558,7 @@ export type UpdateRecordError =
  * `ValidationError`.
  */
 export const updateRecord: API.OperationMethod<
-  UpdateRecordRequest,
+  UpdateRecordRequest & RegionInput,
   UpdateRecordResponse,
   UpdateRecordError,
   Credentials | HttpClient.HttpClient

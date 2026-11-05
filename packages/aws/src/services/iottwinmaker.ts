@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1147,7 +1148,7 @@ export type BatchPutPropertyValuesError =
  * Sets values for multiple time series properties.
  */
 export const batchPutPropertyValues: API.OperationMethod<
-  BatchPutPropertyValuesRequest,
+  BatchPutPropertyValuesRequest & RegionInput,
   BatchPutPropertyValuesResponse,
   BatchPutPropertyValuesError,
   Credentials | HttpClient.HttpClient
@@ -1180,7 +1181,7 @@ export type CancelMetadataTransferJobError =
  * Cancels the metadata transfer job.
  */
 export const cancelMetadataTransferJob: API.OperationMethod<
-  CancelMetadataTransferJobRequest,
+  CancelMetadataTransferJobRequest & RegionInput,
   CancelMetadataTransferJobResponse,
   CancelMetadataTransferJobError,
   Credentials | HttpClient.HttpClient
@@ -1215,7 +1216,7 @@ export type CreateComponentTypeError =
  * Creates a component type.
  */
 export const createComponentType: API.OperationMethod<
-  CreateComponentTypeRequest,
+  CreateComponentTypeRequest & RegionInput,
   CreateComponentTypeResponse,
   CreateComponentTypeError,
   Credentials | HttpClient.HttpClient
@@ -1250,7 +1251,7 @@ export type CreateEntityError =
  * Creates an entity.
  */
 export const createEntity: API.OperationMethod<
-  CreateEntityRequest,
+  CreateEntityRequest & RegionInput,
   CreateEntityResponse,
   CreateEntityError,
   Credentials | HttpClient.HttpClient
@@ -1286,7 +1287,7 @@ export type CreateMetadataTransferJobError =
  * Creates a new metadata transfer job.
  */
 export const createMetadataTransferJob: API.OperationMethod<
-  CreateMetadataTransferJobRequest,
+  CreateMetadataTransferJobRequest & RegionInput,
   CreateMetadataTransferJobResponse,
   CreateMetadataTransferJobError,
   Credentials | HttpClient.HttpClient
@@ -1322,7 +1323,7 @@ export type CreateSceneError =
  * Creates a scene.
  */
 export const createScene: API.OperationMethod<
-  CreateSceneRequest,
+  CreateSceneRequest & RegionInput,
   CreateSceneResponse,
   CreateSceneError,
   Credentials | HttpClient.HttpClient
@@ -1357,7 +1358,7 @@ export type CreateSyncJobError =
  * This action creates a SyncJob.
  */
 export const createSyncJob: API.OperationMethod<
-  CreateSyncJobRequest,
+  CreateSyncJobRequest & RegionInput,
   CreateSyncJobResponse,
   CreateSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -1392,7 +1393,7 @@ export type CreateWorkspaceError =
  * Creates a workplace.
  */
 export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
+  CreateWorkspaceRequest & RegionInput,
   CreateWorkspaceResponse,
   CreateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1426,7 +1427,7 @@ export type DeleteComponentTypeError =
  * Deletes a component type.
  */
 export const deleteComponentType: API.OperationMethod<
-  DeleteComponentTypeRequest,
+  DeleteComponentTypeRequest & RegionInput,
   DeleteComponentTypeResponse,
   DeleteComponentTypeError,
   Credentials | HttpClient.HttpClient
@@ -1459,7 +1460,7 @@ export type DeleteEntityError =
  * Deletes an entity.
  */
 export const deleteEntity: API.OperationMethod<
-  DeleteEntityRequest,
+  DeleteEntityRequest & RegionInput,
   DeleteEntityResponse,
   DeleteEntityError,
   Credentials | HttpClient.HttpClient
@@ -1492,7 +1493,7 @@ export type DeleteSceneError =
  * Deletes a scene.
  */
 export const deleteScene: API.OperationMethod<
-  DeleteSceneRequest,
+  DeleteSceneRequest & RegionInput,
   DeleteSceneResponse,
   DeleteSceneError,
   Credentials | HttpClient.HttpClient
@@ -1526,7 +1527,7 @@ export type DeleteSyncJobError =
  * Delete the SyncJob.
  */
 export const deleteSyncJob: API.OperationMethod<
-  DeleteSyncJobRequest,
+  DeleteSyncJobRequest & RegionInput,
   DeleteSyncJobResponse,
   DeleteSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -1560,7 +1561,7 @@ export type DeleteWorkspaceError =
  * Deletes a workspace.
  */
 export const deleteWorkspace: API.OperationMethod<
-  DeleteWorkspaceRequest,
+  DeleteWorkspaceRequest & RegionInput,
   DeleteWorkspaceResponse,
   DeleteWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1598,7 +1599,7 @@ export type ExecuteQueryError =
  * ExecuteQuery will not work with any Amazon Web Services Java SDK version < 2.x.
  */
 export const executeQuery: API.PaginatedOperationMethod<
-  ExecuteQueryRequest,
+  ExecuteQueryRequest & RegionInput,
   ExecuteQueryResponse,
   ExecuteQueryError,
   Credentials | HttpClient.HttpClient,
@@ -1638,7 +1639,7 @@ export type GetComponentTypeError =
  * Retrieves information about a component type.
  */
 export const getComponentType: API.OperationMethod<
-  GetComponentTypeRequest,
+  GetComponentTypeRequest & RegionInput,
   GetComponentTypeResponse,
   GetComponentTypeError,
   Credentials | HttpClient.HttpClient
@@ -1671,7 +1672,7 @@ export type GetEntityError =
  * Retrieves information about an entity.
  */
 export const getEntity: API.OperationMethod<
-  GetEntityRequest,
+  GetEntityRequest & RegionInput,
   GetEntityResponse,
   GetEntityError,
   Credentials | HttpClient.HttpClient
@@ -1704,7 +1705,7 @@ export type GetMetadataTransferJobError =
  * Gets a nmetadata transfer job.
  */
 export const getMetadataTransferJob: API.OperationMethod<
-  GetMetadataTransferJobRequest,
+  GetMetadataTransferJobRequest & RegionInput,
   GetMetadataTransferJobResponse,
   GetMetadataTransferJobError,
   Credentials | HttpClient.HttpClient
@@ -1736,7 +1737,7 @@ export type GetPricingPlanError =
  * Gets the pricing plan.
  */
 export const getPricingPlan: API.OperationMethod<
-  GetPricingPlanRequest,
+  GetPricingPlanRequest & RegionInput,
   GetPricingPlanResponse,
   GetPricingPlanError,
   Credentials | HttpClient.HttpClient
@@ -1773,7 +1774,7 @@ export type GetPropertyValueError =
  * `componentTypeId`, `entityId`, or `workspaceId`.
  */
 export const getPropertyValue: API.PaginatedOperationMethod<
-  GetPropertyValueRequest,
+  GetPropertyValueRequest & RegionInput,
   GetPropertyValueResponse,
   GetPropertyValueError,
   Credentials | HttpClient.HttpClient,
@@ -1821,7 +1822,7 @@ export type GetPropertyValueHistoryError =
  * quries, specify a value for `componentTypeId`.
  */
 export const getPropertyValueHistory: API.PaginatedOperationMethod<
-  GetPropertyValueHistoryRequest,
+  GetPropertyValueHistoryRequest & RegionInput,
   GetPropertyValueHistoryResponse,
   GetPropertyValueHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1862,7 +1863,7 @@ export type GetSceneError =
  * Retrieves information about a scene.
  */
 export const getScene: API.OperationMethod<
-  GetSceneRequest,
+  GetSceneRequest & RegionInput,
   GetSceneResponse,
   GetSceneError,
   Credentials | HttpClient.HttpClient
@@ -1896,7 +1897,7 @@ export type GetSyncJobError =
  * Gets the SyncJob.
  */
 export const getSyncJob: API.OperationMethod<
-  GetSyncJobRequest,
+  GetSyncJobRequest & RegionInput,
   GetSyncJobResponse,
   GetSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -1930,7 +1931,7 @@ export type GetWorkspaceError =
  * Retrieves information about a workspace.
  */
 export const getWorkspace: API.OperationMethod<
-  GetWorkspaceRequest,
+  GetWorkspaceRequest & RegionInput,
   GetWorkspaceResponse,
   GetWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1963,7 +1964,7 @@ export type ListComponentsError =
  * This API lists the components of an entity.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -2001,7 +2002,7 @@ export type ListComponentTypesError =
  * Lists all component types in a workspace.
  */
 export const listComponentTypes: API.PaginatedOperationMethod<
-  ListComponentTypesRequest,
+  ListComponentTypesRequest & RegionInput,
   ListComponentTypesResponse,
   ListComponentTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2038,7 +2039,7 @@ export type ListEntitiesError =
  * Lists all entities in a workspace.
  */
 export const listEntities: API.PaginatedOperationMethod<
-  ListEntitiesRequest,
+  ListEntitiesRequest & RegionInput,
   ListEntitiesResponse,
   ListEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -2075,7 +2076,7 @@ export type ListMetadataTransferJobsError =
  * Lists the metadata transfer jobs.
  */
 export const listMetadataTransferJobs: API.PaginatedOperationMethod<
-  ListMetadataTransferJobsRequest,
+  ListMetadataTransferJobsRequest & RegionInput,
   ListMetadataTransferJobsResponse,
   ListMetadataTransferJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2113,7 +2114,7 @@ export type ListPropertiesError =
  * This API lists the properties of a component.
  */
 export const listProperties: API.PaginatedOperationMethod<
-  ListPropertiesRequest,
+  ListPropertiesRequest & RegionInput,
   ListPropertiesResponse,
   ListPropertiesError,
   Credentials | HttpClient.HttpClient,
@@ -2151,7 +2152,7 @@ export type ListScenesError =
  * Lists all scenes in a workspace.
  */
 export const listScenes: API.PaginatedOperationMethod<
-  ListScenesRequest,
+  ListScenesRequest & RegionInput,
   ListScenesResponse,
   ListScenesError,
   Credentials | HttpClient.HttpClient,
@@ -2189,7 +2190,7 @@ export type ListSyncJobsError =
  * List all SyncJobs.
  */
 export const listSyncJobs: API.PaginatedOperationMethod<
-  ListSyncJobsRequest,
+  ListSyncJobsRequest & RegionInput,
   ListSyncJobsResponse,
   ListSyncJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2228,7 +2229,7 @@ export type ListSyncResourcesError =
  * Lists the sync resources.
  */
 export const listSyncResources: API.PaginatedOperationMethod<
-  ListSyncResourcesRequest,
+  ListSyncResourcesRequest & RegionInput,
   ListSyncResourcesResponse,
   ListSyncResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2264,7 +2265,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2290,7 +2291,7 @@ export type ListWorkspacesError =
  * Retrieves information about workspaces in the current account.
  */
 export const listWorkspaces: API.PaginatedOperationMethod<
-  ListWorkspacesRequest,
+  ListWorkspacesRequest & RegionInput,
   ListWorkspacesResponse,
   ListWorkspacesError,
   Credentials | HttpClient.HttpClient,
@@ -2326,7 +2327,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2347,7 +2348,7 @@ export type UntagResourceError = AccessDeniedException | ResourceNotFoundExcepti
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2375,7 +2376,7 @@ export type UpdateComponentTypeError =
  * Updates information in a component type.
  */
 export const updateComponentType: API.OperationMethod<
-  UpdateComponentTypeRequest,
+  UpdateComponentTypeRequest & RegionInput,
   UpdateComponentTypeResponse,
   UpdateComponentTypeError,
   Credentials | HttpClient.HttpClient
@@ -2411,7 +2412,7 @@ export type UpdateEntityError =
  * Updates an entity.
  */
 export const updateEntity: API.OperationMethod<
-  UpdateEntityRequest,
+  UpdateEntityRequest & RegionInput,
   UpdateEntityResponse,
   UpdateEntityError,
   Credentials | HttpClient.HttpClient
@@ -2445,7 +2446,7 @@ export type UpdatePricingPlanError =
  * Update the pricing plan.
  */
 export const updatePricingPlan: API.OperationMethod<
-  UpdatePricingPlanRequest,
+  UpdatePricingPlanRequest & RegionInput,
   UpdatePricingPlanResponse,
   UpdatePricingPlanError,
   Credentials | HttpClient.HttpClient
@@ -2477,7 +2478,7 @@ export type UpdateSceneError =
  * Updates a scene.
  */
 export const updateScene: API.OperationMethod<
-  UpdateSceneRequest,
+  UpdateSceneRequest & RegionInput,
   UpdateSceneResponse,
   UpdateSceneError,
   Credentials | HttpClient.HttpClient
@@ -2511,7 +2512,7 @@ export type UpdateWorkspaceError =
  * Updates a workspace.
  */
 export const updateWorkspace: API.OperationMethod<
-  UpdateWorkspaceRequest,
+  UpdateWorkspaceRequest & RegionInput,
   UpdateWorkspaceResponse,
   UpdateWorkspaceError,
   Credentials | HttpClient.HttpClient

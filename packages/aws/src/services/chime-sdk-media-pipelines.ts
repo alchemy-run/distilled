@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1052,7 +1053,7 @@ export type CreateMediaCapturePipelineError =
  * Creates a media pipeline.
  */
 export const createMediaCapturePipeline: API.OperationMethod<
-  CreateMediaCapturePipelineRequest,
+  CreateMediaCapturePipelineRequest & RegionInput,
   CreateMediaCapturePipelineResponse,
   CreateMediaCapturePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1088,7 +1089,7 @@ export type CreateMediaConcatenationPipelineError =
  * Creates a media concatenation pipeline.
  */
 export const createMediaConcatenationPipeline: API.OperationMethod<
-  CreateMediaConcatenationPipelineRequest,
+  CreateMediaConcatenationPipelineRequest & RegionInput,
   CreateMediaConcatenationPipelineResponse,
   CreateMediaConcatenationPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1125,7 +1126,7 @@ export type CreateMediaInsightsPipelineError =
  * Creates a media insights pipeline.
  */
 export const createMediaInsightsPipeline: API.OperationMethod<
-  CreateMediaInsightsPipelineRequest,
+  CreateMediaInsightsPipelineRequest & RegionInput,
   CreateMediaInsightsPipelineResponse,
   CreateMediaInsightsPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1164,7 +1165,7 @@ export type CreateMediaInsightsPipelineConfigurationError =
  * pipeline.
  */
 export const createMediaInsightsPipelineConfiguration: API.OperationMethod<
-  CreateMediaInsightsPipelineConfigurationRequest,
+  CreateMediaInsightsPipelineConfigurationRequest & RegionInput,
   CreateMediaInsightsPipelineConfigurationResponse,
   CreateMediaInsightsPipelineConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type CreateMediaLiveConnectorPipelineError =
  * Creates a media live connector pipeline in an Amazon Chime SDK meeting.
  */
 export const createMediaLiveConnectorPipeline: API.OperationMethod<
-  CreateMediaLiveConnectorPipelineRequest,
+  CreateMediaLiveConnectorPipelineRequest & RegionInput,
   CreateMediaLiveConnectorPipelineResponse,
   CreateMediaLiveConnectorPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1255,7 @@ export type CreateMediaPipelineKinesisVideoStreamPoolError =
  * in the *AWS Account Management Reference Guide*.
  */
 export const createMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
-  CreateMediaPipelineKinesisVideoStreamPoolRequest,
+  CreateMediaPipelineKinesisVideoStreamPoolRequest & RegionInput,
   CreateMediaPipelineKinesisVideoStreamPoolResponse,
   CreateMediaPipelineKinesisVideoStreamPoolError,
   Credentials | HttpClient.HttpClient
@@ -1292,7 +1293,7 @@ export type CreateMediaStreamPipelineError =
  * Creates a streaming media pipeline.
  */
 export const createMediaStreamPipeline: API.OperationMethod<
-  CreateMediaStreamPipelineRequest,
+  CreateMediaStreamPipelineRequest & RegionInput,
   CreateMediaStreamPipelineResponse,
   CreateMediaStreamPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1329,7 +1330,7 @@ export type DeleteMediaCapturePipelineError =
  * Deletes the media pipeline.
  */
 export const deleteMediaCapturePipeline: API.OperationMethod<
-  DeleteMediaCapturePipelineRequest,
+  DeleteMediaCapturePipelineRequest & RegionInput,
   DeleteMediaCapturePipelineResponse,
   DeleteMediaCapturePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1366,7 +1367,7 @@ export type DeleteMediaInsightsPipelineConfigurationError =
  * Deletes the specified configuration settings.
  */
 export const deleteMediaInsightsPipelineConfiguration: API.OperationMethod<
-  DeleteMediaInsightsPipelineConfigurationRequest,
+  DeleteMediaInsightsPipelineConfigurationRequest & RegionInput,
   DeleteMediaInsightsPipelineConfigurationResponse,
   DeleteMediaInsightsPipelineConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1404,7 +1405,7 @@ export type DeleteMediaPipelineError =
  * Deletes the media pipeline.
  */
 export const deleteMediaPipeline: API.OperationMethod<
-  DeleteMediaPipelineRequest,
+  DeleteMediaPipelineRequest & RegionInput,
   DeleteMediaPipelineResponse,
   DeleteMediaPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1442,7 +1443,7 @@ export type DeleteMediaPipelineKinesisVideoStreamPoolError =
  * Deletes an Amazon Kinesis Video Stream pool.
  */
 export const deleteMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
-  DeleteMediaPipelineKinesisVideoStreamPoolRequest,
+  DeleteMediaPipelineKinesisVideoStreamPoolRequest & RegionInput,
   DeleteMediaPipelineKinesisVideoStreamPoolResponse,
   DeleteMediaPipelineKinesisVideoStreamPoolError,
   Credentials | HttpClient.HttpClient
@@ -1479,7 +1480,7 @@ export type GetMediaCapturePipelineError =
  * Gets an existing media pipeline.
  */
 export const getMediaCapturePipeline: API.OperationMethod<
-  GetMediaCapturePipelineRequest,
+  GetMediaCapturePipelineRequest & RegionInput,
   GetMediaCapturePipelineResponse,
   GetMediaCapturePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1515,7 +1516,7 @@ export type GetMediaInsightsPipelineConfigurationError =
  * Gets the configuration settings for a media insights pipeline.
  */
 export const getMediaInsightsPipelineConfiguration: API.OperationMethod<
-  GetMediaInsightsPipelineConfigurationRequest,
+  GetMediaInsightsPipelineConfigurationRequest & RegionInput,
   GetMediaInsightsPipelineConfigurationResponse,
   GetMediaInsightsPipelineConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1551,7 +1552,7 @@ export type GetMediaPipelineError =
  * Gets an existing media pipeline.
  */
 export const getMediaPipeline: API.OperationMethod<
-  GetMediaPipelineRequest,
+  GetMediaPipelineRequest & RegionInput,
   GetMediaPipelineResponse,
   GetMediaPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1587,7 +1588,7 @@ export type GetMediaPipelineKinesisVideoStreamPoolError =
  * Gets an Kinesis video stream pool.
  */
 export const getMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
-  GetMediaPipelineKinesisVideoStreamPoolRequest,
+  GetMediaPipelineKinesisVideoStreamPoolRequest & RegionInput,
   GetMediaPipelineKinesisVideoStreamPoolResponse,
   GetMediaPipelineKinesisVideoStreamPoolError,
   Credentials | HttpClient.HttpClient
@@ -1623,7 +1624,7 @@ export type GetSpeakerSearchTaskError =
  * Retrieves the details of the specified speaker search task.
  */
 export const getSpeakerSearchTask: API.OperationMethod<
-  GetSpeakerSearchTaskRequest,
+  GetSpeakerSearchTaskRequest & RegionInput,
   GetSpeakerSearchTaskResponse,
   GetSpeakerSearchTaskError,
   Credentials | HttpClient.HttpClient
@@ -1659,7 +1660,7 @@ export type GetVoiceToneAnalysisTaskError =
  * Retrieves the details of a voice tone analysis task.
  */
 export const getVoiceToneAnalysisTask: API.OperationMethod<
-  GetVoiceToneAnalysisTaskRequest,
+  GetVoiceToneAnalysisTaskRequest & RegionInput,
   GetVoiceToneAnalysisTaskResponse,
   GetVoiceToneAnalysisTaskError,
   Credentials | HttpClient.HttpClient
@@ -1695,7 +1696,7 @@ export type ListMediaCapturePipelinesError =
  * Returns a list of media pipelines.
  */
 export const listMediaCapturePipelines: API.PaginatedOperationMethod<
-  ListMediaCapturePipelinesRequest,
+  ListMediaCapturePipelinesRequest & RegionInput,
   ListMediaCapturePipelinesResponse,
   ListMediaCapturePipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -1737,7 +1738,7 @@ export type ListMediaInsightsPipelineConfigurationsError =
  * Lists the available media insights pipeline configurations.
  */
 export const listMediaInsightsPipelineConfigurations: API.PaginatedOperationMethod<
-  ListMediaInsightsPipelineConfigurationsRequest,
+  ListMediaInsightsPipelineConfigurationsRequest & RegionInput,
   ListMediaInsightsPipelineConfigurationsResponse,
   ListMediaInsightsPipelineConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1779,7 +1780,7 @@ export type ListMediaPipelineKinesisVideoStreamPoolsError =
  * Lists the video stream pools in the media pipeline.
  */
 export const listMediaPipelineKinesisVideoStreamPools: API.PaginatedOperationMethod<
-  ListMediaPipelineKinesisVideoStreamPoolsRequest,
+  ListMediaPipelineKinesisVideoStreamPoolsRequest & RegionInput,
   ListMediaPipelineKinesisVideoStreamPoolsResponse,
   ListMediaPipelineKinesisVideoStreamPoolsError,
   Credentials | HttpClient.HttpClient,
@@ -1821,7 +1822,7 @@ export type ListMediaPipelinesError =
  * Returns a list of media pipelines.
  */
 export const listMediaPipelines: API.PaginatedOperationMethod<
-  ListMediaPipelinesRequest,
+  ListMediaPipelinesRequest & RegionInput,
   ListMediaPipelinesResponse,
   ListMediaPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -1863,7 +1864,7 @@ export type ListTagsForResourceError =
  * Lists the tags available for a media pipeline.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1903,7 +1904,7 @@ export type StartSpeakerSearchTaskError =
  * AWS service terms for the Amazon Chime SDK.
  */
 export const startSpeakerSearchTask: API.OperationMethod<
-  StartSpeakerSearchTaskRequest,
+  StartSpeakerSearchTaskRequest & RegionInput,
   StartSpeakerSearchTaskResponse,
   StartSpeakerSearchTaskError,
   Credentials | HttpClient.HttpClient
@@ -1946,7 +1947,7 @@ export type StartVoiceToneAnalysisTaskError =
  * AWS service terms for the Amazon Chime SDK.
  */
 export const startVoiceToneAnalysisTask: API.OperationMethod<
-  StartVoiceToneAnalysisTaskRequest,
+  StartVoiceToneAnalysisTaskRequest & RegionInput,
   StartVoiceToneAnalysisTaskResponse,
   StartVoiceToneAnalysisTaskError,
   Credentials | HttpClient.HttpClient
@@ -1984,7 +1985,7 @@ export type StopSpeakerSearchTaskError =
  * Stops a speaker search task.
  */
 export const stopSpeakerSearchTask: API.OperationMethod<
-  StopSpeakerSearchTaskRequest,
+  StopSpeakerSearchTaskRequest & RegionInput,
   StopSpeakerSearchTaskResponse,
   StopSpeakerSearchTaskError,
   Credentials | HttpClient.HttpClient
@@ -2022,7 +2023,7 @@ export type StopVoiceToneAnalysisTaskError =
  * Stops a voice tone analysis task.
  */
 export const stopVoiceToneAnalysisTask: API.OperationMethod<
-  StopVoiceToneAnalysisTaskRequest,
+  StopVoiceToneAnalysisTaskRequest & RegionInput,
   StopVoiceToneAnalysisTaskResponse,
   StopVoiceToneAnalysisTaskError,
   Credentials | HttpClient.HttpClient
@@ -2059,7 +2060,7 @@ export type TagResourceError =
  * The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2095,7 +2096,7 @@ export type UntagResourceError =
  * Removes any tags from a media pipeline.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2132,7 +2133,7 @@ export type UpdateMediaInsightsPipelineConfigurationError =
  * Updates the media insights pipeline's configuration settings.
  */
 export const updateMediaInsightsPipelineConfiguration: API.OperationMethod<
-  UpdateMediaInsightsPipelineConfigurationRequest,
+  UpdateMediaInsightsPipelineConfigurationRequest & RegionInput,
   UpdateMediaInsightsPipelineConfigurationResponse,
   UpdateMediaInsightsPipelineConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2170,7 +2171,7 @@ export type UpdateMediaInsightsPipelineStatusError =
  * Updates the status of a media insights pipeline.
  */
 export const updateMediaInsightsPipelineStatus: API.OperationMethod<
-  UpdateMediaInsightsPipelineStatusRequest,
+  UpdateMediaInsightsPipelineStatusRequest & RegionInput,
   UpdateMediaInsightsPipelineStatusResponse,
   UpdateMediaInsightsPipelineStatusError,
   Credentials | HttpClient.HttpClient
@@ -2208,7 +2209,7 @@ export type UpdateMediaPipelineKinesisVideoStreamPoolError =
  * Updates an Amazon Kinesis Video Stream pool in a media pipeline.
  */
 export const updateMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
-  UpdateMediaPipelineKinesisVideoStreamPoolRequest,
+  UpdateMediaPipelineKinesisVideoStreamPoolRequest & RegionInput,
   UpdateMediaPipelineKinesisVideoStreamPoolResponse,
   UpdateMediaPipelineKinesisVideoStreamPoolError,
   Credentials | HttpClient.HttpClient

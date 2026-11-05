@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -956,7 +957,7 @@ export type GetMedicalScribeStreamError =
  * details of post-stream analytics, including its status, check the `PostStreamAnalyticsResult` field in the response.
  */
 export const getMedicalScribeStream: API.OperationMethod<
-  GetMedicalScribeStreamRequest,
+  GetMedicalScribeStreamRequest & RegionInput,
   GetMedicalScribeStreamResponse,
   GetMedicalScribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -999,7 +1000,7 @@ export type StartCallAnalyticsStreamTranscriptionError =
  * For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
  */
 export const startCallAnalyticsStreamTranscription: API.OperationMethod<
-  StartCallAnalyticsStreamTranscriptionRequest,
+  StartCallAnalyticsStreamTranscriptionRequest & RegionInput,
   StartCallAnalyticsStreamTranscriptionResponse,
   StartCallAnalyticsStreamTranscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1059,7 +1060,7 @@ export type StartMedicalScribeStreamError =
  * see Amazon Web Services HealthScribe.
  */
 export const startMedicalScribeStream: API.OperationMethod<
-  StartMedicalScribeStreamRequest,
+  StartMedicalScribeStreamRequest & RegionInput,
   StartMedicalScribeStreamResponse,
   StartMedicalScribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -1105,7 +1106,7 @@ export type StartMedicalStreamTranscriptionError =
  * streaming audio.
  */
 export const startMedicalStreamTranscription: API.OperationMethod<
-  StartMedicalStreamTranscriptionRequest,
+  StartMedicalStreamTranscriptionRequest & RegionInput,
   StartMedicalStreamTranscriptionResponse,
   StartMedicalStreamTranscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1148,7 +1149,7 @@ export type StartStreamTranscriptionError =
  * For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
  */
 export const startStreamTranscription: API.OperationMethod<
-  StartStreamTranscriptionRequest,
+  StartStreamTranscriptionRequest & RegionInput,
   StartStreamTranscriptionResponse,
   StartStreamTranscriptionError,
   Credentials | HttpClient.HttpClient

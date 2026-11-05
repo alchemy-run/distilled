@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -919,7 +920,7 @@ export type CancelBatchJobExecutionError =
  * Cancels the running of a specific batch job execution.
  */
 export const cancelBatchJobExecution: API.OperationMethod<
-  CancelBatchJobExecutionRequest,
+  CancelBatchJobExecutionRequest & RegionInput,
   CancelBatchJobExecutionResponse,
   CancelBatchJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -954,7 +955,7 @@ export type CreateApplicationError =
  * environment and application definition file.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -989,7 +990,7 @@ export type CreateDataSetExportTaskError =
  * Starts a data set export task for a specific application.
  */
 export const createDataSetExportTask: API.OperationMethod<
-  CreateDataSetExportTaskRequest,
+  CreateDataSetExportTaskRequest & RegionInput,
   CreateDataSetExportTaskResponse,
   CreateDataSetExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1025,7 +1026,7 @@ export type CreateDataSetImportTaskError =
  * Starts a data set import task for a specific application.
  */
 export const createDataSetImportTask: API.OperationMethod<
-  CreateDataSetImportTaskRequest,
+  CreateDataSetImportTaskRequest & RegionInput,
   CreateDataSetImportTaskResponse,
   CreateDataSetImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1062,7 +1063,7 @@ export type CreateDeploymentError =
  * environment.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResponse,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1097,7 +1098,7 @@ export type CreateEnvironmentError =
  * Creates a runtime environment for a given runtime engine.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   CreateEnvironmentResponse,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1130,7 +1131,7 @@ export type DeleteApplicationError =
  * Deletes a specific application. You cannot delete a running application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1166,7 +1167,7 @@ export type DeleteApplicationFromEnvironmentError =
  * application with the runtime environment so you can delete the environment smoothly.
  */
 export const deleteApplicationFromEnvironment: API.OperationMethod<
-  DeleteApplicationFromEnvironmentRequest,
+  DeleteApplicationFromEnvironmentRequest & RegionInput,
   DeleteApplicationFromEnvironmentResponse,
   DeleteApplicationFromEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type DeleteEnvironmentError =
  * environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1233,7 +1234,7 @@ export type GetApplicationError =
  * Describes the details of a specific application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1265,7 +1266,7 @@ export type GetApplicationVersionError =
  * Returns details about a specific version of a specific application.
  */
 export const getApplicationVersion: API.OperationMethod<
-  GetApplicationVersionRequest,
+  GetApplicationVersionRequest & RegionInput,
   GetApplicationVersionResponse,
   GetApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1297,7 +1298,7 @@ export type GetBatchJobExecutionError =
  * Gets the details of a specific batch job execution for a specific application.
  */
 export const getBatchJobExecution: API.OperationMethod<
-  GetBatchJobExecutionRequest,
+  GetBatchJobExecutionRequest & RegionInput,
   GetBatchJobExecutionResponse,
   GetBatchJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1332,7 +1333,7 @@ export type GetDataSetDetailsError =
  * Gets the details of a specific data set.
  */
 export const getDataSetDetails: API.OperationMethod<
-  GetDataSetDetailsRequest,
+  GetDataSetDetailsRequest & RegionInput,
   GetDataSetDetailsResponse,
   GetDataSetDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1367,7 +1368,7 @@ export type GetDataSetExportTaskError =
  * Gets the status of a data set import task initiated with the CreateDataSetExportTask operation.
  */
 export const getDataSetExportTask: API.OperationMethod<
-  GetDataSetExportTaskRequest,
+  GetDataSetExportTaskRequest & RegionInput,
   GetDataSetExportTaskResponse,
   GetDataSetExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1399,7 +1400,7 @@ export type GetDataSetImportTaskError =
  * Gets the status of a data set import task initiated with the CreateDataSetImportTask operation.
  */
 export const getDataSetImportTask: API.OperationMethod<
-  GetDataSetImportTaskRequest,
+  GetDataSetImportTaskRequest & RegionInput,
   GetDataSetImportTaskResponse,
   GetDataSetImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1431,7 +1432,7 @@ export type GetDeploymentError =
  * Gets details of a specific deployment with a given deployment identifier.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   GetDeploymentResponse,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1463,7 +1464,7 @@ export type GetEnvironmentError =
  * Describes a specific runtime environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1493,7 +1494,7 @@ export type GetSignedBluinsightsUrlError =
  * Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
  */
 export const getSignedBluinsightsUrl: API.OperationMethod<
-  GetSignedBluinsightsUrlRequest,
+  GetSignedBluinsightsUrlRequest & RegionInput,
   GetSignedBluinsightsUrlResponse,
   GetSignedBluinsightsUrlError,
   Credentials | HttpClient.HttpClient
@@ -1520,7 +1521,7 @@ export type ListApplicationsError =
  * applications associated with that environment.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1558,7 +1559,7 @@ export type ListApplicationVersionsError =
  * Returns a list of the application versions for a specific application.
  */
 export const listApplicationVersions: API.PaginatedOperationMethod<
-  ListApplicationVersionsRequest,
+  ListApplicationVersionsRequest & RegionInput,
   ListApplicationVersionsResponse,
   ListApplicationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1599,7 +1600,7 @@ export type ListBatchJobDefinitionsError =
  * a batch job.
  */
 export const listBatchJobDefinitions: API.PaginatedOperationMethod<
-  ListBatchJobDefinitionsRequest,
+  ListBatchJobDefinitionsRequest & RegionInput,
   ListBatchJobDefinitionsResponse,
   ListBatchJobDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -1639,7 +1640,7 @@ export type ListBatchJobExecutionsError =
  * application.
  */
 export const listBatchJobExecutions: API.PaginatedOperationMethod<
-  ListBatchJobExecutionsRequest,
+  ListBatchJobExecutionsRequest & RegionInput,
   ListBatchJobExecutionsResponse,
   ListBatchJobExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1679,7 +1680,7 @@ export type ListBatchJobRestartPointsError =
  * Lists all the job steps for a JCL file to restart a batch job. This is only applicable for Micro Focus engine with versions 8.0.6 and above.
  */
 export const listBatchJobRestartPoints: API.OperationMethod<
-  ListBatchJobRestartPointsRequest,
+  ListBatchJobRestartPointsRequest & RegionInput,
   ListBatchJobRestartPointsResponse,
   ListBatchJobRestartPointsError,
   Credentials | HttpClient.HttpClient
@@ -1712,7 +1713,7 @@ export type ListDataSetExportHistoryError =
  * Lists the data set exports for the specified application.
  */
 export const listDataSetExportHistory: API.PaginatedOperationMethod<
-  ListDataSetExportHistoryRequest,
+  ListDataSetExportHistoryRequest & RegionInput,
   ListDataSetExportHistoryResponse,
   ListDataSetExportHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1751,7 +1752,7 @@ export type ListDataSetImportHistoryError =
  * Lists the data set imports for the specified application.
  */
 export const listDataSetImportHistory: API.PaginatedOperationMethod<
-  ListDataSetImportHistoryRequest,
+  ListDataSetImportHistoryRequest & RegionInput,
   ListDataSetImportHistoryResponse,
   ListDataSetImportHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1795,7 +1796,7 @@ export type ListDataSetsError =
  * data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
  */
 export const listDataSets: API.PaginatedOperationMethod<
-  ListDataSetsRequest,
+  ListDataSetsRequest & RegionInput,
   ListDataSetsResponse,
   ListDataSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1839,7 +1840,7 @@ export type ListDeploymentsError =
  * deployment is mapped to a particular application version.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   ListDeploymentsResponse,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1877,7 +1878,7 @@ export type ListEngineVersionsError =
  * Lists the available engine versions.
  */
 export const listEngineVersions: API.PaginatedOperationMethod<
-  ListEngineVersionsRequest,
+  ListEngineVersionsRequest & RegionInput,
   ListEngineVersionsResponse,
   ListEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1914,7 +1915,7 @@ export type ListEnvironmentsError =
  * Lists the runtime environments.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1952,7 +1953,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1985,7 +1986,7 @@ export type StartApplicationError =
  * Starts an application that is currently stopped.
  */
 export const startApplication: API.OperationMethod<
-  StartApplicationRequest,
+  StartApplicationRequest & RegionInput,
   StartApplicationResponse,
   StartApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2020,7 +2021,7 @@ export type StartBatchJobError =
  * The associated application must be running in order to start the batch job.
  */
 export const startBatchJob: API.OperationMethod<
-  StartBatchJobRequest,
+  StartBatchJobRequest & RegionInput,
   StartBatchJobResponse,
   StartBatchJobError,
   Credentials | HttpClient.HttpClient
@@ -2054,7 +2055,7 @@ export type StopApplicationError =
  * Stops a running application.
  */
 export const stopApplication: API.OperationMethod<
-  StopApplicationRequest,
+  StopApplicationRequest & RegionInput,
   StopApplicationResponse,
   StopApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2088,7 +2089,7 @@ export type TagResourceError =
  * Adds one or more tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2121,7 +2122,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2154,7 +2155,7 @@ export type UpdateApplicationError =
  * Updates an application and creates a new version.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2189,7 +2190,7 @@ export type UpdateEnvironmentError =
  * Updates the configuration details for a specific runtime environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   UpdateEnvironmentResponse,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient

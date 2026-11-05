@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -698,7 +699,7 @@ export type DeleteScalingPolicyError =
  * *Application Auto Scaling User Guide*.
  */
 export const deleteScalingPolicy: API.OperationMethod<
-  DeleteScalingPolicyRequest,
+  DeleteScalingPolicyRequest & RegionInput,
   DeleteScalingPolicyResponse,
   DeleteScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -730,7 +731,7 @@ export type DeleteScheduledActionError =
  * For more information, see Delete a scheduled action in the *Application Auto Scaling User Guide*.
  */
 export const deleteScheduledAction: API.OperationMethod<
-  DeleteScheduledActionRequest,
+  DeleteScheduledActionRequest & RegionInput,
   DeleteScheduledActionResponse,
   DeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -764,7 +765,7 @@ export type DeregisterScalableTargetError =
  * actions that are associated with it.
  */
 export const deregisterScalableTarget: API.OperationMethod<
-  DeregisterScalableTargetRequest,
+  DeregisterScalableTargetRequest & RegionInput,
   DeregisterScalableTargetResponse,
   DeregisterScalableTargetError,
   Credentials | HttpClient.HttpClient
@@ -797,7 +798,7 @@ export type DescribeScalableTargetsError =
  * `ScalableDimension`.
  */
 export const describeScalableTargets: API.PaginatedOperationMethod<
-  DescribeScalableTargetsRequest,
+  DescribeScalableTargetsRequest & RegionInput,
   DescribeScalableTargetsResponse,
   DescribeScalableTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -840,7 +841,7 @@ export type DescribeScalingActivitiesError =
  * For information about viewing scaling activities using the Amazon Web Services CLI, see Scaling activities for Application Auto Scaling.
  */
 export const describeScalingActivities: API.PaginatedOperationMethod<
-  DescribeScalingActivitiesRequest,
+  DescribeScalingActivitiesRequest & RegionInput,
   DescribeScalingActivitiesResponse,
   DescribeScalingActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -883,7 +884,7 @@ export type DescribeScalingPoliciesError =
  * For more information, see Target tracking scaling policies and Step scaling policies in the *Application Auto Scaling User Guide*.
  */
 export const describeScalingPolicies: API.PaginatedOperationMethod<
-  DescribeScalingPoliciesRequest,
+  DescribeScalingPoliciesRequest & RegionInput,
   DescribeScalingPoliciesResponse,
   DescribeScalingPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -926,7 +927,7 @@ export type DescribeScheduledActionsError =
  * For more information, see Scheduled scaling in the *Application Auto Scaling User Guide*.
  */
 export const describeScheduledActions: API.PaginatedOperationMethod<
-  DescribeScheduledActionsRequest,
+  DescribeScheduledActionsRequest & RegionInput,
   DescribeScheduledActionsResponse,
   DescribeScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -970,7 +971,7 @@ export type GetPredictiveScalingForecastError =
  * having a full 14 days of historical data results in more accurate forecasts.
  */
 export const getPredictiveScalingForecast: API.OperationMethod<
-  GetPredictiveScalingForecastRequest,
+  GetPredictiveScalingForecastRequest & RegionInput,
   GetPredictiveScalingForecastResponse,
   GetPredictiveScalingForecastError,
   Credentials | HttpClient.HttpClient
@@ -993,7 +994,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * resources in the *Amazon Web Services General Reference*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1048,7 +1049,7 @@ export type PutScalingPolicyError =
  * are deleted.
  */
 export const putScalingPolicy: API.OperationMethod<
-  PutScalingPolicyRequest,
+  PutScalingPolicyRequest & RegionInput,
   PutScalingPolicyResponse,
   PutScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1098,7 +1099,7 @@ export type PutScheduledActionError =
  * are deleted.
  */
 export const putScheduledAction: API.OperationMethod<
-  PutScheduledActionRequest,
+  PutScheduledActionRequest & RegionInput,
   PutScheduledActionResponse,
   PutScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -1165,7 +1166,7 @@ export type RegisterScalableTargetError =
  * parameters.
  */
 export const registerScalableTarget: API.OperationMethod<
-  RegisterScalableTargetRequest,
+  RegisterScalableTargetRequest & RegionInput,
   RegisterScalableTargetResponse,
   RegisterScalableTargetError,
   Credentials | HttpClient.HttpClient
@@ -1210,7 +1211,7 @@ export type TagResourceError =
  * for Application Auto Scaling in the *Application Auto Scaling User Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1231,7 +1232,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * the Application Auto Scaling scalable target.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

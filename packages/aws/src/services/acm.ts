@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1321,7 +1322,7 @@ export type AddTagsToCertificateError =
  * To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action.
  */
 export const addTagsToCertificate: API.OperationMethod<
-  AddTagsToCertificateRequest,
+  AddTagsToCertificateRequest & RegionInput,
   AddTagsToCertificateResponse,
   AddTagsToCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1358,7 +1359,7 @@ export type CreateAcmeDomainValidationError =
  * Creates a domain validation for an ACME endpoint. Domain validations authorize the endpoint to issue certificates for specified domain names. You configure prevalidation to prove domain ownership.
  */
 export const createAcmeDomainValidation: API.OperationMethod<
-  CreateAcmeDomainValidationRequest,
+  CreateAcmeDomainValidationRequest & RegionInput,
   CreateAcmeDomainValidationResponse,
   CreateAcmeDomainValidationError,
   Credentials | HttpClient.HttpClient
@@ -1393,7 +1394,7 @@ export type CreateAcmeEndpointError =
  * Creates an ACME endpoint, which is a managed ACME server with a unique endpoint URL. After creation, ACME clients can use the endpoint URL to automate certificate issuance using the ACME protocol.
  */
 export const createAcmeEndpoint: API.OperationMethod<
-  CreateAcmeEndpointRequest,
+  CreateAcmeEndpointRequest & RegionInput,
   CreateAcmeEndpointResponse,
   CreateAcmeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1428,7 +1429,7 @@ export type CreateAcmeExternalAccountBindingError =
  * Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an account with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform.
  */
 export const createAcmeExternalAccountBinding: API.OperationMethod<
-  CreateAcmeExternalAccountBindingRequest,
+  CreateAcmeExternalAccountBindingRequest & RegionInput,
   CreateAcmeExternalAccountBindingResponse,
   CreateAcmeExternalAccountBindingError,
   Credentials | HttpClient.HttpClient
@@ -1462,7 +1463,7 @@ export type DeleteAcmeDomainValidationError =
  * Deletes a domain validation. After deletion, the ACME endpoint can no longer issue certificates for the associated domain.
  */
 export const deleteAcmeDomainValidation: API.OperationMethod<
-  DeleteAcmeDomainValidationRequest,
+  DeleteAcmeDomainValidationRequest & RegionInput,
   DeleteAcmeDomainValidationResponse,
   DeleteAcmeDomainValidationError,
   Credentials | HttpClient.HttpClient
@@ -1494,7 +1495,7 @@ export type DeleteAcmeEndpointError =
  * Deletes an ACME endpoint. After deletion, the endpoint URL is no longer accessible and ACME clients cannot issue certificates through it. Any existing external account bindings and domain validations associated with the endpoint are also deleted.
  */
 export const deleteAcmeEndpoint: API.OperationMethod<
-  DeleteAcmeEndpointRequest,
+  DeleteAcmeEndpointRequest & RegionInput,
   DeleteAcmeEndpointResponse,
   DeleteAcmeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1525,7 +1526,7 @@ export type DeleteAcmeExternalAccountBindingError =
  * Deletes an external account binding. Previously fetched credentials for this binding will no longer be usable for account registration. A deleted binding cannot be recovered.
  */
 export const deleteAcmeExternalAccountBinding: API.OperationMethod<
-  DeleteAcmeExternalAccountBindingRequest,
+  DeleteAcmeExternalAccountBindingRequest & RegionInput,
   DeleteAcmeExternalAccountBindingResponse,
   DeleteAcmeExternalAccountBindingError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1567,7 @@ export type DeleteCertificateError =
  * Deleting a certificate issued by a private certificate authority (CA) has no effect on the CA. You will continue to be charged for the CA until it is deleted. For more information, see Deleting your private CA in the *Amazon Web Services Private Certificate Authority User Guide*.
  */
 export const deleteCertificate: API.OperationMethod<
-  DeleteCertificateRequest,
+  DeleteCertificateRequest & RegionInput,
   DeleteCertificateResponse,
   DeleteCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1601,7 @@ export type DescribeAcmeAccountError =
  * Returns detailed metadata about the specified ACME account, including its status, public key thumbprint, and associated external account binding.
  */
 export const describeAcmeAccount: API.OperationMethod<
-  DescribeAcmeAccountRequest,
+  DescribeAcmeAccountRequest & RegionInput,
   DescribeAcmeAccountResponse,
   DescribeAcmeAccountError,
   Credentials | HttpClient.HttpClient
@@ -1632,7 +1633,7 @@ export type DescribeAcmeDomainValidationError =
  * Returns detailed metadata about the specified domain validation, including its status, domain scope, and DNS resource records required for validation.
  */
 export const describeAcmeDomainValidation: API.OperationMethod<
-  DescribeAcmeDomainValidationRequest,
+  DescribeAcmeDomainValidationRequest & RegionInput,
   DescribeAcmeDomainValidationResponse,
   DescribeAcmeDomainValidationError,
   Credentials | HttpClient.HttpClient
@@ -1664,7 +1665,7 @@ export type DescribeAcmeEndpointError =
  * Returns detailed metadata about the specified ACME endpoint, including its status, URL, authorization behavior, and certificate authority configuration.
  */
 export const describeAcmeEndpoint: API.OperationMethod<
-  DescribeAcmeEndpointRequest,
+  DescribeAcmeEndpointRequest & RegionInput,
   DescribeAcmeEndpointResponse,
   DescribeAcmeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1696,7 +1697,7 @@ export type DescribeAcmeExternalAccountBindingError =
  * Returns detailed metadata about the specified external account binding, including the associated IAM role, expiration time, and usage history.
  */
 export const describeAcmeExternalAccountBinding: API.OperationMethod<
-  DescribeAcmeExternalAccountBindingRequest,
+  DescribeAcmeExternalAccountBindingRequest & RegionInput,
   DescribeAcmeExternalAccountBindingResponse,
   DescribeAcmeExternalAccountBindingError,
   Credentials | HttpClient.HttpClient
@@ -1728,7 +1729,7 @@ export type DescribeCertificateError =
  * If you have just created a certificate using the `RequestCertificate` action, there is a delay of several seconds before you can retrieve information about it.
  */
 export const describeCertificate: API.OperationMethod<
-  DescribeCertificateRequest,
+  DescribeCertificateRequest & RegionInput,
   DescribeCertificateResponse,
   DescribeCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1758,7 +1759,7 @@ export type ExportCertificateError =
  * ACM public certificates created prior to June 17, 2025 cannot be exported.
  */
 export const exportCertificate: API.OperationMethod<
-  ExportCertificateRequest,
+  ExportCertificateRequest & RegionInput,
   ExportCertificateResponse,
   ExportCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1787,7 +1788,7 @@ export type GetAccountConfigurationError =
  * Returns the account configuration options associated with an Amazon Web Services account.
  */
 export const getAccountConfiguration: API.OperationMethod<
-  GetAccountConfigurationRequest,
+  GetAccountConfigurationRequest & RegionInput,
   GetAccountConfigurationResponse,
   GetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1813,7 +1814,7 @@ export type GetAcmeExternalAccountBindingCredentialsError =
  * Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account registration to bind to the endpoint.
  */
 export const getAcmeExternalAccountBindingCredentials: API.OperationMethod<
-  GetAcmeExternalAccountBindingCredentialsRequest,
+  GetAcmeExternalAccountBindingCredentialsRequest & RegionInput,
   GetAcmeExternalAccountBindingCredentialsResponse,
   GetAcmeExternalAccountBindingCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1844,7 +1845,7 @@ export type GetCertificateError =
  * Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM `RequestCertificate` action, or a certificate imported into ACM using the `ImportCertificate` action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use OpenSSL to decode the certificates and inspect individual fields.
  */
 export const getCertificate: API.OperationMethod<
-  GetCertificateRequest,
+  GetCertificateRequest & RegionInput,
   GetCertificateResponse,
   GetCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1907,7 +1908,7 @@ export type ImportCertificateError =
  * This operation returns the Amazon Resource Name (ARN) of the imported certificate.
  */
 export const importCertificate: API.OperationMethod<
-  ImportCertificateRequest,
+  ImportCertificateRequest & RegionInput,
   ImportCertificateResponse,
   ImportCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1943,7 +1944,7 @@ export type ListAcmeAccountsError =
  * Retrieves a list of ACME accounts registered with the specified ACME endpoint. ACME accounts are created when clients use external account binding credentials to register.
  */
 export const listAcmeAccounts: API.PaginatedOperationMethod<
-  ListAcmeAccountsRequest,
+  ListAcmeAccountsRequest & RegionInput,
   ListAcmeAccountsResponse,
   ListAcmeAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1982,7 +1983,7 @@ export type ListAcmeDomainValidationsError =
  * Retrieves a list of domain validations for the specified ACME endpoint.
  */
 export const listAcmeDomainValidations: API.PaginatedOperationMethod<
-  ListAcmeDomainValidationsRequest,
+  ListAcmeDomainValidationsRequest & RegionInput,
   ListAcmeDomainValidationsResponse,
   ListAcmeDomainValidationsError,
   Credentials | HttpClient.HttpClient,
@@ -2020,7 +2021,7 @@ export type ListAcmeEndpointsError =
  * Retrieves a list of ACME endpoints in your account. Use this operation to view all configured ACME endpoints and their current status.
  */
 export const listAcmeEndpoints: API.PaginatedOperationMethod<
-  ListAcmeEndpointsRequest,
+  ListAcmeEndpointsRequest & RegionInput,
   ListAcmeEndpointsResponse,
   ListAcmeEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -2058,7 +2059,7 @@ export type ListAcmeExternalAccountBindingsError =
  * Retrieves a list of external account bindings for the specified ACME endpoint.
  */
 export const listAcmeExternalAccountBindings: API.PaginatedOperationMethod<
-  ListAcmeExternalAccountBindingsRequest,
+  ListAcmeExternalAccountBindingsRequest & RegionInput,
   ListAcmeExternalAccountBindingsResponse,
   ListAcmeExternalAccountBindingsError,
   Credentials | HttpClient.HttpClient,
@@ -2096,7 +2097,7 @@ export type ListCertificateDomainValidationsError =
  * Returns per-domain validation summaries for an ACM certificate. Each summary includes the domain name, the active validation configuration, and the requested validation configuration when a validation method migration is in progress. You can use the results to monitor the progress of an email-to-DNS validation migration and to retrieve the CNAME records required for DNS validation.
  */
 export const listCertificateDomainValidations: API.PaginatedOperationMethod<
-  ListCertificateDomainValidationsRequest,
+  ListCertificateDomainValidationsRequest & RegionInput,
   ListCertificateDomainValidationsResponse,
   ListCertificateDomainValidationsError,
   Credentials | HttpClient.HttpClient,
@@ -2130,7 +2131,7 @@ export type ListCertificatesError = InvalidArgsException | ValidationException |
  * By default, this action does not return certificates with a `CertificateKeyPairOrigin` of `ACME`. To include ACME certificates, specify `ACME` in the `CertificateKeyPairOrigins` filter.
  */
 export const listCertificates: API.PaginatedOperationMethod<
-  ListCertificatesRequest,
+  ListCertificatesRequest & RegionInput,
   ListCertificatesResponse,
   ListCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -2163,7 +2164,7 @@ export type ListTagsForCertificateError =
  * This action applies only to the `certificate` resource type. For all other ACM resource types, use ListTagsForResource instead.
  */
 export const listTagsForCertificate: API.OperationMethod<
-  ListTagsForCertificateRequest,
+  ListTagsForCertificateRequest & RegionInput,
   ListTagsForCertificateResponse,
   ListTagsForCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2190,7 +2191,7 @@ export type ListTagsForResourceError =
  * To add one or more tags, use the TagResource action. To remove one or more tags, use the UntagResource action.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2217,7 +2218,7 @@ export type PutAccountConfigurationError =
  * The supported configuration option is `DaysBeforeExpiry`. This option specifies the number of days prior to certificate expiration when ACM starts generating `EventBridge` events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
  */
 export const putAccountConfiguration: API.OperationMethod<
-  PutAccountConfigurationRequest,
+  PutAccountConfigurationRequest & RegionInput,
   PutAccountConfigurationResponse,
   PutAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2249,7 +2250,7 @@ export type RemoveTagsFromCertificateError =
  * To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action.
  */
 export const removeTagsFromCertificate: API.OperationMethod<
-  RemoveTagsFromCertificateRequest,
+  RemoveTagsFromCertificateRequest & RegionInput,
   RemoveTagsFromCertificateResponse,
   RemoveTagsFromCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2282,7 +2283,7 @@ export type RenewCertificateError =
  * Renews an eligible ACM certificate. In order to renew your Amazon Web Services Private CA certificates with ACM, you must first grant the ACM service principal permission to do so. For more information, see Testing Managed Renewal in the ACM User Guide.
  */
 export const renewCertificate: API.OperationMethod<
-  RenewCertificateRequest,
+  RenewCertificateRequest & RegionInput,
   RenewCertificateResponse,
   RenewCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2321,7 +2322,7 @@ export type RequestCertificateError =
  * After successful completion of the `RequestCertificate` action, there is a delay of several seconds before you can retrieve information about the new certificate.
  */
 export const requestCertificate: API.OperationMethod<
-  RequestCertificateRequest,
+  RequestCertificateRequest & RegionInput,
   RequestCertificateResponse,
   RequestCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2355,7 +2356,7 @@ export type ResendValidationEmailError =
  * Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking **I Approve**. However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of requesting the ACM certificate. If more than 72 hours have elapsed since your original request or since your last attempt to resend validation mail, you must request a new certificate. For more information about setting up your contact email addresses, see Configure Email for your Domain.
  */
 export const resendValidationEmail: API.OperationMethod<
-  ResendValidationEmailRequest,
+  ResendValidationEmailRequest & RegionInput,
   ResendValidationEmailResponse,
   ResendValidationEmailError,
   Credentials | HttpClient.HttpClient
@@ -2388,7 +2389,7 @@ export type RevokeAcmeAccountError =
  * Revokes an ACME account, preventing it from requesting or revoking certificates. This operation is irreversible.
  */
 export const revokeAcmeAccount: API.OperationMethod<
-  RevokeAcmeAccountRequest,
+  RevokeAcmeAccountRequest & RegionInput,
   RevokeAcmeAccountResponse,
   RevokeAcmeAccountError,
   Credentials | HttpClient.HttpClient
@@ -2422,7 +2423,7 @@ export type RevokeAcmeExternalAccountBindingError =
  * Revokes an external account binding, preventing new ACME accounts from being registered using this binding. Existing ACME accounts that were previously registered using the binding are not affected and must be revoked separately.
  */
 export const revokeAcmeExternalAccountBinding: API.OperationMethod<
-  RevokeAcmeExternalAccountBindingRequest,
+  RevokeAcmeExternalAccountBindingRequest & RegionInput,
   RevokeAcmeExternalAccountBindingResponse,
   RevokeAcmeExternalAccountBindingError,
   Credentials | HttpClient.HttpClient
@@ -2459,7 +2460,7 @@ export type RevokeCertificateError =
  * Once a certificate is revoked, you cannot reuse the certificate. Revoking a certificate is permanent.
  */
 export const revokeCertificate: API.OperationMethod<
-  RevokeCertificateRequest,
+  RevokeCertificateRequest & RegionInput,
   RevokeCertificateResponse,
   RevokeCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2491,7 +2492,7 @@ export type SearchCertificatesError =
  * Retrieves a list of certificates matching search criteria. You can filter certificates by X.509 attributes and ACM specific properties like certificate status, type and renewal eligibility. This operation provides more flexible filtering than ListCertificates by supporting complex filter statements.
  */
 export const searchCertificates: API.PaginatedOperationMethod<
-  SearchCertificatesRequest,
+  SearchCertificatesRequest & RegionInput,
   SearchCertificatesResponse,
   SearchCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -2526,7 +2527,7 @@ export type TagResourceError =
  * To remove one or more tags, use the UntagResource action. To view all of the tags that have been applied to a resource, use the ListTagsForResource action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2550,7 +2551,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * To add one or more tags, use the TagResource action. To view all of the tags that have been applied to a resource, use the ListTagsForResource action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2577,7 +2578,7 @@ export type UpdateAcmeDomainValidationError =
  * Updates the prevalidation configuration of an existing domain validation.
  */
 export const updateAcmeDomainValidation: API.OperationMethod<
-  UpdateAcmeDomainValidationRequest,
+  UpdateAcmeDomainValidationRequest & RegionInput,
   UpdateAcmeDomainValidationResponse,
   UpdateAcmeDomainValidationError,
   Credentials | HttpClient.HttpClient
@@ -2611,7 +2612,7 @@ export type UpdateAcmeEndpointError =
  * Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate authority settings.
  */
 export const updateAcmeEndpoint: API.OperationMethod<
-  UpdateAcmeEndpointRequest,
+  UpdateAcmeEndpointRequest & RegionInput,
   UpdateAcmeEndpointResponse,
   UpdateAcmeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2645,7 +2646,7 @@ export type UpdateCertificateOptionsError =
  * Updates certificate options. You can use this operation to change the domain validation method or specify whether to export your certificate. For more information, see Migrate from email to DNS validation and Certificate Manager Exportable Managed Certificates.
  */
 export const updateCertificateOptions: API.OperationMethod<
-  UpdateCertificateOptionsRequest,
+  UpdateCertificateOptionsRequest & RegionInput,
   UpdateCertificateOptionsResponse,
   UpdateCertificateOptionsError,
   Credentials | HttpClient.HttpClient

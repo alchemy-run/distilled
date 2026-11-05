@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -438,7 +439,7 @@ export type DescribeStreamError = InternalServerError | ResourceNotFoundExceptio
  * are present, then that shard is closed and can no longer receive more data.
  */
 export const describeStream: API.OperationMethod<
-  DescribeStreamInput,
+  DescribeStreamInput & RegionInput,
   DescribeStreamOutput,
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -473,7 +474,7 @@ export type GetRecordsError =
  * whichever comes first.
  */
 export const getRecords: API.OperationMethod<
-  GetRecordsInput,
+  GetRecordsInput & RegionInput,
   GetRecordsOutput,
   GetRecordsError,
   Credentials | HttpClient.HttpClient
@@ -509,7 +510,7 @@ export type GetShardIteratorError =
  * A shard iterator expires 15 minutes after it is returned to the requester.
  */
 export const getShardIterator: API.OperationMethod<
-  GetShardIteratorInput,
+  GetShardIteratorInput & RegionInput,
   GetShardIteratorOutput,
   GetShardIteratorError,
   Credentials | HttpClient.HttpClient
@@ -533,7 +534,7 @@ export type ListStreamsError = InternalServerError | ResourceNotFoundException |
  * You can call `ListStreams` at a maximum rate of 5 times per second.
  */
 export const listStreams: API.OperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient

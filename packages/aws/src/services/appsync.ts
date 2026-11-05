@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1355,7 +1356,7 @@ export type AssociateApiError =
  * Maps an endpoint to your custom domain.
  */
 export const associateApi: API.OperationMethod<
-  AssociateApiRequest,
+  AssociateApiRequest & RegionInput,
   AssociateApiResponse,
   AssociateApiError,
   Credentials | HttpClient.HttpClient
@@ -1383,7 +1384,7 @@ export type AssociateMergedGraphqlApiError =
  * identifier.
  */
 export const associateMergedGraphqlApi: API.OperationMethod<
-  AssociateMergedGraphqlApiRequest,
+  AssociateMergedGraphqlApiRequest & RegionInput,
   AssociateMergedGraphqlApiResponse,
   AssociateMergedGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1418,7 +1419,7 @@ export type AssociateSourceGraphqlApiError =
  * identifier.
  */
 export const associateSourceGraphqlApi: API.OperationMethod<
-  AssociateSourceGraphqlApiRequest,
+  AssociateSourceGraphqlApiRequest & RegionInput,
   AssociateSourceGraphqlApiResponse,
   AssociateSourceGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1453,7 +1454,7 @@ export type CreateApiError =
  * publishing and message subscriptions over WebSockets.
  */
 export const createApi: API.OperationMethod<
-  CreateApiRequest,
+  CreateApiRequest & RegionInput,
   CreateApiResponse,
   CreateApiError,
   Credentials | HttpClient.HttpClient
@@ -1485,7 +1486,7 @@ export type CreateApiCacheError =
  * Creates a cache for the GraphQL API.
  */
 export const createApiCache: API.OperationMethod<
-  CreateApiCacheRequest,
+  CreateApiCacheRequest & RegionInput,
   CreateApiCacheResponse,
   CreateApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -1519,7 +1520,7 @@ export type CreateApiKeyError =
  * Creates a unique key that you can distribute to clients who invoke your API.
  */
 export const createApiKey: API.OperationMethod<
-  CreateApiKeyRequest,
+  CreateApiKeyRequest & RegionInput,
   CreateApiKeyResponse,
   CreateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1555,7 +1556,7 @@ export type CreateChannelNamespaceError =
  * Creates a `ChannelNamespace` for an `Api`.
  */
 export const createChannelNamespace: API.OperationMethod<
-  CreateChannelNamespaceRequest,
+  CreateChannelNamespaceRequest & RegionInput,
   CreateChannelNamespaceResponse,
   CreateChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1590,7 @@ export type CreateDataSourceError =
  * Creates a `DataSource` object.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1619,7 +1620,7 @@ export type CreateDomainNameError =
  * Creates a custom `DomainName` object.
  */
 export const createDomainName: API.OperationMethod<
-  CreateDomainNameRequest,
+  CreateDomainNameRequest & RegionInput,
   CreateDomainNameResponse,
   CreateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -1648,7 +1649,7 @@ export type CreateFunctionError =
  * logic.
  */
 export const createFunction: API.OperationMethod<
-  CreateFunctionRequest,
+  CreateFunctionRequest & RegionInput,
   CreateFunctionResponse,
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -1681,7 +1682,7 @@ export type CreateGraphqlApiError =
  * Creates a `GraphqlApi` object.
  */
 export const createGraphqlApi: API.OperationMethod<
-  CreateGraphqlApiRequest,
+  CreateGraphqlApiRequest & RegionInput,
   CreateGraphqlApiResponse,
   CreateGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -1717,7 +1718,7 @@ export type CreateResolverError =
  * and converts the data source's responses into GraphQL.
  */
 export const createResolver: API.OperationMethod<
-  CreateResolverRequest,
+  CreateResolverRequest & RegionInput,
   CreateResolverResponse,
   CreateResolverError,
   Credentials | HttpClient.HttpClient
@@ -1749,7 +1750,7 @@ export type CreateTypeError =
  * Creates a `Type` object.
  */
 export const createType: API.OperationMethod<
-  CreateTypeRequest,
+  CreateTypeRequest & RegionInput,
   CreateTypeResponse,
   CreateTypeError,
   Credentials | HttpClient.HttpClient
@@ -1782,7 +1783,7 @@ export type DeleteApiError =
  * Deletes an `Api` object
  */
 export const deleteApi: API.OperationMethod<
-  DeleteApiRequest,
+  DeleteApiRequest & RegionInput,
   DeleteApiResponse,
   DeleteApiError,
   Credentials | HttpClient.HttpClient
@@ -1815,7 +1816,7 @@ export type DeleteApiCacheError =
  * Deletes an `ApiCache` object.
  */
 export const deleteApiCache: API.OperationMethod<
-  DeleteApiCacheRequest,
+  DeleteApiCacheRequest & RegionInput,
   DeleteApiCacheResponse,
   DeleteApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -1846,7 +1847,7 @@ export type DeleteApiKeyError =
  * Deletes an API key.
  */
 export const deleteApiKey: API.OperationMethod<
-  DeleteApiKeyRequest,
+  DeleteApiKeyRequest & RegionInput,
   DeleteApiKeyResponse,
   DeleteApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1873,7 +1874,7 @@ export type DeleteChannelNamespaceError =
  * Deletes a `ChannelNamespace`.
  */
 export const deleteChannelNamespace: API.OperationMethod<
-  DeleteChannelNamespaceRequest,
+  DeleteChannelNamespaceRequest & RegionInput,
   DeleteChannelNamespaceResponse,
   DeleteChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1906,7 +1907,7 @@ export type DeleteDataSourceError =
  * Deletes a `DataSource` object.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1938,7 +1939,7 @@ export type DeleteDomainNameError =
  * Deletes a custom `DomainName` object.
  */
 export const deleteDomainName: API.OperationMethod<
-  DeleteDomainNameRequest,
+  DeleteDomainNameRequest & RegionInput,
   DeleteDomainNameResponse,
   DeleteDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +1971,7 @@ export type DeleteFunctionError =
  * Deletes a `Function`.
  */
 export const deleteFunction: API.OperationMethod<
-  DeleteFunctionRequest,
+  DeleteFunctionRequest & RegionInput,
   DeleteFunctionResponse,
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2003,7 +2004,7 @@ export type DeleteGraphqlApiError =
  * Deletes a `GraphqlApi` object.
  */
 export const deleteGraphqlApi: API.OperationMethod<
-  DeleteGraphqlApiRequest,
+  DeleteGraphqlApiRequest & RegionInput,
   DeleteGraphqlApiResponse,
   DeleteGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2036,7 +2037,7 @@ export type DeleteResolverError =
  * Deletes a `Resolver` object.
  */
 export const deleteResolver: API.OperationMethod<
-  DeleteResolverRequest,
+  DeleteResolverRequest & RegionInput,
   DeleteResolverResponse,
   DeleteResolverError,
   Credentials | HttpClient.HttpClient
@@ -2068,7 +2069,7 @@ export type DeleteTypeError =
  * Deletes a `Type` object.
  */
 export const deleteType: API.OperationMethod<
-  DeleteTypeRequest,
+  DeleteTypeRequest & RegionInput,
   DeleteTypeResponse,
   DeleteTypeError,
   Credentials | HttpClient.HttpClient
@@ -2100,7 +2101,7 @@ export type DisassociateApiError =
  * Removes an `ApiAssociation` object from a custom domain.
  */
 export const disassociateApi: API.OperationMethod<
-  DisassociateApiRequest,
+  DisassociateApiRequest & RegionInput,
   DisassociateApiResponse,
   DisassociateApiError,
   Credentials | HttpClient.HttpClient
@@ -2133,7 +2134,7 @@ export type DisassociateMergedGraphqlApiError =
  * identifier and the association ID.
  */
 export const disassociateMergedGraphqlApi: API.OperationMethod<
-  DisassociateMergedGraphqlApiRequest,
+  DisassociateMergedGraphqlApiRequest & RegionInput,
   DisassociateMergedGraphqlApiResponse,
   DisassociateMergedGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2166,7 +2167,7 @@ export type DisassociateSourceGraphqlApiError =
  * identifier and the association ID.
  */
 export const disassociateSourceGraphqlApi: API.OperationMethod<
-  DisassociateSourceGraphqlApiRequest,
+  DisassociateSourceGraphqlApiRequest & RegionInput,
   DisassociateSourceGraphqlApiResponse,
   DisassociateSourceGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2201,7 +2202,7 @@ export type EvaluateCodeError =
  * maps it to the shape of the GraphQL field output type.
  */
 export const evaluateCode: API.OperationMethod<
-  EvaluateCodeRequest,
+  EvaluateCodeRequest & RegionInput,
   EvaluateCodeResponse,
   EvaluateCodeError,
   Credentials | HttpClient.HttpClient
@@ -2233,7 +2234,7 @@ export type EvaluateMappingTemplateError =
  * Mapping templates are written in the Apache Velocity Template Language (VTL).
  */
 export const evaluateMappingTemplate: API.OperationMethod<
-  EvaluateMappingTemplateRequest,
+  EvaluateMappingTemplateRequest & RegionInput,
   EvaluateMappingTemplateResponse,
   EvaluateMappingTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2259,7 +2260,7 @@ export type FlushApiCacheError =
  * Flushes an `ApiCache` object.
  */
 export const flushApiCache: API.OperationMethod<
-  FlushApiCacheRequest,
+  FlushApiCacheRequest & RegionInput,
   FlushApiCacheResponse,
   FlushApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -2291,7 +2292,7 @@ export type GetApiError =
  * Retrieves an `Api` object.
  */
 export const getApi: API.OperationMethod<
-  GetApiRequest,
+  GetApiRequest & RegionInput,
   GetApiResponse,
   GetApiError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2323,7 @@ export type GetApiAssociationError =
  * Retrieves an `ApiAssociation` object.
  */
 export const getApiAssociation: API.OperationMethod<
-  GetApiAssociationRequest,
+  GetApiAssociationRequest & RegionInput,
   GetApiAssociationResponse,
   GetApiAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2348,7 +2349,7 @@ export type GetApiCacheError =
  * Retrieves an `ApiCache` object.
  */
 export const getApiCache: API.OperationMethod<
-  GetApiCacheRequest,
+  GetApiCacheRequest & RegionInput,
   GetApiCacheResponse,
   GetApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -2380,7 +2381,7 @@ export type GetChannelNamespaceError =
  * Retrieves the channel namespace for a specified `Api`.
  */
 export const getChannelNamespace: API.OperationMethod<
-  GetChannelNamespaceRequest,
+  GetChannelNamespaceRequest & RegionInput,
   GetChannelNamespaceResponse,
   GetChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -2412,7 +2413,7 @@ export type GetDataSourceError =
  * Retrieves a `DataSource` object.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2444,7 +2445,7 @@ export type GetDataSourceIntrospectionError =
  * an error message will be returned instead.
  */
 export const getDataSourceIntrospection: API.OperationMethod<
-  GetDataSourceIntrospectionRequest,
+  GetDataSourceIntrospectionRequest & RegionInput,
   GetDataSourceIntrospectionResponse,
   GetDataSourceIntrospectionError,
   Credentials | HttpClient.HttpClient
@@ -2469,7 +2470,7 @@ export type GetDomainNameError =
  * Retrieves a custom `DomainName` object.
  */
 export const getDomainName: API.OperationMethod<
-  GetDomainNameRequest,
+  GetDomainNameRequest & RegionInput,
   GetDomainNameResponse,
   GetDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2493,7 +2494,7 @@ export type GetFunctionError =
  * Get a `Function`.
  */
 export const getFunction: API.OperationMethod<
-  GetFunctionRequest,
+  GetFunctionRequest & RegionInput,
   GetFunctionResponse,
   GetFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2519,7 +2520,7 @@ export type GetGraphqlApiError =
  * Retrieves a `GraphqlApi` object.
  */
 export const getGraphqlApi: API.OperationMethod<
-  GetGraphqlApiRequest,
+  GetGraphqlApiRequest & RegionInput,
   GetGraphqlApiResponse,
   GetGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -2552,7 +2553,7 @@ export type GetGraphqlApiEnvironmentVariablesError =
  * its ID value.
  */
 export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
-  GetGraphqlApiEnvironmentVariablesRequest,
+  GetGraphqlApiEnvironmentVariablesRequest & RegionInput,
   GetGraphqlApiEnvironmentVariablesResponse,
   GetGraphqlApiEnvironmentVariablesError,
   Credentials | HttpClient.HttpClient
@@ -2583,7 +2584,7 @@ export type GetIntrospectionSchemaError =
  * Retrieves the introspection schema for a GraphQL API.
  */
 export const getIntrospectionSchema: API.OperationMethod<
-  GetIntrospectionSchemaRequest,
+  GetIntrospectionSchemaRequest & RegionInput,
   GetIntrospectionSchemaResponse,
   GetIntrospectionSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2612,7 +2613,7 @@ export type GetResolverError =
  * Retrieves a `Resolver` object.
  */
 export const getResolver: API.OperationMethod<
-  GetResolverRequest,
+  GetResolverRequest & RegionInput,
   GetResolverResponse,
   GetResolverError,
   Credentials | HttpClient.HttpClient
@@ -2637,7 +2638,7 @@ export type GetSchemaCreationStatusError =
  * Retrieves the current status of a schema creation operation.
  */
 export const getSchemaCreationStatus: API.OperationMethod<
-  GetSchemaCreationStatusRequest,
+  GetSchemaCreationStatusRequest & RegionInput,
   GetSchemaCreationStatusResponse,
   GetSchemaCreationStatusError,
   Credentials | HttpClient.HttpClient
@@ -2662,7 +2663,7 @@ export type GetSourceApiAssociationError =
  * Retrieves a `SourceApiAssociation` object.
  */
 export const getSourceApiAssociation: API.OperationMethod<
-  GetSourceApiAssociationRequest,
+  GetSourceApiAssociationRequest & RegionInput,
   GetSourceApiAssociationResponse,
   GetSourceApiAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2688,7 +2689,7 @@ export type GetTypeError =
  * Retrieves a `Type` object.
  */
 export const getType: API.OperationMethod<
-  GetTypeRequest,
+  GetTypeRequest & RegionInput,
   GetTypeResponse,
   GetTypeError,
   Credentials | HttpClient.HttpClient
@@ -2724,7 +2725,7 @@ export type ListApiKeysError =
  * deleted.
  */
 export const listApiKeys: API.PaginatedOperationMethod<
-  ListApiKeysRequest,
+  ListApiKeysRequest & RegionInput,
   ListApiKeysResponse,
   ListApiKeysError,
   Credentials | HttpClient.HttpClient,
@@ -2758,7 +2759,7 @@ export type ListApisError =
  * information about an API, use `GetApi`.
  */
 export const listApis: API.PaginatedOperationMethod<
-  ListApisRequest,
+  ListApisRequest & RegionInput,
   ListApisResponse,
   ListApisError,
   Credentials | HttpClient.HttpClient,
@@ -2793,7 +2794,7 @@ export type ListChannelNamespacesError =
  * namespace. To retrieve code handlers, use `GetChannelNamespace`.
  */
 export const listChannelNamespaces: API.PaginatedOperationMethod<
-  ListChannelNamespacesRequest,
+  ListChannelNamespacesRequest & RegionInput,
   ListChannelNamespacesResponse,
   ListChannelNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -2825,7 +2826,7 @@ export type ListDataSourcesError =
  * Lists the data sources for a given API.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2856,7 +2857,7 @@ export type ListDomainNamesError =
  * Lists multiple custom domain names.
  */
 export const listDomainNames: API.PaginatedOperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient,
@@ -2888,7 +2889,7 @@ export type ListFunctionsError =
  * List multiple functions.
  */
 export const listFunctions: API.PaginatedOperationMethod<
-  ListFunctionsRequest,
+  ListFunctionsRequest & RegionInput,
   ListFunctionsResponse,
   ListFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -2919,7 +2920,7 @@ export type ListGraphqlApisError =
  * Lists your GraphQL APIs.
  */
 export const listGraphqlApis: API.PaginatedOperationMethod<
-  ListGraphqlApisRequest,
+  ListGraphqlApisRequest & RegionInput,
   ListGraphqlApisResponse,
   ListGraphqlApisError,
   Credentials | HttpClient.HttpClient,
@@ -2951,7 +2952,7 @@ export type ListResolversError =
  * Lists the resolvers for a given API and type.
  */
 export const listResolvers: API.PaginatedOperationMethod<
-  ListResolversRequest,
+  ListResolversRequest & RegionInput,
   ListResolversResponse,
   ListResolversError,
   Credentials | HttpClient.HttpClient,
@@ -2983,7 +2984,7 @@ export type ListResolversByFunctionError =
  * List the resolvers that are associated with a specific function.
  */
 export const listResolversByFunction: API.PaginatedOperationMethod<
-  ListResolversByFunctionRequest,
+  ListResolversByFunctionRequest & RegionInput,
   ListResolversByFunctionResponse,
   ListResolversByFunctionError,
   Credentials | HttpClient.HttpClient,
@@ -3015,7 +3016,7 @@ export type ListSourceApiAssociationsError =
  * Lists the `SourceApiAssociationSummary` data.
  */
 export const listSourceApiAssociations: API.PaginatedOperationMethod<
-  ListSourceApiAssociationsRequest,
+  ListSourceApiAssociationsRequest & RegionInput,
   ListSourceApiAssociationsResponse,
   ListSourceApiAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3049,7 +3050,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3082,7 +3083,7 @@ export type ListTypesError =
  * Lists the types for a given API.
  */
 export const listTypes: API.PaginatedOperationMethod<
-  ListTypesRequest,
+  ListTypesRequest & RegionInput,
   ListTypesResponse,
   ListTypesError,
   Credentials | HttpClient.HttpClient,
@@ -3121,7 +3122,7 @@ export type ListTypesByAssociationError =
  * Lists `Type` objects by the source API association ID.
  */
 export const listTypesByAssociation: API.PaginatedOperationMethod<
-  ListTypesByAssociationRequest,
+  ListTypesByAssociationRequest & RegionInput,
   ListTypesByAssociationResponse,
   ListTypesByAssociationError,
   Credentials | HttpClient.HttpClient,
@@ -3197,7 +3198,7 @@ export type PutGraphqlApiEnvironmentVariablesError =
  * variables in the list each time you call this action.
  */
 export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
-  PutGraphqlApiEnvironmentVariablesRequest,
+  PutGraphqlApiEnvironmentVariablesRequest & RegionInput,
   PutGraphqlApiEnvironmentVariablesResponse,
   PutGraphqlApiEnvironmentVariablesError,
   Credentials | HttpClient.HttpClient
@@ -3230,7 +3231,7 @@ export type StartDataSourceIntrospectionError =
  * introspection after its creation.
  */
 export const startDataSourceIntrospection: API.OperationMethod<
-  StartDataSourceIntrospectionRequest,
+  StartDataSourceIntrospectionRequest & RegionInput,
   StartDataSourceIntrospectionResponse,
   StartDataSourceIntrospectionError,
   Credentials | HttpClient.HttpClient
@@ -3259,7 +3260,7 @@ export type StartSchemaCreationError =
  * determine when it has completed.
  */
 export const startSchemaCreation: API.OperationMethod<
-  StartSchemaCreationRequest,
+  StartSchemaCreationRequest & RegionInput,
   StartSchemaCreationResponse,
   StartSchemaCreationError,
   Credentials | HttpClient.HttpClient
@@ -3292,7 +3293,7 @@ export type StartSchemaMergeError =
  * operation.
  */
 export const startSchemaMerge: API.OperationMethod<
-  StartSchemaMergeRequest,
+  StartSchemaMergeRequest & RegionInput,
   StartSchemaMergeResponse,
   StartSchemaMergeError,
   Credentials | HttpClient.HttpClient
@@ -3325,7 +3326,7 @@ export type TagResourceError =
  * Tags a resource with user-supplied tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3359,7 +3360,7 @@ export type UntagResourceError =
  * Untags a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3393,7 +3394,7 @@ export type UpdateApiError =
  * Updates an `Api`.
  */
 export const updateApi: API.OperationMethod<
-  UpdateApiRequest,
+  UpdateApiRequest & RegionInput,
   UpdateApiResponse,
   UpdateApiError,
   Credentials | HttpClient.HttpClient
@@ -3426,7 +3427,7 @@ export type UpdateApiCacheError =
  * Updates the cache for the GraphQL API.
  */
 export const updateApiCache: API.OperationMethod<
-  UpdateApiCacheRequest,
+  UpdateApiCacheRequest & RegionInput,
   UpdateApiCacheResponse,
   UpdateApiCacheError,
   Credentials | HttpClient.HttpClient
@@ -3459,7 +3460,7 @@ export type UpdateApiKeyError =
  * Updates an API key. You can update the key as long as it's not deleted.
  */
 export const updateApiKey: API.OperationMethod<
-  UpdateApiKeyRequest,
+  UpdateApiKeyRequest & RegionInput,
   UpdateApiKeyResponse,
   UpdateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -3493,7 +3494,7 @@ export type UpdateChannelNamespaceError =
  * Updates a `ChannelNamespace` associated with an `Api`.
  */
 export const updateChannelNamespace: API.OperationMethod<
-  UpdateChannelNamespaceRequest,
+  UpdateChannelNamespaceRequest & RegionInput,
   UpdateChannelNamespaceResponse,
   UpdateChannelNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -3526,7 +3527,7 @@ export type UpdateDataSourceError =
  * Updates a `DataSource` object.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3558,7 +3559,7 @@ export type UpdateDomainNameError =
  * Updates a custom `DomainName` object.
  */
 export const updateDomainName: API.OperationMethod<
-  UpdateDomainNameRequest,
+  UpdateDomainNameRequest & RegionInput,
   UpdateDomainNameResponse,
   UpdateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -3590,7 +3591,7 @@ export type UpdateFunctionError =
  * Updates a `Function` object.
  */
 export const updateFunction: API.OperationMethod<
-  UpdateFunctionRequest,
+  UpdateFunctionRequest & RegionInput,
   UpdateFunctionResponse,
   UpdateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -3623,7 +3624,7 @@ export type UpdateGraphqlApiError =
  * Updates a `GraphqlApi` object.
  */
 export const updateGraphqlApi: API.OperationMethod<
-  UpdateGraphqlApiRequest,
+  UpdateGraphqlApiRequest & RegionInput,
   UpdateGraphqlApiResponse,
   UpdateGraphqlApiError,
   Credentials | HttpClient.HttpClient
@@ -3656,7 +3657,7 @@ export type UpdateResolverError =
  * Updates a `Resolver` object.
  */
 export const updateResolver: API.OperationMethod<
-  UpdateResolverRequest,
+  UpdateResolverRequest & RegionInput,
   UpdateResolverResponse,
   UpdateResolverError,
   Credentials | HttpClient.HttpClient
@@ -3688,7 +3689,7 @@ export type UpdateSourceApiAssociationError =
  * Updates some of the configuration choices of a particular source API association.
  */
 export const updateSourceApiAssociation: API.OperationMethod<
-  UpdateSourceApiAssociationRequest,
+  UpdateSourceApiAssociationRequest & RegionInput,
   UpdateSourceApiAssociationResponse,
   UpdateSourceApiAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3720,7 +3721,7 @@ export type UpdateTypeError =
  * Updates a `Type` object.
  */
 export const updateType: API.OperationMethod<
-  UpdateTypeRequest,
+  UpdateTypeRequest & RegionInput,
   UpdateTypeResponse,
   UpdateTypeError,
   Credentials | HttpClient.HttpClient

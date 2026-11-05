@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -723,7 +724,7 @@ export type CreateMicrovmAuthTokenError =
  * Creates an authentication token for accessing a running MicroVM. The token grants access to the specified ports on the MicroVM endpoint.
  */
 export const createMicrovmAuthToken: API.OperationMethod<
-  CreateMicrovmAuthTokenRequest,
+  CreateMicrovmAuthTokenRequest & RegionInput,
   CreateMicrovmAuthTokenResponse,
   CreateMicrovmAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -758,7 +759,7 @@ export type CreateMicrovmImageError =
  * Creates a MicroVM image from the specified code artifact and base image. The build is asynchronous -- the image transitions from CREATING to CREATED on success, or CREATE_FAILED on failure. Use GetMicrovmImage to poll for completion.
  */
 export const createMicrovmImage: API.OperationMethod<
-  CreateMicrovmImageRequest,
+  CreateMicrovmImageRequest & RegionInput,
   CreateMicrovmImageResponse,
   CreateMicrovmImageError,
   Credentials | HttpClient.HttpClient
@@ -793,7 +794,7 @@ export type CreateMicrovmShellAuthTokenError =
  * Creates a shell authentication token for interactive shell access to a running MicroVM. The MicroVM must have been run with the SHELL_INGRESS network connector attached.
  */
 export const createMicrovmShellAuthToken: API.OperationMethod<
-  CreateMicrovmShellAuthTokenRequest,
+  CreateMicrovmShellAuthTokenRequest & RegionInput,
   CreateMicrovmShellAuthTokenResponse,
   CreateMicrovmShellAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -827,7 +828,7 @@ export type DeleteMicrovmImageError =
  * Deletes a MicroVM image. This operation is idempotent; deleting an image that has already been deleted succeeds without error.
  */
 export const deleteMicrovmImage: API.OperationMethod<
-  DeleteMicrovmImageInput,
+  DeleteMicrovmImageInput & RegionInput,
   DeleteMicrovmImageOutput,
   DeleteMicrovmImageError,
   Credentials | HttpClient.HttpClient
@@ -861,7 +862,7 @@ export type DeleteMicrovmImageVersionError =
  * Deletes a specific version of a MicroVM image. This operation is idempotent; deleting a version that has already been deleted succeeds without error.
  */
 export const deleteMicrovmImageVersion: API.OperationMethod<
-  DeleteMicrovmImageVersionInput,
+  DeleteMicrovmImageVersionInput & RegionInput,
   DeleteMicrovmImageVersionOutput,
   DeleteMicrovmImageVersionError,
   Credentials | HttpClient.HttpClient
@@ -894,7 +895,7 @@ export type GetMicrovmError =
  * Retrieves the details of a specific MicroVM, including its state, endpoint, image information, and configuration. The state field is eventually consistent -- determine readiness by connecting to the endpoint.
  */
 export const getMicrovm: API.OperationMethod<
-  GetMicrovmRequest,
+  GetMicrovmRequest & RegionInput,
   GetMicrovmResponse,
   GetMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -926,7 +927,7 @@ export type GetMicrovmImageError =
  * Retrieves the details of a MicroVM image, including its state, versions, and configuration.
  */
 export const getMicrovmImage: API.OperationMethod<
-  GetMicrovmImageInput,
+  GetMicrovmImageInput & RegionInput,
   GetMicrovmImageOutput,
   GetMicrovmImageError,
   Credentials | HttpClient.HttpClient
@@ -958,7 +959,7 @@ export type GetMicrovmImageBuildError =
  * Retrieves the details of a specific MicroVM image build, including its state, target architecture, and snapshot information.
  */
 export const getMicrovmImageBuild: API.OperationMethod<
-  GetMicrovmImageBuildInput,
+  GetMicrovmImageBuildInput & RegionInput,
   GetMicrovmImageBuildOutput,
   GetMicrovmImageBuildError,
   Credentials | HttpClient.HttpClient
@@ -990,7 +991,7 @@ export type GetMicrovmImageVersionError =
  * Retrieves the details of a specific version of a MicroVM image, including its configuration, state, and build information.
  */
 export const getMicrovmImageVersion: API.OperationMethod<
-  GetMicrovmImageVersionInput,
+  GetMicrovmImageVersionInput & RegionInput,
   GetMicrovmImageVersionOutput,
   GetMicrovmImageVersionError,
   Credentials | HttpClient.HttpClient
@@ -1021,7 +1022,7 @@ export type ListManagedMicrovmImagesError =
  * Lists AWS managed MicroVM images available for use as base images. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listManagedMicrovmImages: API.PaginatedOperationMethod<
-  ListManagedMicrovmImagesInput,
+  ListManagedMicrovmImagesInput & RegionInput,
   ListManagedMicrovmImagesOutput,
   ListManagedMicrovmImagesError,
   Credentials | HttpClient.HttpClient,
@@ -1059,7 +1060,7 @@ export type ListManagedMicrovmImageVersionsError =
  * Lists versions of a managed MicroVM image. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listManagedMicrovmImageVersions: API.PaginatedOperationMethod<
-  ListManagedMicrovmImageVersionsInput,
+  ListManagedMicrovmImageVersionsInput & RegionInput,
   ListManagedMicrovmImageVersionsOutput,
   ListManagedMicrovmImageVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1098,7 +1099,7 @@ export type ListMicrovmImageBuildsError =
  * Lists builds for a MicroVM image version with optional filtering by architecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMicrovmImageBuilds: API.PaginatedOperationMethod<
-  ListMicrovmImageBuildsInput,
+  ListMicrovmImageBuildsInput & RegionInput,
   ListMicrovmImageBuildsOutput,
   ListMicrovmImageBuildsError,
   Credentials | HttpClient.HttpClient,
@@ -1136,7 +1137,7 @@ export type ListMicrovmImagesError =
  * Lists MicroVM images in the account with optional name filtering. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMicrovmImages: API.PaginatedOperationMethod<
-  ListMicrovmImagesRequest,
+  ListMicrovmImagesRequest & RegionInput,
   ListMicrovmImagesResponse,
   ListMicrovmImagesError,
   Credentials | HttpClient.HttpClient,
@@ -1174,7 +1175,7 @@ export type ListMicrovmImageVersionsError =
  * Lists versions of a MicroVM image. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMicrovmImageVersions: API.PaginatedOperationMethod<
-  ListMicrovmImageVersionsInput,
+  ListMicrovmImageVersionsInput & RegionInput,
   ListMicrovmImageVersionsOutput,
   ListMicrovmImageVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1213,7 +1214,7 @@ export type ListMicrovmsError =
  * Lists MicroVMs in the account with optional filtering by image and version. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMicrovms: API.PaginatedOperationMethod<
-  ListMicrovmsRequest,
+  ListMicrovmsRequest & RegionInput,
   ListMicrovmsResponse,
   ListMicrovmsError,
   Credentials | HttpClient.HttpClient,
@@ -1251,7 +1252,7 @@ export type ListTagsError =
  * Lists the tags associated with a Lambda MicroVM resource.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -1283,7 +1284,7 @@ export type ResumeMicrovmError =
  * Resumes a suspended MicroVM, restoring it to RUNNING state with all state intact. The MicroVM must be in SUSPENDED state.
  */
 export const resumeMicrovm: API.OperationMethod<
-  ResumeMicrovmRequest,
+  ResumeMicrovmRequest & RegionInput,
   ResumeMicrovmResponse,
   ResumeMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -1319,7 +1320,7 @@ export type RunMicrovmError =
  * Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthToken.
  */
 export const runMicrovm: API.OperationMethod<
-  RunMicrovmRequest,
+  RunMicrovmRequest & RegionInput,
   RunMicrovmResponse,
   RunMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -1355,7 +1356,7 @@ export type SuspendMicrovmError =
  * Suspends a running MicroVM, preserving its full memory and disk state. The MicroVM transitions through SUSPENDING to SUSPENDED. To restore, call ResumeMicrovm or send traffic to the endpoint if autoResumeEnabled is true.
  */
 export const suspendMicrovm: API.OperationMethod<
-  SuspendMicrovmRequest,
+  SuspendMicrovmRequest & RegionInput,
   SuspendMicrovmResponse,
   SuspendMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -1388,7 +1389,7 @@ export type TagResourceError =
  * Adds tags to a Lambda MicroVM resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1421,7 +1422,7 @@ export type TerminateMicrovmError =
  * Terminates a MicroVM. This operation is idempotent; terminating a MicroVM that has already been terminated succeeds without error.
  */
 export const terminateMicrovm: API.OperationMethod<
-  TerminateMicrovmRequest,
+  TerminateMicrovmRequest & RegionInput,
   TerminateMicrovmResponse,
   TerminateMicrovmError,
   Credentials | HttpClient.HttpClient
@@ -1454,7 +1455,7 @@ export type UntagResourceError =
  * Removes tags from a Lambda MicroVM resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1488,7 +1489,7 @@ export type UpdateMicrovmImageError =
  * Updates the configuration of a MicroVM image and triggers a new version build. This operation uses PUT semantics -- all required fields (codeArtifact, baseImageArn, buildRoleArn) must be provided with every request.
  */
 export const updateMicrovmImage: API.OperationMethod<
-  UpdateMicrovmImageRequest,
+  UpdateMicrovmImageRequest & RegionInput,
   UpdateMicrovmImageResponse,
   UpdateMicrovmImageError,
   Credentials | HttpClient.HttpClient
@@ -1523,7 +1524,7 @@ export type UpdateMicrovmImageVersionError =
  * Updates the status of a specific MicroVM image version.
  */
 export const updateMicrovmImageVersion: API.OperationMethod<
-  UpdateMicrovmImageVersionRequest,
+  UpdateMicrovmImageVersionRequest & RegionInput,
   UpdateMicrovmImageVersionResponse,
   UpdateMicrovmImageVersionError,
   Credentials | HttpClient.HttpClient

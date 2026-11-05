@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3735,7 +3736,7 @@ export type AgenticRetrieveStreamError =
  * The operation returns results through a stream that includes retrieval results, trace events for visibility into the process, and a generated response synthesized from the results by default, which can be turned off.
  */
 export const agenticRetrieveStream: API.OperationMethod<
-  AgenticRetrieveStreamRequest,
+  AgenticRetrieveStreamRequest & RegionInput,
   AgenticRetrieveStreamResponse,
   AgenticRetrieveStreamError,
   Credentials | HttpClient.HttpClient
@@ -3771,7 +3772,7 @@ export type CheckIngestedDocumentAclError =
  * Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is working as expected after ingestion. To use this operation, you must have the `bedrock:CheckIngestedDocumentAcl` permission.
  */
 export const checkIngestedDocumentAcl: API.OperationMethod<
-  CheckIngestedDocumentAclRequest,
+  CheckIngestedDocumentAclRequest & RegionInput,
   CheckIngestedDocumentAclResponse,
   CheckIngestedDocumentAclError,
   Credentials | HttpClient.HttpClient
@@ -3813,7 +3814,7 @@ export type CreateInvocationError =
  * - GetSession
  */
 export const createInvocation: API.OperationMethod<
-  CreateInvocationRequest,
+  CreateInvocationRequest & RegionInput,
   CreateInvocationResponse,
   CreateInvocationError,
   Credentials | HttpClient.HttpClient
@@ -3862,7 +3863,7 @@ export type CreateSessionError =
  * - DeleteSession
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionResponse,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -3899,7 +3900,7 @@ export type DeleteAgentMemoryError =
  * Deletes memory from the specified memory identifier.
  */
 export const deleteAgentMemory: API.OperationMethod<
-  DeleteAgentMemoryRequest,
+  DeleteAgentMemoryRequest & RegionInput,
   DeleteAgentMemoryResponse,
   DeleteAgentMemoryError,
   Credentials | HttpClient.HttpClient
@@ -3936,7 +3937,7 @@ export type DeleteSessionError =
  * Deletes a session that you ended. You can't delete a session with an `ACTIVE` status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
@@ -3970,7 +3971,7 @@ export type EndSessionError =
  * Ends the session. After you end a session, you can still access its content but you can't add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const endSession: API.OperationMethod<
-  EndSessionRequest,
+  EndSessionRequest & RegionInput,
   EndSessionResponse,
   EndSessionError,
   Credentials | HttpClient.HttpClient
@@ -4007,7 +4008,7 @@ export type GenerateQueryError =
  * Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide.
  */
 export const generateQuery: API.OperationMethod<
-  GenerateQueryRequest,
+  GenerateQueryRequest & RegionInput,
   GenerateQueryResponse,
   GenerateQueryError,
   Credentials | HttpClient.HttpClient
@@ -4047,7 +4048,7 @@ export type GetAgentMemoryError =
  * Gets the sessions stored in the memory of the agent.
  */
 export const getAgentMemory: API.PaginatedOperationMethod<
-  GetAgentMemoryRequest,
+  GetAgentMemoryRequest & RegionInput,
   GetAgentMemoryResponse,
   GetAgentMemoryError,
   Credentials | HttpClient.HttpClient,
@@ -4090,7 +4091,7 @@ export type GetDocumentContentError =
  * Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.
  */
 export const getDocumentContent: API.OperationMethod<
-  GetDocumentContentRequest,
+  GetDocumentContentRequest & RegionInput,
   GetDocumentContentResponse,
   GetDocumentContentError,
   Credentials | HttpClient.HttpClient
@@ -4124,7 +4125,7 @@ export type GetExecutionFlowSnapshotError =
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
 export const getExecutionFlowSnapshot: API.OperationMethod<
-  GetExecutionFlowSnapshotRequest,
+  GetExecutionFlowSnapshotRequest & RegionInput,
   GetExecutionFlowSnapshotResponse,
   GetExecutionFlowSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4156,7 +4157,7 @@ export type GetFlowExecutionError =
  * Retrieves details about a specific flow execution, including its status, start and end times, and any errors that occurred during execution.
  */
 export const getFlowExecution: API.OperationMethod<
-  GetFlowExecutionRequest,
+  GetFlowExecutionRequest & RegionInput,
   GetFlowExecutionResponse,
   GetFlowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -4188,7 +4189,7 @@ export type GetIngestedDocumentAclError =
  * Retrieves the ingested access control list (ACL) for a specific document in a knowledge base. Use this operation to inspect the allow and deny lists that were ingested for a document to troubleshoot access control issues. To use this operation, you must have the `bedrock:GetIngestedDocumentAcl` permission.
  */
 export const getIngestedDocumentAcl: API.OperationMethod<
-  GetIngestedDocumentAclRequest,
+  GetIngestedDocumentAclRequest & RegionInput,
   GetIngestedDocumentAclResponse,
   GetIngestedDocumentAclError,
   Credentials | HttpClient.HttpClient
@@ -4220,7 +4221,7 @@ export type GetInvocationStepError =
  * Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const getInvocationStep: API.OperationMethod<
-  GetInvocationStepRequest,
+  GetInvocationStepRequest & RegionInput,
   GetInvocationStepResponse,
   GetInvocationStepError,
   Credentials | HttpClient.HttpClient
@@ -4252,7 +4253,7 @@ export type GetSessionError =
  * Retrieves details about a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -4311,7 +4312,7 @@ export type InvokeAgentError =
  * - Errors are also surfaced in the response.
  */
 export const invokeAgent: API.OperationMethod<
-  InvokeAgentRequest,
+  InvokeAgentRequest & RegionInput,
   InvokeAgentResponse,
   InvokeAgentError,
   Credentials | HttpClient.HttpClient
@@ -4354,7 +4355,7 @@ export type InvokeFlowError =
  * The CLI doesn't support streaming operations in Amazon Bedrock, including `InvokeFlow`.
  */
 export const invokeFlow: API.OperationMethod<
-  InvokeFlowRequest,
+  InvokeFlowRequest & RegionInput,
   InvokeFlowResponse,
   InvokeFlowError,
   Credentials | HttpClient.HttpClient
@@ -4404,7 +4405,7 @@ export type InvokeInlineAgentError =
  * - The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
  */
 export const invokeInlineAgent: API.OperationMethod<
-  InvokeInlineAgentRequest,
+  InvokeInlineAgentRequest & RegionInput,
   InvokeInlineAgentResponse,
   InvokeInlineAgentError,
   Credentials | HttpClient.HttpClient
@@ -4442,7 +4443,7 @@ export type ListFlowExecutionEventsError =
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
 export const listFlowExecutionEvents: API.PaginatedOperationMethod<
-  ListFlowExecutionEventsRequest,
+  ListFlowExecutionEventsRequest & RegionInput,
   ListFlowExecutionEventsResponse,
   ListFlowExecutionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4483,7 +4484,7 @@ export type ListFlowExecutionsError =
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
 export const listFlowExecutions: API.PaginatedOperationMethod<
-  ListFlowExecutionsRequest,
+  ListFlowExecutionsRequest & RegionInput,
   ListFlowExecutionsResponse,
   ListFlowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4522,7 +4523,7 @@ export type ListInvocationsError =
  * Lists all invocations associated with a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const listInvocations: API.PaginatedOperationMethod<
-  ListInvocationsRequest,
+  ListInvocationsRequest & RegionInput,
   ListInvocationsResponse,
   ListInvocationsError,
   Credentials | HttpClient.HttpClient,
@@ -4561,7 +4562,7 @@ export type ListInvocationStepsError =
  * Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const listInvocationSteps: API.PaginatedOperationMethod<
-  ListInvocationStepsRequest,
+  ListInvocationStepsRequest & RegionInput,
   ListInvocationStepsResponse,
   ListInvocationStepsError,
   Credentials | HttpClient.HttpClient,
@@ -4599,7 +4600,7 @@ export type ListSessionsError =
  * Lists all sessions in your Amazon Web Services account. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -4637,7 +4638,7 @@ export type ListTagsForResourceError =
  * List all the tags for the resource you specify.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4670,7 +4671,7 @@ export type OptimizePromptError =
  * Optimizes a prompt for the task that you specify. For more information, see Optimize a prompt in the Amazon Bedrock User Guide.
  */
 export const optimizePrompt: API.OperationMethod<
-  OptimizePromptRequest,
+  OptimizePromptRequest & RegionInput,
   OptimizePromptResponse,
   OptimizePromptError,
   Credentials | HttpClient.HttpClient
@@ -4715,7 +4716,7 @@ export type PutInvocationStepError =
  * - ListSessions
  */
 export const putInvocationStep: API.OperationMethod<
-  PutInvocationStepRequest,
+  PutInvocationStepRequest & RegionInput,
   PutInvocationStepResponse,
   PutInvocationStepError,
   Credentials | HttpClient.HttpClient
@@ -4753,7 +4754,7 @@ export type RerankError =
  * Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model.
  */
 export const rerank: API.PaginatedOperationMethod<
-  RerankRequest,
+  RerankRequest & RegionInput,
   RerankResponse,
   RerankError,
   Credentials | HttpClient.HttpClient,
@@ -4795,7 +4796,7 @@ export type RetrieveError =
  * Queries a knowledge base and retrieves information from it.
  */
 export const retrieve: API.PaginatedOperationMethod<
-  RetrieveRequest,
+  RetrieveRequest & RegionInput,
   RetrieveResponse,
   RetrieveError,
   Credentials | HttpClient.HttpClient,
@@ -4843,7 +4844,7 @@ export type RetrieveAndGenerateError =
  * This API cannot be used with managed knowledge bases. Use AgenticRetrieveStream or Retrieve with managed knowledge bases.
  */
 export const retrieveAndGenerate: API.OperationMethod<
-  RetrieveAndGenerateRequest,
+  RetrieveAndGenerateRequest & RegionInput,
   RetrieveAndGenerateResponse,
   RetrieveAndGenerateError,
   Credentials | HttpClient.HttpClient
@@ -4889,7 +4890,7 @@ export type RetrieveAndGenerateStreamError =
  * This operation requires permission for the ` bedrock:RetrieveAndGenerate` action.
  */
 export const retrieveAndGenerateStream: API.OperationMethod<
-  RetrieveAndGenerateStreamRequest,
+  RetrieveAndGenerateStreamRequest & RegionInput,
   RetrieveAndGenerateStreamResponse,
   RetrieveAndGenerateStreamError,
   Credentials | HttpClient.HttpClient
@@ -4933,7 +4934,7 @@ export type StartFlowExecutionError =
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
 export const startFlowExecution: API.OperationMethod<
-  StartFlowExecutionRequest,
+  StartFlowExecutionRequest & RegionInput,
   StartFlowExecutionResponse,
   StartFlowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -4972,7 +4973,7 @@ export type StopFlowExecutionError =
  * Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to `Aborted`.
  */
 export const stopFlowExecution: API.OperationMethod<
-  StopFlowExecutionRequest,
+  StopFlowExecutionRequest & RegionInput,
   StopFlowExecutionResponse,
   StopFlowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -5008,7 +5009,7 @@ export type TagResourceError =
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5041,7 +5042,7 @@ export type UntagResourceError =
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5074,7 +5075,7 @@ export type UpdateSessionError =
  * Updates the metadata or encryption settings of a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const updateSession: API.OperationMethod<
-  UpdateSessionRequest,
+  UpdateSessionRequest & RegionInput,
   UpdateSessionResponse,
   UpdateSessionError,
   Credentials | HttpClient.HttpClient

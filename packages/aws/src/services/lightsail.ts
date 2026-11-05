@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3074,7 +3075,7 @@ export type AllocateStaticIpError =
  * Allocates a static IP address.
  */
 export const allocateStaticIp: API.OperationMethod<
-  AllocateStaticIpRequest,
+  AllocateStaticIpRequest & RegionInput,
   AllocateStaticIpResult,
   AllocateStaticIpError,
   Credentials | HttpClient.HttpClient
@@ -3123,7 +3124,7 @@ export type AttachCertificateToDistributionError =
  * `us-east-1` Region.
  */
 export const attachCertificateToDistribution: API.OperationMethod<
-  AttachCertificateToDistributionRequest,
+  AttachCertificateToDistributionRequest & RegionInput,
   AttachCertificateToDistributionResult,
   AttachCertificateToDistributionError,
   Credentials | HttpClient.HttpClient
@@ -3164,7 +3165,7 @@ export type AttachDiskError =
  * Amazon Lightsail Developer Guide.
  */
 export const attachDisk: API.OperationMethod<
-  AttachDiskRequest,
+  AttachDiskRequest & RegionInput,
   AttachDiskResult,
   AttachDiskError,
   Credentials | HttpClient.HttpClient
@@ -3209,7 +3210,7 @@ export type AttachInstancesToLoadBalancerError =
  * name. For more information, see the Lightsail Developer Guide.
  */
 export const attachInstancesToLoadBalancer: API.OperationMethod<
-  AttachInstancesToLoadBalancerRequest,
+  AttachInstancesToLoadBalancerRequest & RegionInput,
   AttachInstancesToLoadBalancerResult,
   AttachInstancesToLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -3257,7 +3258,7 @@ export type AttachLoadBalancerTlsCertificateError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const attachLoadBalancerTlsCertificate: API.OperationMethod<
-  AttachLoadBalancerTlsCertificateRequest,
+  AttachLoadBalancerTlsCertificateRequest & RegionInput,
   AttachLoadBalancerTlsCertificateResult,
   AttachLoadBalancerTlsCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3295,7 +3296,7 @@ export type AttachStaticIpError =
  * Attaches a static IP address to a specific Amazon Lightsail instance.
  */
 export const attachStaticIp: API.OperationMethod<
-  AttachStaticIpRequest,
+  AttachStaticIpRequest & RegionInput,
   AttachStaticIpResult,
   AttachStaticIpError,
   Credentials | HttpClient.HttpClient
@@ -3337,7 +3338,7 @@ export type CloseInstancePublicPortsError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const closeInstancePublicPorts: API.OperationMethod<
-  CloseInstancePublicPortsRequest,
+  CloseInstancePublicPortsRequest & RegionInput,
   CloseInstancePublicPortsResult,
   CloseInstancePublicPortsError,
   Credentials | HttpClient.HttpClient
@@ -3386,7 +3387,7 @@ export type CopySnapshotError =
  * auto snapshot parameters.
  */
 export const copySnapshot: API.OperationMethod<
-  CopySnapshotRequest,
+  CopySnapshotRequest & RegionInput,
   CopySnapshotResult,
   CopySnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3426,7 +3427,7 @@ export type CreateBucketError =
  * Guide.
  */
 export const createBucket: API.OperationMethod<
-  CreateBucketRequest,
+  CreateBucketRequest & RegionInput,
   CreateBucketResult,
   CreateBucketError,
   Credentials | HttpClient.HttpClient
@@ -3470,7 +3471,7 @@ export type CreateBucketAccessKeyError =
  * secret access key, you must create a new access key.
  */
 export const createBucketAccessKey: API.OperationMethod<
-  CreateBucketAccessKeyRequest,
+  CreateBucketAccessKeyRequest & RegionInput,
   CreateBucketAccessKeyResult,
   CreateBucketAccessKeyError,
   Credentials | HttpClient.HttpClient
@@ -3516,7 +3517,7 @@ export type CreateCertificateError =
  * `us-east-1` Region.
  */
 export const createCertificate: API.OperationMethod<
-  CreateCertificateRequest,
+  CreateCertificateRequest & RegionInput,
   CreateCertificateResult,
   CreateCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3558,7 +3559,7 @@ export type CreateCloudFormationStackError =
  * cloud formation stack operation again with the same export snapshot record.
  */
 export const createCloudFormationStack: API.OperationMethod<
-  CreateCloudFormationStackRequest,
+  CreateCloudFormationStackRequest & RegionInput,
   CreateCloudFormationStackResult,
   CreateCloudFormationStackError,
   Credentials | HttpClient.HttpClient
@@ -3603,7 +3604,7 @@ export type CreateContactMethodError =
  * tags. For more information, see the Lightsail Developer Guide.
  */
 export const createContactMethod: API.OperationMethod<
-  CreateContactMethodRequest,
+  CreateContactMethodRequest & RegionInput,
   CreateContactMethodResult,
   CreateContactMethodError,
   Credentials | HttpClient.HttpClient
@@ -3642,7 +3643,7 @@ export type CreateContainerServiceError =
  * Guide.
  */
 export const createContainerService: API.OperationMethod<
-  CreateContainerServiceRequest,
+  CreateContainerServiceRequest & RegionInput,
   CreateContainerServiceResult,
   CreateContainerServiceError,
   Credentials | HttpClient.HttpClient
@@ -3687,7 +3688,7 @@ export type CreateContainerServiceDeploymentError =
  * *Amazon Lightsail Developer Guide*.
  */
 export const createContainerServiceDeployment: API.OperationMethod<
-  CreateContainerServiceDeploymentRequest,
+  CreateContainerServiceDeploymentRequest & RegionInput,
   CreateContainerServiceDeploymentResult,
   CreateContainerServiceDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -3739,7 +3740,7 @@ export type CreateContainerServiceRegistryLoginError =
  * in the *Amazon Lightsail Developer Guide*.
  */
 export const createContainerServiceRegistryLogin: API.OperationMethod<
-  CreateContainerServiceRegistryLoginRequest,
+  CreateContainerServiceRegistryLoginRequest & RegionInput,
   CreateContainerServiceRegistryLoginResult,
   CreateContainerServiceRegistryLoginError,
   Credentials | HttpClient.HttpClient
@@ -3779,7 +3780,7 @@ export type CreateDiskError =
  * For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createDisk: API.OperationMethod<
-  CreateDiskRequest,
+  CreateDiskRequest & RegionInput,
   CreateDiskResult,
   CreateDiskError,
   Credentials | HttpClient.HttpClient
@@ -3823,7 +3824,7 @@ export type CreateDiskFromSnapshotError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createDiskFromSnapshot: API.OperationMethod<
-  CreateDiskFromSnapshotRequest,
+  CreateDiskFromSnapshotRequest & RegionInput,
   CreateDiskFromSnapshotResult,
   CreateDiskFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3882,7 +3883,7 @@ export type CreateDiskSnapshotError =
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createDiskSnapshot: API.OperationMethod<
-  CreateDiskSnapshotRequest,
+  CreateDiskSnapshotRequest & RegionInput,
   CreateDiskSnapshotResult,
   CreateDiskSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3922,7 +3923,7 @@ export type CreateDistributionError =
  * information, see Content delivery networks in Amazon Lightsail.
  */
 export const createDistribution: API.OperationMethod<
-  CreateDistributionRequest,
+  CreateDistributionRequest & RegionInput,
   CreateDistributionResult,
   CreateDistributionError,
   Credentials | HttpClient.HttpClient
@@ -3961,7 +3962,7 @@ export type CreateDomainError =
  * tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResult,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -4005,7 +4006,7 @@ export type CreateDomainEntryError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const createDomainEntry: API.OperationMethod<
-  CreateDomainEntryRequest,
+  CreateDomainEntryRequest & RegionInput,
   CreateDomainEntryResult,
   CreateDomainEntryError,
   Credentials | HttpClient.HttpClient
@@ -4046,7 +4047,7 @@ export type CreateGUISessionAccessDetailsError =
  * Use `StartGUISession` to open the session.
  */
 export const createGUISessionAccessDetails: API.OperationMethod<
-  CreateGUISessionAccessDetailsRequest,
+  CreateGUISessionAccessDetailsRequest & RegionInput,
   CreateGUISessionAccessDetailsResult,
   CreateGUISessionAccessDetailsError,
   Credentials | HttpClient.HttpClient
@@ -4085,7 +4086,7 @@ export type CreateInstancesError =
  * tags. For more information, see the Lightsail Developer Guide.
  */
 export const createInstances: API.OperationMethod<
-  CreateInstancesRequest,
+  CreateInstancesRequest & RegionInput,
   CreateInstancesResult,
   CreateInstancesError,
   Credentials | HttpClient.HttpClient
@@ -4128,7 +4129,7 @@ export type CreateInstancesFromSnapshotError =
  * `instance snapshot name`. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createInstancesFromSnapshot: API.OperationMethod<
-  CreateInstancesFromSnapshotRequest,
+  CreateInstancesFromSnapshotRequest & RegionInput,
   CreateInstancesFromSnapshotResult,
   CreateInstancesFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4170,7 +4171,7 @@ export type CreateInstanceSnapshotError =
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createInstanceSnapshot: API.OperationMethod<
-  CreateInstanceSnapshotRequest,
+  CreateInstanceSnapshotRequest & RegionInput,
   CreateInstanceSnapshotResult,
   CreateInstanceSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4216,7 +4217,7 @@ export type CreateKeyPairError =
  * tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createKeyPair: API.OperationMethod<
-  CreateKeyPairRequest,
+  CreateKeyPairRequest & RegionInput,
   CreateKeyPairResult,
   CreateKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -4263,7 +4264,7 @@ export type CreateLoadBalancerError =
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createLoadBalancer: API.OperationMethod<
-  CreateLoadBalancerRequest,
+  CreateLoadBalancerRequest & RegionInput,
   CreateLoadBalancerResult,
   CreateLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -4307,7 +4308,7 @@ export type CreateLoadBalancerTlsCertificateError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createLoadBalancerTlsCertificate: API.OperationMethod<
-  CreateLoadBalancerTlsCertificateRequest,
+  CreateLoadBalancerTlsCertificateRequest & RegionInput,
   CreateLoadBalancerTlsCertificateResult,
   CreateLoadBalancerTlsCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4348,7 +4349,7 @@ export type CreateRelationalDatabaseError =
  * via request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createRelationalDatabase: API.OperationMethod<
-  CreateRelationalDatabaseRequest,
+  CreateRelationalDatabaseRequest & RegionInput,
   CreateRelationalDatabaseResult,
   CreateRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4394,7 +4395,7 @@ export type CreateRelationalDatabaseFromSnapshotError =
  * relationalDatabaseSnapshotName. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createRelationalDatabaseFromSnapshot: API.OperationMethod<
-  CreateRelationalDatabaseFromSnapshotRequest,
+  CreateRelationalDatabaseFromSnapshotRequest & RegionInput,
   CreateRelationalDatabaseFromSnapshotResult,
   CreateRelationalDatabaseFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4436,7 +4437,7 @@ export type CreateRelationalDatabaseSnapshotError =
  * control via request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const createRelationalDatabaseSnapshot: API.OperationMethod<
-  CreateRelationalDatabaseSnapshotRequest,
+  CreateRelationalDatabaseSnapshotRequest & RegionInput,
   CreateRelationalDatabaseSnapshotResult,
   CreateRelationalDatabaseSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4478,7 +4479,7 @@ export type DeleteAlarmError =
  * in Amazon Lightsail.
  */
 export const deleteAlarm: API.OperationMethod<
-  DeleteAlarmRequest,
+  DeleteAlarmRequest & RegionInput,
   DeleteAlarmResult,
   DeleteAlarmError,
   Credentials | HttpClient.HttpClient
@@ -4514,7 +4515,7 @@ export type DeleteAutoSnapshotError =
  * Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteAutoSnapshot: API.OperationMethod<
-  DeleteAutoSnapshotRequest,
+  DeleteAutoSnapshotRequest & RegionInput,
   DeleteAutoSnapshotResult,
   DeleteAutoSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4552,7 +4553,7 @@ export type DeleteBucketError =
  * bucket in your account or another Amazon Web Services account.
  */
 export const deleteBucket: API.OperationMethod<
-  DeleteBucketRequest,
+  DeleteBucketRequest & RegionInput,
   DeleteBucketResult,
   DeleteBucketError,
   Credentials | HttpClient.HttpClient
@@ -4591,7 +4592,7 @@ export type DeleteBucketAccessKeyError =
  * *Amazon Lightsail Developer Guide*.
  */
 export const deleteBucketAccessKey: API.OperationMethod<
-  DeleteBucketAccessKeyRequest,
+  DeleteBucketAccessKeyRequest & RegionInput,
   DeleteBucketAccessKeyResult,
   DeleteBucketAccessKeyError,
   Credentials | HttpClient.HttpClient
@@ -4630,7 +4631,7 @@ export type DeleteCertificateError =
  * distribution.
  */
 export const deleteCertificate: API.OperationMethod<
-  DeleteCertificateRequest,
+  DeleteCertificateRequest & RegionInput,
   DeleteCertificateResult,
   DeleteCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4670,7 +4671,7 @@ export type DeleteContactMethodError =
  * see Notifications in Amazon Lightsail.
  */
 export const deleteContactMethod: API.OperationMethod<
-  DeleteContactMethodRequest,
+  DeleteContactMethodRequest & RegionInput,
   DeleteContactMethodResult,
   DeleteContactMethodError,
   Credentials | HttpClient.HttpClient
@@ -4706,7 +4707,7 @@ export type DeleteContainerImageError =
  * service.
  */
 export const deleteContainerImage: API.OperationMethod<
-  DeleteContainerImageRequest,
+  DeleteContainerImageRequest & RegionInput,
   DeleteContainerImageResult,
   DeleteContainerImageError,
   Credentials | HttpClient.HttpClient
@@ -4740,7 +4741,7 @@ export type DeleteContainerServiceError =
  * Deletes your Amazon Lightsail container service.
  */
 export const deleteContainerService: API.OperationMethod<
-  DeleteContainerServiceRequest,
+  DeleteContainerServiceRequest & RegionInput,
   DeleteContainerServiceResult,
   DeleteContainerServiceError,
   Credentials | HttpClient.HttpClient
@@ -4783,7 +4784,7 @@ export type DeleteDiskError =
  * Amazon Lightsail Developer Guide.
  */
 export const deleteDisk: API.OperationMethod<
-  DeleteDiskRequest,
+  DeleteDiskRequest & RegionInput,
   DeleteDiskResult,
   DeleteDiskError,
   Credentials | HttpClient.HttpClient
@@ -4831,7 +4832,7 @@ export type DeleteDiskSnapshotError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteDiskSnapshot: API.OperationMethod<
-  DeleteDiskSnapshotRequest,
+  DeleteDiskSnapshotRequest & RegionInput,
   DeleteDiskSnapshotResult,
   DeleteDiskSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4867,7 +4868,7 @@ export type DeleteDistributionError =
  * Deletes your Amazon Lightsail content delivery network (CDN) distribution.
  */
 export const deleteDistribution: API.OperationMethod<
-  DeleteDistributionRequest,
+  DeleteDistributionRequest & RegionInput,
   DeleteDistributionResult,
   DeleteDistributionError,
   Credentials | HttpClient.HttpClient
@@ -4907,7 +4908,7 @@ export type DeleteDomainError =
  * the Amazon Lightsail Developer Guide.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResult,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -4949,7 +4950,7 @@ export type DeleteDomainEntryError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteDomainEntry: API.OperationMethod<
-  DeleteDomainEntryRequest,
+  DeleteDomainEntryRequest & RegionInput,
   DeleteDomainEntryResult,
   DeleteDomainEntryError,
   Credentials | HttpClient.HttpClient
@@ -4991,7 +4992,7 @@ export type DeleteInstanceError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const deleteInstance: API.OperationMethod<
-  DeleteInstanceRequest,
+  DeleteInstanceRequest & RegionInput,
   DeleteInstanceResult,
   DeleteInstanceError,
   Credentials | HttpClient.HttpClient
@@ -5034,7 +5035,7 @@ export type DeleteInstanceSnapshotError =
  * more information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteInstanceSnapshot: API.OperationMethod<
-  DeleteInstanceSnapshotRequest,
+  DeleteInstanceSnapshotRequest & RegionInput,
   DeleteInstanceSnapshotResult,
   DeleteInstanceSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -5081,7 +5082,7 @@ export type DeleteKeyPairError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const deleteKeyPair: API.OperationMethod<
-  DeleteKeyPairRequest,
+  DeleteKeyPairRequest & RegionInput,
   DeleteKeyPairResult,
   DeleteKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -5126,7 +5127,7 @@ export type DeleteKnownHostKeysError =
  * client.
  */
 export const deleteKnownHostKeys: API.OperationMethod<
-  DeleteKnownHostKeysRequest,
+  DeleteKnownHostKeysRequest & RegionInput,
   DeleteKnownHostKeysResult,
   DeleteKnownHostKeysError,
   Credentials | HttpClient.HttpClient
@@ -5170,7 +5171,7 @@ export type DeleteLoadBalancerError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteLoadBalancer: API.OperationMethod<
-  DeleteLoadBalancerRequest,
+  DeleteLoadBalancerRequest & RegionInput,
   DeleteLoadBalancerResult,
   DeleteLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -5212,7 +5213,7 @@ export type DeleteLoadBalancerTlsCertificateError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteLoadBalancerTlsCertificate: API.OperationMethod<
-  DeleteLoadBalancerTlsCertificateRequest,
+  DeleteLoadBalancerTlsCertificateRequest & RegionInput,
   DeleteLoadBalancerTlsCertificateResult,
   DeleteLoadBalancerTlsCertificateError,
   Credentials | HttpClient.HttpClient
@@ -5254,7 +5255,7 @@ export type DeleteRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteRelationalDatabase: API.OperationMethod<
-  DeleteRelationalDatabaseRequest,
+  DeleteRelationalDatabaseRequest & RegionInput,
   DeleteRelationalDatabaseResult,
   DeleteRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -5296,7 +5297,7 @@ export type DeleteRelationalDatabaseSnapshotError =
  * more information, see the Amazon Lightsail Developer Guide.
  */
 export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
-  DeleteRelationalDatabaseSnapshotRequest,
+  DeleteRelationalDatabaseSnapshotRequest & RegionInput,
   DeleteRelationalDatabaseSnapshotResult,
   DeleteRelationalDatabaseSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -5336,7 +5337,7 @@ export type DetachCertificateFromDistributionError =
  * the domains that are associated with the certificate.
  */
 export const detachCertificateFromDistribution: API.OperationMethod<
-  DetachCertificateFromDistributionRequest,
+  DetachCertificateFromDistributionRequest & RegionInput,
   DetachCertificateFromDistributionResult,
   DetachCertificateFromDistributionError,
   Credentials | HttpClient.HttpClient
@@ -5378,7 +5379,7 @@ export type DetachDiskError =
  * Amazon Lightsail Developer Guide.
  */
 export const detachDisk: API.OperationMethod<
-  DetachDiskRequest,
+  DetachDiskRequest & RegionInput,
   DetachDiskResult,
   DetachDiskError,
   Credentials | HttpClient.HttpClient
@@ -5423,7 +5424,7 @@ export type DetachInstancesFromLoadBalancerError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const detachInstancesFromLoadBalancer: API.OperationMethod<
-  DetachInstancesFromLoadBalancerRequest,
+  DetachInstancesFromLoadBalancerRequest & RegionInput,
   DetachInstancesFromLoadBalancerResult,
   DetachInstancesFromLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -5461,7 +5462,7 @@ export type DetachStaticIpError =
  * Detaches a static IP from the Amazon Lightsail instance to which it is attached.
  */
 export const detachStaticIp: API.OperationMethod<
-  DetachStaticIpRequest,
+  DetachStaticIpRequest & RegionInput,
   DetachStaticIpResult,
   DetachStaticIpError,
   Credentials | HttpClient.HttpClient
@@ -5498,7 +5499,7 @@ export type DisableAddOnError =
  * Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const disableAddOn: API.OperationMethod<
-  DisableAddOnRequest,
+  DisableAddOnRequest & RegionInput,
   DisableAddOnResult,
   DisableAddOnError,
   Credentials | HttpClient.HttpClient
@@ -5538,7 +5539,7 @@ export type DownloadDefaultKeyPairError =
  * does not currently exist in the Amazon Web Services Region.
  */
 export const downloadDefaultKeyPair: API.OperationMethod<
-  DownloadDefaultKeyPairRequest,
+  DownloadDefaultKeyPairRequest & RegionInput,
   DownloadDefaultKeyPairResult,
   DownloadDefaultKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -5576,7 +5577,7 @@ export type EnableAddOnError =
  * the Amazon Lightsail Developer Guide.
  */
 export const enableAddOn: API.OperationMethod<
-  EnableAddOnRequest,
+  EnableAddOnRequest & RegionInput,
   EnableAddOnResult,
   EnableAddOnError,
   Credentials | HttpClient.HttpClient
@@ -5627,7 +5628,7 @@ export type ExportSnapshotError =
  * operations to get a list of snapshots that you can export to Amazon EC2.
  */
 export const exportSnapshot: API.OperationMethod<
-  ExportSnapshotRequest,
+  ExportSnapshotRequest & RegionInput,
   ExportSnapshotResult,
   ExportSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -5665,7 +5666,7 @@ export type GetActiveNamesError =
  * Returns the names of all active (not deleted) resources.
  */
 export const getActiveNames: API.OperationMethod<
-  GetActiveNamesRequest,
+  GetActiveNamesRequest & RegionInput,
   GetActiveNamesResult,
   GetActiveNamesError,
   Credentials | HttpClient.HttpClient
@@ -5709,7 +5710,7 @@ export type GetAlarmsError =
  * in Amazon Lightsail.
  */
 export const getAlarms: API.OperationMethod<
-  GetAlarmsRequest,
+  GetAlarmsRequest & RegionInput,
   GetAlarmsResult,
   GetAlarmsError,
   Credentials | HttpClient.HttpClient
@@ -5746,7 +5747,7 @@ export type GetAutoSnapshotsError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const getAutoSnapshots: API.OperationMethod<
-  GetAutoSnapshotsRequest,
+  GetAutoSnapshotsRequest & RegionInput,
   GetAutoSnapshotsResult,
   GetAutoSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -5791,7 +5792,7 @@ export type GetBlueprintsError =
  * updates or new application releases.
  */
 export const getBlueprints: API.OperationMethod<
-  GetBlueprintsRequest,
+  GetBlueprintsRequest & RegionInput,
   GetBlueprintsResult,
   GetBlueprintsError,
   Credentials | HttpClient.HttpClient
@@ -5831,7 +5832,7 @@ export type GetBucketAccessKeysError =
  * a new access key.
  */
 export const getBucketAccessKeys: API.OperationMethod<
-  GetBucketAccessKeysRequest,
+  GetBucketAccessKeysRequest & RegionInput,
   GetBucketAccessKeysResult,
   GetBucketAccessKeysError,
   Credentials | HttpClient.HttpClient
@@ -5870,7 +5871,7 @@ export type GetBucketBundlesError =
  * bundle for a bucket.
  */
 export const getBucketBundles: API.OperationMethod<
-  GetBucketBundlesRequest,
+  GetBucketBundlesRequest & RegionInput,
   GetBucketBundlesResult,
   GetBucketBundlesError,
   Credentials | HttpClient.HttpClient
@@ -5907,7 +5908,7 @@ export type GetBucketMetricDataError =
  * space used by those objects.
  */
 export const getBucketMetricData: API.OperationMethod<
-  GetBucketMetricDataRequest,
+  GetBucketMetricDataRequest & RegionInput,
   GetBucketMetricDataResult,
   GetBucketMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -5946,7 +5947,7 @@ export type GetBucketsError =
  * Guide.
  */
 export const getBuckets: API.OperationMethod<
-  GetBucketsRequest,
+  GetBucketsRequest & RegionInput,
   GetBucketsResult,
   GetBucketsError,
   Credentials | HttpClient.HttpClient
@@ -5990,7 +5991,7 @@ export type GetBundlesError =
  * console.
  */
 export const getBundles: API.OperationMethod<
-  GetBundlesRequest,
+  GetBundlesRequest & RegionInput,
   GetBundlesResult,
   GetBundlesError,
   Credentials | HttpClient.HttpClient
@@ -6030,7 +6031,7 @@ export type GetCertificatesError =
  * certificate name, domain name, and tags.
  */
 export const getCertificates: API.OperationMethod<
-  GetCertificatesRequest,
+  GetCertificatesRequest & RegionInput,
   GetCertificatesResult,
   GetCertificatesError,
   Credentials | HttpClient.HttpClient
@@ -6070,7 +6071,7 @@ export type GetCloudFormationStackRecordsError =
  * snapshot.
  */
 export const getCloudFormationStackRecords: API.OperationMethod<
-  GetCloudFormationStackRecordsRequest,
+  GetCloudFormationStackRecordsRequest & RegionInput,
   GetCloudFormationStackRecordsResult,
   GetCloudFormationStackRecordsError,
   Credentials | HttpClient.HttpClient
@@ -6113,7 +6114,7 @@ export type GetContactMethodsError =
  * see Notifications in Amazon Lightsail.
  */
 export const getContactMethods: API.OperationMethod<
-  GetContactMethodsRequest,
+  GetContactMethodsRequest & RegionInput,
   GetContactMethodsResult,
   GetContactMethodsError,
   Credentials | HttpClient.HttpClient
@@ -6147,7 +6148,7 @@ export type GetContainerAPIMetadataError =
  * Lightsail Control (lightsailctl) plugin.
  */
 export const getContainerAPIMetadata: API.OperationMethod<
-  GetContainerAPIMetadataRequest,
+  GetContainerAPIMetadataRequest & RegionInput,
   GetContainerAPIMetadataResult,
   GetContainerAPIMetadataError,
   Credentials | HttpClient.HttpClient
@@ -6184,7 +6185,7 @@ export type GetContainerImagesError =
  * action. Those images are not registered to your Lightsail container service.
  */
 export const getContainerImages: API.OperationMethod<
-  GetContainerImagesRequest,
+  GetContainerImagesRequest & RegionInput,
   GetContainerImagesResult,
   GetContainerImagesError,
   Credentials | HttpClient.HttpClient
@@ -6227,7 +6228,7 @@ export type GetContainerLogError =
  * Reference.
  */
 export const getContainerLog: API.OperationMethod<
-  GetContainerLogRequest,
+  GetContainerLogRequest & RegionInput,
   GetContainerLogResult,
   GetContainerLogError,
   Credentials | HttpClient.HttpClient
@@ -6272,7 +6273,7 @@ export type GetContainerServiceDeploymentsError =
  * Reference.
  */
 export const getContainerServiceDeployments: API.OperationMethod<
-  GetContainerServiceDeploymentsRequest,
+  GetContainerServiceDeploymentsRequest & RegionInput,
   GetContainerServiceDeploymentsResult,
   GetContainerServiceDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -6310,7 +6311,7 @@ export type GetContainerServiceMetricDataError =
  * regularly to maintain the reliability, availability, and performance of your resources.
  */
 export const getContainerServiceMetricData: API.OperationMethod<
-  GetContainerServiceMetricDataRequest,
+  GetContainerServiceMetricDataRequest & RegionInput,
   GetContainerServiceMetricDataResult,
   GetContainerServiceMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -6348,7 +6349,7 @@ export type GetContainerServicePowersError =
  * container service.
  */
 export const getContainerServicePowers: API.OperationMethod<
-  GetContainerServicePowersRequest,
+  GetContainerServicePowersRequest & RegionInput,
   GetContainerServicePowersResult,
   GetContainerServicePowersError,
   Credentials | HttpClient.HttpClient
@@ -6382,7 +6383,7 @@ export type GetContainerServicesError =
  * Returns information about one or more of your Amazon Lightsail container services.
  */
 export const getContainerServices: API.OperationMethod<
-  GetContainerServicesRequest,
+  GetContainerServicesRequest & RegionInput,
   ContainerServicesListResult,
   GetContainerServicesError,
   Credentials | HttpClient.HttpClient
@@ -6417,7 +6418,7 @@ export type GetCostEstimateError =
  * will not generate for a resource that has been deleted.
  */
 export const getCostEstimate: API.OperationMethod<
-  GetCostEstimateRequest,
+  GetCostEstimateRequest & RegionInput,
   GetCostEstimateResult,
   GetCostEstimateError,
   Credentials | HttpClient.HttpClient
@@ -6453,7 +6454,7 @@ export type GetDiskError =
  * Returns information about a specific block storage disk.
  */
 export const getDisk: API.OperationMethod<
-  GetDiskRequest,
+  GetDiskRequest & RegionInput,
   GetDiskResult,
   GetDiskError,
   Credentials | HttpClient.HttpClient
@@ -6491,7 +6492,7 @@ export type GetDisksError =
  * Returns information about all block storage disks in your AWS account and region.
  */
 export const getDisks: API.OperationMethod<
-  GetDisksRequest,
+  GetDisksRequest & RegionInput,
   GetDisksResult,
   GetDisksError,
   Credentials | HttpClient.HttpClient
@@ -6529,7 +6530,7 @@ export type GetDiskSnapshotError =
  * Returns information about a specific block storage disk snapshot.
  */
 export const getDiskSnapshot: API.OperationMethod<
-  GetDiskSnapshotRequest,
+  GetDiskSnapshotRequest & RegionInput,
   GetDiskSnapshotResult,
   GetDiskSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -6568,7 +6569,7 @@ export type GetDiskSnapshotsError =
  * region.
  */
 export const getDiskSnapshots: API.OperationMethod<
-  GetDiskSnapshotsRequest,
+  GetDiskSnapshotsRequest & RegionInput,
   GetDiskSnapshotsResult,
   GetDiskSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -6608,7 +6609,7 @@ export type GetDistributionBundlesError =
  * your distribution.
  */
 export const getDistributionBundles: API.OperationMethod<
-  GetDistributionBundlesRequest,
+  GetDistributionBundlesRequest & RegionInput,
   GetDistributionBundlesResult,
   GetDistributionBundlesError,
   Credentials | HttpClient.HttpClient
@@ -6643,7 +6644,7 @@ export type GetDistributionLatestCacheResetError =
  * content delivery network (CDN) distribution.
  */
 export const getDistributionLatestCacheReset: API.OperationMethod<
-  GetDistributionLatestCacheResetRequest,
+  GetDistributionLatestCacheResetRequest & RegionInput,
   GetDistributionLatestCacheResetResult,
   GetDistributionLatestCacheResetError,
   Credentials | HttpClient.HttpClient
@@ -6682,7 +6683,7 @@ export type GetDistributionMetricDataError =
  * performance of your resources.
  */
 export const getDistributionMetricData: API.OperationMethod<
-  GetDistributionMetricDataRequest,
+  GetDistributionMetricDataRequest & RegionInput,
   GetDistributionMetricDataResult,
   GetDistributionMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -6717,7 +6718,7 @@ export type GetDistributionsError =
  * (CDN) distributions.
  */
 export const getDistributions: API.OperationMethod<
-  GetDistributionsRequest,
+  GetDistributionsRequest & RegionInput,
   GetDistributionsResult,
   GetDistributionsError,
   Credentials | HttpClient.HttpClient
@@ -6753,7 +6754,7 @@ export type GetDomainError =
  * Returns information about a specific domain recordset.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainRequest,
+  GetDomainRequest & RegionInput,
   GetDomainResult,
   GetDomainError,
   Credentials | HttpClient.HttpClient
@@ -6791,7 +6792,7 @@ export type GetDomainsError =
  * Returns a list of all domains in the user's account.
  */
 export const getDomains: API.OperationMethod<
-  GetDomainsRequest,
+  GetDomainsRequest & RegionInput,
   GetDomainsResult,
   GetDomainsError,
   Credentials | HttpClient.HttpClient
@@ -6834,7 +6835,7 @@ export type GetExportSnapshotRecordsError =
  * action.
  */
 export const getExportSnapshotRecords: API.OperationMethod<
-  GetExportSnapshotRecordsRequest,
+  GetExportSnapshotRecordsRequest & RegionInput,
   GetExportSnapshotRecordsResult,
   GetExportSnapshotRecordsError,
   Credentials | HttpClient.HttpClient
@@ -6873,7 +6874,7 @@ export type GetInstanceError =
  * server.
  */
 export const getInstance: API.OperationMethod<
-  GetInstanceRequest,
+  GetInstanceRequest & RegionInput,
   GetInstanceResult,
   GetInstanceError,
   Credentials | HttpClient.HttpClient
@@ -6916,7 +6917,7 @@ export type GetInstanceAccessDetailsError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const getInstanceAccessDetails: API.OperationMethod<
-  GetInstanceAccessDetailsRequest,
+  GetInstanceAccessDetailsRequest & RegionInput,
   GetInstanceAccessDetailsResult,
   GetInstanceAccessDetailsError,
   Credentials | HttpClient.HttpClient
@@ -6959,7 +6960,7 @@ export type GetInstanceMetricDataError =
  * performance of your resources.
  */
 export const getInstanceMetricData: API.OperationMethod<
-  GetInstanceMetricDataRequest,
+  GetInstanceMetricDataRequest & RegionInput,
   GetInstanceMetricDataResult,
   GetInstanceMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -6998,7 +6999,7 @@ export type GetInstancePortStatesError =
  * allowed to connect to the instance through the ports, and the protocol.
  */
 export const getInstancePortStates: API.OperationMethod<
-  GetInstancePortStatesRequest,
+  GetInstancePortStatesRequest & RegionInput,
   GetInstancePortStatesResult,
   GetInstancePortStatesError,
   Credentials | HttpClient.HttpClient
@@ -7037,7 +7038,7 @@ export type GetInstancesError =
  * *instances*.
  */
 export const getInstances: API.OperationMethod<
-  GetInstancesRequest,
+  GetInstancesRequest & RegionInput,
   GetInstancesResult,
   GetInstancesError,
   Credentials | HttpClient.HttpClient
@@ -7075,7 +7076,7 @@ export type GetInstanceSnapshotError =
  * Returns information about a specific instance snapshot.
  */
 export const getInstanceSnapshot: API.OperationMethod<
-  GetInstanceSnapshotRequest,
+  GetInstanceSnapshotRequest & RegionInput,
   GetInstanceSnapshotResult,
   GetInstanceSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -7113,7 +7114,7 @@ export type GetInstanceSnapshotsError =
  * Returns all instance snapshots for the user's account.
  */
 export const getInstanceSnapshots: API.OperationMethod<
-  GetInstanceSnapshotsRequest,
+  GetInstanceSnapshotsRequest & RegionInput,
   GetInstanceSnapshotsResult,
   GetInstanceSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -7151,7 +7152,7 @@ export type GetInstanceStateError =
  * Returns the state of a specific instance. Works on one instance at a time.
  */
 export const getInstanceState: API.OperationMethod<
-  GetInstanceStateRequest,
+  GetInstanceStateRequest & RegionInput,
   GetInstanceStateResult,
   GetInstanceStateError,
   Credentials | HttpClient.HttpClient
@@ -7189,7 +7190,7 @@ export type GetKeyPairError =
  * Returns information about a specific key pair.
  */
 export const getKeyPair: API.OperationMethod<
-  GetKeyPairRequest,
+  GetKeyPairRequest & RegionInput,
   GetKeyPairResult,
   GetKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -7227,7 +7228,7 @@ export type GetKeyPairsError =
  * Returns information about all key pairs in the user's account.
  */
 export const getKeyPairs: API.OperationMethod<
-  GetKeyPairsRequest,
+  GetKeyPairsRequest & RegionInput,
   GetKeyPairsResult,
   GetKeyPairsError,
   Credentials | HttpClient.HttpClient
@@ -7265,7 +7266,7 @@ export type GetLoadBalancerError =
  * Returns information about the specified Lightsail load balancer.
  */
 export const getLoadBalancer: API.OperationMethod<
-  GetLoadBalancerRequest,
+  GetLoadBalancerRequest & RegionInput,
   GetLoadBalancerResult,
   GetLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -7307,7 +7308,7 @@ export type GetLoadBalancerMetricDataError =
  * performance of your resources.
  */
 export const getLoadBalancerMetricData: API.OperationMethod<
-  GetLoadBalancerMetricDataRequest,
+  GetLoadBalancerMetricDataRequest & RegionInput,
   GetLoadBalancerMetricDataResult,
   GetLoadBalancerMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -7345,7 +7346,7 @@ export type GetLoadBalancersError =
  * Returns information about all load balancers in an account.
  */
 export const getLoadBalancers: API.OperationMethod<
-  GetLoadBalancersRequest,
+  GetLoadBalancersRequest & RegionInput,
   GetLoadBalancersResult,
   GetLoadBalancersError,
   Credentials | HttpClient.HttpClient
@@ -7389,7 +7390,7 @@ export type GetLoadBalancerTlsCertificatesError =
  * is active and the other is inactive.
  */
 export const getLoadBalancerTlsCertificates: API.OperationMethod<
-  GetLoadBalancerTlsCertificatesRequest,
+  GetLoadBalancerTlsCertificatesRequest & RegionInput,
   GetLoadBalancerTlsCertificatesResult,
   GetLoadBalancerTlsCertificatesError,
   Credentials | HttpClient.HttpClient
@@ -7429,7 +7430,7 @@ export type GetLoadBalancerTlsPoliciesError =
  * balancers in the *Amazon Lightsail Developer Guide*.
  */
 export const getLoadBalancerTlsPolicies: API.OperationMethod<
-  GetLoadBalancerTlsPoliciesRequest,
+  GetLoadBalancerTlsPoliciesRequest & RegionInput,
   GetLoadBalancerTlsPoliciesResult,
   GetLoadBalancerTlsPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -7466,7 +7467,7 @@ export type GetOperationError =
  * create an instance, allocate a static IP, attach a static IP, and so on.
  */
 export const getOperation: API.OperationMethod<
-  GetOperationRequest,
+  GetOperationRequest & RegionInput,
   GetOperationResult,
   GetOperationError,
   Credentials | HttpClient.HttpClient
@@ -7508,7 +7509,7 @@ export type GetOperationsError =
  * `statusChangedAt` value from the previous request.
  */
 export const getOperations: API.OperationMethod<
-  GetOperationsRequest,
+  GetOperationsRequest & RegionInput,
   GetOperationsResult,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
@@ -7546,7 +7547,7 @@ export type GetOperationsForResourceError =
  * Gets operations for a specific resource (an instance or a static IP).
  */
 export const getOperationsForResource: API.OperationMethod<
-  GetOperationsForResourceRequest,
+  GetOperationsForResourceRequest & RegionInput,
   GetOperationsForResourceResult,
   GetOperationsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -7583,7 +7584,7 @@ export type GetProfileError =
  * partner program, the partner membership details.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileRequest,
+  GetProfileRequest & RegionInput,
   GetProfileResult,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -7620,7 +7621,7 @@ export type GetRegionsError =
  * region.
  */
 export const getRegions: API.OperationMethod<
-  GetRegionsRequest,
+  GetRegionsRequest & RegionInput,
   GetRegionsResult,
   GetRegionsError,
   Credentials | HttpClient.HttpClient
@@ -7658,7 +7659,7 @@ export type GetRelationalDatabaseError =
  * Returns information about a specific database in Amazon Lightsail.
  */
 export const getRelationalDatabase: API.OperationMethod<
-  GetRelationalDatabaseRequest,
+  GetRelationalDatabaseRequest & RegionInput,
   GetRelationalDatabaseResult,
   GetRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -7700,7 +7701,7 @@ export type GetRelationalDatabaseBlueprintsError =
  * engine.
  */
 export const getRelationalDatabaseBlueprints: API.OperationMethod<
-  GetRelationalDatabaseBlueprintsRequest,
+  GetRelationalDatabaseBlueprintsRequest & RegionInput,
   GetRelationalDatabaseBlueprintsResult,
   GetRelationalDatabaseBlueprintsError,
   Credentials | HttpClient.HttpClient
@@ -7742,7 +7743,7 @@ export type GetRelationalDatabaseBundlesError =
  * specifications.
  */
 export const getRelationalDatabaseBundles: API.OperationMethod<
-  GetRelationalDatabaseBundlesRequest,
+  GetRelationalDatabaseBundlesRequest & RegionInput,
   GetRelationalDatabaseBundlesResult,
   GetRelationalDatabaseBundlesError,
   Credentials | HttpClient.HttpClient
@@ -7780,7 +7781,7 @@ export type GetRelationalDatabaseEventsError =
  * Returns a list of events for a specific database in Amazon Lightsail.
  */
 export const getRelationalDatabaseEvents: API.OperationMethod<
-  GetRelationalDatabaseEventsRequest,
+  GetRelationalDatabaseEventsRequest & RegionInput,
   GetRelationalDatabaseEventsResult,
   GetRelationalDatabaseEventsError,
   Credentials | HttpClient.HttpClient
@@ -7818,7 +7819,7 @@ export type GetRelationalDatabaseLogEventsError =
  * Returns a list of log events for a database in Amazon Lightsail.
  */
 export const getRelationalDatabaseLogEvents: API.OperationMethod<
-  GetRelationalDatabaseLogEventsRequest,
+  GetRelationalDatabaseLogEventsRequest & RegionInput,
   GetRelationalDatabaseLogEventsResult,
   GetRelationalDatabaseLogEventsError,
   Credentials | HttpClient.HttpClient
@@ -7856,7 +7857,7 @@ export type GetRelationalDatabaseLogStreamsError =
  * Returns a list of available log streams for a specific database in Amazon Lightsail.
  */
 export const getRelationalDatabaseLogStreams: API.OperationMethod<
-  GetRelationalDatabaseLogStreamsRequest,
+  GetRelationalDatabaseLogStreamsRequest & RegionInput,
   GetRelationalDatabaseLogStreamsResult,
   GetRelationalDatabaseLogStreamsError,
   Credentials | HttpClient.HttpClient
@@ -7899,7 +7900,7 @@ export type GetRelationalDatabaseMasterUserPasswordError =
  * relationalDatabaseName.
  */
 export const getRelationalDatabaseMasterUserPassword: API.OperationMethod<
-  GetRelationalDatabaseMasterUserPasswordRequest,
+  GetRelationalDatabaseMasterUserPasswordRequest & RegionInput,
   GetRelationalDatabaseMasterUserPasswordResult,
   GetRelationalDatabaseMasterUserPasswordError,
   Credentials | HttpClient.HttpClient
@@ -7941,7 +7942,7 @@ export type GetRelationalDatabaseMetricDataError =
  * performance of your resources.
  */
 export const getRelationalDatabaseMetricData: API.OperationMethod<
-  GetRelationalDatabaseMetricDataRequest,
+  GetRelationalDatabaseMetricDataRequest & RegionInput,
   GetRelationalDatabaseMetricDataResult,
   GetRelationalDatabaseMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -7984,7 +7985,7 @@ export type GetRelationalDatabaseParametersError =
  * parameter is modifiable, the allowed values, and the data types.
  */
 export const getRelationalDatabaseParameters: API.OperationMethod<
-  GetRelationalDatabaseParametersRequest,
+  GetRelationalDatabaseParametersRequest & RegionInput,
   GetRelationalDatabaseParametersResult,
   GetRelationalDatabaseParametersError,
   Credentials | HttpClient.HttpClient
@@ -8022,7 +8023,7 @@ export type GetRelationalDatabasesError =
  * Returns information about all of your databases in Amazon Lightsail.
  */
 export const getRelationalDatabases: API.OperationMethod<
-  GetRelationalDatabasesRequest,
+  GetRelationalDatabasesRequest & RegionInput,
   GetRelationalDatabasesResult,
   GetRelationalDatabasesError,
   Credentials | HttpClient.HttpClient
@@ -8060,7 +8061,7 @@ export type GetRelationalDatabaseSnapshotError =
  * Returns information about a specific database snapshot in Amazon Lightsail.
  */
 export const getRelationalDatabaseSnapshot: API.OperationMethod<
-  GetRelationalDatabaseSnapshotRequest,
+  GetRelationalDatabaseSnapshotRequest & RegionInput,
   GetRelationalDatabaseSnapshotResult,
   GetRelationalDatabaseSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -8098,7 +8099,7 @@ export type GetRelationalDatabaseSnapshotsError =
  * Returns information about all of your database snapshots in Amazon Lightsail.
  */
 export const getRelationalDatabaseSnapshots: API.OperationMethod<
-  GetRelationalDatabaseSnapshotsRequest,
+  GetRelationalDatabaseSnapshotsRequest & RegionInput,
   GetRelationalDatabaseSnapshotsResult,
   GetRelationalDatabaseSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -8135,7 +8136,7 @@ export type GetSetupHistoryError =
  * requests that were ran on the target instance.
  */
 export const getSetupHistory: API.OperationMethod<
-  GetSetupHistoryRequest,
+  GetSetupHistoryRequest & RegionInput,
   GetSetupHistoryResult,
   GetSetupHistoryError,
   Credentials | HttpClient.HttpClient
@@ -8171,7 +8172,7 @@ export type GetStaticIpError =
  * Returns information about an Amazon Lightsail static IP.
  */
 export const getStaticIp: API.OperationMethod<
-  GetStaticIpRequest,
+  GetStaticIpRequest & RegionInput,
   GetStaticIpResult,
   GetStaticIpError,
   Credentials | HttpClient.HttpClient
@@ -8209,7 +8210,7 @@ export type GetStaticIpsError =
  * Returns information about all static IPs in the user's account.
  */
 export const getStaticIps: API.OperationMethod<
-  GetStaticIpsRequest,
+  GetStaticIpsRequest & RegionInput,
   GetStaticIpsResult,
   GetStaticIpsError,
   Credentials | HttpClient.HttpClient
@@ -8247,7 +8248,7 @@ export type ImportKeyPairError =
  * Imports a public SSH key from a specific key pair.
  */
 export const importKeyPair: API.OperationMethod<
-  ImportKeyPairRequest,
+  ImportKeyPairRequest & RegionInput,
   ImportKeyPairResult,
   ImportKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -8285,7 +8286,7 @@ export type IsVpcPeeredError =
  * Returns a Boolean value indicating whether your Lightsail VPC is peered.
  */
 export const isVpcPeered: API.OperationMethod<
-  IsVpcPeeredRequest,
+  IsVpcPeeredRequest & RegionInput,
   IsVpcPeeredResult,
   IsVpcPeeredError,
   Credentials | HttpClient.HttpClient
@@ -8328,7 +8329,7 @@ export type OpenInstancePublicPortsError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const openInstancePublicPorts: API.OperationMethod<
-  OpenInstancePublicPortsRequest,
+  OpenInstancePublicPortsRequest & RegionInput,
   OpenInstancePublicPortsResult,
   OpenInstancePublicPortsError,
   Credentials | HttpClient.HttpClient
@@ -8366,7 +8367,7 @@ export type PeerVpcError =
  * Peers the Lightsail VPC with the user's default VPC.
  */
 export const peerVpc: API.OperationMethod<
-  PeerVpcRequest,
+  PeerVpcRequest & RegionInput,
   PeerVpcResult,
   PeerVpcError,
   Credentials | HttpClient.HttpClient
@@ -8419,7 +8420,7 @@ export type PutAlarmError =
  * tags. For more information, see the Lightsail Developer Guide.
  */
 export const putAlarm: API.OperationMethod<
-  PutAlarmRequest,
+  PutAlarmRequest & RegionInput,
   PutAlarmResult,
   PutAlarmError,
   Credentials | HttpClient.HttpClient
@@ -8465,7 +8466,7 @@ export type PutInstancePublicPortsError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const putInstancePublicPorts: API.OperationMethod<
-  PutInstancePublicPortsRequest,
+  PutInstancePublicPortsRequest & RegionInput,
   PutInstancePublicPortsResult,
   PutInstancePublicPortsError,
   Credentials | HttpClient.HttpClient
@@ -8507,7 +8508,7 @@ export type RebootInstanceError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const rebootInstance: API.OperationMethod<
-  RebootInstanceRequest,
+  RebootInstanceRequest & RegionInput,
   RebootInstanceResult,
   RebootInstanceError,
   Credentials | HttpClient.HttpClient
@@ -8549,7 +8550,7 @@ export type RebootRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const rebootRelationalDatabase: API.OperationMethod<
-  RebootRelationalDatabaseRequest,
+  RebootRelationalDatabaseRequest & RegionInput,
   RebootRelationalDatabaseResult,
   RebootRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -8590,7 +8591,7 @@ export type RegisterContainerImageError =
  * in the *Amazon Lightsail Developer Guide*.
  */
 export const registerContainerImage: API.OperationMethod<
-  RegisterContainerImageRequest,
+  RegisterContainerImageRequest & RegionInput,
   RegisterContainerImageResult,
   RegisterContainerImageError,
   Credentials | HttpClient.HttpClient
@@ -8626,7 +8627,7 @@ export type ReleaseStaticIpError =
  * Deletes a specific static IP from your account.
  */
 export const releaseStaticIp: API.OperationMethod<
-  ReleaseStaticIpRequest,
+  ReleaseStaticIpRequest & RegionInput,
   ReleaseStaticIpResult,
   ReleaseStaticIpError,
   Credentials | HttpClient.HttpClient
@@ -8666,7 +8667,7 @@ export type ResetDistributionCacheError =
  * pulls, serves, and caches it from the origin.
  */
 export const resetDistributionCache: API.OperationMethod<
-  ResetDistributionCacheRequest,
+  ResetDistributionCacheRequest & RegionInput,
   ResetDistributionCacheResult,
   ResetDistributionCacheError,
   Credentials | HttpClient.HttpClient
@@ -8714,7 +8715,7 @@ export type SendContactMethodVerificationError =
  * confirmed as valid.
  */
 export const sendContactMethodVerification: API.OperationMethod<
-  SendContactMethodVerificationRequest,
+  SendContactMethodVerificationRequest & RegionInput,
   SendContactMethodVerificationResult,
   SendContactMethodVerificationError,
   Credentials | HttpClient.HttpClient
@@ -8755,7 +8756,7 @@ export type SetIpAddressTypeError =
  * IPv4 only.
  */
 export const setIpAddressType: API.OperationMethod<
-  SetIpAddressTypeRequest,
+  SetIpAddressTypeRequest & RegionInput,
   SetIpAddressTypeResult,
   SetIpAddressTypeError,
   Credentials | HttpClient.HttpClient
@@ -8795,7 +8796,7 @@ export type SetResourceAccessForBucketError =
  * Amazon Web Services Region.
  */
 export const setResourceAccessForBucket: API.OperationMethod<
-  SetResourceAccessForBucketRequest,
+  SetResourceAccessForBucketRequest & RegionInput,
   SetResourceAccessForBucketResult,
   SetResourceAccessForBucketError,
   Credentials | HttpClient.HttpClient
@@ -8833,7 +8834,7 @@ export type SetupInstanceHttpsError =
  * than or equal to 63 characters in length.
  */
 export const setupInstanceHttps: API.OperationMethod<
-  SetupInstanceHttpsRequest,
+  SetupInstanceHttpsRequest & RegionInput,
   SetupInstanceHttpsResult,
   SetupInstanceHttpsError,
   Credentials | HttpClient.HttpClient
@@ -8869,7 +8870,7 @@ export type StartGUISessionError =
  * action to resume the session after it expires.
  */
 export const startGUISession: API.OperationMethod<
-  StartGUISessionRequest,
+  StartGUISessionRequest & RegionInput,
   StartGUISessionResult,
   StartGUISessionError,
   Credentials | HttpClient.HttpClient
@@ -8914,7 +8915,7 @@ export type StartInstanceError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const startInstance: API.OperationMethod<
-  StartInstanceRequest,
+  StartInstanceRequest & RegionInput,
   StartInstanceResult,
   StartInstanceError,
   Credentials | HttpClient.HttpClient
@@ -8957,7 +8958,7 @@ export type StartRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const startRelationalDatabase: API.OperationMethod<
-  StartRelationalDatabaseRequest,
+  StartRelationalDatabaseRequest & RegionInput,
   StartRelationalDatabaseResult,
   StartRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -8995,7 +8996,7 @@ export type StopGUISessionError =
  * lost.
  */
 export const stopGUISession: API.OperationMethod<
-  StopGUISessionRequest,
+  StopGUISessionRequest & RegionInput,
   StopGUISessionResult,
   StopGUISessionError,
   Credentials | HttpClient.HttpClient
@@ -9039,7 +9040,7 @@ export type StopInstanceError =
  * see the Amazon Lightsail Developer Guide.
  */
 export const stopInstance: API.OperationMethod<
-  StopInstanceRequest,
+  StopInstanceRequest & RegionInput,
   StopInstanceResult,
   StopInstanceError,
   Credentials | HttpClient.HttpClient
@@ -9085,7 +9086,7 @@ export type StopRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const stopRelationalDatabase: API.OperationMethod<
-  StopRelationalDatabaseRequest,
+  StopRelationalDatabaseRequest & RegionInput,
   StopRelationalDatabaseResult,
   StopRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -9129,7 +9130,7 @@ export type TagResourceError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -9174,7 +9175,7 @@ export type TestAlarmError =
  * in Amazon Lightsail.
  */
 export const testAlarm: API.OperationMethod<
-  TestAlarmRequest,
+  TestAlarmRequest & RegionInput,
   TestAlarmResult,
   TestAlarmError,
   Credentials | HttpClient.HttpClient
@@ -9211,7 +9212,7 @@ export type UnpeerVpcError =
  * Unpeers the Lightsail VPC from the user's default VPC.
  */
 export const unpeerVpc: API.OperationMethod<
-  UnpeerVpcRequest,
+  UnpeerVpcRequest & RegionInput,
   UnpeerVpcResult,
   UnpeerVpcError,
   Credentials | HttpClient.HttpClient
@@ -9254,7 +9255,7 @@ export type UntagResourceError =
  * more information, see the Amazon Lightsail Developer Guide.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -9293,7 +9294,7 @@ export type UpdateBucketError =
  * public accessibility, and the Amazon Web Services accounts that can access the bucket.
  */
 export const updateBucket: API.OperationMethod<
-  UpdateBucketRequest,
+  UpdateBucketRequest & RegionInput,
   UpdateBucketResult,
   UpdateBucketError,
   Credentials | HttpClient.HttpClient
@@ -9341,7 +9342,7 @@ export type UpdateBucketBundleError =
  * come.
  */
 export const updateBucketBundle: API.OperationMethod<
-  UpdateBucketBundleRequest,
+  UpdateBucketBundleRequest & RegionInput,
   UpdateBucketBundleResult,
   UpdateBucketBundleError,
   Credentials | HttpClient.HttpClient
@@ -9376,7 +9377,7 @@ export type UpdateContainerServiceError =
  * scale, and public domain names.
  */
 export const updateContainerService: API.OperationMethod<
-  UpdateContainerServiceRequest,
+  UpdateContainerServiceRequest & RegionInput,
   UpdateContainerServiceResult,
   UpdateContainerServiceError,
   Credentials | HttpClient.HttpClient
@@ -9412,7 +9413,7 @@ export type UpdateDistributionError =
  * Use this action to update the configuration of your existing distribution.
  */
 export const updateDistribution: API.OperationMethod<
-  UpdateDistributionRequest,
+  UpdateDistributionRequest & RegionInput,
   UpdateDistributionResult,
   UpdateDistributionError,
   Credentials | HttpClient.HttpClient
@@ -9457,7 +9458,7 @@ export type UpdateDistributionBundleError =
  * result will indicate whether you can currently update your distribution's bundle.
  */
 export const updateDistributionBundle: API.OperationMethod<
-  UpdateDistributionBundleRequest,
+  UpdateDistributionBundleRequest & RegionInput,
   UpdateDistributionBundleResult,
   UpdateDistributionBundleError,
   Credentials | HttpClient.HttpClient
@@ -9497,7 +9498,7 @@ export type UpdateDomainEntryError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const updateDomainEntry: API.OperationMethod<
-  UpdateDomainEntryRequest,
+  UpdateDomainEntryRequest & RegionInput,
   UpdateDomainEntryResult,
   UpdateDomainEntryError,
   Credentials | HttpClient.HttpClient
@@ -9540,7 +9541,7 @@ export type UpdateInstanceMetadataOptionsError =
  * `GetInstances` API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the *Amazon Lightsail Developer Guide*.
  */
 export const updateInstanceMetadataOptions: API.OperationMethod<
-  UpdateInstanceMetadataOptionsRequest,
+  UpdateInstanceMetadataOptionsRequest & RegionInput,
   UpdateInstanceMetadataOptionsResult,
   UpdateInstanceMetadataOptionsError,
   Credentials | HttpClient.HttpClient
@@ -9583,7 +9584,7 @@ export type UpdateLoadBalancerAttributeError =
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
 export const updateLoadBalancerAttribute: API.OperationMethod<
-  UpdateLoadBalancerAttributeRequest,
+  UpdateLoadBalancerAttributeRequest & RegionInput,
   UpdateLoadBalancerAttributeResult,
   UpdateLoadBalancerAttributeError,
   Credentials | HttpClient.HttpClient
@@ -9628,7 +9629,7 @@ export type UpdateRelationalDatabaseError =
  * information, see the Amazon Lightsail Developer Guide.
  */
 export const updateRelationalDatabase: API.OperationMethod<
-  UpdateRelationalDatabaseRequest,
+  UpdateRelationalDatabaseRequest & RegionInput,
   UpdateRelationalDatabaseResult,
   UpdateRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -9677,7 +9678,7 @@ export type UpdateRelationalDatabaseParametersError =
  * more information, see the Amazon Lightsail Developer Guide.
  */
 export const updateRelationalDatabaseParameters: API.OperationMethod<
-  UpdateRelationalDatabaseParametersRequest,
+  UpdateRelationalDatabaseParametersRequest & RegionInput,
   UpdateRelationalDatabaseParametersResult,
   UpdateRelationalDatabaseParametersError,
   Credentials | HttpClient.HttpClient

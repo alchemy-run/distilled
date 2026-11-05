@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -612,7 +613,7 @@ export type CancelQueryError =
  * sample for details.
  */
 export const cancelQuery: API.OperationMethod<
-  CancelQueryRequest,
+  CancelQueryRequest & RegionInput,
   CancelQueryResponse,
   CancelQueryError,
   Credentials | HttpClient.HttpClient
@@ -650,7 +651,7 @@ export type CreateScheduledQueryError =
  * scheduled query operations.
  */
 export const createScheduledQuery: API.OperationMethod<
-  CreateScheduledQueryRequest,
+  CreateScheduledQueryRequest & RegionInput,
   CreateScheduledQueryResponse,
   CreateScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -685,7 +686,7 @@ export type DeleteScheduledQueryError =
  * Deletes a given scheduled query. This is an irreversible operation.
  */
 export const deleteScheduledQuery: API.OperationMethod<
-  DeleteScheduledQueryRequest,
+  DeleteScheduledQueryRequest & RegionInput,
   DeleteScheduledQueryResponse,
   DeleteScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -719,7 +720,7 @@ export type DescribeAccountSettingsError =
  * You're charged only for the duration of compute units used for your workloads.
  */
 export const describeAccountSettings: API.OperationMethod<
-  DescribeAccountSettingsRequest,
+  DescribeAccountSettingsRequest & RegionInput,
   DescribeAccountSettingsResponse,
   DescribeAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -764,7 +765,7 @@ export type DescribeEndpointsError =
  * The Endpoint Discovery Pattern.
  */
 export const describeEndpoints: API.OperationMethod<
-  DescribeEndpointsRequest,
+  DescribeEndpointsRequest & RegionInput,
   DescribeEndpointsResponse,
   DescribeEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -796,7 +797,7 @@ export type DescribeScheduledQueryError =
  * Provides detailed information about a scheduled query.
  */
 export const describeScheduledQuery: API.OperationMethod<
-  DescribeScheduledQueryRequest,
+  DescribeScheduledQueryRequest & RegionInput,
   DescribeScheduledQueryResponse,
   DescribeScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -832,7 +833,7 @@ export type ExecuteScheduledQueryError =
  * If you enabled `QueryInsights`, this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. `QueryInsights` helps with performance tuning of your query. For more information about `QueryInsights`, see Using query insights to optimize queries in Amazon Timestream.
  */
 export const executeScheduledQuery: API.OperationMethod<
-  ExecuteScheduledQueryRequest,
+  ExecuteScheduledQueryRequest & RegionInput,
   ExecuteScheduledQueryResponse,
   ExecuteScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -866,7 +867,7 @@ export type ListScheduledQueriesError =
  * `ListScheduledQueries` is eventually consistent.
  */
 export const listScheduledQueries: API.PaginatedOperationMethod<
-  ListScheduledQueriesRequest,
+  ListScheduledQueriesRequest & RegionInput,
   ListScheduledQueriesResponse,
   ListScheduledQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -904,7 +905,7 @@ export type ListTagsForResourceError =
  * List all tags on a Timestream query resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -944,7 +945,7 @@ export type PrepareQueryError =
  * `ValidateOnly` set to `true`.
  */
 export const prepareQuery: API.OperationMethod<
-  PrepareQueryRequest,
+  PrepareQueryRequest & RegionInput,
   PrepareQueryResponse,
   PrepareQueryError,
   Credentials | HttpClient.HttpClient
@@ -1008,7 +1009,7 @@ export type QueryError =
  * pagination token error.
  */
 export const query: API.PaginatedOperationMethod<
-  QueryRequest,
+  QueryRequest & RegionInput,
   QueryResponse,
   QueryError,
   Credentials | HttpClient.HttpClient,
@@ -1052,7 +1053,7 @@ export type TagResourceError =
  * cost allocation tracking.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1083,7 +1084,7 @@ export type UntagResourceError =
  * Removes the association of tags from a Timestream query resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1116,7 +1117,7 @@ export type UpdateAccountSettingsError =
  * After you've transitioned your account to use TCUs for query pricing, you can't transition to using bytes scanned for query pricing.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1149,7 +1150,7 @@ export type UpdateScheduledQueryError =
  * Update a scheduled query.
  */
 export const updateScheduledQuery: API.OperationMethod<
-  UpdateScheduledQueryRequest,
+  UpdateScheduledQueryRequest & RegionInput,
   UpdateScheduledQueryResponse,
   UpdateScheduledQueryError,
   Credentials | HttpClient.HttpClient

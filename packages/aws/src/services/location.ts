@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1332,7 +1333,7 @@ export type AssociateTrackerConsumerError =
  * Currently not supported -- Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
  */
 export const associateTrackerConsumer: API.OperationMethod<
-  AssociateTrackerConsumerRequest,
+  AssociateTrackerConsumerRequest & RegionInput,
   AssociateTrackerConsumerResponse,
   AssociateTrackerConsumerError,
   Credentials | HttpClient.HttpClient
@@ -1367,7 +1368,7 @@ export type BatchDeleteDevicePositionHistoryError =
  * Deletes the position history of one or more devices from a tracker resource.
  */
 export const batchDeleteDevicePositionHistory: API.OperationMethod<
-  BatchDeleteDevicePositionHistoryRequest,
+  BatchDeleteDevicePositionHistoryRequest & RegionInput,
   BatchDeleteDevicePositionHistoryResponse,
   BatchDeleteDevicePositionHistoryError,
   Credentials | HttpClient.HttpClient
@@ -1402,7 +1403,7 @@ export type BatchDeleteGeofenceError =
  * This operation deletes the resource permanently.
  */
 export const batchDeleteGeofence: API.OperationMethod<
-  BatchDeleteGeofenceRequest,
+  BatchDeleteGeofenceRequest & RegionInput,
   BatchDeleteGeofenceResponse,
   BatchDeleteGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1448,7 @@ export type BatchEvaluateGeofencesError =
  * The `DeviceID` is used as a string to represent the device. You do not need to have a `Tracker` associated with the `DeviceID`.
  */
 export const batchEvaluateGeofences: API.OperationMethod<
-  BatchEvaluateGeofencesRequest,
+  BatchEvaluateGeofencesRequest & RegionInput,
   BatchEvaluateGeofencesResponse,
   BatchEvaluateGeofencesError,
   Credentials | HttpClient.HttpClient
@@ -1480,7 +1481,7 @@ export type BatchGetDevicePositionError =
  * Lists the latest device positions for requested devices.
  */
 export const batchGetDevicePosition: API.OperationMethod<
-  BatchGetDevicePositionRequest,
+  BatchGetDevicePositionRequest & RegionInput,
   BatchGetDevicePositionResponse,
   BatchGetDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -1513,7 +1514,7 @@ export type BatchPutGeofenceError =
  * A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
  */
 export const batchPutGeofence: API.OperationMethod<
-  BatchPutGeofenceRequest,
+  BatchPutGeofenceRequest & RegionInput,
   BatchPutGeofenceResponse,
   BatchPutGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -1552,7 +1553,7 @@ export type BatchUpdateDevicePositionError =
  * When `PositionFiltering` is set to `AccuracyBased` filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than the measured accuracy. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device has moved less than 15 m. If `PositionFiltering` is set to `AccuracyBased` filtering, Amazon Location uses the default value `{ "Horizontal": 0}` when accuracy is not provided on a `DevicePositionUpdate`.
  */
 export const batchUpdateDevicePosition: API.OperationMethod<
-  BatchUpdateDevicePositionRequest,
+  BatchUpdateDevicePositionRequest & RegionInput,
   BatchUpdateDevicePositionResponse,
   BatchUpdateDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -1607,7 +1608,7 @@ export type CalculateRouteError =
  * If you specify `walking` for the travel mode and your data provider is Esri, the start and destination must be within 40km.
  */
 export const calculateRoute: API.OperationMethod<
-  CalculateRouteRequest,
+  CalculateRouteRequest & RegionInput,
   CalculateRouteResponse,
   CalculateRouteError,
   Credentials | HttpClient.HttpClient
@@ -1666,7 +1667,7 @@ export type CalculateRouteMatrixError =
  * - Specifying a travel mode using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or `TruckModeOptions` if traveling by `Truck`.
  */
 export const calculateRouteMatrix: API.OperationMethod<
-  CalculateRouteMatrixRequest,
+  CalculateRouteMatrixRequest & RegionInput,
   CalculateRouteMatrixResponse,
   CalculateRouteMatrixError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1702,7 @@ export type CancelJobError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -1735,7 +1736,7 @@ export type CreateGeofenceCollectionError =
  * Creates a geofence collection, which manages and stores geofences.
  */
 export const createGeofenceCollection: API.OperationMethod<
-  CreateGeofenceCollectionRequest,
+  CreateGeofenceCollectionRequest & RegionInput,
   CreateGeofenceCollectionResponse,
   CreateGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1772,7 +1773,7 @@ export type CreateKeyError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const createKey: API.OperationMethod<
-  CreateKeyRequest,
+  CreateKeyRequest & RegionInput,
   CreateKeyResponse,
   CreateKeyError,
   Credentials | HttpClient.HttpClient
@@ -1821,7 +1822,7 @@ export type CreateMapError =
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
 export const createMap: API.OperationMethod<
-  CreateMapRequest,
+  CreateMapRequest & RegionInput,
   CreateMapResponse,
   CreateMapError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1871,7 @@ export type CreatePlaceIndexError =
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
 export const createPlaceIndex: API.OperationMethod<
-  CreatePlaceIndexRequest,
+  CreatePlaceIndexRequest & RegionInput,
   CreatePlaceIndexResponse,
   CreatePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -1921,7 +1922,7 @@ export type CreateRouteCalculatorError =
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
 export const createRouteCalculator: API.OperationMethod<
-  CreateRouteCalculatorRequest,
+  CreateRouteCalculatorRequest & RegionInput,
   CreateRouteCalculatorResponse,
   CreateRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -1956,7 +1957,7 @@ export type CreateTrackerError =
  * Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
  */
 export const createTracker: API.OperationMethod<
-  CreateTrackerRequest,
+  CreateTrackerRequest & RegionInput,
   CreateTrackerResponse,
   CreateTrackerError,
   Credentials | HttpClient.HttpClient
@@ -1992,7 +1993,7 @@ export type DeleteGeofenceCollectionError =
  * This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
  */
 export const deleteGeofenceCollection: API.OperationMethod<
-  DeleteGeofenceCollectionRequest,
+  DeleteGeofenceCollectionRequest & RegionInput,
   DeleteGeofenceCollectionResponse,
   DeleteGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2027,7 +2028,7 @@ export type DeleteKeyError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const deleteKey: API.OperationMethod<
-  DeleteKeyRequest,
+  DeleteKeyRequest & RegionInput,
   DeleteKeyResponse,
   DeleteKeyError,
   Credentials | HttpClient.HttpClient
@@ -2074,7 +2075,7 @@ export type DeleteMapError =
  * This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
  */
 export const deleteMap: API.OperationMethod<
-  DeleteMapRequest,
+  DeleteMapRequest & RegionInput,
   DeleteMapResponse,
   DeleteMapError,
   Credentials | HttpClient.HttpClient
@@ -2121,7 +2122,7 @@ export type DeletePlaceIndexError =
  * This operation deletes the resource permanently.
  */
 export const deletePlaceIndex: API.OperationMethod<
-  DeletePlaceIndexRequest,
+  DeletePlaceIndexRequest & RegionInput,
   DeletePlaceIndexResponse,
   DeletePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -2168,7 +2169,7 @@ export type DeleteRouteCalculatorError =
  * This operation deletes the resource permanently.
  */
 export const deleteRouteCalculator: API.OperationMethod<
-  DeleteRouteCalculatorRequest,
+  DeleteRouteCalculatorRequest & RegionInput,
   DeleteRouteCalculatorResponse,
   DeleteRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -2203,7 +2204,7 @@ export type DeleteTrackerError =
  * This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
  */
 export const deleteTracker: API.OperationMethod<
-  DeleteTrackerRequest,
+  DeleteTrackerRequest & RegionInput,
   DeleteTrackerResponse,
   DeleteTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2236,7 +2237,7 @@ export type DescribeGeofenceCollectionError =
  * Retrieves the geofence collection details.
  */
 export const describeGeofenceCollection: API.OperationMethod<
-  DescribeGeofenceCollectionRequest,
+  DescribeGeofenceCollectionRequest & RegionInput,
   DescribeGeofenceCollectionResponse,
   DescribeGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2271,7 +2272,7 @@ export type DescribeKeyError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const describeKey: API.OperationMethod<
-  DescribeKeyRequest,
+  DescribeKeyRequest & RegionInput,
   DescribeKeyResponse,
   DescribeKeyError,
   Credentials | HttpClient.HttpClient
@@ -2316,7 +2317,7 @@ export type DescribeMapError =
  * Retrieves the map resource details.
  */
 export const describeMap: API.OperationMethod<
-  DescribeMapRequest,
+  DescribeMapRequest & RegionInput,
   DescribeMapResponse,
   DescribeMapError,
   Credentials | HttpClient.HttpClient
@@ -2361,7 +2362,7 @@ export type DescribePlaceIndexError =
  * Retrieves the place index resource details.
  */
 export const describePlaceIndex: API.OperationMethod<
-  DescribePlaceIndexRequest,
+  DescribePlaceIndexRequest & RegionInput,
   DescribePlaceIndexResponse,
   DescribePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -2406,7 +2407,7 @@ export type DescribeRouteCalculatorError =
  * Retrieves the route calculator resource details.
  */
 export const describeRouteCalculator: API.OperationMethod<
-  DescribeRouteCalculatorRequest,
+  DescribeRouteCalculatorRequest & RegionInput,
   DescribeRouteCalculatorResponse,
   DescribeRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -2439,7 +2440,7 @@ export type DescribeTrackerError =
  * Retrieves the tracker resource details.
  */
 export const describeTracker: API.OperationMethod<
-  DescribeTrackerRequest,
+  DescribeTrackerRequest & RegionInput,
   DescribeTrackerResponse,
   DescribeTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2474,7 +2475,7 @@ export type DisassociateTrackerConsumerError =
  * Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences.
  */
 export const disassociateTrackerConsumer: API.OperationMethod<
-  DisassociateTrackerConsumerRequest,
+  DisassociateTrackerConsumerRequest & RegionInput,
   DisassociateTrackerConsumerResponse,
   DisassociateTrackerConsumerError,
   Credentials | HttpClient.HttpClient
@@ -2515,7 +2516,7 @@ export type ForecastGeofenceEventsError =
  * Heading direction is not considered in the current version. The API takes a conservative approach and includes events that can occur for any heading.
  */
 export const forecastGeofenceEvents: API.PaginatedOperationMethod<
-  ForecastGeofenceEventsRequest,
+  ForecastGeofenceEventsRequest & RegionInput,
   ForecastGeofenceEventsResponse,
   ForecastGeofenceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2557,7 +2558,7 @@ export type GetDevicePositionError =
  * Device positions are deleted after 30 days.
  */
 export const getDevicePosition: API.OperationMethod<
-  GetDevicePositionRequest,
+  GetDevicePositionRequest & RegionInput,
   GetDevicePositionResponse,
   GetDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2593,7 @@ export type GetDevicePositionHistoryError =
  * Device positions are deleted after 30 days.
  */
 export const getDevicePositionHistory: API.PaginatedOperationMethod<
-  GetDevicePositionHistoryRequest,
+  GetDevicePositionHistoryRequest & RegionInput,
   GetDevicePositionHistoryResponse,
   GetDevicePositionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2634,7 +2635,7 @@ export type GetGeofenceError =
  * The returned geometry will always match the geometry format used when the geofence was created.
  */
 export const getGeofence: API.OperationMethod<
-  GetGeofenceRequest,
+  GetGeofenceRequest & RegionInput,
   GetGeofenceResponse,
   GetGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -2669,7 +2670,7 @@ export type GetJobError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -2714,7 +2715,7 @@ export type GetMapGlyphsError =
  * Retrieves glyphs used to display labels on a map.
  */
 export const getMapGlyphs: API.OperationMethod<
-  GetMapGlyphsRequest,
+  GetMapGlyphsRequest & RegionInput,
   GetMapGlyphsResponse,
   GetMapGlyphsError,
   Credentials | HttpClient.HttpClient
@@ -2759,7 +2760,7 @@ export type GetMapSpritesError =
  * Retrieves the sprite sheet corresponding to a map resource. The sprite sheet is a PNG image paired with a JSON document describing the offsets of individual icons that will be displayed on a rendered map.
  */
 export const getMapSprites: API.OperationMethod<
-  GetMapSpritesRequest,
+  GetMapSpritesRequest & RegionInput,
   GetMapSpritesResponse,
   GetMapSpritesError,
   Credentials | HttpClient.HttpClient
@@ -2806,7 +2807,7 @@ export type GetMapStyleDescriptorError =
  * The style descriptor contains speciU+FB01cations on how features render on a map. For example, what data to display, what order to display the data in, and the style for the data. Style descriptors follow the Mapbox Style Specification.
  */
 export const getMapStyleDescriptor: API.OperationMethod<
-  GetMapStyleDescriptorRequest,
+  GetMapStyleDescriptorRequest & RegionInput,
   GetMapStyleDescriptorResponse,
   GetMapStyleDescriptorError,
   Credentials | HttpClient.HttpClient
@@ -2853,7 +2854,7 @@ export type GetMapTileError =
  * The origin (0, 0) is the top left of the map. Increasing the zoom level by 1 doubles both the X and Y dimensions, so a tile containing data for the entire world at (0/0/0) will be split into 4 tiles at zoom 1 (1/0/0, 1/0/1, 1/1/0, 1/1/1).
  */
 export const getMapTile: API.OperationMethod<
-  GetMapTileRequest,
+  GetMapTileRequest & RegionInput,
   GetMapTileResponse,
   GetMapTileError,
   Credentials | HttpClient.HttpClient
@@ -2908,7 +2909,7 @@ export type GetPlaceError =
  * If your Place index resource is configured with Grab as your geolocation provider and Storage as Intended use, the GetPlace operation is unavailable. For more information, see AWS service terms.
  */
 export const getPlace: API.OperationMethod<
-  GetPlaceRequest,
+  GetPlaceRequest & RegionInput,
   GetPlaceResponse,
   GetPlaceError,
   Credentials | HttpClient.HttpClient
@@ -2940,7 +2941,7 @@ export type ListDevicePositionsError =
  * A batch request to retrieve all device positions.
  */
 export const listDevicePositions: API.PaginatedOperationMethod<
-  ListDevicePositionsRequest,
+  ListDevicePositionsRequest & RegionInput,
   ListDevicePositionsResponse,
   ListDevicePositionsError,
   Credentials | HttpClient.HttpClient,
@@ -2978,7 +2979,7 @@ export type ListGeofenceCollectionsError =
  * Lists geofence collections in your Amazon Web Services account.
  */
 export const listGeofenceCollections: API.PaginatedOperationMethod<
-  ListGeofenceCollectionsRequest,
+  ListGeofenceCollectionsRequest & RegionInput,
   ListGeofenceCollectionsResponse,
   ListGeofenceCollectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3017,7 +3018,7 @@ export type ListGeofencesError =
  * Lists geofences stored in a given geofence collection.
  */
 export const listGeofences: API.PaginatedOperationMethod<
-  ListGeofencesRequest,
+  ListGeofencesRequest & RegionInput,
   ListGeofencesResponse,
   ListGeofencesError,
   Credentials | HttpClient.HttpClient,
@@ -3058,7 +3059,7 @@ export type ListJobsError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3098,7 +3099,7 @@ export type ListKeysError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const listKeys: API.PaginatedOperationMethod<
-  ListKeysRequest,
+  ListKeysRequest & RegionInput,
   ListKeysResponse,
   ListKeysError,
   Credentials | HttpClient.HttpClient,
@@ -3148,7 +3149,7 @@ export type ListMapsError =
  * Lists map resources in your Amazon Web Services account.
  */
 export const listMaps: API.PaginatedOperationMethod<
-  ListMapsRequest,
+  ListMapsRequest & RegionInput,
   ListMapsResponse,
   ListMapsError,
   Credentials | HttpClient.HttpClient,
@@ -3198,7 +3199,7 @@ export type ListPlaceIndexesError =
  * Lists place index resources in your Amazon Web Services account.
  */
 export const listPlaceIndexes: API.PaginatedOperationMethod<
-  ListPlaceIndexesRequest,
+  ListPlaceIndexesRequest & RegionInput,
   ListPlaceIndexesResponse,
   ListPlaceIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -3248,7 +3249,7 @@ export type ListRouteCalculatorsError =
  * Lists route calculator resources in your Amazon Web Services account.
  */
 export const listRouteCalculators: API.PaginatedOperationMethod<
-  ListRouteCalculatorsRequest,
+  ListRouteCalculatorsRequest & RegionInput,
   ListRouteCalculatorsResponse,
   ListRouteCalculatorsError,
   Credentials | HttpClient.HttpClient,
@@ -3287,7 +3288,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags that are applied to the specified Amazon Location resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3320,7 +3321,7 @@ export type ListTrackerConsumersError =
  * Lists geofence collections currently associated to the given tracker resource.
  */
 export const listTrackerConsumers: API.PaginatedOperationMethod<
-  ListTrackerConsumersRequest,
+  ListTrackerConsumersRequest & RegionInput,
   ListTrackerConsumersResponse,
   ListTrackerConsumersError,
   Credentials | HttpClient.HttpClient,
@@ -3359,7 +3360,7 @@ export type ListTrackersError =
  * Lists tracker resources in your Amazon Web Services account.
  */
 export const listTrackers: API.PaginatedOperationMethod<
-  ListTrackersRequest,
+  ListTrackersRequest & RegionInput,
   ListTrackersResponse,
   ListTrackersError,
   Credentials | HttpClient.HttpClient,
@@ -3399,7 +3400,7 @@ export type PutGeofenceError =
  * Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
  */
 export const putGeofence: API.OperationMethod<
-  PutGeofenceRequest,
+  PutGeofenceRequest & RegionInput,
   PutGeofenceResponse,
   PutGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -3443,7 +3444,7 @@ export type SearchPlaceIndexForPositionError =
  * Reverse geocodes a given coordinate and returns a legible address. Allows you to search for Places or points of interest near a given position.
  */
 export const searchPlaceIndexForPosition: API.OperationMethod<
-  SearchPlaceIndexForPositionRequest,
+  SearchPlaceIndexForPositionRequest & RegionInput,
   SearchPlaceIndexForPositionResponse,
   SearchPlaceIndexForPositionError,
   Credentials | HttpClient.HttpClient
@@ -3490,7 +3491,7 @@ export type SearchPlaceIndexForSuggestionsError =
  * You can search for suggested place names near a specified position by using `BiasPosition`, or filter results within a bounding box by using `FilterBBox`. These parameters are mutually exclusive; using both `BiasPosition` and `FilterBBox` in the same command returns an error.
  */
 export const searchPlaceIndexForSuggestions: API.OperationMethod<
-  SearchPlaceIndexForSuggestionsRequest,
+  SearchPlaceIndexForSuggestionsRequest & RegionInput,
   SearchPlaceIndexForSuggestionsResponse,
   SearchPlaceIndexForSuggestionsError,
   Credentials | HttpClient.HttpClient
@@ -3539,7 +3540,7 @@ export type SearchPlaceIndexForTextError =
  * Search results are returned in order of highest to lowest relevance.
  */
 export const searchPlaceIndexForText: API.OperationMethod<
-  SearchPlaceIndexForTextRequest,
+  SearchPlaceIndexForTextRequest & RegionInput,
   SearchPlaceIndexForTextResponse,
   SearchPlaceIndexForTextError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3574,7 @@ export type StartJobError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResponse,
   StartJobError,
   Credentials | HttpClient.HttpClient
@@ -3611,7 +3612,7 @@ export type TagResourceError =
  * You can associate up to 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3644,7 +3645,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified Amazon Location resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3677,7 +3678,7 @@ export type UpdateGeofenceCollectionError =
  * Updates the specified properties of a given geofence collection.
  */
 export const updateGeofenceCollection: API.OperationMethod<
-  UpdateGeofenceCollectionRequest,
+  UpdateGeofenceCollectionRequest & RegionInput,
   UpdateGeofenceCollectionResponse,
   UpdateGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -3710,7 +3711,7 @@ export type UpdateKeyError =
  * Updates the specified properties of a given API key resource.
  */
 export const updateKey: API.OperationMethod<
-  UpdateKeyRequest,
+  UpdateKeyRequest & RegionInput,
   UpdateKeyResponse,
   UpdateKeyError,
   Credentials | HttpClient.HttpClient
@@ -3755,7 +3756,7 @@ export type UpdateMapError =
  * Updates the specified properties of a given map resource.
  */
 export const updateMap: API.OperationMethod<
-  UpdateMapRequest,
+  UpdateMapRequest & RegionInput,
   UpdateMapResponse,
   UpdateMapError,
   Credentials | HttpClient.HttpClient
@@ -3800,7 +3801,7 @@ export type UpdatePlaceIndexError =
  * Updates the specified properties of a given place index resource.
  */
 export const updatePlaceIndex: API.OperationMethod<
-  UpdatePlaceIndexRequest,
+  UpdatePlaceIndexRequest & RegionInput,
   UpdatePlaceIndexResponse,
   UpdatePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -3845,7 +3846,7 @@ export type UpdateRouteCalculatorError =
  * Updates the specified properties for a given route calculator resource.
  */
 export const updateRouteCalculator: API.OperationMethod<
-  UpdateRouteCalculatorRequest,
+  UpdateRouteCalculatorRequest & RegionInput,
   UpdateRouteCalculatorResponse,
   UpdateRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -3878,7 +3879,7 @@ export type UpdateTrackerError =
  * Updates the specified properties of a given tracker resource.
  */
 export const updateTracker: API.OperationMethod<
-  UpdateTrackerRequest,
+  UpdateTrackerRequest & RegionInput,
   UpdateTrackerResponse,
   UpdateTrackerError,
   Credentials | HttpClient.HttpClient
@@ -3913,7 +3914,7 @@ export type VerifyDevicePositionError =
  * The Location Integrity SDK provides enhanced features related to device verification, and it is available for use by request. To get access to the SDK, contact Sales Support.
  */
 export const verifyDevicePosition: API.OperationMethod<
-  VerifyDevicePositionRequest,
+  VerifyDevicePositionRequest & RegionInput,
   VerifyDevicePositionResponse,
   VerifyDevicePositionError,
   Credentials | HttpClient.HttpClient

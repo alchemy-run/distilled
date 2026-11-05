@@ -61,6 +61,12 @@ program.pipe(Effect.provide(AwsLive), Effect.runPromise);
 AWS_REGION=us-east-1
 ```
 
+`Region.of("eu-west-1")` sets the region for every call in a scope. One call can set its own with `region`, which wins over the layer:
+
+```typescript
+S3.getObject({ Bucket: "my-bucket", Key: "a.txt", region: "eu-west-1" });
+```
+
 ### Credentials
 
 `Credentials.fromChain()` uses the standard AWS credential provider chain, which tries each source in order until one succeeds:
