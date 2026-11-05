@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1427,7 +1428,7 @@ export type ConfigureLogsForChannelError = CommonErrors;
  * Configures Amazon CloudWatch log settings for a channel.
  */
 export const configureLogsForChannel: API.OperationMethod<
-  ConfigureLogsForChannelRequest,
+  ConfigureLogsForChannelRequest & RegionInput,
   ConfigureLogsForChannelResponse,
   ConfigureLogsForChannelError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1448,7 @@ export type ConfigureLogsForPlaybackConfigurationError = CommonErrors;
  * Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
  */
 export const configureLogsForPlaybackConfiguration: API.OperationMethod<
-  ConfigureLogsForPlaybackConfigurationRequest,
+  ConfigureLogsForPlaybackConfigurationRequest & RegionInput,
   ConfigureLogsForPlaybackConfigurationResponse,
   ConfigureLogsForPlaybackConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1467,7 +1468,7 @@ export type CreateChannelError = CommonErrors;
  * Creates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1487,7 +1488,7 @@ export type CreateLiveSourceError = CommonErrors;
  * The live source configuration.
  */
 export const createLiveSource: API.OperationMethod<
-  CreateLiveSourceRequest,
+  CreateLiveSourceRequest & RegionInput,
   CreateLiveSourceResponse,
   CreateLiveSourceError,
   Credentials | HttpClient.HttpClient
@@ -1510,7 +1511,7 @@ export type CreatePrefetchScheduleError =
  * Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
 export const createPrefetchSchedule: API.OperationMethod<
-  CreatePrefetchScheduleRequest,
+  CreatePrefetchScheduleRequest & RegionInput,
   CreatePrefetchScheduleResponse,
   CreatePrefetchScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1530,7 +1531,7 @@ export type CreateProgramError = BadRequestException | ChannelNotFound | CommonE
  * Creates a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
 export const createProgram: API.OperationMethod<
-  CreateProgramRequest,
+  CreateProgramRequest & RegionInput,
   CreateProgramResponse,
   CreateProgramError,
   Credentials | HttpClient.HttpClient
@@ -1550,7 +1551,7 @@ export type CreateSourceLocationError = CommonErrors;
  * Creates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const createSourceLocation: API.OperationMethod<
-  CreateSourceLocationRequest,
+  CreateSourceLocationRequest & RegionInput,
   CreateSourceLocationResponse,
   CreateSourceLocationError,
   Credentials | HttpClient.HttpClient
@@ -1570,7 +1571,7 @@ export type CreateVodSourceError = CommonErrors;
  * The VOD source configuration parameters.
  */
 export const createVodSource: API.OperationMethod<
-  CreateVodSourceRequest,
+  CreateVodSourceRequest & RegionInput,
   CreateVodSourceResponse,
   CreateVodSourceError,
   Credentials | HttpClient.HttpClient
@@ -1590,7 +1591,7 @@ export type DeleteChannelError = CommonErrors;
  * Deletes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1610,7 +1611,7 @@ export type DeleteChannelPolicyError = CommonErrors;
  * The channel policy to delete.
  */
 export const deleteChannelPolicy: API.OperationMethod<
-  DeleteChannelPolicyRequest,
+  DeleteChannelPolicyRequest & RegionInput,
   DeleteChannelPolicyResponse,
   DeleteChannelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type DeleteFunctionError = CommonErrors;
  * Deletes a function. MediaTailor prevents deletion of a function that is still referenced by a playback configuration or by another function. Remove all references before deleting. For more information about functions, see Working with functions in the *MediaTailor User Guide*.
  */
 export const deleteFunction: API.OperationMethod<
-  DeleteFunctionRequest,
+  DeleteFunctionRequest & RegionInput,
   DeleteFunctionResponse,
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
@@ -1650,7 +1651,7 @@ export type DeleteLiveSourceError = CommonErrors;
  * The live source to delete.
  */
 export const deleteLiveSource: API.OperationMethod<
-  DeleteLiveSourceRequest,
+  DeleteLiveSourceRequest & RegionInput,
   DeleteLiveSourceResponse,
   DeleteLiveSourceError,
   Credentials | HttpClient.HttpClient
@@ -1670,7 +1671,7 @@ export type DeletePlaybackConfigurationError = CommonErrors;
  * Deletes a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
 export const deletePlaybackConfiguration: API.OperationMethod<
-  DeletePlaybackConfigurationRequest,
+  DeletePlaybackConfigurationRequest & RegionInput,
   DeletePlaybackConfigurationResponse,
   DeletePlaybackConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1693,7 +1694,7 @@ export type DeletePrefetchScheduleError =
  * Deletes a prefetch schedule for a specific playback configuration. If you call `DeletePrefetchSchedule` on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
 export const deletePrefetchSchedule: API.OperationMethod<
-  DeletePrefetchScheduleRequest,
+  DeletePrefetchScheduleRequest & RegionInput,
   DeletePrefetchScheduleResponse,
   DeletePrefetchScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1713,7 +1714,7 @@ export type DeleteProgramError = BadRequestException | ProgramNotFound | CommonE
  * Deletes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
 export const deleteProgram: API.OperationMethod<
-  DeleteProgramRequest,
+  DeleteProgramRequest & RegionInput,
   DeleteProgramResponse,
   DeleteProgramError,
   Credentials | HttpClient.HttpClient
@@ -1733,7 +1734,7 @@ export type DeleteSourceLocationError = CommonErrors;
  * Deletes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const deleteSourceLocation: API.OperationMethod<
-  DeleteSourceLocationRequest,
+  DeleteSourceLocationRequest & RegionInput,
   DeleteSourceLocationResponse,
   DeleteSourceLocationError,
   Credentials | HttpClient.HttpClient
@@ -1753,7 +1754,7 @@ export type DeleteVodSourceError = CommonErrors;
  * The video on demand (VOD) source to delete.
  */
 export const deleteVodSource: API.OperationMethod<
-  DeleteVodSourceRequest,
+  DeleteVodSourceRequest & RegionInput,
   DeleteVodSourceResponse,
   DeleteVodSourceError,
   Credentials | HttpClient.HttpClient
@@ -1773,7 +1774,7 @@ export type DescribeChannelError = CommonErrors;
  * Describes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -1793,7 +1794,7 @@ export type DescribeLiveSourceError = CommonErrors;
  * The live source to describe.
  */
 export const describeLiveSource: API.OperationMethod<
-  DescribeLiveSourceRequest,
+  DescribeLiveSourceRequest & RegionInput,
   DescribeLiveSourceResponse,
   DescribeLiveSourceError,
   Credentials | HttpClient.HttpClient
@@ -1813,7 +1814,7 @@ export type DescribeProgramError = BadRequestException | ProgramNotFound | Commo
  * Describes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
 export const describeProgram: API.OperationMethod<
-  DescribeProgramRequest,
+  DescribeProgramRequest & RegionInput,
   DescribeProgramResponse,
   DescribeProgramError,
   Credentials | HttpClient.HttpClient
@@ -1833,7 +1834,7 @@ export type DescribeSourceLocationError = CommonErrors;
  * Describes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const describeSourceLocation: API.OperationMethod<
-  DescribeSourceLocationRequest,
+  DescribeSourceLocationRequest & RegionInput,
   DescribeSourceLocationResponse,
   DescribeSourceLocationError,
   Credentials | HttpClient.HttpClient
@@ -1853,7 +1854,7 @@ export type DescribeVodSourceError = CommonErrors;
  * Provides details about a specific video on demand (VOD) source in a specific source location.
  */
 export const describeVodSource: API.OperationMethod<
-  DescribeVodSourceRequest,
+  DescribeVodSourceRequest & RegionInput,
   DescribeVodSourceResponse,
   DescribeVodSourceError,
   Credentials | HttpClient.HttpClient
@@ -1873,7 +1874,7 @@ export type GetChannelPolicyError = CommonErrors;
  * Returns the channel's IAM policy. IAM policies are used to control access to your channel.
  */
 export const getChannelPolicy: API.OperationMethod<
-  GetChannelPolicyRequest,
+  GetChannelPolicyRequest & RegionInput,
   GetChannelPolicyResponse,
   GetChannelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1893,7 +1894,7 @@ export type GetChannelScheduleError = BadRequestException | ChannelNotFound | Co
  * Retrieves information about your channel's schedule.
  */
 export const getChannelSchedule: API.PaginatedOperationMethod<
-  GetChannelScheduleRequest,
+  GetChannelScheduleRequest & RegionInput,
   GetChannelScheduleResponse,
   GetChannelScheduleError,
   Credentials | HttpClient.HttpClient,
@@ -1920,7 +1921,7 @@ export type GetFunctionError = CommonErrors;
  * Retrieves the configuration and metadata for a function. For more information about functions, see Working with functions in the *MediaTailor User Guide*.
  */
 export const getFunction: API.OperationMethod<
-  GetFunctionRequest,
+  GetFunctionRequest & RegionInput,
   GetFunctionResponse,
   GetFunctionError,
   Credentials | HttpClient.HttpClient
@@ -1940,7 +1941,7 @@ export type GetPlaybackConfigurationError = PlaybackConfigurationNotFound | Comm
  * Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
 export const getPlaybackConfiguration: API.OperationMethod<
-  GetPlaybackConfigurationRequest,
+  GetPlaybackConfigurationRequest & RegionInput,
   GetPlaybackConfigurationResponse,
   GetPlaybackConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1963,7 +1964,7 @@ export type GetPrefetchScheduleError =
  * Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
 export const getPrefetchSchedule: API.OperationMethod<
-  GetPrefetchScheduleRequest,
+  GetPrefetchScheduleRequest & RegionInput,
   GetPrefetchScheduleResponse,
   GetPrefetchScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1983,7 +1984,7 @@ export type ListAlertsError = BadRequestException | CommonErrors;
  * Lists the alerts that are associated with a MediaTailor channel assembly resource.
  */
 export const listAlerts: API.PaginatedOperationMethod<
-  ListAlertsRequest,
+  ListAlertsRequest & RegionInput,
   ListAlertsResponse,
   ListAlertsError,
   Credentials | HttpClient.HttpClient,
@@ -2010,7 +2011,7 @@ export type ListChannelsError = CommonErrors;
  * Retrieves information about the channels that are associated with the current AWS account.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2037,7 +2038,7 @@ export type ListFunctionsError = CommonErrors;
  * Retrieves all functions associated with your AWS account in the current Region. For more information about functions, see Working with functions in the *MediaTailor User Guide*.
  */
 export const listFunctions: API.PaginatedOperationMethod<
-  ListFunctionsRequest,
+  ListFunctionsRequest & RegionInput,
   ListFunctionsResponse,
   ListFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -2064,7 +2065,7 @@ export type ListLiveSourcesError = CommonErrors;
  * Lists the live sources contained in a source location. A source represents a piece of content.
  */
 export const listLiveSources: API.PaginatedOperationMethod<
-  ListLiveSourcesRequest,
+  ListLiveSourcesRequest & RegionInput,
   ListLiveSourcesResponse,
   ListLiveSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2091,7 +2092,7 @@ export type ListPlaybackConfigurationsError = CommonErrors;
  * Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor.
  */
 export const listPlaybackConfigurations: API.PaginatedOperationMethod<
-  ListPlaybackConfigurationsRequest,
+  ListPlaybackConfigurationsRequest & RegionInput,
   ListPlaybackConfigurationsResponse,
   ListPlaybackConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -2121,7 +2122,7 @@ export type ListPrefetchSchedulesError =
  * Lists the prefetch schedules for a playback configuration.
  */
 export const listPrefetchSchedules: API.PaginatedOperationMethod<
-  ListPrefetchSchedulesRequest,
+  ListPrefetchSchedulesRequest & RegionInput,
   ListPrefetchSchedulesResponse,
   ListPrefetchSchedulesError,
   Credentials | HttpClient.HttpClient,
@@ -2148,7 +2149,7 @@ export type ListSourceLocationsError = CommonErrors;
  * Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
  */
 export const listSourceLocations: API.PaginatedOperationMethod<
-  ListSourceLocationsRequest,
+  ListSourceLocationsRequest & RegionInput,
   ListSourceLocationsResponse,
   ListSourceLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -2175,7 +2176,7 @@ export type ListTagsForResourceError = BadRequestException | CommonErrors;
  * A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2195,7 +2196,7 @@ export type ListVodSourcesError = CommonErrors;
  * Lists the VOD sources contained in a source location. A source represents a piece of content.
  */
 export const listVodSources: API.PaginatedOperationMethod<
-  ListVodSourcesRequest,
+  ListVodSourcesRequest & RegionInput,
   ListVodSourcesResponse,
   ListVodSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2222,7 +2223,7 @@ export type PutChannelPolicyError = CommonErrors;
  * Creates an IAM policy for the channel. IAM policies are used to control access to your channel.
  */
 export const putChannelPolicy: API.OperationMethod<
-  PutChannelPolicyRequest,
+  PutChannelPolicyRequest & RegionInput,
   PutChannelPolicyResponse,
   PutChannelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2242,7 +2243,7 @@ export type PutFunctionError = CommonErrors;
  * Creates or updates a function. A function defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. For more information about functions, see Working with functions in the *MediaTailor User Guide*.
  */
 export const putFunction: API.OperationMethod<
-  PutFunctionRequest,
+  PutFunctionRequest & RegionInput,
   PutFunctionResponse,
   PutFunctionError,
   Credentials | HttpClient.HttpClient
@@ -2262,7 +2263,7 @@ export type PutPlaybackConfigurationError = CommonErrors;
  * Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
 export const putPlaybackConfiguration: API.OperationMethod<
-  PutPlaybackConfigurationRequest,
+  PutPlaybackConfigurationRequest & RegionInput,
   PutPlaybackConfigurationResponse,
   PutPlaybackConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2282,7 +2283,7 @@ export type StartChannelError = BadRequestException | ChannelNotFound | CommonEr
  * Starts a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const startChannel: API.OperationMethod<
-  StartChannelRequest,
+  StartChannelRequest & RegionInput,
   StartChannelResponse,
   StartChannelError,
   Credentials | HttpClient.HttpClient
@@ -2302,7 +2303,7 @@ export type StopChannelError = BadRequestException | ChannelNotFound | CommonErr
  * Stops a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const stopChannel: API.OperationMethod<
-  StopChannelRequest,
+  StopChannelRequest & RegionInput,
   StopChannelResponse,
   StopChannelError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2323,7 @@ export type TagResourceError = BadRequestException | CommonErrors;
  * The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2342,7 +2343,7 @@ export type UntagResourceError = BadRequestException | CommonErrors;
  * The resource to untag.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2362,7 +2363,7 @@ export type UpdateChannelError = CommonErrors;
  * Updates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -2382,7 +2383,7 @@ export type UpdateLiveSourceError = CommonErrors;
  * Updates a live source's configuration.
  */
 export const updateLiveSource: API.OperationMethod<
-  UpdateLiveSourceRequest,
+  UpdateLiveSourceRequest & RegionInput,
   UpdateLiveSourceResponse,
   UpdateLiveSourceError,
   Credentials | HttpClient.HttpClient
@@ -2402,7 +2403,7 @@ export type UpdateProgramError = BadRequestException | ProgramNotFound | CommonE
  * Updates a program within a channel.
  */
 export const updateProgram: API.OperationMethod<
-  UpdateProgramRequest,
+  UpdateProgramRequest & RegionInput,
   UpdateProgramResponse,
   UpdateProgramError,
   Credentials | HttpClient.HttpClient
@@ -2422,7 +2423,7 @@ export type UpdateSourceLocationError = CommonErrors;
  * Updates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const updateSourceLocation: API.OperationMethod<
-  UpdateSourceLocationRequest,
+  UpdateSourceLocationRequest & RegionInput,
   UpdateSourceLocationResponse,
   UpdateSourceLocationError,
   Credentials | HttpClient.HttpClient
@@ -2442,7 +2443,7 @@ export type UpdateVodSourceError = CommonErrors;
  * Updates a VOD source's configuration.
  */
 export const updateVodSource: API.OperationMethod<
-  UpdateVodSourceRequest,
+  UpdateVodSourceRequest & RegionInput,
   UpdateVodSourceResponse,
   UpdateVodSourceError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1953,7 +1954,7 @@ export type AcceptAccountLinkInvitationError =
  * There's currently no unlinking capability after you accept the account linking invitation.
  */
 export const acceptAccountLinkInvitation: API.OperationMethod<
-  AcceptAccountLinkInvitationRequest,
+  AcceptAccountLinkInvitationRequest & RegionInput,
   AcceptAccountLinkInvitationResult,
   AcceptAccountLinkInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1992,7 +1993,7 @@ export type AssociateConnectionAliasError =
  * connection alias is `CREATED`.
  */
 export const associateConnectionAlias: API.OperationMethod<
-  AssociateConnectionAliasRequest,
+  AssociateConnectionAliasRequest & RegionInput,
   AssociateConnectionAliasResult,
   AssociateConnectionAliasError,
   Credentials | HttpClient.HttpClient
@@ -2026,7 +2027,7 @@ export type AssociateIpGroupsError =
  * Associates the specified IP access control group with the specified directory.
  */
 export const associateIpGroups: API.OperationMethod<
-  AssociateIpGroupsRequest,
+  AssociateIpGroupsRequest & RegionInput,
   AssociateIpGroupsResult,
   AssociateIpGroupsError,
   Credentials | HttpClient.HttpClient
@@ -2064,7 +2065,7 @@ export type AssociateWorkspaceApplicationError =
  * Associates the specified application to the specified WorkSpace.
  */
 export const associateWorkspaceApplication: API.OperationMethod<
-  AssociateWorkspaceApplicationRequest,
+  AssociateWorkspaceApplicationRequest & RegionInput,
   AssociateWorkspaceApplicationResult,
   AssociateWorkspaceApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2104,7 +2105,7 @@ export type AuthorizeIpRulesError =
  * ranges specified in the rules.
  */
 export const authorizeIpRules: API.OperationMethod<
-  AuthorizeIpRulesRequest,
+  AuthorizeIpRulesRequest & RegionInput,
   AuthorizeIpRulesResult,
   AuthorizeIpRulesError,
   Credentials | HttpClient.HttpClient
@@ -2148,7 +2149,7 @@ export type CopyWorkspaceImageError =
  * the ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
  */
 export const copyWorkspaceImage: API.OperationMethod<
-  CopyWorkspaceImageRequest,
+  CopyWorkspaceImageRequest & RegionInput,
   CopyWorkspaceImageResult,
   CopyWorkspaceImageError,
   Credentials | HttpClient.HttpClient
@@ -2181,7 +2182,7 @@ export type CreateAccountLinkInvitationError =
  * Creates the account link invitation.
  */
 export const createAccountLinkInvitation: API.OperationMethod<
-  CreateAccountLinkInvitationRequest,
+  CreateAccountLinkInvitationRequest & RegionInput,
   CreateAccountLinkInvitationResult,
   CreateAccountLinkInvitationError,
   Credentials | HttpClient.HttpClient
@@ -2210,7 +2211,7 @@ export type CreateConnectClientAddInError =
  * This client add-in allows WorkSpaces users to seamlessly connect to Connect Customer.
  */
 export const createConnectClientAddIn: API.OperationMethod<
-  CreateConnectClientAddInRequest,
+  CreateConnectClientAddInRequest & RegionInput,
   CreateConnectClientAddInResult,
   CreateConnectClientAddInError,
   Credentials | HttpClient.HttpClient
@@ -2245,7 +2246,7 @@ export type CreateConnectionAliasError =
  * Redirection for Amazon WorkSpaces.
  */
 export const createConnectionAlias: API.OperationMethod<
-  CreateConnectionAliasRequest,
+  CreateConnectionAliasRequest & RegionInput,
   CreateConnectionAliasResult,
   CreateConnectionAliasError,
   Credentials | HttpClient.HttpClient
@@ -2288,7 +2289,7 @@ export type CreateIpGroupError =
  * anywhere. You cannot modify the default IP access control group for your directory.
  */
 export const createIpGroup: API.OperationMethod<
-  CreateIpGroupRequest,
+  CreateIpGroupRequest & RegionInput,
   CreateIpGroupResult,
   CreateIpGroupError,
   Credentials | HttpClient.HttpClient
@@ -2320,7 +2321,7 @@ export type CreateStandbyWorkspacesError =
  * Creates a standby WorkSpace in a secondary Region.
  */
 export const createStandbyWorkspaces: API.OperationMethod<
-  CreateStandbyWorkspacesRequest,
+  CreateStandbyWorkspacesRequest & RegionInput,
   CreateStandbyWorkspacesResult,
   CreateStandbyWorkspacesError,
   Credentials | HttpClient.HttpClient
@@ -2350,7 +2351,7 @@ export type CreateTagsError =
  * Creates the specified tags for the specified WorkSpaces resource.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResult,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -2397,7 +2398,7 @@ export type CreateUpdatedWorkspaceImageError =
  * after you've verified your new updated image and created a new bundle.
  */
 export const createUpdatedWorkspaceImage: API.OperationMethod<
-  CreateUpdatedWorkspaceImageRequest,
+  CreateUpdatedWorkspaceImageRequest & RegionInput,
   CreateUpdatedWorkspaceImageResult,
   CreateUpdatedWorkspaceImageError,
   Credentials | HttpClient.HttpClient
@@ -2434,7 +2435,7 @@ export type CreateWorkspaceBundleError =
  * Create a Custom WorkSpaces Image and Bundle.
  */
 export const createWorkspaceBundle: API.OperationMethod<
-  CreateWorkspaceBundleRequest,
+  CreateWorkspaceBundleRequest & RegionInput,
   CreateWorkspaceBundleResult,
   CreateWorkspaceBundleError,
   Credentials | HttpClient.HttpClient
@@ -2469,7 +2470,7 @@ export type CreateWorkspaceImageError =
  * Creates a new WorkSpace image from an existing WorkSpace.
  */
 export const createWorkspaceImage: API.OperationMethod<
-  CreateWorkspaceImageRequest,
+  CreateWorkspaceImageRequest & RegionInput,
   CreateWorkspaceImageResult,
   CreateWorkspaceImageError,
   Credentials | HttpClient.HttpClient
@@ -2518,7 +2519,7 @@ export type CreateWorkspacesError =
  * Can I switch between hourly and monthly billing?
  */
 export const createWorkspaces: API.OperationMethod<
-  CreateWorkspacesRequest,
+  CreateWorkspacesRequest & RegionInput,
   CreateWorkspacesResult,
   CreateWorkspacesError,
   Credentials | HttpClient.HttpClient
@@ -2549,7 +2550,7 @@ export type CreateWorkspacesPoolError =
  * Creates a pool of WorkSpaces.
  */
 export const createWorkspacesPool: API.OperationMethod<
-  CreateWorkspacesPoolRequest,
+  CreateWorkspacesPoolRequest & RegionInput,
   CreateWorkspacesPoolResult,
   CreateWorkspacesPoolError,
   Credentials | HttpClient.HttpClient
@@ -2582,7 +2583,7 @@ export type DeleteAccountLinkInvitationError =
  * Deletes the account link invitation.
  */
 export const deleteAccountLinkInvitation: API.OperationMethod<
-  DeleteAccountLinkInvitationRequest,
+  DeleteAccountLinkInvitationRequest & RegionInput,
   DeleteAccountLinkInvitationResult,
   DeleteAccountLinkInvitationError,
   Credentials | HttpClient.HttpClient
@@ -2618,7 +2619,7 @@ export type DeleteClientBrandingError =
  * default client branding.
  */
 export const deleteClientBranding: API.OperationMethod<
-  DeleteClientBrandingRequest,
+  DeleteClientBrandingRequest & RegionInput,
   DeleteClientBrandingResult,
   DeleteClientBrandingError,
   Credentials | HttpClient.HttpClient
@@ -2643,7 +2644,7 @@ export type DeleteConnectClientAddInError =
  * directory.
  */
 export const deleteConnectClientAddIn: API.OperationMethod<
-  DeleteConnectClientAddInRequest,
+  DeleteConnectClientAddInRequest & RegionInput,
   DeleteConnectClientAddInResult,
   DeleteConnectClientAddInError,
   Credentials | HttpClient.HttpClient
@@ -2682,7 +2683,7 @@ export type DeleteConnectionAliasError =
  * associated with any directories.
  */
 export const deleteConnectionAlias: API.OperationMethod<
-  DeleteConnectionAliasRequest,
+  DeleteConnectionAliasRequest & RegionInput,
   DeleteConnectionAliasResult,
   DeleteConnectionAliasError,
   Credentials | HttpClient.HttpClient
@@ -2716,7 +2717,7 @@ export type DeleteIpGroupError =
  * You cannot delete an IP access control group that is associated with a directory.
  */
 export const deleteIpGroup: API.OperationMethod<
-  DeleteIpGroupRequest,
+  DeleteIpGroupRequest & RegionInput,
   DeleteIpGroupResult,
   DeleteIpGroupError,
   Credentials | HttpClient.HttpClient
@@ -2744,7 +2745,7 @@ export type DeleteTagsError =
  * Deletes the specified tags from the specified WorkSpaces resource.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResult,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -2771,7 +2772,7 @@ export type DeleteWorkspaceBundleError =
  * Delete a Custom WorkSpaces Bundle or Image.
  */
 export const deleteWorkspaceBundle: API.OperationMethod<
-  DeleteWorkspaceBundleRequest,
+  DeleteWorkspaceBundleRequest & RegionInput,
   DeleteWorkspaceBundleResult,
   DeleteWorkspaceBundleError,
   Credentials | HttpClient.HttpClient
@@ -2802,7 +2803,7 @@ export type DeleteWorkspaceImageError =
  * other accounts.
  */
 export const deleteWorkspaceImage: API.OperationMethod<
-  DeleteWorkspaceImageRequest,
+  DeleteWorkspaceImageRequest & RegionInput,
   DeleteWorkspaceImageResult,
   DeleteWorkspaceImageError,
   Credentials | HttpClient.HttpClient
@@ -2829,7 +2830,7 @@ export type DeployWorkspaceApplicationsError =
  * Deploys associated applications to the specified WorkSpace
  */
 export const deployWorkspaceApplications: API.OperationMethod<
-  DeployWorkspaceApplicationsRequest,
+  DeployWorkspaceApplicationsRequest & RegionInput,
   DeployWorkspaceApplicationsResult,
   DeployWorkspaceApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -2875,7 +2876,7 @@ export type DeregisterWorkspaceDirectoryError =
  * again.
  */
 export const deregisterWorkspaceDirectory: API.OperationMethod<
-  DeregisterWorkspaceDirectoryRequest,
+  DeregisterWorkspaceDirectoryRequest & RegionInput,
   DeregisterWorkspaceDirectoryResult,
   DeregisterWorkspaceDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2902,7 +2903,7 @@ export type DescribeAccountError = AccessDeniedException | CommonErrors;
  * the specified account.
  */
 export const describeAccount: API.OperationMethod<
-  DescribeAccountRequest,
+  DescribeAccountRequest & RegionInput,
   DescribeAccountResult,
   DescribeAccountError,
   Credentials | HttpClient.HttpClient
@@ -2923,7 +2924,7 @@ export type DescribeAccountModificationsError = AccessDeniedException | CommonEr
  * License (BYOL) for the specified account.
  */
 export const describeAccountModifications: API.OperationMethod<
-  DescribeAccountModificationsRequest,
+  DescribeAccountModificationsRequest & RegionInput,
   DescribeAccountModificationsResult,
   DescribeAccountModificationsError,
   Credentials | HttpClient.HttpClient
@@ -2948,7 +2949,7 @@ export type DescribeApplicationAssociationsError =
  * Describes the associations between the application and the specified associated resources.
  */
 export const describeApplicationAssociations: API.PaginatedOperationMethod<
-  DescribeApplicationAssociationsRequest,
+  DescribeApplicationAssociationsRequest & RegionInput,
   DescribeApplicationAssociationsResult,
   DescribeApplicationAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2984,7 +2985,7 @@ export type DescribeApplicationsError =
  * Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners.
  */
 export const describeApplications: API.PaginatedOperationMethod<
-  DescribeApplicationsRequest,
+  DescribeApplicationsRequest & RegionInput,
   DescribeApplicationsResult,
   DescribeApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -3020,7 +3021,7 @@ export type DescribeBundleAssociationsError =
  * Describes the associations between the applications and the specified bundle.
  */
 export const describeBundleAssociations: API.OperationMethod<
-  DescribeBundleAssociationsRequest,
+  DescribeBundleAssociationsRequest & RegionInput,
   DescribeBundleAssociationsResult,
   DescribeBundleAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3055,7 +3056,7 @@ export type DescribeClientBrandingError =
  * response.
  */
 export const describeClientBranding: API.OperationMethod<
-  DescribeClientBrandingRequest,
+  DescribeClientBrandingRequest & RegionInput,
   DescribeClientBrandingResult,
   DescribeClientBrandingError,
   Credentials | HttpClient.HttpClient
@@ -3079,7 +3080,7 @@ export type DescribeClientPropertiesError =
  * Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
  */
 export const describeClientProperties: API.OperationMethod<
-  DescribeClientPropertiesRequest,
+  DescribeClientPropertiesRequest & RegionInput,
   DescribeClientPropertiesResult,
   DescribeClientPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -3103,7 +3104,7 @@ export type DescribeConnectClientAddInsError =
  * Retrieves a list of Connect Customer client add-ins that have been created.
  */
 export const describeConnectClientAddIns: API.OperationMethod<
-  DescribeConnectClientAddInsRequest,
+  DescribeConnectClientAddInsRequest & RegionInput,
   DescribeConnectClientAddInsResult,
   DescribeConnectClientAddInsError,
   Credentials | HttpClient.HttpClient
@@ -3129,7 +3130,7 @@ export type DescribeConnectionAliasesError =
  * Redirection for Amazon WorkSpaces.
  */
 export const describeConnectionAliases: API.OperationMethod<
-  DescribeConnectionAliasesRequest,
+  DescribeConnectionAliasesRequest & RegionInput,
   DescribeConnectionAliasesResult,
   DescribeConnectionAliasesError,
   Credentials | HttpClient.HttpClient
@@ -3157,7 +3158,7 @@ export type DescribeConnectionAliasPermissionsError =
  * Redirection for Amazon WorkSpaces.
  */
 export const describeConnectionAliasPermissions: API.OperationMethod<
-  DescribeConnectionAliasPermissionsRequest,
+  DescribeConnectionAliasPermissionsRequest & RegionInput,
   DescribeConnectionAliasPermissionsResult,
   DescribeConnectionAliasPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -3185,7 +3186,7 @@ export type DescribeCustomWorkspaceImageImportError =
  * Retrieves information about a WorkSpace BYOL image being imported via ImportCustomWorkspaceImage.
  */
 export const describeCustomWorkspaceImageImport: API.OperationMethod<
-  DescribeCustomWorkspaceImageImportRequest,
+  DescribeCustomWorkspaceImageImportRequest & RegionInput,
   DescribeCustomWorkspaceImageImportResult,
   DescribeCustomWorkspaceImageImportError,
   Credentials | HttpClient.HttpClient
@@ -3210,7 +3211,7 @@ export type DescribeImageAssociationsError =
  * Describes the associations between the applications and the specified image.
  */
 export const describeImageAssociations: API.OperationMethod<
-  DescribeImageAssociationsRequest,
+  DescribeImageAssociationsRequest & RegionInput,
   DescribeImageAssociationsResult,
   DescribeImageAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3238,7 +3239,7 @@ export type DescribeIpGroupsError =
  * Describes one or more of your IP access control groups.
  */
 export const describeIpGroups: API.OperationMethod<
-  DescribeIpGroupsRequest,
+  DescribeIpGroupsRequest & RegionInput,
   DescribeIpGroupsResult,
   DescribeIpGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3258,7 +3259,7 @@ export type DescribeTagsError = ResourceNotFoundException | CommonErrors;
  * Describes the specified tags for the specified WorkSpaces resource.
  */
 export const describeTags: API.OperationMethod<
-  DescribeTagsRequest,
+  DescribeTagsRequest & RegionInput,
   DescribeTagsResult,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
@@ -3283,7 +3284,7 @@ export type DescribeWorkspaceAssociationsError =
  * Describes the associations betweens applications and the specified WorkSpace.
  */
 export const describeWorkspaceAssociations: API.OperationMethod<
-  DescribeWorkspaceAssociationsRequest,
+  DescribeWorkspaceAssociationsRequest & RegionInput,
   DescribeWorkspaceAssociationsResult,
   DescribeWorkspaceAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3310,7 +3311,7 @@ export type DescribeWorkspaceBundlesError = InvalidParameterValuesException | Co
  * You can filter the results using either bundle ID or owner, but not both.
  */
 export const describeWorkspaceBundles: API.PaginatedOperationMethod<
-  DescribeWorkspaceBundlesRequest,
+  DescribeWorkspaceBundlesRequest & RegionInput,
   DescribeWorkspaceBundlesResult,
   DescribeWorkspaceBundlesError,
   Credentials | HttpClient.HttpClient,
@@ -3332,7 +3333,7 @@ export type DescribeWorkspaceDirectoriesError = InvalidParameterValuesException 
  * Describes the available directories that are registered with Amazon WorkSpaces.
  */
 export const describeWorkspaceDirectories: API.PaginatedOperationMethod<
-  DescribeWorkspaceDirectoriesRequest,
+  DescribeWorkspaceDirectoriesRequest & RegionInput,
   DescribeWorkspaceDirectoriesResult,
   DescribeWorkspaceDirectoriesError,
   Credentials | HttpClient.HttpClient,
@@ -3358,7 +3359,7 @@ export type DescribeWorkspaceImagePermissionsError =
  * Describes the permissions that the owner of an image has granted to other Amazon Web Services accounts for an image.
  */
 export const describeWorkspaceImagePermissions: API.OperationMethod<
-  DescribeWorkspaceImagePermissionsRequest,
+  DescribeWorkspaceImagePermissionsRequest & RegionInput,
   DescribeWorkspaceImagePermissionsResult,
   DescribeWorkspaceImagePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -3379,7 +3380,7 @@ export type DescribeWorkspaceImagesError = AccessDeniedException | CommonErrors;
  * are provided. Otherwise, all images in the account are described.
  */
 export const describeWorkspaceImages: API.OperationMethod<
-  DescribeWorkspaceImagesRequest,
+  DescribeWorkspaceImagesRequest & RegionInput,
   DescribeWorkspaceImagesResult,
   DescribeWorkspaceImagesError,
   Credentials | HttpClient.HttpClient
@@ -3405,7 +3406,7 @@ export type DescribeWorkspacesError =
  * owner, but you can specify only one filter at a time.
  */
 export const describeWorkspaces: API.PaginatedOperationMethod<
-  DescribeWorkspacesRequest,
+  DescribeWorkspacesRequest & RegionInput,
   DescribeWorkspacesResult,
   DescribeWorkspacesError,
   Credentials | HttpClient.HttpClient,
@@ -3434,7 +3435,7 @@ export type DescribeWorkspacesConnectionStatusError =
  * Describes the connection status of the specified WorkSpaces.
  */
 export const describeWorkspacesConnectionStatus: API.OperationMethod<
-  DescribeWorkspacesConnectionStatusRequest,
+  DescribeWorkspacesConnectionStatusRequest & RegionInput,
   DescribeWorkspacesConnectionStatusResult,
   DescribeWorkspacesConnectionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3458,7 +3459,7 @@ export type DescribeWorkspaceSnapshotsError =
  * Describes the snapshots for the specified WorkSpace.
  */
 export const describeWorkspaceSnapshots: API.OperationMethod<
-  DescribeWorkspaceSnapshotsRequest,
+  DescribeWorkspaceSnapshotsRequest & RegionInput,
   DescribeWorkspaceSnapshotsResult,
   DescribeWorkspaceSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -3486,7 +3487,7 @@ export type DescribeWorkspacesPoolsError =
  * Describes the specified WorkSpaces Pools.
  */
 export const describeWorkspacesPools: API.OperationMethod<
-  DescribeWorkspacesPoolsRequest,
+  DescribeWorkspacesPoolsRequest & RegionInput,
   DescribeWorkspacesPoolsResult,
   DescribeWorkspacesPoolsError,
   Credentials | HttpClient.HttpClient
@@ -3514,7 +3515,7 @@ export type DescribeWorkspacesPoolSessionsError =
  * Retrieves a list that describes the streaming sessions for a specified pool.
  */
 export const describeWorkspacesPoolSessions: API.OperationMethod<
-  DescribeWorkspacesPoolSessionsRequest,
+  DescribeWorkspacesPoolSessionsRequest & RegionInput,
   DescribeWorkspacesPoolSessionsResult,
   DescribeWorkspacesPoolSessionsError,
   Credentials | HttpClient.HttpClient
@@ -3547,7 +3548,7 @@ export type DisassociateConnectionAliasError =
  * connection alias is `CREATED`.
  */
 export const disassociateConnectionAlias: API.OperationMethod<
-  DisassociateConnectionAliasRequest,
+  DisassociateConnectionAliasRequest & RegionInput,
   DisassociateConnectionAliasResult,
   DisassociateConnectionAliasError,
   Credentials | HttpClient.HttpClient
@@ -3579,7 +3580,7 @@ export type DisassociateIpGroupsError =
  * Disassociates the specified IP access control group from the specified directory.
  */
 export const disassociateIpGroups: API.OperationMethod<
-  DisassociateIpGroupsRequest,
+  DisassociateIpGroupsRequest & RegionInput,
   DisassociateIpGroupsResult,
   DisassociateIpGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3611,7 +3612,7 @@ export type DisassociateWorkspaceApplicationError =
  * Disassociates the specified application from a WorkSpace.
  */
 export const disassociateWorkspaceApplication: API.OperationMethod<
-  DisassociateWorkspaceApplicationRequest,
+  DisassociateWorkspaceApplicationRequest & RegionInput,
   DisassociateWorkspaceApplicationResult,
   DisassociateWorkspaceApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3642,7 +3643,7 @@ export type GetAccountLinkError =
  * Retrieves account link information.
  */
 export const getAccountLink: API.OperationMethod<
-  GetAccountLinkRequest,
+  GetAccountLinkRequest & RegionInput,
   GetAccountLinkResult,
   GetAccountLinkError,
   Credentials | HttpClient.HttpClient
@@ -3692,7 +3693,7 @@ export type ImportClientBrandingError =
  * client.
  */
 export const importClientBranding: API.OperationMethod<
-  ImportClientBrandingRequest,
+  ImportClientBrandingRequest & RegionInput,
   ImportClientBrandingResult,
   ImportClientBrandingError,
   Credentials | HttpClient.HttpClient
@@ -3728,7 +3729,7 @@ export type ImportCustomWorkspaceImageError =
  * Desktop Licenses.
  */
 export const importCustomWorkspaceImage: API.OperationMethod<
-  ImportCustomWorkspaceImageRequest,
+  ImportCustomWorkspaceImageRequest & RegionInput,
   ImportCustomWorkspaceImageResult,
   ImportCustomWorkspaceImageError,
   Credentials | HttpClient.HttpClient
@@ -3766,7 +3767,7 @@ export type ImportWorkspaceImageError =
  * Desktop Licenses.
  */
 export const importWorkspaceImage: API.OperationMethod<
-  ImportWorkspaceImageRequest,
+  ImportWorkspaceImageRequest & RegionInput,
   ImportWorkspaceImageResult,
   ImportWorkspaceImageError,
   Credentials | HttpClient.HttpClient
@@ -3797,7 +3798,7 @@ export type ListAccountLinksError =
  * Lists all account links.
  */
 export const listAccountLinks: API.PaginatedOperationMethod<
-  ListAccountLinksRequest,
+  ListAccountLinksRequest & RegionInput,
   ListAccountLinksResult,
   ListAccountLinksError,
   Credentials | HttpClient.HttpClient,
@@ -3836,7 +3837,7 @@ export type ListAvailableManagementCidrRangesError =
  * clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
  */
 export const listAvailableManagementCidrRanges: API.OperationMethod<
-  ListAvailableManagementCidrRangesRequest,
+  ListAvailableManagementCidrRangesRequest & RegionInput,
   ListAvailableManagementCidrRangesResult,
   ListAvailableManagementCidrRangesError,
   Credentials | HttpClient.HttpClient
@@ -3878,7 +3879,7 @@ export type MigrateWorkspaceError =
  * not support nested virtualization, the migration fails.
  */
 export const migrateWorkspace: API.OperationMethod<
-  MigrateWorkspaceRequest,
+  MigrateWorkspaceRequest & RegionInput,
   MigrateWorkspaceResult,
   MigrateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -3912,7 +3913,7 @@ export type ModifyAccountError =
  * account.
  */
 export const modifyAccount: API.OperationMethod<
-  ModifyAccountRequest,
+  ModifyAccountRequest & RegionInput,
   ModifyAccountResult,
   ModifyAccountError,
   Credentials | HttpClient.HttpClient
@@ -3944,7 +3945,7 @@ export type ModifyCertificateBasedAuthPropertiesError =
  * to use with your WorkSpaces.
  */
 export const modifyCertificateBasedAuthProperties: API.OperationMethod<
-  ModifyCertificateBasedAuthPropertiesRequest,
+  ModifyCertificateBasedAuthPropertiesRequest & RegionInput,
   ModifyCertificateBasedAuthPropertiesResult,
   ModifyCertificateBasedAuthPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -3974,7 +3975,7 @@ export type ModifyClientPropertiesError =
  * Modifies the properties of the specified Amazon WorkSpaces clients.
  */
 export const modifyClientProperties: API.OperationMethod<
-  ModifyClientPropertiesRequest,
+  ModifyClientPropertiesRequest & RegionInput,
   ModifyClientPropertiesResult,
   ModifyClientPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -4004,7 +4005,7 @@ export type ModifyEndpointEncryptionModeError =
  * directory between Standard TLS and FIPS 140-2 validated mode.
  */
 export const modifyEndpointEncryptionMode: API.OperationMethod<
-  ModifyEndpointEncryptionModeRequest,
+  ModifyEndpointEncryptionModeRequest & RegionInput,
   ModifyEndpointEncryptionModeResponse,
   ModifyEndpointEncryptionModeError,
   Credentials | HttpClient.HttpClient
@@ -4031,7 +4032,7 @@ export type ModifySamlPropertiesError =
  * SAML 2.0 identity provider.
  */
 export const modifySamlProperties: API.OperationMethod<
-  ModifySamlPropertiesRequest,
+  ModifySamlPropertiesRequest & RegionInput,
   ModifySamlPropertiesResult,
   ModifySamlPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -4062,7 +4063,7 @@ export type ModifySelfservicePermissionsError =
  * information, see Enable Self-Service WorkSpace Management Capabilities for Your Users.
  */
 export const modifySelfservicePermissions: API.OperationMethod<
-  ModifySelfservicePermissionsRequest,
+  ModifySelfservicePermissionsRequest & RegionInput,
   ModifySelfservicePermissionsResult,
   ModifySelfservicePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -4092,7 +4093,7 @@ export type ModifyStreamingPropertiesError =
  * Modifies the specified streaming properties.
  */
 export const modifyStreamingProperties: API.OperationMethod<
-  ModifyStreamingPropertiesRequest,
+  ModifyStreamingPropertiesRequest & RegionInput,
   ModifyStreamingPropertiesResult,
   ModifyStreamingPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -4125,7 +4126,7 @@ export type ModifyWorkspaceAccessPropertiesError =
  * Control Device Access.
  */
 export const modifyWorkspaceAccessProperties: API.OperationMethod<
-  ModifyWorkspaceAccessPropertiesRequest,
+  ModifyWorkspaceAccessPropertiesRequest & RegionInput,
   ModifyWorkspaceAccessPropertiesResult,
   ModifyWorkspaceAccessPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -4156,7 +4157,7 @@ export type ModifyWorkspaceCreationPropertiesError =
  * Modify the default properties used to create WorkSpaces.
  */
 export const modifyWorkspaceCreationProperties: API.OperationMethod<
-  ModifyWorkspaceCreationPropertiesRequest,
+  ModifyWorkspaceCreationPropertiesRequest & RegionInput,
   ModifyWorkspaceCreationPropertiesResult,
   ModifyWorkspaceCreationPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -4195,7 +4196,7 @@ export type ModifyWorkspacePropertiesError =
  * Core.
  */
 export const modifyWorkspaceProperties: API.OperationMethod<
-  ModifyWorkspacePropertiesRequest,
+  ModifyWorkspacePropertiesRequest & RegionInput,
   ModifyWorkspacePropertiesResult,
   ModifyWorkspacePropertiesError,
   Credentials | HttpClient.HttpClient
@@ -4234,7 +4235,7 @@ export type ModifyWorkspaceStateError =
  * state.
  */
 export const modifyWorkspaceState: API.OperationMethod<
-  ModifyWorkspaceStateRequest,
+  ModifyWorkspaceStateRequest & RegionInput,
   ModifyWorkspaceStateResult,
   ModifyWorkspaceStateError,
   Credentials | HttpClient.HttpClient
@@ -4265,7 +4266,7 @@ export type RebootWorkspacesError = OperationNotSupportedException | CommonError
  * This operation is asynchronous and returns before the WorkSpaces have rebooted.
  */
 export const rebootWorkspaces: API.OperationMethod<
-  RebootWorkspacesRequest,
+  RebootWorkspacesRequest & RegionInput,
   RebootWorkspacesResult,
   RebootWorkspacesError,
   Credentials | HttpClient.HttpClient
@@ -4296,7 +4297,7 @@ export type RebuildWorkspacesError = OperationNotSupportedException | CommonErro
  * rebuilt.
  */
 export const rebuildWorkspaces: API.OperationMethod<
-  RebuildWorkspacesRequest,
+  RebuildWorkspacesRequest & RegionInput,
   RebuildWorkspacesResult,
   RebuildWorkspacesError,
   Credentials | HttpClient.HttpClient
@@ -4330,7 +4331,7 @@ export type RegisterWorkspaceDirectoryError =
  * Creating the workspaces_DefaultRole Role.
  */
 export const registerWorkspaceDirectory: API.OperationMethod<
-  RegisterWorkspaceDirectoryRequest,
+  RegisterWorkspaceDirectoryRequest & RegionInput,
   RegisterWorkspaceDirectoryResult,
   RegisterWorkspaceDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -4366,7 +4367,7 @@ export type RejectAccountLinkInvitationError =
  * Rejects the account link invitation.
  */
 export const rejectAccountLinkInvitation: API.OperationMethod<
-  RejectAccountLinkInvitationRequest,
+  RejectAccountLinkInvitationRequest & RegionInput,
   RejectAccountLinkInvitationResult,
   RejectAccountLinkInvitationError,
   Credentials | HttpClient.HttpClient
@@ -4407,7 +4408,7 @@ export type RestoreWorkspaceError =
  * restored.
  */
 export const restoreWorkspace: API.OperationMethod<
-  RestoreWorkspaceRequest,
+  RestoreWorkspaceRequest & RegionInput,
   RestoreWorkspaceResult,
   RestoreWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -4437,7 +4438,7 @@ export type RevokeIpRulesError =
  * Removes one or more rules from the specified IP access control group.
  */
 export const revokeIpRules: API.OperationMethod<
-  RevokeIpRulesRequest,
+  RevokeIpRulesRequest & RegionInput,
   RevokeIpRulesResult,
   RevokeIpRulesError,
   Credentials | HttpClient.HttpClient
@@ -4465,7 +4466,7 @@ export type StartWorkspacesError = CommonErrors;
  * `Manual` and a state of `STOPPED`.
  */
 export const startWorkspaces: API.OperationMethod<
-  StartWorkspacesRequest,
+  StartWorkspacesRequest & RegionInput,
   StartWorkspacesResult,
   StartWorkspacesError,
   Credentials | HttpClient.HttpClient
@@ -4500,7 +4501,7 @@ export type StartWorkspacesPoolError =
  * `AutoStop` and a state of `STOPPED`.
  */
 export const startWorkspacesPool: API.OperationMethod<
-  StartWorkspacesPoolRequest,
+  StartWorkspacesPoolRequest & RegionInput,
   StartWorkspacesPoolResult,
   StartWorkspacesPoolError,
   Credentials | HttpClient.HttpClient
@@ -4532,7 +4533,7 @@ export type StopWorkspacesError = CommonErrors;
  * `UNHEALTHY`, or `ERROR`.
  */
 export const stopWorkspaces: API.OperationMethod<
-  StopWorkspacesRequest,
+  StopWorkspacesRequest & RegionInput,
   StopWorkspacesResult,
   StopWorkspacesError,
   Credentials | HttpClient.HttpClient
@@ -4565,7 +4566,7 @@ export type StopWorkspacesPoolError =
  * and a state of `AVAILABLE`, `IMPAIRED`, `UNHEALTHY`, or `ERROR`.
  */
 export const stopWorkspacesPool: API.OperationMethod<
-  StopWorkspacesPoolRequest,
+  StopWorkspacesPoolRequest & RegionInput,
   StopWorkspacesPoolResult,
   StopWorkspacesPoolError,
   Credentials | HttpClient.HttpClient
@@ -4616,7 +4617,7 @@ export type TerminateWorkspacesError = CommonErrors;
  * again.
  */
 export const terminateWorkspaces: API.OperationMethod<
-  TerminateWorkspacesRequest,
+  TerminateWorkspacesRequest & RegionInput,
   TerminateWorkspacesResult,
   TerminateWorkspacesError,
   Credentials | HttpClient.HttpClient
@@ -4646,7 +4647,7 @@ export type TerminateWorkspacesPoolError =
  * Terminates the specified pool.
  */
 export const terminateWorkspacesPool: API.OperationMethod<
-  TerminateWorkspacesPoolRequest,
+  TerminateWorkspacesPoolRequest & RegionInput,
   TerminateWorkspacesPoolResult,
   TerminateWorkspacesPoolError,
   Credentials | HttpClient.HttpClient
@@ -4682,7 +4683,7 @@ export type TerminateWorkspacesPoolSessionError =
  * Terminates the pool session.
  */
 export const terminateWorkspacesPoolSession: API.OperationMethod<
-  TerminateWorkspacesPoolSessionRequest,
+  TerminateWorkspacesPoolSessionRequest & RegionInput,
   TerminateWorkspacesPoolSessionResult,
   TerminateWorkspacesPoolSessionError,
   Credentials | HttpClient.HttpClient
@@ -4713,7 +4714,7 @@ export type UpdateConnectClientAddInError =
  * endpoint URL of a Connect Customer client add-in.
  */
 export const updateConnectClientAddIn: API.OperationMethod<
-  UpdateConnectClientAddInRequest,
+  UpdateConnectClientAddInRequest & RegionInput,
   UpdateConnectClientAddInResult,
   UpdateConnectClientAddInError,
   Credentials | HttpClient.HttpClient
@@ -4756,7 +4757,7 @@ export type UpdateConnectionAliasPermissionError =
  * shared with any accounts or associated with any directories.
  */
 export const updateConnectionAliasPermission: API.OperationMethod<
-  UpdateConnectionAliasPermissionRequest,
+  UpdateConnectionAliasPermissionRequest & RegionInput,
   UpdateConnectionAliasPermissionResult,
   UpdateConnectionAliasPermissionError,
   Credentials | HttpClient.HttpClient
@@ -4791,7 +4792,7 @@ export type UpdateRulesOfIpGroupError =
  * rules.
  */
 export const updateRulesOfIpGroup: API.OperationMethod<
-  UpdateRulesOfIpGroupRequest,
+  UpdateRulesOfIpGroupRequest & RegionInput,
   UpdateRulesOfIpGroupResult,
   UpdateRulesOfIpGroupError,
   Credentials | HttpClient.HttpClient
@@ -4829,7 +4830,7 @@ export type UpdateWorkspaceBundleError =
  * must either rebuild the WorkSpaces or delete and recreate them.
  */
 export const updateWorkspaceBundle: API.OperationMethod<
-  UpdateWorkspaceBundleRequest,
+  UpdateWorkspaceBundleRequest & RegionInput,
   UpdateWorkspaceBundleResult,
   UpdateWorkspaceBundleError,
   Credentials | HttpClient.HttpClient
@@ -4881,7 +4882,7 @@ export type UpdateWorkspaceImagePermissionError =
  * across accounts in Amazon Web Services GovCloud (US), contact Amazon Web Services Support.
  */
 export const updateWorkspaceImagePermission: API.OperationMethod<
-  UpdateWorkspaceImagePermissionRequest,
+  UpdateWorkspaceImagePermissionRequest & RegionInput,
   UpdateWorkspaceImagePermissionResult,
   UpdateWorkspaceImagePermissionError,
   Credentials | HttpClient.HttpClient
@@ -4919,7 +4920,7 @@ export type UpdateWorkspacesPoolError =
  * Updates the specified pool.
  */
 export const updateWorkspacesPool: API.OperationMethod<
-  UpdateWorkspacesPoolRequest,
+  UpdateWorkspacesPoolRequest & RegionInput,
   UpdateWorkspacesPoolResult,
   UpdateWorkspacesPoolError,
   Credentials | HttpClient.HttpClient

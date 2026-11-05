@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1635,7 +1636,7 @@ export type AcceptSharedDirectoryError =
  * Accepts a directory sharing request that was sent from the directory owner account.
  */
 export const acceptSharedDirectory: API.OperationMethod<
-  AcceptSharedDirectoryRequest,
+  AcceptSharedDirectoryRequest & RegionInput,
   AcceptSharedDirectoryResult,
   AcceptSharedDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -1677,7 +1678,7 @@ export type AddIpRoutesError =
  * permissions are required to run the *AddIpRoutes* operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const addIpRoutes: API.OperationMethod<
-  AddIpRoutesRequest,
+  AddIpRoutesRequest & RegionInput,
   AddIpRoutesResult,
   AddIpRoutesError,
   Credentials | HttpClient.HttpClient
@@ -1716,7 +1717,7 @@ export type AddRegionError =
  * Adds two domain controllers in the specified Region for the specified directory.
  */
 export const addRegion: API.OperationMethod<
-  AddRegionRequest,
+  AddRegionRequest & RegionInput,
   AddRegionResult,
   AddRegionError,
   Credentials | HttpClient.HttpClient
@@ -1755,7 +1756,7 @@ export type AddTagsToResourceError =
  * unique to each resource.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceRequest,
+  AddTagsToResourceRequest & RegionInput,
   AddTagsToResourceResult,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1789,7 +1790,7 @@ export type CancelSchemaExtensionError =
  * `UpdatingSchema`.
  */
 export const cancelSchemaExtension: API.OperationMethod<
-  CancelSchemaExtensionRequest,
+  CancelSchemaExtensionRequest & RegionInput,
   CancelSchemaExtensionResult,
   CancelSchemaExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1818,7 +1819,7 @@ export type ConnectDirectoryError =
  * to run the `ConnectDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const connectDirectory: API.OperationMethod<
-  ConnectDirectoryRequest,
+  ConnectDirectoryRequest & RegionInput,
   ConnectDirectoryResult,
   ConnectDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -1853,7 +1854,7 @@ export type CreateAliasError =
  * After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasRequest,
+  CreateAliasRequest & RegionInput,
   CreateAliasResult,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -1888,7 +1889,7 @@ export type CreateComputerError =
  * Creates an Active Directory computer object in the specified directory.
  */
 export const createComputer: API.OperationMethod<
-  CreateComputerRequest,
+  CreateComputerRequest & RegionInput,
   CreateComputerResult,
   CreateComputerError,
   Credentials | HttpClient.HttpClient
@@ -1927,7 +1928,7 @@ export type CreateConditionalForwarderError =
  * conditional forwarder points to the trusted domain.
  */
 export const createConditionalForwarder: API.OperationMethod<
-  CreateConditionalForwarderRequest,
+  CreateConditionalForwarderRequest & RegionInput,
   CreateConditionalForwarderResult,
   CreateConditionalForwarderError,
   Credentials | HttpClient.HttpClient
@@ -1965,7 +1966,7 @@ export type CreateDirectoryError =
  * to run the `CreateDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const createDirectory: API.OperationMethod<
-  CreateDirectoryRequest,
+  CreateDirectoryRequest & RegionInput,
   CreateDirectoryResult,
   CreateDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2006,7 +2007,7 @@ export type CreateHybridADError =
  * monitor the progress of directory creation.
  */
 export const createHybridAD: API.OperationMethod<
-  CreateHybridADRequest,
+  CreateHybridADRequest & RegionInput,
   CreateHybridADResult,
   CreateHybridADError,
   Credentials | HttpClient.HttpClient
@@ -2042,7 +2043,7 @@ export type CreateLogSubscriptionError =
  * logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
  */
 export const createLogSubscription: API.OperationMethod<
-  CreateLogSubscriptionRequest,
+  CreateLogSubscriptionRequest & RegionInput,
   CreateLogSubscriptionResult,
   CreateLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2079,7 +2080,7 @@ export type CreateMicrosoftADError =
  * are required to run the *CreateMicrosoftAD* operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const createMicrosoftAD: API.OperationMethod<
-  CreateMicrosoftADRequest,
+  CreateMicrosoftADRequest & RegionInput,
   CreateMicrosoftADResult,
   CreateMicrosoftADError,
   Credentials | HttpClient.HttpClient
@@ -2113,7 +2114,7 @@ export type CreateSnapshotError =
  * You cannot take snapshots of AD Connector directories.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
+  CreateSnapshotRequest & RegionInput,
   CreateSnapshotResult,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2153,7 +2154,7 @@ export type CreateTrustError =
  * external trust.
  */
 export const createTrust: API.OperationMethod<
-  CreateTrustRequest,
+  CreateTrustRequest & RegionInput,
   CreateTrustResult,
   CreateTrustError,
   Credentials | HttpClient.HttpClient
@@ -2191,7 +2192,7 @@ export type DeleteADAssessmentError =
  * assessments even if they are in progress.
  */
 export const deleteADAssessment: API.OperationMethod<
-  DeleteADAssessmentRequest,
+  DeleteADAssessmentRequest & RegionInput,
   DeleteADAssessmentResult,
   DeleteADAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -2225,7 +2226,7 @@ export type DeleteConditionalForwarderError =
  * directory.
  */
 export const deleteConditionalForwarder: API.OperationMethod<
-  DeleteConditionalForwarderRequest,
+  DeleteConditionalForwarderRequest & RegionInput,
   DeleteConditionalForwarderResult,
   DeleteConditionalForwarderError,
   Credentials | HttpClient.HttpClient
@@ -2260,7 +2261,7 @@ export type DeleteDirectoryError =
  * to run the `DeleteDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const deleteDirectory: API.OperationMethod<
-  DeleteDirectoryRequest,
+  DeleteDirectoryRequest & RegionInput,
   DeleteDirectoryResult,
   DeleteDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2285,7 +2286,7 @@ export type DeleteLogSubscriptionError =
  * Deletes the specified log subscription.
  */
 export const deleteLogSubscription: API.OperationMethod<
-  DeleteLogSubscriptionRequest,
+  DeleteLogSubscriptionRequest & RegionInput,
   DeleteLogSubscriptionResult,
   DeleteLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2315,7 +2316,7 @@ export type DeleteSnapshotError =
  * Deletes a directory snapshot.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotRequest,
+  DeleteSnapshotRequest & RegionInput,
   DeleteSnapshotResult,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2347,7 +2348,7 @@ export type DeleteTrustError =
  * domain.
  */
 export const deleteTrust: API.OperationMethod<
-  DeleteTrustRequest,
+  DeleteTrustRequest & RegionInput,
   DeleteTrustResult,
   DeleteTrustError,
   Credentials | HttpClient.HttpClient
@@ -2383,7 +2384,7 @@ export type DeregisterCertificateError =
  * certificate authentication.
  */
 export const deregisterCertificate: API.OperationMethod<
-  DeregisterCertificateRequest,
+  DeregisterCertificateRequest & RegionInput,
   DeregisterCertificateResult,
   DeregisterCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2417,7 +2418,7 @@ export type DeregisterEventTopicError =
  * Removes the specified directory as a publisher to the specified Amazon SNS topic.
  */
 export const deregisterEventTopic: API.OperationMethod<
-  DeregisterEventTopicRequest,
+  DeregisterEventTopicRequest & RegionInput,
   DeregisterEventTopicResult,
   DeregisterEventTopicError,
   Credentials | HttpClient.HttpClient
@@ -2450,7 +2451,7 @@ export type DescribeADAssessmentError =
  * assessment progress and review results.
  */
 export const describeADAssessment: API.OperationMethod<
-  DescribeADAssessmentRequest,
+  DescribeADAssessmentRequest & RegionInput,
   DescribeADAssessmentResult,
   DescribeADAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -2483,7 +2484,7 @@ export type DescribeCAEnrollmentPolicyError =
  * managed through Amazon Web Services Private Certificate Authority.
  */
 export const describeCAEnrollmentPolicy: API.OperationMethod<
-  DescribeCAEnrollmentPolicyRequest,
+  DescribeCAEnrollmentPolicyRequest & RegionInput,
   DescribeCAEnrollmentPolicyResult,
   DescribeCAEnrollmentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2516,7 +2517,7 @@ export type DescribeCertificateError =
  * certificate authentication.
  */
 export const describeCertificate: API.OperationMethod<
-  DescribeCertificateRequest,
+  DescribeCertificateRequest & RegionInput,
   DescribeCertificateResult,
   DescribeCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2553,7 +2554,7 @@ export type DescribeClientAuthenticationSettingsError =
  * `SmartCard` is supported.
  */
 export const describeClientAuthenticationSettings: API.PaginatedOperationMethod<
-  DescribeClientAuthenticationSettingsRequest,
+  DescribeClientAuthenticationSettingsRequest & RegionInput,
   DescribeClientAuthenticationSettingsResult,
   DescribeClientAuthenticationSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2597,7 +2598,7 @@ export type DescribeConditionalForwardersError =
  * conditional forwarders for the specified directory ID.
  */
 export const describeConditionalForwarders: API.OperationMethod<
-  DescribeConditionalForwardersRequest,
+  DescribeConditionalForwardersRequest & RegionInput,
   DescribeConditionalForwardersResult,
   DescribeConditionalForwardersError,
   Credentials | HttpClient.HttpClient
@@ -2643,7 +2644,7 @@ export type DescribeDirectoriesError =
  * parameter.
  */
 export const describeDirectories: API.PaginatedOperationMethod<
-  DescribeDirectoriesRequest,
+  DescribeDirectoriesRequest & RegionInput,
   DescribeDirectoriesResult,
   DescribeDirectoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2683,7 +2684,7 @@ export type DescribeDirectoryDataAccessError =
  * specified directory.
  */
 export const describeDirectoryDataAccess: API.OperationMethod<
-  DescribeDirectoryDataAccessRequest,
+  DescribeDirectoryDataAccessRequest & RegionInput,
   DescribeDirectoryDataAccessResult,
   DescribeDirectoryDataAccessError,
   Credentials | HttpClient.HttpClient
@@ -2716,7 +2717,7 @@ export type DescribeDomainControllersError =
  * Provides information about any domain controllers in your directory.
  */
 export const describeDomainControllers: API.PaginatedOperationMethod<
-  DescribeDomainControllersRequest,
+  DescribeDomainControllersRequest & RegionInput,
   DescribeDomainControllersResult,
   DescribeDomainControllersError,
   Credentials | HttpClient.HttpClient,
@@ -2754,7 +2755,7 @@ export type DescribeEventTopicsError =
  * describes all of the associations in the account.
  */
 export const describeEventTopics: API.OperationMethod<
-  DescribeEventTopicsRequest,
+  DescribeEventTopicsRequest & RegionInput,
   DescribeEventTopicsResult,
   DescribeEventTopicsError,
   Credentials | HttpClient.HttpClient
@@ -2788,7 +2789,7 @@ export type DescribeHybridADUpdateError =
  * self-managed instance settings (IDs and DNS IPs).
  */
 export const describeHybridADUpdate: API.OperationMethod<
-  DescribeHybridADUpdateRequest,
+  DescribeHybridADUpdateRequest & RegionInput,
   DescribeHybridADUpdateResult,
   DescribeHybridADUpdateError,
   Credentials | HttpClient.HttpClient
@@ -2822,7 +2823,7 @@ export type DescribeLDAPSSettingsError =
  * Describes the status of LDAP security for the specified directory.
  */
 export const describeLDAPSSettings: API.PaginatedOperationMethod<
-  DescribeLDAPSSettingsRequest,
+  DescribeLDAPSSettingsRequest & RegionInput,
   DescribeLDAPSSettingsResult,
   DescribeLDAPSSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2865,7 +2866,7 @@ export type DescribeRegionsError =
  * replication.
  */
 export const describeRegions: API.PaginatedOperationMethod<
-  DescribeRegionsRequest,
+  DescribeRegionsRequest & RegionInput,
   DescribeRegionsResult,
   DescribeRegionsError,
   Credentials | HttpClient.HttpClient,
@@ -2906,7 +2907,7 @@ export type DescribeSettingsError =
  * Retrieves information about the configurable settings for the specified directory.
  */
 export const describeSettings: API.OperationMethod<
-  DescribeSettingsRequest,
+  DescribeSettingsRequest & RegionInput,
   DescribeSettingsResult,
   DescribeSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2940,7 +2941,7 @@ export type DescribeSharedDirectoriesError =
  * Returns the shared directories in your account.
  */
 export const describeSharedDirectories: API.PaginatedOperationMethod<
-  DescribeSharedDirectoriesRequest,
+  DescribeSharedDirectoriesRequest & RegionInput,
   DescribeSharedDirectoriesResult,
   DescribeSharedDirectoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2988,7 +2989,7 @@ export type DescribeSnapshotsError =
  * parameter.
  */
 export const describeSnapshots: API.PaginatedOperationMethod<
-  DescribeSnapshotsRequest,
+  DescribeSnapshotsRequest & RegionInput,
   DescribeSnapshotsResult,
   DescribeSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -3031,7 +3032,7 @@ export type DescribeTrustsError =
  * describes all the trust relationships belonging to the account.
  */
 export const describeTrusts: API.PaginatedOperationMethod<
-  DescribeTrustsRequest,
+  DescribeTrustsRequest & RegionInput,
   DescribeTrustsResult,
   DescribeTrustsError,
   Credentials | HttpClient.HttpClient,
@@ -3072,7 +3073,7 @@ export type DescribeUpdateDirectoryError =
  * Describes the updates of a directory for a particular update type.
  */
 export const describeUpdateDirectory: API.PaginatedOperationMethod<
-  DescribeUpdateDirectoryRequest,
+  DescribeUpdateDirectoryRequest & RegionInput,
   DescribeUpdateDirectoryResult,
   DescribeUpdateDirectoryError,
   Credentials | HttpClient.HttpClient,
@@ -3119,7 +3120,7 @@ export type DisableCAEnrollmentPolicyError =
  * enrolled, but existing certificates remain valid and functional until they expire.
  */
 export const disableCAEnrollmentPolicy: API.OperationMethod<
-  DisableCAEnrollmentPolicyRequest,
+  DisableCAEnrollmentPolicyRequest & RegionInput,
   DisableCAEnrollmentPolicyResult,
   DisableCAEnrollmentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3155,7 +3156,7 @@ export type DisableClientAuthenticationError =
  * Disables alternative client authentication methods for the specified directory.
  */
 export const disableClientAuthentication: API.OperationMethod<
-  DisableClientAuthenticationRequest,
+  DisableClientAuthenticationRequest & RegionInput,
   DisableClientAuthenticationResult,
   DisableClientAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -3191,7 +3192,7 @@ export type DisableDirectoryDataAccessError =
  * more information, see Directory Service Data API Reference.
  */
 export const disableDirectoryDataAccess: API.OperationMethod<
-  DisableDirectoryDataAccessRequest,
+  DisableDirectoryDataAccessRequest & RegionInput,
   DisableDirectoryDataAccessResult,
   DisableDirectoryDataAccessError,
   Credentials | HttpClient.HttpClient
@@ -3227,7 +3228,7 @@ export type DisableLDAPSError =
  * Deactivates LDAP secure calls for the specified directory.
  */
 export const disableLDAPS: API.OperationMethod<
-  DisableLDAPSRequest,
+  DisableLDAPSRequest & RegionInput,
   DisableLDAPSResult,
   DisableLDAPSError,
   Credentials | HttpClient.HttpClient
@@ -3260,7 +3261,7 @@ export type DisableRadiusError =
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
  */
 export const disableRadius: API.OperationMethod<
-  DisableRadiusRequest,
+  DisableRadiusRequest & RegionInput,
   DisableRadiusResult,
   DisableRadiusError,
   Credentials | HttpClient.HttpClient
@@ -3286,7 +3287,7 @@ export type DisableSsoError =
  * Disables single-sign on for a directory.
  */
 export const disableSso: API.OperationMethod<
-  DisableSsoRequest,
+  DisableSsoRequest & RegionInput,
   DisableSsoResult,
   DisableSsoError,
   Credentials | HttpClient.HttpClient
@@ -3328,7 +3329,7 @@ export type EnableCAEnrollmentPolicyError =
  * necessary permissions.
  */
 export const enableCAEnrollmentPolicy: API.OperationMethod<
-  EnableCAEnrollmentPolicyRequest,
+  EnableCAEnrollmentPolicyRequest & RegionInput,
   EnableCAEnrollmentPolicyResult,
   EnableCAEnrollmentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3366,7 +3367,7 @@ export type EnableClientAuthenticationError =
  * Enables alternative client authentication methods for the specified directory.
  */
 export const enableClientAuthentication: API.OperationMethod<
-  EnableClientAuthenticationRequest,
+  EnableClientAuthenticationRequest & RegionInput,
   EnableClientAuthenticationResult,
   EnableClientAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -3403,7 +3404,7 @@ export type EnableDirectoryDataAccessError =
  * more information, see Directory Service Data API Reference.
  */
 export const enableDirectoryDataAccess: API.OperationMethod<
-  EnableDirectoryDataAccessRequest,
+  EnableDirectoryDataAccessRequest & RegionInput,
   EnableDirectoryDataAccessResult,
   EnableDirectoryDataAccessError,
   Credentials | HttpClient.HttpClient
@@ -3440,7 +3441,7 @@ export type EnableLDAPSError =
  * Activates the switch for the specific directory to always use LDAP secure calls.
  */
 export const enableLDAPS: API.OperationMethod<
-  EnableLDAPSRequest,
+  EnableLDAPSRequest & RegionInput,
   EnableLDAPSResult,
   EnableLDAPSError,
   Credentials | HttpClient.HttpClient
@@ -3476,7 +3477,7 @@ export type EnableRadiusError =
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
  */
 export const enableRadius: API.OperationMethod<
-  EnableRadiusRequest,
+  EnableRadiusRequest & RegionInput,
   EnableRadiusResult,
   EnableRadiusError,
   Credentials | HttpClient.HttpClient
@@ -3510,7 +3511,7 @@ export type EnableSsoError =
  * their credentials separately.
  */
 export const enableSso: API.OperationMethod<
-  EnableSsoRequest,
+  EnableSsoRequest & RegionInput,
   EnableSsoResult,
   EnableSsoError,
   Credentials | HttpClient.HttpClient
@@ -3540,7 +3541,7 @@ export type GetDirectoryLimitsError =
  * Obtains directory limit information for the current Region.
  */
 export const getDirectoryLimits: API.OperationMethod<
-  GetDirectoryLimitsRequest,
+  GetDirectoryLimitsRequest & RegionInput,
   GetDirectoryLimitsResult,
   GetDirectoryLimitsError,
   Credentials | HttpClient.HttpClient
@@ -3564,7 +3565,7 @@ export type GetSnapshotLimitsError =
  * Obtains the manual snapshot limits for a directory.
  */
 export const getSnapshotLimits: API.OperationMethod<
-  GetSnapshotLimitsRequest,
+  GetSnapshotLimitsRequest & RegionInput,
   GetSnapshotLimitsResult,
   GetSnapshotLimitsError,
   Credentials | HttpClient.HttpClient
@@ -3592,7 +3593,7 @@ export type ListADAssessmentsError =
  * multiple assessments.
  */
 export const listADAssessments: API.PaginatedOperationMethod<
-  ListADAssessmentsRequest,
+  ListADAssessmentsRequest & RegionInput,
   ListADAssessmentsResult,
   ListADAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3633,7 +3634,7 @@ export type ListCertificatesError =
  * client certificate authentication.
  */
 export const listCertificates: API.PaginatedOperationMethod<
-  ListCertificatesRequest,
+  ListCertificatesRequest & RegionInput,
   ListCertificatesResult,
   ListCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -3673,7 +3674,7 @@ export type ListIpRoutesError =
  * Lists the address blocks that you have added to a directory.
  */
 export const listIpRoutes: API.PaginatedOperationMethod<
-  ListIpRoutesRequest,
+  ListIpRoutesRequest & RegionInput,
   ListIpRoutesResult,
   ListIpRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -3711,7 +3712,7 @@ export type ListLogSubscriptionsError =
  * Lists the active log subscriptions for the Amazon Web Services account.
  */
 export const listLogSubscriptions: API.PaginatedOperationMethod<
-  ListLogSubscriptionsRequest,
+  ListLogSubscriptionsRequest & RegionInput,
   ListLogSubscriptionsResult,
   ListLogSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -3748,7 +3749,7 @@ export type ListSchemaExtensionsError =
  * Lists all schema extensions applied to a Microsoft AD Directory.
  */
 export const listSchemaExtensions: API.PaginatedOperationMethod<
-  ListSchemaExtensionsRequest,
+  ListSchemaExtensionsRequest & RegionInput,
   ListSchemaExtensionsResult,
   ListSchemaExtensionsError,
   Credentials | HttpClient.HttpClient,
@@ -3786,7 +3787,7 @@ export type ListTagsForResourceError =
  * Lists all tags on a directory.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3829,7 +3830,7 @@ export type RegisterCertificateError =
  * Registers a certificate for a secure LDAP or client certificate authentication.
  */
 export const registerCertificate: API.OperationMethod<
-  RegisterCertificateRequest,
+  RegisterCertificateRequest & RegionInput,
   RegisterCertificateResult,
   RegisterCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3868,7 +3869,7 @@ export type RegisterEventTopicError =
  * returns to an Active status.
  */
 export const registerEventTopic: API.OperationMethod<
-  RegisterEventTopicRequest,
+  RegisterEventTopicRequest & RegionInput,
   RegisterEventTopicResult,
   RegisterEventTopicError,
   Credentials | HttpClient.HttpClient
@@ -3899,7 +3900,7 @@ export type RejectSharedDirectoryError =
  * Rejects a directory sharing request that was sent from the directory owner account.
  */
 export const rejectSharedDirectory: API.OperationMethod<
-  RejectSharedDirectoryRequest,
+  RejectSharedDirectoryRequest & RegionInput,
   RejectSharedDirectoryResult,
   RejectSharedDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -3931,7 +3932,7 @@ export type RemoveIpRoutesError =
  * Removes IP address blocks from a directory.
  */
 export const removeIpRoutes: API.OperationMethod<
-  RemoveIpRoutesRequest,
+  RemoveIpRoutesRequest & RegionInput,
   RemoveIpRoutesResult,
   RemoveIpRoutesError,
   Credentials | HttpClient.HttpClient
@@ -3966,7 +3967,7 @@ export type RemoveRegionError =
  * `DeleteDirectory` API.
  */
 export const removeRegion: API.OperationMethod<
-  RemoveRegionRequest,
+  RemoveRegionRequest & RegionInput,
   RemoveRegionResult,
   RemoveRegionError,
   Credentials | HttpClient.HttpClient
@@ -3998,7 +3999,7 @@ export type RemoveTagsFromResourceError =
  * Removes tags from a directory.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceRequest,
+  RemoveTagsFromResourceRequest & RegionInput,
   RemoveTagsFromResourceResult,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -4046,7 +4047,7 @@ export type ResetUserPasswordError =
  * Guide.
  */
 export const resetUserPassword: API.OperationMethod<
-  ResetUserPasswordRequest,
+  ResetUserPasswordRequest & RegionInput,
   ResetUserPasswordResult,
   ResetUserPasswordError,
   Credentials | HttpClient.HttpClient
@@ -4086,7 +4087,7 @@ export type RestoreFromSnapshotError =
  * `Active`, the restore operation is complete.
  */
 export const restoreFromSnapshot: API.OperationMethod<
-  RestoreFromSnapshotRequest,
+  RestoreFromSnapshotRequest & RegionInput,
   RestoreFromSnapshotResult,
   RestoreFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4137,7 +4138,7 @@ export type ShareDirectoryError =
  * which sends a directory sharing request to the directory consumer.
  */
 export const shareDirectory: API.OperationMethod<
-  ShareDirectoryRequest,
+  ShareDirectoryRequest & RegionInput,
   ShareDirectoryResult,
   ShareDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -4195,7 +4196,7 @@ export type StartADAssessmentError =
  * `AssessmentConfiguration`.
  */
 export const startADAssessment: API.OperationMethod<
-  StartADAssessmentRequest,
+  StartADAssessmentRequest & RegionInput,
   StartADAssessmentResult,
   StartADAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -4229,7 +4230,7 @@ export type StartSchemaExtensionError =
  * Applies a schema extension to a Microsoft AD directory.
  */
 export const startSchemaExtension: API.OperationMethod<
-  StartSchemaExtensionRequest,
+  StartSchemaExtensionRequest & RegionInput,
   StartSchemaExtensionResult,
   StartSchemaExtensionError,
   Credentials | HttpClient.HttpClient
@@ -4262,7 +4263,7 @@ export type UnshareDirectoryError =
  * Stops the directory sharing between the directory owner and consumer accounts.
  */
 export const unshareDirectory: API.OperationMethod<
-  UnshareDirectoryRequest,
+  UnshareDirectoryRequest & RegionInput,
   UnshareDirectoryResult,
   UnshareDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -4296,7 +4297,7 @@ export type UpdateConditionalForwarderError =
  * directory.
  */
 export const updateConditionalForwarder: API.OperationMethod<
-  UpdateConditionalForwarderRequest,
+  UpdateConditionalForwarderRequest & RegionInput,
   UpdateConditionalForwarderResult,
   UpdateConditionalForwarderError,
   Credentials | HttpClient.HttpClient
@@ -4333,7 +4334,7 @@ export type UpdateDirectorySetupError =
  * Updates directory configuration for the specified update type.
  */
 export const updateDirectorySetup: API.OperationMethod<
-  UpdateDirectorySetupRequest,
+  UpdateDirectorySetupRequest & RegionInput,
   UpdateDirectorySetupResult,
   UpdateDirectorySetupError,
   Credentials | HttpClient.HttpClient
@@ -4383,7 +4384,7 @@ export type UpdateHybridADError =
  * You must provide at least one update to UpdateHybridADRequest$HybridAdministratorAccountUpdate or UpdateHybridADRequest$SelfManagedInstancesSettings.
  */
 export const updateHybridAD: API.OperationMethod<
-  UpdateHybridADRequest,
+  UpdateHybridADRequest & RegionInput,
   UpdateHybridADResult,
   UpdateHybridADError,
   Credentials | HttpClient.HttpClient
@@ -4422,7 +4423,7 @@ export type UpdateNumberOfDomainControllersError =
  * cannot make another update request.
  */
 export const updateNumberOfDomainControllers: API.OperationMethod<
-  UpdateNumberOfDomainControllersRequest,
+  UpdateNumberOfDomainControllersRequest & RegionInput,
   UpdateNumberOfDomainControllersResult,
   UpdateNumberOfDomainControllersError,
   Credentials | HttpClient.HttpClient
@@ -4456,7 +4457,7 @@ export type UpdateRadiusError =
  * an AD Connector or Microsoft AD directory.
  */
 export const updateRadius: API.OperationMethod<
-  UpdateRadiusRequest,
+  UpdateRadiusRequest & RegionInput,
   UpdateRadiusResult,
   UpdateRadiusError,
   Credentials | HttpClient.HttpClient
@@ -4490,7 +4491,7 @@ export type UpdateSettingsError =
  * Updates the configurable settings for the specified directory.
  */
 export const updateSettings: API.OperationMethod<
-  UpdateSettingsRequest,
+  UpdateSettingsRequest & RegionInput,
   UpdateSettingsResult,
   UpdateSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4525,7 +4526,7 @@ export type UpdateTrustError =
  * self-managed Active Directory.
  */
 export const updateTrust: API.OperationMethod<
-  UpdateTrustRequest,
+  UpdateTrustRequest & RegionInput,
   UpdateTrustResult,
   UpdateTrustError,
   Credentials | HttpClient.HttpClient
@@ -4560,7 +4561,7 @@ export type VerifyTrustError =
  * external domain.
  */
 export const verifyTrust: API.OperationMethod<
-  VerifyTrustRequest,
+  VerifyTrustRequest & RegionInput,
   VerifyTrustResult,
   VerifyTrustError,
   Credentials | HttpClient.HttpClient

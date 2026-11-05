@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -664,7 +665,7 @@ export type DeleteResourcePermissionError =
  * Removes permissions associated with the target database.
  */
 export const deleteResourcePermission: API.OperationMethod<
-  DeleteResourcePermissionInput,
+  DeleteResourcePermissionInput & RegionInput,
   DeleteResourcePermissionOutput,
   DeleteResourcePermissionError,
   Credentials | HttpClient.HttpClient
@@ -688,7 +689,7 @@ export type DeregisterApplicationError =
  * Deregister an SAP application with AWS Systems Manager for SAP. This action does not aU+FB00ect the existing setup of your SAP workloads on Amazon EC2.
  */
 export const deregisterApplication: API.OperationMethod<
-  DeregisterApplicationInput,
+  DeregisterApplicationInput & RegionInput,
   DeregisterApplicationOutput,
   DeregisterApplicationError,
   Credentials | HttpClient.HttpClient
@@ -708,7 +709,7 @@ export type GetApplicationError = InternalServerException | ValidationException 
  * Gets an application registered with AWS Systems Manager for SAP. It also returns the components of the application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationInput,
+  GetApplicationInput & RegionInput,
   GetApplicationOutput,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -732,7 +733,7 @@ export type GetComponentError =
  * Gets the component of an application registered with AWS Systems Manager for SAP.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentInput,
+  GetComponentInput & RegionInput,
   GetComponentOutput,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -755,7 +756,7 @@ export type GetConfigurationCheckOperationError =
  * Gets the details of a configuration check operation by specifying the operation ID.
  */
 export const getConfigurationCheckOperation: API.OperationMethod<
-  GetConfigurationCheckOperationInput,
+  GetConfigurationCheckOperationInput & RegionInput,
   GetConfigurationCheckOperationOutput,
   GetConfigurationCheckOperationError,
   Credentials | HttpClient.HttpClient
@@ -775,7 +776,7 @@ export type GetDatabaseError = InternalServerException | ValidationException | C
  * Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
  */
 export const getDatabase: API.OperationMethod<
-  GetDatabaseInput,
+  GetDatabaseInput & RegionInput,
   GetDatabaseOutput,
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -795,7 +796,7 @@ export type GetOperationError = InternalServerException | ValidationException | 
  * Gets the details of an operation by specifying the operation ID.
  */
 export const getOperation: API.OperationMethod<
-  GetOperationInput,
+  GetOperationInput & RegionInput,
   GetOperationOutput,
   GetOperationError,
   Credentials | HttpClient.HttpClient
@@ -819,7 +820,7 @@ export type GetResourcePermissionError =
  * Gets permissions associated with the target database.
  */
 export const getResourcePermission: API.OperationMethod<
-  GetResourcePermissionInput,
+  GetResourcePermissionInput & RegionInput,
   GetResourcePermissionOutput,
   GetResourcePermissionError,
   Credentials | HttpClient.HttpClient
@@ -843,7 +844,7 @@ export type ListApplicationsError =
  * Lists all the applications registered with AWS Systems Manager for SAP.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsInput,
+  ListApplicationsInput & RegionInput,
   ListApplicationsOutput,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -875,7 +876,7 @@ export type ListComponentsError =
  * Lists all the components registered with AWS Systems Manager for SAP.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsInput,
+  ListComponentsInput & RegionInput,
   ListComponentsOutput,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -910,7 +911,7 @@ export type ListConfigurationCheckDefinitionsError =
  * Lists all configuration check types supported by AWS Systems Manager for SAP.
  */
 export const listConfigurationCheckDefinitions: API.PaginatedOperationMethod<
-  ListConfigurationCheckDefinitionsInput,
+  ListConfigurationCheckDefinitionsInput & RegionInput,
   ListConfigurationCheckDefinitionsOutput,
   ListConfigurationCheckDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -941,7 +942,7 @@ export type ListConfigurationCheckOperationsError =
  * Lists the configuration check operations performed by AWS Systems Manager for SAP.
  */
 export const listConfigurationCheckOperations: API.PaginatedOperationMethod<
-  ListConfigurationCheckOperationsInput,
+  ListConfigurationCheckOperationsInput & RegionInput,
   ListConfigurationCheckOperationsOutput,
   ListConfigurationCheckOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -972,7 +973,7 @@ export type ListDatabasesError =
  * Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesInput,
+  ListDatabasesInput & RegionInput,
   ListDatabasesOutput,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -1001,7 +1002,7 @@ export type ListOperationEventsError = InternalServerException | ValidationExcep
  * Available parameters include `OperationID`, as well as optional parameters `MaxResults`, `NextToken`, and `Filters`.
  */
 export const listOperationEvents: API.PaginatedOperationMethod<
-  ListOperationEventsInput,
+  ListOperationEventsInput & RegionInput,
   ListOperationEventsOutput,
   ListOperationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1028,7 +1029,7 @@ export type ListOperationsError = InternalServerException | ValidationException 
  * Lists the operations performed by AWS Systems Manager for SAP.
  */
 export const listOperations: API.PaginatedOperationMethod<
-  ListOperationsInput,
+  ListOperationsInput & RegionInput,
   ListOperationsOutput,
   ListOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1055,7 +1056,7 @@ export type ListSubCheckResultsError = InternalServerException | ValidationExcep
  * Lists the sub-check results of a specified configuration check operation.
  */
 export const listSubCheckResults: API.PaginatedOperationMethod<
-  ListSubCheckResultsInput,
+  ListSubCheckResultsInput & RegionInput,
   ListSubCheckResultsOutput,
   ListSubCheckResultsError,
   Credentials | HttpClient.HttpClient,
@@ -1085,7 +1086,7 @@ export type ListSubCheckRuleResultsError =
  * Lists the rules of a specified sub-check belonging to a configuration check operation.
  */
 export const listSubCheckRuleResults: API.PaginatedOperationMethod<
-  ListSubCheckRuleResultsInput,
+  ListSubCheckRuleResultsInput & RegionInput,
   ListSubCheckRuleResultsOutput,
   ListSubCheckRuleResultsError,
   Credentials | HttpClient.HttpClient,
@@ -1116,7 +1117,7 @@ export type ListTagsForResourceError =
  * Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1140,7 +1141,7 @@ export type PutResourcePermissionError =
  * Adds permissions to the target database.
  */
 export const putResourcePermission: API.OperationMethod<
-  PutResourcePermissionInput,
+  PutResourcePermissionInput & RegionInput,
   PutResourcePermissionOutput,
   PutResourcePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1171,7 +1172,7 @@ export type RegisterApplicationError =
  * Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
  */
 export const registerApplication: API.OperationMethod<
-  RegisterApplicationInput,
+  RegisterApplicationInput & RegionInput,
   RegisterApplicationOutput,
   RegisterApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1203,7 +1204,7 @@ export type StartApplicationError =
  * Parameter `ApplicationId` is required.
  */
 export const startApplication: API.OperationMethod<
-  StartApplicationInput,
+  StartApplicationInput & RegionInput,
   StartApplicationOutput,
   StartApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1234,7 +1235,7 @@ export type StartApplicationRefreshError =
  * Refreshes a registered application.
  */
 export const startApplicationRefresh: API.OperationMethod<
-  StartApplicationRefreshInput,
+  StartApplicationRefreshInput & RegionInput,
   StartApplicationRefreshOutput,
   StartApplicationRefreshError,
   Credentials | HttpClient.HttpClient
@@ -1265,7 +1266,7 @@ export type StartConfigurationChecksError =
  * Initiates configuration check operations against a specified application.
  */
 export const startConfigurationChecks: API.OperationMethod<
-  StartConfigurationChecksInput,
+  StartConfigurationChecksInput & RegionInput,
   StartConfigurationChecksOutput,
   StartConfigurationChecksError,
   Credentials | HttpClient.HttpClient
@@ -1297,7 +1298,7 @@ export type StopApplicationError =
  * Parameter `ApplicationId` is required. Parameters `StopConnectedEntity` and `IncludeEc2InstanceShutdown` are optional.
  */
 export const stopApplication: API.OperationMethod<
-  StopApplicationInput,
+  StopApplicationInput & RegionInput,
   StopApplicationOutput,
   StopApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1326,7 +1327,7 @@ export type TagResourceError =
  * Creates tag for a resource by specifying the ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1350,7 +1351,7 @@ export type UntagResourceError =
  * Delete the tags for a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1376,7 +1377,7 @@ export type UpdateApplicationSettingsError =
  * Updates the settings of an application registered with AWS Systems Manager for SAP.
  */
 export const updateApplicationSettings: API.OperationMethod<
-  UpdateApplicationSettingsInput,
+  UpdateApplicationSettingsInput & RegionInput,
   UpdateApplicationSettingsOutput,
   UpdateApplicationSettingsError,
   Credentials | HttpClient.HttpClient

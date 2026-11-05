@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1337,7 +1338,7 @@ export type BatchGetNamedQueryError =
  * query execution IDs.
  */
 export const batchGetNamedQuery: API.OperationMethod<
-  BatchGetNamedQueryInput,
+  BatchGetNamedQueryInput & RegionInput,
   BatchGetNamedQueryOutput,
   BatchGetNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1364,7 +1365,7 @@ export type BatchGetPreparedStatementError =
  * `UnprocessedPreparedStatementNames`.
  */
 export const batchGetPreparedStatement: API.OperationMethod<
-  BatchGetPreparedStatementInput,
+  BatchGetPreparedStatementInput & RegionInput,
   BatchGetPreparedStatementOutput,
   BatchGetPreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1392,7 +1393,7 @@ export type BatchGetQueryExecutionError =
  * about named queries.
  */
 export const batchGetQueryExecution: API.OperationMethod<
-  BatchGetQueryExecutionInput,
+  BatchGetQueryExecutionInput & RegionInput,
   BatchGetQueryExecutionOutput,
   BatchGetQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1418,7 +1419,7 @@ export type CancelCapacityReservationError =
  * refer to its tags and view it for historical reference.
  */
 export const cancelCapacityReservation: API.OperationMethod<
-  CancelCapacityReservationInput,
+  CancelCapacityReservationInput & RegionInput,
   CancelCapacityReservationOutput,
   CancelCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1442,7 +1443,7 @@ export type CreateCapacityReservationError =
  * processing units.
  */
 export const createCapacityReservation: API.OperationMethod<
-  CreateCapacityReservationInput,
+  CreateCapacityReservationInput & RegionInput,
   CreateCapacityReservationOutput,
   CreateCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1481,7 +1482,7 @@ export type CreateDataCatalogError =
  * characters.
  */
 export const createDataCatalog: API.OperationMethod<
-  CreateDataCatalogInput,
+  CreateDataCatalogInput & RegionInput,
   CreateDataCatalogOutput,
   CreateDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1505,7 +1506,7 @@ export type CreateNamedQueryError =
  * workgroup.
  */
 export const createNamedQuery: API.OperationMethod<
-  CreateNamedQueryInput,
+  CreateNamedQueryInput & RegionInput,
   CreateNamedQueryOutput,
   CreateNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1531,7 +1532,7 @@ export type CreateNotebookError =
  * exists.
  */
 export const createNotebook: API.OperationMethod<
-  CreateNotebookInput,
+  CreateNotebookInput & RegionInput,
   CreateNotebookOutput,
   CreateNotebookError,
   Credentials | HttpClient.HttpClient
@@ -1554,7 +1555,7 @@ export type CreatePreparedStatementError =
  * Creates a prepared statement for use with SQL queries in Athena.
  */
 export const createPreparedStatement: API.OperationMethod<
-  CreatePreparedStatementInput,
+  CreatePreparedStatementInput & RegionInput,
   CreatePreparedStatementOutput,
   CreatePreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1582,7 +1583,7 @@ export type CreatePresignedNotebookUrlError =
  * programmatic access.
  */
 export const createPresignedNotebookUrl: API.OperationMethod<
-  CreatePresignedNotebookUrlRequest,
+  CreatePresignedNotebookUrlRequest & RegionInput,
   CreatePresignedNotebookUrlResponse,
   CreatePresignedNotebookUrlError,
   Credentials | HttpClient.HttpClient
@@ -1603,7 +1604,7 @@ export type CreateWorkGroupError = InternalServerException | InvalidRequestExcep
  * enabled workgroup or an Athena SQL workgroup.
  */
 export const createWorkGroup: API.OperationMethod<
-  CreateWorkGroupInput,
+  CreateWorkGroupInput & RegionInput,
   CreateWorkGroupOutput,
   CreateWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type DeleteCapacityReservationError =
  * output of `ListCapacityReservations`.
  */
 export const deleteCapacityReservation: API.OperationMethod<
-  DeleteCapacityReservationInput,
+  DeleteCapacityReservationInput & RegionInput,
   DeleteCapacityReservationOutput,
   DeleteCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1654,7 +1655,7 @@ export type DeleteDataCatalogError =
  * Deletes a data catalog.
  */
 export const deleteDataCatalog: API.OperationMethod<
-  DeleteDataCatalogInput,
+  DeleteDataCatalogInput & RegionInput,
   DeleteDataCatalogOutput,
   DeleteDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1679,7 +1680,7 @@ export type DeleteNamedQueryError =
  * saved.
  */
 export const deleteNamedQuery: API.OperationMethod<
-  DeleteNamedQueryInput,
+  DeleteNamedQueryInput & RegionInput,
   DeleteNamedQueryOutput,
   DeleteNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1703,7 +1704,7 @@ export type DeleteNotebookError =
  * Deletes the specified notebook.
  */
 export const deleteNotebook: API.OperationMethod<
-  DeleteNotebookInput,
+  DeleteNotebookInput & RegionInput,
   DeleteNotebookOutput,
   DeleteNotebookError,
   Credentials | HttpClient.HttpClient
@@ -1729,7 +1730,7 @@ export type DeletePreparedStatementError =
  * workgroup.
  */
 export const deletePreparedStatement: API.OperationMethod<
-  DeletePreparedStatementInput,
+  DeletePreparedStatementInput & RegionInput,
   DeletePreparedStatementOutput,
   DeletePreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1755,7 +1756,7 @@ export type DeleteWorkGroupError = InternalServerException | InvalidRequestExcep
  * deleted.
  */
 export const deleteWorkGroup: API.OperationMethod<
-  DeleteWorkGroupInput,
+  DeleteWorkGroupInput & RegionInput,
   DeleteWorkGroupOutput,
   DeleteWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -1779,7 +1780,7 @@ export type ExportNotebookError =
  * Exports the specified notebook and its metadata.
  */
 export const exportNotebook: API.OperationMethod<
-  ExportNotebookInput,
+  ExportNotebookInput & RegionInput,
   ExportNotebookOutput,
   ExportNotebookError,
   Credentials | HttpClient.HttpClient
@@ -1803,7 +1804,7 @@ export type GetCalculationExecutionError =
  * Describes a previously submitted calculation execution.
  */
 export const getCalculationExecution: API.OperationMethod<
-  GetCalculationExecutionRequest,
+  GetCalculationExecutionRequest & RegionInput,
   GetCalculationExecutionResponse,
   GetCalculationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type GetCalculationExecutionCodeError =
  * Retrieves the unencrypted code that was executed for the calculation.
  */
 export const getCalculationExecutionCode: API.OperationMethod<
-  GetCalculationExecutionCodeRequest,
+  GetCalculationExecutionCodeRequest & RegionInput,
   GetCalculationExecutionCodeResponse,
   GetCalculationExecutionCodeError,
   Credentials | HttpClient.HttpClient
@@ -1851,7 +1852,7 @@ export type GetCalculationExecutionStatusError =
  * Gets the status of a current calculation.
  */
 export const getCalculationExecutionStatus: API.OperationMethod<
-  GetCalculationExecutionStatusRequest,
+  GetCalculationExecutionStatusRequest & RegionInput,
   GetCalculationExecutionStatusResponse,
   GetCalculationExecutionStatusError,
   Credentials | HttpClient.HttpClient
@@ -1875,7 +1876,7 @@ export type GetCapacityAssignmentConfigurationError =
  * exists.
  */
 export const getCapacityAssignmentConfiguration: API.OperationMethod<
-  GetCapacityAssignmentConfigurationInput,
+  GetCapacityAssignmentConfigurationInput & RegionInput,
   GetCapacityAssignmentConfigurationOutput,
   GetCapacityAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1898,7 +1899,7 @@ export type GetCapacityReservationError =
  * Returns information about the capacity reservation with the specified name.
  */
 export const getCapacityReservation: API.OperationMethod<
-  GetCapacityReservationInput,
+  GetCapacityReservationInput & RegionInput,
   GetCapacityReservationOutput,
   GetCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1922,7 +1923,7 @@ export type GetDatabaseError =
  * Returns a database object for the specified database and data catalog.
  */
 export const getDatabase: API.OperationMethod<
-  GetDatabaseInput,
+  GetDatabaseInput & RegionInput,
   GetDatabaseOutput,
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -1946,7 +1947,7 @@ export type GetDataCatalogError =
  * Returns the specified data catalog.
  */
 export const getDataCatalog: API.OperationMethod<
-  GetDataCatalogInput,
+  GetDataCatalogInput & RegionInput,
   GetDataCatalogOutput,
   GetDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1971,7 +1972,7 @@ export type GetNamedQueryError =
  * workgroup in which the query was saved.
  */
 export const getNamedQuery: API.OperationMethod<
-  GetNamedQueryInput,
+  GetNamedQueryInput & RegionInput,
   GetNamedQueryOutput,
   GetNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1995,7 +1996,7 @@ export type GetNotebookMetadataError =
  * Retrieves notebook metadata for the specified notebook ID.
  */
 export const getNotebookMetadata: API.OperationMethod<
-  GetNotebookMetadataInput,
+  GetNotebookMetadataInput & RegionInput,
   GetNotebookMetadataOutput,
   GetNotebookMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2021,7 +2022,7 @@ export type GetPreparedStatementError =
  * workgroup.
  */
 export const getPreparedStatement: API.OperationMethod<
-  GetPreparedStatementInput,
+  GetPreparedStatementInput & RegionInput,
   GetPreparedStatementOutput,
   GetPreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -2051,7 +2052,7 @@ export type GetQueryExecutionError =
  * query execution is saved with a unique ID.
  */
 export const getQueryExecution: API.OperationMethod<
-  GetQueryExecutionInput,
+  GetQueryExecutionInput & RegionInput,
   GetQueryExecutionOutput,
   GetQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2090,7 +2091,7 @@ export type GetQueryResultsError =
  * are denied.
  */
 export const getQueryResults: API.PaginatedOperationMethod<
-  GetQueryResultsInput,
+  GetQueryResultsInput & RegionInput,
   GetQueryResultsOutput,
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient,
@@ -2125,7 +2126,7 @@ export type GetQueryRuntimeStatisticsError =
  * statistics are also not included when a query has row-level filters defined in Lake Formation.
  */
 export const getQueryRuntimeStatistics: API.OperationMethod<
-  GetQueryRuntimeStatisticsInput,
+  GetQueryRuntimeStatisticsInput & RegionInput,
   GetQueryRuntimeStatisticsOutput,
   GetQueryRuntimeStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2149,7 +2150,7 @@ export type GetResourceDashboardError =
  * Gets the Live UI/Persistence UI for a session.
  */
 export const getResourceDashboard: API.OperationMethod<
-  GetResourceDashboardRequest,
+  GetResourceDashboardRequest & RegionInput,
   GetResourceDashboardResponse,
   GetResourceDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2174,7 +2175,7 @@ export type GetSessionError =
  * and configuration.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -2198,7 +2199,7 @@ export type GetSessionEndpointError =
  * Gets a connection endpoint and authentication token for a given session Id.
  */
 export const getSessionEndpoint: API.OperationMethod<
-  GetSessionEndpointRequest,
+  GetSessionEndpointRequest & RegionInput,
   GetSessionEndpointResponse,
   GetSessionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2222,7 +2223,7 @@ export type GetSessionStatusError =
  * Gets the current status of a session.
  */
 export const getSessionStatus: API.OperationMethod<
-  GetSessionStatusRequest,
+  GetSessionStatusRequest & RegionInput,
   GetSessionStatusResponse,
   GetSessionStatusError,
   Credentials | HttpClient.HttpClient
@@ -2246,7 +2247,7 @@ export type GetTableMetadataError =
  * Returns table metadata for the specified catalog, database, and table.
  */
 export const getTableMetadata: API.OperationMethod<
-  GetTableMetadataInput,
+  GetTableMetadataInput & RegionInput,
   GetTableMetadataOutput,
   GetTableMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2270,7 +2271,7 @@ export type GetWorkGroupError =
  * Returns information about the workgroup with the specified name.
  */
 export const getWorkGroup: API.OperationMethod<
-  GetWorkGroupInput,
+  GetWorkGroupInput & RegionInput,
   GetWorkGroupOutput,
   GetWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -2299,7 +2300,7 @@ export type ImportNotebookError =
  * exists in the workgroup, throws an error.
  */
 export const importNotebook: API.OperationMethod<
-  ImportNotebookInput,
+  ImportNotebookInput & RegionInput,
   ImportNotebookOutput,
   ImportNotebookError,
   Credentials | HttpClient.HttpClient
@@ -2324,7 +2325,7 @@ export type ListApplicationDPUSizesError =
  * `Athena notebook version 1`).
  */
 export const listApplicationDPUSizes: API.PaginatedOperationMethod<
-  ListApplicationDPUSizesInput,
+  ListApplicationDPUSizesInput & RegionInput,
   ListApplicationDPUSizesOutput,
   ListApplicationDPUSizesError,
   Credentials | HttpClient.HttpClient,
@@ -2355,7 +2356,7 @@ export type ListCalculationExecutionsError =
  * Newer calculations are listed first; older calculations are listed later.
  */
 export const listCalculationExecutions: API.PaginatedOperationMethod<
-  ListCalculationExecutionsRequest,
+  ListCalculationExecutionsRequest & RegionInput,
   ListCalculationExecutionsResponse,
   ListCalculationExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2384,7 +2385,7 @@ export type ListCapacityReservationsError =
  * Lists the capacity reservations for the current account.
  */
 export const listCapacityReservations: API.PaginatedOperationMethod<
-  ListCapacityReservationsInput,
+  ListCapacityReservationsInput & RegionInput,
   ListCapacityReservationsOutput,
   ListCapacityReservationsError,
   Credentials | HttpClient.HttpClient,
@@ -2414,7 +2415,7 @@ export type ListDatabasesError =
  * Lists the databases in the specified data catalog.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesInput,
+  ListDatabasesInput & RegionInput,
   ListDatabasesOutput,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -2447,7 +2448,7 @@ export type ListDataCatalogsError =
  * the **Data sources** page under the **Data source name** column.
  */
 export const listDataCatalogs: API.PaginatedOperationMethod<
-  ListDataCatalogsInput,
+  ListDataCatalogsInput & RegionInput,
   ListDataCatalogsOutput,
   ListDataCatalogsError,
   Credentials | HttpClient.HttpClient,
@@ -2478,7 +2479,7 @@ export type ListEngineVersionsError =
  * Auto option.
  */
 export const listEngineVersions: API.PaginatedOperationMethod<
-  ListEngineVersionsInput,
+  ListEngineVersionsInput & RegionInput,
   ListEngineVersionsOutput,
   ListEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2510,7 +2511,7 @@ export type ListExecutorsError =
  * state.
  */
 export const listExecutors: API.PaginatedOperationMethod<
-  ListExecutorsRequest,
+  ListExecutorsRequest & RegionInput,
   ListExecutorsResponse,
   ListExecutorsError,
   Credentials | HttpClient.HttpClient,
@@ -2541,7 +2542,7 @@ export type ListNamedQueriesError =
  * not specified, lists the saved queries for the primary workgroup.
  */
 export const listNamedQueries: API.PaginatedOperationMethod<
-  ListNamedQueriesInput,
+  ListNamedQueriesInput & RegionInput,
   ListNamedQueriesOutput,
   ListNamedQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -2571,7 +2572,7 @@ export type ListNotebookMetadataError =
  * Displays the notebook files for the specified workgroup in paginated format.
  */
 export const listNotebookMetadata: API.OperationMethod<
-  ListNotebookMetadataInput,
+  ListNotebookMetadataInput & RegionInput,
   ListNotebookMetadataOutput,
   ListNotebookMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2598,7 +2599,7 @@ export type ListNotebookSessionsError =
  * later.
  */
 export const listNotebookSessions: API.OperationMethod<
-  ListNotebookSessionsRequest,
+  ListNotebookSessionsRequest & RegionInput,
   ListNotebookSessionsResponse,
   ListNotebookSessionsError,
   Credentials | HttpClient.HttpClient
@@ -2621,7 +2622,7 @@ export type ListPreparedStatementsError =
  * Lists the prepared statements in the specified workgroup.
  */
 export const listPreparedStatements: API.PaginatedOperationMethod<
-  ListPreparedStatementsInput,
+  ListPreparedStatementsInput & RegionInput,
   ListPreparedStatementsOutput,
   ListPreparedStatementsError,
   Credentials | HttpClient.HttpClient,
@@ -2653,7 +2654,7 @@ export type ListQueryExecutionsError =
  * to have access to the workgroup in which the queries ran.
  */
 export const listQueryExecutions: API.PaginatedOperationMethod<
-  ListQueryExecutionsInput,
+  ListQueryExecutionsInput & RegionInput,
   ListQueryExecutionsOutput,
   ListQueryExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2686,7 +2687,7 @@ export type ListSessionsError =
  * later.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -2716,7 +2717,7 @@ export type ListTableMetadataError =
  * Lists the metadata for the tables in the specified data catalog database.
  */
 export const listTableMetadata: API.PaginatedOperationMethod<
-  ListTableMetadataInput,
+  ListTableMetadataInput & RegionInput,
   ListTableMetadataOutput,
   ListTableMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -2747,7 +2748,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with an Athena resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2774,7 +2775,7 @@ export type ListWorkGroupsError = InternalServerException | InvalidRequestExcept
  * Lists available workgroups for the account.
  */
 export const listWorkGroups: API.PaginatedOperationMethod<
-  ListWorkGroupsInput,
+  ListWorkGroupsInput & RegionInput,
   ListWorkGroupsOutput,
   ListWorkGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2805,7 +2806,7 @@ export type PutCapacityAssignmentConfigurationError =
  * replaces the existing capacity assignment configuration.
  */
 export const putCapacityAssignmentConfiguration: API.OperationMethod<
-  PutCapacityAssignmentConfigurationInput,
+  PutCapacityAssignmentConfigurationInput & RegionInput,
   PutCapacityAssignmentConfigurationOutput,
   PutCapacityAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2835,7 +2836,7 @@ export type StartCalculationExecutionError =
  * instead.
  */
 export const startCalculationExecution: API.OperationMethod<
-  StartCalculationExecutionRequest,
+  StartCalculationExecutionRequest & RegionInput,
   StartCalculationExecutionResponse,
   StartCalculationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2864,7 +2865,7 @@ export type StartQueryExecutionError =
  * Guide.
  */
 export const startQueryExecution: API.OperationMethod<
-  StartQueryExecutionInput,
+  StartQueryExecutionInput & RegionInput,
   StartQueryExecutionOutput,
   StartQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2891,7 +2892,7 @@ export type StartSessionError =
  * when it reaches an `IDLE` state.
  */
 export const startSession: API.OperationMethod<
-  StartSessionRequest,
+  StartSessionRequest & RegionInput,
   StartSessionResponse,
   StartSessionError,
   Credentials | HttpClient.HttpClient
@@ -2929,7 +2930,7 @@ export type StopCalculationExecutionError =
  * session in which the calculation is running.
  */
 export const stopCalculationExecution: API.OperationMethod<
-  StopCalculationExecutionRequest,
+  StopCalculationExecutionRequest & RegionInput,
   StopCalculationExecutionResponse,
   StopCalculationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2953,7 +2954,7 @@ export type StopQueryExecutionError =
  * query ran.
  */
 export const stopQueryExecution: API.OperationMethod<
-  StopQueryExecutionInput,
+  StopQueryExecutionInput & RegionInput,
   StopQueryExecutionOutput,
   StopQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2987,7 +2988,7 @@ export type TagResourceError =
  * than one tag, separate them by commas.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3015,7 +3016,7 @@ export type TerminateSessionError =
  * display as `FAILED` instead of `STOPPED`.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionRequest,
+  TerminateSessionRequest & RegionInput,
   TerminateSessionResponse,
   TerminateSessionError,
   Credentials | HttpClient.HttpClient
@@ -3039,7 +3040,7 @@ export type UntagResourceError =
  * Removes one or more tags from an Athena resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3063,7 +3064,7 @@ export type UpdateCapacityReservationError =
  * with the specified name.
  */
 export const updateCapacityReservation: API.OperationMethod<
-  UpdateCapacityReservationInput,
+  UpdateCapacityReservationInput & RegionInput,
   UpdateCapacityReservationOutput,
   UpdateCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -3087,7 +3088,7 @@ export type UpdateDataCatalogError =
  * Updates the data catalog that has the specified name.
  */
 export const updateDataCatalog: API.OperationMethod<
-  UpdateDataCatalogInput,
+  UpdateDataCatalogInput & RegionInput,
   UpdateDataCatalogOutput,
   UpdateDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -3112,7 +3113,7 @@ export type UpdateNamedQueryError =
  * updated.
  */
 export const updateNamedQuery: API.OperationMethod<
-  UpdateNamedQueryInput,
+  UpdateNamedQueryInput & RegionInput,
   UpdateNamedQueryOutput,
   UpdateNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -3136,7 +3137,7 @@ export type UpdateNotebookError =
  * Updates the contents of a Spark notebook.
  */
 export const updateNotebook: API.OperationMethod<
-  UpdateNotebookInput,
+  UpdateNotebookInput & RegionInput,
   UpdateNotebookOutput,
   UpdateNotebookError,
   Credentials | HttpClient.HttpClient
@@ -3160,7 +3161,7 @@ export type UpdateNotebookMetadataError =
  * Updates the metadata for a notebook.
  */
 export const updateNotebookMetadata: API.OperationMethod<
-  UpdateNotebookMetadataInput,
+  UpdateNotebookMetadataInput & RegionInput,
   UpdateNotebookMetadataOutput,
   UpdateNotebookMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3184,7 +3185,7 @@ export type UpdatePreparedStatementError =
  * Updates a prepared statement.
  */
 export const updatePreparedStatement: API.OperationMethod<
-  UpdatePreparedStatementInput,
+  UpdatePreparedStatementInput & RegionInput,
   UpdatePreparedStatementOutput,
   UpdatePreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -3209,7 +3210,7 @@ export type UpdateWorkGroupError =
  * Only `ConfigurationUpdates` can be specified.
  */
 export const updateWorkGroup: API.OperationMethod<
-  UpdateWorkGroupInput,
+  UpdateWorkGroupInput & RegionInput,
   UpdateWorkGroupOutput,
   UpdateWorkGroupError,
   Credentials | HttpClient.HttpClient

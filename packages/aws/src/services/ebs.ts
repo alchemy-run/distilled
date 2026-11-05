@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -349,7 +350,7 @@ export type CompleteSnapshotError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const completeSnapshot: API.OperationMethod<
-  CompleteSnapshotRequest,
+  CompleteSnapshotRequest & RegionInput,
   CompleteSnapshotResponse,
   CompleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -389,7 +390,7 @@ export type GetSnapshotBlockError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const getSnapshotBlock: API.OperationMethod<
-  GetSnapshotBlockRequest,
+  GetSnapshotBlockRequest & RegionInput,
   GetSnapshotBlockResponse,
   GetSnapshotBlockError,
   Credentials | HttpClient.HttpClient
@@ -429,7 +430,7 @@ export type ListChangedBlocksError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const listChangedBlocks: API.PaginatedOperationMethod<
-  ListChangedBlocksRequest,
+  ListChangedBlocksRequest & RegionInput,
   ListChangedBlocksResponse,
   ListChangedBlocksError,
   Credentials | HttpClient.HttpClient,
@@ -474,7 +475,7 @@ export type ListSnapshotBlocksError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const listSnapshotBlocks: API.PaginatedOperationMethod<
-  ListSnapshotBlocksRequest,
+  ListSnapshotBlocksRequest & RegionInput,
   ListSnapshotBlocksResponse,
   ListSnapshotBlocksError,
   Credentials | HttpClient.HttpClient,
@@ -524,7 +525,7 @@ export type PutSnapshotBlockError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const putSnapshotBlock: API.OperationMethod<
-  PutSnapshotBlockRequest,
+  PutSnapshotBlockRequest & RegionInput,
   PutSnapshotBlockResponse,
   PutSnapshotBlockError,
   Credentials | HttpClient.HttpClient
@@ -570,7 +571,7 @@ export type StartSnapshotError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const startSnapshot: API.OperationMethod<
-  StartSnapshotRequest,
+  StartSnapshotRequest & RegionInput,
   StartSnapshotResponse,
   StartSnapshotError,
   Credentials | HttpClient.HttpClient

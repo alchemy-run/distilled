@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -716,7 +717,7 @@ export type CreateHttpNamespaceError =
  * *Cloud Map Developer Guide*.
  */
 export const createHttpNamespace: API.OperationMethod<
-  CreateHttpNamespaceRequest,
+  CreateHttpNamespaceRequest & RegionInput,
   CreateHttpNamespaceResponse,
   CreateHttpNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -755,7 +756,7 @@ export type CreatePrivateDnsNamespaceError =
  * *Cloud Map Developer Guide*.
  */
 export const createPrivateDnsNamespace: API.OperationMethod<
-  CreatePrivateDnsNamespaceRequest,
+  CreatePrivateDnsNamespaceRequest & RegionInput,
   CreatePrivateDnsNamespaceResponse,
   CreatePrivateDnsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -795,7 +796,7 @@ export type CreatePublicDnsNamespaceError =
  * The `CreatePublicDnsNamespace` API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
  */
 export const createPublicDnsNamespace: API.OperationMethod<
-  CreatePublicDnsNamespaceRequest,
+  CreatePublicDnsNamespaceRequest & RegionInput,
   CreatePublicDnsNamespaceResponse,
   CreatePublicDnsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -849,7 +850,7 @@ export type CreateServiceError =
  * *Cloud Map Developer Guide*.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -881,7 +882,7 @@ export type DeleteNamespaceError =
  * services, the request fails.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type DeleteServiceError = InvalidInput | ResourceInUse | ServiceNotFound 
  * contains one or more registered instances, the request fails.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -922,7 +923,7 @@ export type DeleteServiceAttributesError = InvalidInput | ServiceNotFound | Comm
  * Deletes specific attributes associated with a service.
  */
 export const deleteServiceAttributes: API.OperationMethod<
-  DeleteServiceAttributesRequest,
+  DeleteServiceAttributesRequest & RegionInput,
   DeleteServiceAttributesResponse,
   DeleteServiceAttributesError,
   Credentials | HttpClient.HttpClient
@@ -949,7 +950,7 @@ export type DeregisterInstanceError =
  * specified instance.
  */
 export const deregisterInstance: API.OperationMethod<
-  DeregisterInstanceRequest,
+  DeregisterInstanceRequest & RegionInput,
   DeregisterInstanceResponse,
   DeregisterInstanceError,
   Credentials | HttpClient.HttpClient
@@ -978,7 +979,7 @@ export type DiscoverInstancesError =
  * use DNS queries to discover instances.
  */
 export const discoverInstances: API.OperationMethod<
-  DiscoverInstancesRequest,
+  DiscoverInstancesRequest & RegionInput,
   DiscoverInstancesResponse,
   DiscoverInstancesError,
   Credentials | HttpClient.HttpClient
@@ -1004,7 +1005,7 @@ export type DiscoverInstancesRevisionError =
  * Discovers the increasing revision associated with an instance.
  */
 export const discoverInstancesRevision: API.OperationMethod<
-  DiscoverInstancesRevisionRequest,
+  DiscoverInstancesRevisionRequest & RegionInput,
   DiscoverInstancesRevisionResponse,
   DiscoverInstancesRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1025,7 +1026,7 @@ export type GetInstanceError = InstanceNotFound | InvalidInput | ServiceNotFound
  * Gets information about a specified instance.
  */
 export const getInstance: API.OperationMethod<
-  GetInstanceRequest,
+  GetInstanceRequest & RegionInput,
   GetInstanceResponse,
   GetInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1054,7 +1055,7 @@ export type GetInstancesHealthStatusError =
  * the instance is available.
  */
 export const getInstancesHealthStatus: API.PaginatedOperationMethod<
-  GetInstancesHealthStatusRequest,
+  GetInstancesHealthStatusRequest & RegionInput,
   GetInstancesHealthStatusResponse,
   GetInstancesHealthStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1080,7 +1081,7 @@ export type GetNamespaceError = InvalidInput | NamespaceNotFound | CommonErrors;
  * Gets information about a namespace.
  */
 export const getNamespace: API.OperationMethod<
-  GetNamespaceRequest,
+  GetNamespaceRequest & RegionInput,
   GetNamespaceResponse,
   GetNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1103,7 +1104,7 @@ export type GetOperationError = InvalidInput | OperationNotFound | CommonErrors;
  * To get a list of operations that match specified criteria, see ListOperations.
  */
 export const getOperation: API.OperationMethod<
-  GetOperationRequest,
+  GetOperationRequest & RegionInput,
   GetOperationResponse,
   GetOperationError,
   Credentials | HttpClient.HttpClient
@@ -1123,7 +1124,7 @@ export type GetServiceError = InvalidInput | ServiceNotFound | CommonErrors;
  * Gets the settings for a specified service.
  */
 export const getService: API.OperationMethod<
-  GetServiceRequest,
+  GetServiceRequest & RegionInput,
   GetServiceResponse,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -1143,7 +1144,7 @@ export type GetServiceAttributesError = InvalidInput | ServiceNotFound | CommonE
  * Returns the attributes associated with a specified service.
  */
 export const getServiceAttributes: API.OperationMethod<
-  GetServiceAttributesRequest,
+  GetServiceAttributesRequest & RegionInput,
   GetServiceAttributesResponse,
   GetServiceAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1164,7 +1165,7 @@ export type ListInstancesError = InvalidInput | ServiceNotFound | CommonErrors;
  * service.
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesRequest,
+  ListInstancesRequest & RegionInput,
   ListInstancesResponse,
   ListInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1190,7 +1191,7 @@ export type ListNamespacesError = InvalidInput | CommonErrors;
  * Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account.
  */
 export const listNamespaces: API.PaginatedOperationMethod<
-  ListNamespacesRequest,
+  ListNamespacesRequest & RegionInput,
   ListNamespacesResponse,
   ListNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -1216,7 +1217,7 @@ export type ListOperationsError = InvalidInput | CommonErrors;
  * Lists operations that match the criteria that you specify.
  */
 export const listOperations: API.PaginatedOperationMethod<
-  ListOperationsRequest,
+  ListOperationsRequest & RegionInput,
   ListOperationsResponse,
   ListOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1243,7 +1244,7 @@ export type ListServicesError = InvalidInput | CommonErrors;
  * namespaces.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1269,7 +1270,7 @@ export type ListTagsForResourceError = InvalidInput | ResourceNotFoundException 
  * Lists tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1327,7 +1328,7 @@ export type RegisterInstanceError =
  * *Cloud Map Developer Guide*.
  */
 export const registerInstance: API.OperationMethod<
-  RegisterInstanceRequest,
+  RegisterInstanceRequest & RegionInput,
   RegisterInstanceResponse,
   RegisterInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1351,7 +1352,7 @@ export type TagResourceError =
  * Adds one or more tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1371,7 +1372,7 @@ export type UntagResourceError = InvalidInput | ResourceNotFoundException | Comm
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1397,7 +1398,7 @@ export type UpdateHttpNamespaceError =
  * namespace.
  */
 export const updateHttpNamespace: API.OperationMethod<
-  UpdateHttpNamespaceRequest,
+  UpdateHttpNamespaceRequest & RegionInput,
   UpdateHttpNamespaceResponse,
   UpdateHttpNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1430,7 +1431,7 @@ export type UpdateInstanceCustomHealthStatusError =
  * For more information, see HealthCheckCustomConfig.
  */
 export const updateInstanceCustomHealthStatus: API.OperationMethod<
-  UpdateInstanceCustomHealthStatusRequest,
+  UpdateInstanceCustomHealthStatusRequest & RegionInput,
   UpdateInstanceCustomHealthStatusResponse,
   UpdateInstanceCustomHealthStatusError,
   Credentials | HttpClient.HttpClient
@@ -1456,7 +1457,7 @@ export type UpdatePrivateDnsNamespaceError =
  * namespace.
  */
 export const updatePrivateDnsNamespace: API.OperationMethod<
-  UpdatePrivateDnsNamespaceRequest,
+  UpdatePrivateDnsNamespaceRequest & RegionInput,
   UpdatePrivateDnsNamespaceResponse,
   UpdatePrivateDnsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1481,7 +1482,7 @@ export type UpdatePublicDnsNamespaceError =
  * Updates a public DNS namespace.
  */
 export const updatePublicDnsNamespace: API.OperationMethod<
-  UpdatePublicDnsNamespaceRequest,
+  UpdatePublicDnsNamespaceRequest & RegionInput,
   UpdatePublicDnsNamespaceResponse,
   UpdatePublicDnsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1529,7 +1530,7 @@ export type UpdateServiceError = DuplicateRequest | InvalidInput | ServiceNotFou
  * in all the records and health checks that were created by using the specified service.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
+  UpdateServiceRequest & RegionInput,
   UpdateServiceResponse,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -1553,7 +1554,7 @@ export type UpdateServiceAttributesError =
  * Submits a request to update a specified service to add service-level attributes.
  */
 export const updateServiceAttributes: API.OperationMethod<
-  UpdateServiceAttributesRequest,
+  UpdateServiceAttributesRequest & RegionInput,
   UpdateServiceAttributesResponse,
   UpdateServiceAttributesError,
   Credentials | HttpClient.HttpClient

@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -763,7 +764,7 @@ export type DeleteSessionError =
  * `BadRequestException`.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
@@ -806,7 +807,7 @@ export type GetSessionError =
  * `BadRequestException`.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -843,7 +844,7 @@ export type PutSessionError =
  * the bot.
  */
 export const putSession: API.OperationMethod<
-  PutSessionRequest,
+  PutSessionRequest & RegionInput,
   PutSessionResponse,
   PutSessionError,
   Credentials | HttpClient.HttpClient
@@ -906,7 +907,7 @@ export type RecognizeTextError =
  * For more information, see Completion message.
  */
 export const recognizeText: API.OperationMethod<
-  RecognizeTextRequest,
+  RecognizeTextRequest & RegionInput,
   RecognizeTextResponse,
   RecognizeTextError,
   Credentials | HttpClient.HttpClient
@@ -992,7 +993,7 @@ export type RecognizeUtteranceError =
  * For more information, see Completion message.
  */
 export const recognizeUtterance: API.OperationMethod<
-  RecognizeUtteranceRequest,
+  RecognizeUtteranceRequest & RegionInput,
   RecognizeUtteranceResponse,
   RecognizeUtteranceError,
   Credentials | HttpClient.HttpClient
@@ -1070,7 +1071,7 @@ export type StartConversationError =
  * - AWS SDK for Ruby V3
  */
 export const startConversation: API.OperationMethod<
-  StartConversationRequest,
+  StartConversationRequest & RegionInput,
   StartConversationResponse,
   StartConversationError,
   Credentials | HttpClient.HttpClient

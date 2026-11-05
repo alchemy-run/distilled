@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1180,7 +1181,7 @@ export type CancelTaskExecutionError = InternalException | InvalidRequestExcepti
  * successfully completes the transfer when you start the next task execution.
  */
 export const cancelTaskExecution: API.OperationMethod<
-  CancelTaskExecutionRequest,
+  CancelTaskExecutionRequest & RegionInput,
   CancelTaskExecutionResponse,
   CancelTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type CreateAgentError = InternalException | InvalidRequestException | Com
  * agent?
  */
 export const createAgent: API.OperationMethod<
-  CreateAgentRequest,
+  CreateAgentRequest & RegionInput,
   CreateAgentResponse,
   CreateAgentError,
   Credentials | HttpClient.HttpClient
@@ -1232,7 +1233,7 @@ export type CreateLocationAzureBlobError =
  * Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types.
  */
 export const createLocationAzureBlob: API.OperationMethod<
-  CreateLocationAzureBlobRequest,
+  CreateLocationAzureBlobRequest & RegionInput,
   CreateLocationAzureBlobResponse,
   CreateLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
@@ -1263,7 +1264,7 @@ export type CreateLocationEfsError =
  * Amazon EFS file systems.
  */
 export const createLocationEfs: API.OperationMethod<
-  CreateLocationEfsRequest,
+  CreateLocationEfsRequest & RegionInput,
   CreateLocationEfsResponse,
   CreateLocationEfsError,
   Credentials | HttpClient.HttpClient
@@ -1296,7 +1297,7 @@ export type CreateLocationFsxLustreError =
  * accesses FSx for Lustre file systems.
  */
 export const createLocationFsxLustre: API.OperationMethod<
-  CreateLocationFsxLustreRequest,
+  CreateLocationFsxLustreRequest & RegionInput,
   CreateLocationFsxLustreResponse,
   CreateLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
@@ -1324,7 +1325,7 @@ export type CreateLocationFsxOntapError =
  * accesses FSx for ONTAP file systems.
  */
 export const createLocationFsxOntap: API.OperationMethod<
-  CreateLocationFsxOntapRequest,
+  CreateLocationFsxOntapRequest & RegionInput,
   CreateLocationFsxOntapResponse,
   CreateLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
@@ -1356,7 +1357,7 @@ export type CreateLocationFsxOpenZfsError =
  * `CreateLocationFsxOpenZfs` operation.
  */
 export const createLocationFsxOpenZfs: API.OperationMethod<
-  CreateLocationFsxOpenZfsRequest,
+  CreateLocationFsxOpenZfsRequest & RegionInput,
   CreateLocationFsxOpenZfsResponse,
   CreateLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
@@ -1385,7 +1386,7 @@ export type CreateLocationFsxWindowsError =
  * FSx for Windows File Server file systems.
  */
 export const createLocationFsxWindows: API.OperationMethod<
-  CreateLocationFsxWindowsRequest,
+  CreateLocationFsxWindowsRequest & RegionInput,
   CreateLocationFsxWindowsResponse,
   CreateLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
@@ -1411,7 +1412,7 @@ export type CreateLocationHdfsError = InternalException | InvalidRequestExceptio
  * clusters.
  */
 export const createLocationHdfs: API.OperationMethod<
-  CreateLocationHdfsRequest,
+  CreateLocationHdfsRequest & RegionInput,
   CreateLocationHdfsResponse,
   CreateLocationHdfsError,
   Credentials | HttpClient.HttpClient
@@ -1437,7 +1438,7 @@ export type CreateLocationNfsError = InternalException | InvalidRequestException
  * servers.
  */
 export const createLocationNfs: API.OperationMethod<
-  CreateLocationNfsRequest,
+  CreateLocationNfsRequest & RegionInput,
   CreateLocationNfsResponse,
   CreateLocationNfsError,
   Credentials | HttpClient.HttpClient
@@ -1464,7 +1465,7 @@ export type CreateLocationObjectStorageError =
  * Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems.
  */
 export const createLocationObjectStorage: API.OperationMethod<
-  CreateLocationObjectStorageRequest,
+  CreateLocationObjectStorageRequest & RegionInput,
   CreateLocationObjectStorageResponse,
   CreateLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
@@ -1501,7 +1502,7 @@ export type CreateLocationS3Error =
  * transfers with Amazon S3.
  */
 export const createLocationS3: API.OperationMethod<
-  CreateLocationS3Request,
+  CreateLocationS3Request & RegionInput,
   CreateLocationS3Response,
   CreateLocationS3Error,
   Credentials | HttpClient.HttpClient
@@ -1531,7 +1532,7 @@ export type CreateLocationSmbError = InternalException | InvalidRequestException
  * file servers. For more information, see Providing DataSync access to SMB file servers.
  */
 export const createLocationSmb: API.OperationMethod<
-  CreateLocationSmbRequest,
+  CreateLocationSmbRequest & RegionInput,
   CreateLocationSmbResponse,
   CreateLocationSmbError,
   Credentials | HttpClient.HttpClient
@@ -1564,7 +1565,7 @@ export type CreateTaskError =
  * you begin.
  */
 export const createTask: API.OperationMethod<
-  CreateTaskRequest,
+  CreateTaskRequest & RegionInput,
   CreateTaskResponse,
   CreateTaskError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1590,7 @@ export type DeleteAgentError = InternalException | InvalidRequestException | Com
  * agent.
  */
 export const deleteAgent: API.OperationMethod<
-  DeleteAgentRequest,
+  DeleteAgentRequest & RegionInput,
   DeleteAgentResponse,
   DeleteAgentError,
   Credentials | HttpClient.HttpClient
@@ -1613,7 +1614,7 @@ export type DeleteLocationError =
  * Deletes a transfer location resource from DataSync.
  */
 export const deleteLocation: API.OperationMethod<
-  DeleteLocationRequest,
+  DeleteLocationRequest & RegionInput,
   DeleteLocationResponse,
   DeleteLocationError,
   Credentials | HttpClient.HttpClient
@@ -1637,7 +1638,7 @@ export type DeleteTaskError =
  * Deletes a transfer task resource from DataSync.
  */
 export const deleteTask: API.OperationMethod<
-  DeleteTaskRequest,
+  DeleteTaskRequest & RegionInput,
   DeleteTaskResponse,
   DeleteTaskError,
   Credentials | HttpClient.HttpClient
@@ -1658,7 +1659,7 @@ export type DescribeAgentError = InternalException | InvalidRequestException | C
  * endpoint type, and status.
  */
 export const describeAgent: API.OperationMethod<
-  DescribeAgentRequest,
+  DescribeAgentRequest & RegionInput,
   DescribeAgentResponse,
   DescribeAgentError,
   Credentials | HttpClient.HttpClient
@@ -1682,7 +1683,7 @@ export type DescribeLocationAzureBlobError =
  * Blob Storage is configured.
  */
 export const describeLocationAzureBlob: API.OperationMethod<
-  DescribeLocationAzureBlobRequest,
+  DescribeLocationAzureBlobRequest & RegionInput,
   DescribeLocationAzureBlobResponse,
   DescribeLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
@@ -1706,7 +1707,7 @@ export type DescribeLocationEfsError =
  * Provides details about how an DataSync transfer location for an Amazon EFS file system is configured.
  */
 export const describeLocationEfs: API.OperationMethod<
-  DescribeLocationEfsRequest,
+  DescribeLocationEfsRequest & RegionInput,
   DescribeLocationEfsResponse,
   DescribeLocationEfsError,
   Credentials | HttpClient.HttpClient
@@ -1729,7 +1730,7 @@ export type DescribeLocationFsxLustreError =
  * Provides details about how an DataSync transfer location for an Amazon FSx for Lustre file system is configured.
  */
 export const describeLocationFsxLustre: API.OperationMethod<
-  DescribeLocationFsxLustreRequest,
+  DescribeLocationFsxLustreRequest & RegionInput,
   DescribeLocationFsxLustreResponse,
   DescribeLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
@@ -1755,7 +1756,7 @@ export type DescribeLocationFsxOntapError =
  * actually return a `Password`.
  */
 export const describeLocationFsxOntap: API.OperationMethod<
-  DescribeLocationFsxOntapRequest,
+  DescribeLocationFsxOntapRequest & RegionInput,
   DescribeLocationFsxOntapResponse,
   DescribeLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
@@ -1781,7 +1782,7 @@ export type DescribeLocationFsxOpenZfsError =
  * `DescribeLocationFsxOpenZfs` operation.
  */
 export const describeLocationFsxOpenZfs: API.OperationMethod<
-  DescribeLocationFsxOpenZfsRequest,
+  DescribeLocationFsxOpenZfsRequest & RegionInput,
   DescribeLocationFsxOpenZfsResponse,
   DescribeLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
@@ -1804,7 +1805,7 @@ export type DescribeLocationFsxWindowsError =
  * Provides details about how an DataSync transfer location for an Amazon FSx for Windows File Server file system is configured.
  */
 export const describeLocationFsxWindows: API.OperationMethod<
-  DescribeLocationFsxWindowsRequest,
+  DescribeLocationFsxWindowsRequest & RegionInput,
   DescribeLocationFsxWindowsResponse,
   DescribeLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
@@ -1825,7 +1826,7 @@ export type DescribeLocationHdfsError = InternalException | InvalidRequestExcept
  * Distributed File System (HDFS) is configured.
  */
 export const describeLocationHdfs: API.OperationMethod<
-  DescribeLocationHdfsRequest,
+  DescribeLocationHdfsRequest & RegionInput,
   DescribeLocationHdfsResponse,
   DescribeLocationHdfsError,
   Credentials | HttpClient.HttpClient
@@ -1846,7 +1847,7 @@ export type DescribeLocationNfsError = InternalException | InvalidRequestExcepti
  * File System (NFS) file server is configured.
  */
 export const describeLocationNfs: API.OperationMethod<
-  DescribeLocationNfsRequest,
+  DescribeLocationNfsRequest & RegionInput,
   DescribeLocationNfsResponse,
   DescribeLocationNfsError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1871,7 @@ export type DescribeLocationObjectStorageError =
  * storage system is configured.
  */
 export const describeLocationObjectStorage: API.OperationMethod<
-  DescribeLocationObjectStorageRequest,
+  DescribeLocationObjectStorageRequest & RegionInput,
   DescribeLocationObjectStorageResponse,
   DescribeLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
@@ -1895,7 +1896,7 @@ export type DescribeLocationS3Error =
  * is configured.
  */
 export const describeLocationS3: API.OperationMethod<
-  DescribeLocationS3Request,
+  DescribeLocationS3Request & RegionInput,
   DescribeLocationS3Response,
   DescribeLocationS3Error,
   Credentials | HttpClient.HttpClient
@@ -1916,7 +1917,7 @@ export type DescribeLocationSmbError = InternalException | InvalidRequestExcepti
  * Message Block (SMB) file server is configured.
  */
 export const describeLocationSmb: API.OperationMethod<
-  DescribeLocationSmbRequest,
+  DescribeLocationSmbRequest & RegionInput,
   DescribeLocationSmbResponse,
   DescribeLocationSmbError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type DescribeTaskError =
  * DataSync transfers your data.
  */
 export const describeTask: API.OperationMethod<
-  DescribeTaskRequest,
+  DescribeTaskRequest & RegionInput,
   DescribeTaskResponse,
   DescribeTaskError,
   Credentials | HttpClient.HttpClient
@@ -1967,7 +1968,7 @@ export type DescribeTaskExecutionError = InternalException | InvalidRequestExcep
  * transfer performance counters.
  */
 export const describeTaskExecution: API.OperationMethod<
-  DescribeTaskExecutionRequest,
+  DescribeTaskExecutionRequest & RegionInput,
   DescribeTaskExecutionResponse,
   DescribeTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1998,7 +1999,7 @@ export type ListAgentsError = InternalException | InvalidRequestException | Comm
  * by using DescribeAgent.
  */
 export const listAgents: API.PaginatedOperationMethod<
-  ListAgentsRequest,
+  ListAgentsRequest & RegionInput,
   ListAgentsResponse,
   ListAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -2029,7 +2030,7 @@ export type ListLocationsError = InternalException | InvalidRequestException | C
  * specify in your next request to fetch the next page of locations.
  */
 export const listLocations: API.PaginatedOperationMethod<
-  ListLocationsRequest,
+  ListLocationsRequest & RegionInput,
   ListLocationsResponse,
   ListLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -2056,7 +2057,7 @@ export type ListTagsForResourceError = InternalException | InvalidRequestExcepti
  * Returns all the tags associated with an Amazon Web Services resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2083,7 +2084,7 @@ export type ListTaskExecutionsError = InternalException | InvalidRequestExceptio
  * Returns a list of executions for an DataSync transfer task.
  */
 export const listTaskExecutions: API.PaginatedOperationMethod<
-  ListTaskExecutionsRequest,
+  ListTaskExecutionsRequest & RegionInput,
   ListTaskExecutionsResponse,
   ListTaskExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2110,7 +2111,7 @@ export type ListTasksError = InternalException | InvalidRequestException | Commo
  * Returns a list of the DataSync tasks you created.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksRequest,
+  ListTasksRequest & RegionInput,
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -2149,7 +2150,7 @@ export type StartTaskExecutionError =
  * you begin.
  */
 export const startTaskExecution: API.OperationMethod<
-  StartTaskExecutionRequest,
+  StartTaskExecutionRequest & RegionInput,
   StartTaskExecutionResponse,
   StartTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2173,7 +2174,7 @@ export type TagResourceError = InternalException | InvalidRequestException | Com
  * executions.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2193,7 +2194,7 @@ export type UntagResourceError = InternalException | InvalidRequestException | C
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2213,7 +2214,7 @@ export type UpdateAgentError = InternalException | InvalidRequestException | Com
  * Updates the name of an DataSync agent.
  */
 export const updateAgent: API.OperationMethod<
-  UpdateAgentRequest,
+  UpdateAgentRequest & RegionInput,
   UpdateAgentResponse,
   UpdateAgentError,
   Credentials | HttpClient.HttpClient
@@ -2239,7 +2240,7 @@ export type UpdateLocationAzureBlobError =
  * For more information, see Configuring DataSync transfers with Azure Blob Storage.
  */
 export const updateLocationAzureBlob: API.OperationMethod<
-  UpdateLocationAzureBlobRequest,
+  UpdateLocationAzureBlobRequest & RegionInput,
   UpdateLocationAzureBlobResponse,
   UpdateLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
@@ -2263,7 +2264,7 @@ export type UpdateLocationEfsError = InternalException | InvalidRequestException
  * transfers with Amazon EFS.
  */
 export const updateLocationEfs: API.OperationMethod<
-  UpdateLocationEfsRequest,
+  UpdateLocationEfsRequest & RegionInput,
   UpdateLocationEfsResponse,
   UpdateLocationEfsError,
   Credentials | HttpClient.HttpClient
@@ -2290,7 +2291,7 @@ export type UpdateLocationFsxLustreError =
  * transfers with FSx for Lustre.
  */
 export const updateLocationFsxLustre: API.OperationMethod<
-  UpdateLocationFsxLustreRequest,
+  UpdateLocationFsxLustreRequest & RegionInput,
   UpdateLocationFsxLustreResponse,
   UpdateLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
@@ -2317,7 +2318,7 @@ export type UpdateLocationFsxOntapError =
  * transfers with FSx for ONTAP.
  */
 export const updateLocationFsxOntap: API.OperationMethod<
-  UpdateLocationFsxOntapRequest,
+  UpdateLocationFsxOntapRequest & RegionInput,
   UpdateLocationFsxOntapResponse,
   UpdateLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
@@ -2347,7 +2348,7 @@ export type UpdateLocationFsxOpenZfsError =
  * `UpdateLocationFsxOpenZfs` operation.
  */
 export const updateLocationFsxOpenZfs: API.OperationMethod<
-  UpdateLocationFsxOpenZfsRequest,
+  UpdateLocationFsxOpenZfsRequest & RegionInput,
   UpdateLocationFsxOpenZfsResponse,
   UpdateLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
@@ -2374,7 +2375,7 @@ export type UpdateLocationFsxWindowsError =
  * transfers with FSx for Windows File Server.
  */
 export const updateLocationFsxWindows: API.OperationMethod<
-  UpdateLocationFsxWindowsRequest,
+  UpdateLocationFsxWindowsRequest & RegionInput,
   UpdateLocationFsxWindowsResponse,
   UpdateLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
@@ -2398,7 +2399,7 @@ export type UpdateLocationHdfsError = InternalException | InvalidRequestExceptio
  * transfers with an HDFS cluster.
  */
 export const updateLocationHdfs: API.OperationMethod<
-  UpdateLocationHdfsRequest,
+  UpdateLocationHdfsRequest & RegionInput,
   UpdateLocationHdfsResponse,
   UpdateLocationHdfsError,
   Credentials | HttpClient.HttpClient
@@ -2422,7 +2423,7 @@ export type UpdateLocationNfsError = InternalException | InvalidRequestException
  * file server.
  */
 export const updateLocationNfs: API.OperationMethod<
-  UpdateLocationNfsRequest,
+  UpdateLocationNfsRequest & RegionInput,
   UpdateLocationNfsResponse,
   UpdateLocationNfsError,
   Credentials | HttpClient.HttpClient
@@ -2449,7 +2450,7 @@ export type UpdateLocationObjectStorageError =
  * transfers with an object storage system.
  */
 export const updateLocationObjectStorage: API.OperationMethod<
-  UpdateLocationObjectStorageRequest,
+  UpdateLocationObjectStorageRequest & RegionInput,
   UpdateLocationObjectStorageResponse,
   UpdateLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
@@ -2477,7 +2478,7 @@ export type UpdateLocationS3Error = InternalException | InvalidRequestException 
  * - Evaluating S3 request costs when using DataSync
  */
 export const updateLocationS3: API.OperationMethod<
-  UpdateLocationS3Request,
+  UpdateLocationS3Request & RegionInput,
   UpdateLocationS3Response,
   UpdateLocationS3Error,
   Credentials | HttpClient.HttpClient
@@ -2501,7 +2502,7 @@ export type UpdateLocationSmbError = InternalException | InvalidRequestException
  * transfers with an SMB file server.
  */
 export const updateLocationSmb: API.OperationMethod<
-  UpdateLocationSmbRequest,
+  UpdateLocationSmbRequest & RegionInput,
   UpdateLocationSmbResponse,
   UpdateLocationSmbError,
   Credentials | HttpClient.HttpClient
@@ -2526,7 +2527,7 @@ export type UpdateTaskError =
  * DataSync transfers your data.
  */
 export const updateTask: API.OperationMethod<
-  UpdateTaskRequest,
+  UpdateTaskRequest & RegionInput,
   UpdateTaskResponse,
   UpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -2552,7 +2553,7 @@ export type UpdateTaskExecutionError = InternalException | InvalidRequestExcepti
  * execution.
  */
 export const updateTaskExecution: API.OperationMethod<
-  UpdateTaskExecutionRequest,
+  UpdateTaskExecutionRequest & RegionInput,
   UpdateTaskExecutionResponse,
   UpdateTaskExecutionError,
   Credentials | HttpClient.HttpClient

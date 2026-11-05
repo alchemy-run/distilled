@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3559,7 +3560,7 @@ export type AssociateMemberToFarmError =
  * Assigns a farm membership level to a member.
  */
 export const associateMemberToFarm: API.OperationMethod<
-  AssociateMemberToFarmRequest,
+  AssociateMemberToFarmRequest & RegionInput,
   AssociateMemberToFarmResponse,
   AssociateMemberToFarmError,
   Credentials | HttpClient.HttpClient
@@ -3594,7 +3595,7 @@ export type AssociateMemberToFleetError =
  * Assigns a fleet membership level to a member.
  */
 export const associateMemberToFleet: API.OperationMethod<
-  AssociateMemberToFleetRequest,
+  AssociateMemberToFleetRequest & RegionInput,
   AssociateMemberToFleetResponse,
   AssociateMemberToFleetError,
   Credentials | HttpClient.HttpClient
@@ -3629,7 +3630,7 @@ export type AssociateMemberToJobError =
  * Assigns a job membership level to a member
  */
 export const associateMemberToJob: API.OperationMethod<
-  AssociateMemberToJobRequest,
+  AssociateMemberToJobRequest & RegionInput,
   AssociateMemberToJobResponse,
   AssociateMemberToJobError,
   Credentials | HttpClient.HttpClient
@@ -3664,7 +3665,7 @@ export type AssociateMemberToQueueError =
  * Assigns a queue membership level to a member
  */
 export const associateMemberToQueue: API.OperationMethod<
-  AssociateMemberToQueueRequest,
+  AssociateMemberToQueueRequest & RegionInput,
   AssociateMemberToQueueResponse,
   AssociateMemberToQueueError,
   Credentials | HttpClient.HttpClient
@@ -3698,7 +3699,7 @@ export type AssumeFleetRoleForReadError =
  * Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeFleetRoleForRead: API.OperationMethod<
-  AssumeFleetRoleForReadRequest,
+  AssumeFleetRoleForReadRequest & RegionInput,
   AssumeFleetRoleForReadResponse,
   AssumeFleetRoleForReadError,
   Credentials | HttpClient.HttpClient
@@ -3732,7 +3733,7 @@ export type AssumeFleetRoleForWorkerError =
  * Get credentials from the fleet role for a worker.
  */
 export const assumeFleetRoleForWorker: API.OperationMethod<
-  AssumeFleetRoleForWorkerRequest,
+  AssumeFleetRoleForWorkerRequest & RegionInput,
   AssumeFleetRoleForWorkerResponse,
   AssumeFleetRoleForWorkerError,
   Credentials | HttpClient.HttpClient
@@ -3766,7 +3767,7 @@ export type AssumeQueueRoleForReadError =
  * Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeQueueRoleForRead: API.OperationMethod<
-  AssumeQueueRoleForReadRequest,
+  AssumeQueueRoleForReadRequest & RegionInput,
   AssumeQueueRoleForReadResponse,
   AssumeQueueRoleForReadError,
   Credentials | HttpClient.HttpClient
@@ -3799,7 +3800,7 @@ export type AssumeQueueRoleForUserError =
  * Allows a user to assume a role for a queue.
  */
 export const assumeQueueRoleForUser: API.OperationMethod<
-  AssumeQueueRoleForUserRequest,
+  AssumeQueueRoleForUserRequest & RegionInput,
   AssumeQueueRoleForUserResponse,
   AssumeQueueRoleForUserError,
   Credentials | HttpClient.HttpClient
@@ -3833,7 +3834,7 @@ export type AssumeQueueRoleForWorkerError =
  * Allows a worker to assume a queue role.
  */
 export const assumeQueueRoleForWorker: API.OperationMethod<
-  AssumeQueueRoleForWorkerRequest,
+  AssumeQueueRoleForWorkerRequest & RegionInput,
   AssumeQueueRoleForWorkerResponse,
   AssumeQueueRoleForWorkerError,
   Credentials | HttpClient.HttpClient
@@ -3868,7 +3869,7 @@ export type BatchGetJobError =
  * The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetJob: API.OperationMethod<
-  BatchGetJobRequest,
+  BatchGetJobRequest & RegionInput,
   BatchGetJobResponse,
   BatchGetJobError,
   Credentials | HttpClient.HttpClient
@@ -3900,7 +3901,7 @@ export type BatchGetJobEntityError =
  * Get batched job details for a worker.
  */
 export const batchGetJobEntity: API.OperationMethod<
-  BatchGetJobEntityRequest,
+  BatchGetJobEntityRequest & RegionInput,
   BatchGetJobEntityResponse,
   BatchGetJobEntityError,
   Credentials | HttpClient.HttpClient
@@ -3934,7 +3935,7 @@ export type BatchGetSessionError =
  * The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetSession: API.OperationMethod<
-  BatchGetSessionRequest,
+  BatchGetSessionRequest & RegionInput,
   BatchGetSessionResponse,
   BatchGetSessionError,
   Credentials | HttpClient.HttpClient
@@ -3967,7 +3968,7 @@ export type BatchGetSessionActionError =
  * The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetSessionAction: API.OperationMethod<
-  BatchGetSessionActionRequest,
+  BatchGetSessionActionRequest & RegionInput,
   BatchGetSessionActionResponse,
   BatchGetSessionActionError,
   Credentials | HttpClient.HttpClient
@@ -4000,7 +4001,7 @@ export type BatchGetStepError =
  * The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetStep: API.OperationMethod<
-  BatchGetStepRequest,
+  BatchGetStepRequest & RegionInput,
   BatchGetStepResponse,
   BatchGetStepError,
   Credentials | HttpClient.HttpClient
@@ -4033,7 +4034,7 @@ export type BatchGetTaskError =
  * The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetTask: API.OperationMethod<
-  BatchGetTaskRequest,
+  BatchGetTaskRequest & RegionInput,
   BatchGetTaskResponse,
   BatchGetTaskError,
   Credentials | HttpClient.HttpClient
@@ -4066,7 +4067,7 @@ export type BatchGetWorkerError =
  * The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetWorker: API.OperationMethod<
-  BatchGetWorkerRequest,
+  BatchGetWorkerRequest & RegionInput,
   BatchGetWorkerResponse,
   BatchGetWorkerError,
   Credentials | HttpClient.HttpClient
@@ -4103,7 +4104,7 @@ export type BatchUpdateJobError =
  * An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered.
  */
 export const batchUpdateJob: API.OperationMethod<
-  BatchUpdateJobRequest,
+  BatchUpdateJobRequest & RegionInput,
   BatchUpdateJobResponse,
   BatchUpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -4136,7 +4137,7 @@ export type BatchUpdateTaskError =
  * The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchUpdateTask: API.OperationMethod<
-  BatchUpdateTaskRequest,
+  BatchUpdateTaskRequest & RegionInput,
   BatchUpdateTaskResponse,
   BatchUpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -4168,7 +4169,7 @@ export type CopyJobTemplateError =
  * Copies a job template to an Amazon S3 bucket.
  */
 export const copyJobTemplate: API.OperationMethod<
-  CopyJobTemplateRequest,
+  CopyJobTemplateRequest & RegionInput,
   CopyJobTemplateResponse,
   CopyJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4203,7 +4204,7 @@ export type CreateBudgetError =
  * Creates a budget to set spending thresholds for your rendering activity.
  */
 export const createBudget: API.OperationMethod<
-  CreateBudgetRequest,
+  CreateBudgetRequest & RegionInput,
   CreateBudgetResponse,
   CreateBudgetError,
   Credentials | HttpClient.HttpClient
@@ -4239,7 +4240,7 @@ export type CreateFarmError =
  * Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
  */
 export const createFarm: API.OperationMethod<
-  CreateFarmRequest,
+  CreateFarmRequest & RegionInput,
   CreateFarmResponse,
   CreateFarmError,
   Credentials | HttpClient.HttpClient
@@ -4276,7 +4277,7 @@ export type CreateFleetError =
  * Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetRequest,
+  CreateFleetRequest & RegionInput,
   CreateFleetResponse,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -4313,7 +4314,7 @@ export type CreateJobError =
  * Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -4348,7 +4349,7 @@ export type CreateLicenseEndpointError =
  * Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud.
  */
 export const createLicenseEndpoint: API.OperationMethod<
-  CreateLicenseEndpointRequest,
+  CreateLicenseEndpointRequest & RegionInput,
   CreateLicenseEndpointResponse,
   CreateLicenseEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4385,7 +4386,7 @@ export type CreateLimitError =
  * You must add the `amountRequirementName` to a step in a job template to declare the limit requirement.
  */
 export const createLimit: API.OperationMethod<
-  CreateLimitRequest,
+  CreateLimitRequest & RegionInput,
   CreateLimitResponse,
   CreateLimitError,
   Credentials | HttpClient.HttpClient
@@ -4420,7 +4421,7 @@ export type CreateMonitorError =
  * Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and fleets. After you submit a job, you can track the progress of the tasks and steps that make up the job, and then download the job's results.
  */
 export const createMonitor: API.OperationMethod<
-  CreateMonitorRequest,
+  CreateMonitorRequest & RegionInput,
   CreateMonitorResponse,
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -4456,7 +4457,7 @@ export type CreateQueueError =
  * Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResponse,
   CreateQueueError,
   Credentials | HttpClient.HttpClient
@@ -4492,7 +4493,7 @@ export type CreateQueueEnvironmentError =
  * Creates an environment for a queue that defines how jobs in the queue run.
  */
 export const createQueueEnvironment: API.OperationMethod<
-  CreateQueueEnvironmentRequest,
+  CreateQueueEnvironmentRequest & RegionInput,
   CreateQueueEnvironmentResponse,
   CreateQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -4526,7 +4527,7 @@ export type CreateQueueFleetAssociationError =
  * Creates an association between a queue and a fleet.
  */
 export const createQueueFleetAssociation: API.OperationMethod<
-  CreateQueueFleetAssociationRequest,
+  CreateQueueFleetAssociationRequest & RegionInput,
   CreateQueueFleetAssociationResponse,
   CreateQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4559,7 +4560,7 @@ export type CreateQueueLimitAssociationError =
  * Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same `amountRequirementName` to the same queue.
  */
 export const createQueueLimitAssociation: API.OperationMethod<
-  CreateQueueLimitAssociationRequest,
+  CreateQueueLimitAssociationRequest & RegionInput,
   CreateQueueLimitAssociationResponse,
   CreateQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4594,7 +4595,7 @@ export type CreateStorageProfileError =
  * Creates a storage profile that specifies the operating system, file type, and file location of resources used on a farm.
  */
 export const createStorageProfile: API.OperationMethod<
-  CreateStorageProfileRequest,
+  CreateStorageProfileRequest & RegionInput,
   CreateStorageProfileResponse,
   CreateStorageProfileError,
   Credentials | HttpClient.HttpClient
@@ -4632,7 +4633,7 @@ export type CreateWorkerError =
  * Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to `CreateWorker` before the field updates, you might exceed your fleet's maximum worker count. For example, if your `maxWorkerCount` is 10 and you currently have 9 workers, making two quick `CreateWorker` calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
  */
 export const createWorker: API.OperationMethod<
-  CreateWorkerRequest,
+  CreateWorkerRequest & RegionInput,
   CreateWorkerResponse,
   CreateWorkerError,
   Credentials | HttpClient.HttpClient
@@ -4667,7 +4668,7 @@ export type DeleteBudgetError =
  * Deletes a budget.
  */
 export const deleteBudget: API.OperationMethod<
-  DeleteBudgetRequest,
+  DeleteBudgetRequest & RegionInput,
   DeleteBudgetResponse,
   DeleteBudgetError,
   Credentials | HttpClient.HttpClient
@@ -4702,7 +4703,7 @@ export type DeleteFarmError =
  * Deletes a farm.
  */
 export const deleteFarm: API.OperationMethod<
-  DeleteFarmRequest,
+  DeleteFarmRequest & RegionInput,
   DeleteFarmResponse,
   DeleteFarmError,
   Credentials | HttpClient.HttpClient
@@ -4737,7 +4738,7 @@ export type DeleteFleetError =
  * Deletes a fleet.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetRequest,
+  DeleteFleetRequest & RegionInput,
   DeleteFleetResponse,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -4772,7 +4773,7 @@ export type DeleteLicenseEndpointError =
  * Deletes a license endpoint.
  */
 export const deleteLicenseEndpoint: API.OperationMethod<
-  DeleteLicenseEndpointRequest,
+  DeleteLicenseEndpointRequest & RegionInput,
   DeleteLicenseEndpointResponse,
   DeleteLicenseEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4805,7 +4806,7 @@ export type DeleteLimitError =
  * Removes a limit from the specified farm. Before you delete a limit you must use the `DeleteQueueLimitAssociation` operation to remove the association with any queues.
  */
 export const deleteLimit: API.OperationMethod<
-  DeleteLimitRequest,
+  DeleteLimitRequest & RegionInput,
   DeleteLimitResponse,
   DeleteLimitError,
   Credentials | HttpClient.HttpClient
@@ -4837,7 +4838,7 @@ export type DeleteMeteredProductError =
  * Deletes a metered product.
  */
 export const deleteMeteredProduct: API.OperationMethod<
-  DeleteMeteredProductRequest,
+  DeleteMeteredProductRequest & RegionInput,
   DeleteMeteredProductResponse,
   DeleteMeteredProductError,
   Credentials | HttpClient.HttpClient
@@ -4871,7 +4872,7 @@ export type DeleteMonitorError =
  * Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and attach farms to the monitor.
  */
 export const deleteMonitor: API.OperationMethod<
-  DeleteMonitorRequest,
+  DeleteMonitorRequest & RegionInput,
   DeleteMonitorResponse,
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
@@ -4908,7 +4909,7 @@ export type DeleteQueueError =
  * You can't recover the jobs in a queue if you delete the queue. Deleting the queue also deletes the jobs in that queue.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
@@ -4941,7 +4942,7 @@ export type DeleteQueueEnvironmentError =
  * Deletes a queue environment.
  */
 export const deleteQueueEnvironment: API.OperationMethod<
-  DeleteQueueEnvironmentRequest,
+  DeleteQueueEnvironmentRequest & RegionInput,
   DeleteQueueEnvironmentResponse,
   DeleteQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -4974,7 +4975,7 @@ export type DeleteQueueFleetAssociationError =
  * Deletes a queue-fleet association.
  */
 export const deleteQueueFleetAssociation: API.OperationMethod<
-  DeleteQueueFleetAssociationRequest,
+  DeleteQueueFleetAssociationRequest & RegionInput,
   DeleteQueueFleetAssociationResponse,
   DeleteQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5009,7 +5010,7 @@ export type DeleteQueueLimitAssociationError =
  * Removes the association between a queue and a limit. You must use the `UpdateQueueLimitAssociation` operation to set the status to `STOP_LIMIT_USAGE_AND_COMPLETE_TASKS` or `STOP_LIMIT_USAGE_AND_CANCEL_TASKS`. The status does not change immediately. Use the `GetQueueLimitAssociation` operation to see if the status changed to `STOPPED` before deleting the association.
  */
 export const deleteQueueLimitAssociation: API.OperationMethod<
-  DeleteQueueLimitAssociationRequest,
+  DeleteQueueLimitAssociationRequest & RegionInput,
   DeleteQueueLimitAssociationResponse,
   DeleteQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5044,7 +5045,7 @@ export type DeleteStorageProfileError =
  * Deletes a storage profile.
  */
 export const deleteStorageProfile: API.OperationMethod<
-  DeleteStorageProfileRequest,
+  DeleteStorageProfileRequest & RegionInput,
   DeleteStorageProfileResponse,
   DeleteStorageProfileError,
   Credentials | HttpClient.HttpClient
@@ -5079,7 +5080,7 @@ export type DeleteVolumeError =
  * Deletes a persistent volume.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeRequest,
+  DeleteVolumeRequest & RegionInput,
   DeleteVolumeResponse,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
@@ -5114,7 +5115,7 @@ export type DeleteWorkerError =
  * Deletes a worker.
  */
 export const deleteWorker: API.OperationMethod<
-  DeleteWorkerRequest,
+  DeleteWorkerRequest & RegionInput,
   DeleteWorkerResponse,
   DeleteWorkerError,
   Credentials | HttpClient.HttpClient
@@ -5148,7 +5149,7 @@ export type DisassociateMemberFromFarmError =
  * Disassociates a member from a farm.
  */
 export const disassociateMemberFromFarm: API.OperationMethod<
-  DisassociateMemberFromFarmRequest,
+  DisassociateMemberFromFarmRequest & RegionInput,
   DisassociateMemberFromFarmResponse,
   DisassociateMemberFromFarmError,
   Credentials | HttpClient.HttpClient
@@ -5182,7 +5183,7 @@ export type DisassociateMemberFromFleetError =
  * Disassociates a member from a fleet.
  */
 export const disassociateMemberFromFleet: API.OperationMethod<
-  DisassociateMemberFromFleetRequest,
+  DisassociateMemberFromFleetRequest & RegionInput,
   DisassociateMemberFromFleetResponse,
   DisassociateMemberFromFleetError,
   Credentials | HttpClient.HttpClient
@@ -5216,7 +5217,7 @@ export type DisassociateMemberFromJobError =
  * Disassociates a member from a job.
  */
 export const disassociateMemberFromJob: API.OperationMethod<
-  DisassociateMemberFromJobRequest,
+  DisassociateMemberFromJobRequest & RegionInput,
   DisassociateMemberFromJobResponse,
   DisassociateMemberFromJobError,
   Credentials | HttpClient.HttpClient
@@ -5250,7 +5251,7 @@ export type DisassociateMemberFromQueueError =
  * Disassociates a member from a queue.
  */
 export const disassociateMemberFromQueue: API.OperationMethod<
-  DisassociateMemberFromQueueRequest,
+  DisassociateMemberFromQueueRequest & RegionInput,
   DisassociateMemberFromQueueResponse,
   DisassociateMemberFromQueueError,
   Credentials | HttpClient.HttpClient
@@ -5284,7 +5285,7 @@ export type GetBudgetError =
  * Get a budget.
  */
 export const getBudget: API.OperationMethod<
-  GetBudgetRequest,
+  GetBudgetRequest & RegionInput,
   GetBudgetResponse,
   GetBudgetError,
   Credentials | HttpClient.HttpClient
@@ -5317,7 +5318,7 @@ export type GetFarmError =
  * Get a farm.
  */
 export const getFarm: API.OperationMethod<
-  GetFarmRequest,
+  GetFarmRequest & RegionInput,
   GetFarmResponse,
   GetFarmError,
   Credentials | HttpClient.HttpClient
@@ -5350,7 +5351,7 @@ export type GetFleetError =
  * Get a fleet.
  */
 export const getFleet: API.OperationMethod<
-  GetFleetRequest,
+  GetFleetRequest & RegionInput,
   GetFleetResponse,
   GetFleetError,
   Credentials | HttpClient.HttpClient
@@ -5383,7 +5384,7 @@ export type GetJobError =
  * Gets a Deadline Cloud job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -5416,7 +5417,7 @@ export type GetLicenseEndpointError =
  * Gets a licence endpoint.
  */
 export const getLicenseEndpoint: API.OperationMethod<
-  GetLicenseEndpointRequest,
+  GetLicenseEndpointRequest & RegionInput,
   GetLicenseEndpointResponse,
   GetLicenseEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5449,7 +5450,7 @@ export type GetLimitError =
  * Gets information about a specific limit.
  */
 export const getLimit: API.OperationMethod<
-  GetLimitRequest,
+  GetLimitRequest & RegionInput,
   GetLimitResponse,
   GetLimitError,
   Credentials | HttpClient.HttpClient
@@ -5482,7 +5483,7 @@ export type GetMonitorError =
  * Gets information about the specified monitor.
  */
 export const getMonitor: API.OperationMethod<
-  GetMonitorRequest,
+  GetMonitorRequest & RegionInput,
   GetMonitorResponse,
   GetMonitorError,
   Credentials | HttpClient.HttpClient
@@ -5515,7 +5516,7 @@ export type GetMonitorSettingsError =
  * Gets the settings for a Deadline Cloud monitor.
  */
 export const getMonitorSettings: API.OperationMethod<
-  GetMonitorSettingsRequest,
+  GetMonitorSettingsRequest & RegionInput,
   GetMonitorSettingsResponse,
   GetMonitorSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5548,7 +5549,7 @@ export type GetQueueError =
  * Gets a queue.
  */
 export const getQueue: API.OperationMethod<
-  GetQueueRequest,
+  GetQueueRequest & RegionInput,
   GetQueueResponse,
   GetQueueError,
   Credentials | HttpClient.HttpClient
@@ -5581,7 +5582,7 @@ export type GetQueueEnvironmentError =
  * Gets a queue environment.
  */
 export const getQueueEnvironment: API.OperationMethod<
-  GetQueueEnvironmentRequest,
+  GetQueueEnvironmentRequest & RegionInput,
   GetQueueEnvironmentResponse,
   GetQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -5614,7 +5615,7 @@ export type GetQueueFleetAssociationError =
  * Gets a queue-fleet association.
  */
 export const getQueueFleetAssociation: API.OperationMethod<
-  GetQueueFleetAssociationRequest,
+  GetQueueFleetAssociationRequest & RegionInput,
   GetQueueFleetAssociationResponse,
   GetQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5647,7 +5648,7 @@ export type GetQueueLimitAssociationError =
  * Gets information about a specific association between a queue and a limit.
  */
 export const getQueueLimitAssociation: API.OperationMethod<
-  GetQueueLimitAssociationRequest,
+  GetQueueLimitAssociationRequest & RegionInput,
   GetQueueLimitAssociationResponse,
   GetQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5680,7 +5681,7 @@ export type GetSessionError =
  * Gets a session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -5713,7 +5714,7 @@ export type GetSessionActionError =
  * Gets a session action for the job.
  */
 export const getSessionAction: API.OperationMethod<
-  GetSessionActionRequest,
+  GetSessionActionRequest & RegionInput,
   GetSessionActionResponse,
   GetSessionActionError,
   Credentials | HttpClient.HttpClient
@@ -5746,7 +5747,7 @@ export type GetSessionsStatisticsAggregationError =
  * Gets a set of statistics for queues or farms. Before you can call the `GetSessionStatisticsAggregation` operation, you must first call the `StartSessionsStatisticsAggregation` operation. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const getSessionsStatisticsAggregation: API.PaginatedOperationMethod<
-  GetSessionsStatisticsAggregationRequest,
+  GetSessionsStatisticsAggregationRequest & RegionInput,
   GetSessionsStatisticsAggregationResponse,
   GetSessionsStatisticsAggregationError,
   Credentials | HttpClient.HttpClient,
@@ -5786,7 +5787,7 @@ export type GetStepError =
  * Gets a step.
  */
 export const getStep: API.OperationMethod<
-  GetStepRequest,
+  GetStepRequest & RegionInput,
   GetStepResponse,
   GetStepError,
   Credentials | HttpClient.HttpClient
@@ -5819,7 +5820,7 @@ export type GetStorageProfileError =
  * Gets a storage profile.
  */
 export const getStorageProfile: API.OperationMethod<
-  GetStorageProfileRequest,
+  GetStorageProfileRequest & RegionInput,
   GetStorageProfileResponse,
   GetStorageProfileError,
   Credentials | HttpClient.HttpClient
@@ -5852,7 +5853,7 @@ export type GetStorageProfileForQueueError =
  * Gets a storage profile for a queue.
  */
 export const getStorageProfileForQueue: API.OperationMethod<
-  GetStorageProfileForQueueRequest,
+  GetStorageProfileForQueueRequest & RegionInput,
   GetStorageProfileForQueueResponse,
   GetStorageProfileForQueueError,
   Credentials | HttpClient.HttpClient
@@ -5885,7 +5886,7 @@ export type GetTaskError =
  * Gets a task.
  */
 export const getTask: API.OperationMethod<
-  GetTaskRequest,
+  GetTaskRequest & RegionInput,
   GetTaskResponse,
   GetTaskError,
   Credentials | HttpClient.HttpClient
@@ -5918,7 +5919,7 @@ export type GetVolumeError =
  * Gets a persistent volume.
  */
 export const getVolume: API.OperationMethod<
-  GetVolumeRequest,
+  GetVolumeRequest & RegionInput,
   GetVolumeResponse,
   GetVolumeError,
   Credentials | HttpClient.HttpClient
@@ -5951,7 +5952,7 @@ export type GetWorkerError =
  * Gets a worker.
  */
 export const getWorker: API.OperationMethod<
-  GetWorkerRequest,
+  GetWorkerRequest & RegionInput,
   GetWorkerResponse,
   GetWorkerError,
   Credentials | HttpClient.HttpClient
@@ -5981,7 +5982,7 @@ export type ListAvailableMeteredProductsError =
  * A list of the available metered products.
  */
 export const listAvailableMeteredProducts: API.PaginatedOperationMethod<
-  ListAvailableMeteredProductsRequest,
+  ListAvailableMeteredProductsRequest & RegionInput,
   ListAvailableMeteredProductsResponse,
   ListAvailableMeteredProductsError,
   Credentials | HttpClient.HttpClient,
@@ -6015,7 +6016,7 @@ export type ListBudgetsError =
  * A list of budgets in a farm.
  */
 export const listBudgets: API.PaginatedOperationMethod<
-  ListBudgetsRequest,
+  ListBudgetsRequest & RegionInput,
   ListBudgetsResponse,
   ListBudgetsError,
   Credentials | HttpClient.HttpClient,
@@ -6055,7 +6056,7 @@ export type ListFarmMembersError =
  * Lists the members of a farm.
  */
 export const listFarmMembers: API.PaginatedOperationMethod<
-  ListFarmMembersRequest,
+  ListFarmMembersRequest & RegionInput,
   ListFarmMembersResponse,
   ListFarmMembersError,
   Credentials | HttpClient.HttpClient,
@@ -6094,7 +6095,7 @@ export type ListFarmsError =
  * Lists farms.
  */
 export const listFarms: API.PaginatedOperationMethod<
-  ListFarmsRequest,
+  ListFarmsRequest & RegionInput,
   ListFarmsResponse,
   ListFarmsError,
   Credentials | HttpClient.HttpClient,
@@ -6133,7 +6134,7 @@ export type ListFleetMembersError =
  * Lists fleet members.
  */
 export const listFleetMembers: API.PaginatedOperationMethod<
-  ListFleetMembersRequest,
+  ListFleetMembersRequest & RegionInput,
   ListFleetMembersResponse,
   ListFleetMembersError,
   Credentials | HttpClient.HttpClient,
@@ -6173,7 +6174,7 @@ export type ListFleetsError =
  * Lists fleets.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsRequest,
+  ListFleetsRequest & RegionInput,
   ListFleetsResponse,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -6213,7 +6214,7 @@ export type ListJobMembersError =
  * Lists members on a job.
  */
 export const listJobMembers: API.PaginatedOperationMethod<
-  ListJobMembersRequest,
+  ListJobMembersRequest & RegionInput,
   ListJobMembersResponse,
   ListJobMembersError,
   Credentials | HttpClient.HttpClient,
@@ -6253,7 +6254,7 @@ export type ListJobParameterDefinitionsError =
  * Lists parameter definitions of a job.
  */
 export const listJobParameterDefinitions: API.PaginatedOperationMethod<
-  ListJobParameterDefinitionsRequest,
+  ListJobParameterDefinitionsRequest & RegionInput,
   ListJobParameterDefinitionsResponse,
   ListJobParameterDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -6293,7 +6294,7 @@ export type ListJobsError =
  * Lists jobs.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6333,7 +6334,7 @@ export type ListLicenseEndpointsError =
  * Lists license endpoints.
  */
 export const listLicenseEndpoints: API.PaginatedOperationMethod<
-  ListLicenseEndpointsRequest,
+  ListLicenseEndpointsRequest & RegionInput,
   ListLicenseEndpointsResponse,
   ListLicenseEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -6373,7 +6374,7 @@ export type ListLimitsError =
  * Gets a list of limits defined in the specified farm.
  */
 export const listLimits: API.PaginatedOperationMethod<
-  ListLimitsRequest,
+  ListLimitsRequest & RegionInput,
   ListLimitsResponse,
   ListLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -6413,7 +6414,7 @@ export type ListMeteredProductsError =
  * Lists metered products.
  */
 export const listMeteredProducts: API.PaginatedOperationMethod<
-  ListMeteredProductsRequest,
+  ListMeteredProductsRequest & RegionInput,
   ListMeteredProductsResponse,
   ListMeteredProductsError,
   Credentials | HttpClient.HttpClient,
@@ -6452,7 +6453,7 @@ export type ListMonitorsError =
  * Gets a list of your monitors in Deadline Cloud.
  */
 export const listMonitors: API.PaginatedOperationMethod<
-  ListMonitorsRequest,
+  ListMonitorsRequest & RegionInput,
   ListMonitorsResponse,
   ListMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -6491,7 +6492,7 @@ export type ListQueueEnvironmentsError =
  * Lists queue environments.
  */
 export const listQueueEnvironments: API.PaginatedOperationMethod<
-  ListQueueEnvironmentsRequest,
+  ListQueueEnvironmentsRequest & RegionInput,
   ListQueueEnvironmentsResponse,
   ListQueueEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -6530,7 +6531,7 @@ export type ListQueueFleetAssociationsError =
  * Lists queue-fleet associations.
  */
 export const listQueueFleetAssociations: API.PaginatedOperationMethod<
-  ListQueueFleetAssociationsRequest,
+  ListQueueFleetAssociationsRequest & RegionInput,
   ListQueueFleetAssociationsResponse,
   ListQueueFleetAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -6568,7 +6569,7 @@ export type ListQueueLimitAssociationsError =
  * Gets a list of the associations between queues and limits defined in a farm.
  */
 export const listQueueLimitAssociations: API.PaginatedOperationMethod<
-  ListQueueLimitAssociationsRequest,
+  ListQueueLimitAssociationsRequest & RegionInput,
   ListQueueLimitAssociationsResponse,
   ListQueueLimitAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -6607,7 +6608,7 @@ export type ListQueueMembersError =
  * Lists the members in a queue.
  */
 export const listQueueMembers: API.PaginatedOperationMethod<
-  ListQueueMembersRequest,
+  ListQueueMembersRequest & RegionInput,
   ListQueueMembersResponse,
   ListQueueMembersError,
   Credentials | HttpClient.HttpClient,
@@ -6647,7 +6648,7 @@ export type ListQueuesError =
  * Lists queues.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResponse,
   ListQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -6687,7 +6688,7 @@ export type ListSessionActionsError =
  * Lists session actions.
  */
 export const listSessionActions: API.PaginatedOperationMethod<
-  ListSessionActionsRequest,
+  ListSessionActionsRequest & RegionInput,
   ListSessionActionsResponse,
   ListSessionActionsError,
   Credentials | HttpClient.HttpClient,
@@ -6727,7 +6728,7 @@ export type ListSessionsError =
  * Lists sessions.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -6767,7 +6768,7 @@ export type ListSessionsForWorkerError =
  * Lists sessions for a worker.
  */
 export const listSessionsForWorker: API.PaginatedOperationMethod<
-  ListSessionsForWorkerRequest,
+  ListSessionsForWorkerRequest & RegionInput,
   ListSessionsForWorkerResponse,
   ListSessionsForWorkerError,
   Credentials | HttpClient.HttpClient,
@@ -6807,7 +6808,7 @@ export type ListStepConsumersError =
  * Lists step consumers.
  */
 export const listStepConsumers: API.PaginatedOperationMethod<
-  ListStepConsumersRequest,
+  ListStepConsumersRequest & RegionInput,
   ListStepConsumersResponse,
   ListStepConsumersError,
   Credentials | HttpClient.HttpClient,
@@ -6847,7 +6848,7 @@ export type ListStepDependenciesError =
  * Lists the dependencies for a step.
  */
 export const listStepDependencies: API.PaginatedOperationMethod<
-  ListStepDependenciesRequest,
+  ListStepDependenciesRequest & RegionInput,
   ListStepDependenciesResponse,
   ListStepDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -6887,7 +6888,7 @@ export type ListStepsError =
  * Lists steps for a job.
  */
 export const listSteps: API.PaginatedOperationMethod<
-  ListStepsRequest,
+  ListStepsRequest & RegionInput,
   ListStepsResponse,
   ListStepsError,
   Credentials | HttpClient.HttpClient,
@@ -6927,7 +6928,7 @@ export type ListStorageProfilesError =
  * Lists storage profiles.
  */
 export const listStorageProfiles: API.PaginatedOperationMethod<
-  ListStorageProfilesRequest,
+  ListStorageProfilesRequest & RegionInput,
   ListStorageProfilesResponse,
   ListStorageProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -6967,7 +6968,7 @@ export type ListStorageProfilesForQueueError =
  * Lists storage profiles for a queue.
  */
 export const listStorageProfilesForQueue: API.PaginatedOperationMethod<
-  ListStorageProfilesForQueueRequest,
+  ListStorageProfilesForQueueRequest & RegionInput,
   ListStorageProfilesForQueueResponse,
   ListStorageProfilesForQueueError,
   Credentials | HttpClient.HttpClient,
@@ -7007,7 +7008,7 @@ export type ListTagsForResourceError =
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -7040,7 +7041,7 @@ export type ListTasksError =
  * Lists tasks for a job.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksRequest,
+  ListTasksRequest & RegionInput,
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -7080,7 +7081,7 @@ export type ListVolumesError =
  * Lists the persistent volumes in a fleet.
  */
 export const listVolumes: API.PaginatedOperationMethod<
-  ListVolumesRequest,
+  ListVolumesRequest & RegionInput,
   ListVolumesResponse,
   ListVolumesError,
   Credentials | HttpClient.HttpClient,
@@ -7120,7 +7121,7 @@ export type ListWorkersError =
  * Lists workers.
  */
 export const listWorkers: API.PaginatedOperationMethod<
-  ListWorkersRequest,
+  ListWorkersRequest & RegionInput,
   ListWorkersResponse,
   ListWorkersError,
   Credentials | HttpClient.HttpClient,
@@ -7160,7 +7161,7 @@ export type PutMeteredProductError =
  * Adds a metered product.
  */
 export const putMeteredProduct: API.OperationMethod<
-  PutMeteredProductRequest,
+  PutMeteredProductRequest & RegionInput,
   PutMeteredProductResponse,
   PutMeteredProductError,
   Credentials | HttpClient.HttpClient
@@ -7193,7 +7194,7 @@ export type SearchJobsError =
  * Searches for jobs.
  */
 export const searchJobs: API.OperationMethod<
-  SearchJobsRequest,
+  SearchJobsRequest & RegionInput,
   SearchJobsResponse,
   SearchJobsError,
   Credentials | HttpClient.HttpClient
@@ -7226,7 +7227,7 @@ export type SearchStepsError =
  * Searches for steps.
  */
 export const searchSteps: API.OperationMethod<
-  SearchStepsRequest,
+  SearchStepsRequest & RegionInput,
   SearchStepsResponse,
   SearchStepsError,
   Credentials | HttpClient.HttpClient
@@ -7259,7 +7260,7 @@ export type SearchTasksError =
  * Searches for tasks.
  */
 export const searchTasks: API.OperationMethod<
-  SearchTasksRequest,
+  SearchTasksRequest & RegionInput,
   SearchTasksResponse,
   SearchTasksError,
   Credentials | HttpClient.HttpClient
@@ -7292,7 +7293,7 @@ export type SearchWorkersError =
  * Searches for workers.
  */
 export const searchWorkers: API.OperationMethod<
-  SearchWorkersRequest,
+  SearchWorkersRequest & RegionInput,
   SearchWorkersResponse,
   SearchWorkersError,
   Credentials | HttpClient.HttpClient
@@ -7325,7 +7326,7 @@ export type StartSessionsStatisticsAggregationError =
  * Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the `GetSessionsStatisticsAggregation` operation. You can only have one running aggregation for your Deadline Cloud farm. Call the `GetSessionsStatisticsAggregation` operation and check the `status` field to see if an aggregation is running. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const startSessionsStatisticsAggregation: API.OperationMethod<
-  StartSessionsStatisticsAggregationRequest,
+  StartSessionsStatisticsAggregationRequest & RegionInput,
   StartSessionsStatisticsAggregationResponse,
   StartSessionsStatisticsAggregationError,
   Credentials | HttpClient.HttpClient
@@ -7359,7 +7360,7 @@ export type TagResourceError =
  * Tags a resource using the resource's ARN and desired tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7394,7 +7395,7 @@ export type UntagResourceError =
  * Removes a tag from a resource using the resource's ARN and tag to remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7430,7 +7431,7 @@ export type UpdateBudgetError =
  * Updates a budget that sets spending thresholds for rendering activity.
  */
 export const updateBudget: API.OperationMethod<
-  UpdateBudgetRequest,
+  UpdateBudgetRequest & RegionInput,
   UpdateBudgetResponse,
   UpdateBudgetError,
   Credentials | HttpClient.HttpClient
@@ -7466,7 +7467,7 @@ export type UpdateFarmError =
  * Updates a farm.
  */
 export const updateFarm: API.OperationMethod<
-  UpdateFarmRequest,
+  UpdateFarmRequest & RegionInput,
   UpdateFarmResponse,
   UpdateFarmError,
   Credentials | HttpClient.HttpClient
@@ -7504,7 +7505,7 @@ export type UpdateFleetError =
  * Workers that are running when you call `UpdateFleet` keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set `maxWorkerCount` to 0, use the `ListWorkers` operation to confirm that the fleet has no workers, and then restore `maxWorkerCount`.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetRequest,
+  UpdateFleetRequest & RegionInput,
   UpdateFleetResponse,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
@@ -7544,7 +7545,7 @@ export type UpdateJobError =
  * An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
  */
 export const updateJob: API.OperationMethod<
-  UpdateJobRequest,
+  UpdateJobRequest & RegionInput,
   UpdateJobResponse,
   UpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -7578,7 +7579,7 @@ export type UpdateLimitError =
  * Updates the properties of the specified limit.
  */
 export const updateLimit: API.OperationMethod<
-  UpdateLimitRequest,
+  UpdateLimitRequest & RegionInput,
   UpdateLimitResponse,
   UpdateLimitError,
   Credentials | HttpClient.HttpClient
@@ -7612,7 +7613,7 @@ export type UpdateMonitorError =
  * Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call `UpdateMonitor`.
  */
 export const updateMonitor: API.OperationMethod<
-  UpdateMonitorRequest,
+  UpdateMonitorRequest & RegionInput,
   UpdateMonitorResponse,
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -7646,7 +7647,7 @@ export type UpdateMonitorSettingsError =
  * Updates the settings for a Deadline Cloud monitor. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
  */
 export const updateMonitorSettings: API.OperationMethod<
-  UpdateMonitorSettingsRequest,
+  UpdateMonitorSettingsRequest & RegionInput,
   UpdateMonitorSettingsResponse,
   UpdateMonitorSettingsError,
   Credentials | HttpClient.HttpClient
@@ -7680,7 +7681,7 @@ export type UpdateQueueError =
  * Updates a queue.
  */
 export const updateQueue: API.OperationMethod<
-  UpdateQueueRequest,
+  UpdateQueueRequest & RegionInput,
   UpdateQueueResponse,
   UpdateQueueError,
   Credentials | HttpClient.HttpClient
@@ -7714,7 +7715,7 @@ export type UpdateQueueEnvironmentError =
  * Updates the queue environment.
  */
 export const updateQueueEnvironment: API.OperationMethod<
-  UpdateQueueEnvironmentRequest,
+  UpdateQueueEnvironmentRequest & RegionInput,
   UpdateQueueEnvironmentResponse,
   UpdateQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -7747,7 +7748,7 @@ export type UpdateQueueFleetAssociationError =
  * Updates a queue-fleet association.
  */
 export const updateQueueFleetAssociation: API.OperationMethod<
-  UpdateQueueFleetAssociationRequest,
+  UpdateQueueFleetAssociationRequest & RegionInput,
   UpdateQueueFleetAssociationResponse,
   UpdateQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -7780,7 +7781,7 @@ export type UpdateQueueLimitAssociationError =
  * Updates the status of the queue. If you set the status to one of the `STOP_LIMIT_USAGE*` values, there will be a delay before the status transitions to the `STOPPED` state.
  */
 export const updateQueueLimitAssociation: API.OperationMethod<
-  UpdateQueueLimitAssociationRequest,
+  UpdateQueueLimitAssociationRequest & RegionInput,
   UpdateQueueLimitAssociationResponse,
   UpdateQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
@@ -7814,7 +7815,7 @@ export type UpdateSessionError =
  * Updates a session.
  */
 export const updateSession: API.OperationMethod<
-  UpdateSessionRequest,
+  UpdateSessionRequest & RegionInput,
   UpdateSessionResponse,
   UpdateSessionError,
   Credentials | HttpClient.HttpClient
@@ -7849,7 +7850,7 @@ export type UpdateStepError =
  * Updates a step.
  */
 export const updateStep: API.OperationMethod<
-  UpdateStepRequest,
+  UpdateStepRequest & RegionInput,
   UpdateStepResponse,
   UpdateStepError,
   Credentials | HttpClient.HttpClient
@@ -7884,7 +7885,7 @@ export type UpdateStorageProfileError =
  * Updates a storage profile.
  */
 export const updateStorageProfile: API.OperationMethod<
-  UpdateStorageProfileRequest,
+  UpdateStorageProfileRequest & RegionInput,
   UpdateStorageProfileResponse,
   UpdateStorageProfileError,
   Credentials | HttpClient.HttpClient
@@ -7919,7 +7920,7 @@ export type UpdateTaskError =
  * Updates a task.
  */
 export const updateTask: API.OperationMethod<
-  UpdateTaskRequest,
+  UpdateTaskRequest & RegionInput,
   UpdateTaskResponse,
   UpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -7954,7 +7955,7 @@ export type UpdateWorkerError =
  * Updates a worker.
  */
 export const updateWorker: API.OperationMethod<
-  UpdateWorkerRequest,
+  UpdateWorkerRequest & RegionInput,
   UpdateWorkerResponse,
   UpdateWorkerError,
   Credentials | HttpClient.HttpClient
@@ -7989,7 +7990,7 @@ export type UpdateWorkerScheduleError =
  * Updates the schedule for a worker.
  */
 export const updateWorkerSchedule: API.OperationMethod<
-  UpdateWorkerScheduleRequest,
+  UpdateWorkerScheduleRequest & RegionInput,
   UpdateWorkerScheduleResponse,
   UpdateWorkerScheduleError,
   Credentials | HttpClient.HttpClient

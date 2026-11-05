@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2133,7 +2134,7 @@ export type AssociateEmailIdentityCertificateError =
  * error, unless the existing association is in the `DEPROVISIONING` state.
  */
 export const associateEmailIdentityCertificate: API.OperationMethod<
-  AssociateEmailIdentityCertificateRequest,
+  AssociateEmailIdentityCertificateRequest & RegionInput,
   AssociateEmailIdentityCertificateResponse,
   AssociateEmailIdentityCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2166,7 +2167,7 @@ export type BatchGetMetricDataError =
  * and with at most 160 queries from the batches per second (cumulative).
  */
 export const batchGetMetricData: API.OperationMethod<
-  BatchGetMetricDataRequest,
+  BatchGetMetricDataRequest & RegionInput,
   BatchGetMetricDataResponse,
   BatchGetMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -2195,7 +2196,7 @@ export type CancelExportJobError =
  * Cancels an export job.
  */
 export const cancelExportJob: API.OperationMethod<
-  CancelExportJobRequest,
+  CancelExportJobRequest & RegionInput,
   CancelExportJobResponse,
   CancelExportJobError,
   Credentials | HttpClient.HttpClient
@@ -2226,7 +2227,7 @@ export type CreateConfigurationSetError =
  * are applied to the email.
  */
 export const createConfigurationSet: API.OperationMethod<
-  CreateConfigurationSetRequest,
+  CreateConfigurationSetRequest & RegionInput,
   CreateConfigurationSetResponse,
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -2265,7 +2266,7 @@ export type CreateConfigurationSetEventDestinationError =
  * A single configuration set can include more than one event destination.
  */
 export const createConfigurationSetEventDestination: API.OperationMethod<
-  CreateConfigurationSetEventDestinationRequest,
+  CreateConfigurationSetEventDestinationRequest & RegionInput,
   CreateConfigurationSetEventDestinationResponse,
   CreateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2297,7 +2298,7 @@ export type CreateContactError =
  * contact list.
  */
 export const createContact: API.OperationMethod<
-  CreateContactRequest,
+  CreateContactRequest & RegionInput,
   CreateContactResponse,
   CreateContactError,
   Credentials | HttpClient.HttpClient
@@ -2327,7 +2328,7 @@ export type CreateContactListError =
  * Creates a contact list.
  */
 export const createContactList: API.OperationMethod<
-  CreateContactListRequest,
+  CreateContactListRequest & RegionInput,
   CreateContactListResponse,
   CreateContactListError,
   Credentials | HttpClient.HttpClient
@@ -2364,7 +2365,7 @@ export type CreateCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const createCustomVerificationEmailTemplate: API.OperationMethod<
-  CreateCustomVerificationEmailTemplateRequest,
+  CreateCustomVerificationEmailTemplateRequest & RegionInput,
   CreateCustomVerificationEmailTemplateResponse,
   CreateCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2399,7 +2400,7 @@ export type CreateDedicatedIpPoolError =
  * message is sent from one of the addresses in the associated pool.
  */
 export const createDedicatedIpPool: API.OperationMethod<
-  CreateDedicatedIpPoolRequest,
+  CreateDedicatedIpPoolRequest & RegionInput,
   CreateDedicatedIpPoolResponse,
   CreateDedicatedIpPoolError,
   Credentials | HttpClient.HttpClient
@@ -2441,7 +2442,7 @@ export type CreateDeliverabilityTestReportError =
  * test.
  */
 export const createDeliverabilityTestReport: API.OperationMethod<
-  CreateDeliverabilityTestReportRequest,
+  CreateDeliverabilityTestReportRequest & RegionInput,
   CreateDeliverabilityTestReportResponse,
   CreateDeliverabilityTestReportError,
   Credentials | HttpClient.HttpClient
@@ -2506,7 +2507,7 @@ export type CreateEmailIdentityError =
  * Additionally, you can associate an existing configuration set with the email identity that you're verifying.
  */
 export const createEmailIdentity: API.OperationMethod<
-  CreateEmailIdentityRequest,
+  CreateEmailIdentityRequest & RegionInput,
   CreateEmailIdentityResponse,
   CreateEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -2550,7 +2551,7 @@ export type CreateEmailIdentityPolicyError =
  * You can execute this operation no more than once per second.
  */
 export const createEmailIdentityPolicy: API.OperationMethod<
-  CreateEmailIdentityPolicyRequest,
+  CreateEmailIdentityPolicyRequest & RegionInput,
   CreateEmailIdentityPolicyResponse,
   CreateEmailIdentityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2585,7 +2586,7 @@ export type CreateEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const createEmailTemplate: API.OperationMethod<
-  CreateEmailTemplateRequest,
+  CreateEmailTemplateRequest & RegionInput,
   CreateEmailTemplateResponse,
   CreateEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2617,7 +2618,7 @@ export type CreateExportJobError =
  * You can execute this operation no more than once per second.
  */
 export const createExportJob: API.OperationMethod<
-  CreateExportJobRequest,
+  CreateExportJobRequest & RegionInput,
   CreateExportJobResponse,
   CreateExportJobError,
   Credentials | HttpClient.HttpClient
@@ -2646,7 +2647,7 @@ export type CreateImportJobError =
  * Creates an import job for a data destination.
  */
 export const createImportJob: API.OperationMethod<
-  CreateImportJobRequest,
+  CreateImportJobRequest & RegionInput,
   CreateImportJobResponse,
   CreateImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2677,7 +2678,7 @@ export type CreateMultiRegionEndpointError =
  * The primary region is the region where the resource has been created and where it can be managed.
  */
 export const createMultiRegionEndpoint: API.OperationMethod<
-  CreateMultiRegionEndpointRequest,
+  CreateMultiRegionEndpointRequest & RegionInput,
   CreateMultiRegionEndpointResponse,
   CreateMultiRegionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2716,7 +2717,7 @@ export type CreateTenantError =
  * separate suppression list for the tenant instead of using the account-level suppression list.
  */
 export const createTenant: API.OperationMethod<
-  CreateTenantRequest,
+  CreateTenantRequest & RegionInput,
   CreateTenantResponse,
   CreateTenantError,
   Credentials | HttpClient.HttpClient
@@ -2753,7 +2754,7 @@ export type CreateTenantResourceAssociationError =
  * across different tenants while maintaining isolation in email sending operations.
  */
 export const createTenantResourceAssociation: API.OperationMethod<
-  CreateTenantResourceAssociationRequest,
+  CreateTenantResourceAssociationRequest & RegionInput,
   CreateTenantResourceAssociationResponse,
   CreateTenantResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2788,7 +2789,7 @@ export type DeleteConfigurationSetError =
  * an email, all of the rules in that configuration set are applied to the email.
  */
 export const deleteConfigurationSet: API.OperationMethod<
-  DeleteConfigurationSetRequest,
+  DeleteConfigurationSetRequest & RegionInput,
   DeleteConfigurationSetResponse,
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -2822,7 +2823,7 @@ export type DeleteConfigurationSetEventDestinationError =
  * associate a rule to send the event to the specified target.
  */
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
-  DeleteConfigurationSetEventDestinationRequest,
+  DeleteConfigurationSetEventDestinationRequest & RegionInput,
   DeleteConfigurationSetEventDestinationResponse,
   DeleteConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2846,7 +2847,7 @@ export type DeleteContactError =
  * Removes a contact from a contact list.
  */
 export const deleteContact: API.OperationMethod<
-  DeleteContactRequest,
+  DeleteContactRequest & RegionInput,
   DeleteContactResponse,
   DeleteContactError,
   Credentials | HttpClient.HttpClient
@@ -2871,7 +2872,7 @@ export type DeleteContactListError =
  * Deletes a contact list and all of the contacts on that list.
  */
 export const deleteContactList: API.OperationMethod<
-  DeleteContactListRequest,
+  DeleteContactListRequest & RegionInput,
   DeleteContactListResponse,
   DeleteContactListError,
   Credentials | HttpClient.HttpClient
@@ -2906,7 +2907,7 @@ export type DeleteCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
-  DeleteCustomVerificationEmailTemplateRequest,
+  DeleteCustomVerificationEmailTemplateRequest & RegionInput,
   DeleteCustomVerificationEmailTemplateResponse,
   DeleteCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2931,7 +2932,7 @@ export type DeleteDedicatedIpPoolError =
  * Delete a dedicated IP pool.
  */
 export const deleteDedicatedIpPool: API.OperationMethod<
-  DeleteDedicatedIpPoolRequest,
+  DeleteDedicatedIpPoolRequest & RegionInput,
   DeleteDedicatedIpPoolResponse,
   DeleteDedicatedIpPoolError,
   Credentials | HttpClient.HttpClient
@@ -2962,7 +2963,7 @@ export type DeleteEmailIdentityError =
  * name.
  */
 export const deleteEmailIdentity: API.OperationMethod<
-  DeleteEmailIdentityRequest,
+  DeleteEmailIdentityRequest & RegionInput,
   DeleteEmailIdentityResponse,
   DeleteEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -3003,7 +3004,7 @@ export type DeleteEmailIdentityPolicyError =
  * You can execute this operation no more than once per second.
  */
 export const deleteEmailIdentityPolicy: API.OperationMethod<
-  DeleteEmailIdentityPolicyRequest,
+  DeleteEmailIdentityPolicyRequest & RegionInput,
   DeleteEmailIdentityPolicyResponse,
   DeleteEmailIdentityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3029,7 +3030,7 @@ export type DeleteEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const deleteEmailTemplate: API.OperationMethod<
-  DeleteEmailTemplateRequest,
+  DeleteEmailTemplateRequest & RegionInput,
   DeleteEmailTemplateResponse,
   DeleteEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3057,7 +3058,7 @@ export type DeleteMultiRegionEndpointError =
  * where operation is executed can be deleted.
  */
 export const deleteMultiRegionEndpoint: API.OperationMethod<
-  DeleteMultiRegionEndpointRequest,
+  DeleteMultiRegionEndpointRequest & RegionInput,
   DeleteMultiRegionEndpointResponse,
   DeleteMultiRegionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3089,7 +3090,7 @@ export type DeleteSuppressedDestinationError =
  * account-level suppression list.
  */
 export const deleteSuppressedDestination: API.OperationMethod<
-  DeleteSuppressedDestinationRequest,
+  DeleteSuppressedDestinationRequest & RegionInput,
   DeleteSuppressedDestinationResponse,
   DeleteSuppressedDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3116,7 +3117,7 @@ export type DeleteTenantError =
  * are removed, but the resources themselves are not deleted.
  */
 export const deleteTenant: API.OperationMethod<
-  DeleteTenantRequest,
+  DeleteTenantRequest & RegionInput,
   DeleteTenantResponse,
   DeleteTenantError,
   Credentials | HttpClient.HttpClient
@@ -3144,7 +3145,7 @@ export type DeleteTenantResourceAssociationError =
  * will no longer be available for use with that tenant's email sending operations.
  */
 export const deleteTenantResourceAssociation: API.OperationMethod<
-  DeleteTenantResourceAssociationRequest,
+  DeleteTenantResourceAssociationRequest & RegionInput,
   DeleteTenantResourceAssociationResponse,
   DeleteTenantResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3178,7 +3179,7 @@ export type DisassociateEmailIdentityCertificateError =
  * doesn't exist.
  */
 export const disassociateEmailIdentityCertificate: API.OperationMethod<
-  DisassociateEmailIdentityCertificateRequest,
+  DisassociateEmailIdentityCertificateRequest & RegionInput,
   DisassociateEmailIdentityCertificateResponse,
   DisassociateEmailIdentityCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3199,7 +3200,7 @@ export type GetAccountError = BadRequestException | TooManyRequestsException | C
  * account in the current Amazon Web Services Region.
  */
 export const getAccount: API.OperationMethod<
-  GetAccountRequest,
+  GetAccountRequest & RegionInput,
   GetAccountResponse,
   GetAccountError,
   Credentials | HttpClient.HttpClient
@@ -3223,7 +3224,7 @@ export type GetBlacklistReportsError =
  * Retrieve a list of the blacklists that your dedicated IP addresses appear on.
  */
 export const getBlacklistReports: API.OperationMethod<
-  GetBlacklistReportsRequest,
+  GetBlacklistReportsRequest & RegionInput,
   GetBlacklistReportsResponse,
   GetBlacklistReportsError,
   Credentials | HttpClient.HttpClient
@@ -3254,7 +3255,7 @@ export type GetConfigurationSetError =
  * an email, all of the rules in that configuration set are applied to the email.
  */
 export const getConfigurationSet: API.OperationMethod<
-  GetConfigurationSetRequest,
+  GetConfigurationSetRequest & RegionInput,
   GetConfigurationSetResponse,
   GetConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -3284,7 +3285,7 @@ export type GetConfigurationSetEventDestinationsError =
  * associate a rule to send the event to the specified target.
  */
 export const getConfigurationSetEventDestinations: API.OperationMethod<
-  GetConfigurationSetEventDestinationsRequest,
+  GetConfigurationSetEventDestinationsRequest & RegionInput,
   GetConfigurationSetEventDestinationsResponse,
   GetConfigurationSetEventDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -3308,7 +3309,7 @@ export type GetContactError =
  * Returns a contact from a contact list.
  */
 export const getContact: API.OperationMethod<
-  GetContactRequest,
+  GetContactRequest & RegionInput,
   GetContactResponse,
   GetContactError,
   Credentials | HttpClient.HttpClient
@@ -3333,7 +3334,7 @@ export type GetContactListError =
  * present in the list.
  */
 export const getContactList: API.OperationMethod<
-  GetContactListRequest,
+  GetContactListRequest & RegionInput,
   GetContactListResponse,
   GetContactListError,
   Credentials | HttpClient.HttpClient
@@ -3364,7 +3365,7 @@ export type GetCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const getCustomVerificationEmailTemplate: API.OperationMethod<
-  GetCustomVerificationEmailTemplateRequest,
+  GetCustomVerificationEmailTemplateRequest & RegionInput,
   GetCustomVerificationEmailTemplateResponse,
   GetCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3390,7 +3391,7 @@ export type GetDedicatedIpError =
  * for the address.
  */
 export const getDedicatedIp: API.OperationMethod<
-  GetDedicatedIpRequest,
+  GetDedicatedIpRequest & RegionInput,
   GetDedicatedIpResponse,
   GetDedicatedIpError,
   Credentials | HttpClient.HttpClient
@@ -3414,7 +3415,7 @@ export type GetDedicatedIpPoolError =
  * Retrieve information about the dedicated pool.
  */
 export const getDedicatedIpPool: API.OperationMethod<
-  GetDedicatedIpPoolRequest,
+  GetDedicatedIpPoolRequest & RegionInput,
   GetDedicatedIpPoolResponse,
   GetDedicatedIpPoolError,
   Credentials | HttpClient.HttpClient
@@ -3439,7 +3440,7 @@ export type GetDedicatedIpsError =
  * account.
  */
 export const getDedicatedIps: API.PaginatedOperationMethod<
-  GetDedicatedIpsRequest,
+  GetDedicatedIpsRequest & RegionInput,
   GetDedicatedIpsResponse,
   GetDedicatedIpsError,
   Credentials | HttpClient.HttpClient,
@@ -3472,7 +3473,7 @@ export type GetDeliverabilityDashboardOptionsError =
  * information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
  */
 export const getDeliverabilityDashboardOptions: API.OperationMethod<
-  GetDeliverabilityDashboardOptionsRequest,
+  GetDeliverabilityDashboardOptionsRequest & RegionInput,
   GetDeliverabilityDashboardOptionsResponse,
   GetDeliverabilityDashboardOptionsError,
   Credentials | HttpClient.HttpClient
@@ -3496,7 +3497,7 @@ export type GetDeliverabilityTestReportError =
  * Retrieve the results of a predictive inbox placement test.
  */
 export const getDeliverabilityTestReport: API.OperationMethod<
-  GetDeliverabilityTestReportRequest,
+  GetDeliverabilityTestReportRequest & RegionInput,
   GetDeliverabilityTestReportResponse,
   GetDeliverabilityTestReportError,
   Credentials | HttpClient.HttpClient
@@ -3522,7 +3523,7 @@ export type GetDomainDeliverabilityCampaignError =
  * Deliverability dashboard is enabled for.
  */
 export const getDomainDeliverabilityCampaign: API.OperationMethod<
-  GetDomainDeliverabilityCampaignRequest,
+  GetDomainDeliverabilityCampaignRequest & RegionInput,
   GetDomainDeliverabilityCampaignResponse,
   GetDomainDeliverabilityCampaignError,
   Credentials | HttpClient.HttpClient
@@ -3547,7 +3548,7 @@ export type GetDomainStatisticsReportError =
  * email.
  */
 export const getDomainStatisticsReport: API.OperationMethod<
-  GetDomainStatisticsReportRequest,
+  GetDomainStatisticsReportRequest & RegionInput,
   GetDomainStatisticsReportResponse,
   GetDomainStatisticsReportError,
   Credentials | HttpClient.HttpClient
@@ -3570,7 +3571,7 @@ export type GetEmailAddressInsightsError =
  * Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors.
  */
 export const getEmailAddressInsights: API.OperationMethod<
-  GetEmailAddressInsightsRequest,
+  GetEmailAddressInsightsRequest & RegionInput,
   GetEmailAddressInsightsResponse,
   GetEmailAddressInsightsError,
   Credentials | HttpClient.HttpClient
@@ -3596,7 +3597,7 @@ export type GetEmailIdentityError =
  * Mail-From settings.
  */
 export const getEmailIdentity: API.OperationMethod<
-  GetEmailIdentityRequest,
+  GetEmailIdentityRequest & RegionInput,
   GetEmailIdentityResponse,
   GetEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -3632,7 +3633,7 @@ export type GetEmailIdentityPoliciesError =
  * You can execute this operation no more than once per second.
  */
 export const getEmailIdentityPolicies: API.OperationMethod<
-  GetEmailIdentityPoliciesRequest,
+  GetEmailIdentityPoliciesRequest & RegionInput,
   GetEmailIdentityPoliciesResponse,
   GetEmailIdentityPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -3659,7 +3660,7 @@ export type GetEmailTemplateError =
  * You can execute this operation no more than 50 times per second.
  */
 export const getEmailTemplate: API.OperationMethod<
-  GetEmailTemplateRequest,
+  GetEmailTemplateRequest & RegionInput,
   GetEmailTemplateResponse,
   GetEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3683,7 +3684,7 @@ export type GetExportJobError =
  * Provides information about an export job.
  */
 export const getExportJob: API.OperationMethod<
-  GetExportJobRequest,
+  GetExportJobRequest & RegionInput,
   GetExportJobResponse,
   GetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -3707,7 +3708,7 @@ export type GetImportJobError =
  * Provides information about an import job.
  */
 export const getImportJob: API.OperationMethod<
-  GetImportJobRequest,
+  GetImportJobRequest & RegionInput,
   GetImportJobResponse,
   GetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -3734,7 +3735,7 @@ export type GetMessageInsightsError =
  * You can execute this operation no more than once per second.
  */
 export const getMessageInsights: API.OperationMethod<
-  GetMessageInsightsRequest,
+  GetMessageInsightsRequest & RegionInput,
   GetMessageInsightsResponse,
   GetMessageInsightsError,
   Credentials | HttpClient.HttpClient
@@ -3761,7 +3762,7 @@ export type GetMultiRegionEndpointError =
  * where operation is executed can be displayed.
  */
 export const getMultiRegionEndpoint: API.OperationMethod<
-  GetMultiRegionEndpointRequest,
+  GetMultiRegionEndpointRequest & RegionInput,
   GetMultiRegionEndpointResponse,
   GetMultiRegionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3792,7 +3793,7 @@ export type GetReputationEntityError =
  * using the `ListRecommendations` operation.
  */
 export const getReputationEntity: API.OperationMethod<
-  GetReputationEntityRequest,
+  GetReputationEntityRequest & RegionInput,
   GetReputationEntityResponse,
   GetReputationEntityError,
   Credentials | HttpClient.HttpClient
@@ -3819,7 +3820,7 @@ export type GetSuppressedDestinationError =
  * the operation targets the account-level suppression list.
  */
 export const getSuppressedDestination: API.OperationMethod<
-  GetSuppressedDestinationRequest,
+  GetSuppressedDestinationRequest & RegionInput,
   GetSuppressedDestinationResponse,
   GetSuppressedDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3844,7 +3845,7 @@ export type GetTenantError =
  * creation timestamp, tags, sending status, and suppression attributes.
  */
 export const getTenant: API.OperationMethod<
-  GetTenantRequest,
+  GetTenantRequest & RegionInput,
   GetTenantResponse,
   GetTenantError,
   Credentials | HttpClient.HttpClient
@@ -3873,7 +3874,7 @@ export type ListConfigurationSetsError =
  * an email, all of the rules in that configuration set are applied to the email.
  */
 export const listConfigurationSets: API.PaginatedOperationMethod<
-  ListConfigurationSetsRequest,
+  ListConfigurationSetsRequest & RegionInput,
   ListConfigurationSetsResponse,
   ListConfigurationSetsError,
   Credentials | HttpClient.HttpClient,
@@ -3898,7 +3899,7 @@ export type ListContactListsError = BadRequestException | TooManyRequestsExcepti
  * contacts on the filtered list - regardless of the number of contacts returned.
  */
 export const listContactLists: API.PaginatedOperationMethod<
-  ListContactListsRequest,
+  ListContactListsRequest & RegionInput,
   ListContactListsResponse,
   ListContactListsError,
   Credentials | HttpClient.HttpClient,
@@ -3924,7 +3925,7 @@ export type ListContactsError =
  * Lists the contacts present in a specific contact list.
  */
 export const listContacts: API.PaginatedOperationMethod<
-  ListContactsRequest,
+  ListContactsRequest & RegionInput,
   ListContactsResponse,
   ListContactsError,
   Credentials | HttpClient.HttpClient,
@@ -3956,7 +3957,7 @@ export type ListCustomVerificationEmailTemplatesError =
  * You can execute this operation no more than once per second.
  */
 export const listCustomVerificationEmailTemplates: API.PaginatedOperationMethod<
-  ListCustomVerificationEmailTemplatesRequest,
+  ListCustomVerificationEmailTemplatesRequest & RegionInput,
   ListCustomVerificationEmailTemplatesResponse,
   ListCustomVerificationEmailTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3982,7 +3983,7 @@ export type ListDedicatedIpPoolsError =
  * Region.
  */
 export const listDedicatedIpPools: API.PaginatedOperationMethod<
-  ListDedicatedIpPoolsRequest,
+  ListDedicatedIpPoolsRequest & RegionInput,
   ListDedicatedIpPoolsResponse,
   ListDedicatedIpPoolsError,
   Credentials | HttpClient.HttpClient,
@@ -4010,7 +4011,7 @@ export type ListDeliverabilityTestReportsError =
  * operation to view the results.
  */
 export const listDeliverabilityTestReports: API.PaginatedOperationMethod<
-  ListDeliverabilityTestReportsRequest,
+  ListDeliverabilityTestReportsRequest & RegionInput,
   ListDeliverabilityTestReportsResponse,
   ListDeliverabilityTestReportsError,
   Credentials | HttpClient.HttpClient,
@@ -4038,7 +4039,7 @@ export type ListDomainDeliverabilityCampaignsError =
  * enabled the Deliverability dashboard for the domain.
  */
 export const listDomainDeliverabilityCampaigns: API.PaginatedOperationMethod<
-  ListDomainDeliverabilityCampaignsRequest,
+  ListDomainDeliverabilityCampaignsRequest & RegionInput,
   ListDomainDeliverabilityCampaignsResponse,
   ListDomainDeliverabilityCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -4066,7 +4067,7 @@ export type ListEmailIdentitiesError =
  * identities that are associated with Amazon SES and Amazon Pinpoint.
  */
 export const listEmailIdentities: API.PaginatedOperationMethod<
-  ListEmailIdentitiesRequest,
+  ListEmailIdentitiesRequest & RegionInput,
   ListEmailIdentitiesResponse,
   ListEmailIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -4103,7 +4104,7 @@ export type ListEmailIdentityCertificatesError =
  * the next set of results.
  */
 export const listEmailIdentityCertificates: API.PaginatedOperationMethod<
-  ListEmailIdentityCertificatesRequest,
+  ListEmailIdentityCertificatesRequest & RegionInput,
   ListEmailIdentityCertificatesResponse,
   ListEmailIdentityCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -4133,7 +4134,7 @@ export type ListEmailTemplatesError = BadRequestException | TooManyRequestsExcep
  * You can execute this operation no more than once per second.
  */
 export const listEmailTemplates: API.PaginatedOperationMethod<
-  ListEmailTemplatesRequest,
+  ListEmailTemplatesRequest & RegionInput,
   ListEmailTemplatesResponse,
   ListEmailTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4155,7 +4156,7 @@ export type ListExportJobsError = BadRequestException | TooManyRequestsException
  * Lists all of the export jobs.
  */
 export const listExportJobs: API.PaginatedOperationMethod<
-  ListExportJobsRequest,
+  ListExportJobsRequest & RegionInput,
   ListExportJobsResponse,
   ListExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4177,7 +4178,7 @@ export type ListImportJobsError = BadRequestException | TooManyRequestsException
  * Lists all of the import jobs.
  */
 export const listImportJobs: API.PaginatedOperationMethod<
-  ListImportJobsRequest,
+  ListImportJobsRequest & RegionInput,
   ListImportJobsResponse,
   ListImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4205,7 +4206,7 @@ export type ListMultiRegionEndpointsError =
  * where operation is executed will be listed.
  */
 export const listMultiRegionEndpoints: API.PaginatedOperationMethod<
-  ListMultiRegionEndpointsRequest,
+  ListMultiRegionEndpointsRequest & RegionInput,
   ListMultiRegionEndpointsResponse,
   ListMultiRegionEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -4238,7 +4239,7 @@ export type ListRecommendationsError =
  * You can execute this operation no more than once per second.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -4269,7 +4270,7 @@ export type ListReputationEntitiesError =
  * all entities and their current reputation status.
  */
 export const listReputationEntities: API.PaginatedOperationMethod<
-  ListReputationEntitiesRequest,
+  ListReputationEntitiesRequest & RegionInput,
   ListReputationEntitiesResponse,
   ListReputationEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -4304,7 +4305,7 @@ export type ListResourceTenantsError =
  * resource such as an email identity, configuration set, or email template.
  */
 export const listResourceTenants: API.PaginatedOperationMethod<
-  ListResourceTenantsRequest,
+  ListResourceTenantsRequest & RegionInput,
   ListResourceTenantsResponse,
   ListResourceTenantsError,
   Credentials | HttpClient.HttpClient,
@@ -4339,7 +4340,7 @@ export type ListSuppressedDestinationsError =
  * targets the account-level suppression list.
  */
 export const listSuppressedDestinations: API.PaginatedOperationMethod<
-  ListSuppressedDestinationsRequest,
+  ListSuppressedDestinationsRequest & RegionInput,
   ListSuppressedDestinationsResponse,
   ListSuppressedDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -4375,7 +4376,7 @@ export type ListTagsForResourceError =
  * a tag key.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4403,7 +4404,7 @@ export type ListTenantResourcesError =
  * filter the results by resource type.
  */
 export const listTenantResources: API.PaginatedOperationMethod<
-  ListTenantResourcesRequest,
+  ListTenantResourcesRequest & RegionInput,
   ListTenantResourcesResponse,
   ListTenantResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4433,7 +4434,7 @@ export type ListTenantsError = BadRequestException | TooManyRequestsException | 
  * such as tenant name, ID, ARN, and creation timestamp.
  */
 export const listTenants: API.PaginatedOperationMethod<
-  ListTenantsRequest,
+  ListTenantsRequest & RegionInput,
   ListTenantsResponse,
   ListTenantsError,
   Credentials | HttpClient.HttpClient,
@@ -4463,7 +4464,7 @@ export type PutAccountDedicatedIpWarmupAttributesError =
  * Enable or disable the automatic warm-up feature for dedicated IP addresses.
  */
 export const putAccountDedicatedIpWarmupAttributes: API.OperationMethod<
-  PutAccountDedicatedIpWarmupAttributesRequest,
+  PutAccountDedicatedIpWarmupAttributesRequest & RegionInput,
   PutAccountDedicatedIpWarmupAttributesResponse,
   PutAccountDedicatedIpWarmupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4487,7 +4488,7 @@ export type PutAccountDetailsError =
  * Update your Amazon SES account details.
  */
 export const putAccountDetails: API.OperationMethod<
-  PutAccountDetailsRequest,
+  PutAccountDetailsRequest & RegionInput,
   PutAccountDetailsResponse,
   PutAccountDetailsError,
   Credentials | HttpClient.HttpClient
@@ -4511,7 +4512,7 @@ export type PutAccountPricingAttributesError =
  * Set the pricing plan for your Amazon SES account.
  */
 export const putAccountPricingAttributes: API.OperationMethod<
-  PutAccountPricingAttributesRequest,
+  PutAccountPricingAttributesRequest & RegionInput,
   PutAccountPricingAttributesResponse,
   PutAccountPricingAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4534,7 +4535,7 @@ export type PutAccountSendingAttributesError =
  * Enable or disable the ability of your account to send email.
  */
 export const putAccountSendingAttributes: API.OperationMethod<
-  PutAccountSendingAttributesRequest,
+  PutAccountSendingAttributesRequest & RegionInput,
   PutAccountSendingAttributesResponse,
   PutAccountSendingAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4557,7 +4558,7 @@ export type PutAccountSuppressionAttributesError =
  * Change the settings for the account-level suppression list.
  */
 export const putAccountSuppressionAttributes: API.OperationMethod<
-  PutAccountSuppressionAttributesRequest,
+  PutAccountSuppressionAttributesRequest & RegionInput,
   PutAccountSuppressionAttributesResponse,
   PutAccountSuppressionAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4582,7 +4583,7 @@ export type PutAccountVdmAttributesError =
  * You can execute this operation no more than once per second.
  */
 export const putAccountVdmAttributes: API.OperationMethod<
-  PutAccountVdmAttributesRequest,
+  PutAccountVdmAttributesRequest & RegionInput,
   PutAccountVdmAttributesResponse,
   PutAccountVdmAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4608,7 +4609,7 @@ export type PutConfigurationSetArchivingOptionsError =
  * to the receiving SMTP server will be archived, along with the recipient information.
  */
 export const putConfigurationSetArchivingOptions: API.OperationMethod<
-  PutConfigurationSetArchivingOptionsRequest,
+  PutConfigurationSetArchivingOptionsRequest & RegionInput,
   PutConfigurationSetArchivingOptionsResponse,
   PutConfigurationSetArchivingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4633,7 +4634,7 @@ export type PutConfigurationSetDeliveryOptionsError =
  * to create groups of dedicated IP addresses for sending specific types of email.
  */
 export const putConfigurationSetDeliveryOptions: API.OperationMethod<
-  PutConfigurationSetDeliveryOptionsRequest,
+  PutConfigurationSetDeliveryOptionsRequest & RegionInput,
   PutConfigurationSetDeliveryOptionsResponse,
   PutConfigurationSetDeliveryOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4658,7 +4659,7 @@ export type PutConfigurationSetReputationOptionsError =
  * particular configuration set in a specific Amazon Web Services Region.
  */
 export const putConfigurationSetReputationOptions: API.OperationMethod<
-  PutConfigurationSetReputationOptionsRequest,
+  PutConfigurationSetReputationOptionsRequest & RegionInput,
   PutConfigurationSetReputationOptionsResponse,
   PutConfigurationSetReputationOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4683,7 +4684,7 @@ export type PutConfigurationSetSendingOptionsError =
  * in a specific Amazon Web Services Region.
  */
 export const putConfigurationSetSendingOptions: API.OperationMethod<
-  PutConfigurationSetSendingOptionsRequest,
+  PutConfigurationSetSendingOptionsRequest & RegionInput,
   PutConfigurationSetSendingOptionsResponse,
   PutConfigurationSetSendingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4710,7 +4711,7 @@ export type PutConfigurationSetSuppressionOptionsError =
  * set.
  */
 export const putConfigurationSetSuppressionOptions: API.OperationMethod<
-  PutConfigurationSetSuppressionOptionsRequest,
+  PutConfigurationSetSuppressionOptionsRequest & RegionInput,
   PutConfigurationSetSuppressionOptionsResponse,
   PutConfigurationSetSuppressionOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4735,7 +4736,7 @@ export type PutConfigurationSetTrackingOptionsError =
  * send.
  */
 export const putConfigurationSetTrackingOptions: API.OperationMethod<
-  PutConfigurationSetTrackingOptionsRequest,
+  PutConfigurationSetTrackingOptionsRequest & RegionInput,
   PutConfigurationSetTrackingOptionsResponse,
   PutConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4761,7 +4762,7 @@ export type PutConfigurationSetVdmOptionsError =
  * You can execute this operation no more than once per second.
  */
 export const putConfigurationSetVdmOptions: API.OperationMethod<
-  PutConfigurationSetVdmOptionsRequest,
+  PutConfigurationSetVdmOptionsRequest & RegionInput,
   PutConfigurationSetVdmOptionsResponse,
   PutConfigurationSetVdmOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4791,7 +4792,7 @@ export type PutDedicatedIpInPoolError =
  * using the `CreateDedicatedIpPool` operation.
  */
 export const putDedicatedIpInPool: API.OperationMethod<
-  PutDedicatedIpInPoolRequest,
+  PutDedicatedIpInPoolRequest & RegionInput,
   PutDedicatedIpInPoolResponse,
   PutDedicatedIpInPoolError,
   Credentials | HttpClient.HttpClient
@@ -4818,7 +4819,7 @@ export type PutDedicatedIpPoolScalingAttributesError =
  * `MANAGED` pools cannot be converted to `STANDARD` scaling mode.
  */
 export const putDedicatedIpPoolScalingAttributes: API.OperationMethod<
-  PutDedicatedIpPoolScalingAttributesRequest,
+  PutDedicatedIpPoolScalingAttributesRequest & RegionInput,
   PutDedicatedIpPoolScalingAttributesResponse,
   PutDedicatedIpPoolScalingAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4847,7 +4848,7 @@ export type PutDedicatedIpWarmupAttributesError =
  *
  */
 export const putDedicatedIpWarmupAttributes: API.OperationMethod<
-  PutDedicatedIpWarmupAttributesRequest,
+  PutDedicatedIpWarmupAttributesRequest & RegionInput,
   PutDedicatedIpWarmupAttributesResponse,
   PutDedicatedIpWarmupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4879,7 +4880,7 @@ export type PutDeliverabilityDashboardOptionError =
  * information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
  */
 export const putDeliverabilityDashboardOption: API.OperationMethod<
-  PutDeliverabilityDashboardOptionRequest,
+  PutDeliverabilityDashboardOptionRequest & RegionInput,
   PutDeliverabilityDashboardOptionResponse,
   PutDeliverabilityDashboardOptionError,
   Credentials | HttpClient.HttpClient
@@ -4909,7 +4910,7 @@ export type PutEmailIdentityConfigurationSetAttributesError =
  * Used to associate a configuration set with an email identity.
  */
 export const putEmailIdentityConfigurationSetAttributes: API.OperationMethod<
-  PutEmailIdentityConfigurationSetAttributesRequest,
+  PutEmailIdentityConfigurationSetAttributesRequest & RegionInput,
   PutEmailIdentityConfigurationSetAttributesResponse,
   PutEmailIdentityConfigurationSetAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4933,7 +4934,7 @@ export type PutEmailIdentityDkimAttributesError =
  * Used to enable or disable DKIM authentication for an email identity.
  */
 export const putEmailIdentityDkimAttributes: API.OperationMethod<
-  PutEmailIdentityDkimAttributesRequest,
+  PutEmailIdentityDkimAttributesRequest & RegionInput,
   PutEmailIdentityDkimAttributesResponse,
   PutEmailIdentityDkimAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4971,7 +4972,7 @@ export type PutEmailIdentityDkimSigningAttributesError =
  * - Change from using BYODKIM to using Easy DKIM.
  */
 export const putEmailIdentityDkimSigningAttributes: API.OperationMethod<
-  PutEmailIdentityDkimSigningAttributesRequest,
+  PutEmailIdentityDkimSigningAttributesRequest & RegionInput,
   PutEmailIdentityDkimSigningAttributesResponse,
   PutEmailIdentityDkimSigningAttributesError,
   Credentials | HttpClient.HttpClient
@@ -5006,7 +5007,7 @@ export type PutEmailIdentityFeedbackAttributesError =
  * occur (even if this setting is disabled).
  */
 export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
-  PutEmailIdentityFeedbackAttributesRequest,
+  PutEmailIdentityFeedbackAttributesRequest & RegionInput,
   PutEmailIdentityFeedbackAttributesResponse,
   PutEmailIdentityFeedbackAttributesError,
   Credentials | HttpClient.HttpClient
@@ -5031,7 +5032,7 @@ export type PutEmailIdentityMailFromAttributesError =
  * identity.
  */
 export const putEmailIdentityMailFromAttributes: API.OperationMethod<
-  PutEmailIdentityMailFromAttributesRequest,
+  PutEmailIdentityMailFromAttributesRequest & RegionInput,
   PutEmailIdentityMailFromAttributesResponse,
   PutEmailIdentityMailFromAttributesError,
   Credentials | HttpClient.HttpClient
@@ -5058,7 +5059,7 @@ export type PutSuppressedDestinationError =
  * account-level suppression list.
  */
 export const putSuppressedDestination: API.OperationMethod<
-  PutSuppressedDestinationRequest,
+  PutSuppressedDestinationRequest & RegionInput,
   PutSuppressedDestinationResponse,
   PutSuppressedDestinationError,
   Credentials | HttpClient.HttpClient
@@ -5087,7 +5088,7 @@ export type PutTenantSuppressionAttributesError =
  * uses the account-level suppression list.
  */
 export const putTenantSuppressionAttributes: API.OperationMethod<
-  PutTenantSuppressionAttributesRequest,
+  PutTenantSuppressionAttributesRequest & RegionInput,
   PutTenantSuppressionAttributesResponse,
   PutTenantSuppressionAttributesError,
   Credentials | HttpClient.HttpClient
@@ -5116,7 +5117,7 @@ export type SendBulkEmailError =
  * Composes an email message to multiple destinations.
  */
 export const sendBulkEmail: API.OperationMethod<
-  SendBulkEmailRequest,
+  SendBulkEmailRequest & RegionInput,
   SendBulkEmailResponse,
   SendBulkEmailError,
   Credentials | HttpClient.HttpClient
@@ -5163,7 +5164,7 @@ export type SendCustomVerificationEmailError =
  * You can execute this operation no more than once per second.
  */
 export const sendCustomVerificationEmail: API.OperationMethod<
-  SendCustomVerificationEmailRequest,
+  SendCustomVerificationEmailRequest & RegionInput,
   SendCustomVerificationEmailResponse,
   SendCustomVerificationEmailError,
   Credentials | HttpClient.HttpClient
@@ -5215,7 +5216,7 @@ export type SendEmailError =
  * replaces the tags with values that you specify.
  */
 export const sendEmail: API.OperationMethod<
-  SendEmailRequest,
+  SendEmailRequest & RegionInput,
   SendEmailResponse,
   SendEmailError,
   Credentials | HttpClient.HttpClient
@@ -5258,7 +5259,7 @@ export type TagResourceError =
  * a descriptor within a tag key.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5290,7 +5291,7 @@ export type TestRenderEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const testRenderEmailTemplate: API.OperationMethod<
-  TestRenderEmailTemplateRequest,
+  TestRenderEmailTemplateRequest & RegionInput,
   TestRenderEmailTemplateResponse,
   TestRenderEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5315,7 +5316,7 @@ export type UntagResourceError =
  * Remove one or more tags (keys and values) from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5347,7 +5348,7 @@ export type UpdateConfigurationSetError =
  * request are updated; any omitted attribute is left unchanged.
  */
 export const updateConfigurationSet: API.OperationMethod<
-  UpdateConfigurationSetRequest,
+  UpdateConfigurationSetRequest & RegionInput,
   UpdateConfigurationSetResponse,
   UpdateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -5376,7 +5377,7 @@ export type UpdateConfigurationSetEventDestinationError =
  * associate a rule to send the event to the specified target.
  */
 export const updateConfigurationSetEventDestination: API.OperationMethod<
-  UpdateConfigurationSetEventDestinationRequest,
+  UpdateConfigurationSetEventDestinationRequest & RegionInput,
   UpdateConfigurationSetEventDestinationResponse,
   UpdateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -5405,7 +5406,7 @@ export type UpdateContactError =
  * otherwise, all your existing preferences will be removed.
  */
 export const updateContact: API.OperationMethod<
-  UpdateContactRequest,
+  UpdateContactRequest & RegionInput,
   UpdateContactResponse,
   UpdateContactError,
   Credentials | HttpClient.HttpClient
@@ -5435,7 +5436,7 @@ export type UpdateContactListError =
  * Updates contact list metadata. This operation does a complete replacement.
  */
 export const updateContactList: API.OperationMethod<
-  UpdateContactListRequest,
+  UpdateContactListRequest & RegionInput,
   UpdateContactListResponse,
   UpdateContactListError,
   Credentials | HttpClient.HttpClient
@@ -5470,7 +5471,7 @@ export type UpdateCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const updateCustomVerificationEmailTemplate: API.OperationMethod<
-  UpdateCustomVerificationEmailTemplateRequest,
+  UpdateCustomVerificationEmailTemplateRequest & RegionInput,
   UpdateCustomVerificationEmailTemplateResponse,
   UpdateCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5506,7 +5507,7 @@ export type UpdateEmailIdentityPolicyError =
  * You can execute this operation no more than once per second.
  */
 export const updateEmailIdentityPolicy: API.OperationMethod<
-  UpdateEmailIdentityPolicyRequest,
+  UpdateEmailIdentityPolicyRequest & RegionInput,
   UpdateEmailIdentityPolicyResponse,
   UpdateEmailIdentityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5534,7 +5535,7 @@ export type UpdateEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const updateEmailTemplate: API.OperationMethod<
-  UpdateEmailTemplateRequest,
+  UpdateEmailTemplateRequest & RegionInput,
   UpdateEmailTemplateResponse,
   UpdateEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5567,7 +5568,7 @@ export type UpdateReputationEntityCustomerManagedStatusError =
  * findings, until the findings are resolved or new violations occur.
  */
 export const updateReputationEntityCustomerManagedStatus: API.OperationMethod<
-  UpdateReputationEntityCustomerManagedStatusRequest,
+  UpdateReputationEntityCustomerManagedStatusRequest & RegionInput,
   UpdateReputationEntityCustomerManagedStatusResponse,
   UpdateReputationEntityCustomerManagedStatusError,
   Credentials | HttpClient.HttpClient
@@ -5600,7 +5601,7 @@ export type UpdateReputationEntityPolicyError =
  * You can select from none, standard, and strict policies.
  */
 export const updateReputationEntityPolicy: API.OperationMethod<
-  UpdateReputationEntityPolicyRequest,
+  UpdateReputationEntityPolicyRequest & RegionInput,
   UpdateReputationEntityPolicyResponse,
   UpdateReputationEntityPolicyError,
   Credentials | HttpClient.HttpClient

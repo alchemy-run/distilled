@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -447,7 +448,7 @@ export type InvokeEndpointWithBidirectionalStreamError =
  * Endpoints are scoped to an individual account, and are not public. The URL does not contain the account ID, but Amazon SageMaker AI determines the account ID from the authentication token that is supplied by the caller.
  */
 export const invokeEndpointWithBidirectionalStream: API.OperationMethod<
-  InvokeEndpointWithBidirectionalStreamInput,
+  InvokeEndpointWithBidirectionalStreamInput & RegionInput,
   InvokeEndpointWithBidirectionalStreamOutput,
   InvokeEndpointWithBidirectionalStreamError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -807,7 +808,7 @@ export type AssociateSourceViewsError =
  * Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
  */
 export const associateSourceViews: API.OperationMethod<
-  AssociateSourceViewsRequest,
+  AssociateSourceViewsRequest & RegionInput,
   AssociateSourceViewsResponse,
   AssociateSourceViewsError,
   Credentials | HttpClient.HttpClient
@@ -845,7 +846,7 @@ export type CreateBillingViewError =
  * Creates a billing view with the specified billing view attributes.
  */
 export const createBillingView: API.OperationMethod<
-  CreateBillingViewRequest,
+  CreateBillingViewRequest & RegionInput,
   CreateBillingViewResponse,
   CreateBillingViewError,
   Credentials | HttpClient.HttpClient
@@ -880,7 +881,7 @@ export type DeleteBillingViewError =
  * Deletes the specified billing view.
  */
 export const deleteBillingView: API.OperationMethod<
-  DeleteBillingViewRequest,
+  DeleteBillingViewRequest & RegionInput,
   DeleteBillingViewResponse,
   DeleteBillingViewError,
   Credentials | HttpClient.HttpClient
@@ -914,7 +915,7 @@ export type DisassociateSourceViewsError =
  * Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
  */
 export const disassociateSourceViews: API.OperationMethod<
-  DisassociateSourceViewsRequest,
+  DisassociateSourceViewsRequest & RegionInput,
   DisassociateSourceViewsResponse,
   DisassociateSourceViewsError,
   Credentials | HttpClient.HttpClient
@@ -947,7 +948,7 @@ export type GetBillingPreferencesError =
  * Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options.
  */
 export const getBillingPreferences: API.OperationMethod<
-  GetBillingPreferencesRequest,
+  GetBillingPreferencesRequest & RegionInput,
   GetBillingPreferencesResponse,
   GetBillingPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -978,7 +979,7 @@ export type GetBillingViewError =
  * Returns the metadata associated to the specified billing view ARN.
  */
 export const getBillingView: API.OperationMethod<
-  GetBillingViewRequest,
+  GetBillingViewRequest & RegionInput,
   GetBillingViewResponse,
   GetBillingViewError,
   Credentials | HttpClient.HttpClient
@@ -1009,7 +1010,7 @@ export type GetCreditAllocationHistoryError =
  * Returns the per-billing-month allocation history for credits applied to an Amazon Web Services account's bills. Traverses the consolidated billing family to capture cross-account credit applications. Supports pagination and optional filtering to a single credit.
  */
 export const getCreditAllocationHistory: API.PaginatedOperationMethod<
-  GetCreditAllocationHistoryRequest,
+  GetCreditAllocationHistoryRequest & RegionInput,
   GetCreditAllocationHistoryResponse,
   GetCreditAllocationHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1048,7 +1049,7 @@ export type GetCreditsError =
  * When the caller is the management account of a consolidated billing family and `payerAccountFlag` is `true`, the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in `accountId`.
  */
 export const getCredits: API.OperationMethod<
-  GetCreditsRequest,
+  GetCreditsRequest & RegionInput,
   GetCreditsResponse,
   GetCreditsError,
   Credentials | HttpClient.HttpClient
@@ -1079,7 +1080,7 @@ export type GetEnterpriseSupportChargeSummaryError =
  * Returns a summary of Enterprise Support data aggregated across all accounts in the Enterprise Support profile.
  */
 export const getEnterpriseSupportChargeSummary: API.OperationMethod<
-  GetEnterpriseSupportChargeSummaryRequest,
+  GetEnterpriseSupportChargeSummaryRequest & RegionInput,
   GetEnterpriseSupportChargeSummaryResponse,
   GetEnterpriseSupportChargeSummaryError,
   Credentials | HttpClient.HttpClient
@@ -1111,7 +1112,7 @@ export type GetEnterpriseSupportContractDetailsError =
  * Returns Enterprise Support contract details.
  */
 export const getEnterpriseSupportContractDetails: API.OperationMethod<
-  GetEnterpriseSupportContractDetailsRequest,
+  GetEnterpriseSupportContractDetailsRequest & RegionInput,
   GetEnterpriseSupportContractDetailsResponse,
   GetEnterpriseSupportContractDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1143,7 +1144,7 @@ export type GetResourcePolicyError =
  * Returns the resource-based policy document attached to the resource in `JSON` format.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1176,7 +1177,7 @@ export type ListBillingViewsError =
  * Every Amazon Web Services account has a unique `PRIMARY` billing view that represents the billing data available by default. Accounts that use Billing Conductor also have `BILLING_GROUP` billing views representing pro forma costs associated with each created billing group.
  */
 export const listBillingViews: API.PaginatedOperationMethod<
-  ListBillingViewsRequest,
+  ListBillingViewsRequest & RegionInput,
   ListBillingViewsResponse,
   ListBillingViewsError,
   Credentials | HttpClient.HttpClient,
@@ -1219,7 +1220,7 @@ export type ListBillingViewSegmentsError =
  * If a mid-period change occurs, the response includes multiple segments, each with its own time range. The response omits hidden segments, so the segments it returns might not cover the entire requested time period.
  */
 export const listBillingViewSegments: API.PaginatedOperationMethod<
-  ListBillingViewSegmentsRequest,
+  ListBillingViewSegmentsRequest & RegionInput,
   ListBillingViewSegmentsResponse,
   ListBillingViewSegmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1259,7 +1260,7 @@ export type ListBusinessSupportAccountChargesError =
  * Returns Business Support charges broken down at the linked account level for a given billing month.
  */
 export const listBusinessSupportAccountCharges: API.PaginatedOperationMethod<
-  ListBusinessSupportAccountChargesRequest,
+  ListBusinessSupportAccountChargesRequest & RegionInput,
   ListBusinessSupportAccountChargesResponse,
   ListBusinessSupportAccountChargesError,
   Credentials | HttpClient.HttpClient,
@@ -1298,7 +1299,7 @@ export type ListBusinessSupportSubscriptionHistoryError =
  * Returns the history of Business Support subscription contracts across accounts.
  */
 export const listBusinessSupportSubscriptionHistory: API.PaginatedOperationMethod<
-  ListBusinessSupportSubscriptionHistoryRequest,
+  ListBusinessSupportSubscriptionHistoryRequest & RegionInput,
   ListBusinessSupportSubscriptionHistoryResponse,
   ListBusinessSupportSubscriptionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1337,7 +1338,7 @@ export type ListEnterpriseSupportLinkedAccountChargesError =
  * Returns Support-eligible spend broken down at linked account level.
  */
 export const listEnterpriseSupportLinkedAccountCharges: API.PaginatedOperationMethod<
-  ListEnterpriseSupportLinkedAccountChargesRequest,
+  ListEnterpriseSupportLinkedAccountChargesRequest & RegionInput,
   ListEnterpriseSupportLinkedAccountChargesResponse,
   ListEnterpriseSupportLinkedAccountChargesError,
   Credentials | HttpClient.HttpClient,
@@ -1376,7 +1377,7 @@ export type ListSourceViewsForBillingViewError =
  * Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
  */
 export const listSourceViewsForBillingView: API.PaginatedOperationMethod<
-  ListSourceViewsForBillingViewRequest,
+  ListSourceViewsForBillingViewRequest & RegionInput,
   ListSourceViewsForBillingViewResponse,
   ListSourceViewsForBillingViewError,
   Credentials | HttpClient.HttpClient,
@@ -1415,7 +1416,7 @@ export type ListTagsForResourceError =
  * Lists tags associated with the billing view resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1446,7 +1447,7 @@ export type RedeemCreditsError =
  * Redeems an Amazon Web Services promotional credit code on behalf of the calling account. On success, a new credit is added to the account's credit ledger with the amount, validity period, and applicable products defined by the promotion. The credit is then automatically applied to subsequent bills according to the standard credit application order.
  */
 export const redeemCredits: API.OperationMethod<
-  RedeemCreditsRequest,
+  RedeemCreditsRequest & RegionInput,
   RedeemCreditsResponse,
   RedeemCreditsError,
   Credentials | HttpClient.HttpClient
@@ -1477,7 +1478,7 @@ export type TagResourceError =
  * An API operation for adding one or more tags (key-value pairs) to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1509,7 +1510,7 @@ export type UntagResourceError =
  * Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1542,7 +1543,7 @@ export type UpdateBillingPreferencesError =
  * Sharing keys (`RI_SHARING`, `CREDIT_SHARING`, `CREDIT_LEVEL_SHARING`, and sharing keys under `CREDIT_PREFERENCE_OPTIONS`) may only be set by the management account of a consolidated billing family. The `credit/{creditId}/status` key may be set by member accounts for credits they own, or by the management account for any credit in the family.
  */
 export const updateBillingPreferences: API.OperationMethod<
-  UpdateBillingPreferencesRequest,
+  UpdateBillingPreferencesRequest & RegionInput,
   UpdateBillingPreferencesResponse,
   UpdateBillingPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1576,7 +1577,7 @@ export type UpdateBillingViewError =
  * An API to update the attributes of the billing view.
  */
 export const updateBillingView: API.OperationMethod<
-  UpdateBillingViewRequest,
+  UpdateBillingViewRequest & RegionInput,
   UpdateBillingViewResponse,
   UpdateBillingViewError,
   Credentials | HttpClient.HttpClient

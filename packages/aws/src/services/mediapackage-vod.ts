@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -657,7 +658,7 @@ export type ConfigureLogsError =
  * Changes the packaging group's properities to configure log subscription
  */
 export const configureLogs: API.OperationMethod<
-  ConfigureLogsRequest,
+  ConfigureLogsRequest & RegionInput,
   ConfigureLogsResponse,
   ConfigureLogsError,
   Credentials | HttpClient.HttpClient
@@ -691,7 +692,7 @@ export type CreateAssetError =
  * Creates a new MediaPackage VOD Asset resource.
  */
 export const createAsset: API.OperationMethod<
-  CreateAssetRequest,
+  CreateAssetRequest & RegionInput,
   CreateAssetResponse,
   CreateAssetError,
   Credentials | HttpClient.HttpClient
@@ -725,7 +726,7 @@ export type CreatePackagingConfigurationError =
  * Creates a new MediaPackage VOD PackagingConfiguration resource.
  */
 export const createPackagingConfiguration: API.OperationMethod<
-  CreatePackagingConfigurationRequest,
+  CreatePackagingConfigurationRequest & RegionInput,
   CreatePackagingConfigurationResponse,
   CreatePackagingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -759,7 +760,7 @@ export type CreatePackagingGroupError =
  * Creates a new MediaPackage VOD PackagingGroup resource.
  */
 export const createPackagingGroup: API.OperationMethod<
-  CreatePackagingGroupRequest,
+  CreatePackagingGroupRequest & RegionInput,
   CreatePackagingGroupResponse,
   CreatePackagingGroupError,
   Credentials | HttpClient.HttpClient
@@ -793,7 +794,7 @@ export type DeleteAssetError =
  * Deletes an existing MediaPackage VOD Asset resource.
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
+  DeleteAssetRequest & RegionInput,
   DeleteAssetResponse,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -827,7 +828,7 @@ export type DeletePackagingConfigurationError =
  * Deletes a MediaPackage VOD PackagingConfiguration resource.
  */
 export const deletePackagingConfiguration: API.OperationMethod<
-  DeletePackagingConfigurationRequest,
+  DeletePackagingConfigurationRequest & RegionInput,
   DeletePackagingConfigurationResponse,
   DeletePackagingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -861,7 +862,7 @@ export type DeletePackagingGroupError =
  * Deletes a MediaPackage VOD PackagingGroup resource.
  */
 export const deletePackagingGroup: API.OperationMethod<
-  DeletePackagingGroupRequest,
+  DeletePackagingGroupRequest & RegionInput,
   DeletePackagingGroupResponse,
   DeletePackagingGroupError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +896,7 @@ export type DescribeAssetError =
  * Returns a description of a MediaPackage VOD Asset resource.
  */
 export const describeAsset: API.OperationMethod<
-  DescribeAssetRequest,
+  DescribeAssetRequest & RegionInput,
   DescribeAssetResponse,
   DescribeAssetError,
   Credentials | HttpClient.HttpClient
@@ -929,7 +930,7 @@ export type DescribePackagingConfigurationError =
  * Returns a description of a MediaPackage VOD PackagingConfiguration resource.
  */
 export const describePackagingConfiguration: API.OperationMethod<
-  DescribePackagingConfigurationRequest,
+  DescribePackagingConfigurationRequest & RegionInput,
   DescribePackagingConfigurationResponse,
   DescribePackagingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -963,7 +964,7 @@ export type DescribePackagingGroupError =
  * Returns a description of a MediaPackage VOD PackagingGroup resource.
  */
 export const describePackagingGroup: API.OperationMethod<
-  DescribePackagingGroupRequest,
+  DescribePackagingGroupRequest & RegionInput,
   DescribePackagingGroupResponse,
   DescribePackagingGroupError,
   Credentials | HttpClient.HttpClient
@@ -997,7 +998,7 @@ export type ListAssetsError =
  * Returns a collection of MediaPackage VOD Asset resources.
  */
 export const listAssets: API.PaginatedOperationMethod<
-  ListAssetsRequest,
+  ListAssetsRequest & RegionInput,
   ListAssetsResponse,
   ListAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -1038,7 +1039,7 @@ export type ListPackagingConfigurationsError =
  * Returns a collection of MediaPackage VOD PackagingConfiguration resources.
  */
 export const listPackagingConfigurations: API.PaginatedOperationMethod<
-  ListPackagingConfigurationsRequest,
+  ListPackagingConfigurationsRequest & RegionInput,
   ListPackagingConfigurationsResponse,
   ListPackagingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1079,7 +1080,7 @@ export type ListPackagingGroupsError =
  * Returns a collection of MediaPackage VOD PackagingGroup resources.
  */
 export const listPackagingGroups: API.PaginatedOperationMethod<
-  ListPackagingGroupsRequest,
+  ListPackagingGroupsRequest & RegionInput,
   ListPackagingGroupsResponse,
   ListPackagingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1113,7 +1114,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Returns a list of the tags assigned to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1133,7 +1134,7 @@ export type TagResourceError = CommonErrors;
  * Adds tags to the specified resource. You can specify one or more tags to add.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1153,7 +1154,7 @@ export type UntagResourceError = CommonErrors;
  * Removes tags from the specified resource. You can specify one or more tags to remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1180,7 +1181,7 @@ export type UpdatePackagingGroupError =
  * Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
  */
 export const updatePackagingGroup: API.OperationMethod<
-  UpdatePackagingGroupRequest,
+  UpdatePackagingGroupRequest & RegionInput,
   UpdatePackagingGroupResponse,
   UpdatePackagingGroupError,
   Credentials | HttpClient.HttpClient

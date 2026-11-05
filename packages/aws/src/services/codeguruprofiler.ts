@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -484,7 +485,7 @@ export type AddNotificationChannelsError =
  * Add up to 2 anomaly notifications channels for a profiling group.
  */
 export const addNotificationChannels: API.OperationMethod<
-  AddNotificationChannelsRequest,
+  AddNotificationChannelsRequest & RegionInput,
   AddNotificationChannelsResponse,
   AddNotificationChannelsError,
   Credentials | HttpClient.HttpClient
@@ -517,7 +518,7 @@ export type BatchGetFrameMetricDataError =
  * of frame metrics from a time period.
  */
 export const batchGetFrameMetricData: API.OperationMethod<
-  BatchGetFrameMetricDataRequest,
+  BatchGetFrameMetricDataRequest & RegionInput,
   BatchGetFrameMetricDataResponse,
   BatchGetFrameMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -549,7 +550,7 @@ export type ConfigureAgentError =
  * to tell an agent whether to profile or not and for how long to return profiling data.
  */
 export const configureAgent: API.OperationMethod<
-  ConfigureAgentRequest,
+  ConfigureAgentRequest & RegionInput,
   ConfigureAgentResponse,
   ConfigureAgentError,
   Credentials | HttpClient.HttpClient
@@ -580,7 +581,7 @@ export type CreateProfilingGroupError =
  * Creates a profiling group.
  */
 export const createProfilingGroup: API.OperationMethod<
-  CreateProfilingGroupRequest,
+  CreateProfilingGroupRequest & RegionInput,
   CreateProfilingGroupResponse,
   CreateProfilingGroupError,
   Credentials | HttpClient.HttpClient
@@ -612,7 +613,7 @@ export type DeleteProfilingGroupError =
  * Deletes a profiling group.
  */
 export const deleteProfilingGroup: API.OperationMethod<
-  DeleteProfilingGroupRequest,
+  DeleteProfilingGroupRequest & RegionInput,
   DeleteProfilingGroupResponse,
   DeleteProfilingGroupError,
   Credentials | HttpClient.HttpClient
@@ -646,7 +647,7 @@ export type DescribeProfilingGroupError =
  * object that contains information about the requested profiling group.
  */
 export const describeProfilingGroup: API.OperationMethod<
-  DescribeProfilingGroupRequest,
+  DescribeProfilingGroupRequest & RegionInput,
   DescribeProfilingGroupResponse,
   DescribeProfilingGroupError,
   Credentials | HttpClient.HttpClient
@@ -679,7 +680,7 @@ export type GetFindingsReportAccountSummaryError =
  * objects that contain analysis results for all profiling groups in your AWS account.
  */
 export const getFindingsReportAccountSummary: API.PaginatedOperationMethod<
-  GetFindingsReportAccountSummaryRequest,
+  GetFindingsReportAccountSummaryRequest & RegionInput,
   GetFindingsReportAccountSummaryResponse,
   GetFindingsReportAccountSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -710,7 +711,7 @@ export type GetNotificationConfigurationError =
  * Get the current configuration for anomaly notifications for a profiling group.
  */
 export const getNotificationConfiguration: API.OperationMethod<
-  GetNotificationConfigurationRequest,
+  GetNotificationConfigurationRequest & RegionInput,
   GetNotificationConfigurationResponse,
   GetNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -739,7 +740,7 @@ export type GetPolicyError =
  * Returns the JSON-formatted resource-based policy on a profiling group.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -803,7 +804,7 @@ export type GetProfileError =
  * from 00:15 and 00:25, then the aggregated profiles from 00:15 to 00:20 are returned.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileRequest,
+  GetProfileRequest & RegionInput,
   GetProfileResponse,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -842,7 +843,7 @@ export type GetRecommendationsError =
  * returned.
  */
 export const getRecommendations: API.OperationMethod<
-  GetRecommendationsRequest,
+  GetRecommendationsRequest & RegionInput,
   GetRecommendationsResponse,
   GetRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -872,7 +873,7 @@ export type ListFindingsReportsError =
  * List the available reports for a given profiling group and time range.
  */
 export const listFindingsReports: API.PaginatedOperationMethod<
-  ListFindingsReportsRequest,
+  ListFindingsReportsRequest & RegionInput,
   ListFindingsReportsResponse,
   ListFindingsReportsError,
   Credentials | HttpClient.HttpClient,
@@ -909,7 +910,7 @@ export type ListProfileTimesError =
  * for an aggregation period within the specified time range.
  */
 export const listProfileTimes: API.PaginatedOperationMethod<
-  ListProfileTimesRequest,
+  ListProfileTimesRequest & RegionInput,
   ListProfileTimesResponse,
   ListProfileTimesError,
   Credentials | HttpClient.HttpClient,
@@ -945,7 +946,7 @@ export type ListProfilingGroupsError = InternalServerException | ThrottlingExcep
  * objects.
  */
 export const listProfilingGroups: API.PaginatedOperationMethod<
-  ListProfilingGroupsRequest,
+  ListProfilingGroupsRequest & RegionInput,
   ListProfilingGroupsResponse,
   ListProfilingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -975,7 +976,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags that are assigned to a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1004,7 +1005,7 @@ export type PostAgentProfileError =
  * .
  */
 export const postAgentProfile: API.OperationMethod<
-  PostAgentProfileRequest,
+  PostAgentProfileRequest & RegionInput,
   PostAgentProfileResponse,
   PostAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -1054,7 +1055,7 @@ export type PutPermissionError =
  * The response contains the profiling group's JSON-formatted resource policy.
  */
 export const putPermission: API.OperationMethod<
-  PutPermissionRequest,
+  PutPermissionRequest & RegionInput,
   PutPermissionResponse,
   PutPermissionError,
   Credentials | HttpClient.HttpClient
@@ -1085,7 +1086,7 @@ export type RemoveNotificationChannelError =
  * Remove one anomaly notifications channel for a profiling group.
  */
 export const removeNotificationChannel: API.OperationMethod<
-  RemoveNotificationChannelRequest,
+  RemoveNotificationChannelRequest & RegionInput,
   RemoveNotificationChannelResponse,
   RemoveNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -1124,7 +1125,7 @@ export type RemovePermissionError =
  * .
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionRequest,
+  RemovePermissionRequest & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1156,7 +1157,7 @@ export type SubmitFeedbackError =
  * useful or not.
  */
 export const submitFeedback: API.OperationMethod<
-  SubmitFeedbackRequest,
+  SubmitFeedbackRequest & RegionInput,
   SubmitFeedbackResponse,
   SubmitFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -1185,7 +1186,7 @@ export type TagResourceError =
  * Use to assign one or more tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1210,7 @@ export type UntagResourceError =
  * Use to remove one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1235,7 +1236,7 @@ export type UpdateProfilingGroupError =
  * Updates a profiling group.
  */
 export const updateProfilingGroup: API.OperationMethod<
-  UpdateProfilingGroupRequest,
+  UpdateProfilingGroupRequest & RegionInput,
   UpdateProfilingGroupResponse,
   UpdateProfilingGroupError,
   Credentials | HttpClient.HttpClient

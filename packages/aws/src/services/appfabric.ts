@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -548,7 +549,7 @@ export type BatchGetUserAccessTasksError =
  * `StartUserAccessTasks` action.
  */
 export const batchGetUserAccessTasks: API.OperationMethod<
-  BatchGetUserAccessTasksRequest,
+  BatchGetUserAccessTasksRequest & RegionInput,
   BatchGetUserAccessTasksResponse,
   BatchGetUserAccessTasksError,
   Credentials | HttpClient.HttpClient
@@ -581,7 +582,7 @@ export type ConnectAppAuthorizationError =
  * call the APIs of the application.
  */
 export const connectAppAuthorization: API.OperationMethod<
-  ConnectAppAuthorizationRequest,
+  ConnectAppAuthorizationRequest & RegionInput,
   ConnectAppAuthorizationResponse,
   ConnectAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -616,7 +617,7 @@ export type CreateAppAuthorizationError =
  * application.
  */
 export const createAppAuthorization: API.OperationMethod<
-  CreateAppAuthorizationRequest,
+  CreateAppAuthorizationRequest & RegionInput,
   CreateAppAuthorizationResponse,
   CreateAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -651,7 +652,7 @@ export type CreateAppBundleError =
  * Creates an app bundle to collect data from an application using AppFabric.
  */
 export const createAppBundle: API.OperationMethod<
-  CreateAppBundleRequest,
+  CreateAppBundleRequest & RegionInput,
   CreateAppBundleResponse,
   CreateAppBundleError,
   Credentials | HttpClient.HttpClient
@@ -685,7 +686,7 @@ export type CreateIngestionError =
  * Creates a data ingestion for an application.
  */
 export const createIngestion: API.OperationMethod<
-  CreateIngestionRequest,
+  CreateIngestionRequest & RegionInput,
   CreateIngestionResponse,
   CreateIngestionError,
   Credentials | HttpClient.HttpClient
@@ -720,7 +721,7 @@ export type CreateIngestionDestinationError =
  * processed by Amazon Web Services AppFabric and where it's delivered.
  */
 export const createIngestionDestination: API.OperationMethod<
-  CreateIngestionDestinationRequest,
+  CreateIngestionDestinationRequest & RegionInput,
   CreateIngestionDestinationResponse,
   CreateIngestionDestinationError,
   Credentials | HttpClient.HttpClient
@@ -754,7 +755,7 @@ export type DeleteAppAuthorizationError =
  * delete an app authorization.
  */
 export const deleteAppAuthorization: API.OperationMethod<
-  DeleteAppAuthorizationRequest,
+  DeleteAppAuthorizationRequest & RegionInput,
   DeleteAppAuthorizationResponse,
   DeleteAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -787,7 +788,7 @@ export type DeleteAppBundleError =
  * delete an app bundle.
  */
 export const deleteAppBundle: API.OperationMethod<
-  DeleteAppBundleRequest,
+  DeleteAppBundleRequest & RegionInput,
   DeleteAppBundleResponse,
   DeleteAppBundleError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +821,7 @@ export type DeleteIngestionError =
  * associated ingestion destinations before you can delete an app ingestion.
  */
 export const deleteIngestion: API.OperationMethod<
-  DeleteIngestionRequest,
+  DeleteIngestionRequest & RegionInput,
   DeleteIngestionResponse,
   DeleteIngestionError,
   Credentials | HttpClient.HttpClient
@@ -857,7 +858,7 @@ export type DeleteIngestionDestinationError =
  * associated ingestion is enabled, the ingestion will fail and is eventually disabled.
  */
 export const deleteIngestionDestination: API.OperationMethod<
-  DeleteIngestionDestinationRequest,
+  DeleteIngestionDestinationRequest & RegionInput,
   DeleteIngestionDestinationResponse,
   DeleteIngestionDestinationError,
   Credentials | HttpClient.HttpClient
@@ -889,7 +890,7 @@ export type GetAppAuthorizationError =
  * Returns information about an app authorization.
  */
 export const getAppAuthorization: API.OperationMethod<
-  GetAppAuthorizationRequest,
+  GetAppAuthorizationRequest & RegionInput,
   GetAppAuthorizationResponse,
   GetAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -921,7 +922,7 @@ export type GetAppBundleError =
  * Returns information about an app bundle.
  */
 export const getAppBundle: API.OperationMethod<
-  GetAppBundleRequest,
+  GetAppBundleRequest & RegionInput,
   GetAppBundleResponse,
   GetAppBundleError,
   Credentials | HttpClient.HttpClient
@@ -953,7 +954,7 @@ export type GetIngestionError =
  * Returns information about an ingestion.
  */
 export const getIngestion: API.OperationMethod<
-  GetIngestionRequest,
+  GetIngestionRequest & RegionInput,
   GetIngestionResponse,
   GetIngestionError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +986,7 @@ export type GetIngestionDestinationError =
  * Returns information about an ingestion destination.
  */
 export const getIngestionDestination: API.OperationMethod<
-  GetIngestionDestinationRequest,
+  GetIngestionDestinationRequest & RegionInput,
   GetIngestionDestinationResponse,
   GetIngestionDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1017,7 +1018,7 @@ export type ListAppAuthorizationsError =
  * Returns a list of all app authorizations configured for an app bundle.
  */
 export const listAppAuthorizations: API.PaginatedOperationMethod<
-  ListAppAuthorizationsRequest,
+  ListAppAuthorizationsRequest & RegionInput,
   ListAppAuthorizationsResponse,
   ListAppAuthorizationsError,
   Credentials | HttpClient.HttpClient,
@@ -1055,7 +1056,7 @@ export type ListAppBundlesError =
  * Returns a list of app bundles.
  */
 export const listAppBundles: API.PaginatedOperationMethod<
-  ListAppBundlesRequest,
+  ListAppBundlesRequest & RegionInput,
   ListAppBundlesResponse,
   ListAppBundlesError,
   Credentials | HttpClient.HttpClient,
@@ -1093,7 +1094,7 @@ export type ListIngestionDestinationsError =
  * Returns a list of all ingestion destinations configured for an ingestion.
  */
 export const listIngestionDestinations: API.PaginatedOperationMethod<
-  ListIngestionDestinationsRequest,
+  ListIngestionDestinationsRequest & RegionInput,
   ListIngestionDestinationsResponse,
   ListIngestionDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -1132,7 +1133,7 @@ export type ListIngestionsError =
  * Returns a list of all ingestions configured for an app bundle.
  */
 export const listIngestions: API.PaginatedOperationMethod<
-  ListIngestionsRequest,
+  ListIngestionsRequest & RegionInput,
   ListIngestionsResponse,
   ListIngestionsError,
   Credentials | HttpClient.HttpClient,
@@ -1171,7 +1172,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type StartIngestionError =
  * Starts (enables) an ingestion, which collects data from an application.
  */
 export const startIngestion: API.OperationMethod<
-  StartIngestionRequest,
+  StartIngestionRequest & RegionInput,
   StartIngestionResponse,
   StartIngestionError,
   Credentials | HttpClient.HttpClient
@@ -1240,7 +1241,7 @@ export type StartUserAccessTasksError =
  * terminated when the API calls to the application time out.
  */
 export const startUserAccessTasks: API.OperationMethod<
-  StartUserAccessTasksRequest,
+  StartUserAccessTasksRequest & RegionInput,
   StartUserAccessTasksResponse,
   StartUserAccessTasksError,
   Credentials | HttpClient.HttpClient
@@ -1273,7 +1274,7 @@ export type StopIngestionError =
  * Stops (disables) an ingestion.
  */
 export const stopIngestion: API.OperationMethod<
-  StopIngestionRequest,
+  StopIngestionRequest & RegionInput,
   StopIngestionResponse,
   StopIngestionError,
   Credentials | HttpClient.HttpClient
@@ -1306,7 +1307,7 @@ export type TagResourceError =
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1338,7 +1339,7 @@ export type UntagResourceError =
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type UpdateAppAuthorizationError =
  * authorization will set it back to a `PendingConnect` state.
  */
 export const updateAppAuthorization: API.OperationMethod<
-  UpdateAppAuthorizationRequest,
+  UpdateAppAuthorizationRequest & RegionInput,
   UpdateAppAuthorizationResponse,
   UpdateAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -1409,7 +1410,7 @@ export type UpdateIngestionDestinationError =
  * processed by Amazon Web Services AppFabric and where it's delivered.
  */
 export const updateIngestionDestination: API.OperationMethod<
-  UpdateIngestionDestinationRequest,
+  UpdateIngestionDestinationRequest & RegionInput,
   UpdateIngestionDestinationResponse,
   UpdateIngestionDestinationError,
   Credentials | HttpClient.HttpClient

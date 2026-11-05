@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -818,7 +819,7 @@ export type AssociateChannelError =
  * Associates a delivery Channel with a particular `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const associateChannel: API.OperationMethod<
-  AssociateChannelRequest,
+  AssociateChannelRequest & RegionInput,
   AssociateChannelResponse,
   AssociateChannelError,
   Credentials | HttpClient.HttpClient
@@ -854,7 +855,7 @@ export type AssociateManagedNotificationAccountContactError =
  * Associates an Account Contact with a particular `ManagedNotificationConfiguration`.
  */
 export const associateManagedNotificationAccountContact: API.OperationMethod<
-  AssociateManagedNotificationAccountContactRequest,
+  AssociateManagedNotificationAccountContactRequest & RegionInput,
   AssociateManagedNotificationAccountContactResponse,
   AssociateManagedNotificationAccountContactError,
   Credentials | HttpClient.HttpClient
@@ -892,7 +893,7 @@ export type AssociateManagedNotificationAdditionalChannelError =
  * Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
-  AssociateManagedNotificationAdditionalChannelRequest,
+  AssociateManagedNotificationAdditionalChannelRequest & RegionInput,
   AssociateManagedNotificationAdditionalChannelResponse,
   AssociateManagedNotificationAdditionalChannelError,
   Credentials | HttpClient.HttpClient
@@ -936,7 +937,7 @@ export type AssociateOrganizationalUnitError =
  * Associates an organizational unit with a notification configuration.
  */
 export const associateOrganizationalUnit: API.OperationMethod<
-  AssociateOrganizationalUnitRequest,
+  AssociateOrganizationalUnitRequest & RegionInput,
   AssociateOrganizationalUnitResponse,
   AssociateOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -972,7 +973,7 @@ export type CreateEventRuleError =
  * Creates an `EventRule` that is associated with a specified `NotificationConfiguration`.
  */
 export const createEventRule: API.OperationMethod<
-  CreateEventRuleRequest,
+  CreateEventRuleRequest & RegionInput,
   CreateEventRuleResponse,
   CreateEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -1007,7 +1008,7 @@ export type CreateNotificationConfigurationError =
  * Creates a new `NotificationConfiguration`.
  */
 export const createNotificationConfiguration: API.OperationMethod<
-  CreateNotificationConfigurationRequest,
+  CreateNotificationConfigurationRequest & RegionInput,
   CreateNotificationConfigurationResponse,
   CreateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1041,7 +1042,7 @@ export type DeleteEventRuleError =
  * Deletes an `EventRule`.
  */
 export const deleteEventRule: API.OperationMethod<
-  DeleteEventRuleRequest,
+  DeleteEventRuleRequest & RegionInput,
   DeleteEventRuleResponse,
   DeleteEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -1075,7 +1076,7 @@ export type DeleteNotificationConfigurationError =
  * Deletes a `NotificationConfiguration`.
  */
 export const deleteNotificationConfiguration: API.OperationMethod<
-  DeleteNotificationConfigurationRequest,
+  DeleteNotificationConfigurationRequest & RegionInput,
   DeleteNotificationConfigurationResponse,
   DeleteNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1111,7 +1112,7 @@ export type DeregisterNotificationHubError =
  * You can't deregister the last `NotificationHub` in the account. `NotificationEvents` stored in the deregistered `NotificationHub` are no longer visible. Recreating a new `NotificationHub` in the same Region restores access to those `NotificationEvents`.
  */
 export const deregisterNotificationHub: API.OperationMethod<
-  DeregisterNotificationHubRequest,
+  DeregisterNotificationHubRequest & RegionInput,
   DeregisterNotificationHubResponse,
   DeregisterNotificationHubError,
   Credentials | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type DisableNotificationsAccessForOrganizationError =
  * Disables service trust between User Notifications and Amazon Web Services Organizations.
  */
 export const disableNotificationsAccessForOrganization: API.OperationMethod<
-  DisableNotificationsAccessForOrganizationRequest,
+  DisableNotificationsAccessForOrganizationRequest & RegionInput,
   DisableNotificationsAccessForOrganizationResponse,
   DisableNotificationsAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1180,7 +1181,7 @@ export type DisassociateChannelError =
  * Disassociates a Channel from a specified `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const disassociateChannel: API.OperationMethod<
-  DisassociateChannelRequest,
+  DisassociateChannelRequest & RegionInput,
   DisassociateChannelResponse,
   DisassociateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1213,7 +1214,7 @@ export type DisassociateManagedNotificationAccountContactError =
  * Disassociates an Account Contact with a particular `ManagedNotificationConfiguration`.
  */
 export const disassociateManagedNotificationAccountContact: API.OperationMethod<
-  DisassociateManagedNotificationAccountContactRequest,
+  DisassociateManagedNotificationAccountContactRequest & RegionInput,
   DisassociateManagedNotificationAccountContactResponse,
   DisassociateManagedNotificationAccountContactError,
   Credentials | HttpClient.HttpClient
@@ -1256,7 +1257,7 @@ export type DisassociateManagedNotificationAdditionalChannelError =
  * Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const disassociateManagedNotificationAdditionalChannel: API.OperationMethod<
-  DisassociateManagedNotificationAdditionalChannelRequest,
+  DisassociateManagedNotificationAdditionalChannelRequest & RegionInput,
   DisassociateManagedNotificationAdditionalChannelResponse,
   DisassociateManagedNotificationAdditionalChannelError,
   Credentials | HttpClient.HttpClient
@@ -1296,7 +1297,7 @@ export type DisassociateOrganizationalUnitError =
  * Removes the association between an organizational unit and a notification configuration.
  */
 export const disassociateOrganizationalUnit: API.OperationMethod<
-  DisassociateOrganizationalUnitRequest,
+  DisassociateOrganizationalUnitRequest & RegionInput,
   DisassociateOrganizationalUnitResponse,
   DisassociateOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -1330,7 +1331,7 @@ export type EnableNotificationsAccessForOrganizationError =
  * Enables service trust between User Notifications and Amazon Web Services Organizations.
  */
 export const enableNotificationsAccessForOrganization: API.OperationMethod<
-  EnableNotificationsAccessForOrganizationRequest,
+  EnableNotificationsAccessForOrganizationRequest & RegionInput,
   EnableNotificationsAccessForOrganizationResponse,
   EnableNotificationsAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1364,7 +1365,7 @@ export type GetEventRuleError =
  * Returns a specified `EventRule`.
  */
 export const getEventRule: API.OperationMethod<
-  GetEventRuleRequest,
+  GetEventRuleRequest & RegionInput,
   GetEventRuleResponse,
   GetEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -1396,7 +1397,7 @@ export type GetManagedNotificationChildEventError =
  * Returns the child event of a specific given `ManagedNotificationEvent`.
  */
 export const getManagedNotificationChildEvent: API.OperationMethod<
-  GetManagedNotificationChildEventRequest,
+  GetManagedNotificationChildEventRequest & RegionInput,
   GetManagedNotificationChildEventResponse,
   GetManagedNotificationChildEventError,
   Credentials | HttpClient.HttpClient
@@ -1428,7 +1429,7 @@ export type GetManagedNotificationConfigurationError =
  * Returns a specified `ManagedNotificationConfiguration`.
  */
 export const getManagedNotificationConfiguration: API.OperationMethod<
-  GetManagedNotificationConfigurationRequest,
+  GetManagedNotificationConfigurationRequest & RegionInput,
   GetManagedNotificationConfigurationResponse,
   GetManagedNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1460,7 +1461,7 @@ export type GetManagedNotificationEventError =
  * Returns a specified `ManagedNotificationEvent`.
  */
 export const getManagedNotificationEvent: API.OperationMethod<
-  GetManagedNotificationEventRequest,
+  GetManagedNotificationEventRequest & RegionInput,
   GetManagedNotificationEventResponse,
   GetManagedNotificationEventError,
   Credentials | HttpClient.HttpClient
@@ -1492,7 +1493,7 @@ export type GetNotificationConfigurationError =
  * Returns a specified `NotificationConfiguration`.
  */
 export const getNotificationConfiguration: API.OperationMethod<
-  GetNotificationConfigurationRequest,
+  GetNotificationConfigurationRequest & RegionInput,
   GetNotificationConfigurationResponse,
   GetNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1526,7 +1527,7 @@ export type GetNotificationEventError =
  * User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. `GetNotificationEvent` only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the *Amazon Web Services User Notifications User Guide*.
  */
 export const getNotificationEvent: API.OperationMethod<
-  GetNotificationEventRequest,
+  GetNotificationEventRequest & RegionInput,
   GetNotificationEventResponse,
   GetNotificationEventError,
   Credentials | HttpClient.HttpClient
@@ -1557,7 +1558,7 @@ export type GetNotificationsAccessForOrganizationError =
  * Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations.
  */
 export const getNotificationsAccessForOrganization: API.OperationMethod<
-  GetNotificationsAccessForOrganizationRequest,
+  GetNotificationsAccessForOrganizationRequest & RegionInput,
   GetNotificationsAccessForOrganizationResponse,
   GetNotificationsAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1588,7 +1589,7 @@ export type ListChannelsError =
  * Returns a list of Channels for a `NotificationConfiguration`.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1627,7 +1628,7 @@ export type ListEventRulesError =
  * Returns a list of `EventRules` according to specified filters, in reverse chronological order (newest first).
  */
 export const listEventRules: API.PaginatedOperationMethod<
-  ListEventRulesRequest,
+  ListEventRulesRequest & RegionInput,
   ListEventRulesResponse,
   ListEventRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1666,7 +1667,7 @@ export type ListManagedNotificationChannelAssociationsError =
  * Returns a list of Account contacts and Channels associated with a `ManagedNotificationConfiguration`, in paginated format.
  */
 export const listManagedNotificationChannelAssociations: API.PaginatedOperationMethod<
-  ListManagedNotificationChannelAssociationsRequest,
+  ListManagedNotificationChannelAssociationsRequest & RegionInput,
   ListManagedNotificationChannelAssociationsResponse,
   ListManagedNotificationChannelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1705,7 +1706,7 @@ export type ListManagedNotificationChildEventsError =
  * Returns a list of `ManagedNotificationChildEvents` for a specified aggregate `ManagedNotificationEvent`, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationChildEvents: API.PaginatedOperationMethod<
-  ListManagedNotificationChildEventsRequest,
+  ListManagedNotificationChildEventsRequest & RegionInput,
   ListManagedNotificationChildEventsResponse,
   ListManagedNotificationChildEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1743,7 +1744,7 @@ export type ListManagedNotificationConfigurationsError =
  * Returns a list of Managed Notification Configurations according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationConfigurations: API.PaginatedOperationMethod<
-  ListManagedNotificationConfigurationsRequest,
+  ListManagedNotificationConfigurationsRequest & RegionInput,
   ListManagedNotificationConfigurationsResponse,
   ListManagedNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1780,7 +1781,7 @@ export type ListManagedNotificationEventsError =
  * Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationEvents: API.PaginatedOperationMethod<
-  ListManagedNotificationEventsRequest,
+  ListManagedNotificationEventsRequest & RegionInput,
   ListManagedNotificationEventsResponse,
   ListManagedNotificationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1818,7 +1819,7 @@ export type ListMemberAccountsError =
  * Returns a list of member accounts associated with a notification configuration.
  */
 export const listMemberAccounts: API.PaginatedOperationMethod<
-  ListMemberAccountsRequest,
+  ListMemberAccountsRequest & RegionInput,
   ListMemberAccountsResponse,
   ListMemberAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1856,7 +1857,7 @@ export type ListNotificationConfigurationsError =
  * Returns a list of abbreviated `NotificationConfigurations` according to specified filters, in reverse chronological order (newest first).
  */
 export const listNotificationConfigurations: API.PaginatedOperationMethod<
-  ListNotificationConfigurationsRequest,
+  ListNotificationConfigurationsRequest & RegionInput,
   ListNotificationConfigurationsResponse,
   ListNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1895,7 +1896,7 @@ export type ListNotificationEventsError =
  * User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the *Amazon Web Services User Notifications User Guide*.
  */
 export const listNotificationEvents: API.PaginatedOperationMethod<
-  ListNotificationEventsRequest,
+  ListNotificationEventsRequest & RegionInput,
   ListNotificationEventsResponse,
   ListNotificationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1932,7 +1933,7 @@ export type ListNotificationHubsError =
  * Returns a list of `NotificationHubs`.
  */
 export const listNotificationHubs: API.PaginatedOperationMethod<
-  ListNotificationHubsRequest,
+  ListNotificationHubsRequest & RegionInput,
   ListNotificationHubsResponse,
   ListNotificationHubsError,
   Credentials | HttpClient.HttpClient,
@@ -1970,7 +1971,7 @@ export type ListOrganizationalUnitsError =
  * Returns a list of organizational units associated with a notification configuration.
  */
 export const listOrganizationalUnits: API.PaginatedOperationMethod<
-  ListOrganizationalUnitsRequest,
+  ListOrganizationalUnitsRequest & RegionInput,
   ListOrganizationalUnitsResponse,
   ListOrganizationalUnitsError,
   Credentials | HttpClient.HttpClient,
@@ -2013,7 +2014,7 @@ export type ListTagsForResourceError =
  * This is only supported for `NotificationConfigurations`.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2048,7 +2049,7 @@ export type RegisterNotificationHubError =
  * There is a maximum of one `NotificationHub` per Region. You can have a maximum of 3 `NotificationHub` resources at a time.
  */
 export const registerNotificationHub: API.OperationMethod<
-  RegisterNotificationHubRequest,
+  RegisterNotificationHubRequest & RegionInput,
   RegisterNotificationHubResponse,
   RegisterNotificationHubError,
   Credentials | HttpClient.HttpClient
@@ -2085,7 +2086,7 @@ export type TagResourceError =
  * This is only supported for `NotificationConfigurations`.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2119,7 +2120,7 @@ export type UntagResourceError =
  * For more information, see Tagging your Amazon Web Services resources in the *Tagging Amazon Web Services Resources User Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2152,7 +2153,7 @@ export type UpdateEventRuleError =
  * Updates an existing `EventRule`.
  */
 export const updateEventRule: API.OperationMethod<
-  UpdateEventRuleRequest,
+  UpdateEventRuleRequest & RegionInput,
   UpdateEventRuleResponse,
   UpdateEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -2186,7 +2187,7 @@ export type UpdateManagedNotificationChannelAssociationError =
  * Updates the `isSensitiveEventsSubscribed` property of a particular ManagedNotification channel association.
  */
 export const updateManagedNotificationChannelAssociation: API.OperationMethod<
-  UpdateManagedNotificationChannelAssociationRequest,
+  UpdateManagedNotificationChannelAssociationRequest & RegionInput,
   UpdateManagedNotificationChannelAssociationResponse,
   UpdateManagedNotificationChannelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2224,7 +2225,7 @@ export type UpdateNotificationConfigurationError =
  * Updates a `NotificationConfiguration`.
  */
 export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationRequest,
+  UpdateNotificationConfigurationRequest & RegionInput,
   UpdateNotificationConfigurationResponse,
   UpdateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient

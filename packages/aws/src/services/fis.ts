@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -902,7 +903,7 @@ export type CreateExperimentTemplateError =
  * in the *Fault Injection Service User Guide*.
  */
 export const createExperimentTemplate: API.OperationMethod<
-  CreateExperimentTemplateRequest,
+  CreateExperimentTemplateRequest & RegionInput,
   CreateExperimentTemplateResponse,
   CreateExperimentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -935,7 +936,7 @@ export type CreateTargetAccountConfigurationError =
  * in the *Fault Injection Service User Guide*.
  */
 export const createTargetAccountConfiguration: API.OperationMethod<
-  CreateTargetAccountConfigurationRequest,
+  CreateTargetAccountConfigurationRequest & RegionInput,
   CreateTargetAccountConfigurationResponse,
   CreateTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -963,7 +964,7 @@ export type DeleteExperimentTemplateError =
  * Deletes the specified experiment template.
  */
 export const deleteExperimentTemplate: API.OperationMethod<
-  DeleteExperimentTemplateRequest,
+  DeleteExperimentTemplateRequest & RegionInput,
   DeleteExperimentTemplateResponse,
   DeleteExperimentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -986,7 +987,7 @@ export type DeleteTargetAccountConfigurationError =
  * Deletes the specified target account configuration of the experiment template.
  */
 export const deleteTargetAccountConfiguration: API.OperationMethod<
-  DeleteTargetAccountConfigurationRequest,
+  DeleteTargetAccountConfigurationRequest & RegionInput,
   DeleteTargetAccountConfigurationResponse,
   DeleteTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1006,7 +1007,7 @@ export type GetActionError = ResourceNotFoundException | ValidationException | C
  * Gets information about the specified FIS action.
  */
 export const getAction: API.OperationMethod<
-  GetActionRequest,
+  GetActionRequest & RegionInput,
   GetActionResponse,
   GetActionError,
   Credentials | HttpClient.HttpClient
@@ -1026,7 +1027,7 @@ export type GetExperimentError = ResourceNotFoundException | ValidationException
  * Gets information about the specified experiment.
  */
 export const getExperiment: API.OperationMethod<
-  GetExperimentRequest,
+  GetExperimentRequest & RegionInput,
   GetExperimentResponse,
   GetExperimentError,
   Credentials | HttpClient.HttpClient
@@ -1049,7 +1050,7 @@ export type GetExperimentTargetAccountConfigurationError =
  * Gets information about the specified target account configuration of the experiment.
  */
 export const getExperimentTargetAccountConfiguration: API.OperationMethod<
-  GetExperimentTargetAccountConfigurationRequest,
+  GetExperimentTargetAccountConfigurationRequest & RegionInput,
   GetExperimentTargetAccountConfigurationResponse,
   GetExperimentTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1072,7 +1073,7 @@ export type GetExperimentTemplateError =
  * Gets information about the specified experiment template.
  */
 export const getExperimentTemplate: API.OperationMethod<
-  GetExperimentTemplateRequest,
+  GetExperimentTemplateRequest & RegionInput,
   GetExperimentTemplateResponse,
   GetExperimentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1092,7 +1093,7 @@ export type GetSafetyLeverError = ResourceNotFoundException | CommonErrors;
  * Gets information about the specified safety lever.
  */
 export const getSafetyLever: API.OperationMethod<
-  GetSafetyLeverRequest,
+  GetSafetyLeverRequest & RegionInput,
   GetSafetyLeverResponse,
   GetSafetyLeverError,
   Credentials | HttpClient.HttpClient
@@ -1115,7 +1116,7 @@ export type GetTargetAccountConfigurationError =
  * Gets information about the specified target account configuration of the experiment template.
  */
 export const getTargetAccountConfiguration: API.OperationMethod<
-  GetTargetAccountConfigurationRequest,
+  GetTargetAccountConfigurationRequest & RegionInput,
   GetTargetAccountConfigurationResponse,
   GetTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1138,7 +1139,7 @@ export type GetTargetResourceTypeError =
  * Gets information about the specified resource type.
  */
 export const getTargetResourceType: API.OperationMethod<
-  GetTargetResourceTypeRequest,
+  GetTargetResourceTypeRequest & RegionInput,
   GetTargetResourceTypeResponse,
   GetTargetResourceTypeError,
   Credentials | HttpClient.HttpClient
@@ -1158,7 +1159,7 @@ export type ListActionsError = ValidationException | CommonErrors;
  * Lists the available FIS actions.
  */
 export const listActions: API.PaginatedOperationMethod<
-  ListActionsRequest,
+  ListActionsRequest & RegionInput,
   ListActionsResponse,
   ListActionsError,
   Credentials | HttpClient.HttpClient,
@@ -1188,7 +1189,7 @@ export type ListExperimentResolvedTargetsError =
  * Lists the resolved targets information of the specified experiment.
  */
 export const listExperimentResolvedTargets: API.PaginatedOperationMethod<
-  ListExperimentResolvedTargetsRequest,
+  ListExperimentResolvedTargetsRequest & RegionInput,
   ListExperimentResolvedTargetsResponse,
   ListExperimentResolvedTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -1215,7 +1216,7 @@ export type ListExperimentsError = ValidationException | CommonErrors;
  * Lists your experiments.
  */
 export const listExperiments: API.PaginatedOperationMethod<
-  ListExperimentsRequest,
+  ListExperimentsRequest & RegionInput,
   ListExperimentsResponse,
   ListExperimentsError,
   Credentials | HttpClient.HttpClient,
@@ -1245,7 +1246,7 @@ export type ListExperimentTargetAccountConfigurationsError =
  * Lists the target account configurations of the specified experiment.
  */
 export const listExperimentTargetAccountConfigurations: API.OperationMethod<
-  ListExperimentTargetAccountConfigurationsRequest,
+  ListExperimentTargetAccountConfigurationsRequest & RegionInput,
   ListExperimentTargetAccountConfigurationsResponse,
   ListExperimentTargetAccountConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1265,7 +1266,7 @@ export type ListExperimentTemplatesError = ValidationException | CommonErrors;
  * Lists your experiment templates.
  */
 export const listExperimentTemplates: API.PaginatedOperationMethod<
-  ListExperimentTemplatesRequest,
+  ListExperimentTemplatesRequest & RegionInput,
   ListExperimentTemplatesResponse,
   ListExperimentTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1292,7 +1293,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1315,7 +1316,7 @@ export type ListTargetAccountConfigurationsError =
  * Lists the target account configurations of the specified experiment template.
  */
 export const listTargetAccountConfigurations: API.PaginatedOperationMethod<
-  ListTargetAccountConfigurationsRequest,
+  ListTargetAccountConfigurationsRequest & RegionInput,
   ListTargetAccountConfigurationsResponse,
   ListTargetAccountConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1342,7 +1343,7 @@ export type ListTargetResourceTypesError = ValidationException | CommonErrors;
  * Lists the target resource types.
  */
 export const listTargetResourceTypes: API.PaginatedOperationMethod<
-  ListTargetResourceTypesRequest,
+  ListTargetResourceTypesRequest & RegionInput,
   ListTargetResourceTypesResponse,
   ListTargetResourceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1374,7 +1375,7 @@ export type StartExperimentError =
  * Starts running an experiment from the specified experiment template.
  */
 export const startExperiment: API.OperationMethod<
-  StartExperimentRequest,
+  StartExperimentRequest & RegionInput,
   StartExperimentResponse,
   StartExperimentError,
   Credentials | HttpClient.HttpClient
@@ -1399,7 +1400,7 @@ export type StopExperimentError = ResourceNotFoundException | ValidationExceptio
  * Stops the specified experiment.
  */
 export const stopExperiment: API.OperationMethod<
-  StopExperimentRequest,
+  StopExperimentRequest & RegionInput,
   StopExperimentResponse,
   StopExperimentError,
   Credentials | HttpClient.HttpClient
@@ -1419,7 +1420,7 @@ export type TagResourceError = CommonErrors;
  * Applies the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1439,7 +1440,7 @@ export type UntagResourceError = CommonErrors;
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1463,7 +1464,7 @@ export type UpdateExperimentTemplateError =
  * Updates the specified experiment template.
  */
 export const updateExperimentTemplate: API.OperationMethod<
-  UpdateExperimentTemplateRequest,
+  UpdateExperimentTemplateRequest & RegionInput,
   UpdateExperimentTemplateResponse,
   UpdateExperimentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1487,7 +1488,7 @@ export type UpdateSafetyLeverStateError =
  * Updates the specified safety lever state.
  */
 export const updateSafetyLeverState: API.OperationMethod<
-  UpdateSafetyLeverStateRequest,
+  UpdateSafetyLeverStateRequest & RegionInput,
   UpdateSafetyLeverStateResponse,
   UpdateSafetyLeverStateError,
   Credentials | HttpClient.HttpClient
@@ -1510,7 +1511,7 @@ export type UpdateTargetAccountConfigurationError =
  * Updates the target account configuration for the specified experiment template.
  */
 export const updateTargetAccountConfiguration: API.OperationMethod<
-  UpdateTargetAccountConfigurationRequest,
+  UpdateTargetAccountConfigurationRequest & RegionInput,
   UpdateTargetAccountConfigurationResponse,
   UpdateTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient

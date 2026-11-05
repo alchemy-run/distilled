@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -679,7 +680,7 @@ export type AmendBenefitApplicationError =
  * Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control.
  */
 export const amendBenefitApplication: API.OperationMethod<
-  AmendBenefitApplicationInput,
+  AmendBenefitApplicationInput & RegionInput,
   AmendBenefitApplicationOutput,
   AmendBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -713,7 +714,7 @@ export type AssociateBenefitApplicationResourceError =
  * Links an AWS resource to an existing benefit application for tracking and management purposes.
  */
 export const associateBenefitApplicationResource: API.OperationMethod<
-  AssociateBenefitApplicationResourceInput,
+  AssociateBenefitApplicationResourceInput & RegionInput,
   AssociateBenefitApplicationResourceOutput,
   AssociateBenefitApplicationResourceError,
   Credentials | HttpClient.HttpClient
@@ -747,7 +748,7 @@ export type CancelBenefitApplicationError =
  * Cancels a benefit application that is currently in progress, preventing further processing.
  */
 export const cancelBenefitApplication: API.OperationMethod<
-  CancelBenefitApplicationInput,
+  CancelBenefitApplicationInput & RegionInput,
   CancelBenefitApplicationOutput,
   CancelBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -781,7 +782,7 @@ export type CreateBenefitApplicationError =
  * Creates a new benefit application for a partner to request access to AWS benefits and programs.
  */
 export const createBenefitApplication: API.OperationMethod<
-  CreateBenefitApplicationInput,
+  CreateBenefitApplicationInput & RegionInput,
   CreateBenefitApplicationOutput,
   CreateBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -815,7 +816,7 @@ export type DisassociateBenefitApplicationResourceError =
  * Removes the association between an AWS resource and a benefit application.
  */
 export const disassociateBenefitApplicationResource: API.OperationMethod<
-  DisassociateBenefitApplicationResourceInput,
+  DisassociateBenefitApplicationResourceInput & RegionInput,
   DisassociateBenefitApplicationResourceOutput,
   DisassociateBenefitApplicationResourceError,
   Credentials | HttpClient.HttpClient
@@ -848,7 +849,7 @@ export type GetBenefitError =
  * Retrieves detailed information about a specific benefit available in the partner catalog.
  */
 export const getBenefit: API.OperationMethod<
-  GetBenefitInput,
+  GetBenefitInput & RegionInput,
   GetBenefitOutput,
   GetBenefitError,
   Credentials | HttpClient.HttpClient
@@ -880,7 +881,7 @@ export type GetBenefitAllocationError =
  * Retrieves detailed information about a specific benefit allocation that has been granted to a partner.
  */
 export const getBenefitAllocation: API.OperationMethod<
-  GetBenefitAllocationInput,
+  GetBenefitAllocationInput & RegionInput,
   GetBenefitAllocationOutput,
   GetBenefitAllocationError,
   Credentials | HttpClient.HttpClient
@@ -913,7 +914,7 @@ export type GetBenefitApplicationError =
  * Retrieves detailed information about a specific benefit application.
  */
 export const getBenefitApplication: API.OperationMethod<
-  GetBenefitApplicationInput,
+  GetBenefitApplicationInput & RegionInput,
   GetBenefitApplicationOutput,
   GetBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -946,7 +947,7 @@ export type ListBenefitAllocationsError =
  * Retrieves a paginated list of benefit allocations based on specified filter criteria.
  */
 export const listBenefitAllocations: API.PaginatedOperationMethod<
-  ListBenefitAllocationsInput,
+  ListBenefitAllocationsInput & RegionInput,
   ListBenefitAllocationsOutput,
   ListBenefitAllocationsError,
   Credentials | HttpClient.HttpClient,
@@ -985,7 +986,7 @@ export type ListBenefitApplicationsError =
  * Retrieves a paginated list of benefit applications based on specified filter criteria.
  */
 export const listBenefitApplications: API.PaginatedOperationMethod<
-  ListBenefitApplicationsInput,
+  ListBenefitApplicationsInput & RegionInput,
   ListBenefitApplicationsOutput,
   ListBenefitApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1024,7 +1025,7 @@ export type ListBenefitsError =
  * Retrieves a paginated list of available benefits based on specified filter criteria.
  */
 export const listBenefits: API.PaginatedOperationMethod<
-  ListBenefitsInput,
+  ListBenefitsInput & RegionInput,
   ListBenefitsOutput,
   ListBenefitsError,
   Credentials | HttpClient.HttpClient,
@@ -1063,7 +1064,7 @@ export type ListTagsForResourceError =
  * Retrieves all tags associated with a specific resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1096,7 +1097,7 @@ export type RecallBenefitApplicationError =
  * Recalls a submitted benefit application, returning it to draft status for further modifications.
  */
 export const recallBenefitApplication: API.OperationMethod<
-  RecallBenefitApplicationInput,
+  RecallBenefitApplicationInput & RegionInput,
   RecallBenefitApplicationOutput,
   RecallBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1130,7 +1131,7 @@ export type SubmitBenefitApplicationError =
  * Submits a benefit application for review and processing by AWS.
  */
 export const submitBenefitApplication: API.OperationMethod<
-  SubmitBenefitApplicationInput,
+  SubmitBenefitApplicationInput & RegionInput,
   SubmitBenefitApplicationOutput,
   SubmitBenefitApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1165,7 +1166,7 @@ export type TagResourceError =
  * Adds or updates tags for a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type UntagResourceError =
  * Removes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1236,7 +1237,7 @@ export type UpdateBenefitApplicationError =
  * Updates an existing benefit application with new information while maintaining revision control.
  */
 export const updateBenefitApplication: API.OperationMethod<
-  UpdateBenefitApplicationInput,
+  UpdateBenefitApplicationInput & RegionInput,
   UpdateBenefitApplicationOutput,
   UpdateBenefitApplicationError,
   Credentials | HttpClient.HttpClient

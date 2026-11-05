@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -651,7 +652,7 @@ export type AcceptInvitationError =
  * The member account status in the graph must be `INVITED`.
  */
 export const acceptInvitation: API.OperationMethod<
-  AcceptInvitationRequest,
+  AcceptInvitationRequest & RegionInput,
   AcceptInvitationResponse,
   AcceptInvitationError,
   Credentials | HttpClient.HttpClient
@@ -682,7 +683,7 @@ export type BatchGetGraphMemberDatasourcesError =
  * Gets data source package information for the behavior graph.
  */
 export const batchGetGraphMemberDatasources: API.OperationMethod<
-  BatchGetGraphMemberDatasourcesRequest,
+  BatchGetGraphMemberDatasourcesRequest & RegionInput,
   BatchGetGraphMemberDatasourcesResponse,
   BatchGetGraphMemberDatasourcesError,
   Credentials | HttpClient.HttpClient
@@ -712,7 +713,7 @@ export type BatchGetMembershipDatasourcesError =
  * Gets information on the data source package history for an account.
  */
 export const batchGetMembershipDatasources: API.OperationMethod<
-  BatchGetMembershipDatasourcesRequest,
+  BatchGetMembershipDatasourcesRequest & RegionInput,
   BatchGetMembershipDatasourcesResponse,
   BatchGetMembershipDatasourcesError,
   Credentials | HttpClient.HttpClient
@@ -753,7 +754,7 @@ export type CreateGraphError =
  * always returns the same behavior graph ARN. It does not create a new behavior graph.
  */
 export const createGraph: API.OperationMethod<
-  CreateGraphRequest,
+  CreateGraphRequest & RegionInput,
   CreateGraphResponse,
   CreateGraphError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +815,7 @@ export type CreateMembersError =
  * graph.
  */
 export const createMembers: API.OperationMethod<
-  CreateMembersRequest,
+  CreateMembersRequest & RegionInput,
   CreateMembersResponse,
   CreateMembersError,
   Credentials | HttpClient.HttpClient
@@ -849,7 +850,7 @@ export type DeleteGraphError =
  * graph.
  */
 export const deleteGraph: API.OperationMethod<
-  DeleteGraphRequest,
+  DeleteGraphRequest & RegionInput,
   DeleteGraphResponse,
   DeleteGraphError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +896,7 @@ export type DeleteMembersError =
  * uses the `DeleteGraph` API method.
  */
 export const deleteMembers: API.OperationMethod<
-  DeleteMembersRequest,
+  DeleteMembersRequest & RegionInput,
   DeleteMembersResponse,
   DeleteMembersError,
   Credentials | HttpClient.HttpClient
@@ -930,7 +931,7 @@ export type DescribeOrganizationConfigurationError =
  * Can only be called by the Detective administrator account for the organization.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -968,7 +969,7 @@ export type DisableOrganizationAdminAccountError =
  * To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
  */
 export const disableOrganizationAdminAccount: API.OperationMethod<
-  DisableOrganizationAdminAccountRequest,
+  DisableOrganizationAdminAccountRequest & RegionInput,
   DisableOrganizationAdminAccountResponse,
   DisableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1005,7 +1006,7 @@ export type DisassociateMembershipError =
  * accounts.
  */
 export const disassociateMembership: API.OperationMethod<
-  DisassociateMembershipRequest,
+  DisassociateMembershipRequest & RegionInput,
   DisassociateMembershipResponse,
   DisassociateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type EnableOrganizationAdminAccountError =
  * organization management account cannot be the delegated administrator account.
  */
 export const enableOrganizationAdminAccount: API.OperationMethod<
-  EnableOrganizationAdminAccountRequest,
+  EnableOrganizationAdminAccountRequest & RegionInput,
   EnableOrganizationAdminAccountResponse,
   EnableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1082,7 +1083,7 @@ export type GetInvestigationError =
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `GetInvestigation` returns the investigation results of an investigation for a behavior graph.
  */
 export const getInvestigation: API.OperationMethod<
-  GetInvestigationRequest,
+  GetInvestigationRequest & RegionInput,
   GetInvestigationResponse,
   GetInvestigationError,
   Credentials | HttpClient.HttpClient
@@ -1114,7 +1115,7 @@ export type GetMembersError =
  * graph.
  */
 export const getMembers: API.OperationMethod<
-  GetMembersRequest,
+  GetMembersRequest & RegionInput,
   GetMembersResponse,
   GetMembersError,
   Credentials | HttpClient.HttpClient
@@ -1144,7 +1145,7 @@ export type ListDatasourcePackagesError =
  * Lists data source packages in the behavior graph.
  */
 export const listDatasourcePackages: API.PaginatedOperationMethod<
-  ListDatasourcePackagesRequest,
+  ListDatasourcePackagesRequest & RegionInput,
   ListDatasourcePackagesResponse,
   ListDatasourcePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -1183,7 +1184,7 @@ export type ListGraphsError =
  * a Region, the results always contain a single behavior graph.
  */
 export const listGraphs: API.PaginatedOperationMethod<
-  ListGraphsRequest,
+  ListGraphsRequest & RegionInput,
   ListGraphsResponse,
   ListGraphsError,
   Credentials | HttpClient.HttpClient,
@@ -1215,7 +1216,7 @@ export type ListIndicatorsError =
  * Gets the indicators from an investigation. You can use the information from the indicators to determine if an IAM user and/or IAM role is involved in an unusual activity that could indicate malicious behavior and its impact.
  */
 export const listIndicators: API.OperationMethod<
-  ListIndicatorsRequest,
+  ListIndicatorsRequest & RegionInput,
   ListIndicatorsResponse,
   ListIndicatorsError,
   Credentials | HttpClient.HttpClient
@@ -1252,7 +1253,7 @@ export type ListInvestigationsError =
  * investigations.
  */
 export const listInvestigations: API.OperationMethod<
-  ListInvestigationsRequest,
+  ListInvestigationsRequest & RegionInput,
   ListInvestigationsResponse,
   ListInvestigationsError,
   Credentials | HttpClient.HttpClient
@@ -1289,7 +1290,7 @@ export type ListInvitationsError =
  * resigned from or was removed from.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsRequest,
+  ListInvitationsRequest & RegionInput,
   ListInvitationsResponse,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1327,7 +1328,7 @@ export type ListMembersError =
  * accounts.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -1364,7 +1365,7 @@ export type ListOrganizationAdminAccountsError =
  * organization. Can only be called by the organization management account.
  */
 export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
-  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsRequest & RegionInput,
   ListOrganizationAdminAccountsResponse,
   ListOrganizationAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1400,7 +1401,7 @@ export type ListTagsForResourceError =
  * Returns the tag values that are assigned to a behavior graph.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1437,7 +1438,7 @@ export type RejectInvitationError =
  * not receive an invitation.
  */
 export const rejectInvitation: API.OperationMethod<
-  RejectInvitationRequest,
+  RejectInvitationRequest & RegionInput,
   RejectInvitationResponse,
   RejectInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1469,7 +1470,7 @@ export type StartInvestigationError =
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `StartInvestigation` initiates an investigation on an entity in a behavior graph.
  */
 export const startInvestigation: API.OperationMethod<
-  StartInvestigationRequest,
+  StartInvestigationRequest & RegionInput,
   StartInvestigationResponse,
   StartInvestigationError,
   Credentials | HttpClient.HttpClient
@@ -1511,7 +1512,7 @@ export type StartMonitoringMemberError =
  * `ACCEPTED_BUT_DISABLED`.
  */
 export const startMonitoringMember: API.OperationMethod<
-  StartMonitoringMemberRequest,
+  StartMonitoringMemberRequest & RegionInput,
   StartMonitoringMemberResponse,
   StartMonitoringMemberError,
   Credentials | HttpClient.HttpClient
@@ -1543,7 +1544,7 @@ export type TagResourceError =
  * Applies tag values to a behavior graph.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1573,7 +1574,7 @@ export type UntagResourceError =
  * Removes tags from a behavior graph.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1604,7 +1605,7 @@ export type UpdateDatasourcePackagesError =
  * Starts a data source package for the Detective behavior graph.
  */
 export const updateDatasourcePackages: API.OperationMethod<
-  UpdateDatasourcePackagesRequest,
+  UpdateDatasourcePackagesRequest & RegionInput,
   UpdateDatasourcePackagesResponse,
   UpdateDatasourcePackagesError,
   Credentials | HttpClient.HttpClient
@@ -1636,7 +1637,7 @@ export type UpdateInvestigationStateError =
  * Updates the state of an investigation.
  */
 export const updateInvestigationState: API.OperationMethod<
-  UpdateInvestigationStateRequest,
+  UpdateInvestigationStateRequest & RegionInput,
   UpdateInvestigationStateResponse,
   UpdateInvestigationStateError,
   Credentials | HttpClient.HttpClient
@@ -1669,7 +1670,7 @@ export type UpdateOrganizationConfigurationError =
  * organization.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -404,7 +405,7 @@ export type DeleteSessionError =
  * Removes session information for a specified bot, alias, and user ID.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
@@ -436,7 +437,7 @@ export type GetSessionError =
  * ID.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -531,7 +532,7 @@ export type PostContentError =
  * Conversation Context.
  */
 export const postContent: API.OperationMethod<
-  PostContentRequest,
+  PostContentRequest & RegionInput,
   PostContentResponse,
   PostContentError,
   Credentials | HttpClient.HttpClient
@@ -627,7 +628,7 @@ export type PostTextError =
  * Conversation Context.
  */
 export const postText: API.OperationMethod<
-  PostTextRequest,
+  PostTextRequest & RegionInput,
   PostTextResponse,
   PostTextError,
   Credentials | HttpClient.HttpClient
@@ -670,7 +671,7 @@ export type PutSessionError =
  * Sessions.
  */
 export const putSession: API.OperationMethod<
-  PutSessionRequest,
+  PutSessionRequest & RegionInput,
   PutSessionResponse,
   PutSessionError,
   Credentials | HttpClient.HttpClient

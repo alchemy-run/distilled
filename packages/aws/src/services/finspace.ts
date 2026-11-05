@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1297,7 +1298,7 @@ export type CreateEnvironmentError =
  * Create a new FinSpace environment.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   CreateEnvironmentResponse,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1332,7 +1333,7 @@ export type CreateKxChangesetError =
  * Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
  */
 export const createKxChangeset: API.OperationMethod<
-  CreateKxChangesetRequest,
+  CreateKxChangesetRequest & RegionInput,
   CreateKxChangesetResponse,
   CreateKxChangesetError,
   Credentials | HttpClient.HttpClient
@@ -1368,7 +1369,7 @@ export type CreateKxClusterError =
  * Creates a new kdb cluster.
  */
 export const createKxCluster: API.OperationMethod<
-  CreateKxClusterRequest,
+  CreateKxClusterRequest & RegionInput,
   CreateKxClusterResponse,
   CreateKxClusterError,
   Credentials | HttpClient.HttpClient
@@ -1405,7 +1406,7 @@ export type CreateKxDatabaseError =
  * Creates a new kdb database in the environment.
  */
 export const createKxDatabase: API.OperationMethod<
-  CreateKxDatabaseRequest,
+  CreateKxDatabaseRequest & RegionInput,
   CreateKxDatabaseResponse,
   CreateKxDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -1443,7 +1444,7 @@ export type CreateKxDataviewError =
  * Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
  */
 export const createKxDataview: API.OperationMethod<
-  CreateKxDataviewRequest,
+  CreateKxDataviewRequest & RegionInput,
   CreateKxDataviewResponse,
   CreateKxDataviewError,
   Credentials | HttpClient.HttpClient
@@ -1480,7 +1481,7 @@ export type CreateKxEnvironmentError =
  * Creates a managed kdb environment for the account.
  */
 export const createKxEnvironment: API.OperationMethod<
-  CreateKxEnvironmentRequest,
+  CreateKxEnvironmentRequest & RegionInput,
   CreateKxEnvironmentResponse,
   CreateKxEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1516,7 +1517,7 @@ export type CreateKxScalingGroupError =
  * Creates a new scaling group.
  */
 export const createKxScalingGroup: API.OperationMethod<
-  CreateKxScalingGroupRequest,
+  CreateKxScalingGroupRequest & RegionInput,
   CreateKxScalingGroupResponse,
   CreateKxScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -1553,7 +1554,7 @@ export type CreateKxUserError =
  * Creates a user in FinSpace kdb environment with an associated IAM role.
  */
 export const createKxUser: API.OperationMethod<
-  CreateKxUserRequest,
+  CreateKxUserRequest & RegionInput,
   CreateKxUserResponse,
   CreateKxUserError,
   Credentials | HttpClient.HttpClient
@@ -1591,7 +1592,7 @@ export type CreateKxVolumeError =
  * Creates a new volume with a specific amount of throughput and storage capacity.
  */
 export const createKxVolume: API.OperationMethod<
-  CreateKxVolumeRequest,
+  CreateKxVolumeRequest & RegionInput,
   CreateKxVolumeResponse,
   CreateKxVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1626,7 +1627,7 @@ export type DeleteEnvironmentError =
  * Delete an FinSpace environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1660,7 +1661,7 @@ export type DeleteKxClusterError =
  * Deletes a kdb cluster.
  */
 export const deleteKxCluster: API.OperationMethod<
-  DeleteKxClusterRequest,
+  DeleteKxClusterRequest & RegionInput,
   DeleteKxClusterResponse,
   DeleteKxClusterError,
   Credentials | HttpClient.HttpClient
@@ -1694,7 +1695,7 @@ export type DeleteKxClusterNodeError =
  * Deletes the specified nodes from a cluster.
  */
 export const deleteKxClusterNode: API.OperationMethod<
-  DeleteKxClusterNodeRequest,
+  DeleteKxClusterNodeRequest & RegionInput,
   DeleteKxClusterNodeResponse,
   DeleteKxClusterNodeError,
   Credentials | HttpClient.HttpClient
@@ -1727,7 +1728,7 @@ export type DeleteKxDatabaseError =
  * Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
  */
 export const deleteKxDatabase: API.OperationMethod<
-  DeleteKxDatabaseRequest,
+  DeleteKxDatabaseRequest & RegionInput,
   DeleteKxDatabaseResponse,
   DeleteKxDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -1761,7 +1762,7 @@ export type DeleteKxDataviewError =
  * Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
  */
 export const deleteKxDataview: API.OperationMethod<
-  DeleteKxDataviewRequest,
+  DeleteKxDataviewRequest & RegionInput,
   DeleteKxDataviewResponse,
   DeleteKxDataviewError,
   Credentials | HttpClient.HttpClient
@@ -1795,7 +1796,7 @@ export type DeleteKxEnvironmentError =
  * Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
  */
 export const deleteKxEnvironment: API.OperationMethod<
-  DeleteKxEnvironmentRequest,
+  DeleteKxEnvironmentRequest & RegionInput,
   DeleteKxEnvironmentResponse,
   DeleteKxEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1830,7 +1831,7 @@ export type DeleteKxScalingGroupError =
  * Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
  */
 export const deleteKxScalingGroup: API.OperationMethod<
-  DeleteKxScalingGroupRequest,
+  DeleteKxScalingGroupRequest & RegionInput,
   DeleteKxScalingGroupResponse,
   DeleteKxScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -1865,7 +1866,7 @@ export type DeleteKxUserError =
  * Deletes a user in the specified kdb environment.
  */
 export const deleteKxUser: API.OperationMethod<
-  DeleteKxUserRequest,
+  DeleteKxUserRequest & RegionInput,
   DeleteKxUserResponse,
   DeleteKxUserError,
   Credentials | HttpClient.HttpClient
@@ -1900,7 +1901,7 @@ export type DeleteKxVolumeError =
  * Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
  */
 export const deleteKxVolume: API.OperationMethod<
-  DeleteKxVolumeRequest,
+  DeleteKxVolumeRequest & RegionInput,
   DeleteKxVolumeResponse,
   DeleteKxVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1933,7 +1934,7 @@ export type GetEnvironmentError =
  * Returns the FinSpace environment object.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1964,7 +1965,7 @@ export type GetKxChangesetError =
  * Returns information about a kdb changeset.
  */
 export const getKxChangeset: API.OperationMethod<
-  GetKxChangesetRequest,
+  GetKxChangesetRequest & RegionInput,
   GetKxChangesetResponse,
   GetKxChangesetError,
   Credentials | HttpClient.HttpClient
@@ -1998,7 +1999,7 @@ export type GetKxClusterError =
  * Retrieves information about a kdb cluster.
  */
 export const getKxCluster: API.OperationMethod<
-  GetKxClusterRequest,
+  GetKxClusterRequest & RegionInput,
   GetKxClusterResponse,
   GetKxClusterError,
   Credentials | HttpClient.HttpClient
@@ -2032,7 +2033,7 @@ export type GetKxConnectionStringError =
  * Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
  */
 export const getKxConnectionString: API.OperationMethod<
-  GetKxConnectionStringRequest,
+  GetKxConnectionStringRequest & RegionInput,
   GetKxConnectionStringResponse,
   GetKxConnectionStringError,
   Credentials | HttpClient.HttpClient
@@ -2064,7 +2065,7 @@ export type GetKxDatabaseError =
  * Returns database information for the specified environment ID.
  */
 export const getKxDatabase: API.OperationMethod<
-  GetKxDatabaseRequest,
+  GetKxDatabaseRequest & RegionInput,
   GetKxDatabaseResponse,
   GetKxDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -2096,7 +2097,7 @@ export type GetKxDataviewError =
  * Retrieves details of the dataview.
  */
 export const getKxDataview: API.OperationMethod<
-  GetKxDataviewRequest,
+  GetKxDataviewRequest & RegionInput,
   GetKxDataviewResponse,
   GetKxDataviewError,
   Credentials | HttpClient.HttpClient
@@ -2128,7 +2129,7 @@ export type GetKxEnvironmentError =
  * Retrieves all the information for the specified kdb environment.
  */
 export const getKxEnvironment: API.OperationMethod<
-  GetKxEnvironmentRequest,
+  GetKxEnvironmentRequest & RegionInput,
   GetKxEnvironmentResponse,
   GetKxEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2162,7 +2163,7 @@ export type GetKxScalingGroupError =
  * Retrieves details of a scaling group.
  */
 export const getKxScalingGroup: API.OperationMethod<
-  GetKxScalingGroupRequest,
+  GetKxScalingGroupRequest & RegionInput,
   GetKxScalingGroupResponse,
   GetKxScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -2196,7 +2197,7 @@ export type GetKxUserError =
  * Retrieves information about the specified kdb user.
  */
 export const getKxUser: API.OperationMethod<
-  GetKxUserRequest,
+  GetKxUserRequest & RegionInput,
   GetKxUserResponse,
   GetKxUserError,
   Credentials | HttpClient.HttpClient
@@ -2230,7 +2231,7 @@ export type GetKxVolumeError =
  * Retrieves the information about the volume.
  */
 export const getKxVolume: API.OperationMethod<
-  GetKxVolumeRequest,
+  GetKxVolumeRequest & RegionInput,
   GetKxVolumeResponse,
   GetKxVolumeError,
   Credentials | HttpClient.HttpClient
@@ -2262,7 +2263,7 @@ export type ListEnvironmentsError =
  * A list of all of your FinSpace environments.
  */
 export const listEnvironments: API.OperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -2288,7 +2289,7 @@ export type ListKxChangesetsError =
  * Returns a list of all the changesets for a database.
  */
 export const listKxChangesets: API.PaginatedOperationMethod<
-  ListKxChangesetsRequest,
+  ListKxChangesetsRequest & RegionInput,
   ListKxChangesetsResponse,
   ListKxChangesetsError,
   Credentials | HttpClient.HttpClient,
@@ -2327,7 +2328,7 @@ export type ListKxClusterNodesError =
  * Lists all the nodes in a kdb cluster.
  */
 export const listKxClusterNodes: API.PaginatedOperationMethod<
-  ListKxClusterNodesRequest,
+  ListKxClusterNodesRequest & RegionInput,
   ListKxClusterNodesResponse,
   ListKxClusterNodesError,
   Credentials | HttpClient.HttpClient,
@@ -2368,7 +2369,7 @@ export type ListKxClustersError =
  * Returns a list of clusters.
  */
 export const listKxClusters: API.OperationMethod<
-  ListKxClustersRequest,
+  ListKxClustersRequest & RegionInput,
   ListKxClustersResponse,
   ListKxClustersError,
   Credentials | HttpClient.HttpClient
@@ -2402,7 +2403,7 @@ export type ListKxDatabasesError =
  * Returns a list of all the databases in the kdb environment.
  */
 export const listKxDatabases: API.PaginatedOperationMethod<
-  ListKxDatabasesRequest,
+  ListKxDatabasesRequest & RegionInput,
   ListKxDatabasesResponse,
   ListKxDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -2440,7 +2441,7 @@ export type ListKxDataviewsError =
  * Returns a list of all the dataviews in the database.
  */
 export const listKxDataviews: API.PaginatedOperationMethod<
-  ListKxDataviewsRequest,
+  ListKxDataviewsRequest & RegionInput,
   ListKxDataviewsResponse,
   ListKxDataviewsError,
   Credentials | HttpClient.HttpClient,
@@ -2476,7 +2477,7 @@ export type ListKxEnvironmentsError =
  * Returns a list of kdb environments created in an account.
  */
 export const listKxEnvironments: API.PaginatedOperationMethod<
-  ListKxEnvironmentsRequest,
+  ListKxEnvironmentsRequest & RegionInput,
   ListKxEnvironmentsResponse,
   ListKxEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2511,7 +2512,7 @@ export type ListKxScalingGroupsError =
  * Returns a list of scaling groups in a kdb environment.
  */
 export const listKxScalingGroups: API.PaginatedOperationMethod<
-  ListKxScalingGroupsRequest,
+  ListKxScalingGroupsRequest & RegionInput,
   ListKxScalingGroupsResponse,
   ListKxScalingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2551,7 +2552,7 @@ export type ListKxUsersError =
  * Lists all the users in a kdb environment.
  */
 export const listKxUsers: API.OperationMethod<
-  ListKxUsersRequest,
+  ListKxUsersRequest & RegionInput,
   ListKxUsersResponse,
   ListKxUsersError,
   Credentials | HttpClient.HttpClient
@@ -2585,7 +2586,7 @@ export type ListKxVolumesError =
  * Lists all the volumes in a kdb environment.
  */
 export const listKxVolumes: API.OperationMethod<
-  ListKxVolumesRequest,
+  ListKxVolumesRequest & RegionInput,
   ListKxVolumesResponse,
   ListKxVolumesError,
   Credentials | HttpClient.HttpClient
@@ -2617,7 +2618,7 @@ export type ListTagsForResourceError =
  * A list of all tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2641,7 +2642,7 @@ export type TagResourceError =
  * Adds metadata tags to a FinSpace resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2665,7 +2666,7 @@ export type UntagResourceError =
  * Removes metadata tags from a FinSpace resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2691,7 +2692,7 @@ export type UpdateEnvironmentError =
  * Update your FinSpace environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   UpdateEnvironmentResponse,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2726,7 +2727,7 @@ export type UpdateKxClusterCodeConfigurationError =
  * The configuration that you want to update will override any existing configurations on the cluster.
  */
 export const updateKxClusterCodeConfiguration: API.OperationMethod<
-  UpdateKxClusterCodeConfigurationRequest,
+  UpdateKxClusterCodeConfigurationRequest & RegionInput,
   UpdateKxClusterCodeConfigurationResponse,
   UpdateKxClusterCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2764,7 +2765,7 @@ export type UpdateKxClusterDatabasesError =
  * Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
  */
 export const updateKxClusterDatabases: API.OperationMethod<
-  UpdateKxClusterDatabasesRequest,
+  UpdateKxClusterDatabasesRequest & RegionInput,
   UpdateKxClusterDatabasesResponse,
   UpdateKxClusterDatabasesError,
   Credentials | HttpClient.HttpClient
@@ -2799,7 +2800,7 @@ export type UpdateKxDatabaseError =
  * Updates information for the given kdb database.
  */
 export const updateKxDatabase: API.OperationMethod<
-  UpdateKxDatabaseRequest,
+  UpdateKxDatabaseRequest & RegionInput,
   UpdateKxDatabaseResponse,
   UpdateKxDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -2834,7 +2835,7 @@ export type UpdateKxDataviewError =
  * Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
  */
 export const updateKxDataview: API.OperationMethod<
-  UpdateKxDataviewRequest,
+  UpdateKxDataviewRequest & RegionInput,
   UpdateKxDataviewResponse,
   UpdateKxDataviewError,
   Credentials | HttpClient.HttpClient
@@ -2869,7 +2870,7 @@ export type UpdateKxEnvironmentError =
  * Updates information for the given kdb environment.
  */
 export const updateKxEnvironment: API.OperationMethod<
-  UpdateKxEnvironmentRequest,
+  UpdateKxEnvironmentRequest & RegionInput,
   UpdateKxEnvironmentResponse,
   UpdateKxEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2905,7 +2906,7 @@ export type UpdateKxEnvironmentNetworkError =
  * Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
  */
 export const updateKxEnvironmentNetwork: API.OperationMethod<
-  UpdateKxEnvironmentNetworkRequest,
+  UpdateKxEnvironmentNetworkRequest & RegionInput,
   UpdateKxEnvironmentNetworkResponse,
   UpdateKxEnvironmentNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2940,7 +2941,7 @@ export type UpdateKxUserError =
  * Updates the user details. You can only update the IAM role associated with a user.
  */
 export const updateKxUser: API.OperationMethod<
-  UpdateKxUserRequest,
+  UpdateKxUserRequest & RegionInput,
   UpdateKxUserResponse,
   UpdateKxUserError,
   Credentials | HttpClient.HttpClient
@@ -2977,7 +2978,7 @@ export type UpdateKxVolumeError =
  * might be unavailable for a few minutes. You can retry any operations after the update is complete.
  */
 export const updateKxVolume: API.OperationMethod<
-  UpdateKxVolumeRequest,
+  UpdateKxVolumeRequest & RegionInput,
   UpdateKxVolumeResponse,
   UpdateKxVolumeError,
   Credentials | HttpClient.HttpClient

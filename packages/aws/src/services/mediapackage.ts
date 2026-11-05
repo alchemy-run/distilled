@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -877,7 +878,7 @@ export type ConfigureLogsError =
  * Changes the Channel's properities to configure log subscription
  */
 export const configureLogs: API.OperationMethod<
-  ConfigureLogsRequest,
+  ConfigureLogsRequest & RegionInput,
   ConfigureLogsResponse,
   ConfigureLogsError,
   Credentials | HttpClient.HttpClient
@@ -911,7 +912,7 @@ export type CreateChannelError =
  * Creates a new Channel.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -945,7 +946,7 @@ export type CreateHarvestJobError =
  * Creates a new HarvestJob record.
  */
 export const createHarvestJob: API.OperationMethod<
-  CreateHarvestJobRequest,
+  CreateHarvestJobRequest & RegionInput,
   CreateHarvestJobResponse,
   CreateHarvestJobError,
   Credentials | HttpClient.HttpClient
@@ -979,7 +980,7 @@ export type CreateOriginEndpointError =
  * Creates a new OriginEndpoint record.
  */
 export const createOriginEndpoint: API.OperationMethod<
-  CreateOriginEndpointRequest,
+  CreateOriginEndpointRequest & RegionInput,
   CreateOriginEndpointResponse,
   CreateOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1013,7 +1014,7 @@ export type DeleteChannelError =
  * Deletes an existing Channel.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1047,7 +1048,7 @@ export type DeleteOriginEndpointError =
  * Deletes an existing OriginEndpoint.
  */
 export const deleteOriginEndpoint: API.OperationMethod<
-  DeleteOriginEndpointRequest,
+  DeleteOriginEndpointRequest & RegionInput,
   DeleteOriginEndpointResponse,
   DeleteOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1081,7 +1082,7 @@ export type DescribeChannelError =
  * Gets details about a Channel.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -1115,7 +1116,7 @@ export type DescribeHarvestJobError =
  * Gets details about an existing HarvestJob.
  */
 export const describeHarvestJob: API.OperationMethod<
-  DescribeHarvestJobRequest,
+  DescribeHarvestJobRequest & RegionInput,
   DescribeHarvestJobResponse,
   DescribeHarvestJobError,
   Credentials | HttpClient.HttpClient
@@ -1149,7 +1150,7 @@ export type DescribeOriginEndpointError =
  * Gets details about an existing OriginEndpoint.
  */
 export const describeOriginEndpoint: API.OperationMethod<
-  DescribeOriginEndpointRequest,
+  DescribeOriginEndpointRequest & RegionInput,
   DescribeOriginEndpointResponse,
   DescribeOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1183,7 +1184,7 @@ export type ListChannelsError =
  * Returns a collection of Channels.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1224,7 +1225,7 @@ export type ListHarvestJobsError =
  * Returns a collection of HarvestJob records.
  */
 export const listHarvestJobs: API.PaginatedOperationMethod<
-  ListHarvestJobsRequest,
+  ListHarvestJobsRequest & RegionInput,
   ListHarvestJobsResponse,
   ListHarvestJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1265,7 +1266,7 @@ export type ListOriginEndpointsError =
  * Returns a collection of OriginEndpoint records.
  */
 export const listOriginEndpoints: API.PaginatedOperationMethod<
-  ListOriginEndpointsRequest,
+  ListOriginEndpointsRequest & RegionInput,
   ListOriginEndpointsResponse,
   ListOriginEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1299,7 +1300,7 @@ export type ListTagsForResourceError = CommonErrors;
  *
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1326,7 +1327,7 @@ export type RotateChannelCredentialsError =
  * Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
  */
 export const rotateChannelCredentials: API.OperationMethod<
-  RotateChannelCredentialsRequest,
+  RotateChannelCredentialsRequest & RegionInput,
   RotateChannelCredentialsResponse,
   RotateChannelCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1360,7 +1361,7 @@ export type RotateIngestEndpointCredentialsError =
  * Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
  */
 export const rotateIngestEndpointCredentials: API.OperationMethod<
-  RotateIngestEndpointCredentialsRequest,
+  RotateIngestEndpointCredentialsRequest & RegionInput,
   RotateIngestEndpointCredentialsResponse,
   RotateIngestEndpointCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1387,7 +1388,7 @@ export type TagResourceError = CommonErrors;
  *
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1407,7 +1408,7 @@ export type UntagResourceError = CommonErrors;
  *
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1434,7 +1435,7 @@ export type UpdateChannelError =
  * Updates an existing Channel.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1468,7 +1469,7 @@ export type UpdateOriginEndpointError =
  * Updates an existing OriginEndpoint.
  */
 export const updateOriginEndpoint: API.OperationMethod<
-  UpdateOriginEndpointRequest,
+  UpdateOriginEndpointRequest & RegionInput,
   UpdateOriginEndpointResponse,
   UpdateOriginEndpointError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1516,7 +1517,7 @@ export type CreateAccessError =
  * Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use `CreateAccess` to limit the access to the correct set of users who need this ability.
  */
 export const createAccess: API.OperationMethod<
-  CreateAccessRequest,
+  CreateAccessRequest & RegionInput,
   CreateAccessResponse,
   CreateAccessError,
   Credentials | HttpClient.HttpClient
@@ -1553,7 +1554,7 @@ export type CreateAgreementError =
  * Specify *either* `BaseDirectory` or `CustomDirectories`, but not both. Specifying both causes the command to fail.
  */
 export const createAgreement: API.OperationMethod<
-  CreateAgreementRequest,
+  CreateAgreementRequest & RegionInput,
   CreateAgreementResponse,
   CreateAgreementError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1590,7 @@ export type CreateConnectorError =
  * You must specify exactly one configuration object: either for AS2 (`As2Config`) or SFTP (`SftpConfig`).
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1622,7 +1623,7 @@ export type CreateProfileError =
  * Creates the local or partner profile to use for AS2 transfers.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileRequest,
+  CreateProfileRequest & RegionInput,
   CreateProfileResponse,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -1656,7 +1657,7 @@ export type CreateServerError =
  * Instantiates an auto-scaling virtual server based on the selected file transfer protocol in Amazon Web Services. When you make updates to your file transfer protocol-enabled server or when you work with users, use the service-generated `ServerId` property that is assigned to the newly created server.
  */
 export const createServer: API.OperationMethod<
-  CreateServerRequest,
+  CreateServerRequest & RegionInput,
   CreateServerResponse,
   CreateServerError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type CreateUserError =
  * Creates a user and associates them with an existing file transfer protocol-enabled server. You can only create and associate users with servers that have the `IdentityProviderType` set to `SERVICE_MANAGED`. Using parameters for `CreateUser`, you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and search for users.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -1724,7 +1725,7 @@ export type CreateWebAppError =
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
 export const createWebApp: API.OperationMethod<
-  CreateWebAppRequest,
+  CreateWebAppRequest & RegionInput,
   CreateWebAppResponse,
   CreateWebAppError,
   Credentials | HttpClient.HttpClient
@@ -1757,7 +1758,7 @@ export type CreateWorkflowError =
  * Allows you to create a workflow with specified steps and step details the workflow invokes after file transfer completes. After creating a workflow, you can associate the workflow created with any transfer servers by specifying the `workflow-details` field in `CreateServer` and `UpdateServer` operations.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateWorkflowRequest,
+  CreateWorkflowRequest & RegionInput,
   CreateWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1789,7 +1790,7 @@ export type DeleteAccessError =
  * Allows you to delete the access specified in the `ServerID` and `ExternalID` parameters.
  */
 export const deleteAccess: API.OperationMethod<
-  DeleteAccessRequest,
+  DeleteAccessRequest & RegionInput,
   DeleteAccessResponse,
   DeleteAccessError,
   Credentials | HttpClient.HttpClient
@@ -1819,7 +1820,7 @@ export type DeleteAgreementError =
  * Delete the agreement that's specified in the provided `AgreementId`.
  */
 export const deleteAgreement: API.OperationMethod<
-  DeleteAgreementRequest,
+  DeleteAgreementRequest & RegionInput,
   DeleteAgreementResponse,
   DeleteAgreementError,
   Credentials | HttpClient.HttpClient
@@ -1849,7 +1850,7 @@ export type DeleteCertificateError =
  * Deletes the certificate that's specified in the `CertificateId` parameter.
  */
 export const deleteCertificate: API.OperationMethod<
-  DeleteCertificateRequest,
+  DeleteCertificateRequest & RegionInput,
   DeleteCertificateResponse,
   DeleteCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1879,7 +1880,7 @@ export type DeleteConnectorError =
  * Deletes the connector that's specified in the provided `ConnectorId`.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1910,7 +1911,7 @@ export type DeleteHostKeyError =
  * Deletes the host key that's specified in the `HostKeyId` parameter.
  */
 export const deleteHostKey: API.OperationMethod<
-  DeleteHostKeyRequest,
+  DeleteHostKeyRequest & RegionInput,
   DeleteHostKeyResponse,
   DeleteHostKeyError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type DeleteProfileError =
  * Deletes the profile that's specified in the `ProfileId` parameter.
  */
 export const deleteProfile: API.OperationMethod<
-  DeleteProfileRequest,
+  DeleteProfileRequest & RegionInput,
   DeleteProfileResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -1974,7 +1975,7 @@ export type DeleteServerError =
  * No response returns from this operation.
  */
 export const deleteServer: API.OperationMethod<
-  DeleteServerRequest,
+  DeleteServerRequest & RegionInput,
   DeleteServerResponse,
   DeleteServerError,
   Credentials | HttpClient.HttpClient
@@ -2006,7 +2007,7 @@ export type DeleteSshPublicKeyError =
  * Deletes a user's Secure Shell (SSH) public key.
  */
 export const deleteSshPublicKey: API.OperationMethod<
-  DeleteSshPublicKeyRequest,
+  DeleteSshPublicKeyRequest & RegionInput,
   DeleteSshPublicKeyResponse,
   DeleteSshPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2042,7 @@ export type DeleteUserError =
  * When you delete a user from a server, the user's information is lost.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -2072,7 +2073,7 @@ export type DeleteWebAppError =
  * Deletes the specified web app.
  */
 export const deleteWebApp: API.OperationMethod<
-  DeleteWebAppRequest,
+  DeleteWebAppRequest & RegionInput,
   DeleteWebAppResponse,
   DeleteWebAppError,
   Credentials | HttpClient.HttpClient
@@ -2105,7 +2106,7 @@ export type DeleteWebAppCustomizationError =
  * Deletes the `WebAppCustomization` object that corresponds to the web app ID specified.
  */
 export const deleteWebAppCustomization: API.OperationMethod<
-  DeleteWebAppCustomizationRequest,
+  DeleteWebAppCustomizationRequest & RegionInput,
   DeleteWebAppCustomizationResponse,
   DeleteWebAppCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -2141,7 +2142,7 @@ export type DeleteWorkflowError =
  * Deletes the specified workflow.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2174,7 +2175,7 @@ export type DescribeAccessError =
  * The response from this call returns the properties of the access that is associated with the `ServerId` value that was specified.
  */
 export const describeAccess: API.OperationMethod<
-  DescribeAccessRequest,
+  DescribeAccessRequest & RegionInput,
   DescribeAccessResponse,
   DescribeAccessError,
   Credentials | HttpClient.HttpClient
@@ -2204,7 +2205,7 @@ export type DescribeAgreementError =
  * Describes the agreement that's identified by the `AgreementId`.
  */
 export const describeAgreement: API.OperationMethod<
-  DescribeAgreementRequest,
+  DescribeAgreementRequest & RegionInput,
   DescribeAgreementResponse,
   DescribeAgreementError,
   Credentials | HttpClient.HttpClient
@@ -2236,7 +2237,7 @@ export type DescribeCertificateError =
  * Transfer Family automatically publishes a Amazon CloudWatch metric called `DaysUntilExpiry` for imported certificates. This metric tracks the number of days until the certificate expires based on the `InactiveDate`. The metric is available in the `AWS/Transfer` namespace and includes the `CertificateId` as a dimension.
  */
 export const describeCertificate: API.OperationMethod<
-  DescribeCertificateRequest,
+  DescribeCertificateRequest & RegionInput,
   DescribeCertificateResponse,
   DescribeCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2266,7 +2267,7 @@ export type DescribeConnectorError =
  * Describes the connector that's identified by the `ConnectorId.`
  */
 export const describeConnector: API.OperationMethod<
-  DescribeConnectorRequest,
+  DescribeConnectorRequest & RegionInput,
   DescribeConnectorResponse,
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2301,7 @@ export type DescribeExecutionError =
  * If you provide an ID for an execution that is not in progress, or if the execution doesn't match the specified workflow ID, you receive a `ResourceNotFound` exception.
  */
 export const describeExecution: API.OperationMethod<
-  DescribeExecutionRequest,
+  DescribeExecutionRequest & RegionInput,
   DescribeExecutionResponse,
   DescribeExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2330,7 +2331,7 @@ export type DescribeHostKeyError =
  * Returns the details of the host key that's specified by the `HostKeyId` and `ServerId`.
  */
 export const describeHostKey: API.OperationMethod<
-  DescribeHostKeyRequest,
+  DescribeHostKeyRequest & RegionInput,
   DescribeHostKeyResponse,
   DescribeHostKeyError,
   Credentials | HttpClient.HttpClient
@@ -2360,7 +2361,7 @@ export type DescribeProfileError =
  * Returns the details of the profile that's specified by the `ProfileId`.
  */
 export const describeProfile: API.OperationMethod<
-  DescribeProfileRequest,
+  DescribeProfileRequest & RegionInput,
   DescribeProfileResponse,
   DescribeProfileError,
   Credentials | HttpClient.HttpClient
@@ -2390,7 +2391,7 @@ export type DescribeSecurityPolicyError =
  * Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
  */
 export const describeSecurityPolicy: API.OperationMethod<
-  DescribeSecurityPolicyRequest,
+  DescribeSecurityPolicyRequest & RegionInput,
   DescribeSecurityPolicyResponse,
   DescribeSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2422,7 +2423,7 @@ export type DescribeServerError =
  * The response contains a description of a server's properties. When you set `EndpointType` to VPC, the response will contain the `EndpointDetails`.
  */
 export const describeServer: API.OperationMethod<
-  DescribeServerRequest,
+  DescribeServerRequest & RegionInput,
   DescribeServerResponse,
   DescribeServerError,
   Credentials | HttpClient.HttpClient
@@ -2454,7 +2455,7 @@ export type DescribeUserError =
  * The response from this call returns the properties of the user associated with the `ServerId` value that was specified.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -2487,7 +2488,7 @@ export type DescribeWebAppError =
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
 export const describeWebApp: API.OperationMethod<
-  DescribeWebAppRequest,
+  DescribeWebAppRequest & RegionInput,
   DescribeWebAppResponse,
   DescribeWebAppError,
   Credentials | HttpClient.HttpClient
@@ -2519,7 +2520,7 @@ export type DescribeWebAppCustomizationError =
  * Describes the web app customization object that's identified by `WebAppId`.
  */
 export const describeWebAppCustomization: API.OperationMethod<
-  DescribeWebAppCustomizationRequest,
+  DescribeWebAppCustomizationRequest & RegionInput,
   DescribeWebAppCustomizationResponse,
   DescribeWebAppCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -2553,7 +2554,7 @@ export type DescribeWorkflowError =
  * Describes the specified workflow.
  */
 export const describeWorkflow: API.OperationMethod<
-  DescribeWorkflowRequest,
+  DescribeWorkflowRequest & RegionInput,
   DescribeWorkflowResponse,
   DescribeWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2603,7 +2604,7 @@ export type ImportCertificateError =
  * - **Frequency:** Published daily
  */
 export const importCertificate: API.OperationMethod<
-  ImportCertificateRequest,
+  ImportCertificateRequest & RegionInput,
   ImportCertificateResponse,
   ImportCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2635,7 +2636,7 @@ export type ImportHostKeyError =
  * Adds a host key to the server that's specified by the `ServerId` parameter.
  */
 export const importHostKey: API.OperationMethod<
-  ImportHostKeyRequest,
+  ImportHostKeyRequest & RegionInput,
   ImportHostKeyResponse,
   ImportHostKeyError,
   Credentials | HttpClient.HttpClient
@@ -2671,7 +2672,7 @@ export type ImportSshPublicKeyError =
  * The response returns the `UserName` value, the `ServerId` value, and the name of the `SshPublicKeyId`.
  */
 export const importSshPublicKey: API.OperationMethod<
-  ImportSshPublicKeyRequest,
+  ImportSshPublicKeyRequest & RegionInput,
   ImportSshPublicKeyResponse,
   ImportSshPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -2704,7 +2705,7 @@ export type ListAccessesError =
  * Lists the details for all the accesses you have on your server.
  */
 export const listAccesses: API.PaginatedOperationMethod<
-  ListAccessesRequest,
+  ListAccessesRequest & RegionInput,
   ListAccessesResponse,
   ListAccessesError,
   Credentials | HttpClient.HttpClient,
@@ -2743,7 +2744,7 @@ export type ListAgreementsError =
  * Returns a list of the agreements for the server that's identified by the `ServerId` that you supply. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for `NextToken`, you can supply that value to continue listing agreements from where you left off.
  */
 export const listAgreements: API.PaginatedOperationMethod<
-  ListAgreementsRequest,
+  ListAgreementsRequest & RegionInput,
   ListAgreementsResponse,
   ListAgreementsError,
   Credentials | HttpClient.HttpClient,
@@ -2782,7 +2783,7 @@ export type ListCertificatesError =
  * Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for the `NextToken` parameter, you can supply that value to continue listing certificates from where you left off.
  */
 export const listCertificates: API.PaginatedOperationMethod<
-  ListCertificatesRequest,
+  ListCertificatesRequest & RegionInput,
   ListCertificatesResponse,
   ListCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -2821,7 +2822,7 @@ export type ListConnectorsError =
  * Lists the connectors for the specified Region.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2862,7 +2863,7 @@ export type ListExecutionsError =
  * If the specified workflow ID cannot be found, `ListExecutions` returns a `ResourceNotFound` exception.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsRequest,
+  ListExecutionsRequest & RegionInput,
   ListExecutionsResponse,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2902,7 +2903,7 @@ export type ListFileTransferResultsError =
  * File transfer results are available up to 7 days after an operation has been requested.
  */
 export const listFileTransferResults: API.PaginatedOperationMethod<
-  ListFileTransferResultsRequest,
+  ListFileTransferResultsRequest & RegionInput,
   ListFileTransferResultsResponse,
   ListFileTransferResultsError,
   Credentials | HttpClient.HttpClient,
@@ -2943,7 +2944,7 @@ export type ListHostKeysError =
  * Returns a list of host keys for the server that's specified by the `ServerId` parameter.
  */
 export const listHostKeys: API.OperationMethod<
-  ListHostKeysRequest,
+  ListHostKeysRequest & RegionInput,
   ListHostKeysResponse,
   ListHostKeysError,
   Credentials | HttpClient.HttpClient
@@ -2975,7 +2976,7 @@ export type ListProfilesError =
  * Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for `NextToken`, you can supply that value to continue listing profiles from where you left off.
  */
 export const listProfiles: API.PaginatedOperationMethod<
-  ListProfilesRequest,
+  ListProfilesRequest & RegionInput,
   ListProfilesResponse,
   ListProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -3013,7 +3014,7 @@ export type ListSecurityPoliciesError =
  * Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
  */
 export const listSecurityPolicies: API.PaginatedOperationMethod<
-  ListSecurityPoliciesRequest,
+  ListSecurityPoliciesRequest & RegionInput,
   ListSecurityPoliciesResponse,
   ListSecurityPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3050,7 +3051,7 @@ export type ListServersError =
  * Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
  */
 export const listServers: API.PaginatedOperationMethod<
-  ListServersRequest,
+  ListServersRequest & RegionInput,
   ListServersResponse,
   ListServersError,
   Credentials | HttpClient.HttpClient,
@@ -3087,7 +3088,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3125,7 +3126,7 @@ export type ListUsersError =
  * Lists the users for a file transfer protocol-enabled server that you specify by passing the `ServerId` parameter.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -3165,7 +3166,7 @@ export type ListWebAppsError =
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
 export const listWebApps: API.PaginatedOperationMethod<
-  ListWebAppsRequest,
+  ListWebAppsRequest & RegionInput,
   ListWebAppsResponse,
   ListWebAppsError,
   Credentials | HttpClient.HttpClient,
@@ -3202,7 +3203,7 @@ export type ListWorkflowsError =
  * Lists all workflows associated with your Amazon Web Services account for your current region.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -3243,7 +3244,7 @@ export type SendWorkflowStepStateError =
  * The `ExecutionId`, `WorkflowId`, and `Token` are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status.
  */
 export const sendWorkflowStepState: API.OperationMethod<
-  SendWorkflowStepStateRequest,
+  SendWorkflowStepStateRequest & RegionInput,
   SendWorkflowStepStateResponse,
   SendWorkflowStepStateError,
   Credentials | HttpClient.HttpClient
@@ -3290,7 +3291,7 @@ export type StartDirectoryListingError =
  * - `truncated`: a flag indicating whether the list output contains all of the items contained in the remote directory or not. If your `Truncated` output value is true, you can increase the value provided in the optional `max-items` input attribute to be able to list more items (up to the maximum allowed list size of 200,000 items).
  */
 export const startDirectoryListing: API.OperationMethod<
-  StartDirectoryListingRequest,
+  StartDirectoryListingRequest & RegionInput,
   StartDirectoryListingResponse,
   StartDirectoryListingError,
   Credentials | HttpClient.HttpClient
@@ -3330,7 +3331,7 @@ export type StartFileTransferError =
  * - If you are transferring file to a partner's SFTP server from Amazon Web Services storage, you specify one or more `SendFilePaths` to identify the files you want to transfer, and a `RemoteDirectoryPath` to specify the destination folder.
  */
 export const startFileTransfer: API.OperationMethod<
-  StartFileTransferRequest,
+  StartFileTransferRequest & RegionInput,
   StartFileTransferResponse,
   StartFileTransferError,
   Credentials | HttpClient.HttpClient
@@ -3362,7 +3363,7 @@ export type StartRemoteDeleteError =
  * Deletes a file or directory on the remote SFTP server.
  */
 export const startRemoteDelete: API.OperationMethod<
-  StartRemoteDeleteRequest,
+  StartRemoteDeleteRequest & RegionInput,
   StartRemoteDeleteResponse,
   StartRemoteDeleteError,
   Credentials | HttpClient.HttpClient
@@ -3394,7 +3395,7 @@ export type StartRemoteMoveError =
  * Moves or renames a file or directory on the remote SFTP server.
  */
 export const startRemoteMove: API.OperationMethod<
-  StartRemoteMoveRequest,
+  StartRemoteMoveRequest & RegionInput,
   StartRemoteMoveResponse,
   StartRemoteMoveError,
   Credentials | HttpClient.HttpClient
@@ -3430,7 +3431,7 @@ export type StartServerError =
  * No response is returned from this call.
  */
 export const startServer: API.OperationMethod<
-  StartServerRequest,
+  StartServerRequest & RegionInput,
   StartServerResponse,
   StartServerError,
   Credentials | HttpClient.HttpClient
@@ -3468,7 +3469,7 @@ export type StopServerError =
  * No response is returned from this call.
  */
 export const stopServer: API.OperationMethod<
-  StopServerRequest,
+  StopServerRequest & RegionInput,
   StopServerResponse,
   StopServerError,
   Credentials | HttpClient.HttpClient
@@ -3501,7 +3502,7 @@ export type TagResourceError =
  * There is no response returned from this call.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3531,7 +3532,7 @@ export type TestConnectionError =
  * Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
  */
 export const testConnection: API.OperationMethod<
-  TestConnectionRequest,
+  TestConnectionRequest & RegionInput,
   TestConnectionResponse,
   TestConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3583,7 +3584,7 @@ export type TestIdentityProviderError =
  * It is possible your sever is in a different region. You can specify a region by adding the following: `--region region-code`, such as `--region us-east-2` to specify a server in **US East (Ohio)**.
  */
 export const testIdentityProvider: API.OperationMethod<
-  TestIdentityProviderRequest,
+  TestIdentityProviderRequest & RegionInput,
   TestIdentityProviderResponse,
   TestIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -3615,7 +3616,7 @@ export type UntagResourceError =
  * No response is returned from this call.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3647,7 +3648,7 @@ export type UpdateAccessError =
  * Allows you to update parameters for the access specified in the `ServerID` and `ExternalID` parameters.
  */
 export const updateAccess: API.OperationMethod<
-  UpdateAccessRequest,
+  UpdateAccessRequest & RegionInput,
   UpdateAccessResponse,
   UpdateAccessError,
   Credentials | HttpClient.HttpClient
@@ -3685,7 +3686,7 @@ export type UpdateAgreementError =
  * If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, the custom directories are no longer used.
  */
 export const updateAgreement: API.OperationMethod<
-  UpdateAgreementRequest,
+  UpdateAgreementRequest & RegionInput,
   UpdateAgreementResponse,
   UpdateAgreementError,
   Credentials | HttpClient.HttpClient
@@ -3718,7 +3719,7 @@ export type UpdateCertificateError =
  * Updates the active and inactive dates for a certificate.
  */
 export const updateCertificate: API.OperationMethod<
-  UpdateCertificateRequest,
+  UpdateCertificateRequest & RegionInput,
   UpdateCertificateResponse,
   UpdateCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3751,7 +3752,7 @@ export type UpdateConnectorError =
  * Updates some of the parameters for an existing connector. Provide the `ConnectorId` for the connector that you want to update, along with the new values for the parameters to update.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   UpdateConnectorResponse,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -3784,7 +3785,7 @@ export type UpdateHostKeyError =
  * Updates the description for the host key that's specified by the `ServerId` and `HostKeyId` parameters.
  */
 export const updateHostKey: API.OperationMethod<
-  UpdateHostKeyRequest,
+  UpdateHostKeyRequest & RegionInput,
   UpdateHostKeyResponse,
   UpdateHostKeyError,
   Credentials | HttpClient.HttpClient
@@ -3816,7 +3817,7 @@ export type UpdateProfileError =
  * Updates some of the parameters for an existing profile. Provide the `ProfileId` for the profile that you want to update, along with the new values for the parameters to update.
  */
 export const updateProfile: API.OperationMethod<
-  UpdateProfileRequest,
+  UpdateProfileRequest & RegionInput,
   UpdateProfileResponse,
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
@@ -3853,7 +3854,7 @@ export type UpdateServerError =
  * The `UpdateServer` call returns the `ServerId` of the server you updated.
  */
 export const updateServer: API.OperationMethod<
-  UpdateServerRequest,
+  UpdateServerRequest & RegionInput,
   UpdateServerResponse,
   UpdateServerError,
   Credentials | HttpClient.HttpClient
@@ -3896,7 +3897,7 @@ export type UpdateUserError =
  * ` aws transfer update-user --server-id <server-id> --user-name admin-user --home-directory-type LOGICAL --home-directory-mappings "[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}]"`
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -3931,7 +3932,7 @@ export type UpdateWebAppError =
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
 export const updateWebApp: API.OperationMethod<
-  UpdateWebAppRequest,
+  UpdateWebAppRequest & RegionInput,
   UpdateWebAppResponse,
   UpdateWebAppError,
   Credentials | HttpClient.HttpClient
@@ -3965,7 +3966,7 @@ export type UpdateWebAppCustomizationError =
  * Assigns new customization properties to a web app. You can modify the icon file, logo file, and title.
  */
 export const updateWebAppCustomization: API.OperationMethod<
-  UpdateWebAppCustomizationRequest,
+  UpdateWebAppCustomizationRequest & RegionInput,
   UpdateWebAppCustomizationResponse,
   UpdateWebAppCustomizationError,
   Credentials | HttpClient.HttpClient

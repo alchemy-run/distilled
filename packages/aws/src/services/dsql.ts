@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -479,7 +480,7 @@ export type CreateClusterError =
  * - The witness Region specified in `multiRegionProperties.witnessRegion` cannot be the same as the cluster's Region.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterInput,
+  CreateClusterInput & RegionInput,
   CreateClusterOutput,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -524,7 +525,7 @@ export type CreateStreamError =
  * Resources: ARN of the KMS key used by the cluster
  */
 export const createStream: API.OperationMethod<
-  CreateStreamInput,
+  CreateStreamInput & RegionInput,
   CreateStreamOutput,
   CreateStreamError,
   Credentials | HttpClient.HttpClient
@@ -549,7 +550,7 @@ export type DeleteClusterError = ConflictException | ResourceNotFoundException |
  * Deletes a cluster in Amazon Aurora DSQL.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterInput,
+  DeleteClusterInput & RegionInput,
   DeleteClusterOutput,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -573,7 +574,7 @@ export type DeleteClusterPolicyError =
  * Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
  */
 export const deleteClusterPolicy: API.OperationMethod<
-  DeleteClusterPolicyInput,
+  DeleteClusterPolicyInput & RegionInput,
   DeleteClusterPolicyOutput,
   DeleteClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -593,7 +594,7 @@ export type DeleteStreamError = ConflictException | ResourceNotFoundException | 
  * Deletes a stream from a cluster.
  */
 export const deleteStream: API.OperationMethod<
-  DeleteStreamInput,
+  DeleteStreamInput & RegionInput,
   DeleteStreamOutput,
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
@@ -613,7 +614,7 @@ export type GetClusterError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a cluster.
  */
 export const getCluster: API.OperationMethod<
-  GetClusterInput,
+  GetClusterInput & RegionInput,
   GetClusterOutput,
   GetClusterError,
   Credentials | HttpClient.HttpClient
@@ -633,7 +634,7 @@ export type GetClusterPolicyError = ResourceNotFoundException | ValidationExcept
  * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
  */
 export const getClusterPolicy: API.OperationMethod<
-  GetClusterPolicyInput,
+  GetClusterPolicyInput & RegionInput,
   GetClusterPolicyOutput,
   GetClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -653,7 +654,7 @@ export type GetStreamError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a stream.
  */
 export const getStream: API.OperationMethod<
-  GetStreamInput,
+  GetStreamInput & RegionInput,
   GetStreamOutput,
   GetStreamError,
   Credentials | HttpClient.HttpClient
@@ -678,7 +679,7 @@ export type GetVpcEndpointServiceNameError =
  * Retrieves the VPC endpoint service name.
  */
 export const getVpcEndpointServiceName: API.OperationMethod<
-  GetVpcEndpointServiceNameInput,
+  GetVpcEndpointServiceNameInput & RegionInput,
   GetVpcEndpointServiceNameOutput,
   GetVpcEndpointServiceNameError,
   Credentials | HttpClient.HttpClient
@@ -703,7 +704,7 @@ export type ListClustersError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a list of clusters.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersInput,
+  ListClustersInput & RegionInput,
   ListClustersOutput,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -730,7 +731,7 @@ export type ListStreamsError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a list of streams for a cluster.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -757,7 +758,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists all of the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -781,7 +782,7 @@ export type PutClusterPolicyError =
  * Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
  */
 export const putClusterPolicy: API.OperationMethod<
-  PutClusterPolicyInput,
+  PutClusterPolicyInput & RegionInput,
   PutClusterPolicyOutput,
   PutClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -804,7 +805,7 @@ export type TagResourceError =
  * Tags a resource with a map of key and value pairs.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -824,7 +825,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type UpdateClusterError =
  * - When you list peer clusters in `multiRegionProperties.clusters`, you need `dsql:AddPeerCluster` for every peer cluster in your request. You need `dsql:RemovePeerCluster` only for the peer clusters that the update removes.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterInput,
+  UpdateClusterInput & RegionInput,
   UpdateClusterOutput,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient

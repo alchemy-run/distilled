@@ -246,6 +246,12 @@ export interface AbortSuperSlurperJobRequest {
 export type AbortSuperSlurperJobResponse = string;
 export type BucketsCreateRequestLocationHint = "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
 export type BucketsCreateRequestStorageClass = "Standard" | "InfrequentAccess";
+export type BucketsCreateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface CreateBucketRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -255,6 +261,7 @@ export interface CreateBucketRequest {
   locationHint?: BucketsCreateRequestLocationHint | (string & {});
   /** Storage class for newly uploaded objects, unless specified otherwise. */
   storageClass?: BucketsCreateRequestStorageClass | (string & {});
+  jurisdiction?: BucketsCreateRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsCreateResponseJurisdiction =
   | "default"
@@ -279,6 +286,12 @@ export interface CreateBucketResponse {
 }
 export type BucketsDomainsCustomCreateRequestCiphersList = Array<string>;
 export type BucketsDomainsCustomCreateRequestMinTLS = "1.0" | "1.1" | "1.2" | "1.3";
+export type BucketsDomainsCustomCreateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface CreateBucketDomainCustomRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -294,6 +307,7 @@ export interface CreateBucketDomainCustomRequest {
   ciphers?: BucketsDomainsCustomCreateRequestCiphersList;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
   minTLS?: BucketsDomainsCustomCreateRequestMinTLS | (string & {});
+  jurisdiction?: BucketsDomainsCustomCreateRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsDomainsCustomCreateResponseCiphersList = Array<string>;
 export type BucketsDomainsCustomCreateResponseMinTLS = "1.0" | "1.1" | "1.2" | "1.3";
@@ -313,6 +327,12 @@ export interface CreateBucketDomainCustomResponse {
 export type CreateBucketsJobRequestJobType = "prefixDelete" | "storageClassMigration";
 export type CreateBucketsJobRequestDestinationStorageClass = "Standard" | "InfrequentAccess";
 export type CreateBucketsJobRequestSourceStorageClass = "Standard" | "InfrequentAccess";
+export type CreateBucketsJobRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface CreateBucketsJobRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -324,6 +344,7 @@ export interface CreateBucketsJobRequest {
   prefix?: string;
   destinationStorageClass?: CreateBucketsJobRequestDestinationStorageClass | (string & {});
   sourceStorageClass?: CreateBucketsJobRequestSourceStorageClass | (string & {});
+  jurisdiction?: CreateBucketsJobRequestCfR2Jurisdiction | (string & {});
 }
 export type CreateBucketsJobResultPrefixDeleteJobType = "prefixDelete";
 export interface CreateBucketsJobResultPrefixDeletePrefixDelete {
@@ -508,20 +529,40 @@ export interface CreateTemporaryCredentialResponse {
   /** Security token. */
   sessionToken?: string | null;
 }
+export type BucketsDeleteRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface DeleteBucketRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsDeleteRequestCfR2Jurisdiction | (string & {});
 }
 export type DeleteBucketResponse = unknown;
+export type BucketsCorsDeleteRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface DeleteBucketCorsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsCorsDeleteRequestCfR2Jurisdiction | (string & {});
 }
 export type DeleteBucketCorsResponse = unknown;
+export type BucketsDomainsCustomDeleteRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface DeleteBucketDomainCustomRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -529,12 +570,19 @@ export interface DeleteBucketDomainCustomRequest {
   bucketName: string;
   /** Name of the custom domain. */
   domain: string;
+  jurisdiction?: BucketsDomainsCustomDeleteRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteBucketDomainCustomResponse {
   /** Name of the removed custom domain. */
   domain: string;
 }
+export type BucketsEventNotificationsDeleteRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface DeleteBucketEventNotificationRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -542,8 +590,15 @@ export interface DeleteBucketEventNotificationRequest {
   bucketName: string;
   /** ID of the Cloudflare Queue that receives notifications for matching R2 object events. */
   queueId: string;
+  jurisdiction?: BucketsEventNotificationsDeleteRequestCfR2Jurisdiction | (string & {});
 }
 export type DeleteBucketEventNotificationResponse = unknown;
+export type BucketsObjectsDeleteRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface DeleteBucketObjectRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -551,17 +606,25 @@ export interface DeleteBucketObjectRequest {
   bucketName: string;
   /** The key (name) of the object to delete. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
+  jurisdiction?: BucketsObjectsDeleteRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteBucketObjectResponse {
   /** The key (name) of the deleted object. */
   key?: string | null;
 }
+export type BucketsSippyDeleteRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface DeleteBucketSippyRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsSippyDeleteRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteBucketSippyResponse {
@@ -575,13 +638,21 @@ export interface DeleteObjectsRequest {
   bucketName: string;
   prefix?: string;
   body?: DeleteObjectsKeyList;
+  jurisdiction?: string;
 }
 export type DeleteObjectsResponse = unknown;
+export type BucketsGetRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface GetBucketRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsGetResponseJurisdiction = "default" | "eu" | "us" | "fedramp" | "fedramp-high";
 export type BucketsGetResponseLocation = "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
@@ -599,11 +670,18 @@ export interface GetBucketResponse {
   /** Storage class for newly uploaded objects, unless specified otherwise. */
   storageClass?: BucketsGetResponseStorageClass | null;
 }
+export type BucketsCorsGetRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface GetBucketCorsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsCorsGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsCorsGetResponseRulesItemAllowedMethodsItem =
   | "GET"
@@ -639,6 +717,12 @@ export type BucketsCorsGetResponseRulesList = Array<BucketsCorsGetResponseRulesI
 export interface GetBucketCorsResponse {
   rules?: BucketsCorsGetResponseRulesList | null;
 }
+export type BucketsDomainsCustomGetRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface GetBucketDomainCustomRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -646,6 +730,7 @@ export interface GetBucketDomainCustomRequest {
   bucketName: string;
   /** Name of the custom domain. */
   domain: string;
+  jurisdiction?: BucketsDomainsCustomGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsDomainsCustomGetResponseStatusOwnership =
   | "pending"
@@ -685,6 +770,12 @@ export interface GetBucketDomainCustomResponse {
   /** Zone that the custom domain resides in. */
   zoneName?: string | null;
 }
+export type BucketsEventNotificationsGetRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface GetBucketEventNotificationRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -692,6 +783,7 @@ export interface GetBucketEventNotificationRequest {
   bucketName: string;
   /** ID of the Cloudflare Queue that receives notifications for matching R2 object events. */
   queueId: string;
+  jurisdiction?: BucketsEventNotificationsGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsEventNotificationsGetResponseRulesItemActionsItem =
   | "PutObject"
@@ -725,11 +817,18 @@ export interface GetBucketEventNotificationResponse {
   queueName?: string | null;
   rules?: BucketsEventNotificationsGetResponseRulesList | null;
 }
+export type BucketsLifecycleGetRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface GetBucketLifecycleRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsLifecycleGetRequestCfR2Jurisdiction | (string & {});
 }
 export interface BucketsLifecycleGetResponseRulesItemConditions {
   /** Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads. */
@@ -818,11 +917,18 @@ export interface GetBucketLocalUploadsResponse {
   /** Whether Local Uploads is enabled for the bucket. */
   enabled: boolean;
 }
+export type BucketsLocksGetRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface GetBucketLockRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsLocksGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsLocksGetResponseRulesItemConditionR2LockRuleAgeConditionType = "Age";
 export interface BucketsLocksGetResponseRulesItemConditionR2LockRuleAgeCondition {
@@ -858,6 +964,12 @@ export type BucketsLocksGetResponseRulesList = Array<BucketsLocksGetResponseRule
 export interface GetBucketLockResponse {
   rules?: BucketsLocksGetResponseRulesList | null;
 }
+export type BucketsObjectsGetRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface GetBucketObjectRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -869,6 +981,7 @@ export interface GetBucketObjectRequest {
   ifNoneMatch?: string;
   /** The key (name) of the object to retrieve. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
+  jurisdiction?: BucketsObjectsGetRequestCfR2Jurisdiction | (string & {});
 }
 export type GetBucketObjectResponseCfR2StorageClass = "Standard" | "InfrequentAccess";
 export interface GetBucketObjectResponse {
@@ -897,11 +1010,18 @@ export interface GetBucketObjectResponse {
   /** Storage class of the object (`Standard` or `InfrequentAccess`). */
   cfR2StorageClass?: GetBucketObjectResponseCfR2StorageClass;
 }
+export type BucketsSippyGetRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface GetBucketSippyRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsSippyGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsSippyGetResponseDestinationProvider = "r2";
 export interface BucketsSippyGetResponseDestination {
@@ -933,12 +1053,19 @@ export interface GetBucketSippyResponse {
   /** Details about the configured source bucket. */
   source?: BucketsSippyGetResponseSource | null;
 }
+export type GetBucketsJobRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface GetBucketsJobRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
   jobId: string;
+  jurisdiction?: GetBucketsJobRequestCfR2Jurisdiction | (string & {});
 }
 export type GetBucketsJobResultPrefixDeleteJobType = "prefixDelete";
 export type GetBucketsJobResultPrefixDeletePrefixDelete =
@@ -1070,11 +1197,18 @@ export interface GetSuperSlurperJobResponse {
   status?: SuperSlurperJobsGetResponseStatus | null;
   target?: SuperSlurperJobsGetResponseTarget | null;
 }
+export type BucketsDomainsCustomListRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface ListBucketDomainCustomsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsDomainsCustomListRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsDomainsCustomListResponseDomainsItemStatusOwnership =
   | "pending"
@@ -1119,11 +1253,18 @@ export type BucketsDomainsCustomListResponseDomainsList =
 export interface ListBucketDomainCustomsResponse {
   domains: BucketsDomainsCustomListResponseDomainsList;
 }
+export type BucketsDomainsManagedListRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface ListBucketDomainManagedsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsDomainsManagedListRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListBucketDomainManagedsResponse {
@@ -1134,11 +1275,18 @@ export interface ListBucketDomainManagedsResponse {
   /** Whether this bucket is publicly accessible at the r2.dev domain. */
   enabled: boolean;
 }
+export type BucketsEventNotificationsListRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface ListBucketEventNotificationsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
+  jurisdiction?: BucketsEventNotificationsListRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsEventNotificationsListResponseQueuesItemRulesItemActionsItem =
   | "PutObject"
@@ -1212,6 +1360,12 @@ export interface ListBucketMetricsResponse {
   /** Metrics based on what state they are in(uploaded or published). */
   standard?: BucketsMetricsListResponseInfrequentAccess | null;
 }
+export type BucketsObjectsListRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface ListBucketObjectsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -1227,6 +1381,7 @@ export interface ListBucketObjectsRequest {
   prefix?: string;
   /** Returns objects with keys that come after the specified key in lexicographic order. */
   startAfter?: string;
+  jurisdiction?: BucketsObjectsListRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsObjectsListResultItemCustomMetadataMap = { [key: string]: string | undefined };
 export interface BucketsObjectsListResultItemHttpMetadata {
@@ -1271,6 +1426,12 @@ export interface ListBucketObjectsResponse {
 }
 export type BucketsListRequestDirection = "asc" | "desc";
 export type BucketsListRequestOrder = "name";
+export type BucketsListRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface ListBucketsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -1286,6 +1447,7 @@ export interface ListBucketsRequest {
   perPage?: number;
   /** Bucket name to start searching after. Buckets are ordered lexicographically. */
   startAfter?: string;
+  jurisdiction?: BucketsListRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsListResponseBucketsItemJurisdiction =
   | "default"
@@ -1325,6 +1487,12 @@ export type ListBucketsJobsRequestStatus =
   | "COMPLETED"
   | "FAILED"
   | "CANCELLED";
+export type ListBucketsJobsRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface ListBucketsJobsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -1338,6 +1506,7 @@ export interface ListBucketsJobsRequest {
   maxKeys?: number;
   /** Restricts results to jobs with the specified status. `jobType` is required when this parameter is provided. */
   status?: ListBucketsJobsRequestStatus | (string & {});
+  jurisdiction?: ListBucketsJobsRequestCfR2Jurisdiction | (string & {});
 }
 export type ListBucketsJobsResponseJobsItemPrefixDeleteJobType = "prefixDelete";
 export type ListBucketsJobsResponseJobsItemPrefixDeletePrefixDelete =
@@ -1520,6 +1689,12 @@ export interface ListSuperSlurperJobsResponse {
   resultInfo?: ResultInfo | null;
 }
 export type BucketsEditRequestCfR2StorageClass = "Standard" | "InfrequentAccess";
+export type BucketsEditRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface PatchBucketRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -1527,6 +1702,7 @@ export interface PatchBucketRequest {
   bucketName: string;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
   storageClass: BucketsEditRequestCfR2StorageClass | (string & {});
+  jurisdiction?: BucketsEditRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsEditResponseJurisdiction = "default" | "eu" | "us" | "fedramp" | "fedramp-high";
 export type BucketsEditResponseLocation = "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
@@ -1595,14 +1771,27 @@ export interface BucketsCorsUpdateRequestRulesItem {
   maxAgeSeconds?: number;
 }
 export type BucketsCorsUpdateRequestRulesList = Array<BucketsCorsUpdateRequestRulesItem>;
+export type BucketsCorsUpdateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface PutBucketCorsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
   rules?: BucketsCorsUpdateRequestRulesList;
+  jurisdiction?: BucketsCorsUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type PutBucketCorsResponse = unknown;
+export type BucketsDomainsManagedUpdateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface PutBucketDomainManagedRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -1610,6 +1799,7 @@ export interface PutBucketDomainManagedRequest {
   bucketName: string;
   /** Whether to enable public bucket access at the r2.dev domain. */
   enabled: boolean;
+  jurisdiction?: BucketsDomainsManagedUpdateRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutBucketDomainManagedResponse {
@@ -1641,6 +1831,12 @@ export interface BucketsEventNotificationsUpdateRequestRulesItem {
 }
 export type BucketsEventNotificationsUpdateRequestRulesList =
   Array<BucketsEventNotificationsUpdateRequestRulesItem>;
+export type BucketsEventNotificationsUpdateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface PutBucketEventNotificationRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -1650,6 +1846,7 @@ export interface PutBucketEventNotificationRequest {
   queueId: string;
   /** Array of rules to drive notifications. */
   rules: BucketsEventNotificationsUpdateRequestRulesList;
+  jurisdiction?: BucketsEventNotificationsUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type PutBucketEventNotificationResponse = unknown;
 export type BucketsLifecycleUpdateRequestRulesItemConditions =
@@ -1726,12 +1923,19 @@ export interface BucketsLifecycleUpdateRequestRulesItem {
   storageClassTransitions?: BucketsLifecycleUpdateRequestRulesItemStorageClassTransitionsList;
 }
 export type BucketsLifecycleUpdateRequestRulesList = Array<BucketsLifecycleUpdateRequestRulesItem>;
+export type BucketsLifecycleUpdateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface PutBucketLifecycleRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
   rules?: BucketsLifecycleUpdateRequestRulesList;
+  jurisdiction?: BucketsLifecycleUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type PutBucketLifecycleResponse = unknown;
 export interface PutBucketLocalUploadsRequest {
@@ -1777,12 +1981,19 @@ export interface BucketsLocksUpdateRequestRulesItem {
   prefix?: string;
 }
 export type BucketsLocksUpdateRequestRulesList = Array<BucketsLocksUpdateRequestRulesItem>;
+export type BucketsLocksUpdateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface PutBucketLockRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
   rules?: BucketsLocksUpdateRequestRulesList;
+  jurisdiction?: BucketsLocksUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type PutBucketLockResponse = unknown;
 export type BucketsSippyUpdateRequestDestinationProvider = "r2";
@@ -1842,6 +2053,12 @@ export type BucketsSippyUpdateRequestSource =
   | BucketsSippyUpdateRequestSourceR2EnableSippyGcs
   | BucketsSippyUpdateRequestSourceR2EnableSippyS3
   | BucketsSippyUpdateRequestSourceR2EnableSippyAzure;
+export type BucketsSippyUpdateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface PutBucketSippyRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -1851,6 +2068,7 @@ export interface PutBucketSippyRequest {
   destination?: BucketsSippyUpdateRequestDestination;
   /** AWS S3 bucket to copy objects from. */
   source?: BucketsSippyUpdateRequestSource;
+  jurisdiction?: BucketsSippyUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsSippyUpdateResponseDestinationProvider = "r2";
 export interface BucketsSippyUpdateResponseDestination {
@@ -1940,6 +2158,12 @@ export interface TargetSuperSlurperConnectivityPrecheckResponse {
 }
 export type BucketsDomainsCustomUpdateRequestCiphersList = Array<string>;
 export type BucketsDomainsCustomUpdateRequestMinTLS = "1.0" | "1.1" | "1.2" | "1.3";
+export type BucketsDomainsCustomUpdateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface UpdateBucketDomainCustomRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -1953,6 +2177,7 @@ export interface UpdateBucketDomainCustomRequest {
   enabled?: boolean;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to previous value. */
   minTLS?: BucketsDomainsCustomUpdateRequestMinTLS | (string & {});
+  jurisdiction?: BucketsDomainsCustomUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsDomainsCustomUpdateResponseCiphersList = Array<string>;
 export type BucketsDomainsCustomUpdateResponseMinTLS = "1.0" | "1.1" | "1.2" | "1.3";
@@ -1968,6 +2193,12 @@ export interface UpdateBucketDomainCustomResponse {
   minTLS?: BucketsDomainsCustomUpdateResponseMinTLS | null;
 }
 export type BucketsObjectsUploadRequestCfR2StorageClass = "Standard" | "InfrequentAccess";
+export type BucketsObjectsUploadRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export interface UploadBucketObjectRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
@@ -1977,6 +2208,7 @@ export interface UploadBucketObjectRequest {
   cfR2StorageClass?: BucketsObjectsUploadRequestCfR2StorageClass | (string & {});
   /** The key (name) to assign to the object. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
+  jurisdiction?: BucketsObjectsUploadRequestCfR2Jurisdiction | (string & {});
   /** The object content -- sent verbatim as the request body. */
   body?: Blob | Uint8Array | ArrayBuffer | string;
   /** MIME type stored with the object. */
@@ -3147,6 +3379,7 @@ function __c3(j: number): any {
           name: S.String,
           locationHint: S.optional(S.String),
           storageClass: S.optional(S.String),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/r2/buckets", code: 200 }))
           .pipe(T.Jurisdiction())
@@ -3180,6 +3413,7 @@ function __c5(j: number): any {
           zoneId: S.String,
           ciphers: S.optional(__S(96, __c6, 0)),
           minTLS: S.optional(S.String),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3221,6 +3455,7 @@ function __c7(j: number): any {
           prefix: S.optional(S.String),
           destinationStorageClass: S.optional(S.String),
           sourceStorageClass: S.optional(S.String),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3341,6 +3576,7 @@ function __c11(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3369,6 +3605,7 @@ function __c13(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3390,6 +3627,7 @@ function __c14(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           domain: S.String.pipe(T.Label()),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3417,6 +3655,7 @@ function __c15(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           queueId: S.String.pipe(T.Label("queue_id")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3438,6 +3677,7 @@ function __c16(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           objectName: S.String.pipe(T.Label("object_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3464,6 +3704,7 @@ function __c17(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3496,6 +3737,7 @@ function __c19(j: number): any {
           bucketName: S.String.pipe(T.Label("bucket_name")),
           prefix: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3516,6 +3758,7 @@ function __c20(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3536,6 +3779,7 @@ function __c21(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3588,6 +3832,7 @@ function __c23(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           domain: S.String.pipe(T.Label()),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3632,6 +3877,7 @@ function __c25(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           queueId: S.String.pipe(T.Label("queue_id")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3677,6 +3923,7 @@ function __c27(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3803,6 +4050,7 @@ function __c30(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3850,6 +4098,7 @@ function __c31(j: number): any {
           ifModifiedSince: S.optional(S.String.pipe(T.Header("If-Modified-Since"))),
           ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
           objectName: S.String.pipe(T.Label("object_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3887,6 +4136,7 @@ function __c32(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3939,6 +4189,7 @@ function __c34(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           jobId: S.String.pipe(T.Label("job_id")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4027,6 +4278,7 @@ function __c37(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4067,6 +4319,7 @@ function __c38(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4099,6 +4352,7 @@ function __c40(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4175,6 +4429,7 @@ function __c42(j: number): any {
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           prefix: S.optional(S.String.pipe(T.Query())),
           startAfter: S.optional(S.String.pipe(T.Query("start_after"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4235,6 +4490,7 @@ function __c43(j: number): any {
           order: S.optional(S.String.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           startAfter: S.optional(S.String.pipe(T.Query("start_after"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/r2/buckets", code: 200 }))
           .pipe(T.Jurisdiction())
@@ -4271,6 +4527,7 @@ function __c44(j: number): any {
           jobType: S.optional(S.String.pipe(T.Query())),
           maxKeys: S.optional(S.Number.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4397,6 +4654,7 @@ function __c47(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           storageClass: S.String.pipe(T.Header("cf-r2-storage-class")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4487,6 +4745,7 @@ function __c50(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           rules: S.optional(__S(802, __c50, 2)),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4508,6 +4767,7 @@ function __c51(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           enabled: S.Boolean,
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4541,6 +4801,7 @@ function __c52(j: number): any {
           bucketName: S.String.pipe(T.Label("bucket_name")),
           queueId: S.String.pipe(T.Label("queue_id")),
           rules: __S(833, __c52, 1),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4620,6 +4881,7 @@ function __c53(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           rules: S.optional(__S(855, __c53, 7)),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4679,6 +4941,7 @@ function __c55(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           rules: S.optional(__S(882, __c55, 2)),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4721,6 +4984,7 @@ function __c56(j: number): any {
           bucketName: S.String.pipe(T.Label("bucket_name")),
           destination: S.optional(__S(896, __c56, 0)),
           source: S.optional(__S(897, __c56, 1)),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4829,6 +5093,7 @@ function __c61(j: number): any {
           ciphers: S.optional(__S(96, __c6, 0)),
           enabled: S.optional(S.Boolean),
           minTLS: S.optional(S.String),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4860,6 +5125,7 @@ function __c62(j: number): any {
           bucketName: S.String.pipe(T.Label("bucket_name")),
           cfR2StorageClass: S.optional(S.String.pipe(T.Header("cf-r2-storage-class"))),
           objectName: S.String.pipe(T.Label("object_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           body: S.optional(S.String.pipe(T.HttpBody())),
           contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
           contentDisposition: S.optional(S.String.pipe(T.Header("Content-Disposition"))),

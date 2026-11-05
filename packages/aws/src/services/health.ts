@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -556,7 +557,7 @@ export type DescribeAffectedAccountsForOrganizationError = InvalidPaginationToke
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeAffectedAccountsForOrganization: API.PaginatedOperationMethod<
-  DescribeAffectedAccountsForOrganizationRequest,
+  DescribeAffectedAccountsForOrganizationRequest & RegionInput,
   DescribeAffectedAccountsForOrganizationResponse,
   DescribeAffectedAccountsForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -597,7 +598,7 @@ export type DescribeAffectedEntitiesError =
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
 export const describeAffectedEntities: API.PaginatedOperationMethod<
-  DescribeAffectedEntitiesRequest,
+  DescribeAffectedEntitiesRequest & RegionInput,
   DescribeAffectedEntitiesResponse,
   DescribeAffectedEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -641,7 +642,7 @@ export type DescribeAffectedEntitiesForOrganizationError =
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
 export const describeAffectedEntitiesForOrganization: API.PaginatedOperationMethod<
-  DescribeAffectedEntitiesForOrganizationRequest,
+  DescribeAffectedEntitiesForOrganizationRequest & RegionInput,
   DescribeAffectedEntitiesForOrganizationResponse,
   DescribeAffectedEntitiesForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -668,7 +669,7 @@ export type DescribeEntityAggregatesError = CommonErrors;
  * Returns the number of entities that are affected by each of the specified events.
  */
 export const describeEntityAggregates: API.OperationMethod<
-  DescribeEntityAggregatesRequest,
+  DescribeEntityAggregatesRequest & RegionInput,
   DescribeEntityAggregatesResponse,
   DescribeEntityAggregatesError,
   Credentials | HttpClient.HttpClient
@@ -688,7 +689,7 @@ export type DescribeEntityAggregatesForOrganizationError = CommonErrors;
  * Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
  */
 export const describeEntityAggregatesForOrganization: API.OperationMethod<
-  DescribeEntityAggregatesForOrganizationRequest,
+  DescribeEntityAggregatesForOrganizationRequest & RegionInput,
   DescribeEntityAggregatesForOrganizationResponse,
   DescribeEntityAggregatesForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -712,7 +713,7 @@ export type DescribeEventAggregatesError = InvalidPaginationToken | CommonErrors
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeEventAggregates: API.PaginatedOperationMethod<
-  DescribeEventAggregatesRequest,
+  DescribeEventAggregatesRequest & RegionInput,
   DescribeEventAggregatesResponse,
   DescribeEventAggregatesError,
   Credentials | HttpClient.HttpClient,
@@ -748,7 +749,7 @@ export type DescribeEventDetailsError = UnsupportedLocale | CommonErrors;
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
 export const describeEventDetails: API.OperationMethod<
-  DescribeEventDetailsRequest,
+  DescribeEventDetailsRequest & RegionInput,
   DescribeEventDetailsResponse,
   DescribeEventDetailsError,
   Credentials | HttpClient.HttpClient
@@ -795,7 +796,7 @@ export type DescribeEventDetailsForOrganizationError = UnsupportedLocale | Commo
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
 export const describeEventDetailsForOrganization: API.OperationMethod<
-  DescribeEventDetailsForOrganizationRequest,
+  DescribeEventDetailsForOrganizationRequest & RegionInput,
   DescribeEventDetailsForOrganizationResponse,
   DescribeEventDetailsForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -832,7 +833,7 @@ export type DescribeEventsError = InvalidPaginationToken | UnsupportedLocale | C
  * - This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsRequest,
+  DescribeEventsRequest & RegionInput,
   DescribeEventsResponse,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -884,7 +885,7 @@ export type DescribeEventsForOrganizationError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeEventsForOrganization: API.PaginatedOperationMethod<
-  DescribeEventsForOrganizationRequest,
+  DescribeEventsForOrganizationRequest & RegionInput,
   DescribeEventsForOrganizationResponse,
   DescribeEventsForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -917,7 +918,7 @@ export type DescribeEventTypesError = InvalidPaginationToken | UnsupportedLocale
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeEventTypes: API.PaginatedOperationMethod<
-  DescribeEventTypesRequest,
+  DescribeEventTypesRequest & RegionInput,
   DescribeEventTypesResponse,
   DescribeEventTypesError,
   Credentials | HttpClient.HttpClient,
@@ -946,7 +947,7 @@ export type DescribeHealthServiceStatusForOrganizationError = CommonErrors;
  * management account.
  */
 export const describeHealthServiceStatusForOrganization: API.OperationMethod<
-  DescribeHealthServiceStatusForOrganizationRequest,
+  DescribeHealthServiceStatusForOrganizationRequest & RegionInput,
   DescribeHealthServiceStatusForOrganizationResponse,
   DescribeHealthServiceStatusForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -966,7 +967,7 @@ export type DescribeServiceLifecycleError = InvalidPaginationToken | CommonError
  * Returns lifecycle information for Amazon Web Services services, including end-of-life dates, version recommendations, and lifecycle events.
  */
 export const describeServiceLifecycle: API.PaginatedOperationMethod<
-  DescribeServiceLifecycleRequest,
+  DescribeServiceLifecycleRequest & RegionInput,
   DescribeServiceLifecycleResponse,
   DescribeServiceLifecycleError,
   Credentials | HttpClient.HttpClient,
@@ -1008,7 +1009,7 @@ export type DisableHealthServiceAccessForOrganizationError =
  * Amazon Web Services account.
  */
 export const disableHealthServiceAccessForOrganization: API.OperationMethod<
-  DisableHealthServiceAccessForOrganizationRequest,
+  DisableHealthServiceAccessForOrganizationRequest & RegionInput,
   DisableHealthServiceAccessForOrganizationResponse,
   DisableHealthServiceAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1049,7 +1050,7 @@ export type EnableHealthServiceAccessForOrganizationError =
  * Health events in the *Health User Guide*.
  */
 export const enableHealthServiceAccessForOrganization: API.OperationMethod<
-  EnableHealthServiceAccessForOrganizationRequest,
+  EnableHealthServiceAccessForOrganizationRequest & RegionInput,
   EnableHealthServiceAccessForOrganizationResponse,
   EnableHealthServiceAccessForOrganizationError,
   Credentials | HttpClient.HttpClient

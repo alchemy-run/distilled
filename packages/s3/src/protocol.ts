@@ -74,10 +74,10 @@ import { invalidHostLabel } from "./util/serialize-input.ts";
 /**
  * Context (requirements) shared by every generated AWS operation.
  *
- * `Region` is deliberately absent: it is an override read with
- * `Effect.serviceOption` (see `region.ts`), falling back to the region the
- * credentials carry, so callers who already configured a region for their
- * credentials don't have to state it again.
+ * `Region` is deliberately absent: it is an optional override (see
+ * `region.ts`), falling back to the region the credentials carry, so callers
+ * who already configured a region for their credentials don't have to state
+ * it again.
  */
 export type AwsOpContext = Credentials.Credentials | HttpClient.HttpClient;
 
@@ -105,6 +105,11 @@ interface Prepared {
    * Effect Stream and a web ReadableStream.
    */
   readonly textBody: boolean;
+  /**
+   * The input's `region` is the call's region ({@link Region.RegionInput}).
+   * False when the operation models a `region` member of its own.
+   */
+  readonly regionInput: boolean;
 }
 
 // Keyed by the operation config object, which API.make memoizes per
@@ -153,6 +158,7 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
     textBody: getPropertySignatures(op.output.ast).every(
       (prop) => !hasHttpPayload(prop) && !isStreamingType(prop.type),
     ),
+    regionInput: !getPropertySignatures(inputAst).some((prop) => prop.name === "region"),
   };
   preparedOps.set(config, prepared);
   return prepared;
@@ -167,6 +173,7 @@ type Fiber = Parameters<typeof SigV4.signSync>[1];
  */
 const withAwsContext = (
   context: Context.Context<any>,
+  callRegion: string | undefined,
   f: (
     credentials: Credentials.ResolvedCredentials,
     region: string,
@@ -174,15 +181,16 @@ const withAwsContext = (
   ) => Effect.Effect<any, any, any>,
 ): Effect.Effect<any, any, any> =>
   API.withValue(Context.get(context, Credentials.Credentials), (credentials) => {
-    // The region the credentials authenticated against, unless this scope
-    // provides a `Region` override. `Region` is optional -- it isn't in any
-    // operation's requirements.
+    // The call's own `region`, else this scope's `Region` override, else
+    // the region the credentials authenticated against. `Region` is
+    // optional -- it isn't in any operation's requirements.
     const withRegion = (region: string) => {
       const endpoint = Context.getOrUndefined(context, Endpoint.Endpoint);
       return endpoint === undefined
         ? f(credentials, region, undefined)
         : API.withValue(endpoint, (custom) => f(credentials, region, custom));
     };
+    if (callRegion !== undefined) return withRegion(callRegion);
     const regionOverride = Context.getOrUndefined(context, Region.Region);
     return regionOverride === undefined
       ? withRegion(credentials.region)
@@ -524,8 +532,11 @@ const encodeWith = <A>(
 ): Effect.Effect<A, any, any> => {
   const context = fiber.context as Context.Context<any>;
   const traceDebug = Telemetry.isDebug(context);
+  const callRegion = prepared.regionInput
+    ? (input as Partial<Region.RegionInput> | undefined)?.region
+    : undefined;
   const sendSigned = (request: Request) =>
-    withAwsContext(context, (credentials, region, custom) => {
+    withAwsContext(context, callRegion, (credentials, region, custom) => {
       Telemetry.annotate(context, "cloud.region", region);
       if (!traceDebug) {
         return thenSend(

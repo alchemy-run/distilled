@@ -104,8 +104,8 @@ const makeCfSpec = (
     ...(typeof opTraits?.[HOST_TRAIT] === "string"
       ? [`T.Host(${JSON.stringify(opTraits[HOST_TRAIT])})`]
       : []),
-    // Sends the Jurisdiction layer as `cf-r2-jurisdiction` (see
-    // spec-to-smithy's jurisdictionToLayer).
+    // Sends the Jurisdiction layer as `cf-r2-jurisdiction` when the call
+    // has no `jurisdiction` (see scripts/jurisdiction-layer.ts).
     ...(opTraits?.[JURISDICTION_TRAIT] !== undefined ? ["T.Jurisdiction()"] : []),
     // An operation whose request body is user data (Pipelines ingest
     // records) must not have its opaque content renamed through the

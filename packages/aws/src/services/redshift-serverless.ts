@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1105,7 +1106,7 @@ export type ConvertRecoveryPointToSnapshotError =
  * Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points.
  */
 export const convertRecoveryPointToSnapshot: API.OperationMethod<
-  ConvertRecoveryPointToSnapshotRequest,
+  ConvertRecoveryPointToSnapshotRequest & RegionInput,
   ConvertRecoveryPointToSnapshotResponse,
   ConvertRecoveryPointToSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1139,7 +1140,7 @@ export type CreateCustomDomainAssociationError =
  * Creates a custom domain association for Amazon Redshift Serverless.
  */
 export const createCustomDomainAssociation: API.OperationMethod<
-  CreateCustomDomainAssociationRequest,
+  CreateCustomDomainAssociationRequest & RegionInput,
   CreateCustomDomainAssociationResponse,
   CreateCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1173,7 +1174,7 @@ export type CreateEndpointAccessError =
  * Creates an Amazon Redshift Serverless managed VPC endpoint.
  */
 export const createEndpointAccess: API.OperationMethod<
-  CreateEndpointAccessRequest,
+  CreateEndpointAccessRequest & RegionInput,
   CreateEndpointAccessResponse,
   CreateEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -1205,7 +1206,7 @@ export type CreateNamespaceError =
  * Creates a namespace in Amazon Redshift Serverless.
  */
 export const createNamespace: API.OperationMethod<
-  CreateNamespaceRequest,
+  CreateNamespaceRequest & RegionInput,
   CreateNamespaceResponse,
   CreateNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1233,7 +1234,7 @@ export type CreateReservationError =
  * Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
  */
 export const createReservation: API.OperationMethod<
-  CreateReservationRequest,
+  CreateReservationRequest & RegionInput,
   CreateReservationResponse,
   CreateReservationError,
   Credentials | HttpClient.HttpClient
@@ -1266,7 +1267,7 @@ export type CreateScheduledActionError =
  * Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the `CreateSnapshot` API operation.
  */
 export const createScheduledAction: API.OperationMethod<
-  CreateScheduledActionRequest,
+  CreateScheduledActionRequest & RegionInput,
   CreateScheduledActionResponse,
   CreateScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -1298,7 +1299,7 @@ export type CreateSnapshotError =
  * Creates a snapshot of all databases in a namespace. For more information about snapshots, see Working with snapshots and recovery points.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
+  CreateSnapshotRequest & RegionInput,
   CreateSnapshotResponse,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1332,7 +1333,7 @@ export type CreateSnapshotCopyConfigurationError =
  * Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region.
  */
 export const createSnapshotCopyConfiguration: API.OperationMethod<
-  CreateSnapshotCopyConfigurationRequest,
+  CreateSnapshotCopyConfigurationRequest & RegionInput,
   CreateSnapshotCopyConfigurationResponse,
   CreateSnapshotCopyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1365,7 +1366,7 @@ export type CreateUsageLimitError =
  * Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier.
  */
 export const createUsageLimit: API.OperationMethod<
-  CreateUsageLimitRequest,
+  CreateUsageLimitRequest & RegionInput,
   CreateUsageLimitResponse,
   CreateUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -1409,7 +1410,7 @@ export type CreateWorkgroupError =
  * For more information about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
 export const createWorkgroup: API.OperationMethod<
-  CreateWorkgroupRequest,
+  CreateWorkgroupRequest & RegionInput,
   CreateWorkgroupResponse,
   CreateWorkgroupError,
   Credentials | HttpClient.HttpClient
@@ -1444,7 +1445,7 @@ export type DeleteCustomDomainAssociationError =
  * Deletes a custom domain association for Amazon Redshift Serverless.
  */
 export const deleteCustomDomainAssociation: API.OperationMethod<
-  DeleteCustomDomainAssociationRequest,
+  DeleteCustomDomainAssociationRequest & RegionInput,
   DeleteCustomDomainAssociationResponse,
   DeleteCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1476,7 +1477,7 @@ export type DeleteEndpointAccessError =
  * Deletes an Amazon Redshift Serverless managed VPC endpoint.
  */
 export const deleteEndpointAccess: API.OperationMethod<
-  DeleteEndpointAccessRequest,
+  DeleteEndpointAccessRequest & RegionInput,
   DeleteEndpointAccessResponse,
   DeleteEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -1506,7 +1507,7 @@ export type DeleteNamespaceError =
  * Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1535,7 +1536,7 @@ export type DeleteResourcePolicyError =
  * Deletes the specified resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1559,7 +1560,7 @@ export type DeleteScheduledActionError =
  * Deletes a scheduled action.
  */
 export const deleteScheduledAction: API.OperationMethod<
-  DeleteScheduledActionRequest,
+  DeleteScheduledActionRequest & RegionInput,
   DeleteScheduledActionResponse,
   DeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -1584,7 +1585,7 @@ export type DeleteSnapshotError =
  * Deletes a snapshot from Amazon Redshift Serverless.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotRequest,
+  DeleteSnapshotRequest & RegionInput,
   DeleteSnapshotResponse,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1615,7 +1616,7 @@ export type DeleteSnapshotCopyConfigurationError =
  * Deletes a snapshot copy configuration
  */
 export const deleteSnapshotCopyConfiguration: API.OperationMethod<
-  DeleteSnapshotCopyConfigurationRequest,
+  DeleteSnapshotCopyConfigurationRequest & RegionInput,
   DeleteSnapshotCopyConfigurationResponse,
   DeleteSnapshotCopyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1646,7 +1647,7 @@ export type DeleteUsageLimitError =
  * Deletes a usage limit from Amazon Redshift Serverless.
  */
 export const deleteUsageLimit: API.OperationMethod<
-  DeleteUsageLimitRequest,
+  DeleteUsageLimitRequest & RegionInput,
   DeleteUsageLimitResponse,
   DeleteUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -1676,7 +1677,7 @@ export type DeleteWorkgroupError =
  * Deletes a workgroup.
  */
 export const deleteWorkgroup: API.OperationMethod<
-  DeleteWorkgroupRequest,
+  DeleteWorkgroupRequest & RegionInput,
   DeleteWorkgroupResponse,
   DeleteWorkgroupError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1712,7 @@ export type GetCredentialsError =
  * If the `DbName` parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
  */
 export const getCredentials: API.OperationMethod<
-  GetCredentialsRequest,
+  GetCredentialsRequest & RegionInput,
   GetCredentialsResponse,
   GetCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1738,7 +1739,7 @@ export type GetCustomDomainAssociationError =
  * Gets information about a specific custom domain association.
  */
 export const getCustomDomainAssociation: API.OperationMethod<
-  GetCustomDomainAssociationRequest,
+  GetCustomDomainAssociationRequest & RegionInput,
   GetCustomDomainAssociationResponse,
   GetCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1770,7 +1771,7 @@ export type GetEndpointAccessError =
  * Returns information, such as the name, about a VPC endpoint.
  */
 export const getEndpointAccess: API.OperationMethod<
-  GetEndpointAccessRequest,
+  GetEndpointAccessRequest & RegionInput,
   GetEndpointAccessResponse,
   GetEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -1807,7 +1808,7 @@ export type GetIdentityCenterAuthTokenError =
  * The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration must be configured for the workgroups.
  */
 export const getIdentityCenterAuthToken: API.OperationMethod<
-  GetIdentityCenterAuthTokenRequest,
+  GetIdentityCenterAuthTokenRequest & RegionInput,
   GetIdentityCenterAuthTokenResponse,
   GetIdentityCenterAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -1839,7 +1840,7 @@ export type GetNamespaceError =
  * Returns information about a namespace in Amazon Redshift Serverless.
  */
 export const getNamespace: API.OperationMethod<
-  GetNamespaceRequest,
+  GetNamespaceRequest & RegionInput,
   GetNamespaceResponse,
   GetNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1864,7 +1865,7 @@ export type GetRecoveryPointError =
  * Returns information about a recovery point.
  */
 export const getRecoveryPoint: API.OperationMethod<
-  GetRecoveryPointRequest,
+  GetRecoveryPointRequest & RegionInput,
   GetRecoveryPointResponse,
   GetRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -1894,7 +1895,7 @@ export type GetReservationError =
  * Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
  */
 export const getReservation: API.OperationMethod<
-  GetReservationRequest,
+  GetReservationRequest & RegionInput,
   GetReservationResponse,
   GetReservationError,
   Credentials | HttpClient.HttpClient
@@ -1924,7 +1925,7 @@ export type GetReservationOfferingError =
  * Returns the reservation offering. The offering determines the payment schedule for the reservation.
  */
 export const getReservationOffering: API.OperationMethod<
-  GetReservationOfferingRequest,
+  GetReservationOfferingRequest & RegionInput,
   GetReservationOfferingResponse,
   GetReservationOfferingError,
   Credentials | HttpClient.HttpClient
@@ -1953,7 +1954,7 @@ export type GetResourcePolicyError =
  * Returns a resource policy.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type GetScheduledActionError =
  * Returns information about a scheduled action.
  */
 export const getScheduledAction: API.OperationMethod<
-  GetScheduledActionRequest,
+  GetScheduledActionRequest & RegionInput,
   GetScheduledActionResponse,
   GetScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -2001,7 +2002,7 @@ export type GetSnapshotError =
  * Returns information about a specific snapshot.
  */
 export const getSnapshot: API.OperationMethod<
-  GetSnapshotRequest,
+  GetSnapshotRequest & RegionInput,
   GetSnapshotResponse,
   GetSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2024,7 +2025,7 @@ export type GetTableRestoreStatusError =
  * Returns information about a `TableRestoreStatus` object.
  */
 export const getTableRestoreStatus: API.OperationMethod<
-  GetTableRestoreStatusRequest,
+  GetTableRestoreStatusRequest & RegionInput,
   GetTableRestoreStatusResponse,
   GetTableRestoreStatusError,
   Credentials | HttpClient.HttpClient
@@ -2052,7 +2053,7 @@ export type GetTrackError =
  * Get the Redshift Serverless version for a specified track.
  */
 export const getTrack: API.OperationMethod<
-  GetTrackRequest,
+  GetTrackRequest & RegionInput,
   GetTrackResponse,
   GetTrackError,
   Credentials | HttpClient.HttpClient
@@ -2085,7 +2086,7 @@ export type GetUsageLimitError =
  * Returns information about a usage limit.
  */
 export const getUsageLimit: API.OperationMethod<
-  GetUsageLimitRequest,
+  GetUsageLimitRequest & RegionInput,
   GetUsageLimitResponse,
   GetUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -2114,7 +2115,7 @@ export type GetWorkgroupError =
  * Returns information about a specific workgroup.
  */
 export const getWorkgroup: API.OperationMethod<
-  GetWorkgroupRequest,
+  GetWorkgroupRequest & RegionInput,
   GetWorkgroupResponse,
   GetWorkgroupError,
   Credentials | HttpClient.HttpClient
@@ -2140,7 +2141,7 @@ export type ListCustomDomainAssociationsError =
  * Lists custom domain associations for Amazon Redshift Serverless.
  */
 export const listCustomDomainAssociations: API.PaginatedOperationMethod<
-  ListCustomDomainAssociationsRequest,
+  ListCustomDomainAssociationsRequest & RegionInput,
   ListCustomDomainAssociationsResponse,
   ListCustomDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2178,7 +2179,7 @@ export type ListEndpointAccessError =
  * Returns an array of `EndpointAccess` objects and relevant information.
  */
 export const listEndpointAccess: API.PaginatedOperationMethod<
-  ListEndpointAccessRequest,
+  ListEndpointAccessRequest & RegionInput,
   ListEndpointAccessResponse,
   ListEndpointAccessError,
   Credentials | HttpClient.HttpClient,
@@ -2213,7 +2214,7 @@ export type ListManagedWorkgroupsError =
  * Returns information about a list of specified managed workgroups in your account.
  */
 export const listManagedWorkgroups: API.PaginatedOperationMethod<
-  ListManagedWorkgroupsRequest,
+  ListManagedWorkgroupsRequest & RegionInput,
   ListManagedWorkgroupsResponse,
   ListManagedWorkgroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2240,7 +2241,7 @@ export type ListNamespacesError = InternalServerException | ValidationException 
  * Returns information about a list of specified namespaces.
  */
 export const listNamespaces: API.PaginatedOperationMethod<
-  ListNamespacesRequest,
+  ListNamespacesRequest & RegionInput,
   ListNamespacesResponse,
   ListNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -2267,7 +2268,7 @@ export type ListRecoveryPointsError = InternalServerException | ValidationExcept
  * Returns an array of recovery points.
  */
 export const listRecoveryPoints: API.PaginatedOperationMethod<
-  ListRecoveryPointsRequest,
+  ListRecoveryPointsRequest & RegionInput,
   ListRecoveryPointsResponse,
   ListRecoveryPointsError,
   Credentials | HttpClient.HttpClient,
@@ -2298,7 +2299,7 @@ export type ListReservationOfferingsError =
  * Returns the current reservation offerings in your account.
  */
 export const listReservationOfferings: API.PaginatedOperationMethod<
-  ListReservationOfferingsRequest,
+  ListReservationOfferingsRequest & RegionInput,
   ListReservationOfferingsResponse,
   ListReservationOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -2329,7 +2330,7 @@ export type ListReservationsError =
  * Returns a list of Reservation objects.
  */
 export const listReservations: API.PaginatedOperationMethod<
-  ListReservationsRequest,
+  ListReservationsRequest & RegionInput,
   ListReservationsResponse,
   ListReservationsError,
   Credentials | HttpClient.HttpClient,
@@ -2361,7 +2362,7 @@ export type ListScheduledActionsError =
  * Returns a list of scheduled actions. You can use the flags to filter the list of returned scheduled actions.
  */
 export const listScheduledActions: API.PaginatedOperationMethod<
-  ListScheduledActionsRequest,
+  ListScheduledActionsRequest & RegionInput,
   ListScheduledActionsResponse,
   ListScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -2399,7 +2400,7 @@ export type ListSnapshotCopyConfigurationsError =
  * Returns a list of snapshot copy configurations.
  */
 export const listSnapshotCopyConfigurations: API.PaginatedOperationMethod<
-  ListSnapshotCopyConfigurationsRequest,
+  ListSnapshotCopyConfigurationsRequest & RegionInput,
   ListSnapshotCopyConfigurationsResponse,
   ListSnapshotCopyConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -2436,7 +2437,7 @@ export type ListSnapshotsError =
  * Returns a list of snapshots.
  */
 export const listSnapshots: API.PaginatedOperationMethod<
-  ListSnapshotsRequest,
+  ListSnapshotsRequest & RegionInput,
   ListSnapshotsResponse,
   ListSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2467,7 +2468,7 @@ export type ListTableRestoreStatusError =
  * Returns information about an array of `TableRestoreStatus` objects.
  */
 export const listTableRestoreStatus: API.PaginatedOperationMethod<
-  ListTableRestoreStatusRequest,
+  ListTableRestoreStatusRequest & RegionInput,
   ListTableRestoreStatusResponse,
   ListTableRestoreStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2499,7 +2500,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2530,7 +2531,7 @@ export type ListTracksError =
  * List the Amazon Redshift Serverless versions.
  */
 export const listTracks: API.PaginatedOperationMethod<
-  ListTracksRequest,
+  ListTracksRequest & RegionInput,
   ListTracksResponse,
   ListTracksError,
   Credentials | HttpClient.HttpClient,
@@ -2569,7 +2570,7 @@ export type ListUsageLimitsError =
  * Lists all usage limits within Amazon Redshift Serverless.
  */
 export const listUsageLimits: API.PaginatedOperationMethod<
-  ListUsageLimitsRequest,
+  ListUsageLimitsRequest & RegionInput,
   ListUsageLimitsResponse,
   ListUsageLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -2602,7 +2603,7 @@ export type ListWorkgroupsError = InternalServerException | ValidationException 
  * Returns information about a list of specified workgroups.
  */
 export const listWorkgroups: API.PaginatedOperationMethod<
-  ListWorkgroupsRequest,
+  ListWorkgroupsRequest & RegionInput,
   ListWorkgroupsResponse,
   ListWorkgroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2635,7 +2636,7 @@ export type PutResourcePolicyError =
  * Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2666,7 +2667,7 @@ export type RestoreFromRecoveryPointError =
  * Restore the data from a recovery point.
  */
 export const restoreFromRecoveryPoint: API.OperationMethod<
-  RestoreFromRecoveryPointRequest,
+  RestoreFromRecoveryPointRequest & RegionInput,
   RestoreFromRecoveryPointResponse,
   RestoreFromRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -2697,7 +2698,7 @@ export type RestoreFromSnapshotError =
  * Restores a namespace from a snapshot.
  */
 export const restoreFromSnapshot: API.OperationMethod<
-  RestoreFromSnapshotRequest,
+  RestoreFromSnapshotRequest & RegionInput,
   RestoreFromSnapshotResponse,
   RestoreFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2728,7 +2729,7 @@ export type RestoreTableFromRecoveryPointError =
  * Restores a table from a recovery point to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
 export const restoreTableFromRecoveryPoint: API.OperationMethod<
-  RestoreTableFromRecoveryPointRequest,
+  RestoreTableFromRecoveryPointRequest & RegionInput,
   RestoreTableFromRecoveryPointResponse,
   RestoreTableFromRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -2758,7 +2759,7 @@ export type RestoreTableFromSnapshotError =
  * Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
 export const restoreTableFromSnapshot: API.OperationMethod<
-  RestoreTableFromSnapshotRequest,
+  RestoreTableFromSnapshotRequest & RegionInput,
   RestoreTableFromSnapshotResponse,
   RestoreTableFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2789,7 +2790,7 @@ export type TagResourceError =
  * Assigns one or more tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2820,7 +2821,7 @@ export type UntagResourceError =
  * Removes a tag or set of tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2852,7 +2853,7 @@ export type UpdateCustomDomainAssociationError =
  * Updates an Amazon Redshift Serverless certificate associated with a custom domain.
  */
 export const updateCustomDomainAssociation: API.OperationMethod<
-  UpdateCustomDomainAssociationRequest,
+  UpdateCustomDomainAssociationRequest & RegionInput,
   UpdateCustomDomainAssociationResponse,
   UpdateCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2885,7 +2886,7 @@ export type UpdateEndpointAccessError =
  * Updates an Amazon Redshift Serverless managed endpoint.
  */
 export const updateEndpointAccess: API.OperationMethod<
-  UpdateEndpointAccessRequest,
+  UpdateEndpointAccessRequest & RegionInput,
   UpdateEndpointAccessResponse,
   UpdateEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2917,7 +2918,7 @@ export type UpdateLakehouseConfigurationError =
  * Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
 export const updateLakehouseConfiguration: API.OperationMethod<
-  UpdateLakehouseConfigurationRequest,
+  UpdateLakehouseConfigurationRequest & RegionInput,
   UpdateLakehouseConfigurationResponse,
   UpdateLakehouseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2950,7 +2951,7 @@ export type UpdateNamespaceError =
  * Similarly, an S3 Tables log-publishing update (a request where `logDestinationType` is `s3table`) cannot be combined with any other namespace configuration change and must be submitted as its own request.
  */
 export const updateNamespace: API.OperationMethod<
-  UpdateNamespaceRequest,
+  UpdateNamespaceRequest & RegionInput,
   UpdateNamespaceResponse,
   UpdateNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -2980,7 +2981,7 @@ export type UpdateScheduledActionError =
  * Updates a scheduled action.
  */
 export const updateScheduledAction: API.OperationMethod<
-  UpdateScheduledActionRequest,
+  UpdateScheduledActionRequest & RegionInput,
   UpdateScheduledActionResponse,
   UpdateScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -3010,7 +3011,7 @@ export type UpdateSnapshotError =
  * Updates a snapshot.
  */
 export const updateSnapshot: API.OperationMethod<
-  UpdateSnapshotRequest,
+  UpdateSnapshotRequest & RegionInput,
   UpdateSnapshotResponse,
   UpdateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3041,7 +3042,7 @@ export type UpdateSnapshotCopyConfigurationError =
  * Updates a snapshot copy configuration.
  */
 export const updateSnapshotCopyConfiguration: API.OperationMethod<
-  UpdateSnapshotCopyConfigurationRequest,
+  UpdateSnapshotCopyConfigurationRequest & RegionInput,
   UpdateSnapshotCopyConfigurationResponse,
   UpdateSnapshotCopyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3072,7 +3073,7 @@ export type UpdateUsageLimitError =
  * Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit.
  */
 export const updateUsageLimit: API.OperationMethod<
-  UpdateUsageLimitRequest,
+  UpdateUsageLimitRequest & RegionInput,
   UpdateUsageLimitResponse,
   UpdateUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -3114,7 +3115,7 @@ export type UpdateWorkgroupError =
  * For more information about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
 export const updateWorkgroup: API.OperationMethod<
-  UpdateWorkgroupRequest,
+  UpdateWorkgroupRequest & RegionInput,
   UpdateWorkgroupResponse,
   UpdateWorkgroupError,
   Credentials | HttpClient.HttpClient

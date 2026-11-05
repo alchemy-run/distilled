@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -181,7 +182,7 @@ export type DeleteConnectionRecordingPreferencesError =
  * Deletes the preferences for recording RDP connections.
  */
 export const deleteConnectionRecordingPreferences: API.OperationMethod<
-  DeleteConnectionRecordingPreferencesRequest,
+  DeleteConnectionRecordingPreferencesRequest & RegionInput,
   DeleteConnectionRecordingPreferencesResponse,
   DeleteConnectionRecordingPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -217,7 +218,7 @@ export type GetConnectionRecordingPreferencesError =
  * Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
 export const getConnectionRecordingPreferences: API.OperationMethod<
-  GetConnectionRecordingPreferencesRequest,
+  GetConnectionRecordingPreferencesRequest & RegionInput,
   GetConnectionRecordingPreferencesResponse,
   GetConnectionRecordingPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -253,7 +254,7 @@ export type UpdateConnectionRecordingPreferencesError =
  * Updates the preferences for recording RDP connections.
  */
 export const updateConnectionRecordingPreferences: API.OperationMethod<
-  UpdateConnectionRecordingPreferencesRequest,
+  UpdateConnectionRecordingPreferencesRequest & RegionInput,
   UpdateConnectionRecordingPreferencesResponse,
   UpdateConnectionRecordingPreferencesError,
   Credentials | HttpClient.HttpClient

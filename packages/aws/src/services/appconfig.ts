@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1016,7 +1017,7 @@ export type CreateApplicationError =
  * your users.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   Application,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1069,7 +1070,7 @@ export type CreateConfigurationProfileError =
  * User Guide.
  */
 export const createConfigurationProfile: API.OperationMethod<
-  CreateConfigurationProfileRequest,
+  CreateConfigurationProfileRequest & RegionInput,
   ConfigurationProfile,
   CreateConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1101,7 +1102,7 @@ export type CreateDeploymentStrategyError =
  * an algorithm that defines how percentage grows, and bake time.
  */
 export const createDeploymentStrategy: API.OperationMethod<
-  CreateDeploymentStrategyRequest,
+  CreateDeploymentStrategyRequest & RegionInput,
   DeploymentStrategy,
   CreateDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -1133,7 +1134,7 @@ export type CreateEnvironmentError =
  * configuration.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   Environment,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1164,7 +1165,7 @@ export type CreateExperimentDefinitionError =
  * Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an experiment, including the target audience, feature flag, and treatment configurations.
  */
 export const createExperimentDefinition: API.OperationMethod<
-  CreateExperimentDefinitionRequest,
+  CreateExperimentDefinitionRequest & RegionInput,
   ExperimentDefinition,
   CreateExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1215,7 +1216,7 @@ export type CreateExtensionError =
  * workflows in the *AppConfig User Guide*.
  */
 export const createExtension: API.OperationMethod<
-  CreateExtensionRequest,
+  CreateExtensionRequest & RegionInput,
   Extension,
   CreateExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1256,7 +1257,7 @@ export type CreateExtensionAssociationError =
  * workflows in the *AppConfig User Guide*.
  */
 export const createExtensionAssociation: API.OperationMethod<
-  CreateExtensionAssociationRequest,
+  CreateExtensionAssociationRequest & RegionInput,
   ExtensionAssociation,
   CreateExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1291,7 +1292,7 @@ export type CreateHostedConfigurationVersionError =
  * *AppConfig User Guide*.
  */
 export const createHostedConfigurationVersion: API.OperationMethod<
-  CreateHostedConfigurationVersionRequest,
+  CreateHostedConfigurationVersionRequest & RegionInput,
   HostedConfigurationVersion,
   CreateHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1322,7 +1323,7 @@ export type DeleteApplicationError =
  * Deletes an application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1351,7 +1352,7 @@ export type DeleteConfigurationProfileError =
  * protection.
  */
 export const deleteConfigurationProfile: API.OperationMethod<
-  DeleteConfigurationProfileRequest,
+  DeleteConfigurationProfileRequest & RegionInput,
   DeleteConfigurationProfileResponse,
   DeleteConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1380,7 +1381,7 @@ export type DeleteDeploymentStrategyError =
  * Deletes a deployment strategy.
  */
 export const deleteDeploymentStrategy: API.OperationMethod<
-  DeleteDeploymentStrategyRequest,
+  DeleteDeploymentStrategyRequest & RegionInput,
   DeleteDeploymentStrategyResponse,
   DeleteDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -1408,7 +1409,7 @@ export type DeleteEnvironmentError =
  * protection.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1439,7 @@ export type DeleteExperimentDefinitionError =
  * Deletes an experiment definition. You can archive the definition to hide it from the active list while preserving it for future reference, or permanently delete it along with all associated run history.
  */
 export const deleteExperimentDefinition: API.OperationMethod<
-  DeleteExperimentDefinitionRequest,
+  DeleteExperimentDefinitionRequest & RegionInput,
   DeleteExperimentDefinitionResponse,
   DeleteExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1468,7 +1469,7 @@ export type DeleteExtensionError =
  * extension before you delete the extension.
  */
 export const deleteExtension: API.OperationMethod<
-  DeleteExtensionRequest,
+  DeleteExtensionRequest & RegionInput,
   DeleteExtensionResponse,
   DeleteExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1493,7 +1494,7 @@ export type DeleteExtensionAssociationError =
  * association.
  */
 export const deleteExtensionAssociation: API.OperationMethod<
-  DeleteExtensionAssociationRequest,
+  DeleteExtensionAssociationRequest & RegionInput,
   DeleteExtensionAssociationResponse,
   DeleteExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1518,7 +1519,7 @@ export type DeleteHostedConfigurationVersionError =
  * store.
  */
 export const deleteHostedConfigurationVersion: API.OperationMethod<
-  DeleteHostedConfigurationVersionRequest,
+  DeleteHostedConfigurationVersionRequest & RegionInput,
   DeleteHostedConfigurationVersionResponse,
   DeleteHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1539,7 +1540,7 @@ export type GetAccountSettingsError = BadRequestException | InternalServerExcept
  * parameter.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   AccountSettings,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1563,7 +1564,7 @@ export type GetApplicationError =
  * Retrieves information about an application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   Application,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1596,7 @@ export type GetConfigurationError =
  * Pricing.
  */
 export const getConfiguration: API.OperationMethod<
-  GetConfigurationRequest,
+  GetConfigurationRequest & RegionInput,
   Configuration,
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1619,7 +1620,7 @@ export type GetConfigurationProfileError =
  * Retrieves information about a configuration profile.
  */
 export const getConfigurationProfile: API.OperationMethod<
-  GetConfigurationProfileRequest,
+  GetConfigurationProfileRequest & RegionInput,
   ConfigurationProfile,
   GetConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1643,7 +1644,7 @@ export type GetDeploymentError =
  * Retrieves information about a configuration deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   Deployment,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1671,7 +1672,7 @@ export type GetDeploymentStrategyError =
  * grows, and bake time.
  */
 export const getDeploymentStrategy: API.OperationMethod<
-  GetDeploymentStrategyRequest,
+  GetDeploymentStrategyRequest & RegionInput,
   DeploymentStrategy,
   GetDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -1700,7 +1701,7 @@ export type GetEnvironmentError =
  * configuration.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   Environment,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1724,7 +1725,7 @@ export type GetExperimentDefinitionError =
  * Retrieves information about an experiment definition.
  */
 export const getExperimentDefinition: API.OperationMethod<
-  GetExperimentDefinitionRequest,
+  GetExperimentDefinitionRequest & RegionInput,
   ExperimentDefinition,
   GetExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1748,7 +1749,7 @@ export type GetExperimentRunError =
  * Retrieves information about an experiment run, including its status, start time, and exposure settings.
  */
 export const getExperimentRun: API.OperationMethod<
-  GetExperimentRunRequest,
+  GetExperimentRunRequest & RegionInput,
   ExperimentRun,
   GetExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -1772,7 +1773,7 @@ export type GetExtensionError =
  * Returns information about an AppConfig extension.
  */
 export const getExtension: API.OperationMethod<
-  GetExtensionRequest,
+  GetExtensionRequest & RegionInput,
   Extension,
   GetExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1798,7 +1799,7 @@ export type GetExtensionAssociationError =
  * workflows in the *AppConfig User Guide*.
  */
 export const getExtensionAssociation: API.OperationMethod<
-  GetExtensionAssociationRequest,
+  GetExtensionAssociationRequest & RegionInput,
   ExtensionAssociation,
   GetExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1822,7 +1823,7 @@ export type GetHostedConfigurationVersionError =
  * Retrieves information about a specific configuration version.
  */
 export const getHostedConfigurationVersion: API.OperationMethod<
-  GetHostedConfigurationVersionRequest,
+  GetHostedConfigurationVersionRequest & RegionInput,
   HostedConfigurationVersion,
   GetHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1842,7 +1843,7 @@ export type ListApplicationsError = BadRequestException | InternalServerExceptio
  * Lists all applications in your Amazon Web Services account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   Applications,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1873,7 +1874,7 @@ export type ListConfigurationProfilesError =
  * Lists the configuration profiles for an application.
  */
 export const listConfigurationProfiles: API.PaginatedOperationMethod<
-  ListConfigurationProfilesRequest,
+  ListConfigurationProfilesRequest & RegionInput,
   ConfigurationProfiles,
   ListConfigurationProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1904,7 +1905,7 @@ export type ListDeploymentsError =
  * Lists the deployments for an environment in descending deployment number order.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   Deployments,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1934,7 +1935,7 @@ export type ListDeploymentStrategiesError =
  * Lists deployment strategies.
  */
 export const listDeploymentStrategies: API.PaginatedOperationMethod<
-  ListDeploymentStrategiesRequest,
+  ListDeploymentStrategiesRequest & RegionInput,
   DeploymentStrategies,
   ListDeploymentStrategiesError,
   Credentials | HttpClient.HttpClient,
@@ -1965,7 +1966,7 @@ export type ListEnvironmentsError =
  * Lists the environments for an application.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   Environments,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1996,7 +1997,7 @@ export type ListExperimentDefinitionsError =
  * Lists the experiment definitions for an account. You can filter results by application, configuration profile, environment, or status.
  */
 export const listExperimentDefinitions: API.PaginatedOperationMethod<
-  ListExperimentDefinitionsRequest,
+  ListExperimentDefinitionsRequest & RegionInput,
   ExperimentDefinitions,
   ListExperimentDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -2027,7 +2028,7 @@ export type ListExperimentRunEventsError =
  * Lists the events for a specified experiment run. Events provide a timeline of actions and state changes that occurred during the run.
  */
 export const listExperimentRunEvents: API.PaginatedOperationMethod<
-  ListExperimentRunEventsRequest,
+  ListExperimentRunEventsRequest & RegionInput,
   ExperimentRunEvents,
   ListExperimentRunEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2058,7 +2059,7 @@ export type ListExperimentRunsError =
  * Lists the experiment runs for a specified experiment definition. You can filter by status.
  */
 export const listExperimentRuns: API.PaginatedOperationMethod<
-  ListExperimentRunsRequest,
+  ListExperimentRunsRequest & RegionInput,
   ExperimentRuns,
   ListExperimentRunsError,
   Credentials | HttpClient.HttpClient,
@@ -2090,7 +2091,7 @@ export type ListExtensionAssociationsError =
  * workflows in the *AppConfig User Guide*.
  */
 export const listExtensionAssociations: API.PaginatedOperationMethod<
-  ListExtensionAssociationsRequest,
+  ListExtensionAssociationsRequest & RegionInput,
   ExtensionAssociations,
   ListExtensionAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2119,7 +2120,7 @@ export type ListExtensionsError = BadRequestException | InternalServerException 
  * workflows in the *AppConfig User Guide*.
  */
 export const listExtensions: API.PaginatedOperationMethod<
-  ListExtensionsRequest,
+  ListExtensionsRequest & RegionInput,
   Extensions,
   ListExtensionsError,
   Credentials | HttpClient.HttpClient,
@@ -2151,7 +2152,7 @@ export type ListHostedConfigurationVersionsError =
  * version.
  */
 export const listHostedConfigurationVersions: API.PaginatedOperationMethod<
-  ListHostedConfigurationVersionsRequest,
+  ListHostedConfigurationVersionsRequest & RegionInput,
   HostedConfigurationVersions,
   ListHostedConfigurationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2182,7 +2183,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of key-value tags assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ResourceTags,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2209,7 +2210,7 @@ export type StartDeploymentError =
  * AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual deployments
  */
 export const startDeployment: API.OperationMethod<
-  StartDeploymentRequest,
+  StartDeploymentRequest & RegionInput,
   Deployment,
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2241,7 +2242,7 @@ export type StartExperimentRunError =
  * Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing.
  */
 export const startExperimentRun: API.OperationMethod<
-  StartExperimentRunRequest,
+  StartExperimentRunRequest & RegionInput,
   ExperimentRun,
   StartExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -2275,7 +2276,7 @@ export type StopDeploymentError =
  * deployment completion.
  */
 export const stopDeployment: API.OperationMethod<
-  StopDeploymentRequest,
+  StopDeploymentRequest & RegionInput,
   Deployment,
   StopDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2301,7 @@ export type StopExperimentRunError =
  * Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag configuration.
  */
 export const stopExperimentRun: API.OperationMethod<
-  StopExperimentRunRequest,
+  StopExperimentRunRequest & RegionInput,
   ExperimentRun,
   StopExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -2331,7 +2332,7 @@ export type TagResourceError =
  * of which you define. You can specify a maximum of 50 tags for a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2355,7 +2356,7 @@ export type UntagResourceError =
  * Deletes a tag key and value from an AppConfig resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2378,7 +2379,7 @@ export type UpdateAccountSettingsError =
  * Updates the value of the `DeletionProtection` parameter.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   AccountSettings,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2402,7 +2403,7 @@ export type UpdateApplicationError =
  * Updates an application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   Application,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2426,7 +2427,7 @@ export type UpdateConfigurationProfileError =
  * Updates a configuration profile.
  */
 export const updateConfigurationProfile: API.OperationMethod<
-  UpdateConfigurationProfileRequest,
+  UpdateConfigurationProfileRequest & RegionInput,
   ConfigurationProfile,
   UpdateConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -2450,7 +2451,7 @@ export type UpdateDeploymentStrategyError =
  * Updates a deployment strategy.
  */
 export const updateDeploymentStrategy: API.OperationMethod<
-  UpdateDeploymentStrategyRequest,
+  UpdateDeploymentStrategyRequest & RegionInput,
   DeploymentStrategy,
   UpdateDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -2474,7 +2475,7 @@ export type UpdateEnvironmentError =
  * Updates an environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   Environment,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2499,7 +2500,7 @@ export type UpdateExperimentDefinitionError =
  * Updates an experiment definition. You can update treatments, the control, audience rules, and other properties. You cannot update an experiment definition while an experiment run is active.
  */
 export const updateExperimentDefinition: API.OperationMethod<
-  UpdateExperimentDefinitionRequest,
+  UpdateExperimentDefinitionRequest & RegionInput,
   ExperimentDefinition,
   UpdateExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2529,7 +2530,7 @@ export type UpdateExperimentRunError =
  * Updates a running experiment. Use this operation to increase audience exposure, modify treatment assignment overrides, or update the description of an active experiment run. Audience exposure can only be increased, not decreased.
  */
 export const updateExperimentRun: API.OperationMethod<
-  UpdateExperimentRunRequest,
+  UpdateExperimentRunRequest & RegionInput,
   ExperimentRun,
   UpdateExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -2561,7 +2562,7 @@ export type UpdateExtensionError =
  * workflows in the *AppConfig User Guide*.
  */
 export const updateExtension: API.OperationMethod<
-  UpdateExtensionRequest,
+  UpdateExtensionRequest & RegionInput,
   Extension,
   UpdateExtensionError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2593,7 @@ export type UpdateExtensionAssociationError =
  * workflows in the *AppConfig User Guide*.
  */
 export const updateExtensionAssociation: API.OperationMethod<
-  UpdateExtensionAssociationRequest,
+  UpdateExtensionAssociationRequest & RegionInput,
   ExtensionAssociation,
   UpdateExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2616,7 +2617,7 @@ export type ValidateConfigurationError =
  * Uses the validators in a configuration profile to validate a configuration.
  */
 export const validateConfiguration: API.OperationMethod<
-  ValidateConfigurationRequest,
+  ValidateConfigurationRequest & RegionInput,
   ValidateConfigurationResponse,
   ValidateConfigurationError,
   Credentials | HttpClient.HttpClient

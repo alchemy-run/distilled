@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -537,7 +538,7 @@ export type CancelJobError =
  * Cancels an Amazon Braket hybrid job.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -571,7 +572,7 @@ export type CancelQuantumTaskError =
  * Cancels the specified task.
  */
 export const cancelQuantumTask: API.OperationMethod<
-  CancelQuantumTaskRequest,
+  CancelQuantumTaskRequest & RegionInput,
   CancelQuantumTaskResponse,
   CancelQuantumTaskError,
   Credentials | HttpClient.HttpClient
@@ -607,7 +608,7 @@ export type CreateJobError =
  * Creates an Amazon Braket hybrid job.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -644,7 +645,7 @@ export type CreateQuantumTaskError =
  * Creates a quantum task.
  */
 export const createQuantumTask: API.OperationMethod<
-  CreateQuantumTaskRequest,
+  CreateQuantumTaskRequest & RegionInput,
   CreateQuantumTaskResponse,
   CreateQuantumTaskError,
   Credentials | HttpClient.HttpClient
@@ -678,7 +679,7 @@ export type CreateSpendingLimitError =
  * Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits.
  */
 export const createSpendingLimit: API.OperationMethod<
-  CreateSpendingLimitRequest,
+  CreateSpendingLimitRequest & RegionInput,
   CreateSpendingLimitResponse,
   CreateSpendingLimitError,
   Credentials | HttpClient.HttpClient
@@ -710,7 +711,7 @@ export type DeleteSpendingLimitError =
  * Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
  */
 export const deleteSpendingLimit: API.OperationMethod<
-  DeleteSpendingLimitRequest,
+  DeleteSpendingLimitRequest & RegionInput,
   DeleteSpendingLimitResponse,
   DeleteSpendingLimitError,
   Credentials | HttpClient.HttpClient
@@ -744,7 +745,7 @@ export type GetDeviceError =
  * For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
  */
 export const getDevice: API.OperationMethod<
-  GetDeviceRequest,
+  GetDeviceRequest & RegionInput,
   GetDeviceResponse,
   GetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -776,7 +777,7 @@ export type GetJobError =
  * Retrieves the specified Amazon Braket hybrid job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -808,7 +809,7 @@ export type GetQuantumTaskError =
  * Retrieves the specified quantum task.
  */
 export const getQuantumTask: API.OperationMethod<
-  GetQuantumTaskRequest,
+  GetQuantumTaskRequest & RegionInput,
   GetQuantumTaskResponse,
   GetQuantumTaskError,
   Credentials | HttpClient.HttpClient
@@ -838,7 +839,7 @@ export type ListTagsForResourceError =
  * Shows the tags associated with this resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -863,7 +864,7 @@ export type SearchDevicesError =
  * Searches for devices using the specified filters.
  */
 export const searchDevices: API.PaginatedOperationMethod<
-  SearchDevicesRequest,
+  SearchDevicesRequest & RegionInput,
   SearchDevicesResponse,
   SearchDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -900,7 +901,7 @@ export type SearchJobsError =
  * Searches for Amazon Braket hybrid jobs that match the specified filter values.
  */
 export const searchJobs: API.PaginatedOperationMethod<
-  SearchJobsRequest,
+  SearchJobsRequest & RegionInput,
   SearchJobsResponse,
   SearchJobsError,
   Credentials | HttpClient.HttpClient,
@@ -937,7 +938,7 @@ export type SearchQuantumTasksError =
  * Searches for tasks that match the specified filter values.
  */
 export const searchQuantumTasks: API.PaginatedOperationMethod<
-  SearchQuantumTasksRequest,
+  SearchQuantumTasksRequest & RegionInput,
   SearchQuantumTasksResponse,
   SearchQuantumTasksError,
   Credentials | HttpClient.HttpClient,
@@ -974,7 +975,7 @@ export type SearchSpendingLimitsError =
  * Searches and lists spending limits based on specified filters. This operation supports pagination and allows filtering by various criteria to find specific spending limits. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const searchSpendingLimits: API.PaginatedOperationMethod<
-  SearchSpendingLimitsRequest,
+  SearchSpendingLimitsRequest & RegionInput,
   SearchSpendingLimitsResponse,
   SearchSpendingLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -1010,7 +1011,7 @@ export type TagResourceError =
  * Add a tag to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1034,7 +1035,7 @@ export type UntagResourceError =
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1060,7 +1061,7 @@ export type UpdateSpendingLimitError =
  * Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
  */
 export const updateSpendingLimit: API.OperationMethod<
-  UpdateSpendingLimitRequest,
+  UpdateSpendingLimitRequest & RegionInput,
   UpdateSpendingLimitResponse,
   UpdateSpendingLimitError,
   Credentials | HttpClient.HttpClient

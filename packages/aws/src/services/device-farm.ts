@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1518,7 +1519,7 @@ export type CreateDevicePoolError =
  * Creates a device pool.
  */
 export const createDevicePool: API.OperationMethod<
-  CreateDevicePoolRequest,
+  CreateDevicePoolRequest & RegionInput,
   CreateDevicePoolResult,
   CreateDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -1544,7 +1545,7 @@ export type CreateInstanceProfileError =
  * instances.
  */
 export const createInstanceProfile: API.OperationMethod<
-  CreateInstanceProfileRequest,
+  CreateInstanceProfileRequest & RegionInput,
   CreateInstanceProfileResult,
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -1569,7 +1570,7 @@ export type CreateNetworkProfileError =
  * Creates a network profile.
  */
 export const createNetworkProfile: API.OperationMethod<
-  CreateNetworkProfileRequest,
+  CreateNetworkProfileRequest & RegionInput,
   CreateNetworkProfileResult,
   CreateNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1596,7 @@ export type CreateProjectError =
  * Creates a project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResult,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1626,7 +1627,7 @@ export type CreateRemoteAccessSessionError =
  * Specifies and starts a remote access session.
  */
 export const createRemoteAccessSession: API.OperationMethod<
-  CreateRemoteAccessSessionRequest,
+  CreateRemoteAccessSessionRequest & RegionInput,
   CreateRemoteAccessSessionResult,
   CreateRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -1651,7 +1652,7 @@ export type CreateTestGridProjectError =
  * instances.
  */
 export const createTestGridProject: API.OperationMethod<
-  CreateTestGridProjectRequest,
+  CreateTestGridProjectRequest & RegionInput,
   CreateTestGridProjectResult,
   CreateTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -1676,7 +1677,7 @@ export type CreateTestGridUrlError =
  * constructor.
  */
 export const createTestGridUrl: API.OperationMethod<
-  CreateTestGridUrlRequest,
+  CreateTestGridUrlRequest & RegionInput,
   CreateTestGridUrlResult,
   CreateTestGridUrlError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1702,7 @@ export type CreateUploadError =
  * Uploads an app or test scripts.
  */
 export const createUpload: API.OperationMethod<
-  CreateUploadRequest,
+  CreateUploadRequest & RegionInput,
   CreateUploadResult,
   CreateUploadError,
   Credentials | HttpClient.HttpClient
@@ -1726,7 +1727,7 @@ export type CreateVPCEConfigurationError =
  * (VPC) endpoint.
  */
 export const createVPCEConfiguration: API.OperationMethod<
-  CreateVPCEConfigurationRequest,
+  CreateVPCEConfigurationRequest & RegionInput,
   CreateVPCEConfigurationResult,
   CreateVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1752,7 +1753,7 @@ export type DeleteDevicePoolError =
  * owned by the system.
  */
 export const deleteDevicePool: API.OperationMethod<
-  DeleteDevicePoolRequest,
+  DeleteDevicePoolRequest & RegionInput,
   DeleteDevicePoolResult,
   DeleteDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -1777,7 +1778,7 @@ export type DeleteInstanceProfileError =
  * Deletes a profile that can be applied to one or more private device instances.
  */
 export const deleteInstanceProfile: API.OperationMethod<
-  DeleteInstanceProfileRequest,
+  DeleteInstanceProfileRequest & RegionInput,
   DeleteInstanceProfileResult,
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -1802,7 +1803,7 @@ export type DeleteNetworkProfileError =
  * Deletes a network profile.
  */
 export const deleteNetworkProfile: API.OperationMethod<
-  DeleteNetworkProfileRequest,
+  DeleteNetworkProfileRequest & RegionInput,
   DeleteNetworkProfileResult,
   DeleteNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -1829,7 +1830,7 @@ export type DeleteProjectError =
  * You cannot undo this operation.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResult,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -1856,7 +1857,7 @@ export type DeleteRemoteAccessSessionError =
  * You cannot undo this operation.
  */
 export const deleteRemoteAccessSession: API.OperationMethod<
-  DeleteRemoteAccessSessionRequest,
+  DeleteRemoteAccessSessionRequest & RegionInput,
   DeleteRemoteAccessSessionResult,
   DeleteRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -1883,7 +1884,7 @@ export type DeleteRunError =
  * You cannot undo this operation.
  */
 export const deleteRun: API.OperationMethod<
-  DeleteRunRequest,
+  DeleteRunRequest & RegionInput,
   DeleteRunResult,
   DeleteRunError,
   Credentials | HttpClient.HttpClient
@@ -1910,7 +1911,7 @@ export type DeleteTestGridProjectError =
  * You cannot undo this operation.
  */
 export const deleteTestGridProject: API.OperationMethod<
-  DeleteTestGridProjectRequest,
+  DeleteTestGridProjectRequest & RegionInput,
   DeleteTestGridProjectResult,
   DeleteTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -1935,7 +1936,7 @@ export type DeleteUploadError =
  * Deletes an upload given the upload ARN.
  */
 export const deleteUpload: API.OperationMethod<
-  DeleteUploadRequest,
+  DeleteUploadRequest & RegionInput,
   DeleteUploadResult,
   DeleteUploadError,
   Credentials | HttpClient.HttpClient
@@ -1960,7 +1961,7 @@ export type DeleteVPCEConfigurationError =
  * Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
  */
 export const deleteVPCEConfiguration: API.OperationMethod<
-  DeleteVPCEConfigurationRequest,
+  DeleteVPCEConfigurationRequest & RegionInput,
   DeleteVPCEConfigurationResult,
   DeleteVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1991,7 +1992,7 @@ export type GetAccountSettingsError =
  * account.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResult,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2016,7 +2017,7 @@ export type GetDeviceError =
  * Gets information about a unique device type.
  */
 export const getDevice: API.OperationMethod<
-  GetDeviceRequest,
+  GetDeviceRequest & RegionInput,
   GetDeviceResult,
   GetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2042,7 @@ export type GetDeviceInstanceError =
  * Returns information about a device instance that belongs to a private device fleet.
  */
 export const getDeviceInstance: API.OperationMethod<
-  GetDeviceInstanceRequest,
+  GetDeviceInstanceRequest & RegionInput,
   GetDeviceInstanceResult,
   GetDeviceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2066,7 +2067,7 @@ export type GetDevicePoolError =
  * Gets information about a device pool.
  */
 export const getDevicePool: API.OperationMethod<
-  GetDevicePoolRequest,
+  GetDevicePoolRequest & RegionInput,
   GetDevicePoolResult,
   GetDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -2091,7 +2092,7 @@ export type GetDevicePoolCompatibilityError =
  * Gets information about compatibility with a device pool.
  */
 export const getDevicePoolCompatibility: API.OperationMethod<
-  GetDevicePoolCompatibilityRequest,
+  GetDevicePoolCompatibilityRequest & RegionInput,
   GetDevicePoolCompatibilityResult,
   GetDevicePoolCompatibilityError,
   Credentials | HttpClient.HttpClient
@@ -2116,7 +2117,7 @@ export type GetInstanceProfileError =
  * Returns information about the specified instance profile.
  */
 export const getInstanceProfile: API.OperationMethod<
-  GetInstanceProfileRequest,
+  GetInstanceProfileRequest & RegionInput,
   GetInstanceProfileResult,
   GetInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -2141,7 +2142,7 @@ export type GetJobError =
  * Gets information about a job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResult,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -2166,7 +2167,7 @@ export type GetNetworkProfileError =
  * Returns information about a network profile.
  */
 export const getNetworkProfile: API.OperationMethod<
-  GetNetworkProfileRequest,
+  GetNetworkProfileRequest & RegionInput,
   GetNetworkProfileResult,
   GetNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -2195,7 +2196,7 @@ export type GetOfferingStatusError =
  * operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const getOfferingStatus: API.PaginatedOperationMethod<
-  GetOfferingStatusRequest,
+  GetOfferingStatusRequest & RegionInput,
   GetOfferingStatusResult,
   GetOfferingStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2228,7 +2229,7 @@ export type GetProjectError =
  * Gets information about a project.
  */
 export const getProject: API.OperationMethod<
-  GetProjectRequest,
+  GetProjectRequest & RegionInput,
   GetProjectResult,
   GetProjectError,
   Credentials | HttpClient.HttpClient
@@ -2253,7 +2254,7 @@ export type GetRemoteAccessSessionError =
  * Returns a link to a currently running remote access session.
  */
 export const getRemoteAccessSession: API.OperationMethod<
-  GetRemoteAccessSessionRequest,
+  GetRemoteAccessSessionRequest & RegionInput,
   GetRemoteAccessSessionResult,
   GetRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -2278,7 +2279,7 @@ export type GetRunError =
  * Gets information about a run.
  */
 export const getRun: API.OperationMethod<
-  GetRunRequest,
+  GetRunRequest & RegionInput,
   GetRunResult,
   GetRunError,
   Credentials | HttpClient.HttpClient
@@ -2303,7 +2304,7 @@ export type GetSuiteError =
  * Gets information about a suite.
  */
 export const getSuite: API.OperationMethod<
-  GetSuiteRequest,
+  GetSuiteRequest & RegionInput,
   GetSuiteResult,
   GetSuiteError,
   Credentials | HttpClient.HttpClient
@@ -2328,7 +2329,7 @@ export type GetTestError =
  * Gets information about a test.
  */
 export const getTest: API.OperationMethod<
-  GetTestRequest,
+  GetTestRequest & RegionInput,
   GetTestResult,
   GetTestError,
   Credentials | HttpClient.HttpClient
@@ -2352,7 +2353,7 @@ export type GetTestGridProjectError =
  * Retrieves information about a Selenium testing project.
  */
 export const getTestGridProject: API.OperationMethod<
-  GetTestGridProjectRequest,
+  GetTestGridProjectRequest & RegionInput,
   GetTestGridProjectResult,
   GetTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -2381,7 +2382,7 @@ export type GetTestGridSessionError =
  * - The project ARN and a session ID.
  */
 export const getTestGridSession: API.OperationMethod<
-  GetTestGridSessionRequest,
+  GetTestGridSessionRequest & RegionInput,
   GetTestGridSessionResult,
   GetTestGridSessionError,
   Credentials | HttpClient.HttpClient
@@ -2406,7 +2407,7 @@ export type GetUploadError =
  * Gets information about an upload.
  */
 export const getUpload: API.OperationMethod<
-  GetUploadRequest,
+  GetUploadRequest & RegionInput,
   GetUploadResult,
   GetUploadError,
   Credentials | HttpClient.HttpClient
@@ -2431,7 +2432,7 @@ export type GetVPCEConfigurationError =
  * Cloud (VPC) endpoint.
  */
 export const getVPCEConfiguration: API.OperationMethod<
-  GetVPCEConfigurationRequest,
+  GetVPCEConfigurationRequest & RegionInput,
   GetVPCEConfigurationResult,
   GetVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2458,7 +2459,7 @@ export type InstallToRemoteAccessSessionError =
  * .ipa format.
  */
 export const installToRemoteAccessSession: API.OperationMethod<
-  InstallToRemoteAccessSessionRequest,
+  InstallToRemoteAccessSessionRequest & RegionInput,
   InstallToRemoteAccessSessionResult,
   InstallToRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -2483,7 +2484,7 @@ export type ListArtifactsError =
  * Gets information about artifacts.
  */
 export const listArtifacts: API.PaginatedOperationMethod<
-  ListArtifactsRequest,
+  ListArtifactsRequest & RegionInput,
   ListArtifactsResult,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -2511,7 +2512,7 @@ export type ListDeviceInstancesError =
  * accounts.
  */
 export const listDeviceInstances: API.OperationMethod<
-  ListDeviceInstancesRequest,
+  ListDeviceInstancesRequest & RegionInput,
   ListDeviceInstancesResult,
   ListDeviceInstancesError,
   Credentials | HttpClient.HttpClient
@@ -2536,7 +2537,7 @@ export type ListDevicePoolsError =
  * Gets information about device pools.
  */
 export const listDevicePools: API.PaginatedOperationMethod<
-  ListDevicePoolsRequest,
+  ListDevicePoolsRequest & RegionInput,
   ListDevicePoolsResult,
   ListDevicePoolsError,
   Credentials | HttpClient.HttpClient,
@@ -2563,7 +2564,7 @@ export type ListDevicesError =
  * Gets information about unique device types.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesRequest,
+  ListDevicesRequest & RegionInput,
   ListDevicesResult,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -2590,7 +2591,7 @@ export type ListInstanceProfilesError =
  * Returns information about all the instance profiles in an AWS account.
  */
 export const listInstanceProfiles: API.OperationMethod<
-  ListInstanceProfilesRequest,
+  ListInstanceProfilesRequest & RegionInput,
   ListInstanceProfilesResult,
   ListInstanceProfilesError,
   Credentials | HttpClient.HttpClient
@@ -2615,7 +2616,7 @@ export type ListJobsError =
  * Gets information about jobs for a given test run.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2642,7 +2643,7 @@ export type ListNetworkProfilesError =
  * Returns the list of available network profiles.
  */
 export const listNetworkProfiles: API.OperationMethod<
-  ListNetworkProfilesRequest,
+  ListNetworkProfilesRequest & RegionInput,
   ListNetworkProfilesResult,
   ListNetworkProfilesError,
   Credentials | HttpClient.HttpClient
@@ -2670,7 +2671,7 @@ export type ListOfferingPromotionsError =
  * the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
  */
 export const listOfferingPromotions: API.OperationMethod<
-  ListOfferingPromotionsRequest,
+  ListOfferingPromotionsRequest & RegionInput,
   ListOfferingPromotionsResult,
   ListOfferingPromotionsError,
   Credentials | HttpClient.HttpClient
@@ -2705,7 +2706,7 @@ export type ListOfferingsError =
  * able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const listOfferings: API.PaginatedOperationMethod<
-  ListOfferingsRequest,
+  ListOfferingsRequest & RegionInput,
   ListOfferingsResult,
   ListOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -2742,7 +2743,7 @@ export type ListOfferingTransactionsError =
  * you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const listOfferingTransactions: API.PaginatedOperationMethod<
-  ListOfferingTransactionsRequest,
+  ListOfferingTransactionsRequest & RegionInput,
   ListOfferingTransactionsResult,
   ListOfferingTransactionsError,
   Credentials | HttpClient.HttpClient,
@@ -2779,7 +2780,7 @@ export type ListProjectsError =
  * Gets information about projects.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsRequest,
+  ListProjectsRequest & RegionInput,
   ListProjectsResult,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2806,7 +2807,7 @@ export type ListRemoteAccessSessionsError =
  * Returns a list of all currently running remote access sessions.
  */
 export const listRemoteAccessSessions: API.OperationMethod<
-  ListRemoteAccessSessionsRequest,
+  ListRemoteAccessSessionsRequest & RegionInput,
   ListRemoteAccessSessionsResult,
   ListRemoteAccessSessionsError,
   Credentials | HttpClient.HttpClient
@@ -2831,7 +2832,7 @@ export type ListRunsError =
  * Gets information about runs, given an AWS Device Farm project ARN.
  */
 export const listRuns: API.PaginatedOperationMethod<
-  ListRunsRequest,
+  ListRunsRequest & RegionInput,
   ListRunsResult,
   ListRunsError,
   Credentials | HttpClient.HttpClient,
@@ -2860,7 +2861,7 @@ export type ListSamplesError =
  * Device Farm does not support performance data samples during test executions.
  */
 export const listSamples: API.PaginatedOperationMethod<
-  ListSamplesRequest,
+  ListSamplesRequest & RegionInput,
   ListSamplesResult,
   ListSamplesError,
   Credentials | HttpClient.HttpClient,
@@ -2887,7 +2888,7 @@ export type ListSuitesError =
  * Gets information about test suites for a given job.
  */
 export const listSuites: API.PaginatedOperationMethod<
-  ListSuitesRequest,
+  ListSuitesRequest & RegionInput,
   ListSuitesResult,
   ListSuitesError,
   Credentials | HttpClient.HttpClient,
@@ -2913,7 +2914,7 @@ export type ListTagsForResourceError =
  * List the tags for an AWS Device Farm resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2933,7 +2934,7 @@ export type ListTestGridProjectsError = ArgumentException | InternalServiceExcep
  * Gets a list of all Selenium testing projects in your account.
  */
 export const listTestGridProjects: API.PaginatedOperationMethod<
-  ListTestGridProjectsRequest,
+  ListTestGridProjectsRequest & RegionInput,
   ListTestGridProjectsResult,
   ListTestGridProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2959,7 +2960,7 @@ export type ListTestGridSessionActionsError =
  * Returns a list of the actions taken in a TestGridSession.
  */
 export const listTestGridSessionActions: API.PaginatedOperationMethod<
-  ListTestGridSessionActionsRequest,
+  ListTestGridSessionActionsRequest & RegionInput,
   ListTestGridSessionActionsResult,
   ListTestGridSessionActionsError,
   Credentials | HttpClient.HttpClient,
@@ -2985,7 +2986,7 @@ export type ListTestGridSessionArtifactsError =
  * Retrieves a list of artifacts created during the session.
  */
 export const listTestGridSessionArtifacts: API.PaginatedOperationMethod<
-  ListTestGridSessionArtifactsRequest,
+  ListTestGridSessionArtifactsRequest & RegionInput,
   ListTestGridSessionArtifactsResult,
   ListTestGridSessionArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -3011,7 +3012,7 @@ export type ListTestGridSessionsError =
  * Retrieves a list of sessions for a TestGridProject.
  */
 export const listTestGridSessions: API.PaginatedOperationMethod<
-  ListTestGridSessionsRequest,
+  ListTestGridSessionsRequest & RegionInput,
   ListTestGridSessionsResult,
   ListTestGridSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -3038,7 +3039,7 @@ export type ListTestsError =
  * Gets information about tests in a given test suite.
  */
 export const listTests: API.PaginatedOperationMethod<
-  ListTestsRequest,
+  ListTestsRequest & RegionInput,
   ListTestsResult,
   ListTestsError,
   Credentials | HttpClient.HttpClient,
@@ -3070,7 +3071,7 @@ export type ListUniqueProblemsError =
  * individual entries for that exception.
  */
 export const listUniqueProblems: API.PaginatedOperationMethod<
-  ListUniqueProblemsRequest,
+  ListUniqueProblemsRequest & RegionInput,
   ListUniqueProblemsResult,
   ListUniqueProblemsError,
   Credentials | HttpClient.HttpClient,
@@ -3101,7 +3102,7 @@ export type ListUploadsError =
  * Gets information about uploads, given an AWS Device Farm project ARN.
  */
 export const listUploads: API.PaginatedOperationMethod<
-  ListUploadsRequest,
+  ListUploadsRequest & RegionInput,
   ListUploadsResult,
   ListUploadsError,
   Credentials | HttpClient.HttpClient,
@@ -3127,7 +3128,7 @@ export type ListVPCEConfigurationsError =
  * configurations in the AWS account.
  */
 export const listVPCEConfigurations: API.OperationMethod<
-  ListVPCEConfigurationsRequest,
+  ListVPCEConfigurationsRequest & RegionInput,
   ListVPCEConfigurationsResult,
   ListVPCEConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -3156,7 +3157,7 @@ export type PurchaseOfferingError =
  * contact aws-devicefarm-support@amazon.com.
  */
 export const purchaseOffering: API.OperationMethod<
-  PurchaseOfferingRequest,
+  PurchaseOfferingRequest & RegionInput,
   PurchaseOfferingResult,
   PurchaseOfferingError,
   Credentials | HttpClient.HttpClient
@@ -3190,7 +3191,7 @@ export type RenewOfferingError =
  * user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const renewOffering: API.OperationMethod<
-  RenewOfferingRequest,
+  RenewOfferingRequest & RegionInput,
   RenewOfferingResult,
   RenewOfferingError,
   Credentials | HttpClient.HttpClient
@@ -3222,7 +3223,7 @@ export type ScheduleRunError =
  * Schedules a run.
  */
 export const scheduleRun: API.OperationMethod<
-  ScheduleRunRequest,
+  ScheduleRunRequest & RegionInput,
   ScheduleRunResult,
   ScheduleRunError,
   Credentials | HttpClient.HttpClient
@@ -3256,7 +3257,7 @@ export type StopJobError =
  * and any tests that were in progress or already completed.
  */
 export const stopJob: API.OperationMethod<
-  StopJobRequest,
+  StopJobRequest & RegionInput,
   StopJobResult,
   StopJobError,
   Credentials | HttpClient.HttpClient
@@ -3281,7 +3282,7 @@ export type StopRemoteAccessSessionError =
  * Ends a specified remote access session.
  */
 export const stopRemoteAccessSession: API.OperationMethod<
-  StopRemoteAccessSessionRequest,
+  StopRemoteAccessSessionRequest & RegionInput,
   StopRemoteAccessSessionResult,
   StopRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
@@ -3309,7 +3310,7 @@ export type StopRunError =
  * setup, teardown, and any tests that were in progress or already completed.
  */
 export const stopRun: API.OperationMethod<
-  StopRunRequest,
+  StopRunRequest & RegionInput,
   StopRunResult,
   StopRunError,
   Credentials | HttpClient.HttpClient
@@ -3337,7 +3338,7 @@ export type TagResourceError =
  * the tags associated with that resource are also deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3367,7 +3368,7 @@ export type UntagResourceError =
  * Deletes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3392,7 +3393,7 @@ export type UpdateDeviceInstanceError =
  * Updates information about a private device instance.
  */
 export const updateDeviceInstance: API.OperationMethod<
-  UpdateDeviceInstanceRequest,
+  UpdateDeviceInstanceRequest & RegionInput,
   UpdateDeviceInstanceResult,
   UpdateDeviceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3419,7 +3420,7 @@ export type UpdateDevicePoolError =
  * whole (or not at all).
  */
 export const updateDevicePool: API.OperationMethod<
-  UpdateDevicePoolRequest,
+  UpdateDevicePoolRequest & RegionInput,
   UpdateDevicePoolResult,
   UpdateDevicePoolError,
   Credentials | HttpClient.HttpClient
@@ -3444,7 +3445,7 @@ export type UpdateInstanceProfileError =
  * Updates information about an existing private device instance profile.
  */
 export const updateInstanceProfile: API.OperationMethod<
-  UpdateInstanceProfileRequest,
+  UpdateInstanceProfileRequest & RegionInput,
   UpdateInstanceProfileResult,
   UpdateInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3469,7 +3470,7 @@ export type UpdateNetworkProfileError =
  * Updates the network profile.
  */
 export const updateNetworkProfile: API.OperationMethod<
-  UpdateNetworkProfileRequest,
+  UpdateNetworkProfileRequest & RegionInput,
   UpdateNetworkProfileResult,
   UpdateNetworkProfileError,
   Credentials | HttpClient.HttpClient
@@ -3495,7 +3496,7 @@ export type UpdateProjectError =
  * name.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectRequest,
+  UpdateProjectRequest & RegionInput,
   UpdateProjectResult,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -3520,7 +3521,7 @@ export type UpdateTestGridProjectError =
  * Change details of a project.
  */
 export const updateTestGridProject: API.OperationMethod<
-  UpdateTestGridProjectRequest,
+  UpdateTestGridProjectRequest & RegionInput,
   UpdateTestGridProjectResult,
   UpdateTestGridProjectError,
   Credentials | HttpClient.HttpClient
@@ -3545,7 +3546,7 @@ export type UpdateUploadError =
  * Updates an uploaded test spec.
  */
 export const updateUpload: API.OperationMethod<
-  UpdateUploadRequest,
+  UpdateUploadRequest & RegionInput,
   UpdateUploadResult,
   UpdateUploadError,
   Credentials | HttpClient.HttpClient
@@ -3570,7 +3571,7 @@ export type UpdateVPCEConfigurationError =
  * Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
  */
 export const updateVPCEConfiguration: API.OperationMethod<
-  UpdateVPCEConfigurationRequest,
+  UpdateVPCEConfigurationRequest & RegionInput,
   UpdateVPCEConfigurationResult,
   UpdateVPCEConfigurationError,
   Credentials | HttpClient.HttpClient

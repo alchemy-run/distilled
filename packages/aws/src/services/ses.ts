@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1354,7 +1355,7 @@ export type CloneReceiptRuleSetError =
  * You can execute this operation no more than once per second.
  */
 export const cloneReceiptRuleSet: API.OperationMethod<
-  CloneReceiptRuleSetRequest,
+  CloneReceiptRuleSetRequest & RegionInput,
   CloneReceiptRuleSetResponse,
   CloneReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1384,7 +1385,7 @@ export type CreateConfigurationSetError =
  * You can execute this operation no more than once per second.
  */
 export const createConfigurationSet: API.OperationMethod<
-  CreateConfigurationSetRequest,
+  CreateConfigurationSetRequest & RegionInput,
   CreateConfigurationSetResponse,
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -1425,7 +1426,7 @@ export type CreateConfigurationSetEventDestinationError =
  * You can execute this operation no more than once per second.
  */
 export const createConfigurationSetEventDestination: API.OperationMethod<
-  CreateConfigurationSetEventDestinationRequest,
+  CreateConfigurationSetEventDestinationRequest & RegionInput,
   CreateConfigurationSetEventDestinationResponse,
   CreateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1461,7 +1462,7 @@ export type CreateConfigurationSetTrackingOptionsError =
  * events. For information about using custom domains, see the Amazon SES Developer Guide.
  */
 export const createConfigurationSetTrackingOptions: API.OperationMethod<
-  CreateConfigurationSetTrackingOptionsRequest,
+  CreateConfigurationSetTrackingOptionsRequest & RegionInput,
   CreateConfigurationSetTrackingOptionsResponse,
   CreateConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1496,7 +1497,7 @@ export type CreateCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const createCustomVerificationEmailTemplate: API.OperationMethod<
-  CreateCustomVerificationEmailTemplateRequest,
+  CreateCustomVerificationEmailTemplateRequest & RegionInput,
   CreateCustomVerificationEmailTemplateResponse,
   CreateCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1529,7 +1530,7 @@ export type CreateReceiptFilterError =
  * You can execute this operation no more than once per second.
  */
 export const createReceiptFilter: API.OperationMethod<
-  CreateReceiptFilterRequest,
+  CreateReceiptFilterRequest & RegionInput,
   CreateReceiptFilterResponse,
   CreateReceiptFilterError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1566,7 @@ export type CreateReceiptRuleError =
  * You can execute this operation no more than once per second.
  */
 export const createReceiptRule: API.OperationMethod<
-  CreateReceiptRuleRequest,
+  CreateReceiptRuleRequest & RegionInput,
   CreateReceiptRuleResponse,
   CreateReceiptRuleError,
   Credentials | HttpClient.HttpClient
@@ -1603,7 +1604,7 @@ export type CreateReceiptRuleSetError =
  * You can execute this operation no more than once per second.
  */
 export const createReceiptRuleSet: API.OperationMethod<
-  CreateReceiptRuleSetRequest,
+  CreateReceiptRuleSetRequest & RegionInput,
   CreateReceiptRuleSetResponse,
   CreateReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1631,7 +1632,7 @@ export type CreateTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1655,7 +1656,7 @@ export type DeleteConfigurationSetError = ConfigurationSetDoesNotExistException 
  * You can execute this operation no more than once per second.
  */
 export const deleteConfigurationSet: API.OperationMethod<
-  DeleteConfigurationSetRequest,
+  DeleteConfigurationSetRequest & RegionInput,
   DeleteConfigurationSetResponse,
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -1683,7 +1684,7 @@ export type DeleteConfigurationSetEventDestinationError =
  * You can execute this operation no more than once per second.
  */
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
-  DeleteConfigurationSetEventDestinationRequest,
+  DeleteConfigurationSetEventDestinationRequest & RegionInput,
   DeleteConfigurationSetEventDestinationResponse,
   DeleteConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1715,7 +1716,7 @@ export type DeleteConfigurationSetTrackingOptionsError =
  * Amazon SES-operated domains.
  */
 export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
-  DeleteConfigurationSetTrackingOptionsRequest,
+  DeleteConfigurationSetTrackingOptionsRequest & RegionInput,
   DeleteConfigurationSetTrackingOptionsResponse,
   DeleteConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1741,7 +1742,7 @@ export type DeleteCustomVerificationEmailTemplateError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
-  DeleteCustomVerificationEmailTemplateRequest,
+  DeleteCustomVerificationEmailTemplateRequest & RegionInput,
   DeleteCustomVerificationEmailTemplateResponse,
   DeleteCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1764,7 +1765,7 @@ export type DeleteIdentityError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteIdentity: API.OperationMethod<
-  DeleteIdentityRequest,
+  DeleteIdentityRequest & RegionInput,
   DeleteIdentityResponse,
   DeleteIdentityError,
   Credentials | HttpClient.HttpClient
@@ -1796,7 +1797,7 @@ export type DeleteIdentityPolicyError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteIdentityPolicy: API.OperationMethod<
-  DeleteIdentityPolicyRequest,
+  DeleteIdentityPolicyRequest & RegionInput,
   DeleteIdentityPolicyResponse,
   DeleteIdentityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1821,7 +1822,7 @@ export type DeleteReceiptFilterError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteReceiptFilter: API.OperationMethod<
-  DeleteReceiptFilterRequest,
+  DeleteReceiptFilterRequest & RegionInput,
   DeleteReceiptFilterResponse,
   DeleteReceiptFilterError,
   Credentials | HttpClient.HttpClient
@@ -1846,7 +1847,7 @@ export type DeleteReceiptRuleError = RuleSetDoesNotExistException | CommonErrors
  * You can execute this operation no more than once per second.
  */
 export const deleteReceiptRule: API.OperationMethod<
-  DeleteReceiptRuleRequest,
+  DeleteReceiptRuleRequest & RegionInput,
   DeleteReceiptRuleResponse,
   DeleteReceiptRuleError,
   Credentials | HttpClient.HttpClient
@@ -1874,7 +1875,7 @@ export type DeleteReceiptRuleSetError = CannotDeleteException | CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteReceiptRuleSet: API.OperationMethod<
-  DeleteReceiptRuleSetRequest,
+  DeleteReceiptRuleSetRequest & RegionInput,
   DeleteReceiptRuleSetResponse,
   DeleteReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1896,7 +1897,7 @@ export type DeleteTemplateError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1917,7 +1918,7 @@ export type DeleteVerifiedEmailAddressError = CommonErrors;
  * and domains.
  */
 export const deleteVerifiedEmailAddress: API.OperationMethod<
-  DeleteVerifiedEmailAddressRequest,
+  DeleteVerifiedEmailAddressRequest & RegionInput,
   DeleteVerifiedEmailAddressResponse,
   DeleteVerifiedEmailAddressError,
   Credentials | HttpClient.HttpClient
@@ -1942,7 +1943,7 @@ export type DescribeActiveReceiptRuleSetError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const describeActiveReceiptRuleSet: API.OperationMethod<
-  DescribeActiveReceiptRuleSetRequest,
+  DescribeActiveReceiptRuleSetRequest & RegionInput,
   DescribeActiveReceiptRuleSetResponse,
   DescribeActiveReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1966,7 +1967,7 @@ export type DescribeConfigurationSetError = ConfigurationSetDoesNotExistExceptio
  * You can execute this operation no more than once per second.
  */
 export const describeConfigurationSet: API.OperationMethod<
-  DescribeConfigurationSetRequest,
+  DescribeConfigurationSetRequest & RegionInput,
   DescribeConfigurationSetResponse,
   DescribeConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -1994,7 +1995,7 @@ export type DescribeReceiptRuleError =
  * You can execute this operation no more than once per second.
  */
 export const describeReceiptRule: API.OperationMethod<
-  DescribeReceiptRuleRequest,
+  DescribeReceiptRuleRequest & RegionInput,
   DescribeReceiptRuleResponse,
   DescribeReceiptRuleError,
   Credentials | HttpClient.HttpClient
@@ -2019,7 +2020,7 @@ export type DescribeReceiptRuleSetError = RuleSetDoesNotExistException | CommonE
  * You can execute this operation no more than once per second.
  */
 export const describeReceiptRuleSet: API.OperationMethod<
-  DescribeReceiptRuleSetRequest,
+  DescribeReceiptRuleSetRequest & RegionInput,
   DescribeReceiptRuleSetResponse,
   DescribeReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2042,7 @@ export type GetAccountSendingEnabledError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getAccountSendingEnabled: API.OperationMethod<
-  GetAccountSendingEnabledRequest,
+  GetAccountSendingEnabledRequest & RegionInput,
   GetAccountSendingEnabledResponse,
   GetAccountSendingEnabledError,
   Credentials | HttpClient.HttpClient
@@ -2070,7 +2071,7 @@ export type GetCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const getCustomVerificationEmailTemplate: API.OperationMethod<
-  GetCustomVerificationEmailTemplateRequest,
+  GetCustomVerificationEmailTemplateRequest & RegionInput,
   GetCustomVerificationEmailTemplateResponse,
   GetCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2111,7 +2112,7 @@ export type GetIdentityDkimAttributesError = CommonErrors;
  * Developer Guide.
  */
 export const getIdentityDkimAttributes: API.OperationMethod<
-  GetIdentityDkimAttributesRequest,
+  GetIdentityDkimAttributesRequest & RegionInput,
   GetIdentityDkimAttributesResponse,
   GetIdentityDkimAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2135,7 +2136,7 @@ export type GetIdentityMailFromDomainAttributesError = CommonErrors;
  * FROM attributes for up to 100 identities at a time.
  */
 export const getIdentityMailFromDomainAttributes: API.OperationMethod<
-  GetIdentityMailFromDomainAttributesRequest,
+  GetIdentityMailFromDomainAttributesRequest & RegionInput,
   GetIdentityMailFromDomainAttributesResponse,
   GetIdentityMailFromDomainAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2162,7 +2163,7 @@ export type GetIdentityNotificationAttributesError = CommonErrors;
  * Developer Guide.
  */
 export const getIdentityNotificationAttributes: API.OperationMethod<
-  GetIdentityNotificationAttributesRequest,
+  GetIdentityNotificationAttributesRequest & RegionInput,
   GetIdentityNotificationAttributesResponse,
   GetIdentityNotificationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2194,7 +2195,7 @@ export type GetIdentityPoliciesError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getIdentityPolicies: API.OperationMethod<
-  GetIdentityPoliciesRequest,
+  GetIdentityPoliciesRequest & RegionInput,
   GetIdentityPoliciesResponse,
   GetIdentityPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -2232,7 +2233,7 @@ export type GetIdentityVerificationAttributesError = CommonErrors;
  * attributes for up to 100 identities at a time.
  */
 export const getIdentityVerificationAttributes: API.OperationMethod<
-  GetIdentityVerificationAttributesRequest,
+  GetIdentityVerificationAttributesRequest & RegionInput,
   GetIdentityVerificationAttributesResponse,
   GetIdentityVerificationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2254,7 +2255,7 @@ export type GetSendQuotaError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getSendQuota: API.OperationMethod<
-  GetSendQuotaRequest,
+  GetSendQuotaRequest & RegionInput,
   GetSendQuotaResponse,
   GetSendQuotaError,
   Credentials | HttpClient.HttpClient
@@ -2278,7 +2279,7 @@ export type GetSendStatisticsError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getSendStatistics: API.OperationMethod<
-  GetSendStatisticsRequest,
+  GetSendStatisticsRequest & RegionInput,
   GetSendStatisticsResponse,
   GetSendStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2301,7 +2302,7 @@ export type GetTemplateError = TemplateDoesNotExistException | CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateRequest,
+  GetTemplateRequest & RegionInput,
   GetTemplateResponse,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2331,7 +2332,7 @@ export type ListConfigurationSetsError = CommonErrors;
  * additional results.
  */
 export const listConfigurationSets: API.OperationMethod<
-  ListConfigurationSetsRequest,
+  ListConfigurationSetsRequest & RegionInput,
   ListConfigurationSetsResponse,
   ListConfigurationSetsError,
   Credentials | HttpClient.HttpClient
@@ -2358,7 +2359,7 @@ export type ListCustomVerificationEmailTemplatesError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listCustomVerificationEmailTemplates: API.PaginatedOperationMethod<
-  ListCustomVerificationEmailTemplatesRequest,
+  ListCustomVerificationEmailTemplatesRequest & RegionInput,
   ListCustomVerificationEmailTemplatesResponse,
   ListCustomVerificationEmailTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2396,7 +2397,7 @@ export type ListIdentitiesError = CommonErrors;
  * Using this protocol will ensure consistent results.
  */
 export const listIdentities: API.PaginatedOperationMethod<
-  ListIdentitiesRequest,
+  ListIdentitiesRequest & RegionInput,
   ListIdentitiesResponse,
   ListIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -2435,7 +2436,7 @@ export type ListIdentityPoliciesError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listIdentityPolicies: API.OperationMethod<
-  ListIdentityPoliciesRequest,
+  ListIdentityPoliciesRequest & RegionInput,
   ListIdentityPoliciesResponse,
   ListIdentityPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -2461,7 +2462,7 @@ export type ListReceiptFiltersError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listReceiptFilters: API.OperationMethod<
-  ListReceiptFiltersRequest,
+  ListReceiptFiltersRequest & RegionInput,
   ListReceiptFiltersResponse,
   ListReceiptFiltersError,
   Credentials | HttpClient.HttpClient
@@ -2489,7 +2490,7 @@ export type ListReceiptRuleSetsError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listReceiptRuleSets: API.OperationMethod<
-  ListReceiptRuleSetsRequest,
+  ListReceiptRuleSetsRequest & RegionInput,
   ListReceiptRuleSetsResponse,
   ListReceiptRuleSetsError,
   Credentials | HttpClient.HttpClient
@@ -2512,7 +2513,7 @@ export type ListTemplatesError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const listTemplates: API.OperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -2533,7 +2534,7 @@ export type ListVerifiedEmailAddressesError = CommonErrors;
  * and domains associated with your account.
  */
 export const listVerifiedEmailAddresses: API.OperationMethod<
-  ListVerifiedEmailAddressesRequest,
+  ListVerifiedEmailAddressesRequest & RegionInput,
   ListVerifiedEmailAddressesResponse,
   ListVerifiedEmailAddressesError,
   Credentials | HttpClient.HttpClient
@@ -2556,7 +2557,7 @@ export type PutConfigurationSetDeliveryOptionsError =
  * Adds or updates the delivery options for a configuration set.
  */
 export const putConfigurationSetDeliveryOptions: API.OperationMethod<
-  PutConfigurationSetDeliveryOptionsRequest,
+  PutConfigurationSetDeliveryOptionsRequest & RegionInput,
   PutConfigurationSetDeliveryOptionsResponse,
   PutConfigurationSetDeliveryOptionsError,
   Credentials | HttpClient.HttpClient
@@ -2587,7 +2588,7 @@ export type PutIdentityPolicyError = InvalidPolicyException | CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const putIdentityPolicy: API.OperationMethod<
-  PutIdentityPolicyRequest,
+  PutIdentityPolicyRequest & RegionInput,
   PutIdentityPolicyResponse,
   PutIdentityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2618,7 +2619,7 @@ export type ReorderReceiptRuleSetError =
  * You can execute this operation no more than once per second.
  */
 export const reorderReceiptRuleSet: API.OperationMethod<
-  ReorderReceiptRuleSetRequest,
+  ReorderReceiptRuleSetRequest & RegionInput,
   ReorderReceiptRuleSetResponse,
   ReorderReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -2648,7 +2649,7 @@ export type SendBounceError = MessageRejected | CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const sendBounce: API.OperationMethod<
-  SendBounceRequest,
+  SendBounceRequest & RegionInput,
   SendBounceResponse,
   SendBounceError,
   Credentials | HttpClient.HttpClient
@@ -2708,7 +2709,7 @@ export type SendBulkTemplatedEmailError =
  * your account's maximum sending rate.
  */
 export const sendBulkTemplatedEmail: API.OperationMethod<
-  SendBulkTemplatedEmailRequest,
+  SendBulkTemplatedEmailRequest & RegionInput,
   SendBulkTemplatedEmailResponse,
   SendBulkTemplatedEmailError,
   Credentials | HttpClient.HttpClient
@@ -2751,7 +2752,7 @@ export type SendCustomVerificationEmailError =
  * You can execute this operation no more than once per second.
  */
 export const sendCustomVerificationEmail: API.OperationMethod<
-  SendCustomVerificationEmailRequest,
+  SendCustomVerificationEmailRequest & RegionInput,
   SendCustomVerificationEmailResponse,
   SendCustomVerificationEmailError,
   Credentials | HttpClient.HttpClient
@@ -2815,7 +2816,7 @@ export type SendEmailError =
  * Limits in the *Amazon SES Developer Guide.*
  */
 export const sendEmail: API.OperationMethod<
-  SendEmailRequest,
+  SendEmailRequest & RegionInput,
   SendEmailResponse,
   SendEmailError,
   Credentials | HttpClient.HttpClient
@@ -2924,7 +2925,7 @@ export type SendRawEmailError =
  * Guide.
  */
 export const sendRawEmail: API.OperationMethod<
-  SendRawEmailRequest,
+  SendRawEmailRequest & RegionInput,
   SendRawEmailResponse,
   SendRawEmailError,
   Credentials | HttpClient.HttpClient
@@ -2997,7 +2998,7 @@ export type SendTemplatedEmailError =
  * *Amazon Simple Email Service Developer Guide*.
  */
 export const sendTemplatedEmail: API.OperationMethod<
-  SendTemplatedEmailRequest,
+  SendTemplatedEmailRequest & RegionInput,
   SendTemplatedEmailResponse,
   SendTemplatedEmailError,
   Credentials | HttpClient.HttpClient
@@ -3032,7 +3033,7 @@ export type SetActiveReceiptRuleSetError = RuleSetDoesNotExistException | Common
  * You can execute this operation no more than once per second.
  */
 export const setActiveReceiptRuleSet: API.OperationMethod<
-  SetActiveReceiptRuleSetRequest,
+  SetActiveReceiptRuleSetRequest & RegionInput,
   SetActiveReceiptRuleSetResponse,
   SetActiveReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -3067,7 +3068,7 @@ export type SetIdentityDkimEnabledError = CommonErrors;
  * Guide.
  */
 export const setIdentityDkimEnabled: API.OperationMethod<
-  SetIdentityDkimEnabledRequest,
+  SetIdentityDkimEnabledRequest & RegionInput,
   SetIdentityDkimEnabledResponse,
   SetIdentityDkimEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3098,7 +3099,7 @@ export type SetIdentityFeedbackForwardingEnabledError = CommonErrors;
  * Developer Guide.
  */
 export const setIdentityFeedbackForwardingEnabled: API.OperationMethod<
-  SetIdentityFeedbackForwardingEnabledRequest,
+  SetIdentityFeedbackForwardingEnabledRequest & RegionInput,
   SetIdentityFeedbackForwardingEnabledResponse,
   SetIdentityFeedbackForwardingEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3125,7 +3126,7 @@ export type SetIdentityHeadersInNotificationsEnabledError = CommonErrors;
  * Developer Guide.
  */
 export const setIdentityHeadersInNotificationsEnabled: API.OperationMethod<
-  SetIdentityHeadersInNotificationsEnabledRequest,
+  SetIdentityHeadersInNotificationsEnabledRequest & RegionInput,
   SetIdentityHeadersInNotificationsEnabledResponse,
   SetIdentityHeadersInNotificationsEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3153,7 +3154,7 @@ export type SetIdentityMailFromDomainError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const setIdentityMailFromDomain: API.OperationMethod<
-  SetIdentityMailFromDomainRequest,
+  SetIdentityMailFromDomainRequest & RegionInput,
   SetIdentityMailFromDomainResponse,
   SetIdentityMailFromDomainError,
   Credentials | HttpClient.HttpClient
@@ -3183,7 +3184,7 @@ export type SetIdentityNotificationTopicError = CommonErrors;
  * Developer Guide.
  */
 export const setIdentityNotificationTopic: API.OperationMethod<
-  SetIdentityNotificationTopicRequest,
+  SetIdentityNotificationTopicRequest & RegionInput,
   SetIdentityNotificationTopicResponse,
   SetIdentityNotificationTopicError,
   Credentials | HttpClient.HttpClient
@@ -3211,7 +3212,7 @@ export type SetReceiptRulePositionError =
  * You can execute this operation no more than once per second.
  */
 export const setReceiptRulePosition: API.OperationMethod<
-  SetReceiptRulePositionRequest,
+  SetReceiptRulePositionRequest & RegionInput,
   SetReceiptRulePositionResponse,
   SetReceiptRulePositionError,
   Credentials | HttpClient.HttpClient
@@ -3238,7 +3239,7 @@ export type TestRenderTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const testRenderTemplate: API.OperationMethod<
-  TestRenderTemplateRequest,
+  TestRenderTemplateRequest & RegionInput,
   TestRenderTemplateResponse,
   TestRenderTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3268,7 +3269,7 @@ export type UpdateAccountSendingEnabledError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const updateAccountSendingEnabled: API.OperationMethod<
-  UpdateAccountSendingEnabledRequest,
+  UpdateAccountSendingEnabledRequest & RegionInput,
   UpdateAccountSendingEnabledResponse,
   UpdateAccountSendingEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3304,7 +3305,7 @@ export type UpdateConfigurationSetEventDestinationError =
  * You can execute this operation no more than once per second.
  */
 export const updateConfigurationSetEventDestination: API.OperationMethod<
-  UpdateConfigurationSetEventDestinationRequest,
+  UpdateConfigurationSetEventDestinationRequest & RegionInput,
   UpdateConfigurationSetEventDestinationResponse,
   UpdateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3337,7 +3338,7 @@ export type UpdateConfigurationSetReputationMetricsEnabledError =
  * You can execute this operation no more than once per second.
  */
 export const updateConfigurationSetReputationMetricsEnabled: API.OperationMethod<
-  UpdateConfigurationSetReputationMetricsEnabledRequest,
+  UpdateConfigurationSetReputationMetricsEnabledRequest & RegionInput,
   UpdateConfigurationSetReputationMetricsEnabledResponse,
   UpdateConfigurationSetReputationMetricsEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3373,7 +3374,7 @@ export type UpdateConfigurationSetSendingEnabledError =
  * You can execute this operation no more than once per second.
  */
 export const updateConfigurationSetSendingEnabled: API.OperationMethod<
-  UpdateConfigurationSetSendingEnabledRequest,
+  UpdateConfigurationSetSendingEnabledRequest & RegionInput,
   UpdateConfigurationSetSendingEnabledResponse,
   UpdateConfigurationSetSendingEnabledError,
   Credentials | HttpClient.HttpClient
@@ -3402,7 +3403,7 @@ export type UpdateConfigurationSetTrackingOptionsError =
  * events. For information about using custom domains, see the Amazon SES Developer Guide.
  */
 export const updateConfigurationSetTrackingOptions: API.OperationMethod<
-  UpdateConfigurationSetTrackingOptionsRequest,
+  UpdateConfigurationSetTrackingOptionsRequest & RegionInput,
   UpdateConfigurationSetTrackingOptionsResponse,
   UpdateConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -3436,7 +3437,7 @@ export type UpdateCustomVerificationEmailTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const updateCustomVerificationEmailTemplate: API.OperationMethod<
-  UpdateCustomVerificationEmailTemplateRequest,
+  UpdateCustomVerificationEmailTemplateRequest & RegionInput,
   UpdateCustomVerificationEmailTemplateResponse,
   UpdateCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3475,7 +3476,7 @@ export type UpdateReceiptRuleError =
  * You can execute this operation no more than once per second.
  */
 export const updateReceiptRule: API.OperationMethod<
-  UpdateReceiptRuleRequest,
+  UpdateReceiptRuleRequest & RegionInput,
   UpdateReceiptRuleResponse,
   UpdateReceiptRuleError,
   Credentials | HttpClient.HttpClient
@@ -3512,7 +3513,7 @@ export type UpdateTemplateError =
  * You can execute this operation no more than once per second.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3564,7 +3565,7 @@ export type VerifyDomainDkimError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const verifyDomainDkim: API.OperationMethod<
-  VerifyDomainDkimRequest,
+  VerifyDomainDkimRequest & RegionInput,
   VerifyDomainDkimResponse,
   VerifyDomainDkimError,
   Credentials | HttpClient.HttpClient
@@ -3589,7 +3590,7 @@ export type VerifyDomainIdentityError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const verifyDomainIdentity: API.OperationMethod<
-  VerifyDomainIdentityRequest,
+  VerifyDomainIdentityRequest & RegionInput,
   VerifyDomainIdentityResponse,
   VerifyDomainIdentityError,
   Credentials | HttpClient.HttpClient
@@ -3610,7 +3611,7 @@ export type VerifyEmailAddressError = CommonErrors;
  * address.
  */
 export const verifyEmailAddress: API.OperationMethod<
-  VerifyEmailAddressRequest,
+  VerifyEmailAddressRequest & RegionInput,
   VerifyEmailAddressResponse,
   VerifyEmailAddressError,
   Credentials | HttpClient.HttpClient
@@ -3634,7 +3635,7 @@ export type VerifyEmailIdentityError = CommonErrors;
  * You can execute this operation no more than once per second.
  */
 export const verifyEmailIdentity: API.OperationMethod<
-  VerifyEmailIdentityRequest,
+  VerifyEmailIdentityRequest & RegionInput,
   VerifyEmailIdentityResponse,
   VerifyEmailIdentityError,
   Credentials | HttpClient.HttpClient

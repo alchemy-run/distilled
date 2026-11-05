@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -237,7 +238,7 @@ export type SearchError = SearchException | CommonErrors;
  * The endpoint for submitting `Search` requests is domain-specific. You submit search requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
  */
 export const search: API.OperationMethod<
-  SearchRequest,
+  SearchRequest & RegionInput,
   SearchResponse,
   SearchError,
   Credentials | HttpClient.HttpClient
@@ -261,7 +262,7 @@ export type SuggestError = SearchException | CommonErrors;
  * The endpoint for submitting `Suggest` requests is domain-specific. You submit suggest requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
  */
 export const suggest: API.OperationMethod<
-  SuggestRequest,
+  SuggestRequest & RegionInput,
   SuggestResponse,
   SuggestError,
   Credentials | HttpClient.HttpClient
@@ -286,7 +287,7 @@ export type UploadDocumentsError = DocumentServiceException | CommonErrors;
  * For more information about uploading data for indexing, see Uploading Data in the *Amazon CloudSearch Developer Guide*.
  */
 export const uploadDocuments: API.OperationMethod<
-  UploadDocumentsRequest,
+  UploadDocumentsRequest & RegionInput,
   UploadDocumentsResponse,
   UploadDocumentsError,
   Credentials | HttpClient.HttpClient

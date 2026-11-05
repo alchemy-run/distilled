@@ -10,6 +10,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -5946,7 +5947,7 @@ export type AbortMultipartUploadError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const abortMultipartUpload: API.OperationMethod<
-  AbortMultipartUploadRequest,
+  AbortMultipartUploadRequest & RegionInput,
   AbortMultipartUploadOutput,
   AbortMultipartUploadError,
   Credentials | HttpClient.HttpClient
@@ -6083,7 +6084,7 @@ export type CompleteMultipartUploadError = NoSuchUpload | InvalidAccessKeyId | C
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const completeMultipartUpload: API.OperationMethod<
-  CompleteMultipartUploadRequest,
+  CompleteMultipartUploadRequest & RegionInput,
   CompleteMultipartUploadOutput,
   CompleteMultipartUploadError,
   Credentials | HttpClient.HttpClient
@@ -6271,7 +6272,7 @@ export type CopyObjectError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const copyObject: API.OperationMethod<
-  CopyObjectRequest,
+  CopyObjectRequest & RegionInput,
   CopyObjectOutput,
   CopyObjectError,
   Credentials | HttpClient.HttpClient
@@ -6422,7 +6423,7 @@ export type CreateBucketError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const createBucket: API.OperationMethod<
-  CreateBucketRequest,
+  CreateBucketRequest & RegionInput,
   CreateBucketOutput,
   CreateBucketError,
   Credentials | HttpClient.HttpClient
@@ -6517,7 +6518,7 @@ export type CreateBucketMetadataConfigurationError = InvalidAccessKeyId | Common
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const createBucketMetadataConfiguration: API.OperationMethod<
-  CreateBucketMetadataConfigurationRequest,
+  CreateBucketMetadataConfigurationRequest & RegionInput,
   CreateBucketMetadataConfigurationResponse,
   CreateBucketMetadataConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6582,7 +6583,7 @@ export type CreateBucketMetadataTableConfigurationError = InvalidAccessKeyId | C
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const createBucketMetadataTableConfiguration: API.OperationMethod<
-  CreateBucketMetadataTableConfigurationRequest,
+  CreateBucketMetadataTableConfigurationRequest & RegionInput,
   CreateBucketMetadataTableConfigurationResponse,
   CreateBucketMetadataTableConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6779,7 +6780,7 @@ export type CreateMultipartUploadError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const createMultipartUpload: API.OperationMethod<
-  CreateMultipartUploadRequest,
+  CreateMultipartUploadRequest & RegionInput,
   CreateMultipartUploadOutput,
   CreateMultipartUploadError,
   Credentials | HttpClient.HttpClient
@@ -6891,7 +6892,7 @@ export type CreateSessionError = NoSuchBucket | InvalidAccessKeyId | CommonError
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionOutput,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -6951,7 +6952,7 @@ export type DeleteBucketError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucket: API.OperationMethod<
-  DeleteBucketRequest,
+  DeleteBucketRequest & RegionInput,
   DeleteBucketResponse,
   DeleteBucketError,
   Credentials | HttpClient.HttpClient
@@ -7005,7 +7006,7 @@ export type DeleteBucketAnalyticsConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketAnalyticsConfiguration: API.OperationMethod<
-  DeleteBucketAnalyticsConfigurationRequest,
+  DeleteBucketAnalyticsConfigurationRequest & RegionInput,
   DeleteBucketAnalyticsConfigurationResponse,
   DeleteBucketAnalyticsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7046,7 +7047,7 @@ export type DeleteBucketCorsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketCors: API.OperationMethod<
-  DeleteBucketCorsRequest,
+  DeleteBucketCorsRequest & RegionInput,
   DeleteBucketCorsResponse,
   DeleteBucketCorsError,
   Credentials | HttpClient.HttpClient
@@ -7106,7 +7107,7 @@ export type DeleteBucketEncryptionError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketEncryption: API.OperationMethod<
-  DeleteBucketEncryptionRequest,
+  DeleteBucketEncryptionRequest & RegionInput,
   DeleteBucketEncryptionResponse,
   DeleteBucketEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -7149,7 +7150,7 @@ export type DeleteBucketIntelligentTieringConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketIntelligentTieringConfiguration: API.OperationMethod<
-  DeleteBucketIntelligentTieringConfigurationRequest,
+  DeleteBucketIntelligentTieringConfigurationRequest & RegionInput,
   DeleteBucketIntelligentTieringConfigurationResponse,
   DeleteBucketIntelligentTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7220,7 +7221,7 @@ export type DeleteBucketInventoryConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketInventoryConfiguration: API.OperationMethod<
-  DeleteBucketInventoryConfigurationRequest,
+  DeleteBucketInventoryConfigurationRequest & RegionInput,
   DeleteBucketInventoryConfigurationResponse,
   DeleteBucketInventoryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7291,7 +7292,7 @@ export type DeleteBucketLifecycleError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketLifecycle: API.OperationMethod<
-  DeleteBucketLifecycleRequest,
+  DeleteBucketLifecycleRequest & RegionInput,
   DeleteBucketLifecycleResponse,
   DeleteBucketLifecycleError,
   Credentials | HttpClient.HttpClient
@@ -7344,7 +7345,7 @@ export type DeleteBucketMetadataConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketMetadataConfiguration: API.OperationMethod<
-  DeleteBucketMetadataConfigurationRequest,
+  DeleteBucketMetadataConfigurationRequest & RegionInput,
   DeleteBucketMetadataConfigurationResponse,
   DeleteBucketMetadataConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7403,7 +7404,7 @@ export type DeleteBucketMetadataTableConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketMetadataTableConfiguration: API.OperationMethod<
-  DeleteBucketMetadataTableConfigurationRequest,
+  DeleteBucketMetadataTableConfigurationRequest & RegionInput,
   DeleteBucketMetadataTableConfigurationResponse,
   DeleteBucketMetadataTableConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7471,7 +7472,7 @@ export type DeleteBucketMetricsConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketMetricsConfiguration: API.OperationMethod<
-  DeleteBucketMetricsConfigurationRequest,
+  DeleteBucketMetricsConfigurationRequest & RegionInput,
   DeleteBucketMetricsConfigurationResponse,
   DeleteBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7511,7 +7512,7 @@ export type DeleteBucketOwnershipControlsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketOwnershipControls: API.OperationMethod<
-  DeleteBucketOwnershipControlsRequest,
+  DeleteBucketOwnershipControlsRequest & RegionInput,
   DeleteBucketOwnershipControlsResponse,
   DeleteBucketOwnershipControlsError,
   Credentials | HttpClient.HttpClient
@@ -7584,7 +7585,7 @@ export type DeleteBucketPolicyError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketPolicy: API.OperationMethod<
-  DeleteBucketPolicyRequest,
+  DeleteBucketPolicyRequest & RegionInput,
   DeleteBucketPolicyResponse,
   DeleteBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -7636,7 +7637,7 @@ export type DeleteBucketReplicationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketReplication: API.OperationMethod<
-  DeleteBucketReplicationRequest,
+  DeleteBucketReplicationRequest & RegionInput,
   DeleteBucketReplicationResponse,
   DeleteBucketReplicationError,
   Credentials | HttpClient.HttpClient
@@ -7674,7 +7675,7 @@ export type DeleteBucketTaggingError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketTagging: API.OperationMethod<
-  DeleteBucketTaggingRequest,
+  DeleteBucketTaggingRequest & RegionInput,
   DeleteBucketTaggingResponse,
   DeleteBucketTaggingError,
   Credentials | HttpClient.HttpClient
@@ -7720,7 +7721,7 @@ export type DeleteBucketWebsiteError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteBucketWebsite: API.OperationMethod<
-  DeleteBucketWebsiteRequest,
+  DeleteBucketWebsiteRequest & RegionInput,
   DeleteBucketWebsiteResponse,
   DeleteBucketWebsiteError,
   Credentials | HttpClient.HttpClient
@@ -7834,7 +7835,7 @@ export type DeleteObjectError =
  * The `If-Match` header is supported for both general purpose and directory buckets. `IfMatchLastModifiedTime` and `IfMatchSize` is only supported for directory buckets.
  */
 export const deleteObject: API.OperationMethod<
-  DeleteObjectRequest,
+  DeleteObjectRequest & RegionInput,
   DeleteObjectOutput,
   DeleteObjectError,
   Credentials | HttpClient.HttpClient
@@ -7886,7 +7887,7 @@ export type DeleteObjectAnnotationError =
  * - ListObjectAnnotations
  */
 export const deleteObjectAnnotation: API.OperationMethod<
-  DeleteObjectAnnotationRequest,
+  DeleteObjectAnnotationRequest & RegionInput,
   DeleteObjectAnnotationOutput,
   DeleteObjectAnnotationError,
   Credentials | HttpClient.HttpClient
@@ -8001,7 +8002,7 @@ export type DeleteObjectsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteObjects: API.OperationMethod<
-  DeleteObjectsRequest,
+  DeleteObjectsRequest & RegionInput,
   DeleteObjectsOutput,
   DeleteObjectsError,
   Credentials | HttpClient.HttpClient
@@ -8047,7 +8048,7 @@ export type DeleteObjectTaggingError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deleteObjectTagging: API.OperationMethod<
-  DeleteObjectTaggingRequest,
+  DeleteObjectTaggingRequest & RegionInput,
   DeleteObjectTaggingOutput,
   DeleteObjectTaggingError,
   Credentials | HttpClient.HttpClient
@@ -8100,7 +8101,7 @@ export type DeletePublicAccessBlockError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const deletePublicAccessBlock: API.OperationMethod<
-  DeletePublicAccessBlockRequest,
+  DeletePublicAccessBlockRequest & RegionInput,
   DeletePublicAccessBlockResponse,
   DeletePublicAccessBlockError,
   Credentials | HttpClient.HttpClient
@@ -8125,7 +8126,7 @@ export type GetBucketAbacError =
  * Returns the attribute-based access control (ABAC) property of the general purpose bucket. If ABAC is enabled on your bucket, you can use tags on the bucket for access control. For more information, see Enabling ABAC in general purpose buckets.
  */
 export const getBucketAbac: API.OperationMethod<
-  GetBucketAbacRequest,
+  GetBucketAbacRequest & RegionInput,
   GetBucketAbacOutput,
   GetBucketAbacError,
   Credentials | HttpClient.HttpClient
@@ -8177,7 +8178,7 @@ export type GetBucketAccelerateConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketAccelerateConfiguration: API.OperationMethod<
-  GetBucketAccelerateConfigurationRequest,
+  GetBucketAccelerateConfigurationRequest & RegionInput,
   GetBucketAccelerateConfigurationOutput,
   GetBucketAccelerateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8227,7 +8228,7 @@ export type GetBucketAclError =
  * - ListObjects
  */
 export const getBucketAcl: API.OperationMethod<
-  GetBucketAclRequest,
+  GetBucketAclRequest & RegionInput,
   GetBucketAclOutput,
   GetBucketAclError,
   Credentials | HttpClient.HttpClient
@@ -8274,7 +8275,7 @@ export type GetBucketAnalyticsConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketAnalyticsConfiguration: API.OperationMethod<
-  GetBucketAnalyticsConfigurationRequest,
+  GetBucketAnalyticsConfigurationRequest & RegionInput,
   GetBucketAnalyticsConfigurationOutput,
   GetBucketAnalyticsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8324,7 +8325,7 @@ export type GetBucketCorsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketCors: API.OperationMethod<
-  GetBucketCorsRequest,
+  GetBucketCorsRequest & RegionInput,
   GetBucketCorsOutput,
   GetBucketCorsError,
   Credentials | HttpClient.HttpClient
@@ -8393,7 +8394,7 @@ export type GetBucketEncryptionError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketEncryption: API.OperationMethod<
-  GetBucketEncryptionRequest,
+  GetBucketEncryptionRequest & RegionInput,
   GetBucketEncryptionOutput,
   GetBucketEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -8444,7 +8445,7 @@ export type GetBucketIntelligentTieringConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketIntelligentTieringConfiguration: API.OperationMethod<
-  GetBucketIntelligentTieringConfigurationRequest,
+  GetBucketIntelligentTieringConfigurationRequest & RegionInput,
   GetBucketIntelligentTieringConfigurationOutput,
   GetBucketIntelligentTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8510,7 +8511,7 @@ export type GetBucketInventoryConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketInventoryConfiguration: API.OperationMethod<
-  GetBucketInventoryConfigurationRequest,
+  GetBucketInventoryConfigurationRequest & RegionInput,
   GetBucketInventoryConfigurationOutput,
   GetBucketInventoryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8600,7 +8601,7 @@ export type GetBucketLifecycleConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketLifecycleConfiguration: API.OperationMethod<
-  GetBucketLifecycleConfigurationRequest,
+  GetBucketLifecycleConfigurationRequest & RegionInput,
   GetBucketLifecycleConfigurationOutput,
   GetBucketLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8664,7 +8665,7 @@ export type GetBucketLocationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketLocation: API.OperationMethod<
-  GetBucketLocationRequest,
+  GetBucketLocationRequest & RegionInput,
   GetBucketLocationOutput,
   GetBucketLocationError,
   Credentials | HttpClient.HttpClient
@@ -8701,7 +8702,7 @@ export type GetBucketLoggingError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketLogging: API.OperationMethod<
-  GetBucketLoggingRequest,
+  GetBucketLoggingRequest & RegionInput,
   GetBucketLoggingOutput,
   GetBucketLoggingError,
   Credentials | HttpClient.HttpClient
@@ -8753,7 +8754,7 @@ export type GetBucketMetadataConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketMetadataConfiguration: API.OperationMethod<
-  GetBucketMetadataConfigurationRequest,
+  GetBucketMetadataConfigurationRequest & RegionInput,
   GetBucketMetadataConfigurationOutput,
   GetBucketMetadataConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8811,7 +8812,7 @@ export type GetBucketMetadataTableConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketMetadataTableConfiguration: API.OperationMethod<
-  GetBucketMetadataTableConfigurationRequest,
+  GetBucketMetadataTableConfigurationRequest & RegionInput,
   GetBucketMetadataTableConfigurationOutput,
   GetBucketMetadataTableConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8881,7 +8882,7 @@ export type GetBucketMetricsConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketMetricsConfiguration: API.OperationMethod<
-  GetBucketMetricsConfigurationRequest,
+  GetBucketMetricsConfigurationRequest & RegionInput,
   GetBucketMetricsConfigurationOutput,
   GetBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8932,7 +8933,7 @@ export type GetBucketNotificationConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketNotificationConfiguration: API.OperationMethod<
-  GetBucketNotificationConfigurationRequest,
+  GetBucketNotificationConfigurationRequest & RegionInput,
   NotificationConfiguration,
   GetBucketNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8983,7 +8984,7 @@ export type GetBucketOwnershipControlsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketOwnershipControls: API.OperationMethod<
-  GetBucketOwnershipControlsRequest,
+  GetBucketOwnershipControlsRequest & RegionInput,
   GetBucketOwnershipControlsOutput,
   GetBucketOwnershipControlsError,
   Credentials | HttpClient.HttpClient
@@ -9069,7 +9070,7 @@ export type GetBucketPolicyError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketPolicy: API.OperationMethod<
-  GetBucketPolicyRequest,
+  GetBucketPolicyRequest & RegionInput,
   GetBucketPolicyOutput,
   GetBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9122,7 +9123,7 @@ export type GetBucketPolicyStatusError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketPolicyStatus: API.OperationMethod<
-  GetBucketPolicyStatusRequest,
+  GetBucketPolicyStatusRequest & RegionInput,
   GetBucketPolicyStatusOutput,
   GetBucketPolicyStatusError,
   Credentials | HttpClient.HttpClient
@@ -9175,7 +9176,7 @@ export type GetBucketReplicationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketReplication: API.OperationMethod<
-  GetBucketReplicationRequest,
+  GetBucketReplicationRequest & RegionInput,
   GetBucketReplicationOutput,
   GetBucketReplicationError,
   Credentials | HttpClient.HttpClient
@@ -9216,7 +9217,7 @@ export type GetBucketRequestPaymentError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketRequestPayment: API.OperationMethod<
-  GetBucketRequestPaymentRequest,
+  GetBucketRequestPaymentRequest & RegionInput,
   GetBucketRequestPaymentOutput,
   GetBucketRequestPaymentError,
   Credentials | HttpClient.HttpClient
@@ -9262,7 +9263,7 @@ export type GetBucketTaggingError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketTagging: API.OperationMethod<
-  GetBucketTaggingRequest,
+  GetBucketTaggingRequest & RegionInput,
   GetBucketTaggingOutput,
   GetBucketTaggingError,
   Credentials | HttpClient.HttpClient
@@ -9313,7 +9314,7 @@ export type GetBucketVersioningError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketVersioning: API.OperationMethod<
-  GetBucketVersioningRequest,
+  GetBucketVersioningRequest & RegionInput,
   GetBucketVersioningOutput,
   GetBucketVersioningError,
   Credentials | HttpClient.HttpClient
@@ -9356,7 +9357,7 @@ export type GetBucketWebsiteError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getBucketWebsite: API.OperationMethod<
-  GetBucketWebsiteRequest,
+  GetBucketWebsiteRequest & RegionInput,
   GetBucketWebsiteOutput,
   GetBucketWebsiteError,
   Credentials | HttpClient.HttpClient
@@ -9522,7 +9523,7 @@ export type GetObjectError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getObject: API.OperationMethod<
-  GetObjectRequest,
+  GetObjectRequest & RegionInput,
   GetObjectOutput,
   GetObjectError,
   Credentials | HttpClient.HttpClient
@@ -9586,7 +9587,7 @@ export type GetObjectAclError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getObjectAcl: API.OperationMethod<
-  GetObjectAclRequest,
+  GetObjectAclRequest & RegionInput,
   GetObjectAclOutput,
   GetObjectAclError,
   Credentials | HttpClient.HttpClient
@@ -9634,7 +9635,7 @@ export type GetObjectAnnotationError =
  * - DeleteObjectAnnotation
  */
 export const getObjectAnnotation: API.OperationMethod<
-  GetObjectAnnotationRequest,
+  GetObjectAnnotationRequest & RegionInput,
   GetObjectAnnotationOutput,
   GetObjectAnnotationError,
   Credentials | HttpClient.HttpClient
@@ -9796,7 +9797,7 @@ export type GetObjectAttributesError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getObjectAttributes: API.OperationMethod<
-  GetObjectAttributesRequest,
+  GetObjectAttributesRequest & RegionInput,
   GetObjectAttributesOutput,
   GetObjectAttributesError,
   Credentials | HttpClient.HttpClient
@@ -9834,7 +9835,7 @@ export type GetObjectLegalHoldError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getObjectLegalHold: API.OperationMethod<
-  GetObjectLegalHoldRequest,
+  GetObjectLegalHoldRequest & RegionInput,
   GetObjectLegalHoldOutput,
   GetObjectLegalHoldError,
   Credentials | HttpClient.HttpClient
@@ -9879,7 +9880,7 @@ export type GetObjectLockConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getObjectLockConfiguration: API.OperationMethod<
-  GetObjectLockConfigurationRequest,
+  GetObjectLockConfigurationRequest & RegionInput,
   GetObjectLockConfigurationOutput,
   GetObjectLockConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9924,7 +9925,7 @@ export type GetObjectRetentionError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getObjectRetention: API.OperationMethod<
-  GetObjectRetentionRequest,
+  GetObjectRetentionRequest & RegionInput,
   GetObjectRetentionOutput,
   GetObjectRetentionError,
   Credentials | HttpClient.HttpClient
@@ -9984,7 +9985,7 @@ export type GetObjectTaggingError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getObjectTagging: API.OperationMethod<
-  GetObjectTaggingRequest,
+  GetObjectTaggingRequest & RegionInput,
   GetObjectTaggingOutput,
   GetObjectTaggingError,
   Credentials | HttpClient.HttpClient
@@ -10029,7 +10030,7 @@ export type GetObjectTorrentError = InvalidAccessKeyId | CommonErrors;
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getObjectTorrent: API.OperationMethod<
-  GetObjectTorrentRequest,
+  GetObjectTorrentRequest & RegionInput,
   GetObjectTorrentOutput,
   GetObjectTorrentError,
   Credentials | HttpClient.HttpClient
@@ -10086,7 +10087,7 @@ export type GetPublicAccessBlockError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const getPublicAccessBlock: API.OperationMethod<
-  GetPublicAccessBlockRequest,
+  GetPublicAccessBlockRequest & RegionInput,
   GetPublicAccessBlockOutput,
   GetPublicAccessBlockError,
   Credentials | HttpClient.HttpClient
@@ -10180,7 +10181,7 @@ export type HeadBucketError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const headBucket: API.OperationMethod<
-  HeadBucketRequest,
+  HeadBucketRequest & RegionInput,
   HeadBucketOutput,
   HeadBucketError,
   Credentials | HttpClient.HttpClient
@@ -10313,7 +10314,7 @@ export type HeadObjectError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const headObject: API.OperationMethod<
-  HeadObjectRequest,
+  HeadObjectRequest & RegionInput,
   HeadObjectOutput,
   HeadObjectError,
   Credentials | HttpClient.HttpClient
@@ -10375,7 +10376,7 @@ export type ListBucketAnalyticsConfigurationsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listBucketAnalyticsConfigurations: API.OperationMethod<
-  ListBucketAnalyticsConfigurationsRequest,
+  ListBucketAnalyticsConfigurationsRequest & RegionInput,
   ListBucketAnalyticsConfigurationsOutput,
   ListBucketAnalyticsConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -10418,7 +10419,7 @@ export type ListBucketIntelligentTieringConfigurationsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listBucketIntelligentTieringConfigurations: API.OperationMethod<
-  ListBucketIntelligentTieringConfigurationsRequest,
+  ListBucketIntelligentTieringConfigurationsRequest & RegionInput,
   ListBucketIntelligentTieringConfigurationsOutput,
   ListBucketIntelligentTieringConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -10490,7 +10491,7 @@ export type ListBucketInventoryConfigurationsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listBucketInventoryConfigurations: API.OperationMethod<
-  ListBucketInventoryConfigurationsRequest,
+  ListBucketInventoryConfigurationsRequest & RegionInput,
   ListBucketInventoryConfigurationsOutput,
   ListBucketInventoryConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -10564,7 +10565,7 @@ export type ListBucketMetricsConfigurationsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listBucketMetricsConfigurations: API.OperationMethod<
-  ListBucketMetricsConfigurationsRequest,
+  ListBucketMetricsConfigurationsRequest & RegionInput,
   ListBucketMetricsConfigurationsOutput,
   ListBucketMetricsConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -10604,7 +10605,7 @@ export type ListBucketsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listBuckets: API.PaginatedOperationMethod<
-  ListBucketsRequest,
+  ListBucketsRequest & RegionInput,
   ListBucketsOutput,
   ListBucketsError,
   Credentials | HttpClient.HttpClient,
@@ -10655,7 +10656,7 @@ export type ListDirectoryBucketsError = InvalidAccessKeyId | CommonErrors;
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listDirectoryBuckets: API.PaginatedOperationMethod<
-  ListDirectoryBucketsRequest,
+  ListDirectoryBucketsRequest & RegionInput,
   ListDirectoryBucketsOutput,
   ListDirectoryBucketsError,
   Credentials | HttpClient.HttpClient,
@@ -10772,7 +10773,7 @@ export type ListMultipartUploadsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listMultipartUploads: API.OperationMethod<
-  ListMultipartUploadsRequest,
+  ListMultipartUploadsRequest & RegionInput,
   ListMultipartUploadsOutput,
   ListMultipartUploadsError,
   Credentials | HttpClient.HttpClient
@@ -10813,7 +10814,7 @@ export type ListObjectAnnotationsError =
  * - DeleteObjectAnnotation
  */
 export const listObjectAnnotations: API.PaginatedOperationMethod<
-  ListObjectAnnotationsRequest,
+  ListObjectAnnotationsRequest & RegionInput,
   ListObjectAnnotationsOutput,
   ListObjectAnnotationsError,
   Credentials | HttpClient.HttpClient,
@@ -10869,7 +10870,7 @@ export type ListObjectsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listObjects: API.OperationMethod<
-  ListObjectsRequest,
+  ListObjectsRequest & RegionInput,
   ListObjectsOutput,
   ListObjectsError,
   Credentials | HttpClient.HttpClient
@@ -10958,7 +10959,7 @@ export type ListObjectsV2Error =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listObjectsV2: API.PaginatedOperationMethod<
-  ListObjectsV2Request,
+  ListObjectsV2Request & RegionInput,
   ListObjectsV2Output,
   ListObjectsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -11013,7 +11014,7 @@ export type ListObjectVersionsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listObjectVersions: API.OperationMethod<
-  ListObjectVersionsRequest,
+  ListObjectVersionsRequest & RegionInput,
   ListObjectVersionsOutput,
   ListObjectVersionsError,
   Credentials | HttpClient.HttpClient
@@ -11098,7 +11099,7 @@ export type ListPartsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const listParts: API.PaginatedOperationMethod<
-  ListPartsRequest,
+  ListPartsRequest & RegionInput,
   ListPartsOutput,
   ListPartsError,
   Credentials | HttpClient.HttpClient,
@@ -11125,7 +11126,7 @@ export type PutBucketAbacError = InvalidAccessKeyId | CommonErrors;
  * Sets the attribute-based access control (ABAC) property of the general purpose bucket. You must have `s3:PutBucketABAC` permission to perform this action. When you enable ABAC, you can use tags for access control on your buckets. Additionally, when ABAC is enabled, you must use the TagResource and UntagResource actions to manage tags on your buckets. You can nolonger use the PutBucketTagging and DeleteBucketTagging actions to tag your bucket. For more information, see Enabling ABAC in general purpose buckets.
  */
 export const putBucketAbac: API.OperationMethod<
-  PutBucketAbacRequest,
+  PutBucketAbacRequest & RegionInput,
   PutBucketAbacResponse,
   PutBucketAbacError,
   Credentials | HttpClient.HttpClient
@@ -11184,7 +11185,7 @@ export type PutBucketAccelerateConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketAccelerateConfiguration: API.OperationMethod<
-  PutBucketAccelerateConfigurationRequest,
+  PutBucketAccelerateConfigurationRequest & RegionInput,
   PutBucketAccelerateConfigurationResponse,
   PutBucketAccelerateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -11352,7 +11353,7 @@ export type PutBucketAclError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketAcl: API.OperationMethod<
-  PutBucketAclRequest,
+  PutBucketAclRequest & RegionInput,
   PutBucketAclResponse,
   PutBucketAclError,
   Credentials | HttpClient.HttpClient
@@ -11432,7 +11433,7 @@ export type PutBucketAnalyticsConfigurationError = InvalidAccessKeyId | CommonEr
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketAnalyticsConfiguration: API.OperationMethod<
-  PutBucketAnalyticsConfigurationRequest,
+  PutBucketAnalyticsConfigurationRequest & RegionInput,
   PutBucketAnalyticsConfigurationResponse,
   PutBucketAnalyticsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -11501,7 +11502,7 @@ export type PutBucketCorsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketCors: API.OperationMethod<
-  PutBucketCorsRequest,
+  PutBucketCorsRequest & RegionInput,
   PutBucketCorsResponse,
   PutBucketCorsError,
   Credentials | HttpClient.HttpClient
@@ -11609,7 +11610,7 @@ export type PutBucketEncryptionError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketEncryption: API.OperationMethod<
-  PutBucketEncryptionRequest,
+  PutBucketEncryptionRequest & RegionInput,
   PutBucketEncryptionResponse,
   PutBucketEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -11678,7 +11679,7 @@ export type PutBucketIntelligentTieringConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketIntelligentTieringConfiguration: API.OperationMethod<
-  PutBucketIntelligentTieringConfigurationRequest,
+  PutBucketIntelligentTieringConfigurationRequest & RegionInput,
   PutBucketIntelligentTieringConfigurationResponse,
   PutBucketIntelligentTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -11790,7 +11791,7 @@ export type PutBucketInventoryConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketInventoryConfiguration: API.OperationMethod<
-  PutBucketInventoryConfigurationRequest,
+  PutBucketInventoryConfigurationRequest & RegionInput,
   PutBucketInventoryConfigurationResponse,
   PutBucketInventoryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -11911,7 +11912,7 @@ export type PutBucketLifecycleConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketLifecycleConfiguration: API.OperationMethod<
-  PutBucketLifecycleConfigurationRequest,
+  PutBucketLifecycleConfigurationRequest & RegionInput,
   PutBucketLifecycleConfigurationOutput,
   PutBucketLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -12010,7 +12011,7 @@ export type PutBucketLoggingError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketLogging: API.OperationMethod<
-  PutBucketLoggingRequest,
+  PutBucketLoggingRequest & RegionInput,
   PutBucketLoggingResponse,
   PutBucketLoggingError,
   Credentials | HttpClient.HttpClient
@@ -12087,7 +12088,7 @@ export type PutBucketMetricsConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketMetricsConfiguration: API.OperationMethod<
-  PutBucketMetricsConfigurationRequest,
+  PutBucketMetricsConfigurationRequest & RegionInput,
   PutBucketMetricsConfigurationResponse,
   PutBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -12162,7 +12163,7 @@ export type PutBucketNotificationConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketNotificationConfiguration: API.OperationMethod<
-  PutBucketNotificationConfigurationRequest,
+  PutBucketNotificationConfigurationRequest & RegionInput,
   PutBucketNotificationConfigurationResponse,
   PutBucketNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -12201,7 +12202,7 @@ export type PutBucketOwnershipControlsError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketOwnershipControls: API.OperationMethod<
-  PutBucketOwnershipControlsRequest,
+  PutBucketOwnershipControlsRequest & RegionInput,
   PutBucketOwnershipControlsResponse,
   PutBucketOwnershipControlsError,
   Credentials | HttpClient.HttpClient
@@ -12287,7 +12288,7 @@ export type PutBucketPolicyError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketPolicy: API.OperationMethod<
-  PutBucketPolicyRequest,
+  PutBucketPolicyRequest & RegionInput,
   PutBucketPolicyResponse,
   PutBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -12383,7 +12384,7 @@ export type PutBucketReplicationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketReplication: API.OperationMethod<
-  PutBucketReplicationRequest,
+  PutBucketReplicationRequest & RegionInput,
   PutBucketReplicationResponse,
   PutBucketReplicationError,
   Credentials | HttpClient.HttpClient
@@ -12422,7 +12423,7 @@ export type PutBucketRequestPaymentError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketRequestPayment: API.OperationMethod<
-  PutBucketRequestPaymentRequest,
+  PutBucketRequestPaymentRequest & RegionInput,
   PutBucketRequestPaymentResponse,
   PutBucketRequestPaymentError,
   Credentials | HttpClient.HttpClient
@@ -12487,7 +12488,7 @@ export type PutBucketTaggingError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketTagging: API.OperationMethod<
-  PutBucketTaggingRequest,
+  PutBucketTaggingRequest & RegionInput,
   PutBucketTaggingResponse,
   PutBucketTaggingError,
   Credentials | HttpClient.HttpClient
@@ -12553,7 +12554,7 @@ export type PutBucketVersioningError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketVersioning: API.OperationMethod<
-  PutBucketVersioningRequest,
+  PutBucketVersioningRequest & RegionInput,
   PutBucketVersioningResponse,
   PutBucketVersioningError,
   Credentials | HttpClient.HttpClient
@@ -12647,7 +12648,7 @@ export type PutBucketWebsiteError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putBucketWebsite: API.OperationMethod<
-  PutBucketWebsiteRequest,
+  PutBucketWebsiteRequest & RegionInput,
   PutBucketWebsiteResponse,
   PutBucketWebsiteError,
   Credentials | HttpClient.HttpClient
@@ -12799,7 +12800,7 @@ export type PutObjectError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putObject: API.OperationMethod<
-  PutObjectRequest,
+  PutObjectRequest & RegionInput,
   PutObjectOutput,
   PutObjectError,
   Credentials | HttpClient.HttpClient
@@ -12977,7 +12978,7 @@ export type PutObjectAclError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putObjectAcl: API.OperationMethod<
-  PutObjectAclRequest,
+  PutObjectAclRequest & RegionInput,
   PutObjectAclOutput,
   PutObjectAclError,
   Credentials | HttpClient.HttpClient
@@ -13030,7 +13031,7 @@ export type PutObjectAnnotationError =
  * - DeleteObjectAnnotation
  */
 export const putObjectAnnotation: API.OperationMethod<
-  PutObjectAnnotationRequest,
+  PutObjectAnnotationRequest & RegionInput,
   PutObjectAnnotationOutput,
   PutObjectAnnotationError,
   Credentials | HttpClient.HttpClient
@@ -13074,7 +13075,7 @@ export type PutObjectLegalHoldError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putObjectLegalHold: API.OperationMethod<
-  PutObjectLegalHoldRequest,
+  PutObjectLegalHoldRequest & RegionInput,
   PutObjectLegalHoldOutput,
   PutObjectLegalHoldError,
   Credentials | HttpClient.HttpClient
@@ -13126,7 +13127,7 @@ export type PutObjectLockConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putObjectLockConfiguration: API.OperationMethod<
-  PutObjectLockConfigurationRequest,
+  PutObjectLockConfigurationRequest & RegionInput,
   PutObjectLockConfigurationOutput,
   PutObjectLockConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -13170,7 +13171,7 @@ export type PutObjectRetentionError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putObjectRetention: API.OperationMethod<
-  PutObjectRetentionRequest,
+  PutObjectRetentionRequest & RegionInput,
   PutObjectRetentionOutput,
   PutObjectRetentionError,
   Credentials | HttpClient.HttpClient
@@ -13243,7 +13244,7 @@ export type PutObjectTaggingError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putObjectTagging: API.OperationMethod<
-  PutObjectTaggingRequest,
+  PutObjectTaggingRequest & RegionInput,
   PutObjectTaggingOutput,
   PutObjectTaggingError,
   Credentials | HttpClient.HttpClient
@@ -13304,7 +13305,7 @@ export type PutPublicAccessBlockError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const putPublicAccessBlock: API.OperationMethod<
-  PutPublicAccessBlockRequest,
+  PutPublicAccessBlockRequest & RegionInput,
   PutPublicAccessBlockResponse,
   PutPublicAccessBlockError,
   Credentials | HttpClient.HttpClient
@@ -13366,7 +13367,7 @@ export type RenameObjectError = IdempotencyParameterMismatch | InvalidAccessKeyI
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const renameObject: API.OperationMethod<
-  RenameObjectRequest,
+  RenameObjectRequest & RegionInput,
   RenameObjectOutput,
   RenameObjectError,
   Credentials | HttpClient.HttpClient
@@ -13533,7 +13534,7 @@ export type RestoreObjectError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const restoreObject: API.OperationMethod<
-  RestoreObjectRequest,
+  RestoreObjectRequest & RegionInput,
   RestoreObjectOutput,
   RestoreObjectError,
   Credentials | HttpClient.HttpClient
@@ -13656,7 +13657,7 @@ export type SelectObjectContentError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const selectObjectContent: API.OperationMethod<
-  SelectObjectContentRequest,
+  SelectObjectContentRequest & RegionInput,
   SelectObjectContentOutput,
   SelectObjectContentError,
   Credentials | HttpClient.HttpClient
@@ -13699,7 +13700,7 @@ export type UpdateBucketMetadataAnnotationTableConfigurationError =
  * - GetBucketMetadataConfiguration
  */
 export const updateBucketMetadataAnnotationTableConfiguration: API.OperationMethod<
-  UpdateBucketMetadataAnnotationTableConfigurationRequest,
+  UpdateBucketMetadataAnnotationTableConfigurationRequest & RegionInput,
   UpdateBucketMetadataAnnotationTableConfigurationResponse,
   UpdateBucketMetadataAnnotationTableConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -13772,7 +13773,7 @@ export type UpdateBucketMetadataInventoryTableConfigurationError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const updateBucketMetadataInventoryTableConfiguration: API.OperationMethod<
-  UpdateBucketMetadataInventoryTableConfigurationRequest,
+  UpdateBucketMetadataInventoryTableConfigurationRequest & RegionInput,
   UpdateBucketMetadataInventoryTableConfigurationResponse,
   UpdateBucketMetadataInventoryTableConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -13821,7 +13822,7 @@ export type UpdateBucketMetadataJournalTableConfigurationError = InvalidAccessKe
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const updateBucketMetadataJournalTableConfiguration: API.OperationMethod<
-  UpdateBucketMetadataJournalTableConfigurationRequest,
+  UpdateBucketMetadataJournalTableConfigurationRequest & RegionInput,
   UpdateBucketMetadataJournalTableConfigurationResponse,
   UpdateBucketMetadataJournalTableConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -13960,7 +13961,7 @@ export type UpdateObjectEncryptionError =
  * operation with objects that have an Object Lock compliance mode retention period applied to them.
  */
 export const updateObjectEncryption: API.OperationMethod<
-  UpdateObjectEncryptionRequest,
+  UpdateObjectEncryptionRequest & RegionInput,
   UpdateObjectEncryptionResponse,
   UpdateObjectEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -14124,7 +14125,7 @@ export type UploadPartError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const uploadPart: API.OperationMethod<
-  UploadPartRequest,
+  UploadPartRequest & RegionInput,
   UploadPartOutput,
   UploadPartError,
   Credentials | HttpClient.HttpClient
@@ -14324,7 +14325,7 @@ export type UploadPartCopyError =
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const uploadPartCopy: API.OperationMethod<
-  UploadPartCopyRequest,
+  UploadPartCopyRequest & RegionInput,
   UploadPartCopyOutput,
   UploadPartCopyError,
   Credentials | HttpClient.HttpClient
@@ -14400,7 +14401,7 @@ export type WriteGetObjectResponseError = InvalidAccessKeyId | CommonErrors;
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
 export const writeGetObjectResponse: API.OperationMethod<
-  WriteGetObjectResponseRequest,
+  WriteGetObjectResponseRequest & RegionInput,
   WriteGetObjectResponseResponse,
   WriteGetObjectResponseError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -202,7 +203,7 @@ export type GetMediaError =
  * bottom of this topic, as well as Common Errors.
  */
 export const getMedia: API.OperationMethod<
-  GetMediaInput,
+  GetMediaInput & RegionInput,
   GetMediaOutput,
   GetMediaError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2765,7 +2766,7 @@ export type ActivateOrganizationsAccessError =
  * and manage StackSets for your organization.
  */
 export const activateOrganizationsAccess: API.OperationMethod<
-  ActivateOrganizationsAccessInput,
+  ActivateOrganizationsAccessInput & RegionInput,
   ActivateOrganizationsAccessOutput,
   ActivateOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -2798,7 +2799,7 @@ export type ActivateTypeError = CFNRegistryException | TypeNotFoundException | C
  * CloudFormation Hooks User Guide.
  */
 export const activateType: API.OperationMethod<
-  ActivateTypeInput,
+  ActivateTypeInput & RegionInput,
   ActivateTypeOutput,
   ActivateTypeError,
   Credentials | HttpClient.HttpClient
@@ -2826,7 +2827,7 @@ export type BatchDescribeTypeConfigurationsError =
  * *CloudFormation User Guide*.
  */
 export const batchDescribeTypeConfigurations: API.OperationMethod<
-  BatchDescribeTypeConfigurationsInput,
+  BatchDescribeTypeConfigurationsInput & RegionInput,
   BatchDescribeTypeConfigurationsOutput,
   BatchDescribeTypeConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -2849,7 +2850,7 @@ export type CancelUpdateStackError = TokenAlreadyExistsException | CommonErrors;
  * You can cancel only stacks that are in the `UPDATE_IN_PROGRESS` state.
  */
 export const cancelUpdateStack: API.OperationMethod<
-  CancelUpdateStackInput,
+  CancelUpdateStackInput & RegionInput,
   CancelUpdateStackResponse,
   CancelUpdateStackError,
   Credentials | HttpClient.HttpClient
@@ -2882,7 +2883,7 @@ export type ContinueUpdateRollbackError = TokenAlreadyExistsException | CommonEr
  * information for troubleshooting a failed update rollback, see Update rollback failed.
  */
 export const continueUpdateRollback: API.OperationMethod<
-  ContinueUpdateRollbackInput,
+  ContinueUpdateRollbackInput & RegionInput,
   ContinueUpdateRollbackOutput,
   ContinueUpdateRollbackError,
   Credentials | HttpClient.HttpClient
@@ -2927,7 +2928,7 @@ export type CreateChangeSetError =
  * `IncludeNestedStacks` to `True`.
  */
 export const createChangeSet: API.OperationMethod<
-  CreateChangeSetInput,
+  CreateChangeSetInput & RegionInput,
   CreateChangeSetOutput,
   CreateChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -2953,7 +2954,7 @@ export type CreateGeneratedTemplateError =
  * `DescribeGeneratedTemplate` API action.
  */
 export const createGeneratedTemplate: API.OperationMethod<
-  CreateGeneratedTemplateInput,
+  CreateGeneratedTemplateInput & RegionInput,
   CreateGeneratedTemplateOutput,
   CreateGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2987,7 +2988,7 @@ export type CreateStackError =
  * *CloudFormation User Guide*.
  */
 export const createStack: API.OperationMethod<
-  CreateStackInput,
+  CreateStackInput & RegionInput,
   CreateStackOutput,
   CreateStackError,
   Credentials | HttpClient.HttpClient
@@ -3034,7 +3035,7 @@ export type CreateStackInstancesError =
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
 export const createStackInstances: API.OperationMethod<
-  CreateStackInstancesInput,
+  CreateStackInstancesInput & RegionInput,
   CreateStackInstancesOutput,
   CreateStackInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3062,7 +3063,7 @@ export type CreateStackRefactorError = CommonErrors;
  * affected.
  */
 export const createStackRefactor: API.OperationMethod<
-  CreateStackRefactorInput,
+  CreateStackRefactorInput & RegionInput,
   CreateStackRefactorOutput,
   CreateStackRefactorError,
   Credentials | HttpClient.HttpClient
@@ -3086,7 +3087,7 @@ export type CreateStackSetError =
  * Creates a StackSet.
  */
 export const createStackSet: API.OperationMethod<
-  CreateStackSetInput,
+  CreateStackSetInput & RegionInput,
   CreateStackSetOutput,
   CreateStackSetError,
   Credentials | HttpClient.HttpClient
@@ -3111,7 +3112,7 @@ export type DeactivateOrganizationsAccessError =
  * service-managed StackSets for your organization.
  */
 export const deactivateOrganizationsAccess: API.OperationMethod<
-  DeactivateOrganizationsAccessInput,
+  DeactivateOrganizationsAccessInput & RegionInput,
   DeactivateOrganizationsAccessOutput,
   DeactivateOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -3142,7 +3143,7 @@ export type DeactivateTypeError = CFNRegistryException | TypeNotFoundException |
  * To see which extensions are currently activated, use ListTypes.
  */
 export const deactivateType: API.OperationMethod<
-  DeactivateTypeInput,
+  DeactivateTypeInput & RegionInput,
   DeactivateTypeOutput,
   DeactivateTypeError,
   Credentials | HttpClient.HttpClient
@@ -3170,7 +3171,7 @@ export type DeleteChangeSetError = InvalidChangeSetStatusException | CommonError
  * of `REVIEW_IN_PROGRESS`.
  */
 export const deleteChangeSet: API.OperationMethod<
-  DeleteChangeSetInput,
+  DeleteChangeSetInput & RegionInput,
   DeleteChangeSetOutput,
   DeleteChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -3193,7 +3194,7 @@ export type DeleteGeneratedTemplateError =
  * Deleted a generated template.
  */
 export const deleteGeneratedTemplate: API.OperationMethod<
-  DeleteGeneratedTemplateInput,
+  DeleteGeneratedTemplateInput & RegionInput,
   DeleteGeneratedTemplateResponse,
   DeleteGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3218,7 +3219,7 @@ export type DeleteStackError = TokenAlreadyExistsException | CommonErrors;
  * the CloudFormation console in the *CloudFormation User Guide*.
  */
 export const deleteStack: API.OperationMethod<
-  DeleteStackInput,
+  DeleteStackInput & RegionInput,
   DeleteStackResponse,
   DeleteStackError,
   Credentials | HttpClient.HttpClient
@@ -3256,7 +3257,7 @@ export type DeleteStackInstancesError =
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
 export const deleteStackInstances: API.OperationMethod<
-  DeleteStackInstancesInput,
+  DeleteStackInstancesInput & RegionInput,
   DeleteStackInstancesOutput,
   DeleteStackInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3286,7 +3287,7 @@ export type DeleteStackSetError =
  * be deleted. For more information about how to complete this, see DeleteStackInstances.
  */
 export const deleteStackSet: API.OperationMethod<
-  DeleteStackSetInput,
+  DeleteStackSetInput & RegionInput,
   DeleteStackSetOutput,
   DeleteStackSetError,
   Credentials | HttpClient.HttpClient
@@ -3323,7 +3324,7 @@ export type DeregisterTypeError = CFNRegistryException | TypeNotFoundException |
  * *CloudFormation User Guide*.
  */
 export const deregisterType: API.OperationMethod<
-  DeregisterTypeInput,
+  DeregisterTypeInput & RegionInput,
   DeregisterTypeOutput,
   DeregisterTypeError,
   Credentials | HttpClient.HttpClient
@@ -3344,7 +3345,7 @@ export type DescribeAccountLimitsError = CommonErrors;
  * can create in your account. For more information about account limits, see Understand CloudFormation quotas in the *CloudFormation User Guide*.
  */
 export const describeAccountLimits: API.PaginatedOperationMethod<
-  DescribeAccountLimitsInput,
+  DescribeAccountLimitsInput & RegionInput,
   DescribeAccountLimitsOutput,
   DescribeAccountLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -3373,7 +3374,7 @@ export type DescribeChangeSetError = ChangeSetNotFoundException | CommonErrors;
  * *CloudFormation User Guide*.
  */
 export const describeChangeSet: API.PaginatedOperationMethod<
-  DescribeChangeSetInput,
+  DescribeChangeSetInput & RegionInput,
   DescribeChangeSetOutput,
   DescribeChangeSetError,
   Credentials | HttpClient.HttpClient,
@@ -3396,7 +3397,7 @@ export type DescribeChangeSetHooksError = ChangeSetNotFoundException | CommonErr
  * CloudFormation makes when you run the change set.
  */
 export const describeChangeSetHooks: API.OperationMethod<
-  DescribeChangeSetHooksInput,
+  DescribeChangeSetHooksInput & RegionInput,
   DescribeChangeSetHooksOutput,
   DescribeChangeSetHooksError,
   Credentials | HttpClient.HttpClient
@@ -3439,7 +3440,7 @@ export type DescribeEventsError = CommonErrors;
  * must be specified as input.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsInput,
+  DescribeEventsInput & RegionInput,
   DescribeEventsOutput,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3468,7 +3469,7 @@ export type DescribeGeneratedTemplateError = GeneratedTemplateNotFoundException 
  * action.
  */
 export const describeGeneratedTemplate: API.OperationMethod<
-  DescribeGeneratedTemplateInput,
+  DescribeGeneratedTemplateInput & RegionInput,
   DescribeGeneratedTemplateOutput,
   DescribeGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3494,7 +3495,7 @@ export type DescribeOrganizationsAccessError =
  * parameter by the management account.
  */
 export const describeOrganizationsAccess: API.OperationMethod<
-  DescribeOrganizationsAccessInput,
+  DescribeOrganizationsAccessInput & RegionInput,
   DescribeOrganizationsAccessOutput,
   DescribeOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -3526,7 +3527,7 @@ export type DescribePublisherError = CFNRegistryException | CommonErrors;
  * *CloudFormation Command Line Interface (CLI) User Guide*
  */
 export const describePublisher: API.OperationMethod<
-  DescribePublisherInput,
+  DescribePublisherInput & RegionInput,
   DescribePublisherOutput,
   DescribePublisherError,
   Credentials | HttpClient.HttpClient
@@ -3546,7 +3547,7 @@ export type DescribeResourceScanError = ResourceScanNotFoundException | CommonEr
  * Describes details of a resource scan.
  */
 export const describeResourceScan: API.OperationMethod<
-  DescribeResourceScanInput,
+  DescribeResourceScanInput & RegionInput,
   DescribeResourceScanOutput,
   DescribeResourceScanError,
   Credentials | HttpClient.HttpClient
@@ -3578,7 +3579,7 @@ export type DescribeStackDriftDetectionStatusError = CommonErrors;
  * resources.
  */
 export const describeStackDriftDetectionStatus: API.OperationMethod<
-  DescribeStackDriftDetectionStatusInput,
+  DescribeStackDriftDetectionStatusInput & RegionInput,
   DescribeStackDriftDetectionStatusOutput,
   DescribeStackDriftDetectionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3603,7 +3604,7 @@ export type DescribeStackEventsError = CommonErrors;
  * specifying the unique stack identifier (stack ID).
  */
 export const describeStackEvents: API.PaginatedOperationMethod<
-  DescribeStackEventsInput,
+  DescribeStackEventsInput & RegionInput,
   DescribeStackEventsOutput,
   DescribeStackEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3631,7 +3632,7 @@ export type DescribeStackInstanceError =
  * For a list of stack instances that are associated with a specific StackSet, use ListStackInstances.
  */
 export const describeStackInstance: API.OperationMethod<
-  DescribeStackInstanceInput,
+  DescribeStackInstanceInput & RegionInput,
   DescribeStackInstanceOutput,
   DescribeStackInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3651,7 +3652,7 @@ export type DescribeStackRefactorError = StackRefactorNotFoundException | Common
  * Describes the stack refactor status.
  */
 export const describeStackRefactor: API.OperationMethod<
-  DescribeStackRefactorInput,
+  DescribeStackRefactorInput & RegionInput,
   DescribeStackRefactorOutput,
   DescribeStackRefactorError,
   Credentials | HttpClient.HttpClient
@@ -3674,7 +3675,7 @@ export type DescribeStackResourceError = CommonErrors;
  * after the stack has been deleted.
  */
 export const describeStackResource: API.OperationMethod<
-  DescribeStackResourceInput,
+  DescribeStackResourceInput & RegionInput,
   DescribeStackResourceOutput,
   DescribeStackResourceError,
   Credentials | HttpClient.HttpClient
@@ -3706,7 +3707,7 @@ export type DescribeStackResourceDriftsError = CommonErrors;
  * stack.
  */
 export const describeStackResourceDrifts: API.PaginatedOperationMethod<
-  DescribeStackResourceDriftsInput,
+  DescribeStackResourceDriftsInput & RegionInput,
   DescribeStackResourceDriftsOutput,
   DescribeStackResourceDriftsError,
   Credentials | HttpClient.HttpClient,
@@ -3749,7 +3750,7 @@ export type DescribeStackResourcesError = CommonErrors;
  * and `PhysicalResourceId` in the same request.
  */
 export const describeStackResources: API.OperationMethod<
-  DescribeStackResourcesInput,
+  DescribeStackResourcesInput & RegionInput,
   DescribeStackResourcesOutput,
   DescribeStackResourcesError,
   Credentials | HttpClient.HttpClient
@@ -3774,7 +3775,7 @@ export type DescribeStacksError = StackNotFound | CommonErrors;
  * If the stack doesn't exist, a `ValidationError` is returned.
  */
 export const describeStacks: API.PaginatedOperationMethod<
-  DescribeStacksInput,
+  DescribeStacksInput & RegionInput,
   DescribeStacksOutput,
   DescribeStacksError,
   Credentials | HttpClient.HttpClient,
@@ -3799,7 +3800,7 @@ export type DescribeStackSetError = StackSetNotFoundException | CommonErrors;
  * return the most up-to-date data.
  */
 export const describeStackSet: API.OperationMethod<
-  DescribeStackSetInput,
+  DescribeStackSetInput & RegionInput,
   DescribeStackSetOutput,
   DescribeStackSetError,
   Credentials | HttpClient.HttpClient
@@ -3825,7 +3826,7 @@ export type DescribeStackSetOperationError =
  * return the most up-to-date data.
  */
 export const describeStackSetOperation: API.OperationMethod<
-  DescribeStackSetOperationInput,
+  DescribeStackSetOperationInput & RegionInput,
   DescribeStackSetOperationOutput,
   DescribeStackSetOperationError,
   Credentials | HttpClient.HttpClient
@@ -3854,7 +3855,7 @@ export type DescribeTypeError = CFNRegistryException | TypeNotFoundException | C
  * *CloudFormation User Guide*.
  */
 export const describeType: API.OperationMethod<
-  DescribeTypeInput,
+  DescribeTypeInput & RegionInput,
   DescribeTypeOutput,
   DescribeTypeError,
   Credentials | HttpClient.HttpClient
@@ -3882,7 +3883,7 @@ export type DescribeTypeRegistrationError = CFNRegistryException | CommonErrors;
  * detailed information about an extension.
  */
 export const describeTypeRegistration: API.OperationMethod<
-  DescribeTypeRegistrationInput,
+  DescribeTypeRegistrationInput & RegionInput,
   DescribeTypeRegistrationOutput,
   DescribeTypeRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -3926,7 +3927,7 @@ export type DetectStackDriftError = CommonErrors;
  * itself.
  */
 export const detectStackDrift: API.OperationMethod<
-  DetectStackDriftInput,
+  DetectStackDriftInput & RegionInput,
   DetectStackDriftOutput,
   DetectStackDriftError,
   Credentials | HttpClient.HttpClient
@@ -3960,7 +3961,7 @@ export type DetectStackResourceDriftError = CommonErrors;
  * type support for imports and drift detection.
  */
 export const detectStackResourceDrift: API.OperationMethod<
-  DetectStackResourceDriftInput,
+  DetectStackResourceDriftInput & RegionInput,
   DetectStackResourceDriftOutput,
   DetectStackResourceDriftError,
   Credentials | HttpClient.HttpClient
@@ -4013,7 +4014,7 @@ export type DetectStackSetDriftError =
  * To stop a drift detection StackSet operation, use StopStackSetOperation.
  */
 export const detectStackSetDrift: API.OperationMethod<
-  DetectStackSetDriftInput,
+  DetectStackSetDriftInput & RegionInput,
   DetectStackSetDriftOutput,
   DetectStackSetDriftError,
   Credentials | HttpClient.HttpClient
@@ -4035,7 +4036,7 @@ export type EstimateTemplateCostError = CommonErrors;
  * template.
  */
 export const estimateTemplateCost: API.OperationMethod<
-  EstimateTemplateCostInput,
+  EstimateTemplateCostInput & RegionInput,
   EstimateTemplateCostOutput,
   EstimateTemplateCostError,
   Credentials | HttpClient.HttpClient
@@ -4071,7 +4072,7 @@ export type ExecuteChangeSetError =
  * must have been set to `True`.
  */
 export const executeChangeSet: API.OperationMethod<
-  ExecuteChangeSetInput,
+  ExecuteChangeSetInput & RegionInput,
   ExecuteChangeSetOutput,
   ExecuteChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -4096,7 +4097,7 @@ export type ExecuteStackRefactorError = CommonErrors;
  * Executes the stack refactor operation.
  */
 export const executeStackRefactor: API.OperationMethod<
-  ExecuteStackRefactorInput,
+  ExecuteStackRefactorInput & RegionInput,
   ExecuteStackRefactorResponse,
   ExecuteStackRefactorError,
   Credentials | HttpClient.HttpClient
@@ -4119,7 +4120,7 @@ export type GetGeneratedTemplateError = GeneratedTemplateNotFoundException | Com
  * `Complete` status then an empty template will be returned.
  */
 export const getGeneratedTemplate: API.OperationMethod<
-  GetGeneratedTemplateInput,
+  GetGeneratedTemplateInput & RegionInput,
   GetGeneratedTemplateOutput,
   GetGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4146,7 +4147,7 @@ export type GetHookResultError = HookResultNotFoundException | CommonErrors;
  * *CloudFormation Hooks User Guide*.
  */
 export const getHookResult: API.OperationMethod<
-  GetHookResultInput,
+  GetHookResultInput & RegionInput,
   GetHookResultOutput,
   GetHookResultError,
   Credentials | HttpClient.HttpClient
@@ -4167,7 +4168,7 @@ export type GetStackPolicyError = CommonErrors;
  * value is returned.
  */
 export const getStackPolicy: API.OperationMethod<
-  GetStackPolicyInput,
+  GetStackPolicyInput & RegionInput,
   GetStackPolicyOutput,
   GetStackPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4193,7 +4194,7 @@ export type GetTemplateError = ChangeSetNotFoundException | CommonErrors;
  * If the template doesn't exist, a `ValidationError` is returned.
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateInput,
+  GetTemplateInput & RegionInput,
   GetTemplateOutput,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4222,7 +4223,7 @@ export type GetTemplateSummaryError = StackSetNotFoundException | CommonErrors;
  * `ValidationError` is returned.
  */
 export const getTemplateSummary: API.OperationMethod<
-  GetTemplateSummaryInput,
+  GetTemplateSummaryInput & RegionInput,
   GetTemplateSummaryOutput,
   GetTemplateSummaryError,
   Credentials | HttpClient.HttpClient
@@ -4253,7 +4254,7 @@ export type ImportStacksToStackSetError =
  * import.
  */
 export const importStacksToStackSet: API.OperationMethod<
-  ImportStacksToStackSetInput,
+  ImportStacksToStackSetInput & RegionInput,
   ImportStacksToStackSetOutput,
   ImportStacksToStackSetError,
   Credentials | HttpClient.HttpClient
@@ -4283,7 +4284,7 @@ export type ListChangeSetsError = CommonErrors;
  * `CREATE_PENDING` state.
  */
 export const listChangeSets: API.PaginatedOperationMethod<
-  ListChangeSetsInput,
+  ListChangeSetsInput & RegionInput,
   ListChangeSetsOutput,
   ListChangeSetsError,
   Credentials | HttpClient.HttpClient,
@@ -4310,7 +4311,7 @@ export type ListExportsError = CommonErrors;
  * from a deployed CloudFormation stack.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsInput,
+  ListExportsInput & RegionInput,
   ListExportsOutput,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -4332,7 +4333,7 @@ export type ListGeneratedTemplatesError = CommonErrors;
  * Lists your generated templates in this Region.
  */
 export const listGeneratedTemplates: API.PaginatedOperationMethod<
-  ListGeneratedTemplatesInput,
+  ListGeneratedTemplatesInput & RegionInput,
   ListGeneratedTemplatesOutput,
   ListGeneratedTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4372,7 +4373,7 @@ export type ListHookResultsError = HookResultNotFoundException | CommonErrors;
  * Hook invocation target.
  */
 export const listHookResults: API.OperationMethod<
-  ListHookResultsInput,
+  ListHookResultsInput & RegionInput,
   ListHookResultsOutput,
   ListHookResultsError,
   Credentials | HttpClient.HttpClient
@@ -4396,7 +4397,7 @@ export type ListImportsError = CommonErrors;
  * For more information about importing an exported output value, see the Fn::ImportValue function.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsInput,
+  ListImportsInput & RegionInput,
   ListImportsOutput,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -4422,7 +4423,7 @@ export type ListResourceScanRelatedResourcesError =
  * indicates whether each returned resource is already managed by CloudFormation.
  */
 export const listResourceScanRelatedResources: API.PaginatedOperationMethod<
-  ListResourceScanRelatedResourcesInput,
+  ListResourceScanRelatedResourcesInput & RegionInput,
   ListResourceScanRelatedResourcesOutput,
   ListResourceScanRelatedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4455,7 +4456,7 @@ export type ListResourceScanResourcesError =
  * already managed by CloudFormation.
  */
 export const listResourceScanResources: API.PaginatedOperationMethod<
-  ListResourceScanResourcesInput,
+  ListResourceScanResourcesInput & RegionInput,
   ListResourceScanResourcesOutput,
   ListResourceScanResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4483,7 +4484,7 @@ export type ListResourceScansError = CommonErrors;
  * scans.
  */
 export const listResourceScans: API.PaginatedOperationMethod<
-  ListResourceScansInput,
+  ListResourceScansInput & RegionInput,
   ListResourceScansOutput,
   ListResourceScansError,
   Credentials | HttpClient.HttpClient,
@@ -4518,7 +4519,7 @@ export type ListStackInstanceResourceDriftsError =
  * results.
  */
 export const listStackInstanceResourceDrifts: API.OperationMethod<
-  ListStackInstanceResourceDriftsInput,
+  ListStackInstanceResourceDriftsInput & RegionInput,
   ListStackInstanceResourceDriftsOutput,
   ListStackInstanceResourceDriftsError,
   Credentials | HttpClient.HttpClient
@@ -4540,7 +4541,7 @@ export type ListStackInstancesError = StackSetNotFoundException | CommonErrors;
  * name or Region, or that have a specific status.
  */
 export const listStackInstances: API.PaginatedOperationMethod<
-  ListStackInstancesInput,
+  ListStackInstancesInput & RegionInput,
   ListStackInstancesOutput,
   ListStackInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -4567,7 +4568,7 @@ export type ListStackRefactorActionsError = CommonErrors;
  * Lists the stack refactor actions that will be taken after calling the ExecuteStackRefactor action.
  */
 export const listStackRefactorActions: API.PaginatedOperationMethod<
-  ListStackRefactorActionsInput,
+  ListStackRefactorActionsInput & RegionInput,
   ListStackRefactorActionsOutput,
   ListStackRefactorActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4594,7 +4595,7 @@ export type ListStackRefactorsError = CommonErrors;
  * Lists all account stack refactor operations and their statuses.
  */
 export const listStackRefactors: API.PaginatedOperationMethod<
-  ListStackRefactorsInput,
+  ListStackRefactorsInput & RegionInput,
   ListStackRefactorsOutput,
   ListStackRefactorsError,
   Credentials | HttpClient.HttpClient,
@@ -4624,7 +4625,7 @@ export type ListStackResourcesError = CommonErrors;
  * after the stack has been deleted.
  */
 export const listStackResources: API.PaginatedOperationMethod<
-  ListStackResourcesInput,
+  ListStackResourcesInput & RegionInput,
   ListStackResourcesOutput,
   ListStackResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4654,7 +4655,7 @@ export type ListStacksError = CommonErrors;
  * stacks that have been deleted).
  */
 export const listStacks: API.PaginatedOperationMethod<
-  ListStacksInput,
+  ListStacksInput & RegionInput,
   ListStacksOutput,
   ListStacksError,
   Credentials | HttpClient.HttpClient,
@@ -4680,7 +4681,7 @@ export type ListStackSetAutoDeploymentTargetsError = StackSetNotFoundException |
  * Returns summary information about deployment targets for a StackSet.
  */
 export const listStackSetAutoDeploymentTargets: API.OperationMethod<
-  ListStackSetAutoDeploymentTargetsInput,
+  ListStackSetAutoDeploymentTargetsInput & RegionInput,
   ListStackSetAutoDeploymentTargetsOutput,
   ListStackSetAutoDeploymentTargetsError,
   Credentials | HttpClient.HttpClient
@@ -4706,7 +4707,7 @@ export type ListStackSetOperationResultsError =
  * some time but will eventually return the most up-to-date data.
  */
 export const listStackSetOperationResults: API.PaginatedOperationMethod<
-  ListStackSetOperationResultsInput,
+  ListStackSetOperationResultsInput & RegionInput,
   ListStackSetOperationResultsOutput,
   ListStackSetOperationResultsError,
   Credentials | HttpClient.HttpClient,
@@ -4736,7 +4737,7 @@ export type ListStackSetOperationsError = StackSetNotFoundException | CommonErro
  * some time but will eventually return the most up-to-date data.
  */
 export const listStackSetOperations: API.PaginatedOperationMethod<
-  ListStackSetOperationsInput,
+  ListStackSetOperationsInput & RegionInput,
   ListStackSetOperationsOutput,
   ListStackSetOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -4779,7 +4780,7 @@ export type ListStackSetsError = CommonErrors;
  * management account.
  */
 export const listStackSets: API.PaginatedOperationMethod<
-  ListStackSetsInput,
+  ListStackSetsInput & RegionInput,
   ListStackSetsOutput,
   ListStackSetsError,
   Credentials | HttpClient.HttpClient,
@@ -4806,7 +4807,7 @@ export type ListTypeRegistrationsError = CFNRegistryException | CommonErrors;
  * Returns a list of registration tokens for the specified extension(s).
  */
 export const listTypeRegistrations: API.PaginatedOperationMethod<
-  ListTypeRegistrationsInput,
+  ListTypeRegistrationsInput & RegionInput,
   ListTypeRegistrationsOutput,
   ListTypeRegistrationsError,
   Credentials | HttpClient.HttpClient,
@@ -4834,7 +4835,7 @@ export type ListTypesError = CFNRegistryException | CommonErrors;
  * publishers.
  */
 export const listTypes: API.PaginatedOperationMethod<
-  ListTypesInput,
+  ListTypesInput & RegionInput,
   ListTypesOutput,
   ListTypesError,
   Credentials | HttpClient.HttpClient,
@@ -4861,7 +4862,7 @@ export type ListTypeVersionsError = CFNRegistryException | CommonErrors;
  * Returns summary information about the versions of an extension.
  */
 export const listTypeVersions: API.PaginatedOperationMethod<
-  ListTypeVersionsInput,
+  ListTypeVersionsInput & RegionInput,
   ListTypeVersionsOutput,
   ListTypeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4894,7 +4895,7 @@ export type PublishTypeError = CFNRegistryException | TypeNotFoundException | Co
  * information, see RegisterPublisher.
  */
 export const publishType: API.OperationMethod<
-  PublishTypeInput,
+  PublishTypeInput & RegionInput,
   PublishTypeOutput,
   PublishTypeError,
   Credentials | HttpClient.HttpClient
@@ -4920,7 +4921,7 @@ export type RecordHandlerProgressError =
  * CLI. Don't use this API in your code.
  */
 export const recordHandlerProgress: API.OperationMethod<
-  RecordHandlerProgressInput,
+  RecordHandlerProgressInput & RegionInput,
   RecordHandlerProgressOutput,
   RecordHandlerProgressError,
   Credentials | HttpClient.HttpClient
@@ -4946,7 +4947,7 @@ export type RegisterPublisherError = CFNRegistryException | CommonErrors;
  * *CloudFormation Command Line Interface (CLI) User Guide*.
  */
 export const registerPublisher: API.OperationMethod<
-  RegisterPublisherInput,
+  RegisterPublisherInput & RegionInput,
   RegisterPublisherOutput,
   RegisterPublisherError,
   Credentials | HttpClient.HttpClient
@@ -4990,7 +4991,7 @@ export type RegisterTypeError = CFNRegistryException | CommonErrors;
  * *CloudFormation User Guide*.
  */
 export const registerType: API.OperationMethod<
-  RegisterTypeInput,
+  RegisterTypeInput & RegionInput,
   RegisterTypeOutput,
   RegisterTypeError,
   Credentials | HttpClient.HttpClient
@@ -5029,7 +5030,7 @@ export type RollbackStackError = TokenAlreadyExistsException | CommonErrors;
  * - `IMPORT_ROLLBACK_COMPLETE`
  */
 export const rollbackStack: API.OperationMethod<
-  RollbackStackInput,
+  RollbackStackInput & RegionInput,
   RollbackStackOutput,
   RollbackStackError,
   Credentials | HttpClient.HttpClient
@@ -5049,7 +5050,7 @@ export type SetStackPolicyError = CommonErrors;
  * Sets a stack policy for a specified stack.
  */
 export const setStackPolicy: API.OperationMethod<
-  SetStackPolicyInput,
+  SetStackPolicyInput & RegionInput,
   SetStackPolicyResponse,
   SetStackPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5085,7 +5086,7 @@ export type SetTypeConfigurationError = CFNRegistryException | TypeNotFoundExcep
  * data for Hooks, see the CloudFormation Hooks User Guide.
  */
 export const setTypeConfiguration: API.OperationMethod<
-  SetTypeConfigurationInput,
+  SetTypeConfigurationInput & RegionInput,
   SetTypeConfigurationOutput,
   SetTypeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5109,7 +5110,7 @@ export type SetTypeDefaultVersionError =
  * used in CloudFormation operations.
  */
 export const setTypeDefaultVersion: API.OperationMethod<
-  SetTypeDefaultVersionInput,
+  SetTypeDefaultVersionInput & RegionInput,
   SetTypeDefaultVersionOutput,
   SetTypeDefaultVersionError,
   Credentials | HttpClient.HttpClient
@@ -5134,7 +5135,7 @@ export type SignalResourceError = CommonErrors;
  * instance.
  */
 export const signalResource: API.OperationMethod<
-  SignalResourceInput,
+  SignalResourceInput & RegionInput,
   SignalResourceResponse,
   SignalResourceError,
   Credentials | HttpClient.HttpClient
@@ -5158,7 +5159,7 @@ export type StartResourceScanError =
  * scan using the `ListResourceScans` API action.
  */
 export const startResourceScan: API.OperationMethod<
-  StartResourceScanInput,
+  StartResourceScanInput & RegionInput,
   StartResourceScanOutput,
   StartResourceScanError,
   Credentials | HttpClient.HttpClient
@@ -5184,7 +5185,7 @@ export type StopStackSetOperationError =
  * complete.
  */
 export const stopStackSetOperation: API.OperationMethod<
-  StopStackSetOperationInput,
+  StopStackSetOperationInput & RegionInput,
   StopStackSetOperationOutput,
   StopStackSetOperationError,
   Credentials | HttpClient.HttpClient
@@ -5229,7 +5230,7 @@ export type TestTypeError = CFNRegistryException | TypeNotFoundException | Commo
  * *CloudFormation Command Line Interface (CLI) User Guide*.
  */
 export const testType: API.OperationMethod<
-  TestTypeInput,
+  TestTypeInput & RegionInput,
   TestTypeOutput,
   TestTypeError,
   Credentials | HttpClient.HttpClient
@@ -5256,7 +5257,7 @@ export type UpdateGeneratedTemplateError =
  * generated template using the `DescribeGeneratedTemplate` API action.
  */
 export const updateGeneratedTemplate: API.OperationMethod<
-  UpdateGeneratedTemplateInput,
+  UpdateGeneratedTemplateInput & RegionInput,
   UpdateGeneratedTemplateOutput,
   UpdateGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5288,7 +5289,7 @@ export type UpdateStackError =
  * *CloudFormation User Guide*.
  */
 export const updateStack: API.OperationMethod<
-  UpdateStackInput,
+  UpdateStackInput & RegionInput,
   UpdateStackOutput,
   UpdateStackError,
   Credentials | HttpClient.HttpClient
@@ -5343,7 +5344,7 @@ export type UpdateStackInstancesError =
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
 export const updateStackInstances: API.OperationMethod<
-  UpdateStackInstancesInput,
+  UpdateStackInstancesInput & RegionInput,
   UpdateStackInstancesOutput,
   UpdateStackInstancesError,
   Credentials | HttpClient.HttpClient
@@ -5395,7 +5396,7 @@ export type UpdateStackSetError =
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
 export const updateStackSet: API.OperationMethod<
-  UpdateStackSetInput,
+  UpdateStackSetInput & RegionInput,
   UpdateStackSetOutput,
   UpdateStackSetError,
   Credentials | HttpClient.HttpClient
@@ -5429,7 +5430,7 @@ export type UpdateTerminationProtectionError = CommonErrors;
  * stack.
  */
 export const updateTerminationProtection: API.OperationMethod<
-  UpdateTerminationProtectionInput,
+  UpdateTerminationProtectionInput & RegionInput,
   UpdateTerminationProtectionOutput,
   UpdateTerminationProtectionError,
   Credentials | HttpClient.HttpClient
@@ -5451,7 +5452,7 @@ export type ValidateTemplateError = CommonErrors;
  * CloudFormation returns a template validation error.
  */
 export const validateTemplate: API.OperationMethod<
-  ValidateTemplateInput,
+  ValidateTemplateInput & RegionInput,
   ValidateTemplateOutput,
   ValidateTemplateError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1412,7 +1413,7 @@ export type AcceptInboundCrossClusterSearchConnectionError =
  * Allows the destination domain owner to accept an inbound cross-cluster search connection request.
  */
 export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
-  AcceptInboundCrossClusterSearchConnectionRequest,
+  AcceptInboundCrossClusterSearchConnectionRequest & RegionInput,
   AcceptInboundCrossClusterSearchConnectionResponse,
   AcceptInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1439,7 @@ export type AddTagsError =
  * Tagging Amazon Elasticsearch Service Domains for more information.
  */
 export const addTags: API.OperationMethod<
-  AddTagsRequest,
+  AddTagsRequest & RegionInput,
   AddTagsResponse,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -1465,7 +1466,7 @@ export type AssociatePackageError =
  * Associates a package with an Amazon ES domain.
  */
 export const associatePackage: API.OperationMethod<
-  AssociatePackageRequest,
+  AssociatePackageRequest & RegionInput,
   AssociatePackageResponse,
   AssociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -1499,7 +1500,7 @@ export type AuthorizeVpcEndpointAccessError =
  * Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
  */
 export const authorizeVpcEndpointAccess: API.OperationMethod<
-  AuthorizeVpcEndpointAccessRequest,
+  AuthorizeVpcEndpointAccessRequest & RegionInput,
   AuthorizeVpcEndpointAccessResponse,
   AuthorizeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -1532,7 +1533,7 @@ export type CancelDomainConfigChangeError =
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
 export const cancelDomainConfigChange: API.OperationMethod<
-  CancelDomainConfigChangeRequest,
+  CancelDomainConfigChangeRequest & RegionInput,
   CancelDomainConfigChangeResponse,
   CancelDomainConfigChangeError,
   Credentials | HttpClient.HttpClient
@@ -1563,7 +1564,7 @@ export type CancelElasticsearchServiceSoftwareUpdateError =
  * Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the `AutomatedUpdateDate` and when the `UpdateStatus` is in the `PENDING_UPDATE` state.
  */
 export const cancelElasticsearchServiceSoftwareUpdate: API.OperationMethod<
-  CancelElasticsearchServiceSoftwareUpdateRequest,
+  CancelElasticsearchServiceSoftwareUpdateRequest & RegionInput,
   CancelElasticsearchServiceSoftwareUpdateResponse,
   CancelElasticsearchServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -1592,7 +1593,7 @@ export type CreateElasticsearchDomainError =
  * see Creating Elasticsearch Domains in the *Amazon Elasticsearch Service Developer Guide*.
  */
 export const createElasticsearchDomain: API.OperationMethod<
-  CreateElasticsearchDomainRequest,
+  CreateElasticsearchDomainRequest & RegionInput,
   CreateElasticsearchDomainResponse,
   CreateElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -1625,7 +1626,7 @@ export type CreateOutboundCrossClusterSearchConnectionError =
  * Creates a new cross-cluster search connection from a source domain to a destination domain.
  */
 export const createOutboundCrossClusterSearchConnection: API.OperationMethod<
-  CreateOutboundCrossClusterSearchConnectionRequest,
+  CreateOutboundCrossClusterSearchConnectionRequest & RegionInput,
   CreateOutboundCrossClusterSearchConnectionResponse,
   CreateOutboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1658,7 +1659,7 @@ export type CreatePackageError =
  * Create a package for use with Amazon ES domains.
  */
 export const createPackage: API.OperationMethod<
-  CreatePackageRequest,
+  CreatePackageRequest & RegionInput,
   CreatePackageResponse,
   CreatePackageError,
   Credentials | HttpClient.HttpClient
@@ -1693,7 +1694,7 @@ export type CreateVpcEndpointError =
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResponse,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1725,7 +1726,7 @@ export type DeleteElasticsearchDomainError =
  * Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
  */
 export const deleteElasticsearchDomain: API.OperationMethod<
-  DeleteElasticsearchDomainRequest,
+  DeleteElasticsearchDomainRequest & RegionInput,
   DeleteElasticsearchDomainResponse,
   DeleteElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -1749,7 +1750,7 @@ export type DeleteElasticsearchServiceRoleError =
  * Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in *VPC Endpoints for Amazon Elasticsearch Service Domains*.
  */
 export const deleteElasticsearchServiceRole: API.OperationMethod<
-  DeleteElasticsearchServiceRoleRequest,
+  DeleteElasticsearchServiceRoleRequest & RegionInput,
   DeleteElasticsearchServiceRoleResponse,
   DeleteElasticsearchServiceRoleError,
   Credentials | HttpClient.HttpClient
@@ -1772,7 +1773,7 @@ export type DeleteInboundCrossClusterSearchConnectionError =
  * Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
  */
 export const deleteInboundCrossClusterSearchConnection: API.OperationMethod<
-  DeleteInboundCrossClusterSearchConnectionRequest,
+  DeleteInboundCrossClusterSearchConnectionRequest & RegionInput,
   DeleteInboundCrossClusterSearchConnectionResponse,
   DeleteInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1795,7 +1796,7 @@ export type DeleteOutboundCrossClusterSearchConnectionError =
  * Allows the source domain owner to delete an existing outbound cross-cluster search connection.
  */
 export const deleteOutboundCrossClusterSearchConnection: API.OperationMethod<
-  DeleteOutboundCrossClusterSearchConnectionRequest,
+  DeleteOutboundCrossClusterSearchConnectionRequest & RegionInput,
   DeleteOutboundCrossClusterSearchConnectionResponse,
   DeleteOutboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1826,7 +1827,7 @@ export type DeletePackageError =
  * Delete the package.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResponse,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -1858,7 +1859,7 @@ export type DeleteVpcEndpointError =
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
-  DeleteVpcEndpointRequest,
+  DeleteVpcEndpointRequest & RegionInput,
   DeleteVpcEndpointResponse,
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1883,7 +1884,7 @@ export type DescribeDomainAutoTunesError =
  * Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
  */
 export const describeDomainAutoTunes: API.PaginatedOperationMethod<
-  DescribeDomainAutoTunesRequest,
+  DescribeDomainAutoTunesRequest & RegionInput,
   DescribeDomainAutoTunesResponse,
   DescribeDomainAutoTunesError,
   Credentials | HttpClient.HttpClient,
@@ -1915,7 +1916,7 @@ export type DescribeDomainChangeProgressError =
  * a change ID, status, and progress stages.
  */
 export const describeDomainChangeProgress: API.OperationMethod<
-  DescribeDomainChangeProgressRequest,
+  DescribeDomainChangeProgressRequest & RegionInput,
   DescribeDomainChangeProgressResponse,
   DescribeDomainChangeProgressError,
   Credentials | HttpClient.HttpClient
@@ -1940,7 +1941,7 @@ export type DescribeElasticsearchDomainError =
  * Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
  */
 export const describeElasticsearchDomain: API.OperationMethod<
-  DescribeElasticsearchDomainRequest,
+  DescribeElasticsearchDomainRequest & RegionInput,
   DescribeElasticsearchDomainResponse,
   DescribeElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -1965,7 +1966,7 @@ export type DescribeElasticsearchDomainConfigError =
  * Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
  */
 export const describeElasticsearchDomainConfig: API.OperationMethod<
-  DescribeElasticsearchDomainConfigRequest,
+  DescribeElasticsearchDomainConfigRequest & RegionInput,
   DescribeElasticsearchDomainConfigResponse,
   DescribeElasticsearchDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -1989,7 +1990,7 @@ export type DescribeElasticsearchDomainsError =
  * Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
  */
 export const describeElasticsearchDomains: API.OperationMethod<
-  DescribeElasticsearchDomainsRequest,
+  DescribeElasticsearchDomainsRequest & RegionInput,
   DescribeElasticsearchDomainsResponse,
   DescribeElasticsearchDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2021,7 +2022,7 @@ export type DescribeElasticsearchInstanceTypeLimitsError =
  * to know what Limits are supported for modifying.
  */
 export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
-  DescribeElasticsearchInstanceTypeLimitsRequest,
+  DescribeElasticsearchInstanceTypeLimitsRequest & RegionInput,
   DescribeElasticsearchInstanceTypeLimitsResponse,
   DescribeElasticsearchInstanceTypeLimitsError,
   Credentials | HttpClient.HttpClient
@@ -2051,7 +2052,7 @@ export type DescribeInboundCrossClusterSearchConnectionsError =
  * Lists all the inbound cross-cluster search connections for a destination domain.
  */
 export const describeInboundCrossClusterSearchConnections: API.PaginatedOperationMethod<
-  DescribeInboundCrossClusterSearchConnectionsRequest,
+  DescribeInboundCrossClusterSearchConnectionsRequest & RegionInput,
   DescribeInboundCrossClusterSearchConnectionsResponse,
   DescribeInboundCrossClusterSearchConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -2088,7 +2089,7 @@ export type DescribeOutboundCrossClusterSearchConnectionsError =
  * Lists all the outbound cross-cluster search connections for a source domain.
  */
 export const describeOutboundCrossClusterSearchConnections: API.PaginatedOperationMethod<
-  DescribeOutboundCrossClusterSearchConnectionsRequest,
+  DescribeOutboundCrossClusterSearchConnectionsRequest & RegionInput,
   DescribeOutboundCrossClusterSearchConnectionsResponse,
   DescribeOutboundCrossClusterSearchConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -2128,7 +2129,7 @@ export type DescribePackagesError =
  * Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
  */
 export const describePackages: API.PaginatedOperationMethod<
-  DescribePackagesRequest,
+  DescribePackagesRequest & RegionInput,
   DescribePackagesResponse,
   DescribePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -2165,7 +2166,7 @@ export type DescribeReservedElasticsearchInstanceOfferingsError =
  * Lists available reserved Elasticsearch instance offerings.
  */
 export const describeReservedElasticsearchInstanceOfferings: API.PaginatedOperationMethod<
-  DescribeReservedElasticsearchInstanceOfferingsRequest,
+  DescribeReservedElasticsearchInstanceOfferingsRequest & RegionInput,
   DescribeReservedElasticsearchInstanceOfferingsResponse,
   DescribeReservedElasticsearchInstanceOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -2209,7 +2210,7 @@ export type DescribeReservedElasticsearchInstancesError =
  * Returns information about reserved Elasticsearch instances for this account.
  */
 export const describeReservedElasticsearchInstances: API.PaginatedOperationMethod<
-  DescribeReservedElasticsearchInstancesRequest,
+  DescribeReservedElasticsearchInstancesRequest & RegionInput,
   DescribeReservedElasticsearchInstancesResponse,
   DescribeReservedElasticsearchInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2245,7 +2246,7 @@ export type DescribeVpcEndpointsError =
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
 export const describeVpcEndpoints: API.OperationMethod<
-  DescribeVpcEndpointsRequest,
+  DescribeVpcEndpointsRequest & RegionInput,
   DescribeVpcEndpointsResponse,
   DescribeVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2272,7 +2273,7 @@ export type DissociatePackageError =
  * Dissociates a package from the Amazon ES domain.
  */
 export const dissociatePackage: API.OperationMethod<
-  DissociatePackageRequest,
+  DissociatePackageRequest & RegionInput,
   DissociatePackageResponse,
   DissociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -2310,7 +2311,7 @@ export type GetCompatibleElasticsearchVersionsError =
  * to get all upgrade compatible Elasticsearch versions for that specific domain.
  */
 export const getCompatibleElasticsearchVersions: API.OperationMethod<
-  GetCompatibleElasticsearchVersionsRequest,
+  GetCompatibleElasticsearchVersionsRequest & RegionInput,
   GetCompatibleElasticsearchVersionsResponse,
   GetCompatibleElasticsearchVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2342,7 +2343,7 @@ export type GetPackageVersionHistoryError =
  * Returns a list of versions of the package, along with their creation time and commit message.
  */
 export const getPackageVersionHistory: API.PaginatedOperationMethod<
-  GetPackageVersionHistoryRequest,
+  GetPackageVersionHistoryRequest & RegionInput,
   GetPackageVersionHistoryResponse,
   GetPackageVersionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2380,7 +2381,7 @@ export type GetUpgradeHistoryError =
  * Retrieves the complete history of the last 10 upgrades that were performed on the domain.
  */
 export const getUpgradeHistory: API.PaginatedOperationMethod<
-  GetUpgradeHistoryRequest,
+  GetUpgradeHistoryRequest & RegionInput,
   GetUpgradeHistoryResponse,
   GetUpgradeHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2418,7 +2419,7 @@ export type GetUpgradeStatusError =
  * Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
  */
 export const getUpgradeStatus: API.OperationMethod<
-  GetUpgradeStatusRequest,
+  GetUpgradeStatusRequest & RegionInput,
   GetUpgradeStatusResponse,
   GetUpgradeStatusError,
   Credentials | HttpClient.HttpClient
@@ -2444,7 +2445,7 @@ export type ListDomainNamesError = BaseException | ValidationException | CommonE
  * Returns the name of all Elasticsearch domains owned by the current user's account.
  */
 export const listDomainNames: API.OperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient
@@ -2470,7 +2471,7 @@ export type ListDomainsForPackageError =
  * Lists all Amazon ES domains associated with the package.
  */
 export const listDomainsForPackage: API.PaginatedOperationMethod<
-  ListDomainsForPackageRequest,
+  ListDomainsForPackageRequest & RegionInput,
   ListDomainsForPackageResponse,
   ListDomainsForPackageError,
   Credentials | HttpClient.HttpClient,
@@ -2507,7 +2508,7 @@ export type ListElasticsearchInstanceTypesError =
  * List all Elasticsearch instance types that are supported for given ElasticsearchVersion
  */
 export const listElasticsearchInstanceTypes: API.PaginatedOperationMethod<
-  ListElasticsearchInstanceTypesRequest,
+  ListElasticsearchInstanceTypesRequest & RegionInput,
   ListElasticsearchInstanceTypesResponse,
   ListElasticsearchInstanceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2538,7 +2539,7 @@ export type ListElasticsearchVersionsError =
  * List all supported Elasticsearch versions
  */
 export const listElasticsearchVersions: API.PaginatedOperationMethod<
-  ListElasticsearchVersionsRequest,
+  ListElasticsearchVersionsRequest & RegionInput,
   ListElasticsearchVersionsResponse,
   ListElasticsearchVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2570,7 +2571,7 @@ export type ListPackagesForDomainError =
  * Lists all packages associated with the Amazon ES domain.
  */
 export const listPackagesForDomain: API.PaginatedOperationMethod<
-  ListPackagesForDomainRequest,
+  ListPackagesForDomainRequest & RegionInput,
   ListPackagesForDomainResponse,
   ListPackagesForDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2607,7 +2608,7 @@ export type ListTagsError =
  * Returns all tags for the given Elasticsearch domain.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -2633,7 +2634,7 @@ export type ListVpcEndpointAccessError =
  * given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
  */
 export const listVpcEndpointAccess: API.OperationMethod<
-  ListVpcEndpointAccessRequest,
+  ListVpcEndpointAccessRequest & RegionInput,
   ListVpcEndpointAccessResponse,
   ListVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2657,7 +2658,7 @@ export type ListVpcEndpointsError =
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
  */
 export const listVpcEndpoints: API.OperationMethod<
-  ListVpcEndpointsRequest,
+  ListVpcEndpointsRequest & RegionInput,
   ListVpcEndpointsResponse,
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2682,7 +2683,7 @@ export type ListVpcEndpointsForDomainError =
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
  */
 export const listVpcEndpointsForDomain: API.OperationMethod<
-  ListVpcEndpointsForDomainRequest,
+  ListVpcEndpointsForDomainRequest & RegionInput,
   ListVpcEndpointsForDomainResponse,
   ListVpcEndpointsForDomainError,
   Credentials | HttpClient.HttpClient
@@ -2709,7 +2710,7 @@ export type PurchaseReservedElasticsearchInstanceOfferingError =
  * Allows you to purchase reserved Elasticsearch instances.
  */
 export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
-  PurchaseReservedElasticsearchInstanceOfferingRequest,
+  PurchaseReservedElasticsearchInstanceOfferingRequest & RegionInput,
   PurchaseReservedElasticsearchInstanceOfferingResponse,
   PurchaseReservedElasticsearchInstanceOfferingError,
   Credentials | HttpClient.HttpClient
@@ -2747,7 +2748,7 @@ export type RejectInboundCrossClusterSearchConnectionError =
  * Allows the destination domain owner to reject an inbound cross-cluster search connection request.
  */
 export const rejectInboundCrossClusterSearchConnection: API.OperationMethod<
-  RejectInboundCrossClusterSearchConnectionRequest,
+  RejectInboundCrossClusterSearchConnectionRequest & RegionInput,
   RejectInboundCrossClusterSearchConnectionResponse,
   RejectInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2771,7 +2772,7 @@ export type RemoveTagsError =
  * Removes the specified set of tags from the specified Elasticsearch domain.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsRequest,
+  RemoveTagsRequest & RegionInput,
   RemoveTagsResponse,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -2798,7 +2799,7 @@ export type RevokeVpcEndpointAccessError =
  * VPC endpoint.
  */
 export const revokeVpcEndpointAccess: API.OperationMethod<
-  RevokeVpcEndpointAccessRequest,
+  RevokeVpcEndpointAccessRequest & RegionInput,
   RevokeVpcEndpointAccessResponse,
   RevokeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2829,7 +2830,7 @@ export type StartElasticsearchServiceSoftwareUpdateError =
  * Schedules a service software update for an Amazon ES domain.
  */
 export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
-  StartElasticsearchServiceSoftwareUpdateRequest,
+  StartElasticsearchServiceSoftwareUpdateRequest & RegionInput,
   StartElasticsearchServiceSoftwareUpdateResponse,
   StartElasticsearchServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -2856,7 +2857,7 @@ export type UpdateElasticsearchDomainConfigError =
  * Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
  */
 export const updateElasticsearchDomainConfig: API.OperationMethod<
-  UpdateElasticsearchDomainConfigRequest,
+  UpdateElasticsearchDomainConfigRequest & RegionInput,
   UpdateElasticsearchDomainConfigResponse,
   UpdateElasticsearchDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -2890,7 +2891,7 @@ export type UpdatePackageError =
  * Updates a package for use with Amazon ES domains.
  */
 export const updatePackage: API.OperationMethod<
-  UpdatePackageRequest,
+  UpdatePackageRequest & RegionInput,
   UpdatePackageResponse,
   UpdatePackageError,
   Credentials | HttpClient.HttpClient
@@ -2924,7 +2925,7 @@ export type UpdateVpcEndpointError =
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointRequest & RegionInput,
   UpdateVpcEndpointResponse,
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2958,7 +2959,7 @@ export type UpgradeElasticsearchDomainError =
  * Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
  */
 export const upgradeElasticsearchDomain: API.OperationMethod<
-  UpgradeElasticsearchDomainRequest,
+  UpgradeElasticsearchDomainRequest & RegionInput,
   UpgradeElasticsearchDomainResponse,
   UpgradeElasticsearchDomainError,
   Credentials | HttpClient.HttpClient

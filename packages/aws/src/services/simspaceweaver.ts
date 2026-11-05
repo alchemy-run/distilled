@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -390,7 +391,7 @@ export type CreateSnapshotError =
  * is the 2-digit seconds
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotInput,
+  CreateSnapshotInput & RegionInput,
   CreateSnapshotOutput,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -420,7 +421,7 @@ export type DeleteAppError =
  * Deletes the instance of the given custom app.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppInput,
+  DeleteAppInput & RegionInput,
   DeleteAppOutput,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -453,7 +454,7 @@ export type DeleteSimulationError =
  * resources in other Amazon Web Services.
  */
 export const deleteSimulation: API.OperationMethod<
-  DeleteSimulationInput,
+  DeleteSimulationInput & RegionInput,
   DeleteSimulationOutput,
   DeleteSimulationError,
   Credentials | HttpClient.HttpClient
@@ -482,7 +483,7 @@ export type DescribeAppError =
  * Returns the state of the given custom app.
  */
 export const describeApp: API.OperationMethod<
-  DescribeAppInput,
+  DescribeAppInput & RegionInput,
   DescribeAppOutput,
   DescribeAppError,
   Credentials | HttpClient.HttpClient
@@ -510,7 +511,7 @@ export type DescribeSimulationError =
  * Returns the current state of the given simulation.
  */
 export const describeSimulation: API.OperationMethod<
-  DescribeSimulationInput,
+  DescribeSimulationInput & RegionInput,
   DescribeSimulationOutput,
   DescribeSimulationError,
   Credentials | HttpClient.HttpClient
@@ -538,7 +539,7 @@ export type ListAppsError =
  * Lists all custom apps or service apps for the given simulation and domain.
  */
 export const listApps: API.PaginatedOperationMethod<
-  ListAppsInput,
+  ListAppsInput & RegionInput,
   ListAppsOutput,
   ListAppsError,
   Credentials | HttpClient.HttpClient,
@@ -571,7 +572,7 @@ export type ListSimulationsError =
  * Lists the SimSpace Weaver simulations in the Amazon Web Services account used to make the API call.
  */
 export const listSimulations: API.PaginatedOperationMethod<
-  ListSimulationsInput,
+  ListSimulationsInput & RegionInput,
   ListSimulationsOutput,
   ListSimulationsError,
   Credentials | HttpClient.HttpClient,
@@ -598,7 +599,7 @@ export type ListTagsForResourceError =
  * Lists all tags on a SimSpace Weaver resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -622,7 +623,7 @@ export type StartAppError =
  * Starts a custom app with the configuration specified in the simulation schema.
  */
 export const startApp: API.OperationMethod<
-  StartAppInput,
+  StartAppInput & RegionInput,
   StartAppOutput,
   StartAppError,
   Credentials | HttpClient.HttpClient
@@ -652,7 +653,7 @@ export type StartClockError =
  * Starts the simulation clock.
  */
 export const startClock: API.OperationMethod<
-  StartClockInput,
+  StartClockInput & RegionInput,
   StartClockOutput,
   StartClockError,
   Credentials | HttpClient.HttpClient
@@ -687,7 +688,7 @@ export type StartSimulationError =
  * in the *SimSpace Weaver User Guide*.
  */
 export const startSimulation: API.OperationMethod<
-  StartSimulationInput,
+  StartSimulationInput & RegionInput,
   StartSimulationOutput,
   StartSimulationError,
   Credentials | HttpClient.HttpClient
@@ -717,7 +718,7 @@ export type StopAppError =
  * Stops the given custom app and shuts down all of its allocated compute resources.
  */
 export const stopApp: API.OperationMethod<
-  StopAppInput,
+  StopAppInput & RegionInput,
   StopAppOutput,
   StopAppError,
   Credentials | HttpClient.HttpClient
@@ -747,7 +748,7 @@ export type StopClockError =
  * Stops the simulation clock.
  */
 export const stopClock: API.OperationMethod<
-  StopClockInput,
+  StopClockInput & RegionInput,
   StopClockOutput,
   StopClockError,
   Credentials | HttpClient.HttpClient
@@ -780,7 +781,7 @@ export type StopSimulationError =
  * you must stop it, delete it, and start a new instance of it.
  */
 export const stopSimulation: API.OperationMethod<
-  StopSimulationInput,
+  StopSimulationInput & RegionInput,
   StopSimulationOutput,
   StopSimulationError,
   Credentials | HttpClient.HttpClient
@@ -809,7 +810,7 @@ export type TagResourceError =
  * *Amazon Web Services General Reference*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -828,7 +829,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * *Amazon Web Services General Reference*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

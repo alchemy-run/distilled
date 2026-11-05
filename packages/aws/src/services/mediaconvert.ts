@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -4235,7 +4236,7 @@ export type AssociateCertificateError =
  * Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
  */
 export const associateCertificate: API.OperationMethod<
-  AssociateCertificateRequest,
+  AssociateCertificateRequest & RegionInput,
   AssociateCertificateResponse,
   AssociateCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4271,7 +4272,7 @@ export type CancelJobError =
  * Permanently cancel a job. Once you have canceled a job, you can't start it again.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -4307,7 +4308,7 @@ export type CreateJobError =
  * Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -4343,7 +4344,7 @@ export type CreateJobTemplateError =
  * Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
 export const createJobTemplate: API.OperationMethod<
-  CreateJobTemplateRequest,
+  CreateJobTemplateRequest & RegionInput,
   CreateJobTemplateResponse,
   CreateJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4379,7 +4380,7 @@ export type CreatePresetError =
  * Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
 export const createPreset: API.OperationMethod<
-  CreatePresetRequest,
+  CreatePresetRequest & RegionInput,
   CreatePresetResponse,
   CreatePresetError,
   Credentials | HttpClient.HttpClient
@@ -4415,7 +4416,7 @@ export type CreateQueueError =
  * Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResponse,
   CreateQueueError,
   Credentials | HttpClient.HttpClient
@@ -4451,7 +4452,7 @@ export type CreateResourceShareError =
  * Create a new resource share request for MediaConvert resources with AWS Support.
  */
 export const createResourceShare: API.OperationMethod<
-  CreateResourceShareRequest,
+  CreateResourceShareRequest & RegionInput,
   CreateResourceShareResponse,
   CreateResourceShareError,
   Credentials | HttpClient.HttpClient
@@ -4487,7 +4488,7 @@ export type DeleteJobTemplateError =
  * Permanently delete a job template you have created.
  */
 export const deleteJobTemplate: API.OperationMethod<
-  DeleteJobTemplateRequest,
+  DeleteJobTemplateRequest & RegionInput,
   DeleteJobTemplateResponse,
   DeleteJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4523,7 +4524,7 @@ export type DeletePolicyError =
  * Permanently delete a policy that you created.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4559,7 +4560,7 @@ export type DeletePresetError =
  * Permanently delete a preset you have created.
  */
 export const deletePreset: API.OperationMethod<
-  DeletePresetRequest,
+  DeletePresetRequest & RegionInput,
   DeletePresetResponse,
   DeletePresetError,
   Credentials | HttpClient.HttpClient
@@ -4595,7 +4596,7 @@ export type DeleteQueueError =
  * Permanently delete a queue you have created.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
@@ -4631,7 +4632,7 @@ export type DescribeEndpointsError =
  * Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
  */
 export const describeEndpoints: API.PaginatedOperationMethod<
-  DescribeEndpointsRequest,
+  DescribeEndpointsRequest & RegionInput,
   DescribeEndpointsResponse,
   DescribeEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -4674,7 +4675,7 @@ export type DisassociateCertificateError =
  * Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
  */
 export const disassociateCertificate: API.OperationMethod<
-  DisassociateCertificateRequest,
+  DisassociateCertificateRequest & RegionInput,
   DisassociateCertificateResponse,
   DisassociateCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4710,7 +4711,7 @@ export type GetJobError =
  * Retrieve the JSON for a specific transcoding job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -4746,7 +4747,7 @@ export type GetJobsQueryResultsError =
  * Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
  */
 export const getJobsQueryResults: API.OperationMethod<
-  GetJobsQueryResultsRequest,
+  GetJobsQueryResultsRequest & RegionInput,
   GetJobsQueryResultsResponse,
   GetJobsQueryResultsError,
   Credentials | HttpClient.HttpClient
@@ -4782,7 +4783,7 @@ export type GetJobTemplateError =
  * Retrieve the JSON for a specific job template.
  */
 export const getJobTemplate: API.OperationMethod<
-  GetJobTemplateRequest,
+  GetJobTemplateRequest & RegionInput,
   GetJobTemplateResponse,
   GetJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4818,7 +4819,7 @@ export type GetPolicyError =
  * Retrieve the JSON for your policy.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4854,7 +4855,7 @@ export type GetPresetError =
  * Retrieve the JSON for a specific preset.
  */
 export const getPreset: API.OperationMethod<
-  GetPresetRequest,
+  GetPresetRequest & RegionInput,
   GetPresetResponse,
   GetPresetError,
   Credentials | HttpClient.HttpClient
@@ -4890,7 +4891,7 @@ export type GetQueueError =
  * Retrieve the JSON for a specific queue.
  */
 export const getQueue: API.OperationMethod<
-  GetQueueRequest,
+  GetQueueRequest & RegionInput,
   GetQueueResponse,
   GetQueueError,
   Credentials | HttpClient.HttpClient
@@ -4926,7 +4927,7 @@ export type ListJobsError =
  * Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4969,7 +4970,7 @@ export type ListJobTemplatesError =
  * Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
  */
 export const listJobTemplates: API.PaginatedOperationMethod<
-  ListJobTemplatesRequest,
+  ListJobTemplatesRequest & RegionInput,
   ListJobTemplatesResponse,
   ListJobTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5012,7 +5013,7 @@ export type ListPresetsError =
  * Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
  */
 export const listPresets: API.PaginatedOperationMethod<
-  ListPresetsRequest,
+  ListPresetsRequest & RegionInput,
   ListPresetsResponse,
   ListPresetsError,
   Credentials | HttpClient.HttpClient,
@@ -5055,7 +5056,7 @@ export type ListQueuesError =
  * Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResponse,
   ListQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -5098,7 +5099,7 @@ export type ListTagsForResourceError =
  * Retrieve the tags for a MediaConvert resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5134,7 +5135,7 @@ export type ListVersionsError =
  * Retrieve a JSON array of all available Job engine versions and the date they expire.
  */
 export const listVersions: API.PaginatedOperationMethod<
-  ListVersionsRequest,
+  ListVersionsRequest & RegionInput,
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5178,7 +5179,7 @@ export type ProbeError =
  * Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow. Probe supports the following input container formats: MP4, QuickTime (MOV), 3GP, 3G2, Matroska (MKV), WebM, MXF, MPEG-TS, MPEG-PS, AVI, WAV, MP3, FLAC, Ogg, and ASF (Windows Media / WMA). The fields that Probe returns vary by container and codec. A field isn't returned when the source doesn't contain it, or when it isn't available for that container and codec.
  */
 export const probe: API.OperationMethod<
-  ProbeRequest,
+  ProbeRequest & RegionInput,
   ProbeResponse,
   ProbeError,
   Credentials | HttpClient.HttpClient
@@ -5215,7 +5216,7 @@ export type PutPolicyError =
  * Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
 export const putPolicy: API.OperationMethod<
-  PutPolicyRequest,
+  PutPolicyRequest & RegionInput,
   PutPolicyResponse,
   PutPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5251,7 +5252,7 @@ export type SearchJobsError =
  * Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
  */
 export const searchJobs: API.PaginatedOperationMethod<
-  SearchJobsRequest,
+  SearchJobsRequest & RegionInput,
   SearchJobsResponse,
   SearchJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5294,7 +5295,7 @@ export type StartJobsQueryError =
  * Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
  */
 export const startJobsQuery: API.OperationMethod<
-  StartJobsQueryRequest,
+  StartJobsQueryRequest & RegionInput,
   StartJobsQueryResponse,
   StartJobsQueryError,
   Credentials | HttpClient.HttpClient
@@ -5330,7 +5331,7 @@ export type TagResourceError =
  * Add tags to a MediaConvert queue, preset, job, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5366,7 +5367,7 @@ export type UntagResourceError =
  * Remove tags from a MediaConvert queue, preset, job, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5402,7 +5403,7 @@ export type UpdateJobTemplateError =
  * Modify one of your existing job templates.
  */
 export const updateJobTemplate: API.OperationMethod<
-  UpdateJobTemplateRequest,
+  UpdateJobTemplateRequest & RegionInput,
   UpdateJobTemplateResponse,
   UpdateJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5438,7 +5439,7 @@ export type UpdatePresetError =
  * Modify one of your existing presets.
  */
 export const updatePreset: API.OperationMethod<
-  UpdatePresetRequest,
+  UpdatePresetRequest & RegionInput,
   UpdatePresetResponse,
   UpdatePresetError,
   Credentials | HttpClient.HttpClient
@@ -5474,7 +5475,7 @@ export type UpdateQueueError =
  * Modify one of your existing queues.
  */
 export const updateQueue: API.OperationMethod<
-  UpdateQueueRequest,
+  UpdateQueueRequest & RegionInput,
   UpdateQueueResponse,
   UpdateQueueError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -888,7 +889,7 @@ export type AnalyzeDocumentError =
  * Analysis.
  */
 export const analyzeDocument: API.OperationMethod<
-  AnalyzeDocumentRequest,
+  AnalyzeDocumentRequest & RegionInput,
   AnalyzeDocumentResponse,
   AnalyzeDocumentError,
   Credentials | HttpClient.HttpClient
@@ -940,7 +941,7 @@ export type AnalyzeExpenseError =
  * header information or the vendors name.
  */
 export const analyzeExpense: API.OperationMethod<
-  AnalyzeExpenseRequest,
+  AnalyzeExpenseRequest & RegionInput,
   AnalyzeExpenseResponse,
   AnalyzeExpenseError,
   Credentials | HttpClient.HttpClient
@@ -983,7 +984,7 @@ export type AnalyzeIDError =
  * `AnalyzeID` doesn't return any Geometry data.
  */
 export const analyzeID: API.OperationMethod<
-  AnalyzeIDRequest,
+  AnalyzeIDRequest & RegionInput,
   AnalyzeIDResponse,
   AnalyzeIDError,
   Credentials | HttpClient.HttpClient
@@ -1028,7 +1029,7 @@ export type CreateAdapterError =
  * the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
  */
 export const createAdapter: API.OperationMethod<
-  CreateAdapterRequest,
+  CreateAdapterRequest & RegionInput,
   CreateAdapterResponse,
   CreateAdapterError,
   Credentials | HttpClient.HttpClient
@@ -1076,7 +1077,7 @@ export type CreateAdapterVersionError =
  * an optional ClientRequestToken, and optional tags.
  */
 export const createAdapterVersion: API.OperationMethod<
-  CreateAdapterVersionRequest,
+  CreateAdapterVersionRequest & RegionInput,
   CreateAdapterVersionResponse,
   CreateAdapterVersionError,
   Credentials | HttpClient.HttpClient
@@ -1119,7 +1120,7 @@ export type DeleteAdapterError =
  * Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
  */
 export const deleteAdapter: API.OperationMethod<
-  DeleteAdapterRequest,
+  DeleteAdapterRequest & RegionInput,
   DeleteAdapterResponse,
   DeleteAdapterError,
   Credentials | HttpClient.HttpClient
@@ -1158,7 +1159,7 @@ export type DeleteAdapterVersionError =
  * AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
  */
 export const deleteAdapterVersion: API.OperationMethod<
-  DeleteAdapterVersionRequest,
+  DeleteAdapterVersionRequest & RegionInput,
   DeleteAdapterVersionResponse,
   DeleteAdapterVersionError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1210,7 @@ export type DetectDocumentTextError =
  * For more information, see Document Text Detection.
  */
 export const detectDocumentText: API.OperationMethod<
-  DetectDocumentTextRequest,
+  DetectDocumentTextRequest & RegionInput,
   DetectDocumentTextResponse,
   DetectDocumentTextError,
   Credentials | HttpClient.HttpClient
@@ -1248,7 +1249,7 @@ export type GetAdapterError =
  * CreationTime, AutoUpdate status, and FeatureTypes.
  */
 export const getAdapter: API.OperationMethod<
-  GetAdapterRequest,
+  GetAdapterRequest & RegionInput,
   GetAdapterResponse,
   GetAdapterError,
   Credentials | HttpClient.HttpClient
@@ -1286,7 +1287,7 @@ export type GetAdapterVersionError =
  * KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
  */
 export const getAdapterVersion: API.OperationMethod<
-  GetAdapterVersionRequest,
+  GetAdapterVersionRequest & RegionInput,
   GetAdapterVersionResponse,
   GetAdapterVersionError,
   Credentials | HttpClient.HttpClient
@@ -1379,7 +1380,7 @@ export type GetDocumentAnalysisError =
  * Analysis.
  */
 export const getDocumentAnalysis: API.OperationMethod<
-  GetDocumentAnalysisRequest,
+  GetDocumentAnalysisRequest & RegionInput,
   GetDocumentAnalysisResponse,
   GetDocumentAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1444,7 +1445,7 @@ export type GetDocumentTextDetectionError =
  * For more information, see Document Text Detection.
  */
 export const getDocumentTextDetection: API.OperationMethod<
-  GetDocumentTextDetectionRequest,
+  GetDocumentTextDetectionRequest & RegionInput,
   GetDocumentTextDetectionResponse,
   GetDocumentTextDetectionError,
   Credentials | HttpClient.HttpClient
@@ -1501,7 +1502,7 @@ export type GetExpenseAnalysisError =
  * For more information, see Analyzing Invoices and Receipts.
  */
 export const getExpenseAnalysis: API.OperationMethod<
-  GetExpenseAnalysisRequest,
+  GetExpenseAnalysisRequest & RegionInput,
   GetExpenseAnalysisResponse,
   GetExpenseAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1551,7 +1552,7 @@ export type GetLendingAnalysisError =
  * `StartLendingAnalysis`.
  */
 export const getLendingAnalysis: API.OperationMethod<
-  GetLendingAnalysisRequest,
+  GetLendingAnalysisRequest & RegionInput,
   GetLendingAnalysisResponse,
   GetLendingAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1602,7 +1603,7 @@ export type GetLendingAnalysisSummaryError =
  * the initial call to `StartLendingAnalysis`.
  */
 export const getLendingAnalysisSummary: API.OperationMethod<
-  GetLendingAnalysisSummaryRequest,
+  GetLendingAnalysisSummaryRequest & RegionInput,
   GetLendingAnalysisSummaryResponse,
   GetLendingAnalysisSummaryError,
   Credentials | HttpClient.HttpClient
@@ -1638,7 +1639,7 @@ export type ListAdaptersError =
  * Lists all adapters that match the specified filtration criteria.
  */
 export const listAdapters: API.PaginatedOperationMethod<
-  ListAdaptersRequest,
+  ListAdaptersRequest & RegionInput,
   ListAdaptersResponse,
   ListAdaptersError,
   Credentials | HttpClient.HttpClient,
@@ -1680,7 +1681,7 @@ export type ListAdapterVersionsError =
  * List all version of an adapter that meet the specified filtration criteria.
  */
 export const listAdapterVersions: API.PaginatedOperationMethod<
-  ListAdapterVersionsRequest,
+  ListAdapterVersionsRequest & RegionInput,
   ListAdapterVersionsResponse,
   ListAdapterVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1723,7 +1724,7 @@ export type ListTagsForResourceError =
  * Lists all tags for an Amazon Textract resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1780,7 +1781,7 @@ export type StartDocumentAnalysisError =
  * For more information, see Document Text Analysis.
  */
 export const startDocumentAnalysis: API.OperationMethod<
-  StartDocumentAnalysisRequest,
+  StartDocumentAnalysisRequest & RegionInput,
   StartDocumentAnalysisResponse,
   StartDocumentAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1842,7 +1843,7 @@ export type StartDocumentTextDetectionError =
  * For more information, see Document Text Detection.
  */
 export const startDocumentTextDetection: API.OperationMethod<
-  StartDocumentTextDetectionRequest,
+  StartDocumentTextDetectionRequest & RegionInput,
   StartDocumentTextDetectionResponse,
   StartDocumentTextDetectionError,
   Credentials | HttpClient.HttpClient
@@ -1903,7 +1904,7 @@ export type StartExpenseAnalysisError =
  * For more information, see Analyzing Invoices and Receipts.
  */
 export const startExpenseAnalysis: API.OperationMethod<
-  StartExpenseAnalysisRequest,
+  StartExpenseAnalysisRequest & RegionInput,
   StartExpenseAnalysisResponse,
   StartExpenseAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1975,7 +1976,7 @@ export type StartLendingAnalysisError =
  * - splitDocuments (documents split across logical boundaries)
  */
 export const startLendingAnalysis: API.OperationMethod<
-  StartLendingAnalysisRequest,
+  StartLendingAnalysisRequest & RegionInput,
   StartLendingAnalysisResponse,
   StartLendingAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -2017,7 +2018,7 @@ export type TagResourceError =
  * Adds one or more tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2054,7 +2055,7 @@ export type UntagResourceError =
  * Removes any tags with the specified keys from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2092,7 +2093,7 @@ export type UpdateAdapterError =
  * At least one new parameter must be specified as an argument.
  */
 export const updateAdapter: API.OperationMethod<
-  UpdateAdapterRequest,
+  UpdateAdapterRequest & RegionInput,
   UpdateAdapterResponse,
   UpdateAdapterError,
   Credentials | HttpClient.HttpClient

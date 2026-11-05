@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -741,7 +742,7 @@ export type AddWorkloadError =
  * Adds a workload to a component. Each component can have at most five workloads.
  */
 export const addWorkload: API.OperationMethod<
-  AddWorkloadRequest,
+  AddWorkloadRequest & RegionInput,
   AddWorkloadResponse,
   AddWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -773,7 +774,7 @@ export type CreateApplicationError =
  * Adds an application that is created from a resource group.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -805,7 +806,7 @@ export type CreateComponentError =
  * Creates a custom component by grouping similar standalone instances to monitor.
  */
 export const createComponent: API.OperationMethod<
-  CreateComponentRequest,
+  CreateComponentRequest & RegionInput,
   CreateComponentResponse,
   CreateComponentError,
   Credentials | HttpClient.HttpClient
@@ -835,7 +836,7 @@ export type CreateLogPatternError =
  * Adds an log pattern to a `LogPatternSet`.
  */
 export const createLogPattern: API.OperationMethod<
-  CreateLogPatternRequest,
+  CreateLogPatternRequest & RegionInput,
   CreateLogPatternResponse,
   CreateLogPatternError,
   Credentials | HttpClient.HttpClient
@@ -866,7 +867,7 @@ export type DeleteApplicationError =
  * application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -897,7 +898,7 @@ export type DeleteComponentError =
  * status.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentRequest,
+  DeleteComponentRequest & RegionInput,
   DeleteComponentResponse,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -922,7 +923,7 @@ export type DeleteLogPatternError =
  * Removes the specified log pattern from a `LogPatternSet`.
  */
 export const deleteLogPattern: API.OperationMethod<
-  DeleteLogPatternRequest,
+  DeleteLogPatternRequest & RegionInput,
   DeleteLogPatternResponse,
   DeleteLogPatternError,
   Credentials | HttpClient.HttpClient
@@ -951,7 +952,7 @@ export type DescribeApplicationError =
  * Describes the application.
  */
 export const describeApplication: API.OperationMethod<
-  DescribeApplicationRequest,
+  DescribeApplicationRequest & RegionInput,
   DescribeApplicationResponse,
   DescribeApplicationError,
   Credentials | HttpClient.HttpClient
@@ -976,7 +977,7 @@ export type DescribeComponentError =
  * component.
  */
 export const describeComponent: API.OperationMethod<
-  DescribeComponentRequest,
+  DescribeComponentRequest & RegionInput,
   DescribeComponentResponse,
   DescribeComponentError,
   Credentials | HttpClient.HttpClient
@@ -1000,7 +1001,7 @@ export type DescribeComponentConfigurationError =
  * Describes the monitoring configuration of the component.
  */
 export const describeComponentConfiguration: API.OperationMethod<
-  DescribeComponentConfigurationRequest,
+  DescribeComponentConfigurationRequest & RegionInput,
   DescribeComponentConfigurationResponse,
   DescribeComponentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1024,7 +1025,7 @@ export type DescribeComponentConfigurationRecommendationError =
  * Describes the recommended monitoring configuration of the component.
  */
 export const describeComponentConfigurationRecommendation: API.OperationMethod<
-  DescribeComponentConfigurationRecommendationRequest,
+  DescribeComponentConfigurationRecommendationRequest & RegionInput,
   DescribeComponentConfigurationRecommendationResponse,
   DescribeComponentConfigurationRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -1052,7 +1053,7 @@ export type DescribeLogPatternError =
  * Describe a specific log pattern from a `LogPatternSet`.
  */
 export const describeLogPattern: API.OperationMethod<
-  DescribeLogPatternRequest,
+  DescribeLogPatternRequest & RegionInput,
   DescribeLogPatternResponse,
   DescribeLogPatternError,
   Credentials | HttpClient.HttpClient
@@ -1076,7 +1077,7 @@ export type DescribeObservationError =
  * Describes an anomaly or error with the application.
  */
 export const describeObservation: API.OperationMethod<
-  DescribeObservationRequest,
+  DescribeObservationRequest & RegionInput,
   DescribeObservationResponse,
   DescribeObservationError,
   Credentials | HttpClient.HttpClient
@@ -1100,7 +1101,7 @@ export type DescribeProblemError =
  * Describes an application problem.
  */
 export const describeProblem: API.OperationMethod<
-  DescribeProblemRequest,
+  DescribeProblemRequest & RegionInput,
   DescribeProblemResponse,
   DescribeProblemError,
   Credentials | HttpClient.HttpClient
@@ -1124,7 +1125,7 @@ export type DescribeProblemObservationsError =
  * Describes the anomalies or errors associated with the problem.
  */
 export const describeProblemObservations: API.OperationMethod<
-  DescribeProblemObservationsRequest,
+  DescribeProblemObservationsRequest & RegionInput,
   DescribeProblemObservationsResponse,
   DescribeProblemObservationsError,
   Credentials | HttpClient.HttpClient
@@ -1148,7 +1149,7 @@ export type DescribeWorkloadError =
  * Describes a workload and its configuration.
  */
 export const describeWorkload: API.OperationMethod<
-  DescribeWorkloadRequest,
+  DescribeWorkloadRequest & RegionInput,
   DescribeWorkloadResponse,
   DescribeWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -1168,7 +1169,7 @@ export type ListApplicationsError = InternalServerException | ValidationExceptio
  * Lists the IDs of the applications that you are monitoring.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1198,7 +1199,7 @@ export type ListComponentsError =
  * Lists the auto-grouped, standalone, and custom components of the application.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1236,7 +1237,7 @@ export type ListConfigurationHistoryError =
  * - ERROR: alarm not created due to permission errors or exceeding quotas.
  */
 export const listConfigurationHistory: API.PaginatedOperationMethod<
-  ListConfigurationHistoryRequest,
+  ListConfigurationHistoryRequest & RegionInput,
   ListConfigurationHistoryResponse,
   ListConfigurationHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1266,7 +1267,7 @@ export type ListLogPatternsError =
  * Lists the log patterns in the specific log `LogPatternSet`.
  */
 export const listLogPatterns: API.PaginatedOperationMethod<
-  ListLogPatternsRequest,
+  ListLogPatternsRequest & RegionInput,
   ListLogPatternsResponse,
   ListLogPatternsError,
   Credentials | HttpClient.HttpClient,
@@ -1296,7 +1297,7 @@ export type ListLogPatternSetsError =
  * Lists the log pattern sets in the specific application.
  */
 export const listLogPatternSets: API.PaginatedOperationMethod<
-  ListLogPatternSetsRequest,
+  ListLogPatternSetsRequest & RegionInput,
   ListLogPatternSetsResponse,
   ListLogPatternSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1326,7 +1327,7 @@ export type ListProblemsError =
  * Lists the problems with your application.
  */
 export const listProblems: API.PaginatedOperationMethod<
-  ListProblemsRequest,
+  ListProblemsRequest & RegionInput,
   ListProblemsResponse,
   ListProblemsError,
   Credentials | HttpClient.HttpClient,
@@ -1360,7 +1361,7 @@ export type ListTagsForResourceError =
  * key.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1384,7 +1385,7 @@ export type ListWorkloadsError =
  * Lists the workloads that are configured on a given component.
  */
 export const listWorkloads: API.PaginatedOperationMethod<
-  ListWorkloadsRequest,
+  ListWorkloadsRequest & RegionInput,
   ListWorkloadsResponse,
   ListWorkloadsError,
   Credentials | HttpClient.HttpClient,
@@ -1414,7 +1415,7 @@ export type RemoveWorkloadError =
  * Remove workload from a component.
  */
 export const removeWorkload: API.OperationMethod<
-  RemoveWorkloadRequest,
+  RemoveWorkloadRequest & RegionInput,
   RemoveWorkloadResponse,
   RemoveWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -1446,7 +1447,7 @@ export type TagResourceError =
  * within a tag key.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1466,7 +1467,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Remove one or more tags (keys and values) from a specified application.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1490,7 +1491,7 @@ export type UpdateApplicationError =
  * Updates the application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1516,7 +1517,7 @@ export type UpdateComponentError =
  * component.
  */
 export const updateComponent: API.OperationMethod<
-  UpdateComponentRequest,
+  UpdateComponentRequest & RegionInput,
   UpdateComponentResponse,
   UpdateComponentError,
   Credentials | HttpClient.HttpClient
@@ -1548,7 +1549,7 @@ export type UpdateComponentConfigurationError =
  * returned by `DescribeComponentConfigurationRecommendation`.
  */
 export const updateComponentConfiguration: API.OperationMethod<
-  UpdateComponentConfigurationRequest,
+  UpdateComponentConfigurationRequest & RegionInput,
   UpdateComponentConfigurationResponse,
   UpdateComponentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1578,7 +1579,7 @@ export type UpdateLogPatternError =
  * Adds a log pattern to a `LogPatternSet`.
  */
 export const updateLogPattern: API.OperationMethod<
-  UpdateLogPatternRequest,
+  UpdateLogPatternRequest & RegionInput,
   UpdateLogPatternResponse,
   UpdateLogPatternError,
   Credentials | HttpClient.HttpClient
@@ -1608,7 +1609,7 @@ export type UpdateProblemError =
  * `RESOLVED`.
  */
 export const updateProblem: API.OperationMethod<
-  UpdateProblemRequest,
+  UpdateProblemRequest & RegionInput,
   UpdateProblemResponse,
   UpdateProblemError,
   Credentials | HttpClient.HttpClient
@@ -1632,7 +1633,7 @@ export type UpdateWorkloadError =
  * Adds a workload to a component. Each component can have at most five workloads.
  */
 export const updateWorkload: API.OperationMethod<
-  UpdateWorkloadRequest,
+  UpdateWorkloadRequest & RegionInput,
   UpdateWorkloadResponse,
   UpdateWorkloadError,
   Credentials | HttpClient.HttpClient

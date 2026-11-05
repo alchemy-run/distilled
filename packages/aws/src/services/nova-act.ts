@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -484,7 +485,7 @@ export type CreateActError =
  * Creates a new AI task (act) within a session that can interact with tools and perform specific actions.
  */
 export const createAct: API.OperationMethod<
-  CreateActRequest,
+  CreateActRequest & RegionInput,
   CreateActResponse,
   CreateActError,
   Credentials | HttpClient.HttpClient
@@ -520,7 +521,7 @@ export type CreateSessionError =
  * Creates a new session context within a workflow run to manage conversation state and acts.
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionResponse,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -555,7 +556,7 @@ export type CreateWorkflowDefinitionError =
  * Creates a new workflow definition template that can be used to execute multiple workflow runs.
  */
 export const createWorkflowDefinition: API.OperationMethod<
-  CreateWorkflowDefinitionRequest,
+  CreateWorkflowDefinitionRequest & RegionInput,
   CreateWorkflowDefinitionResponse,
   CreateWorkflowDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -589,7 +590,7 @@ export type CreateWorkflowRunError =
  * Creates a new execution instance of a workflow definition with specified parameters.
  */
 export const createWorkflowRun: API.OperationMethod<
-  CreateWorkflowRunRequest,
+  CreateWorkflowRunRequest & RegionInput,
   CreateWorkflowRunResponse,
   CreateWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -623,7 +624,7 @@ export type DeleteWorkflowDefinitionError =
  * Deletes a workflow definition and all associated resources. This operation cannot be undone.
  */
 export const deleteWorkflowDefinition: API.OperationMethod<
-  DeleteWorkflowDefinitionRequest,
+  DeleteWorkflowDefinitionRequest & RegionInput,
   DeleteWorkflowDefinitionResponse,
   DeleteWorkflowDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -657,7 +658,7 @@ export type DeleteWorkflowRunError =
  * Terminates and cleans up a workflow run, stopping all associated acts and sessions.
  */
 export const deleteWorkflowRun: API.OperationMethod<
-  DeleteWorkflowRunRequest,
+  DeleteWorkflowRunRequest & RegionInput,
   DeleteWorkflowRunResponse,
   DeleteWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -690,7 +691,7 @@ export type GetWorkflowDefinitionError =
  * Retrieves the details and configuration of a specific workflow definition.
  */
 export const getWorkflowDefinition: API.OperationMethod<
-  GetWorkflowDefinitionRequest,
+  GetWorkflowDefinitionRequest & RegionInput,
   GetWorkflowDefinitionResponse,
   GetWorkflowDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -723,7 +724,7 @@ export type GetWorkflowRunError =
  * Retrieves the current state, configuration, and execution details of a workflow run.
  */
 export const getWorkflowRun: API.OperationMethod<
-  GetWorkflowRunRequest,
+  GetWorkflowRunRequest & RegionInput,
   GetWorkflowRunResponse,
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -758,7 +759,7 @@ export type InvokeActStepError =
  * Executes the next step of an act, processing tool call results and returning new tool calls if needed.
  */
 export const invokeActStep: API.OperationMethod<
-  InvokeActStepRequest,
+  InvokeActStepRequest & RegionInput,
   InvokeActStepResponse,
   InvokeActStepError,
   Credentials | HttpClient.HttpClient
@@ -793,7 +794,7 @@ export type ListActsError =
  * Lists all acts within a specific session with their current status and execution details.
  */
 export const listActs: API.PaginatedOperationMethod<
-  ListActsRequest,
+  ListActsRequest & RegionInput,
   ListActsResponse,
   ListActsError,
   Credentials | HttpClient.HttpClient,
@@ -831,7 +832,7 @@ export type ListModelsError =
  * Lists all available AI models that can be used for workflow execution, including their status and compatibility information.
  */
 export const listModels: API.OperationMethod<
-  ListModelsRequest,
+  ListModelsRequest & RegionInput,
   ListModelsResponse,
   ListModelsError,
   Credentials | HttpClient.HttpClient
@@ -858,7 +859,7 @@ export type ListSessionsError =
  * Lists all sessions within a specific workflow run.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -897,7 +898,7 @@ export type ListWorkflowDefinitionsError =
  * Lists all workflow definitions in your account with optional filtering and pagination.
  */
 export const listWorkflowDefinitions: API.PaginatedOperationMethod<
-  ListWorkflowDefinitionsRequest,
+  ListWorkflowDefinitionsRequest & RegionInput,
   ListWorkflowDefinitionsResponse,
   ListWorkflowDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -936,7 +937,7 @@ export type ListWorkflowRunsError =
  * Lists all workflow runs for a specific workflow definition with optional filtering and pagination.
  */
 export const listWorkflowRuns: API.PaginatedOperationMethod<
-  ListWorkflowRunsRequest,
+  ListWorkflowRunsRequest & RegionInput,
   ListWorkflowRunsResponse,
   ListWorkflowRunsError,
   Credentials | HttpClient.HttpClient,
@@ -977,7 +978,7 @@ export type UpdateActError =
  * Updates an existing act's configuration, status, or error information.
  */
 export const updateAct: API.OperationMethod<
-  UpdateActRequest,
+  UpdateActRequest & RegionInput,
   UpdateActResponse,
   UpdateActError,
   Credentials | HttpClient.HttpClient
@@ -1011,7 +1012,7 @@ export type UpdateWorkflowRunError =
  * Updates the configuration or state of an active workflow run.
  */
 export const updateWorkflowRun: API.OperationMethod<
-  UpdateWorkflowRunRequest,
+  UpdateWorkflowRunRequest & RegionInput,
   UpdateWorkflowRunResponse,
   UpdateWorkflowRunError,
   Credentials | HttpClient.HttpClient

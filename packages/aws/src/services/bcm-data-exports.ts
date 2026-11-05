@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -420,7 +421,7 @@ export type CreateExportError =
  * The `TableConfigurations` is a collection of specified `TableProperties` for the table being queried in the `QueryStatement`. TableProperties are additional configurations you can provide to change the data and schema of a table. Each table can have different TableProperties. However, tables are not required to have any TableProperties. Each table property has a default value that it assumes if not specified. For more information on table configurations, see Data query. To view the table properties available for each table, see the Data Exports table dictionary or use the `ListTables` API to get a response of all tables and their available properties.
  */
 export const createExport: API.OperationMethod<
-  CreateExportRequest,
+  CreateExportRequest & RegionInput,
   CreateExportResponse,
   CreateExportError,
   Credentials | HttpClient.HttpClient
@@ -451,7 +452,7 @@ export type DeleteExportError =
  * Deletes an existing data export.
  */
 export const deleteExport: API.OperationMethod<
-  DeleteExportRequest,
+  DeleteExportRequest & RegionInput,
   DeleteExportResponse,
   DeleteExportError,
   Credentials | HttpClient.HttpClient
@@ -481,7 +482,7 @@ export type GetExecutionError =
  * Exports data based on the source data update.
  */
 export const getExecution: API.OperationMethod<
-  GetExecutionRequest,
+  GetExecutionRequest & RegionInput,
   GetExecutionResponse,
   GetExecutionError,
   Credentials | HttpClient.HttpClient
@@ -511,7 +512,7 @@ export type GetExportError =
  * Views the definition of an existing data export.
  */
 export const getExport: API.OperationMethod<
-  GetExportRequest,
+  GetExportRequest & RegionInput,
   GetExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
@@ -540,7 +541,7 @@ export type GetTableError =
  * Returns the metadata for the specified table and table properties. This includes the list of columns in the table schema, their data types, and column descriptions.
  */
 export const getTable: API.OperationMethod<
-  GetTableRequest,
+  GetTableRequest & RegionInput,
   GetTableResponse,
   GetTableError,
   Credentials | HttpClient.HttpClient
@@ -565,7 +566,7 @@ export type ListExecutionsError =
  * Lists the historical executions for the export.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsRequest,
+  ListExecutionsRequest & RegionInput,
   ListExecutionsResponse,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -601,7 +602,7 @@ export type ListExportsError =
  * Lists all data export definitions.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsRequest,
+  ListExportsRequest & RegionInput,
   ListExportsResponse,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -632,7 +633,7 @@ export type ListTablesError =
  * Lists all available tables in data exports.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -665,7 +666,7 @@ export type ListTagsForResourceError =
  * List tags associated with an existing data export.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -697,7 +698,7 @@ export type TagResourceError =
  * Adds tags for an existing data export definition.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -729,7 +730,7 @@ export type UntagResourceError =
  * Deletes tags associated with an existing data export definition.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -760,7 +761,7 @@ export type UpdateExportError =
  * Updates an existing data export by overwriting all export parameters. All export parameters must be provided in the UpdateExport request.
  */
 export const updateExport: API.OperationMethod<
-  UpdateExportRequest,
+  UpdateExportRequest & RegionInput,
   UpdateExportResponse,
   UpdateExportError,
   Credentials | HttpClient.HttpClient
