@@ -68,6 +68,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "argocd",
       "celld",
       "remote",
+      "proxmox",
     ],
   ],
   [
@@ -194,6 +195,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   "boat-dev": "sandboxes agents ascii",
   celld: "workers runtime nodes",
   kubernetes: "k8s",
+  proxmox: "pve virtualization vms lxc qemu kvm containers self-hosted",
   "expo-eas": "react native builds",
   "google-workspace": "gmail drive calendar",
   notion: "docs wiki pages databases blocks",

@@ -105,6 +105,8 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "porkbun" },
   { package: "posthog" },
   { package: "prisma", mirror: "prisma-postgres" },
+  // Only the structure of Proxmox's schema; the fetch script drops its documentation text.
+  { package: "proxmox" },
   { package: "railway" },
   { package: "redis-cloud" },
   { package: "remote" },
