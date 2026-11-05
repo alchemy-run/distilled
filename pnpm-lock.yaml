@@ -1503,6 +1503,9 @@ importers:
       '@distilled.cloud/core':
         specifier: workspace:*
         version: link:../core
+      '@distilled.cloud/s3':
+        specifier: workspace:*
+        version: link:../s3
       effect:
         specifier: 'catalog:'
         version: 4.1.2
