@@ -67,7 +67,8 @@ An SDK that already holds credentials provides the layer:
   turns the Cloudflare API token in the Cloudflare `Credentials` into R2 S3
   keys, and points `Endpoint` at the account's R2 endpoint. The account is
   the credentials' `accountId` (`CLOUDFLARE_ACCOUNT_ID`), or the one account
-  the token reaches.
+  the token reaches. Buckets in another jurisdiction: provide
+  `Jurisdiction.of("eu")` from `@distilled.cloud/cloudflare/Jurisdiction`.
 
 ```typescript
 import * as Cloudflare from "@distilled.cloud/cloudflare/Credentials";
