@@ -1448,7 +1448,12 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   operationName: "CreateConfigurationSetEventDestination",
   iam: {
     actions: ["ses:CreateConfigurationSetEventDestination", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    resources: {
+      "ses:CreateConfigurationSetEventDestination": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
     conditional: { "iam:PassRole": "a role the request names" },
   },
   telemetry: TELEMETRY,
@@ -1521,7 +1526,14 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomVerificationEmailTemplate",
-  iam: { actions: ["ses:CreateCustomVerificationEmailTemplate", "ses:TagResource"] },
+  iam: {
+    actions: ["ses:CreateCustomVerificationEmailTemplate", "ses:TagResource"],
+    resources: {
+      "ses:CreateCustomVerificationEmailTemplate": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomVerificationEmailTemplate",
 }));
@@ -1684,7 +1696,14 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
-  iam: { actions: ["ses:DeleteConfigurationSet"] },
+  iam: {
+    actions: ["ses:DeleteConfigurationSet"],
+    resources: {
+      "ses:DeleteConfigurationSet": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSet",
 }));
@@ -1713,7 +1732,14 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
-  iam: { actions: ["ses:DeleteConfigurationSetEventDestination"] },
+  iam: {
+    actions: ["ses:DeleteConfigurationSetEventDestination"],
+    resources: {
+      "ses:DeleteConfigurationSetEventDestination": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSetEventDestination",
 }));
@@ -1773,7 +1799,14 @@ export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomVerificationEmailTemplate",
-  iam: { actions: ["ses:DeleteCustomVerificationEmailTemplate"] },
+  iam: {
+    actions: ["ses:DeleteCustomVerificationEmailTemplate"],
+    resources: {
+      "ses:DeleteCustomVerificationEmailTemplate": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomVerificationEmailTemplate",
 }));
@@ -2115,7 +2148,14 @@ export const getCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomVerificationEmailTemplate",
-  iam: { actions: ["ses:GetCustomVerificationEmailTemplate"] },
+  iam: {
+    actions: ["ses:GetCustomVerificationEmailTemplate"],
+    resources: {
+      "ses:GetCustomVerificationEmailTemplate": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCustomVerificationEmailTemplate",
 }));
@@ -2713,7 +2753,12 @@ export const sendBounce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBounce",
-  iam: { actions: ["ses:SendBounce"] },
+  iam: {
+    actions: ["ses:SendBounce"],
+    resources: {
+      "ses:SendBounce": ["arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendBounce",
 }));
@@ -2824,7 +2869,15 @@ export const sendCustomVerificationEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCustomVerificationEmail",
-  iam: { actions: ["ses:SendCustomVerificationEmail"] },
+  iam: {
+    actions: ["ses:SendCustomVerificationEmail"],
+    resources: {
+      "ses:SendCustomVerificationEmail": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendCustomVerificationEmail",
 }));
@@ -3392,7 +3445,12 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   operationName: "UpdateConfigurationSetEventDestination",
   iam: {
     actions: ["iam:PassRole", "ses:UpdateConfigurationSetEventDestination"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ses:UpdateConfigurationSetEventDestination": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
     conditional: { "iam:PassRole": "a role the request names" },
   },
   telemetry: TELEMETRY,
@@ -3528,7 +3586,14 @@ export const updateCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomVerificationEmailTemplate",
-  iam: { actions: ["ses:UpdateCustomVerificationEmailTemplate"] },
+  iam: {
+    actions: ["ses:UpdateCustomVerificationEmailTemplate"],
+    resources: {
+      "ses:UpdateCustomVerificationEmailTemplate": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCustomVerificationEmailTemplate",
 }));

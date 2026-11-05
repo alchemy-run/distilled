@@ -255,6 +255,11 @@ export const putDeploymentParameter: API.OperationMethod<
   operationName: "PutDeploymentParameter",
   iam: {
     actions: ["aws-marketplace:PutDeploymentParameter", "aws-marketplace:TagResource"],
+    resources: {
+      "aws-marketplace:PutDeploymentParameter": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:DeploymentParameter:catalogs/${CatalogName}/products/${ProductId}/${ResourceId}",
+      ],
+    },
     conditional: { "aws-marketplace:TagResource": "tags" },
   },
   telemetry: TELEMETRY,

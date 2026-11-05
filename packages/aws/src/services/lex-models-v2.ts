@@ -4046,7 +4046,16 @@ export const createBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotVersion",
-  iam: { actions: ["lex:CreateBotVersion"] },
+  iam: {
+    actions: ["lex:CreateBotVersion"],
+    resources: {
+      "lex:CreateBotVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBotVersion",
 }));
@@ -4476,6 +4485,13 @@ export const deleteBot: API.OperationMethod<
       "lex:DeleteSlotType",
     ],
     resources: {
+      "lex:DeleteBot": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
       "lex:DeleteBotAlias": [
         "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
@@ -4488,13 +4504,28 @@ export const deleteBot: API.OperationMethod<
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
       ],
+      "lex:DeleteBotVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
       "lex:DeleteCustomVocabulary": [
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
       ],
+      "lex:DeleteIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
       "lex:DeleteSlot": [
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
       ],
     },
   },
@@ -4636,9 +4667,19 @@ export const deleteBotLocale: API.OperationMethod<
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
       ],
+      "lex:DeleteIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
       "lex:DeleteSlot": [
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
       ],
     },
   },
@@ -4720,7 +4761,16 @@ export const deleteBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotVersion",
-  iam: { actions: ["lex:DeleteBotVersion"] },
+  iam: {
+    actions: ["lex:DeleteBotVersion"],
+    resources: {
+      "lex:DeleteBotVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBotVersion",
 }));
@@ -4870,7 +4920,16 @@ export const deleteIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntent",
-  iam: { actions: ["lex:DeleteIntent"] },
+  iam: {
+    actions: ["lex:DeleteIntent"],
+    resources: {
+      "lex:DeleteIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntent",
 }));
@@ -5023,7 +5082,16 @@ export const deleteSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotType",
-  iam: { actions: ["lex:DeleteSlotType"] },
+  iam: {
+    actions: ["lex:DeleteSlotType"],
+    resources: {
+      "lex:DeleteSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSlotType",
 }));
@@ -5101,7 +5169,16 @@ export const deleteUtterances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUtterances",
-  iam: { actions: ["lex:DeleteUtterances"] },
+  iam: {
+    actions: ["lex:DeleteUtterances"],
+    resources: {
+      "lex:DeleteUtterances": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUtterances",
 }));
@@ -7638,9 +7715,19 @@ export const startBotRecommendation: API.OperationMethod<
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
       ],
+      "lex:DeleteIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
       "lex:DeleteSlot": [
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
       ],
       "lex:StartBotRecommendation": [
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
@@ -7790,9 +7877,19 @@ export const startImport: API.OperationMethod<
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
       ],
+      "lex:DeleteIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
       "lex:DeleteSlot": [
         "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
         "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
       ],
       "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
       "lex:UpdateBot": [

@@ -1511,7 +1511,14 @@ export const batchDescribeEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeEntities",
-  iam: { actions: ["aws-marketplace:DescribeEntity"] },
+  iam: {
+    actions: ["aws-marketplace:DescribeEntity"],
+    resources: {
+      "aws-marketplace:DescribeEntity": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/${EntityType}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDescribeEntities",
 }));
@@ -1549,7 +1556,14 @@ export const cancelChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelChangeSet",
-  iam: { actions: ["aws-marketplace:CancelChangeSet"] },
+  iam: {
+    actions: ["aws-marketplace:CancelChangeSet"],
+    resources: {
+      "aws-marketplace:CancelChangeSet": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/ChangeSet/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelChangeSet",
 }));
@@ -1583,7 +1597,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: { actions: ["aws-marketplace:DeleteResourcePolicy"] },
+  iam: {
+    actions: ["aws-marketplace:DeleteResourcePolicy"],
+    resources: {
+      "aws-marketplace:DeleteResourcePolicy": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/${EntityType}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -1661,7 +1682,14 @@ export const describeChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChangeSet",
-  iam: { actions: ["aws-marketplace:DescribeChangeSet"] },
+  iam: {
+    actions: ["aws-marketplace:DescribeChangeSet"],
+    resources: {
+      "aws-marketplace:DescribeChangeSet": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/ChangeSet/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeChangeSet",
 }));
@@ -1696,7 +1724,14 @@ export const describeEntity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntity",
-  iam: { actions: ["aws-marketplace:DescribeEntity"] },
+  iam: {
+    actions: ["aws-marketplace:DescribeEntity"],
+    resources: {
+      "aws-marketplace:DescribeEntity": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/${EntityType}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEntity",
 }));
@@ -1730,7 +1765,14 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: { actions: ["aws-marketplace:GetResourcePolicy"] },
+  iam: {
+    actions: ["aws-marketplace:GetResourcePolicy"],
+    resources: {
+      "aws-marketplace:GetResourcePolicy": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/${EntityType}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -1862,7 +1904,14 @@ export const listEntities: API.PaginatedOperationMethod<
     items: "EntitySummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["aws-marketplace:DescribeEntity", "aws-marketplace:ListEntities"] },
+  iam: {
+    actions: ["aws-marketplace:DescribeEntity", "aws-marketplace:ListEntities"],
+    resources: {
+      "aws-marketplace:DescribeEntity": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/${EntityType}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEntities",
 })) as any;
@@ -1929,7 +1978,14 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: { actions: ["aws-marketplace:PutResourcePolicy"] },
+  iam: {
+    actions: ["aws-marketplace:PutResourcePolicy"],
+    resources: {
+      "aws-marketplace:PutResourcePolicy": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/${EntityType}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1995,9 +2051,18 @@ export const startChangeSet: API.OperationMethod<
       "aws-marketplace:TagResource",
     ],
     resources: {
+      "aws-marketplace:DescribeChangeSet": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/ChangeSet/${ResourceId}",
+      ],
+      "aws-marketplace:DescribeEntity": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/${EntityType}/${ResourceId}",
+      ],
       "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
       "dataexchange:PublishDataSet": [
         "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
+      ],
+      "aws-marketplace:StartChangeSet": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:${Catalog}/${EntityType}/${ResourceId}",
       ],
     },
     conditional: { "iam:PassRole": "a role the request names" },

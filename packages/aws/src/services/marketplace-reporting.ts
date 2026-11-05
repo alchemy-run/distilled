@@ -166,7 +166,14 @@ export const getBuyerDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBuyerDashboard",
-  iam: { actions: ["aws-marketplace:GetBuyerDashboard"] },
+  iam: {
+    actions: ["aws-marketplace:GetBuyerDashboard"],
+    resources: {
+      "aws-marketplace:GetBuyerDashboard": [
+        "arn:${Partition}:aws-marketplace::${Account}:${Catalog}/ReportingData/${FactTable}/Dashboard/${DashboardName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBuyerDashboard",
 }));

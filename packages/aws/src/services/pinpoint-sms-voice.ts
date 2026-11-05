@@ -330,7 +330,14 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
-  iam: { actions: ["sms-voice:DeleteConfigurationSet"] },
+  iam: {
+    actions: ["sms-voice:DeleteConfigurationSet"],
+    resources: {
+      "sms-voice:DeleteConfigurationSet": [
+        "arn:${Partition}:sms-voice:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSet",
 }));
