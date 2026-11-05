@@ -86,9 +86,9 @@ export interface CreateTaskContainerRequest {
 }
 export interface CreateTaskContainerResponse {
   /** Fully qualified container ID (for example, ctr-<ulid>). */
-  containerId?: string;
+  containerId: string;
   /** Logical container name associated with this container. */
-  containerName?: string;
+  containerName: string;
 }
 export interface GetTaskContainerRequest {
   taskId?: string;
@@ -111,28 +111,28 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
-  status?: GenericResultGenericStatus;
+  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception?: string;
+  exception: string;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exitcode: number;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  traceback: string;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  serializedTb: string;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  tbLineCache: string;
   /** Pickled line cache for traceback object. */
   data?: string;
   /** Inline data of the result. */
   dataBlobId?: string;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  propagationReason: string;
 }
 export interface TaskContainerInfo {
-  containerId?: string;
-  containerName?: string;
-  status?: string;
+  containerId: string;
+  containerName: string;
+  status: string;
   result?: GenericResult;
 }
 export interface GetTaskContainerResponse {
@@ -145,7 +145,7 @@ export interface ListTaskContainerRequest {
 }
 export type TaskContainerInfoList = Array<TaskContainerInfo>;
 export interface ListTaskContainerResponse {
-  containers?: TaskContainerInfoList;
+  containers: TaskContainerInfoList;
 }
 export interface SandboxStdinWriteV2Request {
   taskId?: string;
@@ -163,8 +163,8 @@ export interface SandboxStdioReadV2Request {
   fileDescriptor?: SandboxStdioFileDescriptor | (string & {});
 }
 export interface SandboxStdioReadV2Response {
-  data?: string;
-  startingOffset?: string;
+  data: string;
+  startingOffset: string;
 }
 export type SandboxStdioReadV2ResponseList = Array<SandboxStdioReadV2Response>;
 export interface SandboxStdioReadV2Stream {
@@ -176,7 +176,7 @@ export interface SandboxWaitUntilReadyRequest {
   timeout?: number;
 }
 export interface SandboxWaitUntilReadyResponse {
-  readyAt?: number;
+  readyAt: number;
 }
 export interface TaskExecPollRequest {
   /** The ID of the task running the exec'd command. */
@@ -234,9 +234,9 @@ export interface TaskExecStdinStatusRequest {
 }
 export interface TaskExecStdinStatusResponse {
   /** Number of bytes the server has accepted for this exec so far. A streaming client that lost its connection should resume sending at this offset. */
-  numBytesWritten?: string;
+  numBytesWritten: string;
   /** True if stdin has already been closed (EOF sent) for this exec. */
-  closed?: boolean;
+  closed: boolean;
 }
 export interface TaskExecStdinWriteRequest {
   /** The ID of the task running the exec'd command. */
@@ -265,7 +265,7 @@ export interface TaskExecStdioReadRequest {
 }
 export interface TaskExecStdioReadResponse {
   /** The data read from the file descriptor. */
-  data?: string;
+  data: string;
 }
 export type TaskExecStdioReadResponseList = Array<TaskExecStdioReadResponse>;
 export interface TaskExecStdioReadStream {
@@ -340,7 +340,7 @@ export interface TaskSnapshotDirectoryRequest {
   containerId?: string;
 }
 export interface TaskSnapshotDirectoryResponse {
-  imageId?: string;
+  imageId: string;
 }
 export interface TaskSnapshotFilesystemRequest {
   taskId?: string;
@@ -354,14 +354,14 @@ export interface TaskSnapshotFilesystemRequest {
   containerId?: string;
 }
 export interface TaskSnapshotFilesystemResponse {
-  imageId?: string;
+  imageId: string;
 }
 export interface TaskSnapshotMemoryRequest {
   taskId?: string;
   idempotencyKey?: string;
 }
 export interface TaskSnapshotMemoryResponse {
-  snapshotId?: string;
+  snapshotId: string;
 }
 export interface TaskUnmountDirectoryRequest {
   taskId?: string;
@@ -451,12 +451,12 @@ export const sandboxStdinWriteV2: API.OperationMethod<
 }));
 
 export type SandboxStdioReadV2Error = ModalOpError;
-export const sandboxStdioReadV2: API.OperationMethod<
+export const sandboxStdioReadV2: API.StreamingOperationMethod<
   SandboxStdioReadV2Request,
   SandboxStdioReadV2Stream,
   SandboxStdioReadV2Error,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<SandboxStdioReadV2Request>,
   output: __S(99, __c24, 3) as any as S.Schema<SandboxStdioReadV2Stream>,
   errors: [UnknownModalError],
@@ -552,12 +552,12 @@ export const taskExecStdinWrite: API.OperationMethod<
 
 export type TaskExecStdioReadError = ModalOpError;
 /** Get a stream of output from the stdout or stderr stream of an exec'd command. */
-export const taskExecStdioRead: API.OperationMethod<
+export const taskExecStdioRead: API.StreamingOperationMethod<
   TaskExecStdioReadRequest,
   TaskExecStdioReadStream,
   TaskExecStdioReadError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<TaskExecStdioReadRequest>,
   output: __S(35, __c8, 3) as any as S.Schema<TaskExecStdioReadStream>,
   errors: [UnknownModalError],
@@ -795,8 +795,8 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
+          containerId: S.String,
+          containerName: S.String,
         }),
       ).annotate({ identifier: "CreateTaskContainerResponse" });
   }
@@ -886,9 +886,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
-          status: S.optional(S.String),
+          containerId: S.String,
+          containerName: S.String,
+          status: S.String,
           result: S.optional(__S(28, __c7, 0)),
         }),
       ).annotate({ identifier: "TaskContainerInfo" });
@@ -899,15 +899,15 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          exception: S.optional(S.String),
-          exitcode: S.optional(S.Number),
-          traceback: S.optional(S.String),
-          serializedTb: S.optional(S.String),
-          tbLineCache: S.optional(S.String),
+          status: S.String,
+          exception: S.String,
+          exitcode: S.Number,
+          traceback: S.String,
+          serializedTb: S.String,
+          tbLineCache: S.String,
           data: S.optional(S.String),
           dataBlobId: S.optional(S.String),
-          propagationReason: S.optional(S.String),
+          propagationReason: S.String,
         }),
       ).annotate({ identifier: "GenericResult" });
   }
@@ -932,7 +932,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.String),
+          data: S.String,
         }),
       ).annotate({ identifier: "TaskExecStdioReadResponse" });
     case 2:
@@ -1075,7 +1075,7 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
+          imageId: S.String,
         }),
       ).annotate({ identifier: "TaskSnapshotDirectoryResponse" });
   }
@@ -1118,7 +1118,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshotId: S.optional(S.String),
+          snapshotId: S.String,
         }),
       ).annotate({ identifier: "TaskSnapshotMemoryResponse" });
   }
@@ -1161,7 +1161,7 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(77, __c19, 1)),
+          containers: __S(77, __c19, 1),
         }),
       ).annotate({ identifier: "ListTaskContainerResponse" });
   }
@@ -1251,8 +1251,8 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.String),
-          startingOffset: S.optional(S.String),
+          data: S.String,
+          startingOffset: S.String,
         }),
       ).annotate({ identifier: "SandboxStdioReadV2Response" });
     case 2:
@@ -1283,7 +1283,7 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          readyAt: S.optional(S.Number),
+          readyAt: S.Number,
         }),
       ).annotate({ identifier: "SandboxWaitUntilReadyResponse" });
   }
@@ -1362,8 +1362,8 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          numBytesWritten: S.optional(S.String),
-          closed: S.optional(S.Boolean),
+          numBytesWritten: S.String,
+          closed: S.Boolean,
         }),
       ).annotate({ identifier: "TaskExecStdinStatusResponse" });
   }

@@ -30,21 +30,21 @@ export type IdentityProviderType =
   | "IDENTITY_PROVIDER_TYPE_SAML"
   | "IDENTITY_PROVIDER_TYPE_GOOGLE_OAUTH";
 export interface ListTokensResponseToken {
-  tokenId?: string;
-  createdAt?: number;
-  workspaceId?: string;
-  userId?: string;
-  lastUsedAt?: number;
-  memberDisplayname?: string;
-  memberId?: string;
-  identityProviderType?: IdentityProviderType;
-  memberAvatarUrl?: string;
-  name?: string;
+  tokenId: string;
+  createdAt: number;
+  workspaceId: string;
+  userId: string;
+  lastUsedAt: number;
+  memberDisplayname: string;
+  memberId: string;
+  identityProviderType: IdentityProviderType;
+  memberAvatarUrl: string;
+  name: string;
   expiresAt?: number;
 }
 export type ListTokensResponseTokenList = Array<ListTokensResponseToken>;
 export interface ListTokensResponse {
-  tokens?: ListTokensResponseTokenList;
+  tokens: ListTokensResponseTokenList;
 }
 export type ListTokensError = ModalOpError;
 export const listTokens: API.OperationMethod<
@@ -74,16 +74,16 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokenId: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          workspaceId: S.optional(S.String),
-          userId: S.optional(S.String),
-          lastUsedAt: S.optional(S.Number),
-          memberDisplayname: S.optional(S.String),
-          memberId: S.optional(S.String),
-          identityProviderType: S.optional(S.String),
-          memberAvatarUrl: S.optional(S.String),
-          name: S.optional(S.String),
+          tokenId: S.String,
+          createdAt: S.Number,
+          workspaceId: S.String,
+          userId: S.String,
+          lastUsedAt: S.Number,
+          memberDisplayname: S.String,
+          memberId: S.String,
+          identityProviderType: S.String,
+          memberAvatarUrl: S.String,
+          name: S.String,
           expiresAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListTokensResponseToken" });
@@ -92,7 +92,7 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.optional(__S(2, __c0, 2)),
+          tokens: __S(2, __c0, 2),
         }),
       ).annotate({ identifier: "ListTokensResponse" });
   }

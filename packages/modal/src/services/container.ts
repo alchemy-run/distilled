@@ -43,19 +43,19 @@ export interface ContainerExecGetOutputRequest {
 /** Used for `modal container exec`, `modal shell`, and Sandboxes */
 export interface RuntimeOutputMessage {
   /** only stdout / stderr is used */
-  fileDescriptor?: FileDescriptor;
-  message?: string;
-  messageBytes?: string;
+  fileDescriptor: FileDescriptor;
+  message: string;
+  messageBytes: string;
 }
 export type RuntimeOutputMessageList = Array<RuntimeOutputMessage>;
 export interface RuntimeOutputBatch {
-  items?: RuntimeOutputMessageList;
-  batchIndex?: string;
+  items: RuntimeOutputMessageList;
+  batchIndex: string;
   /** if an exit code is given, this is the final message that will be sent. */
   exitCode?: number;
-  stdout?: RuntimeOutputMessageList;
-  stderr?: RuntimeOutputMessageList;
-  info?: RuntimeOutputMessageList;
+  stdout: RuntimeOutputMessageList;
+  stderr: RuntimeOutputMessageList;
+  info: RuntimeOutputMessageList;
 }
 export type RuntimeOutputBatchList = Array<RuntimeOutputBatch>;
 export interface ContainerExecGetOutputStream {
@@ -79,7 +79,7 @@ export interface ContainerExecWaitRequest {
 }
 export interface ContainerExecWaitResponse {
   exitCode?: number;
-  completed?: boolean;
+  completed: boolean;
 }
 export interface ContainerHeartbeatRequest {
   canceledInputsReturnOutputs?: boolean;
@@ -88,9 +88,9 @@ export interface ContainerHeartbeatRequest {
 }
 export type StringList = Array<string>;
 export interface CancelInputEvent {
-  inputIds?: StringList;
-  terminateContainers?: boolean;
-  cancellationReason?: string;
+  inputIds: StringList;
+  terminateContainers: boolean;
+  cancellationReason: string;
 }
 export interface ContainerHeartbeatResponse {
   cancelInputEvent?: CancelInputEvent;
@@ -174,7 +174,7 @@ export interface ExecContainerRequest {
   secretIds?: StringList;
 }
 export interface ExecContainerResponse {
-  execId?: string;
+  execId: string;
 }
 export interface ContainerFileOpenRequest {
   /** file descriptor is hydrated when sent from server -> worker */
@@ -245,7 +245,7 @@ export interface ExecContainerFilesystemRequest {
   taskId?: string;
 }
 export interface ExecContainerFilesystemResponse {
-  execId?: string;
+  execId: string;
   /** only set when the request opens a new file, i.e., ContainerFileOpenRequest */
   fileDescriptor?: string;
 }
@@ -272,12 +272,12 @@ export const containerCheckpoint: API.OperationMethod<
 }));
 
 export type ContainerExecGetOutputError = ModalOpError;
-export const containerExecGetOutput: API.OperationMethod<
+export const containerExecGetOutput: API.StreamingOperationMethod<
   ContainerExecGetOutputRequest,
   ContainerExecGetOutputStream,
   ContainerExecGetOutputError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<ContainerExecGetOutputRequest>,
   output: __S(37, __c2, 5) as any as S.Schema<ContainerExecGetOutputStream>,
   errors: [UnknownModalError],
@@ -491,9 +491,9 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fileDescriptor: S.optional(S.String),
-          message: S.optional(S.String),
-          messageBytes: S.optional(S.String),
+          fileDescriptor: S.String,
+          message: S.String,
+          messageBytes: S.String,
         }),
       ).annotate({ identifier: "RuntimeOutputMessage" });
     case 2:
@@ -501,12 +501,12 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(34, __c2, 2)),
-          batchIndex: S.optional(S.String),
+          items: __S(34, __c2, 2),
+          batchIndex: S.String,
           exitCode: S.optional(S.Number),
-          stdout: S.optional(__S(34, __c2, 2)),
-          stderr: S.optional(__S(34, __c2, 2)),
-          info: S.optional(__S(34, __c2, 2)),
+          stdout: __S(34, __c2, 2),
+          stderr: __S(34, __c2, 2),
+          info: __S(34, __c2, 2),
         }),
       ).annotate({ identifier: "RuntimeOutputBatch" });
     case 4:
@@ -630,7 +630,7 @@ function __c3(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          execId: S.optional(S.String),
+          execId: S.String,
           fileDescriptor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecContainerFilesystemResponse" });
@@ -689,7 +689,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           exitCode: S.optional(S.Number),
-          completed: S.optional(S.Boolean),
+          completed: S.Boolean,
         }),
       ).annotate({ identifier: "ContainerExecWaitResponse" });
   }
@@ -712,9 +712,9 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inputIds: S.optional(__S(128, __c8, 0)),
-          terminateContainers: S.optional(S.Boolean),
-          cancellationReason: S.optional(S.String),
+          inputIds: __S(128, __c8, 0),
+          terminateContainers: S.Boolean,
+          cancellationReason: S.String,
         }),
       ).annotate({ identifier: "CancelInputEvent" });
     case 2:
@@ -844,7 +844,7 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          execId: S.optional(S.String),
+          execId: S.String,
         }),
       ).annotate({ identifier: "ExecContainerResponse" });
   }

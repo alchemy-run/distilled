@@ -550,30 +550,30 @@ export interface CreateFunctionRequest {
 export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export interface FunctionHandleMetadata {
   /** contains all the info about a function that is needed to trigger the right behaviour when using a FunctionHandler. Notably excludes things purely used for *executing* the function in a container entrypoint Should be a subset and use IDs/types from `Function` above */
-  functionName?: string;
-  functionType?: FunctionFunctionType;
-  webUrl?: string;
-  isMethod?: boolean;
+  functionName: string;
+  functionType: FunctionFunctionType;
+  webUrl: string;
+  isMethod: boolean;
   /** use_function_id, pre-0.67 class method placeholders */
-  useMethodName?: string;
+  useMethodName: string;
   /** used for methods */
-  definitionId?: string;
+  definitionId: string;
   classParameterInfo?: ClassParameterInfo;
   /** Mapping of method names to their metadata, only non-empty for class service functions */
-  methodHandleMetadata?: FunctionHandleMetadataMap;
+  methodHandleMetadata: FunctionHandleMetadataMap;
   functionSchema?: FunctionSchema;
   inputPlaneUrl?: string;
   inputPlaneRegion?: string;
   /** Use optional to ensure unset values default to None instead of 0 */
   maxObjectSizeBytes?: string;
   maxAsyncObjectSizeBytes?: string;
-  ExperimentalFlashUrls?: StringList;
+  ExperimentalFlashUrls: StringList;
   /** (Optional) urls for flash services */
-  supportedInputFormats?: DataFormatList;
-  supportedOutputFormats?: DataFormatList;
-  appId?: string;
+  supportedInputFormats: DataFormatList;
+  supportedOutputFormats: DataFormatList;
+  appId: string;
   /** The base Function ID for a variant, or the Function's own ID otherwise. */
-  baseFunctionId?: string;
+  baseFunctionId: string;
 }
 export type WarningWarningType =
   | "WARNING_TYPE_UNSPECIFIED"
@@ -581,18 +581,18 @@ export type WarningWarningType =
   | "WARNING_TYPE_RESOURCE_LIMIT"
   | "WARNING_TYPE_FUNCTION_CONFIGURATION";
 export interface Warning {
-  type?: WarningWarningType;
-  message?: string;
+  type: WarningWarningType;
+  message: string;
 }
 export type WarningList = Array<Warning>;
 export interface CreateFunctionResponse {
-  functionId?: string;
-  DeprecatedWebUrl?: string;
+  functionId: string;
+  DeprecatedWebUrl: string;
   /** Used up until 0.62.212 */
   function?: Function;
   /** deprecated soon */
   handleMetadata?: FunctionHandleMetadata;
-  serverWarnings?: WarningList;
+  serverWarnings: WarningList;
   functionData?: FunctionData;
 }
 export interface FetchFunctionCallRequestTail {
@@ -633,14 +633,14 @@ export interface FunctionCallInputInfo {
   containerId?: string;
   startupTimeSeconds?: number;
   executionTimeSeconds?: number;
-  status?: FunctionCallInputStatus;
-  functionCallId?: string;
+  status: FunctionCallInputStatus;
+  functionCallId: string;
   serviceMethodName?: string;
 }
 export type FunctionCallInputInfoList = Array<FunctionCallInputInfo>;
 export interface FetchFunctionCallResponse {
   /** Tail queries return the most recent inputs from the last seven days, ordered from newest to oldest. Range queries return inputs ordered from oldest to newest. */
-  functionCallInputs?: FunctionCallInputInfoList;
+  functionCallInputs: FunctionCallInputInfoList;
 }
 /** todo(ayush): update this to also use `autoscaler_settings` */
 export interface FunctionOptions {
@@ -676,7 +676,7 @@ export interface FunctionBindParamsRequest {
   authSecret?: string | Redacted.Redacted<string>;
 }
 export interface FunctionBindParamsResponse {
-  boundFunctionId?: string;
+  boundFunctionId: string;
   handleMetadata?: FunctionHandleMetadata;
 }
 export interface FunctionCallCountRequest {
@@ -692,23 +692,23 @@ export interface FunctionCallCountRequest {
 export interface FunctionCallCountResponseInputBucket {
   bucketStartAt?: string;
   /** Number of unique inputs, matching FunctionCallFetch. */
-  count?: string;
+  count: string;
 }
 export type FunctionCallCountResponseInputBucketList = Array<FunctionCallCountResponseInputBucket>;
 export interface FunctionCallCountResponse {
   /** Ordered by bucket start time, from oldest to newest. Counts include only inputs within the requested time range. */
-  buckets?: FunctionCallCountResponseInputBucketList;
+  buckets: FunctionCallCountResponseInputBucketList;
 }
 export interface FunctionCallFromIdRequest {
   functionCallId?: string;
 }
 export interface FunctionCallHandleMetadata {
-  appId?: string;
-  functionId?: string;
+  appId: string;
+  functionId: string;
 }
 export interface FunctionCallFromIdResponse {
-  functionCallId?: string;
-  numInputs?: number;
+  functionCallId: string;
+  numInputs: number;
   metadata?: FunctionCallHandleMetadata;
 }
 export interface FunctionCallGetDataInRequest {
@@ -742,33 +742,33 @@ export interface FunctionCallGetInfoRequest {
   functionCallId?: string;
 }
 export interface InputInfo {
-  inputId?: string;
-  idx?: number;
-  taskId?: string;
-  startedAt?: number;
-  finishedAt?: number;
-  taskStartupTime?: number;
-  taskFirstInput?: boolean;
+  inputId: string;
+  idx: number;
+  taskId: string;
+  startedAt: number;
+  finishedAt: number;
+  taskStartupTime: number;
+  taskFirstInput: boolean;
 }
 export type InputInfoList = Array<InputInfo>;
 export interface InputCategoryInfo {
-  total?: number;
-  latest?: InputInfoList;
+  total: number;
+  latest: InputInfoList;
 }
 export interface FunctionCallInfo {
-  functionCallId?: string;
-  idx?: number;
+  functionCallId: string;
+  idx: number;
   /** old fields */
-  createdAt?: number;
+  createdAt: number;
   /** when the call was created */
-  scheduledAt?: number;
+  scheduledAt: number;
   /** old fields */
   pendingInputs?: InputCategoryInfo;
   failedInputs?: InputCategoryInfo;
   succeededInputs?: InputCategoryInfo;
   timeoutInputs?: InputCategoryInfo;
   cancelledInputs?: InputCategoryInfo;
-  totalInputs?: number;
+  totalInputs: number;
 }
 export interface FunctionCallGetInfoResponse {
   info?: FunctionCallInfo;
@@ -809,33 +809,33 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
 export interface InputCallGraphInfo {
-  inputId?: string;
-  status?: GenericResultGenericStatus;
-  functionCallId?: string;
-  taskId?: string;
+  inputId: string;
+  status: GenericResultGenericStatus;
+  functionCallId: string;
+  taskId: string;
 }
 export type InputCallGraphInfoList = Array<InputCallGraphInfo>;
 export interface FunctionCallCallGraphInfo {
-  functionCallId?: string;
-  parentInputId?: string;
-  functionName?: string;
-  moduleName?: string;
+  functionCallId: string;
+  parentInputId: string;
+  functionName: string;
+  moduleName: string;
 }
 export type FunctionCallCallGraphInfoList = Array<FunctionCallCallGraphInfo>;
 export interface FunctionGetCallGraphResponse {
-  inputs?: InputCallGraphInfoList;
-  functionCalls?: FunctionCallCallGraphInfoList;
+  inputs: InputCallGraphInfoList;
+  functionCalls: FunctionCallCallGraphInfoList;
   /** Set by the server when the graph has more nodes than it will return, so `inputs` is a prefix of the graph. */
-  truncated?: boolean;
+  truncated: boolean;
 }
 export interface FunctionGetCurrentStatsRequest {
   functionId?: string;
 }
 export interface FunctionGetCurrentStatsResponse {
-  backlog?: number;
-  numTotalTasks?: number;
-  numRunningInputs?: number;
-  inputHeadroom?: number;
+  backlog: number;
+  numTotalTasks: number;
+  numRunningInputs: number;
+  inputHeadroom: number;
 }
 export interface FunctionGetDynamicConcurrencyRequest {
   functionId?: string;
@@ -843,13 +843,13 @@ export interface FunctionGetDynamicConcurrencyRequest {
   maxConcurrency?: number;
 }
 export interface FunctionGetDynamicConcurrencyResponse {
-  concurrency?: number;
+  concurrency: number;
 }
 export interface FunctionGetFlashAuthTokenRequest {
   functionId?: string;
 }
 export interface FunctionGetFlashAuthTokenResponse {
-  token?: string;
+  token: string;
 }
 export interface FunctionGetMetricsRequest {
   functionId?: string;
@@ -871,12 +871,12 @@ export interface FunctionMetricPoint {
 export type FunctionMetricPointList = Array<FunctionMetricPoint>;
 export interface FunctionMetricSeries {
   /** Unique within the response; identifies one aggregate series for this metric. The metric name defines the aggregation semantics. */
-  name?: string;
+  name: string;
   /** Public semantic unit, such as seconds, calls, containers, or requests. */
-  unit?: string;
-  points?: FunctionMetricPointList;
+  unit: string;
+  points: FunctionMetricPointList;
   /** Ascending timestamps; absent points are gaps. */
-  description?: string;
+  description: string;
 }
 export type FunctionMetricSeriesList = Array<FunctionMetricSeries>;
 export interface FunctionGetMetricsResponse {
@@ -884,19 +884,19 @@ export interface FunctionGetMetricsResponse {
   /** Inclusive effective bound, rounded down. */
   until?: string;
   /** Exclusive effective bound, rounded down. */
-  bucketSecs?: number;
-  series?: FunctionMetricSeriesList;
+  bucketSecs: number;
+  series: FunctionMetricSeriesList;
 }
 export interface FunctionGetSchedulingParamsRequest {
   functionId?: string;
 }
 /** Used for capturing context about an action performed by a user */
 export interface UserActionInfo {
-  userId?: string;
-  serviceUserId?: string;
-  timestamp?: number;
+  userId: string;
+  serviceUserId: string;
+  timestamp: number;
   /** Resolved display name, could be a user or service user. */
-  requestedBy?: string;
+  requestedBy: string;
 }
 export type UserActionInfoMap = { [key: string]: UserActionInfo | undefined };
 /** Message representing the current (coalesced) state of the autoscaler configuration As well as the different sources that were used to create it. */
@@ -904,7 +904,7 @@ export interface AutoscalerConfiguration {
   /** The settings that are currently in effect. */
   settings?: AutoscalerSettings;
   /** For tracking the source of the overridden value; keys correspond to fields in `settings`. */
-  overrideEvents?: UserActionInfoMap;
+  overrideEvents: UserActionInfoMap;
   /** The default settings that are used when no static settings are provided and no overrides are in effect. */
   defaultSettings?: AutoscalerSettings;
   /** The static settings that were used to initialize the configuration. */
@@ -919,8 +919,8 @@ export interface FunctionGetSerializedRequest {
   functionId?: string;
 }
 export interface FunctionGetSerializedResponse {
-  functionSerialized?: string;
-  classSerialized?: string;
+  functionSerialized: string;
+  classSerialized: string;
 }
 export interface FunctionGetTimeRangeStatsRequest {
   functionId?: string;
@@ -934,14 +934,14 @@ export interface FunctionGetTimeRangeStatsRequest {
 }
 export interface StatsPercentile {
   /** The percentile expressed in basis points: 5000 is p50 and 9990 is p99.9. */
-  percentileBasisPoints?: number;
-  value?: number;
+  percentileBasisPoints: number;
+  value: number;
 }
 export type StatsPercentileList = Array<StatsPercentile>;
 export interface StatsPercentileDistribution {
   /** Unit identifier such as "seconds", "cores", "gibibytes", or "fraction". */
-  unit?: string;
-  percentiles?: StatsPercentileList;
+  unit: string;
+  percentiles: StatsPercentileList;
 }
 export type StatsPercentileDistributionMap = {
   [key: string]: StatsPercentileDistribution | undefined;
@@ -951,23 +951,23 @@ export interface FunctionGetTimeRangeStatsResponse {
   /** Inclusive. */
   until?: string;
   /** Exclusive. Counts of inputs that finish in the requested time range. */
-  inputSuccessCount?: string;
-  inputFailureCount?: string;
-  inputTimeoutCount?: string;
+  inputSuccessCount: string;
+  inputFailureCount: string;
+  inputTimeoutCount: string;
   /** Number of inputs assigned but not finished at the exclusive end of the time range. */
-  inputRunningAtEndCount?: string;
+  inputRunningAtEndCount: string;
   /** Metrics include execution_time, end_to_end_latency, subject to change as requirements evolve */
-  inputPercentileStats?: StatsPercentileDistributionMap;
+  inputPercentileStats: StatsPercentileDistributionMap;
   /** Container lifecycle counts. Started and errored containers are counted when the corresponding event occurs in the requested time range. Creating containers were enqueued but had not started or finished at the exclusive end of the range. */
-  containerStartedCount?: string;
-  containerErrorCount?: string;
-  containerCreatingAtEndCount?: string;
+  containerStartedCount: string;
+  containerErrorCount: string;
+  containerCreatingAtEndCount: string;
   /** Metrics include cpu_usage, memory_usage, gpu_utilization subject to change as requirements evolve */
-  containerPercentileStats?: StatsPercentileDistributionMap;
+  containerPercentileStats: StatsPercentileDistributionMap;
   /** Number of direct non-version-pinned variants included in the roll-up. Zero when roll-up is disabled or the base Function has no variants. */
-  variantCount?: number;
+  variantCount: number;
   /** Number of containers that were active (published heartbeats) in the time range. */
-  containerTotalCount?: string;
+  containerTotalCount: string;
 }
 export interface FunctionVariantCursor {
   createdBefore?: number;
@@ -979,17 +979,17 @@ export interface FunctionListVariantsRequest {
   limit?: number;
 }
 export interface FunctionVariantInfo {
-  functionId?: string;
-  serializedParams?: string;
+  functionId: string;
+  serializedParams: string;
   functionOptions?: FunctionOptions;
 }
 export type FunctionVariantInfoList = Array<FunctionVariantInfo>;
 export interface FunctionListVariantsResponse {
-  infos?: FunctionVariantInfoList;
+  infos: FunctionVariantInfoList;
   /** Pass back as cursor to fetch the next page. Unset once the listing is complete. */
   nextCursor?: FunctionVariantCursor;
   /** Set by the server when it ordered the variants by how many tasks each is running, busiest first. */
-  orderedByTaskCount?: boolean;
+  orderedByTaskCount: boolean;
 }
 export type FunctionCallType =
   | "FUNCTION_CALL_TYPE_UNSPECIFIED"
@@ -1037,18 +1037,18 @@ export interface FunctionMapRequest {
   fromSpawnMap?: boolean;
 }
 export interface FunctionPutInputsResponseItem {
-  idx?: number;
-  inputId?: string;
-  inputJwt?: string;
+  idx: number;
+  inputId: string;
+  inputJwt: string;
 }
 export type FunctionPutInputsResponseItemList = Array<FunctionPutInputsResponseItem>;
 export interface FunctionMapResponse {
-  functionCallId?: string;
-  pipelinedInputs?: FunctionPutInputsResponseItemList;
+  functionCallId: string;
+  pipelinedInputs: FunctionPutInputsResponseItemList;
   retryPolicy?: FunctionRetryPolicy;
-  functionCallJwt?: string;
-  syncClientRetriesEnabled?: boolean;
-  maxInputsOutstanding?: number;
+  functionCallJwt: string;
+  syncClientRetriesEnabled: boolean;
+  maxInputsOutstanding: number;
 }
 export interface FunctionPrecreateRequest {
   appId?: string;
@@ -1063,7 +1063,7 @@ export interface FunctionPrecreateRequest {
   supportedOutputFormats?: DataFormatList;
 }
 export interface FunctionPrecreateResponse {
-  functionId?: string;
+  functionId: string;
   handleMetadata?: FunctionHandleMetadata;
 }
 export interface FunctionPutInputsRequest {
@@ -1072,7 +1072,7 @@ export interface FunctionPutInputsRequest {
   inputs?: FunctionPutInputsItemList;
 }
 export interface FunctionPutInputsResponse {
-  inputs?: FunctionPutInputsResponseItemList;
+  inputs: FunctionPutInputsResponseItemList;
 }
 /** sub-type for generic types like lists */
 export interface GenericResult {
@@ -1126,7 +1126,7 @@ export interface FunctionRetryInputsRequest {
   inputs?: FunctionRetryInputsItemList;
 }
 export interface FunctionRetryInputsResponse {
-  inputJwts?: StringList;
+  inputJwts: StringList;
 }
 export interface FunctionStartPtyShellRequest {}
 export interface FunctionStartPtyShellResponse {}
@@ -1146,9 +1146,9 @@ export interface GetFunctionRequest {
   appVersion?: number;
 }
 export interface GetFunctionResponse {
-  functionId?: string;
+  functionId: string;
   handleMetadata?: FunctionHandleMetadata;
-  serverWarnings?: WarningList;
+  serverWarnings: WarningList;
   function?: FunctionData;
 }
 export interface GetFunctionInputsRequest {
@@ -1161,22 +1161,22 @@ export interface GetFunctionInputsRequest {
   batchLingerMs?: string;
 }
 export interface GetFunctionInputsItem {
-  inputId?: string;
+  inputId: string;
   input?: FunctionInput;
-  killSwitch?: boolean;
+  killSwitch: boolean;
   /** previously used */
-  functionCallId?: string;
-  functionCallInvocationType?: FunctionCallInvocationType;
-  retryCount?: number;
+  functionCallId: string;
+  functionCallInvocationType: FunctionCallInvocationType;
+  retryCount: number;
   functionMapIdx?: number;
   /** intercepted and only used by the worker. */
-  attemptToken?: string;
-  fromInputPlane?: boolean;
+  attemptToken: string;
+  fromInputPlane: boolean;
 }
 export type GetFunctionInputsItemList = Array<GetFunctionInputsItem>;
 export interface GetFunctionInputsResponse {
-  inputs?: GetFunctionInputsItemList;
-  rateLimitSleepDuration?: number;
+  inputs: GetFunctionInputsItemList;
+  rateLimitSleepDuration: number;
 }
 export interface GetFunctionOutputsRequest {
   functionCallId?: string;
@@ -1195,22 +1195,22 @@ export interface GetFunctionOutputsRequest {
 export type IntegerList = Array<number>;
 export interface GetFunctionOutputsItem {
   result?: GenericResult;
-  idx?: number;
-  inputId?: string;
-  dataFormat?: DataFormat;
+  idx: number;
+  inputId: string;
+  dataFormat: DataFormat;
   /** for result.data_oneof */
-  taskId?: string;
-  inputStartedAt?: number;
-  outputCreatedAt?: number;
-  retryCount?: number;
-  fcTraceTag?: string;
+  taskId: string;
+  inputStartedAt: number;
+  outputCreatedAt: number;
+  retryCount: number;
+  fcTraceTag: string;
 }
 export type GetFunctionOutputsItemList = Array<GetFunctionOutputsItem>;
 export interface GetFunctionOutputsResponse {
-  idxs?: IntegerList;
-  outputs?: GetFunctionOutputsItemList;
-  lastEntryId?: string;
-  numUnfinishedInputs?: number;
+  idxs: IntegerList;
+  outputs: GetFunctionOutputsItemList;
+  lastEntryId: string;
+  numUnfinishedInputs: number;
 }
 export interface InvokeFunctionAsyncRequest {
   functionId?: string;
@@ -1218,15 +1218,15 @@ export interface InvokeFunctionAsyncRequest {
   input?: FunctionInput;
 }
 export interface InvokeFunctionAsyncResponse {
-  retryWithBlobUpload?: boolean;
-  functionCallId?: string;
+  retryWithBlobUpload: boolean;
+  functionCallId: string;
 }
 export interface ListFunctionCallRequest {
   functionId?: string;
 }
 export type FunctionCallInfoList = Array<FunctionCallInfo>;
 export interface ListFunctionCallResponse {
-  functionCalls?: FunctionCallInfoList;
+  functionCalls: FunctionCallInfoList;
 }
 export type CancelFunctionCallError = FunctionCallNotFound | ModalOpError;
 export const cancelFunctionCall: API.OperationMethod<
@@ -1325,12 +1325,12 @@ export const functionCallFromId: API.OperationMethod<
 }));
 
 export type FunctionCallGetDataInError = ModalOpError;
-export const functionCallGetDataIn: API.OperationMethod<
+export const functionCallGetDataIn: API.StreamingOperationMethod<
   FunctionCallGetDataInRequest,
   FunctionCallGetDataInStream,
   FunctionCallGetDataInError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<FunctionCallGetDataInRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<FunctionCallGetDataInStream>,
   errors: [UnknownModalError],
@@ -1341,12 +1341,12 @@ export const functionCallGetDataIn: API.OperationMethod<
 }));
 
 export type FunctionCallGetDataOutError = ModalOpError;
-export const functionCallGetDataOut: API.OperationMethod<
+export const functionCallGetDataOut: API.StreamingOperationMethod<
   FunctionCallGetDataOutRequest,
   FunctionCallGetDataOutStream,
   FunctionCallGetDataOutError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<FunctionCallGetDataOutRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<FunctionCallGetDataOutStream>,
   errors: [UnknownModalError],
@@ -1790,13 +1790,13 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inputId: S.optional(S.String),
-          idx: S.optional(S.Number),
-          taskId: S.optional(S.String),
-          startedAt: S.optional(S.Number),
-          finishedAt: S.optional(S.Number),
-          taskStartupTime: S.optional(S.Number),
-          taskFirstInput: S.optional(S.Boolean),
+          inputId: S.String,
+          idx: S.Number,
+          taskId: S.String,
+          startedAt: S.Number,
+          finishedAt: S.Number,
+          taskStartupTime: S.Number,
+          taskFirstInput: S.Boolean,
         }),
       ).annotate({ identifier: "InputInfo" });
     case 1:
@@ -1804,23 +1804,23 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          total: S.optional(S.Number),
-          latest: S.optional(__S(33, __c1, 1)),
+          total: S.Number,
+          latest: __S(33, __c1, 1),
         }),
       ).annotate({ identifier: "InputCategoryInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          functionCallId: S.optional(S.String),
-          idx: S.optional(S.Number),
-          createdAt: S.optional(S.Number),
-          scheduledAt: S.optional(S.Number),
+          functionCallId: S.String,
+          idx: S.Number,
+          createdAt: S.Number,
+          scheduledAt: S.Number,
           pendingInputs: S.optional(__S(34, __c1, 2)),
           failedInputs: S.optional(__S(34, __c1, 2)),
           succeededInputs: S.optional(__S(34, __c1, 2)),
           timeoutInputs: S.optional(__S(34, __c1, 2)),
           cancelledInputs: S.optional(__S(34, __c1, 2)),
-          totalInputs: S.optional(S.Number),
+          totalInputs: S.Number,
         }),
       ).annotate({ identifier: "FunctionCallInfo" });
   }
@@ -1897,10 +1897,10 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inputId: S.optional(S.String),
-          status: S.optional(S.String),
-          functionCallId: S.optional(S.String),
-          taskId: S.optional(S.String),
+          inputId: S.String,
+          status: S.String,
+          functionCallId: S.String,
+          taskId: S.String,
         }),
       ).annotate({ identifier: "InputCallGraphInfo" });
     case 2:
@@ -1908,10 +1908,10 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          functionCallId: S.optional(S.String),
-          parentInputId: S.optional(S.String),
-          functionName: S.optional(S.String),
-          moduleName: S.optional(S.String),
+          functionCallId: S.String,
+          parentInputId: S.String,
+          functionName: S.String,
+          moduleName: S.String,
         }),
       ).annotate({ identifier: "FunctionCallCallGraphInfo" });
     case 4:
@@ -1919,9 +1919,9 @@ function __c5(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          inputs: S.optional(__S(162, __c5, 2)),
-          functionCalls: S.optional(__S(164, __c5, 4)),
-          truncated: S.optional(S.Boolean),
+          inputs: __S(162, __c5, 2),
+          functionCalls: __S(164, __c5, 4),
+          truncated: S.Boolean,
         }),
       ).annotate({ identifier: "FunctionGetCallGraphResponse" });
   }
@@ -1943,10 +1943,10 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          backlog: S.optional(S.Number),
-          numTotalTasks: S.optional(S.Number),
-          numRunningInputs: S.optional(S.Number),
-          inputHeadroom: S.optional(S.Number),
+          backlog: S.Number,
+          numTotalTasks: S.Number,
+          numRunningInputs: S.Number,
+          inputHeadroom: S.Number,
         }),
       ).annotate({ identifier: "FunctionGetCurrentStatsResponse" });
   }
@@ -1970,7 +1970,7 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          concurrency: S.optional(S.Number),
+          concurrency: S.Number,
         }),
       ).annotate({ identifier: "FunctionGetDynamicConcurrencyResponse" });
   }
@@ -1992,7 +1992,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.String,
         }),
       ).annotate({ identifier: "FunctionGetFlashAuthTokenResponse" });
   }
@@ -2028,10 +2028,10 @@ function __c9(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          unit: S.optional(S.String),
-          points: S.optional(__S(290, __c9, 2)),
-          description: S.optional(S.String),
+          name: S.String,
+          unit: S.String,
+          points: __S(290, __c9, 2),
+          description: S.String,
         }),
       ).annotate({ identifier: "FunctionMetricSeries" });
     case 4:
@@ -2041,8 +2041,8 @@ function __c9(j: number): any {
         S.Struct({
           since: S.optional(S.String),
           until: S.optional(S.String),
-          bucketSecs: S.optional(S.Number),
-          series: S.optional(__S(292, __c9, 4)),
+          bucketSecs: S.Number,
+          series: __S(292, __c9, 4),
         }),
       ).annotate({ identifier: "FunctionGetMetricsResponse" });
   }
@@ -2064,10 +2064,10 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userId: S.optional(S.String),
-          serviceUserId: S.optional(S.String),
-          timestamp: S.optional(S.Number),
-          requestedBy: S.optional(S.String),
+          userId: S.String,
+          serviceUserId: S.String,
+          timestamp: S.Number,
+          requestedBy: S.String,
         }),
       ).annotate({ identifier: "UserActionInfo" });
     case 2:
@@ -2076,7 +2076,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           settings: S.optional(__S(864, __c27, 0)),
-          overrideEvents: S.optional(__S(322, __c10, 2)),
+          overrideEvents: __S(322, __c10, 2),
           defaultSettings: S.optional(__S(864, __c27, 0)),
           staticSettings: S.optional(__S(864, __c27, 0)),
           overrideSettings: S.optional(__S(864, __c27, 0)),
@@ -2131,8 +2131,8 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          functionSerialized: S.optional(S.String),
-          classSerialized: S.optional(S.String),
+          functionSerialized: S.String,
+          classSerialized: S.String,
         }),
       ).annotate({ identifier: "FunctionGetSerializedResponse" });
   }
@@ -2158,8 +2158,8 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          percentileBasisPoints: S.optional(S.Number),
-          value: S.optional(S.Number),
+          percentileBasisPoints: S.Number,
+          value: S.Number,
         }),
       ).annotate({ identifier: "StatsPercentile" });
     case 2:
@@ -2167,8 +2167,8 @@ function __c14(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          unit: S.optional(S.String),
-          percentiles: S.optional(__S(450, __c14, 2)),
+          unit: S.String,
+          percentiles: __S(450, __c14, 2),
         }),
       ).annotate({ identifier: "StatsPercentileDistribution" });
     case 4:
@@ -2178,17 +2178,17 @@ function __c14(j: number): any {
         S.Struct({
           since: S.optional(S.String),
           until: S.optional(S.String),
-          inputSuccessCount: S.optional(S.String),
-          inputFailureCount: S.optional(S.String),
-          inputTimeoutCount: S.optional(S.String),
-          inputRunningAtEndCount: S.optional(S.String),
-          inputPercentileStats: S.optional(__S(452, __c14, 4)),
-          containerStartedCount: S.optional(S.String),
-          containerErrorCount: S.optional(S.String),
-          containerCreatingAtEndCount: S.optional(S.String),
-          containerPercentileStats: S.optional(__S(452, __c14, 4)),
-          variantCount: S.optional(S.Number),
-          containerTotalCount: S.optional(S.String),
+          inputSuccessCount: S.String,
+          inputFailureCount: S.String,
+          inputTimeoutCount: S.String,
+          inputRunningAtEndCount: S.String,
+          inputPercentileStats: __S(452, __c14, 4),
+          containerStartedCount: S.String,
+          containerErrorCount: S.String,
+          containerCreatingAtEndCount: S.String,
+          containerPercentileStats: __S(452, __c14, 4),
+          variantCount: S.Number,
+          containerTotalCount: S.String,
         }),
       ).annotate({ identifier: "FunctionGetTimeRangeStatsResponse" });
   }
@@ -2219,8 +2219,8 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          functionId: S.optional(S.String),
-          serializedParams: S.optional(S.String),
+          functionId: S.String,
+          serializedParams: S.String,
           functionOptions: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "FunctionVariantInfo" });
@@ -2229,9 +2229,9 @@ function __c15(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          infos: S.optional(__S(483, __c15, 3)),
+          infos: __S(483, __c15, 3),
           nextCursor: S.optional(__S(480, __c15, 0)),
-          orderedByTaskCount: S.optional(S.Boolean),
+          orderedByTaskCount: S.Boolean,
         }),
       ).annotate({ identifier: "FunctionListVariantsResponse" });
   }
@@ -2255,12 +2255,12 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          functionCallId: S.optional(S.String),
-          pipelinedInputs: S.optional(__S(549, __c17, 5)),
+          functionCallId: S.String,
+          pipelinedInputs: __S(549, __c17, 5),
           retryPolicy: S.optional(__S(1024, __c32, 0)),
-          functionCallJwt: S.optional(S.String),
-          syncClientRetriesEnabled: S.optional(S.Boolean),
-          maxInputsOutstanding: S.optional(S.Number),
+          functionCallJwt: S.String,
+          syncClientRetriesEnabled: S.Boolean,
+          maxInputsOutstanding: S.Number,
         }),
       ).annotate({ identifier: "FunctionMapResponse" });
   }
@@ -2292,9 +2292,9 @@ function __c17(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idx: S.optional(S.Number),
-          inputId: S.optional(S.String),
-          inputJwt: S.optional(S.String),
+          idx: S.Number,
+          inputId: S.String,
+          inputJwt: S.String,
         }),
       ).annotate({ identifier: "FunctionPutInputsResponseItem" });
     case 5:
@@ -2336,7 +2336,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          functionId: S.optional(S.String),
+          functionId: S.String,
           handleMetadata: S.optional(__S(1096, __c34, 8)),
         }),
       ).annotate({ identifier: "FunctionPrecreateResponse" });
@@ -2357,7 +2357,7 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inputs: S.optional(__S(549, __c17, 5)),
+          inputs: __S(549, __c17, 5),
         }),
       ).annotate({ identifier: "FunctionPutInputsResponse" });
   }
@@ -2441,7 +2441,7 @@ function __c23(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          inputJwts: S.optional(__S(992, __c31, 0)),
+          inputJwts: __S(992, __c31, 0),
         }),
       ).annotate({ identifier: "FunctionRetryInputsResponse" });
   }
@@ -2501,11 +2501,11 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          functionId: S.optional(S.String),
-          DeprecatedWebUrl: S.optional(S.String),
+          functionId: S.String,
+          DeprecatedWebUrl: S.String,
           function: S.optional(__S(944, __c29, 16)),
           handleMetadata: S.optional(__S(1096, __c34, 8)),
-          serverWarnings: S.optional(__S(961, __c30, 1)),
+          serverWarnings: __S(961, __c30, 1),
           functionData: S.optional(__S(947, __c29, 19)),
         }),
       ).annotate({ identifier: "CreateFunctionResponse" });
@@ -2851,8 +2851,8 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          message: S.optional(S.String),
+          type: S.String,
+          message: S.String,
         }),
       ).annotate({ identifier: "Warning" });
     case 1:
@@ -2996,24 +2996,24 @@ function __c34(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          functionName: S.optional(S.String),
-          functionType: S.optional(S.String),
-          webUrl: S.optional(S.String),
-          isMethod: S.optional(S.Boolean),
-          useMethodName: S.optional(S.String),
-          definitionId: S.optional(S.String),
+          functionName: S.String,
+          functionType: S.String,
+          webUrl: S.String,
+          isMethod: S.Boolean,
+          useMethodName: S.String,
+          definitionId: S.String,
           classParameterInfo: S.optional(__S(1092, __c34, 4)),
-          methodHandleMetadata: S.optional(__S(1095, __c34, 7)),
+          methodHandleMetadata: __S(1095, __c34, 7),
           functionSchema: S.optional(__S(1093, __c34, 5)),
           inputPlaneUrl: S.optional(S.String),
           inputPlaneRegion: S.optional(S.String),
           maxObjectSizeBytes: S.optional(S.String),
           maxAsyncObjectSizeBytes: S.optional(S.String),
-          ExperimentalFlashUrls: S.optional(__S(992, __c31, 0)),
-          supportedInputFormats: S.optional(__S(1094, __c34, 6)),
-          supportedOutputFormats: S.optional(__S(1094, __c34, 6)),
-          appId: S.optional(S.String),
-          baseFunctionId: S.optional(S.String),
+          ExperimentalFlashUrls: __S(992, __c31, 0),
+          supportedInputFormats: __S(1094, __c34, 6),
+          supportedOutputFormats: __S(1094, __c34, 6),
+          appId: S.String,
+          baseFunctionId: S.String,
         }),
       ).annotate({ identifier: "FunctionHandleMetadata" });
   }
@@ -3034,9 +3034,9 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          functionId: S.optional(S.String),
+          functionId: S.String,
           handleMetadata: S.optional(__S(1096, __c34, 8)),
-          serverWarnings: S.optional(__S(961, __c30, 1)),
+          serverWarnings: __S(961, __c30, 1),
           function: S.optional(__S(947, __c29, 19)),
         }),
       ).annotate({ identifier: "GetFunctionResponse" });
@@ -3058,15 +3058,15 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inputId: S.optional(S.String),
+          inputId: S.String,
           input: S.optional(__S(576, __c18, 0)),
-          killSwitch: S.optional(S.Boolean),
-          functionCallId: S.optional(S.String),
-          functionCallInvocationType: S.optional(S.String),
-          retryCount: S.optional(S.Number),
+          killSwitch: S.Boolean,
+          functionCallId: S.String,
+          functionCallInvocationType: S.String,
+          retryCount: S.Number,
           functionMapIdx: S.optional(S.Number),
-          attemptToken: S.optional(S.String),
-          fromInputPlane: S.optional(S.Boolean),
+          attemptToken: S.String,
+          fromInputPlane: S.Boolean,
         }),
       ).annotate({ identifier: "GetFunctionInputsItem" });
     case 2:
@@ -3074,8 +3074,8 @@ function __c36(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          inputs: S.optional(__S(1154, __c36, 2)),
-          rateLimitSleepDuration: S.optional(S.Number),
+          inputs: __S(1154, __c36, 2),
+          rateLimitSleepDuration: S.Number,
         }),
       ).annotate({ identifier: "GetFunctionInputsResponse" });
   }
@@ -3108,14 +3108,14 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           result: S.optional(__S(704, __c22, 0)),
-          idx: S.optional(S.Number),
-          inputId: S.optional(S.String),
-          dataFormat: S.optional(S.String),
-          taskId: S.optional(S.String),
-          inputStartedAt: S.optional(S.Number),
-          outputCreatedAt: S.optional(S.Number),
-          retryCount: S.optional(S.Number),
-          fcTraceTag: S.optional(S.String),
+          idx: S.Number,
+          inputId: S.String,
+          dataFormat: S.String,
+          taskId: S.String,
+          inputStartedAt: S.Number,
+          outputCreatedAt: S.Number,
+          retryCount: S.Number,
+          fcTraceTag: S.String,
         }),
       ).annotate({ identifier: "GetFunctionOutputsItem" });
     case 3:
@@ -3123,10 +3123,10 @@ function __c37(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idxs: S.optional(__S(1185, __c37, 1)),
-          outputs: S.optional(__S(1187, __c37, 3)),
-          lastEntryId: S.optional(S.String),
-          numUnfinishedInputs: S.optional(S.Number),
+          idxs: __S(1185, __c37, 1),
+          outputs: __S(1187, __c37, 3),
+          lastEntryId: S.String,
+          numUnfinishedInputs: S.Number,
         }),
       ).annotate({ identifier: "GetFunctionOutputsResponse" });
   }
@@ -3150,8 +3150,8 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          retryWithBlobUpload: S.optional(S.Boolean),
-          functionCallId: S.optional(S.String),
+          retryWithBlobUpload: S.Boolean,
+          functionCallId: S.String,
         }),
       ).annotate({ identifier: "InvokeFunctionAsyncResponse" });
   }
@@ -3171,7 +3171,7 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          functionCalls: S.optional(__S(1249, __c39, 1)),
+          functionCalls: __S(1249, __c39, 1),
         }),
       ).annotate({ identifier: "ListFunctionCallResponse" });
   }
@@ -3211,8 +3211,8 @@ function __c40(j: number): any {
           containerId: S.optional(S.String),
           startupTimeSeconds: S.optional(S.Number),
           executionTimeSeconds: S.optional(S.Number),
-          status: S.optional(S.String),
-          functionCallId: S.optional(S.String),
+          status: S.String,
+          functionCallId: S.String,
           serviceMethodName: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionCallInputInfo" });
@@ -3221,7 +3221,7 @@ function __c40(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          functionCallInputs: S.optional(__S(1284, __c40, 4)),
+          functionCallInputs: __S(1284, __c40, 4),
         }),
       ).annotate({ identifier: "FetchFunctionCallResponse" });
   }
@@ -3247,7 +3247,7 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          boundFunctionId: S.optional(S.String),
+          boundFunctionId: S.String,
           handleMetadata: S.optional(__S(1096, __c34, 8)),
         }),
       ).annotate({ identifier: "FunctionBindParamsResponse" });
@@ -3302,7 +3302,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucketStartAt: S.optional(S.String),
-          count: S.optional(S.String),
+          count: S.String,
         }),
       ).annotate({ identifier: "FunctionCallCountResponseInputBucket" });
     case 2:
@@ -3310,7 +3310,7 @@ function __c43(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(1378, __c43, 2)),
+          buckets: __S(1378, __c43, 2),
         }),
       ).annotate({ identifier: "FunctionCallCountResponse" });
   }
@@ -3332,15 +3332,15 @@ function __c44(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          functionId: S.optional(S.String),
+          appId: S.String,
+          functionId: S.String,
         }),
       ).annotate({ identifier: "FunctionCallHandleMetadata" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          functionCallId: S.optional(S.String),
-          numInputs: S.optional(S.Number),
+          functionCallId: S.String,
+          numInputs: S.Number,
           metadata: S.optional(__S(1409, __c44, 1)),
         }),
       ).annotate({ identifier: "FunctionCallFromIdResponse" });

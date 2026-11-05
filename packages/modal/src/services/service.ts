@@ -60,9 +60,9 @@ export interface CreateServiceUserRequest {
   expiresInSeconds?: number;
 }
 export interface CreateServiceUserResponse {
-  tokenId?: string;
-  tokenSecret?: string | Redacted.Redacted<string>;
-  serviceUserId?: string;
+  tokenId: string;
+  tokenSecret: string | Redacted.Redacted<string>;
+  serviceUserId: string;
   expiresAt?: string;
 }
 export interface DeleteServiceUserRequest {
@@ -81,39 +81,39 @@ export type EnvironmentRole =
 export type StringList = Array<string>;
 /** Workspace custom role. Built-in Viewer and Contributor are not represented here. */
 export interface EnvironmentRoleDefinition {
-  environmentRoleDefinitionId?: string;
-  name?: string;
-  description?: string;
-  permissions?: StringList;
-  createdAt?: number;
+  environmentRoleDefinitionId: string;
+  name: string;
+  description: string;
+  permissions: StringList;
+  createdAt: number;
 }
 export interface ServiceUserEnvironmentRoleEntry {
-  environmentId?: string;
-  role?: EnvironmentRole;
-  environmentName?: string;
+  environmentId: string;
+  role: EnvironmentRole;
+  environmentName: string;
   /** Built-in token, or the custom definition's name. */
-  roleStr?: string;
+  roleStr: string;
   /** environment_role_definition_id Set on reads when `role` is ENVIRONMENT_ROLE_CUSTOM. */
   environmentRoleDefinition?: EnvironmentRoleDefinition;
 }
 export type ServiceUserEnvironmentRoleEntryList = Array<ServiceUserEnvironmentRoleEntry>;
 export interface ServiceUser {
-  name?: string;
-  tokenId?: string;
-  createdBy?: string;
-  createdAt?: number;
-  lastUsedAt?: number;
-  createdByAvatarUrl?: string;
-  serviceUserId?: string;
-  status?: string;
-  scoped?: boolean;
-  environmentRoles?: ServiceUserEnvironmentRoleEntryList;
+  name: string;
+  tokenId: string;
+  createdBy: string;
+  createdAt: number;
+  lastUsedAt: number;
+  createdByAvatarUrl: string;
+  serviceUserId: string;
+  status: string;
+  scoped: boolean;
+  environmentRoles: ServiceUserEnvironmentRoleEntryList;
   /** This should be a TImestamp type, but keeping as a double for compatibility with public_api.proto */
   expiresAt?: number;
 }
 export type ServiceUserList2 = Array<ServiceUser>;
 export interface ListServiceUserResponse {
-  serviceUsers?: ServiceUserList2;
+  serviceUsers: ServiceUserList2;
 }
 export interface ServiceUserInfoRequest {
   serviceUserName?: string;
@@ -205,9 +205,9 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokenId: S.optional(S.String),
-          tokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          serviceUserId: S.optional(S.String),
+          tokenId: S.String,
+          tokenSecret: S.String.pipe(T.SensitiveValue({})),
+          serviceUserId: S.String,
           expiresAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateServiceUserResponse" });
@@ -241,7 +241,7 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          serviceUsers: S.optional(__S(17, __c2, 1)),
+          serviceUsers: __S(17, __c2, 1),
         }),
       ).annotate({ identifier: "ListServiceUserResponse" });
   }
@@ -253,20 +253,20 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          environmentRoleDefinitionId: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          permissions: S.optional(__S(24, __c3, 0)),
-          createdAt: S.optional(S.Number),
+          environmentRoleDefinitionId: S.String,
+          name: S.String,
+          description: S.String,
+          permissions: __S(24, __c3, 0),
+          createdAt: S.Number,
         }),
       ).annotate({ identifier: "EnvironmentRoleDefinition" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environmentId: S.optional(S.String),
-          role: S.optional(S.String),
-          environmentName: S.optional(S.String),
-          roleStr: S.optional(S.String),
+          environmentId: S.String,
+          role: S.String,
+          environmentName: S.String,
+          roleStr: S.String,
           environmentRoleDefinition: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "ServiceUserEnvironmentRoleEntry" });
@@ -275,16 +275,16 @@ function __c3(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          tokenId: S.optional(S.String),
-          createdBy: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          lastUsedAt: S.optional(S.Number),
-          createdByAvatarUrl: S.optional(S.String),
-          serviceUserId: S.optional(S.String),
-          status: S.optional(S.String),
-          scoped: S.optional(S.Boolean),
-          environmentRoles: S.optional(__S(27, __c3, 3)),
+          name: S.String,
+          tokenId: S.String,
+          createdBy: S.String,
+          createdAt: S.Number,
+          lastUsedAt: S.Number,
+          createdByAvatarUrl: S.String,
+          serviceUserId: S.String,
+          status: S.String,
+          scoped: S.Boolean,
+          environmentRoles: __S(27, __c3, 3),
           expiresAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ServiceUser" });

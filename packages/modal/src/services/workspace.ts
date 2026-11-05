@@ -27,7 +27,7 @@ export interface GetWorkspaceDashboardUrlRequest {
   environmentName?: string;
 }
 export interface GetWorkspaceDashboardUrlResponse {
-  url?: string;
+  url: string;
 }
 export interface ListWorkspaceMembersRequest {}
 export type MemberRole =
@@ -41,35 +41,35 @@ export type IdentityProviderType =
   | "IDENTITY_PROVIDER_TYPE_SAML"
   | "IDENTITY_PROVIDER_TYPE_GOOGLE_OAUTH";
 export interface WorkspaceMembersListItem {
-  memberId?: string;
-  memberDisplayname?: string;
-  memberRole?: MemberRole;
-  joinedAt?: number;
-  lastActiveAt?: number;
-  deletedAt?: number;
-  userId?: string;
-  identityProviderType?: IdentityProviderType;
-  email?: string;
-  avatarUrl?: string;
-  idpExternalId?: string;
+  memberId: string;
+  memberDisplayname: string;
+  memberRole: MemberRole;
+  joinedAt: number;
+  lastActiveAt: number;
+  deletedAt: number;
+  userId: string;
+  identityProviderType: IdentityProviderType;
+  email: string;
+  avatarUrl: string;
+  idpExternalId: string;
 }
 export type WorkspaceMembersListItemList = Array<WorkspaceMembersListItem>;
 export interface ListWorkspaceMembersResponse {
-  members?: WorkspaceMembersListItemList;
+  members: WorkspaceMembersListItemList;
 }
 export interface LookupWorkspaceNameRequest {}
 export interface LookupWorkspaceNameResponse {
-  workspaceName?: string;
-  username?: string;
+  workspaceName: string;
+  username: string;
 }
 export interface WorkspaceBillingRatesRequest {}
 export type StringMap = { [key: string]: string | undefined };
 export interface WorkspaceBillingRatesResponse {
   /** compute rates are per unit per hour, storage rate is per GiB-month */
-  rates?: StringMap;
-  deprecationWarnings?: StringMap;
-  deprecationErrors?: StringMap;
-  formatted?: string;
+  rates: StringMap;
+  deprecationWarnings: StringMap;
+  deprecationErrors: StringMap;
+  formatted: string;
 }
 export type StringList = Array<string>;
 export interface WorkspaceBillingReportRequest {
@@ -83,13 +83,13 @@ export interface WorkspaceBillingReportRequest {
   appIds?: StringList;
 }
 export interface WorkspaceBillingReportItem {
-  objectId?: string;
-  description?: string;
-  environmentName?: string;
+  objectId: string;
+  description: string;
+  environmentName: string;
   interval?: string;
-  cost?: string;
-  tags?: StringMap;
-  costByResource?: StringMap;
+  cost: string;
+  tags: StringMap;
+  costByResource: StringMap;
 }
 export type WorkspaceBillingReportItemList = Array<WorkspaceBillingReportItem>;
 export interface WorkspaceBillingReportStream {
@@ -103,12 +103,12 @@ export interface WorkspaceBillingSummaryRequest {
 export interface WorkspaceBillingSummaryResponse {
   startTimestamp?: string;
   endTimestamp?: string;
-  meteredCost?: string;
-  billedCost?: string;
+  meteredCost: string;
+  billedCost: string;
   /** keyed by deployed, ephemeral, volume, notebook, tokens */
-  meteredCostBreakdown?: StringMap;
+  meteredCostBreakdown: StringMap;
   /** keyed by plan, credits, reservations, storage, network egress allowance */
-  adjustments?: StringMap;
+  adjustments: StringMap;
 }
 export interface WorkspaceSetDefaultEnvironmentRequest {
   environmentName?: string;
@@ -126,8 +126,8 @@ export interface WorkspaceSetDefaultEnvironmentSettingsRequest {
 }
 /** Environment-scoped settings, with workspace-level defaults. Note that we use MergeFrom to combine workspace / environment settings, which will *append* any `repeated` fields! */
 export interface EnvironmentSettings {
-  imageBuilderVersion?: string;
-  webhookSuffix?: string;
+  imageBuilderVersion: string;
+  webhookSuffix: string;
   maxConcurrentGpus?: number;
   maxConcurrentTasks?: number;
   /** When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default. */
@@ -140,12 +140,12 @@ export interface WorkspaceSetImageBuilderVersionRequest {
   newImageBuilderVersion?: string;
 }
 export interface WorkspaceSetImageBuilderVersionResponse {
-  imageBuilderVersion?: string;
+  imageBuilderVersion: string;
 }
 export interface WorkspaceSettingsRequest {}
 export interface WorkspaceSettingsResponse {
-  defaultEnvironmentName?: string;
-  imageBuilderVersion?: string;
+  defaultEnvironmentName: string;
+  imageBuilderVersion: string;
 }
 export type GetWorkspaceDashboardUrlError = ModalOpError;
 export const getWorkspaceDashboardUrl: API.OperationMethod<
@@ -213,12 +213,12 @@ export const workspaceBillingRates: API.OperationMethod<
 }));
 
 export type WorkspaceBillingReportError = ModalOpError;
-export const workspaceBillingReport: API.OperationMethod<
+export const workspaceBillingReport: API.StreamingOperationMethod<
   WorkspaceBillingReportRequest,
   WorkspaceBillingReportStream,
   WorkspaceBillingReportError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(41, __c5, 1) as any as S.Schema<WorkspaceBillingReportRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<WorkspaceBillingReportStream>,
   errors: [UnknownModalError],
@@ -326,7 +326,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
+          url: S.String,
         }),
       ).annotate({ identifier: "GetWorkspaceDashboardUrlResponse" });
   }
@@ -346,17 +346,17 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          memberId: S.optional(S.String),
-          memberDisplayname: S.optional(S.String),
-          memberRole: S.optional(S.String),
-          joinedAt: S.optional(S.Number),
-          lastActiveAt: S.optional(S.Number),
-          deletedAt: S.optional(S.Number),
-          userId: S.optional(S.String),
-          identityProviderType: S.optional(S.String),
-          email: S.optional(S.String),
-          avatarUrl: S.optional(S.String),
-          idpExternalId: S.optional(S.String),
+          memberId: S.String,
+          memberDisplayname: S.String,
+          memberRole: S.String,
+          joinedAt: S.Number,
+          lastActiveAt: S.Number,
+          deletedAt: S.Number,
+          userId: S.String,
+          identityProviderType: S.String,
+          email: S.String,
+          avatarUrl: S.String,
+          idpExternalId: S.String,
         }),
       ).annotate({ identifier: "WorkspaceMembersListItem" });
     case 2:
@@ -364,7 +364,7 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(10, __c1, 2)),
+          members: __S(10, __c1, 2),
         }),
       ).annotate({ identifier: "ListWorkspaceMembersResponse" });
   }
@@ -384,8 +384,8 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          workspaceName: S.optional(S.String),
-          username: S.optional(S.String),
+          workspaceName: S.String,
+          username: S.String,
         }),
       ).annotate({ identifier: "LookupWorkspaceNameResponse" });
   }
@@ -405,10 +405,10 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rates: S.optional(__S(32, __c4, 0)),
-          deprecationWarnings: S.optional(__S(32, __c4, 0)),
-          deprecationErrors: S.optional(__S(32, __c4, 0)),
-          formatted: S.optional(S.String),
+          rates: __S(32, __c4, 0),
+          deprecationWarnings: __S(32, __c4, 0),
+          deprecationErrors: __S(32, __c4, 0),
+          formatted: S.String,
         }),
       ).annotate({ identifier: "WorkspaceBillingRatesResponse" });
   }
@@ -443,13 +443,13 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.String),
-          description: S.optional(S.String),
-          environmentName: S.optional(S.String),
+          objectId: S.String,
+          description: S.String,
+          environmentName: S.String,
           interval: S.optional(S.String),
-          cost: S.optional(S.String),
-          tags: S.optional(__S(32, __c4, 0)),
-          costByResource: S.optional(__S(32, __c4, 0)),
+          cost: S.String,
+          tags: __S(32, __c4, 0),
+          costByResource: __S(32, __c4, 0),
         }),
       ).annotate({ identifier: "WorkspaceBillingReportItem" });
     case 3:
@@ -481,10 +481,10 @@ function __c6(j: number): any {
         S.Struct({
           startTimestamp: S.optional(S.String),
           endTimestamp: S.optional(S.String),
-          meteredCost: S.optional(S.String),
-          billedCost: S.optional(S.String),
-          meteredCostBreakdown: S.optional(__S(32, __c4, 0)),
-          adjustments: S.optional(__S(32, __c4, 0)),
+          meteredCost: S.String,
+          billedCost: S.String,
+          meteredCostBreakdown: __S(32, __c4, 0),
+          adjustments: __S(32, __c4, 0),
         }),
       ).annotate({ identifier: "WorkspaceBillingSummaryResponse" });
   }
@@ -526,8 +526,8 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageBuilderVersion: S.optional(S.String),
-          webhookSuffix: S.optional(S.String),
+          imageBuilderVersion: S.String,
+          webhookSuffix: S.String,
           maxConcurrentGpus: S.optional(S.Number),
           maxConcurrentTasks: S.optional(S.Number),
           blockUnauthenticatedResources: S.optional(S.Boolean),
@@ -558,7 +558,7 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageBuilderVersion: S.optional(S.String),
+          imageBuilderVersion: S.String,
         }),
       ).annotate({ identifier: "WorkspaceSetImageBuilderVersionResponse" });
   }
@@ -574,8 +574,8 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          defaultEnvironmentName: S.optional(S.String),
-          imageBuilderVersion: S.optional(S.String),
+          defaultEnvironmentName: S.String,
+          imageBuilderVersion: S.String,
         }),
       ).annotate({ identifier: "WorkspaceSettingsResponse" });
   }

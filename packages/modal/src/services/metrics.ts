@@ -39,29 +39,29 @@ export interface MetricsGetInfoRequest {
   groups?: StringList;
 }
 export interface MetricDefinition {
-  name?: string;
+  name: string;
   /** Exact series name returned by the metrics RPC. */
-  unit?: string;
+  unit: string;
   /** Matches FunctionMetricSeries.unit. */
-  description?: string;
+  description: string;
 }
 export type MetricDefinitionList = Array<MetricDefinition>;
 /** Meaning and aggregation semantics of the series. */
 export interface MetricGroupDefinition {
   /** Group selector, such as "calls". Multiple catalogue rows can share this name. */
-  name?: string;
-  description?: string;
+  name: string;
+  description: string;
   /** Shared description of this catalogue row's series. Individual series represented by this row, ordered by name; all have the same unit. */
-  metrics?: MetricDefinitionList;
-  displayName?: string;
+  metrics: MetricDefinitionList;
+  displayName: string;
 }
 export type MetricGroupDefinitionList = Array<MetricGroupDefinition>;
 export interface MetricsGetInfoResponse {
   /** Catalogue rows for the requested target type, ordered by name then display_name. Rows sharing a name belong under the same group heading. Each series appears once per group. Describes the catalog; individual exports may omit unavailable series. */
-  groups?: MetricGroupDefinitionList;
-  bucketSecs?: number;
+  groups: MetricGroupDefinitionList;
+  bucketSecs: number;
   /** Resolved bucket width. */
-  bucketCount?: number;
+  bucketCount: number;
 }
 export type MetricsGetInfoError = ModalOpError;
 /** Metrics discovery */
@@ -100,9 +100,9 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          unit: S.optional(S.String),
-          description: S.optional(S.String),
+          name: S.String,
+          unit: S.String,
+          description: S.String,
         }),
       ).annotate({ identifier: "MetricDefinition" });
     case 3:
@@ -110,10 +110,10 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          metrics: S.optional(__S(3, __c0, 3)),
-          displayName: S.optional(S.String),
+          name: S.String,
+          description: S.String,
+          metrics: __S(3, __c0, 3),
+          displayName: S.String,
         }),
       ).annotate({ identifier: "MetricGroupDefinition" });
     case 5:
@@ -121,9 +121,9 @@ function __c0(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(5, __c0, 5)),
-          bucketSecs: S.optional(S.Number),
-          bucketCount: S.optional(S.Number),
+          groups: __S(5, __c0, 5),
+          bucketSecs: S.Number,
+          bucketCount: S.Number,
         }),
       ).annotate({ identifier: "MetricsGetInfoResponse" });
   }

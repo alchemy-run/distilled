@@ -49,14 +49,14 @@ export interface CreateDomainRequest {
 /** now unused internal experimental values */
 export type DNSRecordType = "DNS_RECORD_TYPE_A" | "DNS_RECORD_TYPE_TXT" | "DNS_RECORD_TYPE_CNAME";
 export interface DNSRecord {
-  type?: DNSRecordType;
-  name?: string;
-  value?: string;
+  type: DNSRecordType;
+  name: string;
+  value: string;
 }
 export type DNSRecordList = Array<DNSRecord>;
 export interface CreateDomainResponse {
-  domainId?: string;
-  dnsRecords?: DNSRecordList;
+  domainId: string;
+  dnsRecords: DNSRecordList;
 }
 export interface ListDomainRequest {}
 export type CertificateStatus =
@@ -65,15 +65,15 @@ export type CertificateStatus =
   | "CERTIFICATE_STATUS_FAILED"
   | "CERTIFICATE_STATUS_REVOKED";
 export interface Domain {
-  domainId?: string;
-  domainName?: string;
-  createdAt?: number;
-  certificateStatus?: CertificateStatus;
-  dnsRecords?: DNSRecordList;
+  domainId: string;
+  domainName: string;
+  createdAt: number;
+  certificateStatus: CertificateStatus;
+  dnsRecords: DNSRecordList;
 }
 export type DomainList2 = Array<Domain>;
 export interface ListDomainResponse {
-  domains?: DomainList2;
+  domains: DomainList2;
 }
 export interface VerifyDomainCertificateRequest {
   domainId?: string;
@@ -144,8 +144,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          domainId: S.optional(S.String),
-          dnsRecords: S.optional(__S(5, __c1, 1)),
+          domainId: S.String,
+          dnsRecords: __S(5, __c1, 1),
         }),
       ).annotate({ identifier: "CreateDomainResponse" });
   }
@@ -155,9 +155,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          value: S.optional(S.String),
+          type: S.String,
+          name: S.String,
+          value: S.String,
         }),
       ).annotate({ identifier: "DNSRecord" });
     case 1:
@@ -177,7 +177,7 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(9, __c2, 1)),
+          domains: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "ListDomainResponse" });
   }
@@ -187,11 +187,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domainId: S.optional(S.String),
-          domainName: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          certificateStatus: S.optional(S.String),
-          dnsRecords: S.optional(__S(5, __c1, 1)),
+          domainId: S.String,
+          domainName: S.String,
+          createdAt: S.Number,
+          certificateStatus: S.String,
+          dnsRecords: __S(5, __c1, 1),
         }),
       ).annotate({ identifier: "Domain" });
   }

@@ -31,7 +31,7 @@ export interface AuditLogCountRequest {
   newestMs?: string;
 }
 export interface AuditLogCountResponse {
-  count?: string;
+  count: string;
 }
 export interface AuditLogPlanRequest {
   q?: string;
@@ -50,20 +50,20 @@ export interface AuditLogCursor {
 export type AuditLogCursorList = Array<AuditLogCursor>;
 export interface AuditLogPlanResponse {
   /** Bucket cut points, newest first. Cursor i is the last entry of bucket i, and bucket i+1 starts after it. Bucket 0 starts at the newest entry, and the last bucket is the remainder. */
-  cursors?: AuditLogCursorList;
+  cursors: AuditLogCursorList;
 }
 export interface GetAuditLogSettingsRequest {}
 export interface GetAuditLogSettingsResponse {
-  bucketSize?: number;
-  pageSize?: number;
-  maxConcurrentRequests?: number;
-  maxBufferedBuckets?: number;
-  maxAttempts?: number;
-  retryDelaySecs?: number;
-  retryBackoffFactor?: number;
-  requestTimeoutSecs?: number;
-  planTimeoutSecs?: number;
-  planMaxAttempts?: number;
+  bucketSize: number;
+  pageSize: number;
+  maxConcurrentRequests: number;
+  maxBufferedBuckets: number;
+  maxAttempts: number;
+  retryDelaySecs: number;
+  retryBackoffFactor: number;
+  requestTimeoutSecs: number;
+  planTimeoutSecs: number;
+  planMaxAttempts: number;
 }
 export interface ListAuditLogRequest {
   q?: string;
@@ -79,40 +79,40 @@ export interface ListAuditLogRequest {
   newestCursor?: AuditLogCursor;
 }
 export interface AuditLogActor {
-  type?: string;
+  type: string;
   /** "user", "service_user", "oauth_grant" or "system" */
-  id?: string;
+  id: string;
 }
 export interface AuditLogTarget {
-  type?: string;
+  type: string;
   /** For example "app", "function" or "secret" */
-  id?: string;
+  id: string;
 }
 export type AuditLogTargetList = Array<AuditLogTarget>;
 /** Approximate entries per bucket; 0 selects the default */
 export interface AuditLogContext {
-  workspaceId?: string;
-  environmentId?: string;
-  source?: string;
+  workspaceId: string;
+  environmentId: string;
+  source: string;
   /** "sdk", "web" or "unknown" */
-  ipAddress?: string;
-  isModalAdmin?: boolean;
+  ipAddress: string;
+  isModalAdmin: boolean;
 }
 export interface AuditLogEntry {
-  id?: string;
+  id: string;
   actor?: AuditLogActor;
-  action?: string;
-  targets?: AuditLogTargetList;
+  action: string;
+  targets: AuditLogTargetList;
   context?: AuditLogContext;
-  eventAt?: string;
+  eventAt: string;
   /** ISO 8601 timestamp */
-  status?: string;
+  status: string;
   /** "success" or "error" */
-  metadataJson?: string;
+  metadataJson: string;
 }
 export type AuditLogEntryList = Array<AuditLogEntry>;
 export interface ListAuditLogResponse {
-  items?: AuditLogEntryList;
+  items: AuditLogEntryList;
   /** Newest first */
   nextCursor?: AuditLogCursor;
 }
@@ -197,7 +197,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          count: S.optional(S.String),
+          count: S.String,
         }),
       ).annotate({ identifier: "AuditLogCountResponse" });
   }
@@ -220,7 +220,7 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cursors: S.optional(__S(9, __c1, 1)),
+          cursors: __S(9, __c1, 1),
         }),
       ).annotate({ identifier: "AuditLogPlanResponse" });
   }
@@ -251,16 +251,16 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bucketSize: S.optional(S.Number),
-          pageSize: S.optional(S.Number),
-          maxConcurrentRequests: S.optional(S.Number),
-          maxBufferedBuckets: S.optional(S.Number),
-          maxAttempts: S.optional(S.Number),
-          retryDelaySecs: S.optional(S.Number),
-          retryBackoffFactor: S.optional(S.Number),
-          requestTimeoutSecs: S.optional(S.Number),
-          planTimeoutSecs: S.optional(S.Number),
-          planMaxAttempts: S.optional(S.Number),
+          bucketSize: S.Number,
+          pageSize: S.Number,
+          maxConcurrentRequests: S.Number,
+          maxBufferedBuckets: S.Number,
+          maxAttempts: S.Number,
+          retryDelaySecs: S.Number,
+          retryBackoffFactor: S.Number,
+          requestTimeoutSecs: S.Number,
+          planTimeoutSecs: S.Number,
+          planMaxAttempts: S.Number,
         }),
       ).annotate({ identifier: "GetAuditLogSettingsResponse" });
   }
@@ -283,8 +283,8 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          id: S.optional(S.String),
+          type: S.String,
+          id: S.String,
         }),
       ).annotate({ identifier: "AuditLogActor" });
     case 2:
@@ -292,24 +292,24 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          workspaceId: S.optional(S.String),
-          environmentId: S.optional(S.String),
-          source: S.optional(S.String),
-          ipAddress: S.optional(S.String),
-          isModalAdmin: S.optional(S.Boolean),
+          workspaceId: S.String,
+          environmentId: S.String,
+          source: S.String,
+          ipAddress: S.String,
+          isModalAdmin: S.Boolean,
         }),
       ).annotate({ identifier: "AuditLogContext" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.String,
           actor: S.optional(__S(33, __c4, 1)),
-          action: S.optional(S.String),
-          targets: S.optional(__S(34, __c4, 2)),
+          action: S.String,
+          targets: __S(34, __c4, 2),
           context: S.optional(__S(35, __c4, 3)),
-          eventAt: S.optional(S.String),
-          status: S.optional(S.String),
-          metadataJson: S.optional(S.String),
+          eventAt: S.String,
+          status: S.String,
+          metadataJson: S.String,
         }),
       ).annotate({ identifier: "AuditLogEntry" });
     case 5:
@@ -317,7 +317,7 @@ function __c4(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(37, __c4, 5)),
+          items: __S(37, __c4, 5),
           nextCursor: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ListAuditLogResponse" });

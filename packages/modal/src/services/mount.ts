@@ -38,7 +38,7 @@ export interface MountBatchedCheckExistenceRequest {
   sha256HexHashes?: StringList;
 }
 export interface MountBatchedCheckExistenceResponse {
-  missingSha256HexHashes?: StringList;
+  missingSha256HexHashes: StringList;
   checkedAt?: string;
 }
 export type DeploymentNamespace =
@@ -73,10 +73,10 @@ export interface MountGetOrCreateRequest {
   earliestCheckedAt?: string;
 }
 export interface MountHandleMetadata {
-  contentChecksumSha256Hex?: string;
+  contentChecksumSha256Hex: string;
 }
 export interface MountGetOrCreateResponse {
-  mountId?: string;
+  mountId: string;
   handleMetadata?: MountHandleMetadata;
 }
 export interface MountPutFileRequest {
@@ -85,7 +85,7 @@ export interface MountPutFileRequest {
   dataBlobId?: string;
 }
 export interface MountPutFileResponse {
-  exists?: boolean;
+  exists: boolean;
   checkedAt?: string;
 }
 export type MountBatchedCheckExistenceError = ModalOpError;
@@ -157,7 +157,7 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          missingSha256HexHashes: S.optional(__S(0, __c0, 0)),
+          missingSha256HexHashes: __S(0, __c0, 0),
           checkedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "MountBatchedCheckExistenceResponse" });
@@ -193,13 +193,13 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contentChecksumSha256Hex: S.optional(S.String),
+          contentChecksumSha256Hex: S.String,
         }),
       ).annotate({ identifier: "MountHandleMetadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          mountId: S.optional(S.String),
+          mountId: S.String,
           handleMetadata: S.optional(__S(11, __c1, 3)),
         }),
       ).annotate({ identifier: "MountGetOrCreateResponse" });
@@ -220,7 +220,7 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exists: S.optional(S.Boolean),
+          exists: S.Boolean,
           checkedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "MountPutFileResponse" });

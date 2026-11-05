@@ -38,16 +38,16 @@ export type CloudProvider =
   | "CLOUD_PROVIDER_AUTO"
   | "CLOUD_PROVIDER_OCI";
 export interface SharedVolumeListItem {
-  label?: string;
+  label: string;
   /** app name of object entity app */
-  sharedVolumeId?: string;
-  createdAt?: number;
-  cloudProvider?: CloudProvider;
+  sharedVolumeId: string;
+  createdAt: number;
+  cloudProvider: CloudProvider;
 }
 export type SharedVolumeListItemList = Array<SharedVolumeListItem>;
 export interface ListSharedVolumeResponse {
-  items?: SharedVolumeListItemList;
-  environmentName?: string;
+  items: SharedVolumeListItemList;
+  environmentName: string;
 }
 export interface SharedVolumeGetFileRequest {
   sharedVolumeId?: string;
@@ -72,7 +72,7 @@ export interface SharedVolumeGetOrCreateRequest {
   appId?: string;
 }
 export interface SharedVolumeGetOrCreateResponse {
-  sharedVolumeId?: string;
+  sharedVolumeId: string;
 }
 export interface SharedVolumeHeartbeatRequest {
   sharedVolumeId?: string;
@@ -91,21 +91,21 @@ export type FileEntryFileType =
   | "SOCKET";
 /** A file entry when listing files in a volume or network file system. */
 export interface FileEntry {
-  path?: string;
-  type?: FileEntryFileType;
-  mtime?: string;
-  size?: string;
+  path: string;
+  type: FileEntryFileType;
+  mtime: string;
+  size: string;
 }
 export type FileEntryList = Array<FileEntry>;
 export interface SharedVolumeListFilesResponse {
-  entries?: FileEntryList;
+  entries: FileEntryList;
 }
 export interface SharedVolumeListFilesStreamRequest {
   sharedVolumeId?: string;
   path?: string;
 }
 export interface SharedVolumeListFilesResponse2 {
-  entries?: FileEntryList;
+  entries: FileEntryList;
 }
 export type SharedVolumeListFilesResponse2List = Array<SharedVolumeListFilesResponse2>;
 export interface SharedVolumeListFilesStreamStream {
@@ -121,7 +121,7 @@ export interface SharedVolumePutFileRequest {
   resumable?: boolean;
 }
 export interface SharedVolumePutFileResponse {
-  exists?: boolean;
+  exists: boolean;
 }
 export interface SharedVolumeRemoveFileRequest {
   sharedVolumeId?: string;
@@ -227,12 +227,12 @@ export const sharedVolumeListFiles: API.OperationMethod<
 }));
 
 export type SharedVolumeListFilesStreamError = ModalOpError;
-export const sharedVolumeListFilesStream: API.OperationMethod<
+export const sharedVolumeListFilesStream: API.StreamingOperationMethod<
   SharedVolumeListFilesStreamRequest,
   SharedVolumeListFilesStreamStream,
   SharedVolumeListFilesStreamError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<SharedVolumeListFilesStreamRequest>,
   output: __S(34, __c8, 2) as any as S.Schema<SharedVolumeListFilesStreamStream>,
   errors: [UnknownModalError],
@@ -310,10 +310,10 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          label: S.optional(S.String),
-          sharedVolumeId: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          cloudProvider: S.optional(S.String),
+          label: S.String,
+          sharedVolumeId: S.String,
+          createdAt: S.Number,
+          cloudProvider: S.String,
         }),
       ).annotate({ identifier: "SharedVolumeListItem" });
     case 2:
@@ -321,8 +321,8 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(10, __c2, 2)),
-          environmentName: S.optional(S.String),
+          items: __S(10, __c2, 2),
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ListSharedVolumeResponse" });
   }
@@ -371,7 +371,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sharedVolumeId: S.optional(S.String),
+          sharedVolumeId: S.String,
         }),
       ).annotate({ identifier: "SharedVolumeGetOrCreateResponse" });
   }
@@ -414,10 +414,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          path: S.optional(S.String),
-          type: S.optional(S.String),
-          mtime: S.optional(S.String),
-          size: S.optional(S.String),
+          path: S.String,
+          type: S.String,
+          mtime: S.String,
+          size: S.String,
         }),
       ).annotate({ identifier: "FileEntry" });
     case 1:
@@ -425,7 +425,7 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(29, __c7, 1)),
+          entries: __S(29, __c7, 1),
         }),
       ).annotate({ identifier: "SharedVolumeListFilesResponse" });
   }
@@ -477,7 +477,7 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exists: S.optional(S.Boolean),
+          exists: S.Boolean,
         }),
       ).annotate({ identifier: "SharedVolumePutFileResponse" });
   }

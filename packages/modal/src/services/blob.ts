@@ -32,23 +32,23 @@ export interface CreateBlobRequest {
 export type StringList = Array<string>;
 /** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
 export interface MultiPartUpload {
-  partLength?: string;
+  partLength: string;
   /** split upload based on this part length - all except the last part must have this length */
-  uploadUrls?: StringList;
-  completionUrl?: string;
+  uploadUrls: StringList;
+  completionUrl: string;
 }
 export interface UploadUrlList {
-  items?: StringList;
+  items: StringList;
 }
 export type MultiPartUploadList2 = Array<MultiPartUpload>;
 export interface MultiPartUploadList {
-  items?: MultiPartUploadList2;
+  items: MultiPartUploadList2;
 }
 export interface CreateBlobResponse {
-  blobId?: string;
+  blobId: string;
   uploadUrl?: string;
   multipart?: MultiPartUpload;
-  blobIds?: StringList;
+  blobIds: StringList;
   uploadUrls?: UploadUrlList;
   multiparts?: MultiPartUploadList;
 }
@@ -56,7 +56,7 @@ export interface GetBlobRequest {
   blobId?: string;
 }
 export interface GetBlobResponse {
-  downloadUrl?: string;
+  downloadUrl: string;
 }
 export type CreateBlobError = ModalOpError;
 /** Blobs */
@@ -107,15 +107,15 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          partLength: S.optional(S.String),
-          uploadUrls: S.optional(__S(1, __c0, 1)),
-          completionUrl: S.optional(S.String),
+          partLength: S.String,
+          uploadUrls: __S(1, __c0, 1),
+          completionUrl: S.String,
         }),
       ).annotate({ identifier: "MultiPartUpload" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1, __c0, 1)),
+          items: __S(1, __c0, 1),
         }),
       ).annotate({ identifier: "UploadUrlList" });
     case 4:
@@ -123,16 +123,16 @@ function __c0(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(4, __c0, 4)),
+          items: __S(4, __c0, 4),
         }),
       ).annotate({ identifier: "MultiPartUploadList" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          blobId: S.optional(S.String),
+          blobId: S.String,
           uploadUrl: S.optional(S.String),
           multipart: S.optional(__S(2, __c0, 2)),
-          blobIds: S.optional(__S(1, __c0, 1)),
+          blobIds: __S(1, __c0, 1),
           uploadUrls: S.optional(__S(3, __c0, 3)),
           multiparts: S.optional(__S(5, __c0, 5)),
         }),
@@ -150,7 +150,7 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          downloadUrl: S.optional(S.String),
+          downloadUrl: S.String,
         }),
       ).annotate({ identifier: "GetBlobResponse" });
   }

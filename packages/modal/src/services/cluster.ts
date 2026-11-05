@@ -28,10 +28,10 @@ export interface GetClusterRequest {
 }
 export type StringList = Array<string>;
 export interface ClusterStats {
-  appId?: string;
-  taskIds?: StringList;
-  clusterId?: string;
-  startedAt?: number;
+  appId: string;
+  taskIds: StringList;
+  clusterId: string;
+  startedAt: number;
 }
 export interface GetClusterResponse {
   cluster?: ClusterStats;
@@ -41,38 +41,38 @@ export interface ListClusterRequest {
 }
 export type ClusterStatsList = Array<ClusterStats>;
 export interface ListClusterResponse {
-  clusters?: ClusterStatsList;
+  clusters: ClusterStatsList;
 }
 export interface ListClusterReservationRequest {}
 /** A container running on a worker reserved for this reservation. */
 export interface ClusterReservationTask {
-  taskId?: string;
-  clusterRank?: number;
-  appId?: string;
-  functionId?: string;
+  taskId: string;
+  clusterRank: number;
+  appId: string;
+  functionId: string;
 }
 export type ClusterReservationTaskList = Array<ClusterReservationTask>;
 export interface ClusterReservation {
-  name?: string;
+  name: string;
   /** reservation name, as configured by Modal */
-  gpuType?: string;
+  gpuType: string;
   /** e.g. "B300" */
-  region?: string;
-  minReservedWorkers?: number;
+  region: string;
+  minReservedWorkers: number;
   /** workers Modal has committed to keep reserved */
-  reservedWorkers?: number;
+  reservedWorkers: number;
   /** healthy reserved workers currently present (active + idle) */
-  activeWorkers?: number;
+  activeWorkers: number;
   /** reserved workers running this workspace's containers */
-  idleWorkers?: number;
+  idleWorkers: number;
   /** reserved workers available for new clusters */
-  unfulfilledWorkers?: number;
+  unfulfilledWorkers: number;
   /** max(0, min_reserved_workers - reserved_workers) */
-  tasks?: ClusterReservationTaskList;
+  tasks: ClusterReservationTaskList;
 }
 export type ClusterReservationList2 = Array<ClusterReservation>;
 export interface ListClusterReservationResponse {
-  reservations?: ClusterReservationList2;
+  reservations: ClusterReservationList2;
 }
 export type GetClusterError = ModalOpError;
 /** Clusters */
@@ -147,10 +147,10 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          taskIds: S.optional(__S(8, __c1, 0)),
-          clusterId: S.optional(S.String),
-          startedAt: S.optional(S.Number),
+          appId: S.String,
+          taskIds: __S(8, __c1, 0),
+          clusterId: S.String,
+          startedAt: S.Number,
         }),
       ).annotate({ identifier: "ClusterStats" });
   }
@@ -170,7 +170,7 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          clusters: S.optional(__S(17, __c2, 1)),
+          clusters: __S(17, __c2, 1),
         }),
       ).annotate({ identifier: "ListClusterResponse" });
   }
@@ -190,10 +190,10 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          taskId: S.optional(S.String),
-          clusterRank: S.optional(S.Number),
-          appId: S.optional(S.String),
-          functionId: S.optional(S.String),
+          taskId: S.String,
+          clusterRank: S.Number,
+          appId: S.String,
+          functionId: S.String,
         }),
       ).annotate({ identifier: "ClusterReservationTask" });
     case 2:
@@ -201,15 +201,15 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          gpuType: S.optional(S.String),
-          region: S.optional(S.String),
-          minReservedWorkers: S.optional(S.Number),
-          reservedWorkers: S.optional(S.Number),
-          activeWorkers: S.optional(S.Number),
-          idleWorkers: S.optional(S.Number),
-          unfulfilledWorkers: S.optional(S.Number),
-          tasks: S.optional(__S(26, __c3, 2)),
+          name: S.String,
+          gpuType: S.String,
+          region: S.String,
+          minReservedWorkers: S.Number,
+          reservedWorkers: S.Number,
+          activeWorkers: S.Number,
+          idleWorkers: S.Number,
+          unfulfilledWorkers: S.Number,
+          tasks: __S(26, __c3, 2),
         }),
       ).annotate({ identifier: "ClusterReservation" });
     case 4:
@@ -217,7 +217,7 @@ function __c3(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          reservations: S.optional(__S(28, __c3, 4)),
+          reservations: __S(28, __c3, 4),
         }),
       ).annotate({ identifier: "ListClusterReservationResponse" });
   }

@@ -61,7 +61,7 @@ export interface GetQueueRequest {
 }
 export type BlobList = Array<string>;
 export interface GetQueueResponse {
-  values?: BlobList;
+  values: BlobList;
 }
 export interface ListPagination {
   maxObjects?: number;
@@ -75,27 +75,27 @@ export interface ListQueueRequest {
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
-  createdAt?: number;
+  createdAt: number;
   /** Timestamp of resource creation */
-  createdBy?: string;
+  createdBy: string;
 }
 export interface QueueMetadata {
-  name?: string;
+  name: string;
   creationInfo?: CreationInfo;
 }
 export interface ListQueueResponseQueueInfo {
-  name?: string;
-  createdAt?: number;
+  name: string;
+  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
-  numPartitions?: number;
-  totalSize?: number;
-  queueId?: string;
+  numPartitions: number;
+  totalSize: number;
+  queueId: string;
   metadata?: QueueMetadata;
 }
 export type ListQueueResponseQueueInfoList = Array<ListQueueResponseQueueInfo>;
 export interface ListQueueResponse {
-  queues?: ListQueueResponseQueueInfoList;
-  environmentName?: string;
+  queues: ListQueueResponseQueueInfoList;
+  environmentName: string;
 }
 export interface PutQueueRequest {
   queueId?: string;
@@ -108,7 +108,7 @@ export interface QueueGetByIdRequest {
   queueId?: string;
 }
 export interface QueueGetByIdResponse {
-  queueId?: string;
+  queueId: string;
   metadata?: QueueMetadata;
 }
 export type ObjectCreationType =
@@ -125,7 +125,7 @@ export interface QueueGetOrCreateRequest {
   objectCreationType?: ObjectCreationType | (string & {});
 }
 export interface QueueGetOrCreateResponse {
-  queueId?: string;
+  queueId: string;
   metadata?: QueueMetadata;
 }
 export interface QueueHeartbeatRequest {
@@ -138,7 +138,7 @@ export interface QueueLenRequest {
   total?: boolean;
 }
 export interface QueueLenResponse {
-  len?: number;
+  len: number;
 }
 export interface QueueNextItemsRequest {
   queueId?: string;
@@ -147,12 +147,12 @@ export interface QueueNextItemsRequest {
   itemPollTimeout?: number;
 }
 export interface QueueItem {
-  value?: string;
-  entryId?: string;
+  value: string;
+  entryId: string;
 }
 export type QueueItemList = Array<QueueItem>;
 export interface QueueNextItemsResponse {
-  items?: QueueItemList;
+  items: QueueItemList;
 }
 export type ClearQueueError = QueueNotFound | ModalOpError;
 /** Queues */
@@ -204,12 +204,13 @@ export const getQueue: API.OperationMethod<
 }));
 
 export type ListQueueError = ModalOpError;
-export const listQueue: API.OperationMethod<
+export const listQueue: API.PaginatedOperationMethod<
   ListQueueRequest,
   ListQueueResponse,
   ListQueueError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  ModalOpContext,
+  ListQueueResponseQueueInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(57, __c7, 1) as any as S.Schema<ListQueueRequest>,
   output: __S(60, __c7, 4) as any as S.Schema<ListQueueResponse>,
   errors: [UnknownModalError],
@@ -217,7 +218,14 @@ export const listQueue: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListQueue",
-}));
+  pagination: {
+    mode: "keyset",
+    inputToken: "pagination.createdBefore",
+    outputToken: "metadata.creationInfo.createdAt",
+    items: "queues",
+    pageSize: "pagination.maxObjects",
+  } as const,
+})) as any;
 
 export type PutQueueError = QueueNotFound | ModalOpError;
 export const putQueue: API.OperationMethod<
@@ -329,7 +337,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          len: S.optional(S.Number),
+          len: S.Number,
         }),
       ).annotate({ identifier: "QueueLenResponse" });
   }
@@ -350,8 +358,8 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
-          entryId: S.optional(S.String),
+          value: S.String,
+          entryId: S.String,
         }),
       ).annotate({ identifier: "QueueItem" });
     case 2:
@@ -359,7 +367,7 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(10, __c1, 2)),
+          items: __S(10, __c1, 2),
         }),
       ).annotate({ identifier: "QueueNextItemsResponse" });
   }
@@ -408,7 +416,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(48, __c6, 0)),
+          values: __S(48, __c6, 0),
         }),
       ).annotate({ identifier: "GetQueueResponse" });
   }
@@ -439,11 +447,11 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          numPartitions: S.optional(S.Number),
-          totalSize: S.optional(S.Number),
-          queueId: S.optional(S.String),
+          name: S.String,
+          createdAt: S.Number,
+          numPartitions: S.Number,
+          totalSize: S.Number,
+          queueId: S.String,
           metadata: S.optional(__S(65, __c8, 1)),
         }),
       ).annotate({ identifier: "ListQueueResponseQueueInfo" });
@@ -452,8 +460,8 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          queues: S.optional(__S(59, __c7, 3)),
-          environmentName: S.optional(S.String),
+          queues: __S(59, __c7, 3),
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ListQueueResponse" });
   }
@@ -463,14 +471,14 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.String,
         }),
       ).annotate({ identifier: "CreationInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          name: S.String,
           creationInfo: S.optional(__S(64, __c8, 0)),
         }),
       ).annotate({ identifier: "QueueMetadata" });
@@ -506,7 +514,7 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          queueId: S.optional(S.String),
+          queueId: S.String,
           metadata: S.optional(__S(65, __c8, 1)),
         }),
       ).annotate({ identifier: "QueueGetByIdResponse" });

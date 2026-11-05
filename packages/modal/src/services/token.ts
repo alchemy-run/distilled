@@ -41,10 +41,10 @@ export interface CreateTokenFlowRequest {
   expiresInSeconds?: number;
 }
 export interface CreateTokenFlowResponse {
-  tokenFlowId?: string;
-  webUrl?: string;
-  code?: string;
-  waitSecret?: string | Redacted.Redacted<string>;
+  tokenFlowId: string;
+  webUrl: string;
+  code: string;
+  waitSecret: string | Redacted.Redacted<string>;
 }
 export interface DeleteTokenRequest {
   tokenId?: string;
@@ -52,24 +52,24 @@ export interface DeleteTokenRequest {
 export interface DeleteTokenResponse {}
 export interface GetTokenInfoRequest {}
 export interface UserIdentity {
-  userId?: string;
-  username?: string;
+  userId: string;
+  username: string;
 }
 export interface ServiceUserIdentity {
-  serviceUserId?: string;
-  serviceUserName?: string;
+  serviceUserId: string;
+  serviceUserName: string;
   createdBy?: UserIdentity;
 }
 export interface GetTokenInfoResponse {
-  tokenId?: string;
-  workspaceId?: string;
-  workspaceName?: string;
+  tokenId: string;
+  workspaceId: string;
+  workspaceName: string;
   userIdentity?: UserIdentity;
   serviceUserIdentity?: ServiceUserIdentity;
   /** Token metadata */
   createdAt?: string;
   expiresAt?: string;
-  tokenName?: string;
+  tokenName: string;
 }
 export interface WaitTokenFlowRequest {
   timeout?: number;
@@ -77,10 +77,10 @@ export interface WaitTokenFlowRequest {
   waitSecret?: string | Redacted.Redacted<string>;
 }
 export interface WaitTokenFlowResponse {
-  tokenId?: string;
-  tokenSecret?: string | Redacted.Redacted<string>;
-  timeout?: boolean;
-  workspaceUsername?: string;
+  tokenId: string;
+  tokenSecret: string | Redacted.Redacted<string>;
+  timeout: boolean;
+  workspaceUsername: string;
 }
 export type CreateTokenFlowError = ModalOpError;
 export const createTokenFlow: API.OperationMethod<
@@ -164,10 +164,10 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokenFlowId: S.optional(S.String),
-          webUrl: S.optional(S.String),
-          code: S.optional(S.String),
-          waitSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tokenFlowId: S.String,
+          webUrl: S.String,
+          code: S.String,
+          waitSecret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateTokenFlowResponse" });
   }
@@ -197,29 +197,29 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userId: S.optional(S.String),
-          username: S.optional(S.String),
+          userId: S.String,
+          username: S.String,
         }),
       ).annotate({ identifier: "UserIdentity" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          serviceUserId: S.optional(S.String),
-          serviceUserName: S.optional(S.String),
+          serviceUserId: S.String,
+          serviceUserName: S.String,
           createdBy: S.optional(__S(9, __c2, 1)),
         }),
       ).annotate({ identifier: "ServiceUserIdentity" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tokenId: S.optional(S.String),
-          workspaceId: S.optional(S.String),
-          workspaceName: S.optional(S.String),
+          tokenId: S.String,
+          workspaceId: S.String,
+          workspaceName: S.String,
           userIdentity: S.optional(__S(9, __c2, 1)),
           serviceUserIdentity: S.optional(__S(10, __c2, 2)),
           createdAt: S.optional(S.String),
           expiresAt: S.optional(S.String),
-          tokenName: S.optional(S.String),
+          tokenName: S.String,
         }),
       ).annotate({ identifier: "GetTokenInfoResponse" });
   }
@@ -239,10 +239,10 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokenId: S.optional(S.String),
-          tokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          timeout: S.optional(S.Boolean),
-          workspaceUsername: S.optional(S.String),
+          tokenId: S.String,
+          tokenSecret: S.String.pipe(T.SensitiveValue({})),
+          timeout: S.Boolean,
+          workspaceUsername: S.String,
         }),
       ).annotate({ identifier: "WaitTokenFlowResponse" });
   }

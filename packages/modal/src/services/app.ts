@@ -64,14 +64,14 @@ export interface AppCountLogsRequest {
 }
 export interface AppCountLogsResponseLogBucket {
   bucketStartAt?: string;
-  stdoutLogs?: string;
-  stderrLogs?: string;
-  systemLogs?: string;
+  stdoutLogs: string;
+  stderrLogs: string;
+  systemLogs: string;
 }
 export type AppCountLogsResponseLogBucketList = Array<AppCountLogsResponseLogBucket>;
 export interface AppCountLogsResponse {
-  appId?: string;
-  buckets?: AppCountLogsResponseLogBucketList;
+  appId: string;
+  buckets: AppCountLogsResponseLogBucketList;
 }
 export interface AppDeploymentHistoryRequest {
   appId?: string;
@@ -95,22 +95,22 @@ export type DeploymentType =
   | "DEPLOYMENT_TYPE_PROMOTION"
   | "DEPLOYMENT_TYPE_STAGED";
 export interface AppDeploymentHistory2 {
-  appId?: string;
-  version?: number;
-  clientVersion?: string;
-  deployedAt?: number;
-  deployedBy?: string;
-  deployedByAvatarUrl?: string;
-  tag?: string;
-  rollbackVersion?: number;
-  rollbackAllowed?: boolean;
+  appId: string;
+  version: number;
+  clientVersion: string;
+  deployedAt: number;
+  deployedBy: string;
+  deployedByAvatarUrl: string;
+  tag: string;
+  rollbackVersion: number;
+  rollbackAllowed: boolean;
   commitInfo?: CommitInfo;
-  deploymentType?: DeploymentType;
+  deploymentType: DeploymentType;
 }
 export type AppDeploymentHistory2List = Array<AppDeploymentHistory2>;
 export interface AppDeploymentHistoryResponse {
-  appDeploymentHistories?: AppDeploymentHistory2List;
-  productionAppVersion?: number;
+  appDeploymentHistories: AppDeploymentHistory2List;
+  productionAppVersion: number;
 }
 export interface AppFetchLogsRequest {
   appId?: string;
@@ -141,43 +141,43 @@ export type TaskState =
   | "TASK_STATE_LOADING_CHECKPOINT_IMAGE";
 export type ProgressType = "IMAGE_SNAPSHOT_UPLOAD" | "FUNCTION_QUEUED";
 export interface TaskProgress {
-  len?: string;
-  pos?: string;
-  progressType?: ProgressType;
-  description?: string;
+  len: string;
+  pos: string;
+  progressType: ProgressType;
+  description: string;
 }
 export interface TaskLogs {
-  data?: string;
-  taskState?: TaskState;
-  timestamp?: number;
-  fileDescriptor?: FileDescriptor;
+  data: string;
+  taskState: TaskState;
+  timestamp: number;
+  fileDescriptor: FileDescriptor;
   taskProgress?: TaskProgress;
-  functionCallId?: string;
-  inputId?: string;
-  timestampNs?: string;
-  containerId?: string;
-  containerName?: string;
+  functionCallId: string;
+  inputId: string;
+  timestampNs: string;
+  containerId: string;
+  containerName: string;
 }
 export type TaskLogsList = Array<TaskLogs>;
 export interface TaskLogsBatch {
-  taskId?: string;
-  items?: TaskLogsList;
-  entryId?: string;
-  appDone?: boolean;
-  functionId?: string;
-  inputId?: string;
-  imageId?: string;
+  taskId: string;
+  items: TaskLogsList;
+  entryId: string;
+  appDone: boolean;
+  functionId: string;
+  inputId: string;
+  imageId: string;
   /** Used for image logs */
-  eof?: boolean;
-  ptyExecId?: string;
+  eof: boolean;
+  ptyExecId: string;
   /** Used for interactive functions */
-  rootFunctionId?: string;
-  ttlDays?: number;
-  sandboxId?: string;
+  rootFunctionId: string;
+  ttlDays: number;
+  sandboxId: string;
 }
 export type TaskLogsBatchList = Array<TaskLogsBatch>;
 export interface AppFetchLogsResponse {
-  batches?: TaskLogsBatchList;
+  batches: TaskLogsBatchList;
 }
 export interface AppGetByDeploymentNameRequest {
   /** removed namespace */
@@ -198,26 +198,26 @@ export type AppState =
   | "APP_STATE_DERIVED";
 /** tag -> class id */
 export interface AppLifecycle {
-  appState?: AppState;
-  createdAt?: number;
-  createdBy?: string;
+  appState: AppState;
+  createdAt: number;
+  createdBy: string;
   /** User or service user name */
-  deployedAt?: number;
+  deployedAt: number;
   /** Most recent deployment event */
-  deployedBy?: string;
+  deployedBy: string;
   /** User or service user name */
-  version?: number;
+  version: number;
   /** Only meaningful when App is deployed */
-  stoppedAt?: number;
+  stoppedAt: number;
   /** Unset when App is still running */
-  stoppedBy?: string;
+  stoppedBy: string;
 }
 export interface AppGetByDeploymentNameResponse {
-  appId?: string;
+  appId: string;
   /** Null when App with requested name is not deployed */
-  previousAppId?: string;
+  previousAppId: string;
   /** Populated if App with requested name was recently stopped */
-  environmentName?: string;
+  environmentName: string;
   /** Populated because server may resolve default environment */
   lifecycle?: AppLifecycle;
 }
@@ -226,13 +226,13 @@ export interface AppGetInfoRequest {
 }
 export type StringMap = { [key: string]: string | undefined };
 export interface AppHandleMetadata {
-  description?: string;
-  appId?: string;
-  environmentName?: string;
+  description: string;
+  appId: string;
+  environmentName: string;
   lifecycle?: AppLifecycle;
-  functions?: StringMap;
+  functions: StringMap;
   /** tag -> function id */
-  servers?: StringMap;
+  servers: StringMap;
 }
 export type GPUType =
   | "GPU_TYPE_UNSPECIFIED"
@@ -246,44 +246,44 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type?: GPUType;
+  type: GPUType;
   /** Deprecated, at some point */
-  count?: number;
-  gpuType?: string;
+  count: number;
+  gpuType: string;
 }
 export type GPUConfigList = Array<GPUConfig>;
 export interface ScheduleCron {
-  cronString?: string;
-  timezone?: string;
+  cronString: string;
+  timezone: string;
 }
 export interface SchedulePeriod {
-  years?: number;
-  months?: number;
-  weeks?: number;
-  days?: number;
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
+  years: number;
+  months: number;
+  weeks: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
 export interface Schedule {
   cron?: ScheduleCron;
   period?: SchedulePeriod;
 }
 export interface AppGetInfoResponseFunctionInfoSummary {
-  gpuConfig?: GPUConfigList;
+  gpuConfig: GPUConfigList;
   schedule?: Schedule;
   /** True for Web Functions and classes with web methods; false for Servers. */
-  webFunction?: boolean;
+  webFunction: boolean;
   requiresProxyAuth?: boolean;
   /** True for Sessioned Servers. */
-  isSessioned?: boolean;
+  isSessioned: boolean;
 }
 export type AppGetInfoResponseFunctionInfoSummaryMap = {
   [key: string]: AppGetInfoResponseFunctionInfoSummary | undefined;
 };
 export interface AppGetInfoResponse {
   info?: AppHandleMetadata;
-  functionInfoSummaries?: AppGetInfoResponseFunctionInfoSummaryMap;
+  functionInfoSummaries: AppGetInfoResponseFunctionInfoSummaryMap;
 }
 export interface AppGetLayoutRequest {
   appId?: string;
@@ -309,15 +309,15 @@ export type ParameterType =
   | "PARAM_TYPE_BOOL";
 export type GenericPayloadTypeList = Array<GenericPayloadType>;
 export interface GenericPayloadType {
-  baseType?: ParameterType;
-  subTypes?: GenericPayloadTypeList;
+  baseType: ParameterType;
+  subTypes: GenericPayloadTypeList;
 }
 export interface ClassParameterSpec {
   /** TODO: rename into NamedPayloadType or similar */
-  name?: string;
-  type?: ParameterType;
+  name: string;
+  type: ParameterType;
   /** TODO: deprecate - use full_type instead */
-  hasDefault?: boolean;
+  hasDefault: boolean;
   /** Default *values* are only registered for class parameters */
   stringDefault?: string;
   intDefault?: string;
@@ -329,15 +329,15 @@ export interface ClassParameterSpec {
 export type ClassParameterSpecList = Array<ClassParameterSpec>;
 export interface ClassParameterInfo {
   /** new format using api.FunctionParameterSet */
-  format?: ClassParameterInfoParameterSerializationFormat;
-  schema?: ClassParameterSpecList;
+  format: ClassParameterInfoParameterSerializationFormat;
+  schema: ClassParameterSpecList;
 }
 export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export type FunctionSchemaFunctionSchemaType = "FUNCTION_SCHEMA_UNSPECIFIED" | "FUNCTION_SCHEMA_V1";
 export interface FunctionSchema {
-  schemaType?: FunctionSchemaFunctionSchemaType;
+  schemaType: FunctionSchemaFunctionSchemaType;
   /** allows easy disambiguation between empty schema and no schema collection etc. */
-  arguments?: ClassParameterSpecList;
+  arguments: ClassParameterSpecList;
   returnType?: GenericPayloadType;
 }
 export type StringList = Array<string>;
@@ -351,44 +351,44 @@ export type DataFormat =
 export type DataFormatList = Array<DataFormat>;
 export interface FunctionHandleMetadata {
   /** contains all the info about a function that is needed to trigger the right behaviour when using a FunctionHandler. Notably excludes things purely used for *executing* the function in a container entrypoint Should be a subset and use IDs/types from `Function` above */
-  functionName?: string;
-  functionType?: FunctionFunctionType;
-  webUrl?: string;
-  isMethod?: boolean;
+  functionName: string;
+  functionType: FunctionFunctionType;
+  webUrl: string;
+  isMethod: boolean;
   /** use_function_id, pre-0.67 class method placeholders */
-  useMethodName?: string;
+  useMethodName: string;
   /** used for methods */
-  definitionId?: string;
+  definitionId: string;
   classParameterInfo?: ClassParameterInfo;
   /** Mapping of method names to their metadata, only non-empty for class service functions */
-  methodHandleMetadata?: FunctionHandleMetadataMap;
+  methodHandleMetadata: FunctionHandleMetadataMap;
   functionSchema?: FunctionSchema;
   inputPlaneUrl?: string;
   inputPlaneRegion?: string;
   /** Use optional to ensure unset values default to None instead of 0 */
   maxObjectSizeBytes?: string;
   maxAsyncObjectSizeBytes?: string;
-  ExperimentalFlashUrls?: StringList;
+  ExperimentalFlashUrls: StringList;
   /** (Optional) urls for flash services */
-  supportedInputFormats?: DataFormatList;
-  supportedOutputFormats?: DataFormatList;
-  appId?: string;
+  supportedInputFormats: DataFormatList;
+  supportedOutputFormats: DataFormatList;
+  appId: string;
   /** The base Function ID for a variant, or the Function's own ID otherwise. */
-  baseFunctionId?: string;
+  baseFunctionId: string;
 }
 export interface MountHandleMetadata {
-  contentChecksumSha256Hex?: string;
+  contentChecksumSha256Hex: string;
 }
 export interface ClassMethod {
-  functionName?: string;
-  functionId?: string;
+  functionName: string;
+  functionId: string;
   /** Class methods need to hydrate all functions on the class */
   functionHandleMetadata?: FunctionHandleMetadata;
 }
 export type ClassMethodList = Array<ClassMethod>;
 export interface ClassHandleMetadata {
-  methods?: ClassMethodList;
-  classFunctionId?: string;
+  methods: ClassMethodList;
+  classFunctionId: string;
   classFunctionMetadata?: FunctionHandleMetadata;
 }
 /** Used for both tasks and function outputs */
@@ -406,27 +406,27 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
-  status?: GenericResultGenericStatus;
+  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception?: string;
+  exception: string;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exitcode: number;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  traceback: string;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  serializedTb: string;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  tbLineCache: string;
   /** Pickled line cache for traceback object. */
   data?: string;
   /** Inline data of the result. */
   dataBlobId?: string;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  propagationReason: string;
 }
 export interface SandboxHandleMetadata {
   result?: GenericResult;
-  appId?: string;
+  appId: string;
 }
 /** HTTP/2 tunnel */
 export type VolumeFsVersion =
@@ -435,17 +435,17 @@ export type VolumeFsVersion =
   | "VOLUME_FS_VERSION_V2";
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
-  createdAt?: number;
+  createdAt: number;
   /** Timestamp of resource creation */
-  createdBy?: string;
+  createdBy: string;
 }
 export interface VolumeMetadata {
-  version?: VolumeFsVersion;
-  name?: string;
+  version: VolumeFsVersion;
+  name: string;
   creationInfo?: CreationInfo;
 }
 export interface Object {
-  objectId?: string;
+  objectId: string;
   functionHandleMetadata?: FunctionHandleMetadata;
   mountHandleMetadata?: MountHandleMetadata;
   classHandleMetadata?: ClassHandleMetadata;
@@ -454,10 +454,10 @@ export interface Object {
 }
 export type ObjectList = Array<Object>;
 export interface AppLayout {
-  objects?: ObjectList;
-  functionIds?: StringMap;
+  objects: ObjectList;
+  functionIds: StringMap;
   /** tag -> function id */
-  classIds?: StringMap;
+  classIds: StringMap;
 }
 export interface AppGetLayoutResponse {
   appLayout?: AppLayout;
@@ -491,12 +491,12 @@ export interface AppGetObjectsRequest {
   onlyClassFunction?: boolean;
 }
 export interface AppGetObjectsItem {
-  tag?: string;
+  tag: string;
   object?: Object;
 }
 export type AppGetObjectsItemList = Array<AppGetObjectsItem>;
 export interface AppGetObjectsResponse {
-  items?: AppGetObjectsItemList;
+  items: AppGetObjectsItemList;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -511,14 +511,14 @@ export interface AppGetOrCreateRequest {
   objectCreationType?: ObjectCreationType | (string & {});
 }
 export interface AppGetOrCreateResponse {
-  appId?: string;
+  appId: string;
   handleMetadata?: AppHandleMetadata;
 }
 export interface AppGetTagsRequest {
   appId?: string;
 }
 export interface AppGetTagsResponse {
-  tags?: StringMap;
+  tags: StringMap;
 }
 export interface AppHeartbeatRequest {
   appId?: string;
@@ -534,22 +534,22 @@ export type WarningWarningType =
   | "WARNING_TYPE_RESOURCE_LIMIT"
   | "WARNING_TYPE_FUNCTION_CONFIGURATION";
 export interface Warning {
-  type?: WarningWarningType;
-  message?: string;
+  type: WarningWarningType;
+  message: string;
 }
 export type WarningList = Array<Warning>;
 export interface AppRollbackResponse {
-  url?: string;
-  serverWarnings?: WarningList;
-  deployedAt?: number;
+  url: string;
+  serverWarnings: WarningList;
+  deployedAt: number;
 }
 export interface AppRolloverRequest {
   appId?: string;
 }
 export interface AppRolloverResponse {
-  url?: string;
-  serverWarnings?: WarningList;
-  deployedAt?: number;
+  url: string;
+  serverWarnings: WarningList;
+  deployedAt: number;
 }
 export interface AppSetObjectsRequest {
   appId?: string;
@@ -573,9 +573,9 @@ export interface CreateAppRequest {
   tags?: StringMap;
 }
 export interface CreateAppResponse {
-  appId?: string;
-  appPageUrl?: string;
-  appLogsUrl?: string;
+  appId: string;
+  appPageUrl: string;
+  appLogsUrl: string;
 }
 /** gRPC protos for Modal's public API surface. Warning: direct usage of Modal's gRPC API is discouraged, and no support or compatibility guarantees are provided. Message fields or entire RPCs may be changed or removed without notice. We recommend using official SDKs instead. */
 export type AppDeployVisibility =
@@ -591,7 +591,7 @@ export interface DeployAppRequest {
   tag?: string;
 }
 export interface DeployAppResponse {
-  url?: string;
+  url: string;
 }
 export type AppDisconnectReason =
   | "APP_DISCONNECT_REASON_UNSPECIFIED"
@@ -610,34 +610,34 @@ export interface ListAppRequest {
   environmentName?: string;
 }
 export interface ListAppResponseAppListItem {
-  appId?: string;
-  description?: string;
-  state?: AppState;
-  createdAt?: number;
-  stoppedAt?: number;
-  nRunningTasks?: number;
-  name?: string;
+  appId: string;
+  description: string;
+  state: AppState;
+  createdAt: number;
+  stoppedAt: number;
+  nRunningTasks: number;
+  name: string;
   metadata?: AppHandleMetadata;
 }
 export type ListAppResponseAppListItemList = Array<ListAppResponseAppListItem>;
 export interface ListAppResponse {
-  apps?: ListAppResponseAppListItemList;
+  apps: ListAppResponseAppListItemList;
 }
 export interface LookupAppRequest {
   appName?: string;
   environmentName?: string;
 }
 export interface LookupAppResponse {
-  appId?: string;
+  appId: string;
 }
 export interface PromoteAppRequest {
   appId?: string;
   version?: number;
 }
 export interface PromoteAppResponse {
-  url?: string;
-  serverWarnings?: WarningList;
-  deployedAt?: number;
+  url: string;
+  serverWarnings: WarningList;
+  deployedAt: number;
 }
 export interface PublishAppRequest {
   appId?: string;
@@ -664,9 +664,9 @@ export interface PublishAppRequest {
   deploymentType?: DeploymentType | (string & {});
 }
 export interface PublishAppResponse {
-  url?: string;
-  serverWarnings?: WarningList;
-  deployedAt?: number;
+  url: string;
+  serverWarnings: WarningList;
+  deployedAt: number;
 }
 export type AppStopSource =
   | "APP_STOP_SOURCE_UNSPECIFIED"
@@ -791,12 +791,12 @@ export const appGetLifecycle: API.OperationMethod<
 }));
 
 export type AppGetLogsError = AppNotFound | ModalOpError;
-export const appGetLogs: API.OperationMethod<
+export const appGetLogs: API.StreamingOperationMethod<
   AppGetLogsRequest,
   AppGetLogsStream,
   AppGetLogsError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<AppGetLogsRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<AppGetLogsStream>,
   errors: [AppNotFound, UnknownModalError],
@@ -1079,7 +1079,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tag: S.optional(S.String),
+          tag: S.String,
           object: S.optional(__S(945, __c29, 17)),
         }),
       ).annotate({ identifier: "AppGetObjectsItem" });
@@ -1088,7 +1088,7 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2, __c0, 2)),
+          items: __S(2, __c0, 2),
         }),
       ).annotate({ identifier: "AppGetObjectsResponse" });
   }
@@ -1108,7 +1108,7 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
+          appId: S.String,
           handleMetadata: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "AppGetOrCreateResponse" });
@@ -1125,7 +1125,7 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(864, __c27, 0)),
+          tags: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "AppGetTagsResponse" });
   }
@@ -1166,8 +1166,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          message: S.optional(S.String),
+          type: S.String,
+          message: S.String,
         }),
       ).annotate({ identifier: "Warning" });
     case 1:
@@ -1175,9 +1175,9 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
-          serverWarnings: S.optional(__S(193, __c6, 1)),
-          deployedAt: S.optional(S.Number),
+          url: S.String,
+          serverWarnings: __S(193, __c6, 1),
+          deployedAt: S.Number,
         }),
       ).annotate({ identifier: "AppRollbackResponse" });
   }
@@ -1236,9 +1236,9 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          appPageUrl: S.optional(S.String),
-          appLogsUrl: S.optional(S.String),
+          appId: S.String,
+          appPageUrl: S.String,
+          appLogsUrl: S.String,
         }),
       ).annotate({ identifier: "CreateAppResponse" });
   }
@@ -1258,7 +1258,7 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
+          url: S.String,
         }),
       ).annotate({ identifier: "DeployAppResponse" });
   }
@@ -1287,9 +1287,9 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucketStartAt: S.optional(S.String),
-          stdoutLogs: S.optional(S.String),
-          stderrLogs: S.optional(S.String),
-          systemLogs: S.optional(S.String),
+          stdoutLogs: S.String,
+          stderrLogs: S.String,
+          systemLogs: S.String,
         }),
       ).annotate({ identifier: "AppCountLogsResponseLogBucket" });
     case 2:
@@ -1297,8 +1297,8 @@ function __c12(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          buckets: S.optional(__S(386, __c12, 2)),
+          appId: S.String,
+          buckets: __S(386, __c12, 2),
         }),
       ).annotate({ identifier: "AppCountLogsResponse" });
   }
@@ -1332,13 +1332,13 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          stoppedAt: S.optional(S.Number),
-          nRunningTasks: S.optional(S.Number),
-          name: S.optional(S.String),
+          appId: S.String,
+          description: S.String,
+          state: S.String,
+          createdAt: S.Number,
+          stoppedAt: S.Number,
+          nRunningTasks: S.Number,
+          name: S.String,
           metadata: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "ListAppResponseAppListItem" });
@@ -1347,7 +1347,7 @@ function __c14(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          apps: S.optional(__S(450, __c14, 2)),
+          apps: __S(450, __c14, 2),
         }),
       ).annotate({ identifier: "ListAppResponse" });
   }
@@ -1364,7 +1364,7 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
+          appId: S.String,
         }),
       ).annotate({ identifier: "LookupAppResponse" });
   }
@@ -1430,17 +1430,17 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          version: S.optional(S.Number),
-          clientVersion: S.optional(S.String),
-          deployedAt: S.optional(S.Number),
-          deployedBy: S.optional(S.String),
-          deployedByAvatarUrl: S.optional(S.String),
-          tag: S.optional(S.String),
-          rollbackVersion: S.optional(S.Number),
-          rollbackAllowed: S.optional(S.Boolean),
+          appId: S.String,
+          version: S.Number,
+          clientVersion: S.String,
+          deployedAt: S.Number,
+          deployedBy: S.String,
+          deployedByAvatarUrl: S.String,
+          tag: S.String,
+          rollbackVersion: S.Number,
+          rollbackAllowed: S.Boolean,
           commitInfo: S.optional(__S(640, __c20, 0)),
-          deploymentType: S.optional(S.String),
+          deploymentType: S.String,
         }),
       ).annotate({ identifier: "AppDeploymentHistory2" });
     case 2:
@@ -1448,8 +1448,8 @@ function __c19(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          appDeploymentHistories: S.optional(__S(610, __c19, 2)),
-          productionAppVersion: S.optional(S.Number),
+          appDeploymentHistories: __S(610, __c19, 2),
+          productionAppVersion: S.Number,
         }),
       ).annotate({ identifier: "AppDeploymentHistoryResponse" });
   }
@@ -1494,7 +1494,7 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          batches: S.optional(__S(708, __c22, 4)),
+          batches: __S(708, __c22, 4),
         }),
       ).annotate({ identifier: "AppFetchLogsResponse" });
   }
@@ -1504,25 +1504,25 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          len: S.optional(S.String),
-          pos: S.optional(S.String),
-          progressType: S.optional(S.String),
-          description: S.optional(S.String),
+          len: S.String,
+          pos: S.String,
+          progressType: S.String,
+          description: S.String,
         }),
       ).annotate({ identifier: "TaskProgress" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.String),
-          taskState: S.optional(S.String),
-          timestamp: S.optional(S.Number),
-          fileDescriptor: S.optional(S.String),
+          data: S.String,
+          taskState: S.String,
+          timestamp: S.Number,
+          fileDescriptor: S.String,
           taskProgress: S.optional(__S(704, __c22, 0)),
-          functionCallId: S.optional(S.String),
-          inputId: S.optional(S.String),
-          timestampNs: S.optional(S.String),
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
+          functionCallId: S.String,
+          inputId: S.String,
+          timestampNs: S.String,
+          containerId: S.String,
+          containerName: S.String,
         }),
       ).annotate({ identifier: "TaskLogs" });
     case 2:
@@ -1530,18 +1530,18 @@ function __c22(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          taskId: S.optional(S.String),
-          items: S.optional(__S(706, __c22, 2)),
-          entryId: S.optional(S.String),
-          appDone: S.optional(S.Boolean),
-          functionId: S.optional(S.String),
-          inputId: S.optional(S.String),
-          imageId: S.optional(S.String),
-          eof: S.optional(S.Boolean),
-          ptyExecId: S.optional(S.String),
-          rootFunctionId: S.optional(S.String),
-          ttlDays: S.optional(S.Number),
-          sandboxId: S.optional(S.String),
+          taskId: S.String,
+          items: __S(706, __c22, 2),
+          entryId: S.String,
+          appDone: S.Boolean,
+          functionId: S.String,
+          inputId: S.String,
+          imageId: S.String,
+          eof: S.Boolean,
+          ptyExecId: S.String,
+          rootFunctionId: S.String,
+          ttlDays: S.Number,
+          sandboxId: S.String,
         }),
       ).annotate({ identifier: "TaskLogsBatch" });
     case 4:
@@ -1566,9 +1566,9 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          previousAppId: S.optional(S.String),
-          environmentName: S.optional(S.String),
+          appId: S.String,
+          previousAppId: S.String,
+          environmentName: S.String,
           lifecycle: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "AppGetByDeploymentNameResponse" });
@@ -1579,14 +1579,14 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appState: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
-          deployedAt: S.optional(S.Number),
-          deployedBy: S.optional(S.String),
-          version: S.optional(S.Number),
-          stoppedAt: S.optional(S.Number),
-          stoppedBy: S.optional(S.String),
+          appState: S.String,
+          createdAt: S.Number,
+          createdBy: S.String,
+          deployedAt: S.Number,
+          deployedBy: S.String,
+          version: S.Number,
+          stoppedAt: S.Number,
+          stoppedBy: S.String,
         }),
       ).annotate({ identifier: "AppLifecycle" });
   }
@@ -1602,9 +1602,9 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          count: S.optional(S.Number),
-          gpuType: S.optional(S.String),
+          type: S.String,
+          count: S.Number,
+          gpuType: S.String,
         }),
       ).annotate({ identifier: "GPUConfig" });
     case 2:
@@ -1612,20 +1612,20 @@ function __c25(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cronString: S.optional(S.String),
-          timezone: S.optional(S.String),
+          cronString: S.String,
+          timezone: S.String,
         }),
       ).annotate({ identifier: "ScheduleCron" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          years: S.optional(S.Number),
-          months: S.optional(S.Number),
-          weeks: S.optional(S.Number),
-          days: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-          seconds: S.optional(S.Number),
+          years: S.Number,
+          months: S.Number,
+          weeks: S.Number,
+          days: S.Number,
+          hours: S.Number,
+          minutes: S.Number,
+          seconds: S.Number,
         }),
       ).annotate({ identifier: "SchedulePeriod" });
     case 5:
@@ -1638,11 +1638,11 @@ function __c25(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          gpuConfig: S.optional(__S(802, __c25, 2)),
+          gpuConfig: __S(802, __c25, 2),
           schedule: S.optional(__S(805, __c25, 5)),
-          webFunction: S.optional(S.Boolean),
+          webFunction: S.Boolean,
           requiresProxyAuth: S.optional(S.Boolean),
-          isSessioned: S.optional(S.Boolean),
+          isSessioned: S.Boolean,
         }),
       ).annotate({ identifier: "AppGetInfoResponseFunctionInfoSummary" });
     case 7:
@@ -1651,7 +1651,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           info: S.optional(__S(832, __c26, 0)),
-          functionInfoSummaries: S.optional(__S(807, __c25, 7)),
+          functionInfoSummaries: __S(807, __c25, 7),
         }),
       ).annotate({ identifier: "AppGetInfoResponse" });
   }
@@ -1661,12 +1661,12 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          appId: S.optional(S.String),
-          environmentName: S.optional(S.String),
+          description: S.String,
+          appId: S.String,
+          environmentName: S.String,
           lifecycle: S.optional(__S(768, __c24, 0)),
-          functions: S.optional(__S(864, __c27, 0)),
-          servers: S.optional(__S(864, __c27, 0)),
+          functions: __S(864, __c27, 0),
+          servers: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "AppHandleMetadata" });
   }
@@ -1692,9 +1692,9 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          objects: S.optional(__S(897, __c28, 1)),
-          functionIds: S.optional(__S(864, __c27, 0)),
-          classIds: S.optional(__S(864, __c27, 0)),
+          objects: __S(897, __c28, 1),
+          functionIds: __S(864, __c27, 0),
+          classIds: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "AppLayout" });
     case 3:
@@ -1712,16 +1712,16 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          baseType: S.optional(S.String),
-          subTypes: S.optional(__S(928, __c29, 0)),
+          baseType: S.String,
+          subTypes: __S(928, __c29, 0),
         }),
       ).annotate({ identifier: "GenericPayloadType" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          hasDefault: S.optional(S.Boolean),
+          name: S.String,
+          type: S.String,
+          hasDefault: S.Boolean,
           stringDefault: S.optional(S.String),
           intDefault: S.optional(S.String),
           pickleDefault: S.optional(S.String),
@@ -1735,8 +1735,8 @@ function __c29(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          format: S.optional(S.String),
-          schema: S.optional(__S(931, __c29, 3)),
+          format: S.String,
+          schema: __S(931, __c29, 3),
         }),
       ).annotate({ identifier: "ClassParameterInfo" });
     case 5:
@@ -1747,8 +1747,8 @@ function __c29(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          schemaType: S.optional(S.String),
-          arguments: S.optional(__S(931, __c29, 3)),
+          schemaType: S.String,
+          arguments: __S(931, __c29, 3),
           returnType: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "FunctionSchema" });
@@ -1757,37 +1757,37 @@ function __c29(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          functionName: S.optional(S.String),
-          functionType: S.optional(S.String),
-          webUrl: S.optional(S.String),
-          isMethod: S.optional(S.Boolean),
-          useMethodName: S.optional(S.String),
-          definitionId: S.optional(S.String),
+          functionName: S.String,
+          functionType: S.String,
+          webUrl: S.String,
+          isMethod: S.Boolean,
+          useMethodName: S.String,
+          definitionId: S.String,
           classParameterInfo: S.optional(__S(932, __c29, 4)),
-          methodHandleMetadata: S.optional(__S(933, __c29, 5)),
+          methodHandleMetadata: __S(933, __c29, 5),
           functionSchema: S.optional(__S(934, __c29, 6)),
           inputPlaneUrl: S.optional(S.String),
           inputPlaneRegion: S.optional(S.String),
           maxObjectSizeBytes: S.optional(S.String),
           maxAsyncObjectSizeBytes: S.optional(S.String),
-          ExperimentalFlashUrls: S.optional(__S(960, __c30, 0)),
-          supportedInputFormats: S.optional(__S(935, __c29, 7)),
-          supportedOutputFormats: S.optional(__S(935, __c29, 7)),
-          appId: S.optional(S.String),
-          baseFunctionId: S.optional(S.String),
+          ExperimentalFlashUrls: __S(960, __c30, 0),
+          supportedInputFormats: __S(935, __c29, 7),
+          supportedOutputFormats: __S(935, __c29, 7),
+          appId: S.String,
+          baseFunctionId: S.String,
         }),
       ).annotate({ identifier: "FunctionHandleMetadata" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          contentChecksumSha256Hex: S.optional(S.String),
+          contentChecksumSha256Hex: S.String,
         }),
       ).annotate({ identifier: "MountHandleMetadata" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          functionName: S.optional(S.String),
-          functionId: S.optional(S.String),
+          functionName: S.String,
+          functionId: S.String,
           functionHandleMetadata: S.optional(__S(936, __c29, 8)),
         }),
       ).annotate({ identifier: "ClassMethod" });
@@ -1796,51 +1796,51 @@ function __c29(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          methods: S.optional(__S(939, __c29, 11)),
-          classFunctionId: S.optional(S.String),
+          methods: __S(939, __c29, 11),
+          classFunctionId: S.String,
           classFunctionMetadata: S.optional(__S(936, __c29, 8)),
         }),
       ).annotate({ identifier: "ClassHandleMetadata" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          exception: S.optional(S.String),
-          exitcode: S.optional(S.Number),
-          traceback: S.optional(S.String),
-          serializedTb: S.optional(S.String),
-          tbLineCache: S.optional(S.String),
+          status: S.String,
+          exception: S.String,
+          exitcode: S.Number,
+          traceback: S.String,
+          serializedTb: S.String,
+          tbLineCache: S.String,
           data: S.optional(S.String),
           dataBlobId: S.optional(S.String),
-          propagationReason: S.optional(S.String),
+          propagationReason: S.String,
         }),
       ).annotate({ identifier: "GenericResult" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           result: S.optional(__S(941, __c29, 13)),
-          appId: S.optional(S.String),
+          appId: S.String,
         }),
       ).annotate({ identifier: "SandboxHandleMetadata" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.String,
         }),
       ).annotate({ identifier: "CreationInfo" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          name: S.optional(S.String),
+          version: S.String,
+          name: S.String,
           creationInfo: S.optional(__S(943, __c29, 15)),
         }),
       ).annotate({ identifier: "VolumeMetadata" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.String),
+          objectId: S.String,
           functionHandleMetadata: S.optional(__S(936, __c29, 8)),
           mountHandleMetadata: S.optional(__S(937, __c29, 9)),
           classHandleMetadata: S.optional(__S(940, __c29, 12)),

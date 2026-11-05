@@ -30,8 +30,8 @@ export interface StartTunnelRequest {
   tunnelType?: TunnelType | (string & {});
 }
 export interface StartTunnelResponse {
-  host?: string;
-  port?: number;
+  host: string;
+  port: number;
   unencryptedHost?: string;
   unencryptedPort?: number;
 }
@@ -39,7 +39,7 @@ export interface StopTunnelRequest {
   port?: number;
 }
 export interface StopTunnelResponse {
-  exists?: boolean;
+  exists: boolean;
 }
 export type StartTunnelError = ModalOpError;
 /** Tunnels */
@@ -90,8 +90,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
+          host: S.String,
+          port: S.Number,
           unencryptedHost: S.optional(S.String),
           unencryptedPort: S.optional(S.Number),
         }),
@@ -109,7 +109,7 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exists: S.optional(S.Boolean),
+          exists: S.Boolean,
         }),
       ).annotate({ identifier: "StopTunnelResponse" });
   }

@@ -57,33 +57,33 @@ export interface ListSecretRequest {
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
-  createdAt?: number;
+  createdAt: number;
   /** Timestamp of resource creation */
-  createdBy?: string;
+  createdBy: string;
 }
 export type StringList = Array<string>;
 export interface SecretMetadata {
-  name?: string;
+  name: string;
   creationInfo?: CreationInfo;
-  keys?: StringList;
-  environmentName?: string;
-  lastUsedAt?: number;
-  templateType?: string;
+  keys: StringList;
+  environmentName: string;
+  lastUsedAt: number;
+  templateType: string;
 }
 export interface SecretListItem {
-  label?: string;
-  createdAt?: number;
+  label: string;
+  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
-  lastUsedAt?: number;
-  environmentName?: string;
+  lastUsedAt: number;
+  environmentName: string;
   /** Unused by client */
-  secretId?: string;
+  secretId: string;
   metadata?: SecretMetadata;
 }
 export type SecretListItemList = Array<SecretListItem>;
 export interface ListSecretResponse {
-  items?: SecretListItemList;
-  environmentName?: string;
+  items: SecretListItemList;
+  environmentName: string;
 }
 export interface SecretGetInfoRequest {
   secretId?: string;
@@ -111,7 +111,7 @@ export interface SecretGetOrCreateRequest {
   requiredKeys?: StringList;
 }
 export interface SecretGetOrCreateResponse {
-  secretId?: string;
+  secretId: string;
   metadata?: SecretMetadata;
 }
 export interface UpdateSecretRequestUpdate {
@@ -143,12 +143,13 @@ export const deleteSecret: API.OperationMethod<
 }));
 
 export type ListSecretError = ModalOpError;
-export const listSecret: API.OperationMethod<
+export const listSecret: API.PaginatedOperationMethod<
   ListSecretRequest,
   ListSecretResponse,
   ListSecretError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  ModalOpContext,
+  SecretListItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17, __c2, 1) as any as S.Schema<ListSecretRequest>,
   output: __S(20, __c2, 4) as any as S.Schema<ListSecretResponse>,
   errors: [UnknownModalError],
@@ -156,7 +157,14 @@ export const listSecret: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecret",
-}));
+  pagination: {
+    mode: "keyset",
+    inputToken: "pagination.createdBefore",
+    outputToken: "metadata.creationInfo.createdAt",
+    items: "items",
+    pageSize: "pagination.maxObjects",
+  } as const,
+})) as any;
 
 export type SecretGetInfoError = SecretNotFound | ModalOpError;
 export const secretGetInfo: API.OperationMethod<
@@ -244,11 +252,11 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          label: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          lastUsedAt: S.optional(S.Number),
-          environmentName: S.optional(S.String),
-          secretId: S.optional(S.String),
+          label: S.String,
+          createdAt: S.Number,
+          lastUsedAt: S.Number,
+          environmentName: S.String,
+          secretId: S.String,
           metadata: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "SecretListItem" });
@@ -257,8 +265,8 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(19, __c2, 3)),
-          environmentName: S.optional(S.String),
+          items: __S(19, __c2, 3),
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ListSecretResponse" });
   }
@@ -268,8 +276,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.String,
         }),
       ).annotate({ identifier: "CreationInfo" });
     case 1:
@@ -277,12 +285,12 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          name: S.String,
           creationInfo: S.optional(__S(24, __c3, 0)),
-          keys: S.optional(__S(25, __c3, 1)),
-          environmentName: S.optional(S.String),
-          lastUsedAt: S.optional(S.Number),
-          templateType: S.optional(S.String),
+          keys: __S(25, __c3, 1),
+          environmentName: S.String,
+          lastUsedAt: S.Number,
+          templateType: S.String,
         }),
       ).annotate({ identifier: "SecretMetadata" });
   }
@@ -325,7 +333,7 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          secretId: S.optional(S.String),
+          secretId: S.String,
           metadata: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "SecretGetOrCreateResponse" });

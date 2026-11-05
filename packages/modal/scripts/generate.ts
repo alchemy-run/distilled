@@ -17,10 +17,10 @@ import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 /**
- * Error matchers on patched error shapes. The gRPC protocol turns a non-zero
- * `grpc-status` into an HTTP status (`NOT_FOUND` -> 404, `ALREADY_EXISTS` ->
- * 409, ...) with `{ code: "NOT_FOUND", message }`, so matchers key on
- * `status`, `code` and `message` like any REST API.
+ * Error matchers on patched error shapes. The gRPC protocol hands the REST
+ * decoder `{ code, status, message }` for a non-zero `grpc-status` (`{ code:
+ * 5, status: "NOT_FOUND", ... }`, HTTP 404), so matchers key on the numeric
+ * gRPC `code` and the `message`.
  */
 const ERROR_MATCHERS_TRAIT = "com.modal.protocols#errorMatchers";
 
@@ -47,6 +47,10 @@ const spec: SdkSpec = {
     `export type ${name} = ${caseTargets.map(tsRef).join(" | ") || "unknown"};`,
     `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
+
+  // `smithy.api#paginated` comes from patches (proto has no pagination):
+  // keyset `List*` calls and `pageToken` calls.
+  paginationProfiles: { grpc: { itemsFallback: "items" } },
 
   operationDecl: {
     contextType: "ModalOpContext",

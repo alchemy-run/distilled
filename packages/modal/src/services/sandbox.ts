@@ -368,40 +368,40 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
-  status?: GenericResultGenericStatus;
+  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception?: string;
+  exception: string;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exitcode: number;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  traceback: string;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  serializedTb: string;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  tbLineCache: string;
   /** Pickled line cache for traceback object. */
   data?: string;
   /** Inline data of the result. */
   dataBlobId?: string;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  propagationReason: string;
 }
 export interface SandboxHandleMetadata {
   result?: GenericResult;
-  appId?: string;
+  appId: string;
 }
 export interface CreateSandboxResponse {
-  sandboxId?: string;
+  sandboxId: string;
   metadata?: SandboxHandleMetadata;
 }
 export interface GetSandboxSnapshotRequest {
   snapshotId?: string;
 }
 export interface SandboxSnapshotHandleMetadata {
-  isV2?: boolean;
+  isV2: boolean;
 }
 export interface GetSandboxSnapshotResponse {
-  snapshotId?: string;
+  snapshotId: string;
   handleMetadata?: SandboxSnapshotHandleMetadata;
 }
 export interface GetSandboxSnapshotFsAsyncRequest {
@@ -412,7 +412,7 @@ export interface ImageMetadata {
   /** The output of `python -VV. Not set if missing */
   pythonVersionInfo?: string;
   /** Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing */
-  pythonPackages?: StringMap;
+  pythonPackages: StringMap;
   /** The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`. */
   workdir?: string;
   /** The version of glibc in this image, if any. */
@@ -421,7 +421,7 @@ export interface ImageMetadata {
   imageBuilderVersion?: string;
 }
 export interface GetSandboxSnapshotFsAsyncResponse {
-  imageId?: string;
+  imageId: string;
   result?: GenericResult;
   /** Metadata may be empty since we may skip it for performance reasons. */
   imageMetadata?: ImageMetadata;
@@ -430,7 +430,7 @@ export interface GetSandboxTagRequest {
   sandboxId?: string;
 }
 export interface GetSandboxTagResponse {
-  tags?: SandboxTagList;
+  tags: SandboxTagList;
 }
 export interface ListSandboxRequest {
   appId?: string;
@@ -445,63 +445,63 @@ export type TaskSnapshotBehavior =
   | "TASK_SNAPSHOT_BEHAVIOR_RESTORE"
   | "TASK_SNAPSHOT_BEHAVIOR_NONE";
 export interface TaskInfo {
-  id?: string;
-  startedAt?: number;
+  id: string;
+  startedAt: number;
   /** For Function containers, this corresponds to the "ready" time, after startup phase */
-  finishedAt?: number;
+  finishedAt: number;
   result?: GenericResult;
-  enqueuedAt?: number;
-  gpuType?: string;
-  sandboxId?: string;
-  snapshotBehavior?: TaskSnapshotBehavior;
+  enqueuedAt: number;
+  gpuType: string;
+  sandboxId: string;
+  snapshotBehavior: TaskSnapshotBehavior;
   gpuConfig?: GPUConfig;
 }
 export interface ResourceInfoResourceValue {
-  value?: number;
-  isDefault?: boolean;
+  value: number;
+  isDefault: boolean;
 }
 export interface ResourceInfo {
   memoryMb?: ResourceInfoResourceValue;
   /** MiB */
   milliCpu?: ResourceInfoResourceValue;
   /** milli CPU cores */
-  gpuType?: string;
-  memoryMbMax?: number;
+  gpuType: string;
+  memoryMbMax: number;
   /** MiB */
-  ephemeralDiskMb?: number;
+  ephemeralDiskMb: number;
   /** MiB */
-  milliCpuMax?: number;
+  milliCpuMax: number;
 }
 export interface TunnelData {
-  host?: string;
-  port?: number;
+  host: string;
+  port: number;
   unencryptedHost?: string;
   unencryptedPort?: number;
-  containerPort?: number;
+  containerPort: number;
 }
 export type TunnelDataList = Array<TunnelData>;
 export interface SandboxInfo {
-  id?: string;
+  id: string;
   /** modal.client.Sandbox definition */
-  createdAt?: number;
+  createdAt: number;
   taskInfo?: TaskInfo;
-  appId?: string;
-  tags?: SandboxTagList;
+  appId: string;
+  tags: SandboxTagList;
   /** TODO: Not yet exposed in client library. */
-  name?: string;
-  imageId?: string;
+  name: string;
+  imageId: string;
   resourceInfo?: ResourceInfo;
-  regions?: StringList;
-  timeoutSecs?: number;
+  regions: StringList;
+  timeoutSecs: number;
   idleTimeoutSecs?: number;
   readyAt?: number;
   readinessProbe?: Probe;
-  tunnels?: TunnelDataList;
+  tunnels: TunnelDataList;
   metadata?: SandboxHandleMetadata;
 }
 export type SandboxInfoList = Array<SandboxInfo>;
 export interface ListSandboxResponse {
-  sandboxes?: SandboxInfoList;
+  sandboxes: SandboxInfoList;
 }
 export type RestoreSandboxRequestSandboxNameOverrideType =
   | "SANDBOX_NAME_OVERRIDE_TYPE_UNSPECIFIED"
@@ -517,7 +517,7 @@ export interface RestoreSandboxRequest {
   volumeMounts?: VolumeMountList;
 }
 export interface RestoreSandboxResponse {
-  sandboxId?: string;
+  sandboxId: string;
 }
 export type StringMap2Map = { [key: string]: StringMap2 | undefined };
 /** One source of environment variables for a Sandbox container or exec. */
@@ -541,8 +541,8 @@ export interface SandboxContainerCreateV2Request {
   secretSources?: SecretSourceList;
 }
 export interface SandboxContainerCreateV2Response {
-  containerId?: string;
-  containerName?: string;
+  containerId: string;
+  containerName: string;
 }
 export interface SandboxCreateConnectTokenRequest {
   sandboxId?: string;
@@ -551,8 +551,8 @@ export interface SandboxCreateConnectTokenRequest {
   port?: number;
 }
 export interface SandboxCreateConnectTokenResponse {
-  url?: string;
-  token?: string;
+  url: string;
+  token: string;
 }
 export interface SandboxCreateConnectTokenV2Request {
   sandboxId?: string;
@@ -561,8 +561,8 @@ export interface SandboxCreateConnectTokenV2Request {
   port?: number;
 }
 export interface SandboxCreateConnectTokenV2Response {
-  url?: string;
-  token?: string;
+  url: string;
+  token: string;
 }
 export interface SandboxCreateV2Request {
   appId?: string;
@@ -575,34 +575,34 @@ export interface SandboxCreateV2Request {
 }
 /** Defined as start time of the first task in the cluster */
 export interface CommandRouterAccess {
-  jwt?: string;
-  url?: string;
+  jwt: string;
+  url: string;
 }
 export interface SandboxCreateV2Response {
-  sandboxId?: string;
-  tunnels?: TunnelDataList;
-  taskId?: string;
+  sandboxId: string;
+  tunnels: TunnelDataList;
+  taskId: string;
   metadata?: SandboxHandleMetadata;
   commandRouterAccess?: CommandRouterAccess;
   /** Signed app and workspace id of the sandbox. Sent as the x-modal-sandbox-token metadata header. */
-  sandboxToken?: string;
+  sandboxToken: string;
 }
 export interface SandboxGetCommandRouterAccessRequest {
   sandboxId?: string;
   taskId?: string;
 }
 export interface SandboxGetCommandRouterAccessResponse {
-  jwt?: string;
-  url?: string;
+  jwt: string;
+  url: string;
   /** Worker's public IPv4 address. When set, clients should connect directly to this IP while still using the URL's hostname for TLS SNI and the HTTP/2 :authority header. */
-  workerIpv4Address?: string;
+  workerIpv4Address: string;
 }
 export interface SandboxGetExitSnapshotRequest {
   sandboxId?: string;
   timeout?: number;
 }
 export interface SandboxGetExitSnapshotResponseSuccess {
-  imageId?: string;
+  imageId: string;
 }
 export type SandboxGetExitSnapshotResponsePending = OutboundPolicyRedirectBlock;
 export type SandboxGetExitSnapshotResponseErrorCode =
@@ -611,8 +611,8 @@ export type SandboxGetExitSnapshotResponseErrorCode =
   | "ERROR_CODE_INTERNAL"
   | "ERROR_CODE_FILESYSTEM_INCONSISTENT";
 export interface SandboxGetExitSnapshotResponseError {
-  errorCode?: SandboxGetExitSnapshotResponseErrorCode;
-  message?: string;
+  errorCode: SandboxGetExitSnapshotResponseErrorCode;
+  message: string;
 }
 export interface SandboxGetExitSnapshotResponse {
   success?: SandboxGetExitSnapshotResponseSuccess;
@@ -636,7 +636,7 @@ export interface SandboxGetFromNameRequest {
   includeTerminated?: boolean;
 }
 export interface SandboxGetFromNameResponse {
-  sandboxId?: string;
+  sandboxId: string;
   metadata?: SandboxHandleMetadata;
 }
 export interface SandboxGetFromNameV2Request {
@@ -647,7 +647,7 @@ export interface SandboxGetFromNameV2Request {
   includeTerminated?: boolean;
 }
 export interface SandboxGetFromNameV2Response {
-  sandboxId?: string;
+  sandboxId: string;
   metadata?: SandboxHandleMetadata;
 }
 export type FileDescriptor =
@@ -676,39 +676,39 @@ export type TaskState =
   | "TASK_STATE_LOADING_CHECKPOINT_IMAGE";
 export type ProgressType = "IMAGE_SNAPSHOT_UPLOAD" | "FUNCTION_QUEUED";
 export interface TaskProgress {
-  len?: string;
-  pos?: string;
-  progressType?: ProgressType;
-  description?: string;
+  len: string;
+  pos: string;
+  progressType: ProgressType;
+  description: string;
 }
 export interface TaskLogs {
-  data?: string;
-  taskState?: TaskState;
-  timestamp?: number;
-  fileDescriptor?: FileDescriptor;
+  data: string;
+  taskState: TaskState;
+  timestamp: number;
+  fileDescriptor: FileDescriptor;
   taskProgress?: TaskProgress;
-  functionCallId?: string;
-  inputId?: string;
-  timestampNs?: string;
-  containerId?: string;
-  containerName?: string;
+  functionCallId: string;
+  inputId: string;
+  timestampNs: string;
+  containerId: string;
+  containerName: string;
 }
 export type TaskLogsList = Array<TaskLogs>;
 export interface TaskLogsBatch {
-  taskId?: string;
-  items?: TaskLogsList;
-  entryId?: string;
-  appDone?: boolean;
-  functionId?: string;
-  inputId?: string;
-  imageId?: string;
+  taskId: string;
+  items: TaskLogsList;
+  entryId: string;
+  appDone: boolean;
+  functionId: string;
+  inputId: string;
+  imageId: string;
   /** Used for image logs */
-  eof?: boolean;
-  ptyExecId?: string;
+  eof: boolean;
+  ptyExecId: string;
   /** Used for interactive functions */
-  rootFunctionId?: string;
-  ttlDays?: number;
-  sandboxId?: string;
+  rootFunctionId: string;
+  ttlDays: number;
+  sandboxId: string;
 }
 export type TaskLogsBatchList = Array<TaskLogsBatch>;
 export interface SandboxGetLogsStream {
@@ -719,9 +719,9 @@ export interface SandboxGetResourceUsageRequest {
   sandboxId?: string;
 }
 export interface SandboxGetResourceUsageResponse {
-  cpuCoreNanosecs?: string;
-  memGibNanosecs?: string;
-  gpuNanosecs?: string;
+  cpuCoreNanosecs: string;
+  memGibNanosecs: string;
+  gpuNanosecs: string;
   gpuType?: string;
 }
 export interface SandboxGetTaskIdRequest {
@@ -760,14 +760,14 @@ export interface SandboxStatsGroupTagValue {
 export type SandboxStatsGroupTagValueMap = { [key: string]: SandboxStatsGroupTagValue | undefined };
 export type DoubleMap = { [key: string]: number | undefined };
 export interface SandboxStatsGroup {
-  tags?: SandboxStatsGroupTagValueMap;
-  cost?: number;
-  costByResource?: DoubleMap;
+  tags: SandboxStatsGroupTagValueMap;
+  cost: number;
+  costByResource: DoubleMap;
 }
 export type SandboxStatsGroupList = Array<SandboxStatsGroup>;
 export interface SandboxGetTimeRangeStatsResponse {
-  groups?: SandboxStatsGroupList;
-  nextPageToken?: string;
+  groups: SandboxStatsGroupList;
+  nextPageToken: string;
 }
 export interface SandboxGetTunnelsRequest {
   sandboxId?: string;
@@ -775,7 +775,7 @@ export interface SandboxGetTunnelsRequest {
 }
 export interface SandboxGetTunnelsResponse {
   result?: GenericResult;
-  tunnels?: TunnelDataList;
+  tunnels: TunnelDataList;
 }
 export interface SandboxGetTunnelsV2Request {
   sandboxId?: string;
@@ -783,7 +783,7 @@ export interface SandboxGetTunnelsV2Request {
 }
 export interface SandboxGetTunnelsV2Response {
   result?: GenericResult;
-  tunnels?: TunnelDataList;
+  tunnels: TunnelDataList;
 }
 export interface SandboxListV2Request {
   appId?: string;
@@ -793,7 +793,7 @@ export interface SandboxListV2Request {
   tags?: SandboxTagList;
 }
 export interface SandboxListV2Response {
-  sandboxes?: SandboxInfoList;
+  sandboxes: SandboxInfoList;
 }
 export interface SandboxRestoreV2Request {
   snapshotId?: string;
@@ -802,9 +802,9 @@ export interface SandboxRestoreV2Request {
   workerId?: string;
 }
 export interface SandboxRestoreV2Response {
-  sandboxId?: string;
-  tunnels?: TunnelDataList;
-  taskId?: string;
+  sandboxId: string;
+  tunnels: TunnelDataList;
+  taskId: string;
   metadata?: SandboxHandleMetadata;
   commandRouterAccess?: CommandRouterAccess;
 }
@@ -829,14 +829,14 @@ export interface SandboxSnapshotRequest {
   sandboxId?: string;
 }
 export interface SandboxSnapshotResponse {
-  snapshotId?: string;
+  snapshotId: string;
 }
 export interface SandboxSnapshotFsRequest {
   sandboxId?: string;
   timeout?: number;
 }
 export interface SandboxSnapshotFsResponse {
-  imageId?: string;
+  imageId: string;
   result?: GenericResult;
   /** Metadata may be empty since we may skip it for performance reasons. */
   imageMetadata?: ImageMetadata;
@@ -845,7 +845,7 @@ export interface SandboxSnapshotFsAsyncRequest {
   sandboxId?: string;
 }
 export interface SandboxSnapshotFsAsyncResponse {
-  imageId?: string;
+  imageId: string;
 }
 export interface SandboxStdinWriteRequest {
   sandboxId?: string;
@@ -858,7 +858,7 @@ export interface SandboxTagsGetV2Request {
   sandboxId?: string;
 }
 export interface SandboxTagsGetV2Response {
-  tags?: SandboxTagList;
+  tags: SandboxTagList;
 }
 export interface SandboxTagsSetV2Request {
   environmentName?: string;
@@ -877,7 +877,7 @@ export interface SandboxWaitUntilReadyRequest {
   timeout?: number;
 }
 export interface SandboxWaitUntilReadyResponse {
-  readyAt?: number;
+  readyAt: number;
 }
 export interface SandboxWaitV2Request {
   sandboxId?: string;
@@ -1156,12 +1156,12 @@ export const sandboxGetFromNameV2: API.OperationMethod<
 }));
 
 export type SandboxGetLogsError = SandboxNotFound | ModalOpError;
-export const sandboxGetLogs: API.OperationMethod<
+export const sandboxGetLogs: API.StreamingOperationMethod<
   SandboxGetLogsRequest,
   SandboxGetLogsStream,
   SandboxGetLogsError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<SandboxGetLogsRequest>,
   output: __S(326, __c10, 6) as any as S.Schema<SandboxGetLogsStream>,
   errors: [SandboxNotFound, UnknownModalError],
@@ -1221,12 +1221,13 @@ export const sandboxGetTaskIdV2: API.OperationMethod<
 }));
 
 export type SandboxGetTimeRangeStatsError = ModalOpError;
-export const sandboxGetTimeRangeStats: API.OperationMethod<
+export const sandboxGetTimeRangeStats: API.PaginatedOperationMethod<
   SandboxGetTimeRangeStatsRequest,
   SandboxGetTimeRangeStatsResponse,
   SandboxGetTimeRangeStatsError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  ModalOpContext,
+  SandboxStatsGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<SandboxGetTimeRangeStatsRequest>,
   output: __S(870, __c27, 6) as any as S.Schema<SandboxGetTimeRangeStatsResponse>,
   errors: [UnknownModalError],
@@ -1234,7 +1235,13 @@ export const sandboxGetTimeRangeStats: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SandboxGetTimeRangeStats",
-}));
+  pagination: {
+    mode: "token",
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+    items: "groups",
+  } as const,
+})) as any;
 
 export type SandboxGetTunnelsError = ModalOpError;
 export const sandboxGetTunnels: API.OperationMethod<
@@ -1593,12 +1600,12 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sandboxId: S.optional(S.String),
-          tunnels: S.optional(__S(1825, __c57, 1)),
-          taskId: S.optional(S.String),
+          sandboxId: S.String,
+          tunnels: __S(1825, __c57, 1),
+          taskId: S.String,
           metadata: S.optional(__S(608, __c19, 0)),
           commandRouterAccess: S.optional(__S(64, __c2, 0)),
-          sandboxToken: S.optional(S.String),
+          sandboxToken: S.String,
         }),
       ).annotate({ identifier: "SandboxCreateV2Response" });
   }
@@ -1608,8 +1615,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jwt: S.optional(S.String),
-          url: S.optional(S.String),
+          jwt: S.String,
+          url: S.String,
         }),
       ).annotate({ identifier: "CommandRouterAccess" });
   }
@@ -1632,9 +1639,9 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jwt: S.optional(S.String),
-          url: S.optional(S.String),
-          workerIpv4Address: S.optional(S.String),
+          jwt: S.String,
+          url: S.String,
+          workerIpv4Address: S.String,
         }),
       ).annotate({ identifier: "SandboxGetCommandRouterAccessResponse" });
   }
@@ -1661,8 +1668,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          errorCode: S.optional(S.String),
-          message: S.optional(S.String),
+          errorCode: S.String,
+          message: S.String,
         }),
       ).annotate({ identifier: "SandboxGetExitSnapshotResponseError" });
     case 1:
@@ -1680,7 +1687,7 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
+          imageId: S.String,
         }),
       ).annotate({ identifier: "SandboxGetExitSnapshotResponseSuccess" });
   }
@@ -1756,25 +1763,25 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          len: S.optional(S.String),
-          pos: S.optional(S.String),
-          progressType: S.optional(S.String),
-          description: S.optional(S.String),
+          len: S.String,
+          pos: S.String,
+          progressType: S.String,
+          description: S.String,
         }),
       ).annotate({ identifier: "TaskProgress" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.String),
-          taskState: S.optional(S.String),
-          timestamp: S.optional(S.Number),
-          fileDescriptor: S.optional(S.String),
+          data: S.String,
+          taskState: S.String,
+          timestamp: S.Number,
+          fileDescriptor: S.String,
           taskProgress: S.optional(__S(321, __c10, 1)),
-          functionCallId: S.optional(S.String),
-          inputId: S.optional(S.String),
-          timestampNs: S.optional(S.String),
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
+          functionCallId: S.String,
+          inputId: S.String,
+          timestampNs: S.String,
+          containerId: S.String,
+          containerName: S.String,
         }),
       ).annotate({ identifier: "TaskLogs" });
     case 3:
@@ -1782,18 +1789,18 @@ function __c10(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          taskId: S.optional(S.String),
-          items: S.optional(__S(323, __c10, 3)),
-          entryId: S.optional(S.String),
-          appDone: S.optional(S.Boolean),
-          functionId: S.optional(S.String),
-          inputId: S.optional(S.String),
-          imageId: S.optional(S.String),
-          eof: S.optional(S.Boolean),
-          ptyExecId: S.optional(S.String),
-          rootFunctionId: S.optional(S.String),
-          ttlDays: S.optional(S.Number),
-          sandboxId: S.optional(S.String),
+          taskId: S.String,
+          items: __S(323, __c10, 3),
+          entryId: S.String,
+          appDone: S.Boolean,
+          functionId: S.String,
+          inputId: S.String,
+          imageId: S.String,
+          eof: S.Boolean,
+          ptyExecId: S.String,
+          rootFunctionId: S.String,
+          ttlDays: S.Number,
+          sandboxId: S.String,
         }),
       ).annotate({ identifier: "TaskLogsBatch" });
     case 5:
@@ -1823,9 +1830,9 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cpuCoreNanosecs: S.optional(S.String),
-          memGibNanosecs: S.optional(S.String),
-          gpuNanosecs: S.optional(S.String),
+          cpuCoreNanosecs: S.String,
+          memGibNanosecs: S.String,
+          gpuNanosecs: S.String,
           gpuType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SandboxGetResourceUsageResponse" });
@@ -1876,7 +1883,7 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sandboxId: S.optional(S.String),
+          sandboxId: S.String,
           metadata: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "CreateSandboxResponse" });
@@ -1887,15 +1894,15 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          exception: S.optional(S.String),
-          exitcode: S.optional(S.Number),
-          traceback: S.optional(S.String),
-          serializedTb: S.optional(S.String),
-          tbLineCache: S.optional(S.String),
+          status: S.String,
+          exception: S.String,
+          exitcode: S.Number,
+          traceback: S.String,
+          serializedTb: S.String,
+          tbLineCache: S.String,
           data: S.optional(S.String),
           dataBlobId: S.optional(S.String),
-          propagationReason: S.optional(S.String),
+          propagationReason: S.String,
         }),
       ).annotate({ identifier: "GenericResult" });
   }
@@ -1925,7 +1932,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           result: S.optional(__S(512, __c16, 0)),
-          appId: S.optional(S.String),
+          appId: S.String,
         }),
       ).annotate({ identifier: "SandboxHandleMetadata" });
   }
@@ -2309,9 +2316,9 @@ function __c27(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(866, __c27, 2)),
-          cost: S.optional(S.Number),
-          costByResource: S.optional(__S(867, __c27, 3)),
+          tags: __S(866, __c27, 2),
+          cost: S.Number,
+          costByResource: __S(867, __c27, 3),
         }),
       ).annotate({ identifier: "SandboxStatsGroup" });
     case 5:
@@ -2319,8 +2326,8 @@ function __c27(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(869, __c27, 5)),
-          nextPageToken: S.optional(S.String),
+          groups: __S(869, __c27, 5),
+          nextPageToken: S.String,
         }),
       ).annotate({ identifier: "SandboxGetTimeRangeStatsResponse" });
   }
@@ -2344,7 +2351,7 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           result: S.optional(__S(512, __c16, 0)),
-          tunnels: S.optional(__S(1825, __c57, 1)),
+          tunnels: __S(1825, __c57, 1),
         }),
       ).annotate({ identifier: "SandboxGetTunnelsResponse" });
   }
@@ -2398,9 +2405,9 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sandboxId: S.optional(S.String),
-          tunnels: S.optional(__S(1825, __c57, 1)),
-          taskId: S.optional(S.String),
+          sandboxId: S.String,
+          tunnels: __S(1825, __c57, 1),
+          taskId: S.String,
           metadata: S.optional(__S(608, __c19, 0)),
           commandRouterAccess: S.optional(__S(64, __c2, 0)),
         }),
@@ -2467,7 +2474,7 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshotId: S.optional(S.String),
+          snapshotId: S.String,
         }),
       ).annotate({ identifier: "SandboxSnapshotResponse" });
   }
@@ -2489,13 +2496,13 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          isV2: S.optional(S.Boolean),
+          isV2: S.Boolean,
         }),
       ).annotate({ identifier: "SandboxSnapshotHandleMetadata" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshotId: S.optional(S.String),
+          snapshotId: S.String,
           handleMetadata: S.optional(__S(1185, __c37, 1)),
         }),
       ).annotate({ identifier: "GetSandboxSnapshotResponse" });
@@ -2615,7 +2622,7 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          readyAt: S.optional(S.Number),
+          readyAt: S.Number,
         }),
       ).annotate({ identifier: "SandboxWaitUntilReadyResponse" });
   }
@@ -2693,7 +2700,7 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pythonVersionInfo: S.optional(S.String),
-          pythonPackages: S.optional(__S(544, __c17, 0)),
+          pythonPackages: __S(544, __c17, 0),
           workdir: S.optional(S.String),
           libcVersionInfo: S.optional(S.String),
           imageBuilderVersion: S.optional(S.String),
@@ -2702,7 +2709,7 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
+          imageId: S.String,
           result: S.optional(__S(512, __c16, 0)),
           imageMetadata: S.optional(__S(1632, __c51, 0)),
         }),
@@ -2762,7 +2769,7 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(577, __c18, 1)),
+          tags: __S(577, __c18, 1),
         }),
       ).annotate({ identifier: "GetSandboxTagResponse" });
   }
@@ -2788,11 +2795,11 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
+          host: S.String,
+          port: S.Number,
           unencryptedHost: S.optional(S.String),
           unencryptedPort: S.optional(S.Number),
-          containerPort: S.optional(S.Number),
+          containerPort: S.Number,
         }),
       ).annotate({ identifier: "TunnelData" });
     case 1:
@@ -2804,22 +2811,22 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          startedAt: S.optional(S.Number),
-          finishedAt: S.optional(S.Number),
+          id: S.String,
+          startedAt: S.Number,
+          finishedAt: S.Number,
           result: S.optional(__S(512, __c16, 0)),
-          enqueuedAt: S.optional(S.Number),
-          gpuType: S.optional(S.String),
-          sandboxId: S.optional(S.String),
-          snapshotBehavior: S.optional(S.String),
+          enqueuedAt: S.Number,
+          gpuType: S.String,
+          sandboxId: S.String,
+          snapshotBehavior: S.String,
           gpuConfig: S.optional(__S(672, __c21, 0)),
         }),
       ).annotate({ identifier: "TaskInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.Number),
-          isDefault: S.optional(S.Boolean),
+          value: S.Number,
+          isDefault: S.Boolean,
         }),
       ).annotate({ identifier: "ResourceInfoResourceValue" });
     case 2:
@@ -2827,29 +2834,29 @@ function __c58(j: number): any {
         S.Struct({
           memoryMb: S.optional(__S(1857, __c58, 1)),
           milliCpu: S.optional(__S(1857, __c58, 1)),
-          gpuType: S.optional(S.String),
-          memoryMbMax: S.optional(S.Number),
-          ephemeralDiskMb: S.optional(S.Number),
-          milliCpuMax: S.optional(S.Number),
+          gpuType: S.String,
+          memoryMbMax: S.Number,
+          ephemeralDiskMb: S.Number,
+          milliCpuMax: S.Number,
         }),
       ).annotate({ identifier: "ResourceInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          createdAt: S.optional(S.Number),
+          id: S.String,
+          createdAt: S.Number,
           taskInfo: S.optional(__S(1856, __c58, 0)),
-          appId: S.optional(S.String),
-          tags: S.optional(__S(577, __c18, 1)),
-          name: S.optional(S.String),
-          imageId: S.optional(S.String),
+          appId: S.String,
+          tags: __S(577, __c18, 1),
+          name: S.String,
+          imageId: S.String,
           resourceInfo: S.optional(__S(1858, __c58, 2)),
-          regions: S.optional(__S(640, __c20, 0)),
-          timeoutSecs: S.optional(S.Number),
+          regions: __S(640, __c20, 0),
+          timeoutSecs: S.Number,
           idleTimeoutSecs: S.optional(S.Number),
           readyAt: S.optional(S.Number),
           readinessProbe: S.optional(__S(674, __c21, 2)),
-          tunnels: S.optional(__S(1825, __c57, 1)),
+          tunnels: __S(1825, __c57, 1),
           metadata: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "SandboxInfo" });
@@ -2858,7 +2865,7 @@ function __c58(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          sandboxes: S.optional(__S(1860, __c58, 4)),
+          sandboxes: __S(1860, __c58, 4),
         }),
       ).annotate({ identifier: "ListSandboxResponse" });
   }
@@ -2881,7 +2888,7 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sandboxId: S.optional(S.String),
+          sandboxId: S.String,
         }),
       ).annotate({ identifier: "RestoreSandboxResponse" });
   }
@@ -2908,8 +2915,8 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
+          containerId: S.String,
+          containerName: S.String,
         }),
       ).annotate({ identifier: "SandboxContainerCreateV2Response" });
   }
@@ -2952,8 +2959,8 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
-          token: S.optional(S.String),
+          url: S.String,
+          token: S.String,
         }),
       ).annotate({ identifier: "SandboxCreateConnectTokenResponse" });
   }

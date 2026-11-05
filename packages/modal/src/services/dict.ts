@@ -56,7 +56,7 @@ export interface DictContainsRequest {
   key?: string;
 }
 export interface DictContainsResponse {
-  found?: boolean;
+  found: boolean;
 }
 export interface DictContentsRequest {
   dictId?: string;
@@ -78,16 +78,16 @@ export interface DictGetByIdRequest {
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
-  createdAt?: number;
+  createdAt: number;
   /** Timestamp of resource creation */
-  createdBy?: string;
+  createdBy: string;
 }
 export interface DictMetadata {
-  name?: string;
+  name: string;
   creationInfo?: CreationInfo;
 }
 export interface DictGetByIdResponse {
-  dictId?: string;
+  dictId: string;
   metadata?: DictMetadata;
 }
 export type ObjectCreationType =
@@ -105,7 +105,7 @@ export interface DictGetOrCreateRequest {
   data?: DictEntryList;
 }
 export interface DictGetOrCreateResponse {
-  dictId?: string;
+  dictId: string;
   metadata?: DictMetadata;
 }
 export interface DictHeartbeatRequest {
@@ -116,14 +116,14 @@ export interface DictLenRequest {
   dictId?: string;
 }
 export interface DictLenResponse {
-  len?: number;
+  len: number;
 }
 export interface DictPopRequest {
   dictId?: string;
   key?: string;
 }
 export interface DictPopResponse {
-  found?: boolean;
+  found: boolean;
   value?: string;
 }
 export interface GetDictRequest {
@@ -131,7 +131,7 @@ export interface GetDictRequest {
   key?: string;
 }
 export interface GetDictResponse {
-  found?: boolean;
+  found: boolean;
   value?: string;
 }
 export interface ListPagination {
@@ -143,16 +143,16 @@ export interface ListDictRequest {
   pagination?: ListPagination;
 }
 export interface ListDictResponseDictInfo {
-  name?: string;
-  createdAt?: number;
+  name: string;
+  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
-  dictId?: string;
+  dictId: string;
   metadata?: DictMetadata;
 }
 export type ListDictResponseDictInfoList = Array<ListDictResponseDictInfo>;
 export interface ListDictResponse {
-  dicts?: ListDictResponseDictInfoList;
-  environmentName?: string;
+  dicts: ListDictResponseDictInfoList;
+  environmentName: string;
 }
 export interface UpdateDictRequest {
   dictId?: string;
@@ -160,7 +160,7 @@ export interface UpdateDictRequest {
   ifNotExists?: boolean;
 }
 export interface UpdateDictResponse {
-  created?: boolean;
+  created: boolean;
 }
 export type ClearDictError = DictNotFound | ModalOpError;
 /** Dicts */
@@ -212,12 +212,12 @@ export const dictContains: API.OperationMethod<
 }));
 
 export type DictContentsError = DictNotFound | ModalOpError;
-export const dictContents: API.OperationMethod<
+export const dictContents: API.StreamingOperationMethod<
   DictContentsRequest,
   DictContentsStream,
   DictContentsError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<DictContentsRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<DictContentsStream>,
   errors: [DictNotFound, UnknownModalError],
@@ -324,12 +324,13 @@ export const getDict: API.OperationMethod<
 }));
 
 export type ListDictError = ModalOpError;
-export const listDict: API.OperationMethod<
+export const listDict: API.PaginatedOperationMethod<
   ListDictRequest,
   ListDictResponse,
   ListDictError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  ModalOpContext,
+  ListDictResponseDictInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25, __c3, 1) as any as S.Schema<ListDictRequest>,
   output: __S(28, __c3, 4) as any as S.Schema<ListDictResponse>,
   errors: [UnknownModalError],
@@ -337,7 +338,14 @@ export const listDict: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDict",
-}));
+  pagination: {
+    mode: "keyset",
+    inputToken: "pagination.createdBefore",
+    outputToken: "metadata.creationInfo.createdAt",
+    items: "dicts",
+    pageSize: "pagination.maxObjects",
+  } as const,
+})) as any;
 
 export type UpdateDictError = DictNotFound | ModalOpError;
 export const updateDict: API.OperationMethod<
@@ -372,7 +380,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          found: S.optional(S.Boolean),
+          found: S.Boolean,
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "DictPopResponse" });
@@ -408,9 +416,9 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          dictId: S.optional(S.String),
+          name: S.String,
+          createdAt: S.Number,
+          dictId: S.String,
           metadata: S.optional(__S(105, __c13, 1)),
         }),
       ).annotate({ identifier: "ListDictResponseDictInfo" });
@@ -419,8 +427,8 @@ function __c3(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dicts: S.optional(__S(27, __c3, 3)),
-          environmentName: S.optional(S.String),
+          dicts: __S(27, __c3, 3),
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ListDictResponse" });
   }
@@ -438,7 +446,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Boolean),
+          created: S.Boolean,
         }),
       ).annotate({ identifier: "UpdateDictResponse" });
   }
@@ -483,7 +491,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          found: S.optional(S.Boolean),
+          found: S.Boolean,
         }),
       ).annotate({ identifier: "DictContainsResponse" });
   }
@@ -538,7 +546,7 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dictId: S.optional(S.String),
+          dictId: S.String,
           metadata: S.optional(__S(105, __c13, 1)),
         }),
       ).annotate({ identifier: "DictGetByIdResponse" });
@@ -549,14 +557,14 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.String,
         }),
       ).annotate({ identifier: "CreationInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          name: S.String,
           creationInfo: S.optional(__S(104, __c13, 0)),
         }),
       ).annotate({ identifier: "DictMetadata" });
@@ -600,7 +608,7 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          len: S.optional(S.Number),
+          len: S.Number,
         }),
       ).annotate({ identifier: "DictLenResponse" });
   }

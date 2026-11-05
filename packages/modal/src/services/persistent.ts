@@ -372,8 +372,8 @@ export interface CreatePersistentSandboxRequest {
   definition?: Sandbox;
 }
 export interface CreatePersistentSandboxResponse {
-  persistentSandboxId?: string;
-  sandboxId?: string;
+  persistentSandboxId: string;
+  sandboxId: string;
 }
 export interface PersistentSandboxNameLookup {
   appName?: string;
@@ -385,14 +385,14 @@ export interface GetPersistentSandboxRequest {
   name?: PersistentSandboxNameLookup;
 }
 export interface GetPersistentSandboxResponse {
-  persistentSandboxId?: string;
-  sandboxId?: string;
+  persistentSandboxId: string;
+  sandboxId: string;
 }
 export interface ResumePersistentSandboxRequest {
   persistentSandboxId?: string;
 }
 export interface ResumePersistentSandboxResponse {
-  sandboxId?: string;
+  sandboxId: string;
 }
 export interface TerminatePersistentSandboxRequest {
   persistentSandboxId?: string;
@@ -801,8 +801,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          persistentSandboxId: S.optional(S.String),
-          sandboxId: S.optional(S.String),
+          persistentSandboxId: S.String,
+          sandboxId: S.String,
         }),
       ).annotate({ identifier: "CreatePersistentSandboxResponse" });
   }
@@ -855,7 +855,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sandboxId: S.optional(S.String),
+          sandboxId: S.String,
         }),
       ).annotate({ identifier: "ResumePersistentSandboxResponse" });
   }

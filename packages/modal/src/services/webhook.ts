@@ -54,8 +54,8 @@ export interface CreateWebhookTokenRequest {
   name?: string;
 }
 export interface CreateWebhookTokenResponse {
-  tokenId?: string;
-  tokenSecret?: string | Redacted.Redacted<string>;
+  tokenId: string;
+  tokenSecret: string | Redacted.Redacted<string>;
 }
 export interface DeleteWebhookTokenRequest {
   tokenId?: string;
@@ -63,27 +63,27 @@ export interface DeleteWebhookTokenRequest {
 export interface DeleteWebhookTokenResponse {}
 export interface ListWebhookTokenRequest {}
 export interface UserIdentity {
-  userId?: string;
-  username?: string;
+  userId: string;
+  username: string;
 }
 /** Additional URL suffix added for ephemeral Apps */
 export interface WebhookToken {
-  tokenId?: string;
-  createdAt?: number;
-  scoped?: boolean;
-  name?: string;
+  tokenId: string;
+  createdAt: number;
+  scoped: boolean;
+  name: string;
   createdBy?: UserIdentity;
 }
 export type WebhookTokenList2 = Array<WebhookToken>;
 export interface ListWebhookTokenResponse {
-  tokens?: WebhookTokenList2;
+  tokens: WebhookTokenList2;
 }
 export interface ListWebhookTokenEnvironmentRequest {
   tokenId?: string;
 }
 export type StringList = Array<string>;
 export interface ListWebhookTokenEnvironmentResponse {
-  environmentIds?: StringList;
+  environmentIds: StringList;
 }
 export interface RemoveWebhookTokenEnvironmentRequest {
   tokenId?: string;
@@ -95,17 +95,17 @@ export interface UpdateWebhookTokenRequest {
   name?: string;
 }
 export interface UpdateWebhookTokenResponse {
-  tokenId?: string;
-  createdAt?: number;
-  scoped?: boolean;
-  name?: string;
+  tokenId: string;
+  createdAt: number;
+  scoped: boolean;
+  name: string;
   createdBy?: UserIdentity;
 }
 export interface WebhookTokenListForEnvironmentRequest {
   environmentName?: string;
 }
 export interface WebhookTokenListForEnvironmentResponse {
-  tokens?: WebhookTokenList2;
+  tokens: WebhookTokenList2;
 }
 export type AddWebhookTokenEnvironmentError = WebhookTokenNotFound | ModalOpError;
 export const addWebhookTokenEnvironment: API.OperationMethod<
@@ -280,8 +280,8 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokenId: S.optional(S.String),
-          tokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tokenId: S.String,
+          tokenSecret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateWebhookTokenResponse" });
   }
@@ -317,17 +317,17 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.optional(S.String),
-          username: S.optional(S.String),
+          userId: S.String,
+          username: S.String,
         }),
       ).annotate({ identifier: "UserIdentity" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokenId: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          scoped: S.optional(S.Boolean),
-          name: S.optional(S.String),
+          tokenId: S.String,
+          createdAt: S.Number,
+          scoped: S.Boolean,
+          name: S.String,
           createdBy: S.optional(__S(20, __c5, 0)),
         }),
       ).annotate({ identifier: "WebhookToken" });
@@ -340,7 +340,7 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.optional(__S(24, __c6, 0)),
+          tokens: __S(24, __c6, 0),
         }),
       ).annotate({ identifier: "ListWebhookTokenResponse" });
   }
@@ -364,7 +364,7 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environmentIds: S.optional(__S(29, __c7, 1)),
+          environmentIds: __S(29, __c7, 1),
         }),
       ).annotate({ identifier: "ListWebhookTokenEnvironmentResponse" });
   }

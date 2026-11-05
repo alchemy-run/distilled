@@ -56,19 +56,19 @@ export type ProxyIpStatus =
   | "PROXY_IP_STATUS_TERMINATED"
   | "PROXY_IP_STATUS_UNHEALTHY";
 export interface ProxyIp {
-  proxyIp?: string;
-  status?: ProxyIpStatus;
-  createdAt?: number;
-  environmentName?: string;
+  proxyIp: string;
+  status: ProxyIpStatus;
+  createdAt: number;
+  environmentName: string;
 }
 export type ProxyIpList = Array<ProxyIp>;
 export interface Proxy {
-  name?: string;
-  createdAt?: number;
-  environmentName?: string;
-  proxyIps?: ProxyIpList;
-  proxyId?: string;
-  region?: string;
+  name: string;
+  createdAt: number;
+  environmentName: string;
+  proxyIps: ProxyIpList;
+  proxyId: string;
+  region: string;
 }
 export interface CreateProxyResponse {
   proxy?: Proxy;
@@ -87,7 +87,7 @@ export interface GetProxyResponse {
 export interface ListProxyRequest {}
 export type ProxyList2 = Array<Proxy>;
 export interface ListProxyResponse {
-  proxies?: ProxyList2;
+  proxies: ProxyList2;
 }
 export interface ProxyAddIpRequest {
   proxyId?: string;
@@ -109,7 +109,7 @@ export interface ProxyGetOrCreateRequest {
   objectCreationType?: ObjectCreationType | (string & {});
 }
 export interface ProxyGetOrCreateResponse {
-  proxyId?: string;
+  proxyId: string;
 }
 export interface ProxyRemoveIpRequest {
   proxyIp?: string;
@@ -260,12 +260,12 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          environmentName: S.optional(S.String),
-          proxyIps: S.optional(__S(8, __c2, 0)),
-          proxyId: S.optional(S.String),
-          region: S.optional(S.String),
+          name: S.String,
+          createdAt: S.Number,
+          environmentName: S.String,
+          proxyIps: __S(8, __c2, 0),
+          proxyId: S.String,
+          region: S.String,
         }),
       ).annotate({ identifier: "Proxy" });
   }
@@ -275,10 +275,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          proxyIp: S.optional(S.String),
-          status: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          environmentName: S.optional(S.String),
+          proxyIp: S.String,
+          status: S.String,
+          createdAt: S.Number,
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ProxyIp" });
   }
@@ -325,7 +325,7 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          proxies: S.optional(__S(29, __c7, 1)),
+          proxies: __S(29, __c7, 1),
         }),
       ).annotate({ identifier: "ListProxyResponse" });
   }
@@ -361,7 +361,7 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          proxyId: S.optional(S.String),
+          proxyId: S.String,
         }),
       ).annotate({ identifier: "ProxyGetOrCreateResponse" });
   }

@@ -136,12 +136,12 @@ export interface CreateClassRequest {
   onlyClassFunction?: boolean;
 }
 export interface ClassHandleMetadata {
-  methods?: ClassMethodList;
-  classFunctionId?: string;
+  methods: ClassMethodList;
+  classFunctionId: string;
   classFunctionMetadata?: FunctionHandleMetadata;
 }
 export interface CreateClassResponse {
-  classId?: string;
+  classId: string;
   handleMetadata?: ClassHandleMetadata;
 }
 export interface GetClassRequest {
@@ -160,14 +160,14 @@ export type WarningWarningType =
   | "WARNING_TYPE_RESOURCE_LIMIT"
   | "WARNING_TYPE_FUNCTION_CONFIGURATION";
 export interface Warning {
-  type?: WarningWarningType;
-  message?: string;
+  type: WarningWarningType;
+  message: string;
 }
 export type WarningList = Array<Warning>;
 export interface GetClassResponse {
-  classId?: string;
+  classId: string;
   handleMetadata?: ClassHandleMetadata;
-  serverWarnings?: WarningList;
+  serverWarnings: WarningList;
 }
 export type CreateClassError = ModalOpError;
 /** Classes */
@@ -219,7 +219,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          classId: S.optional(S.String),
+          classId: S.String,
           handleMetadata: S.optional(__S(28, __c1, 12)),
         }),
       ).annotate({ identifier: "CreateClassResponse" });
@@ -312,8 +312,8 @@ function __c1(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          methods: S.optional(__S(27, __c1, 11)),
-          classFunctionId: S.optional(S.String),
+          methods: __S(27, __c1, 11),
+          classFunctionId: S.String,
           classFunctionMetadata: S.optional(__S(25, __c1, 9)),
         }),
       ).annotate({ identifier: "ClassHandleMetadata" });
@@ -334,8 +334,8 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          message: S.optional(S.String),
+          type: S.String,
+          message: S.String,
         }),
       ).annotate({ identifier: "Warning" });
     case 2:
@@ -343,9 +343,9 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          classId: S.optional(S.String),
+          classId: S.String,
           handleMetadata: S.optional(__S(28, __c1, 12)),
-          serverWarnings: S.optional(__S(34, __c2, 2)),
+          serverWarnings: __S(34, __c2, 2),
         }),
       ).annotate({ identifier: "GetClassResponse" });
   }

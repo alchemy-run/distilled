@@ -60,7 +60,7 @@ export interface CommitVolumeRequest {
   containerId?: string;
 }
 export interface CommitVolumeResponse {
-  skipReload?: boolean;
+  skipReload: boolean;
 }
 export interface DeleteVolumeRequest {
   volumeId?: string;
@@ -82,27 +82,27 @@ export type VolumeFsVersion =
   | "VOLUME_FS_VERSION_V2";
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
-  createdAt?: number;
+  createdAt: number;
   /** Timestamp of resource creation */
-  createdBy?: string;
+  createdBy: string;
 }
 export interface VolumeMetadata {
-  version?: VolumeFsVersion;
-  name?: string;
+  version: VolumeFsVersion;
+  name: string;
   creationInfo?: CreationInfo;
 }
 export interface VolumeListItem {
-  label?: string;
+  label: string;
   /** app name of object entity app */
-  volumeId?: string;
-  createdAt?: number;
+  volumeId: string;
+  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
   metadata?: VolumeMetadata;
 }
 export type VolumeListItemList = Array<VolumeListItem>;
 export interface ListVolumeResponse {
-  items?: VolumeListItemList;
-  environmentName?: string;
+  items: VolumeListItemList;
+  environmentName: string;
 }
 export interface RenameVolumeRequest {
   volumeId?: string;
@@ -128,7 +128,7 @@ export interface VolumeGetByIdRequest {
   volumeId?: string;
 }
 export interface VolumeGetByIdResponse {
-  volumeId?: string;
+  volumeId: string;
   metadata?: VolumeMetadata;
 }
 export interface VolumeGetFileRequest {
@@ -140,11 +140,11 @@ export interface VolumeGetFileRequest {
 export interface VolumeGetFileResponse {
   data?: string;
   dataBlobId?: string;
-  size?: string;
+  size: string;
   /** total file size */
-  start?: string;
+  start: string;
   /** file position of first byte returned */
-  len?: string;
+  len: string;
 }
 export interface VolumeGetFile2Request {
   volumeId?: string;
@@ -155,12 +155,12 @@ export interface VolumeGetFile2Request {
   clientPadsBlocks?: boolean;
 }
 export interface VolumeGetFile2Response {
-  getUrls?: StringList;
-  size?: string;
+  getUrls: StringList;
+  size: string;
   /** total file size */
-  start?: string;
+  start: string;
   /** file position of first byte returned */
-  len?: string;
+  len: string;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -184,8 +184,8 @@ export interface VolumeGetOrCreateRequest {
   createOptions?: VolumeCreateOptions;
 }
 export interface VolumeGetOrCreateResponse {
-  volumeId?: string;
-  version?: VolumeFsVersion;
+  volumeId: string;
+  version: VolumeFsVersion;
   /** Not used directly; version is part of the metadata */
   metadata?: VolumeMetadata;
 }
@@ -208,14 +208,14 @@ export type FileEntryFileType =
   | "SOCKET";
 /** A file entry when listing files in a volume or network file system. */
 export interface FileEntry {
-  path?: string;
-  type?: FileEntryFileType;
-  mtime?: string;
-  size?: string;
+  path: string;
+  type: FileEntryFileType;
+  mtime: string;
+  size: string;
 }
 export type FileEntryList = Array<FileEntry>;
 export interface VolumeListFilesResponse {
-  entries?: FileEntryList;
+  entries: FileEntryList;
 }
 export type VolumeListFilesResponseList = Array<VolumeListFilesResponse>;
 export interface VolumeListFilesStream {
@@ -282,16 +282,16 @@ export interface VolumePutFiles2Request {
 }
 export interface VolumePutFiles2ResponseMissingBlock {
   /** Index of the file in the original `files` field of the request. */
-  fileIndex?: string;
+  fileIndex: string;
   /** The index of the block in the original `files[file_index].blocks` of the request. */
-  blockIndex?: string;
+  blockIndex: string;
   /** Make a HTTP PUT request to this endpoint with the blocks' contents as the body. */
-  putUrl?: string;
+  putUrl: string;
 }
 export type VolumePutFiles2ResponseMissingBlockList = Array<VolumePutFiles2ResponseMissingBlock>;
 export interface VolumePutFiles2Response {
   /** Blocks that are currently missing in the volume, because the file did not exist, or because the block checksum from `blocks_sha256` in the request did not match the current contents of the file. Values will be returned sorted by `(file_index, block_index)`. If this field is empty, it means that the files were uploaded successfully and/or that the request was an idempotent no-op. */
-  missingBlocks?: VolumePutFiles2ResponseMissingBlockList;
+  missingBlocks: VolumePutFiles2ResponseMissingBlockList;
 }
 export interface VolumeReloadRequest {
   /** NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount. */
@@ -344,12 +344,13 @@ export const deleteVolume: API.OperationMethod<
 }));
 
 export type ListVolumeError = ModalOpError;
-export const listVolume: API.OperationMethod<
+export const listVolume: API.PaginatedOperationMethod<
   ListVolumeRequest,
   ListVolumeResponse,
   ListVolumeError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  ModalOpContext,
+  VolumeListItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(121, __c15, 1) as any as S.Schema<ListVolumeRequest>,
   output: __S(124, __c15, 4) as any as S.Schema<ListVolumeResponse>,
   errors: [UnknownModalError],
@@ -357,7 +358,14 @@ export const listVolume: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolume",
-}));
+  pagination: {
+    mode: "keyset",
+    inputToken: "pagination.createdBefore",
+    outputToken: "metadata.creationInfo.createdAt",
+    items: "items",
+    pageSize: "pagination.maxObjects",
+  } as const,
+})) as any;
 
 export type RenameVolumeError = VolumeNotFound | VolumeAlreadyExists | ModalOpError;
 export const renameVolume: API.OperationMethod<
@@ -488,12 +496,12 @@ export const volumeHeartbeat: API.OperationMethod<
 }));
 
 export type VolumeListFilesError = ModalOpError;
-export const volumeListFiles: API.OperationMethod<
+export const volumeListFiles: API.StreamingOperationMethod<
   VolumeListFilesRequest,
   VolumeListFilesStream,
   VolumeListFilesError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<VolumeListFilesRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<VolumeListFilesStream>,
   errors: [UnknownModalError],
@@ -504,12 +512,12 @@ export const volumeListFiles: API.OperationMethod<
 }));
 
 export type VolumeListFiles2Error = VolumeFileNotFound | ModalOpError;
-export const volumeListFiles2: API.OperationMethod<
+export const volumeListFiles2: API.StreamingOperationMethod<
   VolumeListFiles2Request,
   VolumeListFiles2Stream,
   VolumeListFiles2Error,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<VolumeListFiles2Request>,
   output: __S(44, __c5, 4) as any as S.Schema<VolumeListFiles2Stream>,
   errors: [VolumeFileNotFound, UnknownModalError],
@@ -618,9 +626,9 @@ function __c0(j: number): any {
         S.Struct({
           data: S.optional(S.String),
           dataBlobId: S.optional(S.String),
-          size: S.optional(S.String),
-          start: S.optional(S.String),
-          len: S.optional(S.String),
+          size: S.String,
+          start: S.String,
+          len: S.String,
         }),
       ).annotate({ identifier: "VolumeGetFileResponse" });
   }
@@ -642,10 +650,10 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          getUrls: S.optional(__S(152, __c19, 0)),
-          size: S.optional(S.String),
-          start: S.optional(S.String),
-          len: S.optional(S.String),
+          getUrls: __S(152, __c19, 0),
+          size: S.String,
+          start: S.String,
+          len: S.String,
         }),
       ).annotate({ identifier: "VolumeGetFile2Response" });
   }
@@ -676,8 +684,8 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          volumeId: S.optional(S.String),
-          version: S.optional(S.String),
+          volumeId: S.String,
+          version: S.String,
           metadata: S.optional(__S(129, __c16, 1)),
         }),
       ).annotate({ identifier: "VolumeGetOrCreateResponse" });
@@ -715,10 +723,10 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          path: S.optional(S.String),
-          type: S.optional(S.String),
-          mtime: S.optional(S.String),
-          size: S.optional(S.String),
+          path: S.String,
+          type: S.String,
+          mtime: S.String,
+          size: S.String,
         }),
       ).annotate({ identifier: "FileEntry" });
     case 1:
@@ -726,7 +734,7 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(41, __c5, 1)),
+          entries: __S(41, __c5, 1),
         }),
       ).annotate({ identifier: "VolumeListFilesResponse" });
     case 3:
@@ -815,9 +823,9 @@ function __c8(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          fileIndex: S.optional(S.String),
-          blockIndex: S.optional(S.String),
-          putUrl: S.optional(S.String),
+          fileIndex: S.String,
+          blockIndex: S.String,
+          putUrl: S.String,
         }),
       ).annotate({ identifier: "VolumePutFiles2ResponseMissingBlock" });
     case 6:
@@ -825,7 +833,7 @@ function __c8(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          missingBlocks: S.optional(__S(70, __c8, 6)),
+          missingBlocks: __S(70, __c8, 6),
         }),
       ).annotate({ identifier: "VolumePutFiles2Response" });
   }
@@ -884,7 +892,7 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          skipReload: S.optional(S.Boolean),
+          skipReload: S.Boolean,
         }),
       ).annotate({ identifier: "CommitVolumeResponse" });
   }
@@ -927,9 +935,9 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          label: S.optional(S.String),
-          volumeId: S.optional(S.String),
-          createdAt: S.optional(S.Number),
+          label: S.String,
+          volumeId: S.String,
+          createdAt: S.Number,
           metadata: S.optional(__S(129, __c16, 1)),
         }),
       ).annotate({ identifier: "VolumeListItem" });
@@ -938,8 +946,8 @@ function __c15(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(123, __c15, 3)),
-          environmentName: S.optional(S.String),
+          items: __S(123, __c15, 3),
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ListVolumeResponse" });
   }
@@ -949,15 +957,15 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.String,
         }),
       ).annotate({ identifier: "CreationInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          name: S.optional(S.String),
+          version: S.String,
+          name: S.String,
           creationInfo: S.optional(__S(128, __c16, 0)),
         }),
       ).annotate({ identifier: "VolumeMetadata" });
@@ -1025,7 +1033,7 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          volumeId: S.optional(S.String),
+          volumeId: S.String,
           metadata: S.optional(__S(129, __c16, 1)),
         }),
       ).annotate({ identifier: "VolumeGetByIdResponse" });

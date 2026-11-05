@@ -50,16 +50,16 @@ export interface FetchServerRequestRequest {
   range?: FetchServerRequestRequestRange;
 }
 export interface ServerRequestInfo {
-  route?: string;
+  route: string;
   timestamp?: string;
-  containerId?: string;
-  durationSeconds?: number;
-  status?: number;
+  containerId: string;
+  durationSeconds: number;
+  status: number;
 }
 export type ServerRequestInfoList = Array<ServerRequestInfo>;
 export interface FetchServerRequestResponse {
   /** Tail queries return the most recent requests from the last seven days, ordered from newest to oldest. Range queries return requests ordered from oldest to newest. */
-  requests?: ServerRequestInfoList;
+  requests: ServerRequestInfoList;
 }
 export interface ServerCountRequestsRequest {
   functionId?: string;
@@ -72,13 +72,13 @@ export interface ServerCountRequestsRequest {
 export interface ServerCountRequestsResponseRequestBucket {
   bucketStartAt?: string;
   /** Number of request records, matching ServerRequestFetch. */
-  count?: string;
+  count: string;
 }
 export type ServerCountRequestsResponseRequestBucketList =
   Array<ServerCountRequestsResponseRequestBucket>;
 export interface ServerCountRequestsResponse {
   /** Ordered by bucket start time, from oldest to newest. Counts include only requests within the requested time range. */
-  buckets?: ServerCountRequestsResponseRequestBucketList;
+  buckets: ServerCountRequestsResponseRequestBucketList;
 }
 export type StringList = Array<string>;
 export interface ServerGetMetricsRequest {
@@ -99,12 +99,12 @@ export interface FunctionMetricPoint {
 export type FunctionMetricPointList = Array<FunctionMetricPoint>;
 export interface FunctionMetricSeries {
   /** Unique within the response; identifies one aggregate series for this metric. The metric name defines the aggregation semantics. */
-  name?: string;
+  name: string;
   /** Public semantic unit, such as seconds, calls, containers, or requests. */
-  unit?: string;
-  points?: FunctionMetricPointList;
+  unit: string;
+  points: FunctionMetricPointList;
   /** Ascending timestamps; absent points are gaps. */
-  description?: string;
+  description: string;
 }
 export type FunctionMetricSeriesList = Array<FunctionMetricSeries>;
 export interface ServerGetMetricsResponse {
@@ -112,8 +112,8 @@ export interface ServerGetMetricsResponse {
   /** Inclusive effective bound, rounded down. */
   until?: string;
   /** Exclusive effective bound, rounded down. */
-  bucketSecs?: number;
-  series?: FunctionMetricSeriesList;
+  bucketSecs: number;
+  series: FunctionMetricSeriesList;
 }
 export interface ServerGetTimeRangeStatsRequest {
   functionId?: string;
@@ -124,21 +124,21 @@ export interface ServerGetTimeRangeStatsRequest {
   containerId?: string;
 }
 export interface ServerGetTimeRangeStatsResponseServerStatusCodeCount {
-  statusCode?: number;
-  count?: string;
+  statusCode: number;
+  count: string;
 }
 export type ServerGetTimeRangeStatsResponseServerStatusCodeCountList =
   Array<ServerGetTimeRangeStatsResponseServerStatusCodeCount>;
 export interface StatsPercentile {
   /** The percentile expressed in basis points: 5000 is p50 and 9990 is p99.9. */
-  percentileBasisPoints?: number;
-  value?: number;
+  percentileBasisPoints: number;
+  value: number;
 }
 export type StatsPercentileList = Array<StatsPercentile>;
 export interface StatsPercentileDistribution {
   /** Unit identifier such as "seconds", "cores", "gibibytes", or "fraction". */
-  unit?: string;
-  percentiles?: StatsPercentileList;
+  unit: string;
+  percentiles: StatsPercentileList;
 }
 export type StatsPercentileDistributionMap = {
   [key: string]: StatsPercentileDistribution | undefined;
@@ -151,33 +151,33 @@ export type ServerInferenceStatsStatus =
   | "SERVER_INFERENCE_STATS_STATUS_UNAVAILABLE";
 export type DoubleMap = { [key: string]: number | undefined };
 export interface ServerGetTimeRangeStatsResponseServerInferenceStats {
-  engine?: LLMEngine;
-  status?: ServerInferenceStatsStatus;
+  engine: LLMEngine;
+  status: ServerInferenceStatsStatus;
   /** Metrics include time_to_first_token, inter_token_latency, and end_to_end_latency, subject to change as requirements evolve. */
-  percentileStats?: StatsPercentileDistributionMap;
+  percentileStats: StatsPercentileDistributionMap;
   /** Metrics include input_tokens_per_second, cached_input_tokens_per_second, and output_tokens_per_second, subject to change as requirements evolve. */
-  scalarStats?: DoubleMap;
+  scalarStats: DoubleMap;
 }
 export interface ServerGetTimeRangeStatsResponse {
   since?: string;
   /** Inclusive. */
   until?: string;
   /** Exclusive. */
-  requestCount?: string;
-  requestCountByStatusCode?: ServerGetTimeRangeStatsResponseServerStatusCodeCountList;
-  requestRatePerSecond?: number;
+  requestCount: string;
+  requestCountByStatusCode: ServerGetTimeRangeStatsResponseServerStatusCodeCountList;
+  requestRatePerSecond: number;
   /** Metrics include request_latency, subject to change as requirements evolve. */
-  requestPercentileStats?: StatsPercentileDistributionMap;
+  requestPercentileStats: StatsPercentileDistributionMap;
   /** Metrics include startup_time, cpu_usage, memory_usage, and gpu_utilization, subject to change as requirements evolve. */
-  containerPercentileStats?: StatsPercentileDistributionMap;
+  containerPercentileStats: StatsPercentileDistributionMap;
   /** Absent when the image does not contain a supported inference engine. */
   inference?: ServerGetTimeRangeStatsResponseServerInferenceStats;
   /** Container lifecycle counts. Started and errored containers are counted when the corresponding event occurs in the requested time range. Creating containers were enqueued but had not started or finished at the exclusive end of the range. */
-  containerStartedCount?: string;
-  containerErrorCount?: string;
-  containerCreatingAtEndCount?: string;
+  containerStartedCount: string;
+  containerErrorCount: string;
+  containerCreatingAtEndCount: string;
   /** Number of containers that were active (published heartbeats) in the time range. */
-  containerTotalCount?: string;
+  containerTotalCount: string;
 }
 export type FetchServerRequestError = ServerNotFound | ModalOpError;
 export const fetchServerRequest: API.OperationMethod<
@@ -278,11 +278,11 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          route: S.optional(S.String),
+          route: S.String,
           timestamp: S.optional(S.String),
-          containerId: S.optional(S.String),
-          durationSeconds: S.optional(S.Number),
-          status: S.optional(S.Number),
+          containerId: S.String,
+          durationSeconds: S.Number,
+          status: S.Number,
         }),
       ).annotate({ identifier: "ServerRequestInfo" });
     case 4:
@@ -290,7 +290,7 @@ function __c0(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(4, __c0, 4)),
+          requests: __S(4, __c0, 4),
         }),
       ).annotate({ identifier: "FetchServerRequestResponse" });
   }
@@ -316,7 +316,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucketStartAt: S.optional(S.String),
-          count: S.optional(S.String),
+          count: S.String,
         }),
       ).annotate({ identifier: "ServerCountRequestsResponseRequestBucket" });
     case 2:
@@ -324,7 +324,7 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(18, __c1, 2)),
+          buckets: __S(18, __c1, 2),
         }),
       ).annotate({ identifier: "ServerCountRequestsResponse" });
   }
@@ -357,10 +357,10 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          unit: S.optional(S.String),
-          points: S.optional(__S(35, __c2, 3)),
-          description: S.optional(S.String),
+          name: S.String,
+          unit: S.String,
+          points: __S(35, __c2, 3),
+          description: S.String,
         }),
       ).annotate({ identifier: "FunctionMetricSeries" });
     case 5:
@@ -370,8 +370,8 @@ function __c2(j: number): any {
         S.Struct({
           since: S.optional(S.String),
           until: S.optional(S.String),
-          bucketSecs: S.optional(S.Number),
-          series: S.optional(__S(37, __c2, 5)),
+          bucketSecs: S.Number,
+          series: __S(37, __c2, 5),
         }),
       ).annotate({ identifier: "ServerGetMetricsResponse" });
   }
@@ -396,8 +396,8 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          statusCode: S.optional(S.Number),
-          count: S.optional(S.String),
+          statusCode: S.Number,
+          count: S.String,
         }),
       ).annotate({ identifier: "ServerGetTimeRangeStatsResponseServerStatusCodeCount" });
     case 2:
@@ -405,8 +405,8 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          percentileBasisPoints: S.optional(S.Number),
-          value: S.optional(S.Number),
+          percentileBasisPoints: S.Number,
+          value: S.Number,
         }),
       ).annotate({ identifier: "StatsPercentile" });
     case 4:
@@ -414,8 +414,8 @@ function __c3(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          unit: S.optional(S.String),
-          percentiles: S.optional(__S(52, __c3, 4)),
+          unit: S.String,
+          percentiles: __S(52, __c3, 4),
         }),
       ).annotate({ identifier: "StatsPercentileDistribution" });
     case 6:
@@ -425,10 +425,10 @@ function __c3(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          engine: S.optional(S.String),
-          status: S.optional(S.String),
-          percentileStats: S.optional(__S(54, __c3, 6)),
-          scalarStats: S.optional(__S(55, __c3, 7)),
+          engine: S.String,
+          status: S.String,
+          percentileStats: __S(54, __c3, 6),
+          scalarStats: __S(55, __c3, 7),
         }),
       ).annotate({ identifier: "ServerGetTimeRangeStatsResponseServerInferenceStats" });
     case 9:
@@ -436,16 +436,16 @@ function __c3(j: number): any {
         S.Struct({
           since: S.optional(S.String),
           until: S.optional(S.String),
-          requestCount: S.optional(S.String),
-          requestCountByStatusCode: S.optional(__S(50, __c3, 2)),
-          requestRatePerSecond: S.optional(S.Number),
-          requestPercentileStats: S.optional(__S(54, __c3, 6)),
-          containerPercentileStats: S.optional(__S(54, __c3, 6)),
+          requestCount: S.String,
+          requestCountByStatusCode: __S(50, __c3, 2),
+          requestRatePerSecond: S.Number,
+          requestPercentileStats: __S(54, __c3, 6),
+          containerPercentileStats: __S(54, __c3, 6),
           inference: S.optional(__S(56, __c3, 8)),
-          containerStartedCount: S.optional(S.String),
-          containerErrorCount: S.optional(S.String),
-          containerCreatingAtEndCount: S.optional(S.String),
-          containerTotalCount: S.optional(S.String),
+          containerStartedCount: S.String,
+          containerErrorCount: S.String,
+          containerCreatingAtEndCount: S.String,
+          containerTotalCount: S.String,
         }),
       ).annotate({ identifier: "ServerGetTimeRangeStatsResponse" });
   }

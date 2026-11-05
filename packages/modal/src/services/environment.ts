@@ -97,18 +97,18 @@ export interface EnvironmentBillingSummaryResponse {
   startTimestamp?: string;
   endTimestamp?: string;
   /** not showing credits, reservations, etc as those are applied at the workspace level */
-  meteredCost?: string;
+  meteredCost: string;
   /** keyed by app type (deployed, ephemeral, notebook, endpoint, ...), volume, tokens, network egress */
-  meteredCostBreakdown?: StringMap;
+  meteredCostBreakdown: StringMap;
 }
 export interface EnvironmentGetBudgetRequest {
   environmentId?: string;
 }
 export interface EnvironmentGetBudgetResponse {
   cycleBudgetDollars?: number;
-  effectiveCycleSpendLimit?: number;
-  currentCycleUsage?: number;
-  spendLimitReached?: boolean;
+  effectiveCycleSpendLimit: number;
+  currentCycleUsage: number;
+  spendLimitReached: boolean;
 }
 export interface EnvironmentGetManagedRequest {
   environmentId?: string;
@@ -119,23 +119,23 @@ export type MemberRole =
   | "MEMBER_ROLE_MANAGER"
   | "MEMBER_ROLE_OWNER";
 export interface EnvironmentGetManagedResponsePrincipalEnvRole {
-  userId?: string;
-  serviceUserId?: string;
-  email?: string;
-  avatarUrl?: string;
-  serviceUserName?: string;
-  role?: EnvironmentRole;
-  memberRole?: MemberRole;
-  userName?: string;
+  userId: string;
+  serviceUserId: string;
+  email: string;
+  avatarUrl: string;
+  serviceUserName: string;
+  role: EnvironmentRole;
+  memberRole: MemberRole;
+  userName: string;
 }
 export type EnvironmentGetManagedResponsePrincipalEnvRoleList =
   Array<EnvironmentGetManagedResponsePrincipalEnvRole>;
 export interface EnvironmentGetManagedResponse {
-  environmentId?: string;
-  name?: string;
-  createdAt?: number;
-  principalRoles?: EnvironmentGetManagedResponsePrincipalEnvRoleList;
-  additionalRoles?: EnvironmentGetManagedResponsePrincipalEnvRoleList;
+  environmentId: string;
+  name: string;
+  createdAt: number;
+  principalRoles: EnvironmentGetManagedResponsePrincipalEnvRoleList;
+  additionalRoles: EnvironmentGetManagedResponsePrincipalEnvRoleList;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -149,12 +149,12 @@ export interface EnvironmentGetOrCreateRequest {
   objectCreationType?: ObjectCreationType | (string & {});
 }
 export interface EnvironmentMetadata {
-  name?: string;
+  name: string;
   settings?: EnvironmentSettings;
-  environmentType?: EnvironmentType;
+  environmentType: EnvironmentType;
 }
 export interface EnvironmentGetOrCreateResponse {
-  environmentId?: string;
+  environmentId: string;
   metadata?: EnvironmentMetadata;
 }
 export interface EnvironmentGetRolesRequest {
@@ -163,36 +163,36 @@ export interface EnvironmentGetRolesRequest {
 export type StringList = Array<string>;
 /** Workspace custom role. Built-in Viewer and Contributor are not represented here. */
 export interface EnvironmentRoleDefinition {
-  environmentRoleDefinitionId?: string;
-  name?: string;
-  description?: string;
-  permissions?: StringList;
-  createdAt?: number;
+  environmentRoleDefinitionId: string;
+  name: string;
+  description: string;
+  permissions: StringList;
+  createdAt: number;
 }
 export type EnvironmentRoleList = Array<EnvironmentRole>;
 export type EnvironmentRoleDefinitionList = Array<EnvironmentRoleDefinition>;
 export interface EnvironmentGetRolesResponsePrincipal {
-  userId?: string;
-  serviceUserId?: string;
-  email?: string;
-  avatarUrl?: string;
-  userName?: string;
-  serviceUserName?: string;
+  userId: string;
+  serviceUserId: string;
+  email: string;
+  avatarUrl: string;
+  userName: string;
+  serviceUserName: string;
   /** Built-in role token or custom role name. */
-  roleStr?: string;
-  role?: EnvironmentRole;
+  roleStr: string;
+  role: EnvironmentRole;
   roleDefinition?: EnvironmentRoleDefinition;
-  choosableRoles?: EnvironmentRoleList;
-  choosableRoleDefinitions?: EnvironmentRoleDefinitionList;
-  memberRole?: MemberRole;
+  choosableRoles: EnvironmentRoleList;
+  choosableRoleDefinitions: EnvironmentRoleDefinitionList;
+  memberRole: MemberRole;
   inheritsDefaultMemberRole?: boolean;
   hasRoleAssignment?: boolean;
 }
 export type EnvironmentGetRolesResponsePrincipalList = Array<EnvironmentGetRolesResponsePrincipal>;
 export interface EnvironmentGetRolesResponse {
-  name?: string;
-  createdAt?: number;
-  principalRoles?: EnvironmentGetRolesResponsePrincipalList;
+  name: string;
+  createdAt: number;
+  principalRoles: EnvironmentGetRolesResponsePrincipalList;
   defaultMemberRole?: EnvironmentRole;
 }
 export interface EnvironmentSetBudgetRequest {
@@ -214,22 +214,22 @@ export interface EnvironmentSetManagedRequest {
 export interface EnvironmentSetManagedResponse {}
 export interface ListEnvironmentRequest {}
 export interface EnvironmentListItem {
-  name?: string;
-  webhookSuffix?: string;
-  createdAt?: number;
-  default?: boolean;
-  isManaged?: boolean;
-  environmentId?: string;
+  name: string;
+  webhookSuffix: string;
+  createdAt: number;
+  default: boolean;
+  isManaged: boolean;
+  environmentId: string;
   maxConcurrentTasks?: number;
   maxConcurrentGpus?: number;
-  currentConcurrentTasks?: number;
-  currentConcurrentGpus?: number;
+  currentConcurrentTasks: number;
+  currentConcurrentGpus: number;
   cycleBudgetDollars?: number;
   /** manager-set */
-  effectiveCycleSpendLimit?: number;
-  currentCycleUsage?: number;
-  spendLimitReached?: boolean;
-  environmentType?: EnvironmentType;
+  effectiveCycleSpendLimit: number;
+  currentCycleUsage: number;
+  spendLimitReached: boolean;
+  environmentType: EnvironmentType;
   defaultMemberRole?: EnvironmentRole;
   blockUnauthenticatedResources?: boolean;
   effectiveRole?: EnvironmentRole;
@@ -237,7 +237,7 @@ export interface EnvironmentListItem {
 }
 export type EnvironmentListItemList = Array<EnvironmentListItem>;
 export interface ListEnvironmentResponse {
-  items?: EnvironmentListItemList;
+  items: EnvironmentListItemList;
 }
 export interface SetEnvironmentRoleRequest {
   environmentId?: string;
@@ -268,22 +268,22 @@ export interface UpdateEnvironmentRequest {
   imageBuilderVersion?: string;
 }
 export interface UpdateEnvironmentResponse {
-  name?: string;
-  webhookSuffix?: string;
-  createdAt?: number;
-  default?: boolean;
-  isManaged?: boolean;
-  environmentId?: string;
+  name: string;
+  webhookSuffix: string;
+  createdAt: number;
+  default: boolean;
+  isManaged: boolean;
+  environmentId: string;
   maxConcurrentTasks?: number;
   maxConcurrentGpus?: number;
-  currentConcurrentTasks?: number;
-  currentConcurrentGpus?: number;
+  currentConcurrentTasks: number;
+  currentConcurrentGpus: number;
   cycleBudgetDollars?: number;
   /** manager-set */
-  effectiveCycleSpendLimit?: number;
-  currentCycleUsage?: number;
-  spendLimitReached?: boolean;
-  environmentType?: EnvironmentType;
+  effectiveCycleSpendLimit: number;
+  currentCycleUsage: number;
+  spendLimitReached: boolean;
+  environmentType: EnvironmentType;
   defaultMemberRole?: EnvironmentRole;
   blockUnauthenticatedResources?: boolean;
   effectiveRole?: EnvironmentRole;
@@ -571,7 +571,7 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(25, __c3, 1)),
+          items: __S(25, __c3, 1),
         }),
       ).annotate({ identifier: "ListEnvironmentResponse" });
   }
@@ -581,21 +581,21 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          webhookSuffix: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          default: S.optional(S.Boolean),
-          isManaged: S.optional(S.Boolean),
-          environmentId: S.optional(S.String),
+          name: S.String,
+          webhookSuffix: S.String,
+          createdAt: S.Number,
+          default: S.Boolean,
+          isManaged: S.Boolean,
+          environmentId: S.String,
           maxConcurrentTasks: S.optional(S.Number),
           maxConcurrentGpus: S.optional(S.Number),
-          currentConcurrentTasks: S.optional(S.Number),
-          currentConcurrentGpus: S.optional(S.Number),
+          currentConcurrentTasks: S.Number,
+          currentConcurrentGpus: S.Number,
           cycleBudgetDollars: S.optional(S.Number),
-          effectiveCycleSpendLimit: S.optional(S.Number),
-          currentCycleUsage: S.optional(S.Number),
-          spendLimitReached: S.optional(S.Boolean),
-          environmentType: S.optional(S.String),
+          effectiveCycleSpendLimit: S.Number,
+          currentCycleUsage: S.Number,
+          spendLimitReached: S.Boolean,
+          environmentType: S.String,
           defaultMemberRole: S.optional(S.String),
           blockUnauthenticatedResources: S.optional(S.Boolean),
           effectiveRole: S.optional(S.String),
@@ -716,8 +716,8 @@ function __c11(j: number): any {
         S.Struct({
           startTimestamp: S.optional(S.String),
           endTimestamp: S.optional(S.String),
-          meteredCost: S.optional(S.String),
-          meteredCostBreakdown: S.optional(__S(89, __c11, 1)),
+          meteredCost: S.String,
+          meteredCostBreakdown: __S(89, __c11, 1),
         }),
       ).annotate({ identifier: "EnvironmentBillingSummaryResponse" });
   }
@@ -740,9 +740,9 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cycleBudgetDollars: S.optional(S.Number),
-          effectiveCycleSpendLimit: S.optional(S.Number),
-          currentCycleUsage: S.optional(S.Number),
-          spendLimitReached: S.optional(S.Boolean),
+          effectiveCycleSpendLimit: S.Number,
+          currentCycleUsage: S.Number,
+          spendLimitReached: S.Boolean,
         }),
       ).annotate({ identifier: "EnvironmentGetBudgetResponse" });
   }
@@ -764,14 +764,14 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userId: S.optional(S.String),
-          serviceUserId: S.optional(S.String),
-          email: S.optional(S.String),
-          avatarUrl: S.optional(S.String),
-          serviceUserName: S.optional(S.String),
-          role: S.optional(S.String),
-          memberRole: S.optional(S.String),
-          userName: S.optional(S.String),
+          userId: S.String,
+          serviceUserId: S.String,
+          email: S.String,
+          avatarUrl: S.String,
+          serviceUserName: S.String,
+          role: S.String,
+          memberRole: S.String,
+          userName: S.String,
         }),
       ).annotate({ identifier: "EnvironmentGetManagedResponsePrincipalEnvRole" });
     case 2:
@@ -779,11 +779,11 @@ function __c13(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          environmentId: S.optional(S.String),
-          name: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          principalRoles: S.optional(__S(106, __c13, 2)),
-          additionalRoles: S.optional(__S(106, __c13, 2)),
+          environmentId: S.String,
+          name: S.String,
+          createdAt: S.Number,
+          principalRoles: __S(106, __c13, 2),
+          additionalRoles: __S(106, __c13, 2),
         }),
       ).annotate({ identifier: "EnvironmentGetManagedResponse" });
   }
@@ -806,15 +806,15 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          name: S.String,
           settings: S.optional(__S(72, __c9, 0)),
-          environmentType: S.optional(S.String),
+          environmentType: S.String,
         }),
       ).annotate({ identifier: "EnvironmentMetadata" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environmentId: S.optional(S.String),
+          environmentId: S.String,
           metadata: S.optional(__S(113, __c14, 1)),
         }),
       ).annotate({ identifier: "EnvironmentGetOrCreateResponse" });
@@ -839,11 +839,11 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environmentRoleDefinitionId: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          permissions: S.optional(__S(121, __c15, 1)),
-          createdAt: S.optional(S.Number),
+          environmentRoleDefinitionId: S.String,
+          name: S.String,
+          description: S.String,
+          permissions: __S(121, __c15, 1),
+          createdAt: S.Number,
         }),
       ).annotate({ identifier: "EnvironmentRoleDefinition" });
     case 3:
@@ -853,18 +853,18 @@ function __c15(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          userId: S.optional(S.String),
-          serviceUserId: S.optional(S.String),
-          email: S.optional(S.String),
-          avatarUrl: S.optional(S.String),
-          userName: S.optional(S.String),
-          serviceUserName: S.optional(S.String),
-          roleStr: S.optional(S.String),
-          role: S.optional(S.String),
+          userId: S.String,
+          serviceUserId: S.String,
+          email: S.String,
+          avatarUrl: S.String,
+          userName: S.String,
+          serviceUserName: S.String,
+          roleStr: S.String,
+          role: S.String,
           roleDefinition: S.optional(__S(122, __c15, 2)),
-          choosableRoles: S.optional(__S(123, __c15, 3)),
-          choosableRoleDefinitions: S.optional(__S(124, __c15, 4)),
-          memberRole: S.optional(S.String),
+          choosableRoles: __S(123, __c15, 3),
+          choosableRoleDefinitions: __S(124, __c15, 4),
+          memberRole: S.String,
           inheritsDefaultMemberRole: S.optional(S.Boolean),
           hasRoleAssignment: S.optional(S.Boolean),
         }),
@@ -874,9 +874,9 @@ function __c15(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          principalRoles: S.optional(__S(126, __c15, 6)),
+          name: S.String,
+          createdAt: S.Number,
+          principalRoles: __S(126, __c15, 6),
           defaultMemberRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentGetRolesResponse" });

@@ -115,19 +115,19 @@ export interface CreateEndpointRequest {
   recipeId?: string;
 }
 export interface CreateEndpointResponse {
-  endpointId?: string;
-  endpointPageUrl?: string;
-  name?: string;
+  endpointId: string;
+  endpointPageUrl: string;
+  name: string;
   /** Model name to send in requests to the endpoint. */
-  modelName?: string;
+  modelName: string;
 }
 export interface EndpointGetByNameRequest {
   name?: string;
   environmentName?: string;
 }
 export interface EndpointGetByNameResponse {
-  endpointId?: string;
-  environmentName?: string;
+  endpointId: string;
+  environmentName: string;
 }
 export interface EndpointGetInfoRequest {
   endpointId?: string;
@@ -145,35 +145,35 @@ export type EndpointLifecycleStatus =
   | "ENDPOINT_LIFECYCLE_STATUS_ACTIVE"
   | "ENDPOINT_LIFECYCLE_STATUS_STOPPED";
 export interface EndpointLifecycle {
-  status?: EndpointLifecycleStatus;
-  createdAt?: number;
-  createdBy?: string;
+  status: EndpointLifecycleStatus;
+  createdAt: number;
+  createdBy: string;
   /** User or service user name */
-  stoppedAt?: number;
+  stoppedAt: number;
   /** Unset when Endpoint is active */
-  stoppedBy?: string;
+  stoppedBy: string;
   /** User or service user name */
-  environmentName?: string;
+  environmentName: string;
 }
 export interface EndpointGetInfoResponseEndpointInfoSummary {
-  name?: string;
-  repoId?: string;
-  revision?: string;
-  serviceUrl?: string;
-  requiresProxyAuth?: boolean;
-  servingMode?: EndpointServingMode;
-  status?: EndpointGetInfoResponseEndpointStatus;
+  name: string;
+  repoId: string;
+  revision: string;
+  serviceUrl: string;
+  requiresProxyAuth: boolean;
+  servingMode: EndpointServingMode;
+  status: EndpointGetInfoResponseEndpointStatus;
   lifecycle?: EndpointLifecycle;
   /** set only when the model is served from a modal volume */
-  volumeId?: string;
-  modelPath?: string;
+  volumeId: string;
+  modelPath: string;
   /** Model name to send in requests to the endpoint. */
-  modelName?: string;
+  modelName: string;
 }
 export interface EndpointGetInfoResponseEndpointHandleMetadata {
-  appId?: string;
-  serverId?: string;
-  environmentName?: string;
+  appId: string;
+  serverId: string;
+  environmentName: string;
 }
 export interface EndpointGetInfoResponse {
   info?: EndpointGetInfoResponseEndpointInfoSummary;
@@ -183,13 +183,13 @@ export interface EndpointGetLibraryRequest {}
 export type EndpointServingModeList = Array<EndpointServingMode>;
 export interface EndpointModel {
   /** Canonical model identifier used in Endpoint configuration. */
-  baseModelRepoId?: string;
-  supportedInputModalities?: EndpointInputModalityList;
-  availableServingModes?: EndpointServingModeList;
+  baseModelRepoId: string;
+  supportedInputModalities: EndpointInputModalityList;
+  availableServingModes: EndpointServingModeList;
 }
 export type EndpointModelList = Array<EndpointModel>;
 export interface EndpointGetLibraryResponse {
-  models?: EndpointModelList;
+  models: EndpointModelList;
 }
 export interface EndpointGetLifecycleRequest {
   endpointId?: string;
@@ -214,12 +214,12 @@ export interface ListEndpointRequest {
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
-  createdAt?: number;
+  createdAt: number;
   /** Timestamp of resource creation */
-  createdBy?: string;
+  createdBy: string;
 }
 export interface EndpointMetadata {
-  name?: string;
+  name: string;
   creationInfo?: CreationInfo;
 }
 /** NOTE: make sure to update the frontend if we add a new state here https://github.com/modal-labs/modal/blob/main/frontend/src/routes/(dashboard)/%5B%5Bworkspace%5D%5D/apps/+page.svelte#L95 */
@@ -243,24 +243,24 @@ export type EndpointProvisioningStatus =
   | "ENDPOINT_PROVISIONING_STATUS_CANCELLING"
   | "ENDPOINT_PROVISIONING_STATUS_CANCELLED";
 export interface EndpointListItem {
-  endpointId?: string;
-  name?: string;
-  description?: string;
-  activeDeploymentId?: string;
-  updatedAt?: number;
+  endpointId: string;
+  name: string;
+  description: string;
+  activeDeploymentId: string;
+  updatedAt: number;
   metadata?: EndpointMetadata;
-  appState?: AppState;
-  functionId?: string;
-  createdByAvatarUrl?: string;
-  provisioningStatus?: EndpointProvisioningStatus;
-  status?: string;
-  servingMode?: EndpointServingMode;
-  unauthenticated?: boolean;
+  appState: AppState;
+  functionId: string;
+  createdByAvatarUrl: string;
+  provisioningStatus: EndpointProvisioningStatus;
+  status: string;
+  servingMode: EndpointServingMode;
+  unauthenticated: boolean;
 }
 export type EndpointListItemList = Array<EndpointListItem>;
 export interface ListEndpointResponse {
-  items?: EndpointListItemList;
-  environmentName?: string;
+  items: EndpointListItemList;
+  environmentName: string;
 }
 export type EndpointStopSource =
   | "ENDPOINT_STOP_SOURCE_UNSPECIFIED"
@@ -353,12 +353,13 @@ export const endpointGetLifecycle: API.OperationMethod<
 }));
 
 export type ListEndpointError = ModalOpError;
-export const listEndpoint: API.OperationMethod<
+export const listEndpoint: API.PaginatedOperationMethod<
   ListEndpointRequest,
   ListEndpointResponse,
   ListEndpointError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  ModalOpContext,
+  EndpointListItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(130, __c8, 2) as any as S.Schema<ListEndpointRequest>,
   output: __S(135, __c8, 7) as any as S.Schema<ListEndpointResponse>,
   errors: [UnknownModalError],
@@ -366,7 +367,14 @@ export const listEndpoint: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEndpoint",
-}));
+  pagination: {
+    mode: "keyset",
+    inputToken: "pagination.createdBefore",
+    outputToken: "metadata.creationInfo.createdAt",
+    items: "items",
+    pageSize: "pagination.maxObjects",
+  } as const,
+})) as any;
 
 export type StopEndpointError = EndpointNotFound | ModalOpError;
 export const stopEndpoint: API.OperationMethod<
@@ -455,10 +463,10 @@ function __c0(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          endpointId: S.optional(S.String),
-          endpointPageUrl: S.optional(S.String),
-          name: S.optional(S.String),
-          modelName: S.optional(S.String),
+          endpointId: S.String,
+          endpointPageUrl: S.String,
+          name: S.String,
+          modelName: S.String,
         }),
       ).annotate({ identifier: "CreateEndpointResponse" });
   }
@@ -489,8 +497,8 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endpointId: S.optional(S.String),
-          environmentName: S.optional(S.String),
+          endpointId: S.String,
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "EndpointGetByNameResponse" });
   }
@@ -508,25 +516,25 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          repoId: S.optional(S.String),
-          revision: S.optional(S.String),
-          serviceUrl: S.optional(S.String),
-          requiresProxyAuth: S.optional(S.Boolean),
-          servingMode: S.optional(S.String),
-          status: S.optional(S.String),
+          name: S.String,
+          repoId: S.String,
+          revision: S.String,
+          serviceUrl: S.String,
+          requiresProxyAuth: S.Boolean,
+          servingMode: S.String,
+          status: S.String,
           lifecycle: S.optional(__S(80, __c5, 0)),
-          volumeId: S.optional(S.String),
-          modelPath: S.optional(S.String),
-          modelName: S.optional(S.String),
+          volumeId: S.String,
+          modelPath: S.String,
+          modelName: S.String,
         }),
       ).annotate({ identifier: "EndpointGetInfoResponseEndpointInfoSummary" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          serverId: S.optional(S.String),
-          environmentName: S.optional(S.String),
+          appId: S.String,
+          serverId: S.String,
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "EndpointGetInfoResponseEndpointHandleMetadata" });
     case 3:
@@ -543,12 +551,12 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
-          stoppedAt: S.optional(S.Number),
-          stoppedBy: S.optional(S.String),
-          environmentName: S.optional(S.String),
+          status: S.String,
+          createdAt: S.Number,
+          createdBy: S.String,
+          stoppedAt: S.Number,
+          stoppedBy: S.String,
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "EndpointLifecycle" });
   }
@@ -568,9 +576,9 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          baseModelRepoId: S.optional(S.String),
-          supportedInputModalities: S.optional(__S(16, __c1, 0)),
-          availableServingModes: S.optional(__S(16, __c1, 0)),
+          baseModelRepoId: S.String,
+          supportedInputModalities: __S(16, __c1, 0),
+          availableServingModes: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "EndpointModel" });
     case 2:
@@ -578,7 +586,7 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          models: S.optional(__S(98, __c6, 2)),
+          models: __S(98, __c6, 2),
         }),
       ).annotate({ identifier: "EndpointGetLibraryResponse" });
   }
@@ -634,33 +642,33 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.String,
         }),
       ).annotate({ identifier: "CreationInfo" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          name: S.String,
           creationInfo: S.optional(__S(131, __c8, 3)),
         }),
       ).annotate({ identifier: "EndpointMetadata" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          endpointId: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          activeDeploymentId: S.optional(S.String),
-          updatedAt: S.optional(S.Number),
+          endpointId: S.String,
+          name: S.String,
+          description: S.String,
+          activeDeploymentId: S.String,
+          updatedAt: S.Number,
           metadata: S.optional(__S(132, __c8, 4)),
-          appState: S.optional(S.String),
-          functionId: S.optional(S.String),
-          createdByAvatarUrl: S.optional(S.String),
-          provisioningStatus: S.optional(S.String),
-          status: S.optional(S.String),
-          servingMode: S.optional(S.String),
-          unauthenticated: S.optional(S.Boolean),
+          appState: S.String,
+          functionId: S.String,
+          createdByAvatarUrl: S.String,
+          provisioningStatus: S.String,
+          status: S.String,
+          servingMode: S.String,
+          unauthenticated: S.Boolean,
         }),
       ).annotate({ identifier: "EndpointListItem" });
     case 6:
@@ -668,8 +676,8 @@ function __c8(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(134, __c8, 6)),
-          environmentName: S.optional(S.String),
+          items: __S(134, __c8, 6),
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ListEndpointResponse" });
   }

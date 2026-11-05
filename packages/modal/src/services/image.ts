@@ -46,15 +46,15 @@ export interface GetImageBuildChainRequest {
   imageId?: string;
 }
 export interface ImageBuildStep {
-  imageId?: string;
+  imageId: string;
   startedAt?: string;
   finishedAt?: string;
-  builderAppId?: string;
-  builderTaskId?: string;
+  builderAppId: string;
+  builderTaskId: string;
 }
 export type ImageBuildStepList = Array<ImageBuildStep>;
 export interface GetImageBuildChainResponse {
-  buildSteps?: ImageBuildStepList;
+  buildSteps: ImageBuildStepList;
 }
 export interface ImageFromIdRequest {
   imageId?: string;
@@ -64,7 +64,7 @@ export interface ImageMetadata {
   /** The output of `python -VV. Not set if missing */
   pythonVersionInfo?: string;
   /** Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing */
-  pythonPackages?: StringMap;
+  pythonPackages: StringMap;
   /** The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`. */
   workdir?: string;
   /** The version of glibc in this image, if any. */
@@ -73,7 +73,7 @@ export interface ImageMetadata {
   imageBuilderVersion?: string;
 }
 export interface ImageFromIdResponse {
-  imageId?: string;
+  imageId: string;
   metadata?: ImageMetadata;
 }
 export interface ImageGetByTagRequest {
@@ -83,7 +83,7 @@ export interface ImageGetByTagRequest {
   environmentName?: string;
 }
 export interface ImageGetByTagResponse {
-  imageId?: string;
+  imageId: string;
 }
 export interface BaseImage {
   imageId?: string;
@@ -212,27 +212,27 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
-  status?: GenericResultGenericStatus;
+  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception?: string;
+  exception: string;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exitcode: number;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  traceback: string;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  serializedTb: string;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  tbLineCache: string;
   /** Pickled line cache for traceback object. */
   data?: string;
   /** Inline data of the result. */
   dataBlobId?: string;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  propagationReason: string;
 }
 export interface ImageGetOrCreateResponse {
   /** image_id is set regardless if the image is built (use ImageJoinStreaming to wait for build) */
-  imageId?: string;
+  imageId: string;
   /** result of build - only set if the image has finished building (regardless if success or not) */
   result?: GenericResult;
   /** image metadata - only set if the image has built successfully */
@@ -264,29 +264,29 @@ export type FileDescriptor =
   | "FILE_DESCRIPTOR_INFO";
 export type ProgressType = "IMAGE_SNAPSHOT_UPLOAD" | "FUNCTION_QUEUED";
 export interface TaskProgress {
-  len?: string;
-  pos?: string;
-  progressType?: ProgressType;
-  description?: string;
+  len: string;
+  pos: string;
+  progressType: ProgressType;
+  description: string;
 }
 export interface TaskLogs {
-  data?: string;
-  taskState?: TaskState;
-  timestamp?: number;
-  fileDescriptor?: FileDescriptor;
+  data: string;
+  taskState: TaskState;
+  timestamp: number;
+  fileDescriptor: FileDescriptor;
   taskProgress?: TaskProgress;
-  functionCallId?: string;
-  inputId?: string;
-  timestampNs?: string;
-  containerId?: string;
-  containerName?: string;
+  functionCallId: string;
+  inputId: string;
+  timestampNs: string;
+  containerId: string;
+  containerName: string;
 }
 export type TaskLogsList = Array<TaskLogs>;
 export interface ImageJoinStreamingResponse {
   result?: GenericResult;
-  taskLogs?: TaskLogsList;
-  entryId?: string;
-  eof?: boolean;
+  taskLogs: TaskLogsList;
+  entryId: string;
+  eof: boolean;
   metadata?: ImageMetadata;
 }
 export type ImageJoinStreamingResponseList = Array<ImageJoinStreamingResponse>;
@@ -306,19 +306,19 @@ export interface ImageListTagsRequest {
 }
 /** set on success */
 export interface ImageListTagsItem {
-  tag?: string;
-  imageId?: string;
-  revisionId?: string;
-  createdAt?: number;
-  updatedAt?: number;
+  tag: string;
+  imageId: string;
+  revisionId: string;
+  createdAt: number;
+  updatedAt: number;
   /** Display name of whoever published the image this tag points at. */
-  lastPublishedBy?: string;
+  lastPublishedBy: string;
 }
 export type ImageListTagsItemList = Array<ImageListTagsItem>;
 export interface ImageListTagsResponse {
-  items?: ImageListTagsItemList;
-  nextPageToken?: string;
-  environmentName?: string;
+  items: ImageListTagsItemList;
+  nextPageToken: string;
+  environmentName: string;
 }
 export interface ImageTagRevisionsRequest {
   /** Named image reference: "[[workspace/]environment/]name[:tag]". The tag suffix defaults to "latest" when omitted. */
@@ -330,17 +330,17 @@ export interface ImageTagRevisionsRequest {
   pageToken?: string;
 }
 export interface ImageTagRevisionsItem {
-  imageId?: string;
-  revisionId?: string;
-  createdAt?: number;
-  publishedBy?: string;
+  imageId: string;
+  revisionId: string;
+  createdAt: number;
+  publishedBy: string;
 }
 export type ImageTagRevisionsItemList = Array<ImageTagRevisionsItem>;
 export interface ImageTagRevisionsResponse {
-  items?: ImageTagRevisionsItemList;
-  nextPageToken?: string;
-  tag?: string;
-  environmentName?: string;
+  items: ImageTagRevisionsItemList;
+  nextPageToken: string;
+  tag: string;
+  environmentName: string;
 }
 export interface PublishImageRequest {
   imageId?: string;
@@ -352,8 +352,8 @@ export interface PublishImageRequest {
   allowPublic?: boolean;
 }
 export interface PublishImageResponse {
-  imageId?: string;
-  revisionId?: string;
+  imageId: string;
+  revisionId: string;
 }
 export type DeleteImageError = ImageNotFound | ModalOpError;
 export const deleteImage: API.OperationMethod<
@@ -453,12 +453,12 @@ export const imageGetOrCreate: API.OperationMethod<
 }));
 
 export type ImageJoinStreamingError = ImageNotFound | ModalOpError;
-export const imageJoinStreaming: API.OperationMethod<
+export const imageJoinStreaming: API.StreamingOperationMethod<
   ImageJoinStreamingRequest,
   ImageJoinStreamingStream,
   ImageJoinStreamingError,
   ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ImageJoinStreamingRequest>,
   output: __S(166, __c10, 6) as any as S.Schema<ImageJoinStreamingStream>,
   errors: [ImageNotFound, UnknownModalError],
@@ -469,12 +469,13 @@ export const imageJoinStreaming: API.OperationMethod<
 }));
 
 export type ImageListTagsError = ModalOpError;
-export const imageListTags: API.OperationMethod<
+export const imageListTags: API.PaginatedOperationMethod<
   ImageListTagsRequest,
   ImageListTagsResponse,
   ImageListTagsError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  ModalOpContext,
+  ImageListTagsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ImageListTagsRequest>,
   output: __S(179, __c11, 3) as any as S.Schema<ImageListTagsResponse>,
   errors: [UnknownModalError],
@@ -482,15 +483,23 @@ export const imageListTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImageListTags",
-}));
+  pagination: {
+    mode: "token",
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+    items: "items",
+    pageSize: "maxObjects",
+  } as const,
+})) as any;
 
 export type ImageTagRevisionsError = ModalOpError;
-export const imageTagRevisions: API.OperationMethod<
+export const imageTagRevisions: API.PaginatedOperationMethod<
   ImageTagRevisionsRequest,
   ImageTagRevisionsResponse,
   ImageTagRevisionsError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  ModalOpContext,
+  ImageTagRevisionsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ImageTagRevisionsRequest>,
   output: __S(195, __c12, 3) as any as S.Schema<ImageTagRevisionsResponse>,
   errors: [UnknownModalError],
@@ -498,7 +507,14 @@ export const imageTagRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImageTagRevisions",
-}));
+  pagination: {
+    mode: "token",
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+    items: "items",
+    pageSize: "maxObjects",
+  } as const,
+})) as any;
 
 export type PublishImageError = ImageNotFound | ModalOpError;
 export const publishImage: API.OperationMethod<
@@ -551,8 +567,8 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
-          revisionId: S.optional(S.String),
+          imageId: S.String,
+          revisionId: S.String,
         }),
       ).annotate({ identifier: "PublishImageResponse" });
   }
@@ -586,11 +602,11 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
+          imageId: S.String,
           startedAt: S.optional(S.String),
           finishedAt: S.optional(S.String),
-          builderAppId: S.optional(S.String),
-          builderTaskId: S.optional(S.String),
+          builderAppId: S.String,
+          builderTaskId: S.String,
         }),
       ).annotate({ identifier: "ImageBuildStep" });
     case 2:
@@ -598,7 +614,7 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buildSteps: S.optional(__S(66, __c4, 2)),
+          buildSteps: __S(66, __c4, 2),
         }),
       ).annotate({ identifier: "GetImageBuildChainResponse" });
   }
@@ -616,7 +632,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
+          imageId: S.String,
           metadata: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ImageFromIdResponse" });
@@ -630,7 +646,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pythonVersionInfo: S.optional(S.String),
-          pythonPackages: S.optional(__S(96, __c6, 0)),
+          pythonPackages: __S(96, __c6, 0),
           workdir: S.optional(S.String),
           libcVersionInfo: S.optional(S.String),
           imageBuilderVersion: S.optional(S.String),
@@ -652,7 +668,7 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
+          imageId: S.String,
         }),
       ).annotate({ identifier: "ImageGetByTagResponse" });
   }
@@ -764,7 +780,7 @@ function __c8(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
+          imageId: S.String,
           result: S.optional(__S(144, __c9, 0)),
           metadata: S.optional(__S(97, __c6, 1)),
         }),
@@ -776,15 +792,15 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          exception: S.optional(S.String),
-          exitcode: S.optional(S.Number),
-          traceback: S.optional(S.String),
-          serializedTb: S.optional(S.String),
-          tbLineCache: S.optional(S.String),
+          status: S.String,
+          exception: S.String,
+          exitcode: S.Number,
+          traceback: S.String,
+          serializedTb: S.String,
+          tbLineCache: S.String,
           data: S.optional(S.String),
           dataBlobId: S.optional(S.String),
-          propagationReason: S.optional(S.String),
+          propagationReason: S.String,
         }),
       ).annotate({ identifier: "GenericResult" });
   }
@@ -809,25 +825,25 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          len: S.optional(S.String),
-          pos: S.optional(S.String),
-          progressType: S.optional(S.String),
-          description: S.optional(S.String),
+          len: S.String,
+          pos: S.String,
+          progressType: S.String,
+          description: S.String,
         }),
       ).annotate({ identifier: "TaskProgress" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.String),
-          taskState: S.optional(S.String),
-          timestamp: S.optional(S.Number),
-          fileDescriptor: S.optional(S.String),
+          data: S.String,
+          taskState: S.String,
+          timestamp: S.Number,
+          fileDescriptor: S.String,
           taskProgress: S.optional(__S(161, __c10, 1)),
-          functionCallId: S.optional(S.String),
-          inputId: S.optional(S.String),
-          timestampNs: S.optional(S.String),
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
+          functionCallId: S.String,
+          inputId: S.String,
+          timestampNs: S.String,
+          containerId: S.String,
+          containerName: S.String,
         }),
       ).annotate({ identifier: "TaskLogs" });
     case 3:
@@ -836,9 +852,9 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           result: S.optional(__S(144, __c9, 0)),
-          taskLogs: S.optional(__S(163, __c10, 3)),
-          entryId: S.optional(S.String),
-          eof: S.optional(S.Boolean),
+          taskLogs: __S(163, __c10, 3),
+          entryId: S.String,
+          eof: S.Boolean,
           metadata: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ImageJoinStreamingResponse" });
@@ -869,12 +885,12 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tag: S.optional(S.String),
-          imageId: S.optional(S.String),
-          revisionId: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          updatedAt: S.optional(S.Number),
-          lastPublishedBy: S.optional(S.String),
+          tag: S.String,
+          imageId: S.String,
+          revisionId: S.String,
+          createdAt: S.Number,
+          updatedAt: S.Number,
+          lastPublishedBy: S.String,
         }),
       ).annotate({ identifier: "ImageListTagsItem" });
     case 2:
@@ -882,9 +898,9 @@ function __c11(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(178, __c11, 2)),
-          nextPageToken: S.optional(S.String),
-          environmentName: S.optional(S.String),
+          items: __S(178, __c11, 2),
+          nextPageToken: S.String,
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ImageListTagsResponse" });
   }
@@ -905,10 +921,10 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
-          revisionId: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          publishedBy: S.optional(S.String),
+          imageId: S.String,
+          revisionId: S.String,
+          createdAt: S.Number,
+          publishedBy: S.String,
         }),
       ).annotate({ identifier: "ImageTagRevisionsItem" });
     case 2:
@@ -916,10 +932,10 @@ function __c12(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(194, __c12, 2)),
-          nextPageToken: S.optional(S.String),
-          tag: S.optional(S.String),
-          environmentName: S.optional(S.String),
+          items: __S(194, __c12, 2),
+          nextPageToken: S.String,
+          tag: S.String,
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ImageTagRevisionsResponse" });
   }
